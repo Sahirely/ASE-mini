@@ -66,7 +66,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/ordenservicio', {
-            templateUrl: 'AngularJS/Templates/ordenservicio.html',
+            templateUrl: 'AngularJS/Orden/Templates/ordenservicio.html',
             controller: 'ordenServicioController'
         });
 
@@ -76,12 +76,12 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/ordenservicioevidencias', {
-            templateUrl: 'AngularJS/Templates/ordenservicioevidencias.html',
+            templateUrl: 'AngularJS/Orden/Templates/ordenservicioevidencias.html',
             controller: 'ordenServicioEvidenciaController'
         });
 
         $routeProvider.when('/ordenesporcobrar', {
-            templateUrl: 'AngularJS/Templates/ordenesporcobrar.html',
+            templateUrl: 'AngularJS/Orden/Templates/ordenesporcobrar.html',
             controller: 'ordenPorCobrarController'
         });
         
