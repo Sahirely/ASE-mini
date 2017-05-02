@@ -86,7 +86,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
         
         $routeProvider.when('/reporte', {
-            templateUrl: 'AngularJS/Templates/reporte.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporte.html',
             controller: 'reporteController'
         });
         
@@ -136,37 +136,37 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/reportecita', {
-            templateUrl: 'AngularJS/Templates/reporteCita.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteCita.html',
             controller: 'reporteCitaController'
         });
 
         $routeProvider.when('/reporteorden', {
-            templateUrl: 'AngularJS/Templates/reporteOrden.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteOrden.html',
             controller: 'reporteOrdenController'
         });
 
         $routeProvider.when('/reportecotizacion', {
-            templateUrl: 'AngularJS/Templates/reporteCotizacion.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteCotizacion.html',
             controller: 'reporteCotizacionController'
         });
 
         $routeProvider.when('/reporteporcobrar', {
-            templateUrl: 'AngularJS/Templates/reportePorCobrar.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reportePorCobrar.html',
             controller: 'reportePorCobrarController'
         });
         
         $routeProvider.when('/reporteunidad', {
-            templateUrl: 'AngularJS/Templates/reporteUnidad.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteUnidad.html',
             controller: 'reporteUnidadController'
         });
 
         $routeProvider.when('/reporteutilidad', {
-            templateUrl: 'AngularJS/Templates/reporteUtilidad.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteUtilidad.html',
             controller: 'reporteUtilidadController'
         });
         
         $routeProvider.when('/reporteCertificadoConformidad', {
-            templateUrl: 'AngularJS/Templates/reporteCertificadoConformidad.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteCertificadoConformidad.html',
             controller: 'reporteCertificadoConformidadController'
         });
 
@@ -181,7 +181,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/reporteReclamacion', {
-            templateUrl: 'AngularJS/Templates/reporteReclamacion.html',
+            templateUrl: 'AngularJS/Reporte/Templates/reporteReclamacion.html',
             controller: 'reporteReclamacionController'
         });
 
