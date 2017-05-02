@@ -11,7 +11,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
 
         /*change the routes*/
         $routeProvider.when('/', {
-            templateUrl: 'AngularJS/Templates/login.html',
+            templateUrl: 'AngularJS/Login/Templates/login.html',
             controller: 'loginController'
         });
 
@@ -21,18 +21,13 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/citatrabajo', {
-            templateUrl: 'AngularJS/Templates/citatrabajo.html',
+            templateUrl: 'AngularJS/Cita/Templates/citatrabajo.html',
             controller: 'citaController'
         });
 
         $routeProvider.when('/nuevacita', {
-            templateUrl: 'AngularJS/Templates/nuevaCita.html',
+            templateUrl: 'AngularJS/Cita/Templates/nuevaCita.html',
             controller: 'citaController'
-        });
-
-        $routeProvider.when('/citaservicio', {
-            templateUrl: 'AngularJS/Templates/citaServicio.html',
-            controller: 'servicioController'
         });
 
         $routeProvider.when('/consultaCitas', {
@@ -58,11 +53,6 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         $routeProvider.when('/trabajo', {
             templateUrl: 'AngularJS/Trabajo/Templates/trabajo.html',
             controller: 'trabajoController'
-        });
-
-        $routeProvider.when('/lineatiempo', {
-            templateUrl: 'AngularJS/Templates/lineaTiempo.html',
-            controller: 'citaController'
         });
 
         $routeProvider.when('/ordenservicio', {
@@ -101,7 +91,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
         
         $routeProvider.when('/administraciontaller', {
-            templateUrl: 'AngularJS/Templates/administracionTaller.html',
+            templateUrl: 'AngularJS/Talleres/Templates/administracionTaller.html',
             controller: 'tallerController'
         });
 
@@ -111,17 +101,17 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
         
         $routeProvider.when('/ordenanticipo', {
-            templateUrl: 'AngularJS/Templates/ordenAnticipo.html',
+            templateUrl: 'AngularJS/OrdenAnticipo/Templates/ordenAnticipo.html',
             controller: 'ordenAnticipoController'
         });
 
          $routeProvider.when('/aprobacionutilidad', {
-            templateUrl: 'AngularJS/Templates/aprobacionutilidad.html',
+            templateUrl: 'AngularJS/Aprobacion/Templates/aprobacionutilidad.html',
             controller: 'aprobacionutilidadController'
         });
          
          $routeProvider.when('/Tutorial', {
-            templateUrl: 'AngularJS/Templates/tutorial.html',
+            templateUrl: 'AngularJS/Tutorial/Templates/tutorial.html',
             controller: 'tutorialController'
         });
         
@@ -171,12 +161,12 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/comprobanteRecepcion', {
-            templateUrl: 'AngularJS/Templates/comprobanteRecepcion.html',
+            templateUrl: 'AngularJS/ConsultaCitas/Templates/comprobanteRecepcion.html',
             controller: 'comprobanteRecepcionController'
         });
 
         $routeProvider.when('/usuarioTar', {
-            templateUrl: 'AngularJS/Templates/usuarioTar.html',
+            templateUrl: 'AngularJS/usuarioTar/Templates/usuarioTar.html',
             controller: 'usuariotarController'
         });
 
