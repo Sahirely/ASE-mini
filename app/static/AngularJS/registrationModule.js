@@ -131,7 +131,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/dashboardgeneral', {
-            templateUrl: 'AngularJS/Templates/dashBoardGeneral.html',
+            templateUrl: 'AngularJS/DashBoard/Templates/dashBoardGeneral.html',
             controller: 'dashBoardController'
         });
 
