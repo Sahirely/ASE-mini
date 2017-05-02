@@ -41,17 +41,17 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/cotizacionnueva', {
-            templateUrl: 'AngularJS/Templates/cotizacionNueva.html',
+            templateUrl: 'AngularJS/Cotizacion/Templates/cotizacionNueva.html',
             controller: 'cotizacionController'
         });
 
         $routeProvider.when('/cotizacionconsulta', {
-            templateUrl: 'AngularJS/Templates/cotizacionConsulta.html',
+            templateUrl: 'AngularJS/Cotizacion/Templates/cotizacionConsulta.html',
             controller: 'cotizacionConsultaController'
         });
 
         $routeProvider.when('/cotizacionautorizacion', {
-            templateUrl: 'AngularJS/Templates/cotizacionAutorizacion.html',
+            templateUrl: 'AngularJS/Cotizacion/Templates/cotizacionAutorizacion.html',
             controller: 'cotizacionAutorizacionController'
         });
 
@@ -71,7 +71,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/cotizacionevidencias', {
-            templateUrl: 'AngularJS/Templates/cotizacionEvidencias.html',
+            templateUrl: 'AngularJS/Cotizacion/Templates/cotizacionEvidencias.html',
             controller: 'cotizacionEvidenciasController'
         });
 
