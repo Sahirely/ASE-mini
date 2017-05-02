@@ -91,12 +91,12 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
         
         $routeProvider.when('/osur', {
-            templateUrl: 'AngularJS/Templates/osur.html',
+            templateUrl: 'AngularJS/Osur/Templates/osur.html',
             controller: 'osurController'
         });
         
         $routeProvider.when('/administracionordenes', {
-            templateUrl: 'AngularJS/Templates/administracionOrdenes.html',
+            templateUrl: 'AngularJS/Administracion/Templates/administracionOrdenes.html',
             controller: 'administracionOrdenController'
         });
         
@@ -106,7 +106,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/acciontaller', {
-            templateUrl: 'AngularJS/Templates/accionTaller.html',
+            templateUrl: 'AngularJS/Talleres/Templates/accionTaller.html',
             controller: 'tallerController'
         });
         
@@ -126,7 +126,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
         
         $routeProvider.when('/aprobacionProvision', {
-            templateUrl: 'AngularJS/Templates/aprobacionProvision.html',
+            templateUrl: 'AngularJS/Aprobacion/Templates/aprobacionProvision.html',
             controller: 'aprobacionProvisionController'
         });
 
