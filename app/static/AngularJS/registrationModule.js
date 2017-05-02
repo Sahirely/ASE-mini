@@ -56,7 +56,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/trabajo', {
-            templateUrl: 'AngularJS/Templates/trabajo.html',
+            templateUrl: 'AngularJS/Trabajo/Templates/trabajo.html',
             controller: 'trabajoController'
         });
 
