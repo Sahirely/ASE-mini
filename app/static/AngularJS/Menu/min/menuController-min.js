@@ -1,1 +1,0 @@
-registrationModule.controller("menuController",function(r,n){r.Cerrar=function(r,n){$(".container").trigger("click")}});

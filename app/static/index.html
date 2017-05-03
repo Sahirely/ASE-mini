@@ -12,26 +12,26 @@
     <!-- Libreria de Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900italic' rel='stylesheet' type='text/css'>
     <!--Hojas de estilos-->
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="AngularJS/Main/Styles/main.css" rel="stylesheet" type="text/css">
+    <link href="Libraries/css/bootstrap.css" rel="stylesheet" />
     <!--Loading-->
-    <link href="css/toastr.css" rel="stylesheet" />
-    <link href="css/angular-busy.css" rel="stylesheet" />
+    <link href="Libraries/css/toastr.css" rel="stylesheet" />
+    <link href="Libraries/css/angular-busy.css" rel="stylesheet" />
     <!--Menú INSPINIA-->
-    <link href="fonts/font-awesome-4.3.0/css/font-awesome.css" rel="stylesheet">
+    <link href="Libraries/css/font-awesome.css" rel="stylesheet">
     <!--Inspinia Elements-->
-    <link href="css/inspinia/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-    <link href="css/inspinia/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
-    <link href="css/inspinia/animate.css" rel="stylesheet">
-    <link href="css/inspinia/styleInspinia.css" rel="stylesheet">
-    <link href="css/inspinia/dataTables/datatables.min.css" rel="stylesheet">
-    <link href="css/inspinia/datapicker/datepicker3.css" rel="stylesheet">
-    <link href="css/inspinia/clockpicker/clockpicker.css" rel="stylesheet">
-    <link href="css/switch/bootstrap-switch.min.css" rel="stylesheet">
-    <link href="css/dropZone/dropzone.css" rel="stylesheet">
-    <link href="css/inspinia/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
-    <link href="../../css/inspinia/morris/morris-0.4.3.min.css" rel="stylesheet">
-    <link href="../../css/dashBoardTables.css" rel="stylesheet">
+    <link href="Libraries/css/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="Libraries/css/blueimp/blueimp-gallery.min.css" rel="stylesheet">
+    <link href="Libraries/css/animate/animate.css" rel="stylesheet">
+    <link href="Libraries/css/styleInspinia/styleInspinia.css" rel="stylesheet">
+    <link href="Libraries/css/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="Libraries/css/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="Libraries/css/clockpicker/clockpicker.css" rel="stylesheet">
+    <link href="Libraries/css/switch/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="Libraries/css/dropZone/dropzone.css" rel="stylesheet">
+    <link href="Libraries/css/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+    <link href="Libraries/css/morris/morris-0.4.3.min.css" rel="stylesheet">
+    <link href="Libraries/css/dashBoardTables/dashBoardTables.css" rel="stylesheet">
 </head>
 
 <body ng-app="registrationModule" ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
@@ -216,24 +216,23 @@
         </div>
     </div>
     <!--Librearias JQuery y Bootstrap-->
-    <script src="js/libs/jQuery/jquery-2.1.4.js"></script>
-    <script src="js/libs/bootstrap/bootstrap.js"></script>
-    <script src="js/libs/switch/bootstrap-switch.min.js"></script>
+    <script src="Libraries/js/jQuery/jquery-2.1.4.js"></script>
+    <script src="Libraries/js/bootstrap/bootstrap.js"></script>
+    <script src="Libraries/js/switch/bootstrap-switch.min.js"></script>
     <!-- Librerias Angular-->
-    <script src="js/libs/angular/angular.js"></script>
-    <script src="js/libs/angular/angular-route.min.js"></script>
-    <!--<script src="js/libs/angular/angular-animate.min.js"></script>-->
-    <script src="js/libs/angular/ui-bootstrap-tpls.min.js"></script>
-    <script src="js/libs/angular/dirPagination.js"></script>
-    <script src="js/libs/angular/angular-local-storage.min.js"></script>
-    <script src="js/libs/toastr/toastr.min.js"></script>
-    <script src="js/libs/angular/nsPopover.js"></script>
+    <script src="Libraries/js/angular/angular.js"></script>
+    <script src="Libraries/js/angular/angular-route.min.js"></script>
+    <script src="Libraries/js/angular/ui-bootstrap-tpls.min.js"></script>
+    <script src="Libraries/js/angular/dirPagination.js"></script>
+    <script src="Libraries/js/angular/angular-local-storage.min.js"></script>
+    <script src="Libraries/js/toastr/toastr.min.js"></script>
+    <script src="Libraries/js/angular/nsPopover.js"></script>
     <!--Funciones Comunes-->
     <script src="confront.js"></script>
     <!--Angular Busy-->
-    <script src="js/libs/angular/angular-busy.js"></script>
+    <script src="Libraries/js/angular/angular-busy.js"></script>
     <!--Librería para realizar querys-->
-    <script src="js/libs/angular/linq.js"></script>
+    <script src="Libraries/js/angular/linq.js"></script>
     <!--Librerias de aplicación angular-->
     <script src="AngularJS/registrationModule.js"></script>
     <!--librerias de componenetes-->
@@ -248,9 +247,9 @@
     <script src="AngularJS/modals/modal.js"></script>
     <script src="AngularJS/modals/controller/token_controller.js"></script>
     <script src="AngularJS/modals/controller/cotizacionDetalle_controller.js"></script>
-    <script src="js/libs/dropZone/dropzone.js"></script>
-    <script src="js/libs/dropZone/ng-dropzone.min.js"></script>
-    <script src="js/libs/angular/nsPopover.js"></script>
+    <!--Librería de dropZone -->
+    <script src="Libraries/js/dropZone/dropzone.js"></script>
+    <script src="Libraries/js/dropZone/ng-dropzone.min.js"></script>
     <!--Controllers-->
     <script src="AngularJS/Cotizacion/Repositories/exampleRepo.js"></script>
     <script src="AngularJS/Main/Repositories/mainRepository.js"></script>
@@ -314,29 +313,29 @@
     <script src="AngularJS/ConsultaCitas/Controllers/consultaCitasController.js"></script>
     <script src="AngularJS/ConsultaCitas/Repositories/consultaCitasRepository.js"></script>
     <!-- Mainly scripts -->
-    <script src="js/inspinia/metisMenu/jquery.metisMenu.js"></script>
-    <script src="js/inspinia/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="Libraries/js/metisMenu/jquery.metisMenu.js"></script>
+    <script src="Libraries/js/slimscroll/jquery.slimscroll.min.js"></script>
     <!-- Morris -->
-    <script src="js/inspinia/morris/raphael-2.1.0.min.js"></script>
-    <script src="js/inspinia/morris/morris.js"></script>
+    <script src="Libraries/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="Libraries/js/morris/morris.js"></script>
     <!-- Custom and plugin javascript -->
-    <script src="js/inspinia/inspinia.js"></script>
-    <script src="js/inspinia/pace/pace.min.js"></script>
+    <script src="Libraries/js/inspinia/inspinia.js"></script>
+    <script src="Libraries/js/pace/pace.min.js"></script>
     <!-- Data table -->
-    <script src="js/inspinia/dataTables/datatables.min.js"></script>
+    <script src="Libraries/js/dataTables/datatables.min.js"></script>
     <!-- Data picker -->
-    <script src="js/inspinia/datapicker/bootstrap-datepicker.js"></script>
+    <script src="Libraries/js/datapicker/bootstrap-datepicker.js"></script>
     <!-- Clock picker -->
-    <script src="js/inspinia/clockpicker/clockpicker.js"></script>
+    <script src="Libraries/js/clockpicker/clockpicker.js"></script>
     <!-- blueimp gallery -->
-    <script src="js/inspinia/blueimp/jquery.blueimp-gallery.min.js"></script>
+    <script src="Libraries/js/blueimp/jquery.blueimp-gallery.min.js"></script>
     <!--Alerts-->
-    <script src="js/inspinia/sweetalert/sweetalert.min.js"></script>
+    <script src="Libraries/js/sweetalert/sweetalert.min.js"></script>
     <!--Ladda-->
-    <script src="js/inspinia/ladda/spin.min.js"></script>
-    <script src="js/inspinia/ladda/ladda.min.js"></script>
-    <script src="js/inspinia/ladda/ladda.jquery.min.js"></script>
-    <script src="js/inspinia/touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="Libraries/js/ladda/spin.min.js"></script>
+    <script src="Libraries/js/ladda/ladda.min.js"></script>
+    <script src="Libraries/js/ladda/ladda.jquery.min.js"></script>
+    <script src="Libraries/js/touchspin/jquery.bootstrap-touchspin.min.js"></script>
     <!-- Libreria de Google Maps -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script>
 </body>
