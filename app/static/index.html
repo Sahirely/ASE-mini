@@ -9,28 +9,18 @@
     <meta name="description" content="description project">
     <meta name="author" content="name" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Libreria de Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900italic' rel='stylesheet' type='text/css'>
-
     <!--Hojas de estilos-->
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link href="css/bootstrap.css" rel="stylesheet" />
-
     <!--Loading-->
     <link href="css/toastr.css" rel="stylesheet" />
     <link href="css/angular-busy.css" rel="stylesheet" />
-
-    <!--Librearias JQuery y Bootstrap-->
-    <script src="js/libs/jQuery/jquery-2.1.4.js"></script>
-    <script src="js/libs/bootstrap/bootstrap.js"></script>
-
     <!--Menú INSPINIA-->
     <link href="fonts/font-awesome-4.3.0/css/font-awesome.css" rel="stylesheet">
-
     <!--Inspinia Elements-->
     <link href="css/inspinia/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
-
     <link href="css/inspinia/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
     <link href="css/inspinia/animate.css" rel="stylesheet">
     <link href="css/inspinia/styleInspinia.css" rel="stylesheet">
@@ -42,7 +32,6 @@
     <link href="css/inspinia/touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
     <link href="../../css/inspinia/morris/morris-0.4.3.min.css" rel="stylesheet">
     <link href="../../css/dashBoardTables.css" rel="stylesheet">
-
 </head>
 
 <body ng-app="registrationModule" ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
@@ -50,16 +39,13 @@
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
                 <li class="nav-header">
-                    <div class="dropdown profile-element"> <span>
+                    <div class="dropdown profile-element">
+                        <span>
                             <img alt="image" class="img-circle" src="image/profile/man2.jpg" />
-                             </span>
+                        </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{ userData.nombreCompleto}}</strong>
-                             </span>
-                            <!--
-                                <span class="text-muted text-xs block">
-                                {{ userData.tipoUsuario}} <b class="caret"></b></span> 
--->
+                            <span class="clear"> 
+                                <span class="block m-t-xs"><strong class="font-bold">{{ userData.nombreCompleto}}</strong></span>
                             </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -73,7 +59,6 @@
                 </li>
                 <li>
                     <a href="dashboardgeneral"><i class="glyphicon glyphicon-home"></i> <span class="nav-label">Home</span></a>
-
                 </li>
                 <li>
                     <a href="cita" ng-hide="userData.idTipoUsuario == 3" ng-click="showChat = 0"><i class="fa fa-car"></i> <span class="nav-label">Nueva Cita</span></a>
@@ -120,7 +105,6 @@
                 <li ng-show="userData.idUsuario == 190  || userData.idUsuario == 213">
                     <a href="aprobacionutilidad" ng-click="showChat = 0"><i class="glyphicon glyphicon-ok-circle"></i> <span class="nav-label">Aprobaciones</span></a>
                 </li>
-
                 <li ng-show="userData.idTipoUsuario == 1 ">
                     <a href="aprobacionProvision" ng-click="showChat = 0"><i class="glyphicon glyphicon-ok-sign"></i> <span class="nav-label">Aprobación Provisión  </span></a>
                 </li>
@@ -131,7 +115,6 @@
                     <a href="Tutorial" ng-click="showChat = 0"><i class="glyphicon glyphicon-facetime-video"></i> <span class="nav-label">Tutorial</span></a>
                 </li>
             </ul>
-
         </div>
     </nav>
     <div id="page-wrapper" class="gray-bg">
@@ -150,7 +133,6 @@
                     <li>
                         <span class="m-r-sm text-muted welcome-message">Talleres Externos</span>
                     </li>
-
                     <li>
                         <a href="/">
                             <i class="fa fa-sign-out"></i> Cerrar Sesión
@@ -161,16 +143,13 @@
         </div>
         <div ng-view></div>
     </div>
-
     <div id="wrapper" ng-hide="showChat == 0">
         <div class="small-chat-box fadeInRight animated">
-
             <div class="heading" draggable="true">
                 <small class="chat-date pull-right">
                     {{descripcion}}
                 </small> Chat CallC./Taller
             </div>
-
             <div class="content">
                 <div ng-repeat="msgtaller in chattaller">
                     <div ng-class="msgtaller.idUsuario === userData.idUsuario ? 'right' : 'left'">
@@ -185,8 +164,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
             <div class="form-chat">
                 <div class="input-group input-group-sm">
@@ -194,36 +171,30 @@
                         class="btn btn-primary" type="button" ng-click="EnviarComentario1(comentarios, 1)">Enviar
                 </button> </span></div>
             </div>
-
         </div>
         <div id="small-chat" ng-hide="userData.idTipoUsuario == 4">
-
             <!-- <span class="badge badge-warning pull-right">5</span> -->
             <a class="open-small-chat">
                 <i class="fa fa-comments"></i>
-
             </a>
         </div>
     </div>
-
     <!--CHAT CLIENTE- CALLCENTER-->
     <div id="wrapper" ng-hide="showChat == 0">
         <div class="small-chat-box2 fadeInRight animated">
-
             <div class="heading2" draggable="true">
                 <small class="chat-date2 pull-right">
-{{descripcion}}
+                    {{descripcion}}
                 </small> Chat CallC./Cliente
             </div>
-
             <div class="content2">
                 <div ng-repeat="msgcliente in chatcliente">
                     <div ng-class="msgcliente.idUsuario === userData.idUsuario ? 'right' : 'left'">
                         <div class="author-name">
                             {{msgcliente.nombreCompleto}}
                             <small class="chat-date2">
-                            {{msgcliente.fecha | date:'dd-MM-yyyy HH:mm'}}
-                        </small>
+                                {{msgcliente.fecha | date:'dd-MM-yyyy HH:mm'}}
+                            </small>
                         </div>
                         <div ng-class="msgcliente.idUsuario === userData.idUsuario ? 'chat-message2' : 'chat-message2 active'">
                             {{msgcliente.mensaje}}
@@ -231,31 +202,23 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-chat2">
                 <div class="input-group input-group-sm">
                     <input type="text" ng-model="comentario" class="form-control"> <span class="input-group-btn"> <button
                         class="btn btn-primary" type="button" ng-click="EnviarComentario2(comentario)">Enviar
                 </button> </span></div>
             </div>
-
         </div>
         <div id="small-chat2" ng-hide="userData.idTipoUsuario == 3">
-
             <a class="open-small-chat2">
                 <i class="fa fa-comments"></i>
-
             </a>
         </div>
     </div>
-
-
-
     <!--Librearias JQuery y Bootstrap-->
     <script src="js/libs/jQuery/jquery-2.1.4.js"></script>
     <script src="js/libs/bootstrap/bootstrap.js"></script>
     <script src="js/libs/switch/bootstrap-switch.min.js"></script>
-
     <!-- Librerias Angular-->
     <script src="js/libs/angular/angular.js"></script>
     <script src="js/libs/angular/angular-route.min.js"></script>
@@ -265,35 +228,26 @@
     <script src="js/libs/angular/angular-local-storage.min.js"></script>
     <script src="js/libs/toastr/toastr.min.js"></script>
     <script src="js/libs/angular/nsPopover.js"></script>
-
     <!--Funciones Comunes-->
     <script src="confront.js"></script>
-
     <!--Angular Busy-->
     <script src="js/libs/angular/angular-busy.js"></script>
-
     <!--Librería para realizar querys-->
     <script src="js/libs/angular/linq.js"></script>
-
     <!--Librerias de aplicación angular-->
     <script src="AngularJS/registrationModule.js"></script>
-
     <!--librerias de componenetes-->
     <script src="AngularJS/alertFactory.js"></script>
     <script src="AngularJS/globalFactory.js"></script>
     <script src="AngularJS/Servicios/commonService.js"></script>
-
     <!--Librería de Switch -->
     <script src="AngularJS/bsSwitch.js"></script>
-
     <!--Directivas -->
     <script src="AngularJS/directive.js"></script>
-
     <!--Modals -->
     <script src="AngularJS/modals/modal.js"></script>
     <script src="AngularJS/modals/controller/token_controller.js"></script>
     <script src="AngularJS/modals/controller/cotizacionDetalle_controller.js"></script>
-
     <script src="js/libs/dropZone/dropzone.js"></script>
     <script src="js/libs/dropZone/ng-dropzone.min.js"></script>
     <script src="js/libs/angular/nsPopover.js"></script>
@@ -368,7 +322,6 @@
     <!-- Custom and plugin javascript -->
     <script src="js/inspinia/inspinia.js"></script>
     <script src="js/inspinia/pace/pace.min.js"></script>
-
     <!-- Data table -->
     <script src="js/inspinia/dataTables/datatables.min.js"></script>
     <!-- Data picker -->
