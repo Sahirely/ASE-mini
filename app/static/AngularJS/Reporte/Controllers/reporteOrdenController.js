@@ -1,4 +1,8 @@
 registrationModule.controller('reporteOrdenController', function($scope, alertFactory, $rootScope, localStorageService, reporteOrdenRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteOrdenes';
     $scope.userData = localStorageService.get('userData');
     $scope.idTar = 0;
     $scope.idZona = 0;

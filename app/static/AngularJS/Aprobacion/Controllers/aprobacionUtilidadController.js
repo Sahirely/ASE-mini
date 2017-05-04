@@ -1,14 +1,8 @@
-// -- =============================================
-// -- Author:      Anel Candi Pérez pérez
-// -- Create date: 10/10/2016
-// -- Description: Arobación de utilidad
-// -- Modificó: 
-// -- Fecha: 
-// -- Modificó: 
-// -- Fecha:
-// -- =============================================
-
 registrationModule.controller('aprobacionutilidadController', function ($scope, $modal, $route, $rootScope, localStorageService, alertFactory, globalFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository ) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'aprobaciones2';
         $scope.idTipoCotizacion=0;
         $scope.ideTaller=0;
     //init del controller

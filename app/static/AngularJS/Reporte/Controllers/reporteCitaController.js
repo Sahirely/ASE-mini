@@ -1,4 +1,8 @@
 registrationModule.controller('reporteCitaController', function($scope, alertFactory, $rootScope, localStorageService, reporteCitaRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteCitas';
     $scope.userData = localStorageService.get('userData');
     $scope.idTar = 0;
     $scope.idZona = 0;

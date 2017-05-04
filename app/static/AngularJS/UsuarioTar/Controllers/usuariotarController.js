@@ -1,4 +1,8 @@
 registrationModule.controller('usuariotarController', function($scope, $route, $modal, $rootScope, localStorageService, alertFactory, usuariotarRepository, reporteRepository, dashBoardRepository, globalFactory) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'control';
     $scope.userData = localStorageService.get('userData');
     $scope.init = function() {
         $scope.devuelveZonas();

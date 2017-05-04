@@ -1,4 +1,8 @@
 registrationModule.controller('dashBoardController', function($scope, alertFactory, $rootScope, localStorageService, $route, dashBoardRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'home';
     $scope.zonaSelected = null;
     $scope.tarSelected = null;
     $scope.totalCitas = 0;

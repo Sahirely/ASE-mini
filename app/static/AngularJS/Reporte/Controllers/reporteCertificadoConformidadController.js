@@ -1,4 +1,8 @@
 registrationModule.controller('reporteCertificadoConformidadController', function($scope, alertFactory, globalFactory, $rootScope, localStorageService, reporteCertificadoConformidadRepository, dashBoardRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'certificado';
     $scope.zonaSelected = null;
     $scope.tarSelected = null;
     $scope.userData = localStorageService.get('userData');

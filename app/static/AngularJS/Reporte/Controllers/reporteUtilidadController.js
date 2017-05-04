@@ -1,4 +1,8 @@
 registrationModule.controller('reporteUtilidadController', function($scope, alertFactory, $rootScope, localStorageService, reporteUtilidadRepository, dashBoardRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteMargenUtilidad';
     $scope.zona = null;
     $scope.tar = null;
     $scope.estatus = '';

@@ -1,4 +1,8 @@
 registrationModule.controller('reporteUnidadController', function($scope, alertFactory, globalFactory, commonService, $location, $rootScope, localStorageService, reporteUnidadRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteHistorial';
     //Inicializa la pagina
     $scope.init = function() {};
     $scope.verOrden = function(trabajo, valBotonera) {

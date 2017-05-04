@@ -1,16 +1,8 @@
-// -- =============================================
-// -- Author:      Anel Candi Pérez pérez
-// -- Create date: 18/11/2016
-// -- Description: Arobación de provisión
-// -- Modificó: 
-// -- Fecha: 
-// -- Modificó: 
-// -- Fecha:
-// -- =============================================
-
-
 registrationModule.controller('aprobacionProvisionController', function ($scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, commonService, ordenAnticipoRepository, trabajoRepository ) {
-  	
+  	//*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'aprobacionProvision';
 
   	$scope.init =function(){
   		$scope.getAprobacionProvision();

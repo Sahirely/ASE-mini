@@ -1,4 +1,8 @@
 registrationModule.controller('trabajoController', function($scope, $modal, $rootScope, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionRepository, uploadRepository, cotizacionAutorizacionRepository, ordenAnticipoRepository, commonService, $location) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'ordenServicio';
     $scope.init = function() {
         //configuraciones de dropzone
         Dropzone.autoDiscover = false;

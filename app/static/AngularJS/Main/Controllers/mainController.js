@@ -1,5 +1,6 @@
 registrationModule.controller('mainController', function ($scope, $rootScope, $location, localStorageService, mainRepository) {
     $rootScope.showChat = 0;
+    $rootScope.modulo = '';
      var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');

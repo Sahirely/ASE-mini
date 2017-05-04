@@ -1,9 +1,8 @@
-// -- =============================================
-// -- Author:      Adolfo Marinez
-// -- Create date: 22/08/2016
-// -- Description: talleres controller
-// -- =============================================
-registrationModule.controller('tallerController', function ($scope, alertFactory, tallerRepository, localStorageService) {
+registrationModule.controller('tallerController', function ($scope, $rootScope, alertFactory, tallerRepository, localStorageService) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'talleres';
     //this is the first method executed in the view
     $scope.actualizarTaller = '';
 

@@ -1,11 +1,8 @@
-// -- ==================================================================================
-// -- CREATE AUTH: Uriel Godínez Martínez
-// -- CREATE DATE: 07/06/2016
-// -- CREATE DESC: Controlador para el mantenimiento de las Osur por TAR
-// -- ==================================================================================
-
-registrationModule.controller('osurController', function ($scope, alertFactory, globalFactory, osurRepository, citaRepository) {
-    
+registrationModule.controller('osurController', function ($scope, $rootScope, alertFactory, globalFactory, osurRepository, citaRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'osur';
     $scope.presupuestoTotal=0.00;
     $scope.utilizadoTotal=0.00;
     $scope.saldoTotal=0.00;

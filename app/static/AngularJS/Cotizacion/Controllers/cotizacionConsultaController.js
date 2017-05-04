@@ -1,11 +1,8 @@
-// -- =============================================
-// -- Author:      Uriel Godínez Martínez
-// -- Create date: 28/03/2016
-// -- Description: Cotizacion Controller
-// -- Modificó: 
-// -- Fecha: 
-// -- =============================================
 registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, cotizacionConsultaRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'aprobaciones';
 
     $scope.message = "Buscando...";
     $scope.userData = localStorageService.get('userData');

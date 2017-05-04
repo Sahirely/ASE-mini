@@ -1,4 +1,8 @@
 registrationModule.controller('reportePorCobrarController', function($scope, alertFactory, $rootScope, localStorageService, reportePorCobrarRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteOxC';
     $scope.userData = localStorageService.get('userData');
     $scope.idTar = 0;
     $scope.idZona = 0;

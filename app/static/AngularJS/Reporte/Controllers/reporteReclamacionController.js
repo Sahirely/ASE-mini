@@ -1,4 +1,8 @@
 registrationModule.controller('reporteReclamacionController', function($scope, alertFactory, $rootScope, localStorageService, reporteReclamacionRepository, dashBoardRepository, globalFactory) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteReclamacion';
     $scope.userData = localStorageService.get('userData');
     $scope.jsonDataAnexo1 = undefined;
     $scope.jsonDataAnexo2 = undefined;

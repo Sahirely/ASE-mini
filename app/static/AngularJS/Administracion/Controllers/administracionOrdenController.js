@@ -1,14 +1,8 @@
-// -- =============================================
-// -- Author:      Vladimir Juárez Juárez
-// -- Create date: 15/08/2016
-// -- Description: Administración Orden controller
-// -- Modificó: 
-// -- Fecha: 
-// -- Modificó: 
-// -- Fecha:
-// -- =============================================
-
 registrationModule.controller('administracionOrdenController', function ($scope, $route, $modal, $rootScope, localStorageService, alertFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'comprasUnificadas';
     $scope.userData = localStorageService.get('userData');
     $scope.idTipoCotizacion = 0;
     $scope.ideTaller = 0;

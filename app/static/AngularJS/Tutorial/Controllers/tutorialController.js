@@ -1,11 +1,8 @@
-// -- =============================================
-// -- Author:      Anel Candi Pérez Pérez
-// -- Create date: 23/11/2016
-// -- Description: tutorial controller
-// -- =============================================
-
 registrationModule.controller('tutorialController', function ($scope, $route, $modal, $rootScope, localStorageService, alertFactory, globalFactory, citaRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
- 	
+ 	//*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'tutorial';
  	$scope.show_slide=false;
  	$scope.class_info="animate_off";
  	$scope.class_width="content_info";

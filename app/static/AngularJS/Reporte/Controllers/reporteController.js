@@ -1,4 +1,8 @@
 registrationModule.controller('reporteController', function($scope, alertFactory, $rootScope, globalFactory, localStorageService, ordenPorCobrarRepository, reporteRepository, dashBoardRepository) {
+    //*****************************************************************************************************************************//
+    // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
+    //*****************************************************************************************************************************//
+    $rootScope.modulo = 'reporteAntiguedad';
     $scope.message = "Buscando...";
     $scope.tipofecha = "";
     $scope.init = function() {
