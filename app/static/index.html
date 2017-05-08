@@ -73,7 +73,7 @@
                 <li ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
-                        <li ng-hide="true" ng-class="{'active': modulo=='reporteReclamacion'}"><a href="/reporteReclamacion" >Reporte Reclamacion</a></li>
+                        <li ng-hide="true" ng-class="{'active': modulo=='reporteReclamacion'}"><a href="/reporteReclamacion">Reporte Reclamacion</a></li>
                         <li ng-class="{'active': modulo=='reporteAntiguedad'}"><a href="/reporte" ng-hide="userData.idTipoUsuario == 4 || userData.idTipoUsuario == 3">Reporte Antigüedad de Saldos</a></li>
                         <li ng-class="{'active': modulo=='reporteCitas'}"><a href="/reportecita">Reporte Citas</a></li>
                         <li ng-class="{'active': modulo=='reporteOrdenes'}"><a href="/reporteorden">Reporte Órdenes</a></li>
@@ -109,6 +109,7 @@
             </ul>
         </div>
     </nav>
+    <!-- PRUEBA -->
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom" ng-hide="sesion == 0">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -117,13 +118,33 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
+                        <form role="form" class="form-inline">
+                            <div class="form-group">
+                                <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Buscar Unidad" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Buscar Orden" class="form-control">
+                            </div>
+                            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+                            <!-- <button class="btn btn-primary" type="submit">Go</button>
+                            <button class="btn btn-info" type="submit">Go</button>
+                            <button class="btn btn-warning" type="submit">Go</button>
+                            <button class="btn btn-danger" type="submit">Go</button> -->
+                        </form>
+                    </li>
+                    <li>
+                    </li>
+                    <li>
                         <div class="rol" ng-class="{ 'roladmin' : userData.idTipoUsuario == 1, 'rolcall' : userData.idTipoUsuario == 2, 'roltaller' : userData.idTipoUsuario == 3, 'rolcliente' : userData.idTipoUsuario == 4, 'rolproveedor' : userData.esProveedor == 1  }">
                             <span ng-show="userData.esProveedor==0">Rol - {{ userData.tipoUsuario}}</span>
                             <span ng-show="userData.esProveedor==1">Rol - Proveedor</span>
                         </div>
                     </li>
                     <li>
-                        <span class="m-r-sm text-muted welcome-message">Talleres Externos</span>
+                        <span class="m-r-md text-muted">Talleres Externos</span>
                     </li>
                     <li>
                         <a href="/">
@@ -135,6 +156,7 @@
         </div>
         <div ng-view></div>
     </div>
+    <!-- PRUEBA -->
     <div id="wrapper" ng-hide="showChat == 0">
         <div class="small-chat-box fadeInRight animated">
             <div class="heading" draggable="true">
@@ -304,6 +326,8 @@
     <script src="AngularJS/Reporte/Controllers/reporteReclamacionController.js"></script>
     <script src="AngularJS/ConsultaCitas/Controllers/consultaCitasController.js"></script>
     <script src="AngularJS/ConsultaCitas/Repositories/consultaCitasRepository.js"></script>
+    <script src="AngularJS/Detalle/Controllers/detalleController.js"></script>
+    <script src="AngularJS/Detalle/Repositories/detalleRepository.js"></script>
     <!-- Mainly scripts -->
     <script src="Libraries/js/metisMenu/jquery.metisMenu.js"></script>
     <script src="Libraries/js/slimscroll/jquery.slimscroll.min.js"></script>
