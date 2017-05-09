@@ -11,4 +11,5 @@
      ordenAnticipo: require('./controllers/ordenAnticipo'),
      dashboard: require('./controllers/dashboard'),
      administracion: require('./controllers/administracion'),
+     mobile: require('./controllers/app.controller')
  }
