@@ -1,7 +1,7 @@
 .mayusculas {
     text-transform: uppercase !important;
 }
-
+/*INICIA Estilos para los progress bar*/
 .progressPrincipal {
     /*height: 80px;*/
     margin-top: 20px;
@@ -16,7 +16,7 @@
 .progressBarra {
     width: 75%;
     height: 30px;
-    background-color: #1c84c6;
+    background-color: #284156;
 }
 
 .subProgress {
@@ -28,13 +28,53 @@
 .subProgressBarra {
     width: 10%;
     height: 30px;
-    background-color: #f0ad4e;
+    background-color: #e61429;
 }
-
-.documentos {
-    margin-top: 20px;
-}
-
+/*TERMINA Estilos para los progress bar*/
+/*INICIA Cambio de estilos en NOTAS*/
 .my-scroll-nota {
     height: 150px;
+}
+/*TERMINA Cambio de estilos en NOTAS*/
+/*INICIA Estilos de los botones de carga de ARCHIVOS*/
+.btn-archivo.btn-outline {
+    color: #284156;
+}
+.btn-archivo {
+    border-color: #284156;
+}
+.btn-archivo.btn-outline:hover{
+    color: #fff;
+}
+.btn-archivo:hover, .btn-archivo:focus, .btn-archivo:active, .btn-archivo.active, .open .dropdown-toggle.btn-archivo, .btn-archivo:active:focus, .btn-archivo:active:hover, .btn-archivo.active:hover, .btn-archivo.active:focus {
+    background-color: #284156;
+    border-color: #BBBBCC;
+    color: #FFFFFF;
+}
+/*TERMINA Estilos de los botones de carga de ARCHIVOS*/
+/*INICIA Estilos de Botonoes*/
+.btn-negro {
+    background-color: #333;
+    border-color: #333;
+    color: #FFFFFF;
+}
+.btn-negro:hover, .btn-negro:focus, .btn-negro:active, .btn-negro.active, .open .dropdown-toggle.btn-negro, .btn-negro:active:focus, .btn-negro:active:hover, .btn-negro.active:hover, .btn-negro.active:focus {
+    background-color: #555;
+    border-color: #BBBBCC;
+    color: #FFFFFF;
+}
+
+.btn-morado {
+    background-color: #65208a;
+    border-color: #65208a;
+    color: #FFFFFF;
+}
+.btn-morado:hover, .btn-morado:focus, .btn-morado:active, .btn-morado.active, .open .dropdown-toggle.btn-morado, .btn-morado:active:focus, .btn-morado:active:hover, .btn-morado.active:hover, .btn-morado.active:focus {
+    background-color: #875aab;
+    border-color: #bd90d2;
+    color: #FFFFFF;
+}
+/*TERMINA Estilo de botones*/
+.text-orden {
+    color: #337ab7;
 }

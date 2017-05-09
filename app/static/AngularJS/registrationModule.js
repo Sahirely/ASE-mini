@@ -180,6 +180,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'detalleController'
         });
 
+        $routeProvider.when('/unidad', {
+            templateUrl: 'AngularJS/BusquedaUnidad/Templates/busquedaUnidad.html',
+            controller: 'busquedaUnidadController'
+        });
+
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false

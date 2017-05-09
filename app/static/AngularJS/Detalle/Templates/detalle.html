@@ -8,7 +8,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <h3>Orden: <span class="text-success">XXXXXXXXXXXXX </span><span class="label label-primary mayusculas">Proceso</span></h3>
+                        <h3>Orden: <span class="text-orden">XXXXXXXXXXXXX </span><span class="label label-primary mayusculas">Proceso</span></h3>
                         <div class="hr-line-dashed"></div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
@@ -138,22 +138,22 @@
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Recepción</label>
                                     <br>
-                                    <button class="btn btn-primary  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Conformidad</label>
                                     <br>
-                                    <button class="btn btn-primary  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Factura</label>
                                     <br>
-                                    <button class="btn btn-primary  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>COPADE</label>
                                     <br>
-                                    <button class="btn btn-primary  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -230,7 +230,7 @@
                                                     <textarea style="resize:none; height: 50px;" class="form-control" placeholder="Escriba una nota" ng-model="texto"></textarea>
                                                 </div>
                                                 <div class="text-right">
-                                                    <button type="submit" class="btn btn-sm btn-primary m-t-n-xs" ng-click="enviaNota()"><strong>Enviar Nota</strong></button>
+                                                    <button type="submit" class="btn btn-sm btn-primary m-t-n-xs" ng-click="enviaNota()">Enviar Nota</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -283,7 +283,9 @@
                             <button class="btn btn-primary pull-right" type="submit">Editar Cotización</button>
                             <button class="btn btn-info pull-right" type="submit">Comprobante de Recepción</button>
                             <button class="btn btn-warning pull-right" type="submit">Editar Cita</button>
-                            <button class="btn btn-danger pull-right" type="submit">Cancelar Cita</button>
+                            <button class="btn btn-cancela pull-right" type="submit">Cancelar Cita</button>
+                            <button class="btn btn-negro pull-right" type="submit">Negro</button>
+                            <button class="btn btn-morado pull-right" type="submit">Morado</button>
                         </div>
                     </div>
                 </div>
