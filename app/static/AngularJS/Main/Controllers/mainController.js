@@ -7,7 +7,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     //*****************************************************************************************************************************//
     // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
-    $rootScope.busqueda = 2;
+    $rootScope.busqueda = 1;
     var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');
@@ -64,9 +64,11 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     $scope.BorraComentario = function() {
         $scope.comentario = '';
     }
-    $scope.botonBusqueda = function(texto) {
-        if (texto == 'Buscar Orden') {
-
+    $scope.botonBusqueda = function(busqueda) {
+        if (busqueda == 1) {
+            $rootScope.busqueda = 2;
+        } else if (busqueda == 2) {
+            $rootScope.busqueda = 1;
         }
     };
 
