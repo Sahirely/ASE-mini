@@ -107,6 +107,26 @@
         border-color: #bd90d2;
         color: #FFFFFF;
     }
+    
+    .btn-rojo {
+        background-color: #ed0c43;
+        border-color: #ed0c43;
+        color: #FFFFFF;
+    }
+    
+    .btn-rojo:hover,
+    .btn-rojo:focus,
+    .btn-rojo:active,
+    .btn-rojo.active,
+    .open .dropdown-toggle.btn-rojo,
+    .btn-rojo:active:focus,
+    .btn-rojo:active:hover,
+    .btn-rojo.active:hover,
+    .btn-rojo.active:focus {
+        background-color: #b9123b;
+        border-color: #b9123b;
+        color: #FFFFFF;
+    }
     /*TERMINA Estilo de botones*/
     
     .text-orden {
