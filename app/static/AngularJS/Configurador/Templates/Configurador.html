@@ -1,0 +1,115 @@
+<link rel="stylesheet" type="text/css"  href="AngularJS/Configurador/Styles/Configurador.css">
+<div ng-init="init()" class="animated bounceInRight">
+    <div class="headTitleTallerCita">
+        <span class="title">Configurador De Operaciones</span>
+    </div>
+    <br>
+    <div class="wrapper wrapper-content">
+        <!--div class="row"-->
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <br/>
+                        <div class="row" ng-show="show_busquedaCliente">
+                            <button class="btn btn-success ng-binding pull-right" tooltip="Nuevo Cliente" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="nuevoCliente()"> Nuevo Cliente </button>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover dataTableCliente" ng-show="show_busquedaCliente">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Operación</th>
+                                        <th>Encargado</th>
+                                        <th>Estatus</th>
+                                        <th>GPS</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+
+                            <div id="wizard" role="application" class="wizard clearfix" ng-show="show_wizard">
+                                <div class="steps clearfix">
+                                    <ul role="tablist">
+
+                                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                            <a id="wizard-t-0" href="#wizard-h-0" aria-controls="wizard-p-0">
+
+                                                <div class="center">
+                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                        <i class="glyphicon glyphicon-user"></i>
+                                                        <i class="glyphicon glyphicon-plus"></i>
+                                                    </button>
+                                                </div>    
+
+                                                <div class="center menu">Cliente</div>
+                                            </a>
+                                        </li>
+
+                                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                            <a id="wizard-t-1" href="#wizard-h-1" aria-controls="wizard-p-1">
+                                                <div class="center">
+                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                        <i class="glyphicon glyphicon-lock"></i>
+                                                    </button>
+                                                </div> 
+                                                <div class="center menu">Operaciones</div>
+                                            </a>
+                                        </li>
+
+                                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                            <a id="wizard-t-2" href="#wizard-h-2" aria-controls="wizard-p-2">
+                                                <div class="center">
+                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                        <i class="glyphicon glyphicon-link"></i>
+                                                    </button>
+                                                </div> 
+                                                <div class="center menu">Licitaciones</div>
+                                            </a>
+                                        </li>
+
+                                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                            <a id="wizard-t-3" href="#wizard-h-3" aria-controls="wizard-p-3">
+                                                <div class="center">
+                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                        <i class="fa fa-car"></i>
+                                                    </button>
+                                                </div>    
+                                                <div class="center menu">Unidades</div>
+                                            </a>
+                                        </li>
+
+                                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                                            <a id="wizard-t-4" href="#wizard-h-4" aria-controls="wizard-p-4">
+                                                <div class="center">
+                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                        <i class="glyphicon glyphicon-cog"></i>
+                                                    </button>
+                                                </div> 
+                                                <div class="center menu">Modulos</div>
+                                            </a>
+                                        </li>
+
+                                        
+                                    </ul>
+                                </div>
+                                <div class=" clearfix">
+                           
+                                </div>
+                                <div class="actions clearfix">
+                                    <ul role="menu" aria-label="Pagination">
+                                        <li class="disabled" aria-disabled="true"><a href="#previous" role="menuitem">Previous</a></li>
+                                        <li aria-hidden="false" aria-disabled="false" class="" style="display: block;"><a href="#next" role="menuitem">Next</a></li>
+                                        <li aria-hidden="false"><a href="#finish" role="menuitem">Finish</a></li>
+                                        <li><a href="#cancel" role="menuitem">Cancel</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--/div-->
+</div>
