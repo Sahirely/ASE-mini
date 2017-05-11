@@ -178,13 +178,16 @@
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                               <div class="panel panel-default">
                                 <div class="panel-body">
+                                  <div class="col-xs-5 col-sm-5 col-md-4 col-lg-3 pestania" >
+                                        <h3>XXXXXXXXXXXXXXXXXX</h3>
+                                  </div>
+                                  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
                                   <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
-                                    <h4>Detalle de la Cotización</h4>
-                                    <address>
-                                        Número de Cotización: <strong>{{descripcion}}</strong><br>
-                                        Estatus: <strong>{{descripcion}}</strong><br>
-                                        Descripción de la Cotización: <strong>{{descripcion}}</strong>
-                                    </address>
+                                      <h4>Detalle de la Cotización</h4>
+                                      <address>
+                                          Estatus: <strong>{{descripcion}}</strong><br>
+                                          Descripción de la Cotización: <strong>{{descripcion}}</strong>
+                                      </address>
                                   </div>
                                   <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
                                   <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
@@ -196,7 +199,7 @@
                                       </address>
                                   </div>
                                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                      <button class="btn btn-default pull-right" ng-click="isSelectedChange('nope')">Precio</button>
+                                      <button class="btn btn-default pull-right" ng-click="isSelectedChange('nope')">Venta</button>
                                       <button class="btn btn-success pull-right" ng-click="isSelectedChange('yep')">Costo</button>
                                   </div>
                                   <br>
@@ -212,6 +215,7 @@
                                                     <th>Precio Unitario</th>
                                                     <th>I.V.A</th>
                                                     <th>Precio Total</th>
+                                                    <th>Autorizó</th>
                                                     <th>Selecciona</th>
                                                 </tr>
                                             </thead>
@@ -226,6 +230,7 @@
                                                     <td>{{ vistaPrecio == 1 ? articulo.precio : articulo.precioCliente | currency }}</td>
                                                     <td>{{ vistaPrecio == 1 ? (articulo.cantidad * (articulo.precio * (articulo.valorIva / 100))) : (articulo.cantidad * (articulo.precioCliente * (articulo.valorIva / 100))) | currency }}</td>
                                                     <td>{{ vistaPrecio == 1 ? ((articulo.cantidad * articulo.precio) + (articulo.cantidad * (articulo.precio * (articulo.valorIva / 100)))) : ((articulo.cantidad * articulo.precioCliente) + (articulo.cantidad * (articulo.precioCliente * (articulo.valorIva / 100)))) | currency }}</td>
+                                                    <td>Nombre DD/MM/AAAA 00:00</td>
                                                     <td style="text-align:center;">
                                                         <form action="" ng-show="articulo.idEstatus == 8">
                                                             <div class="checkbox">
