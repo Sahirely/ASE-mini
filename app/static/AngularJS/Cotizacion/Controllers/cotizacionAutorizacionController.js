@@ -57,7 +57,7 @@ registrationModule.controller('cotizacionAutorizacionController', function ($sco
         /*$scope.cargaDatosOsur(idCita);*/
     }
 
-    //Obtiene la conversación de la cita 
+    //Obtiene la conversación de la cita
     /*  $scope.cargaChat = function () {
           $scope.promise = cotizacionAutorizacionRepository.getChat(idCita).then(function (result) {
                   if (result.data.length > 0) {
@@ -315,7 +315,7 @@ registrationModule.controller('cotizacionAutorizacionController', function ($sco
                     });
             }
         }
-        //Submit del botón del Form para subir los archivos        
+        //Submit del botón del Form para subir los archivos
         btnSubmit.click();
         $scope.cargaEvidencias();
 
@@ -397,7 +397,7 @@ registrationModule.controller('cotizacionAutorizacionController', function ($sco
                         }
                     }
                 } else {
-                    
+
                 }*/
                 $scope.total = 0;
                 $scope.articulos = articulosUnicos;
@@ -558,17 +558,17 @@ registrationModule.controller('cotizacionAutorizacionController', function ($sco
              }
          }*/
     }
+    $scope.isSelectedChange = function(val){
+      if ($scope.userData.idTipoUsuario != 4) {
+          if (val == 'yep') {
+              $scope.vistaPrecio = 1;
+          } else {
+              $scope.vistaPrecio = 2;
+          }
+      }
+    }
 
-    $scope.$watch('isSelected', function () {
-        if ($scope.userData.idTipoUsuario != 4) {
-            if ($scope.isSelected == 'yep') {
-                $scope.vistaPrecio = 1;
-            } else {
-                $scope.vistaPrecio = 2;
-            }
-        }
-    });
-    //Recuperamos los datos de la Osur 
+    //Recuperamos los datos de la Osur
     $scope.cargaDatosOsur = function (idCita) {
         cotizacionAutorizacionRepository.getDatosOsur(idCita).then(function (result) {
             if (result.data.length > 0) {

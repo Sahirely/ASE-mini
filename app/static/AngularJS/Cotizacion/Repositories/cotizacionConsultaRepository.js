@@ -2,6 +2,15 @@ var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
 registrationModule.factory('cotizacionConsultaRepository', function ($http) {
     return {
+        obtieneEjecutivos: function(){
+            return $http({
+                url: searchUrl + 'ejecutivos/',
+                method: "GET",
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+        },
         get: function(idUsuario){
             return $http({
                 url: searchUrl + 'see/',
@@ -24,7 +33,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 idTaller: idTaller,
                 idUsuario: idUsuario
             };
-            
+
             return $http({
                 url: searchUrl + 'detail',
                 method: "GET",
@@ -32,7 +41,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            });            
+            });
             /*return $http({
                 url: searchUrl + 'detail/' + idCotizacion,
                 method: "POST"
