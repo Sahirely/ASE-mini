@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="AngularJS/Cita/Styles/nuevaCita.css">
 <div ng-init="initNuevaCita()" class="animated fadeInRight">
     <div class="headTitleTallerCita">
         <span class="title title-xs"> Citas</span>
@@ -5,7 +6,151 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content">
             <div class="row">
-                <div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="widget-head-color-box navy-bgv2 p-lg text-center">
+                        <div class="m-b-md">
+                            <h2 class="font-bold no-margins">
+                                Ficha Técnica de Unidad
+                            </h2>
+                        </div>
+                        <div>
+                            <strong>{{'nombre'}}</strong>
+                            <address>
+                                <h3>
+                            <strong>Zona:</strong> {{unidadInfo.GAR}}<br><br>
+                            <strong>TAR:</strong> {{unidadInfo.TAR}}<br><br>
+                            <strong>No. TAR:</strong> {{unidadInfo.numTAR}}<br><br>
+                            <strong>Unidad:</strong> {{unidadInfo.marca}} - {{unidadInfo.modelo}}<br><br>
+                            <strong>No. Económico:</strong> {{unidadInfo.clienteNumEconomico}}<br><br>
+                            <strong>No. Inventario:</strong> {{unidadInfo.clienteNumInventario}}<br><br>
+                            <strong>Ubicación:</strong> {{unidadInfo.ubicacion}}<br><br>
+                            <strong>Autotanque:</strong> {{unidadInfo.modeloMarca}}<br><br>
+                            </h3></address>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <div class="m-t-md">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Tipo de Cita:</label>
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                    <select class="form-control">
+                                        <option value=''>Selecionar Tipo de Cita</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Estado de la Unidad:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <select class="form-control">
+                                    <option value=''>Selecionar el stado de la Unidad</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Requiere Grúa:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <div class="radio radio-info radio-inline">
+                                    <input type="radio" id="inlineRadio3" value="1" name="radioInline3" checked="" ng-model="altace">
+                                    <label for="inlineRadio3"> Si </label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" id="inlineRadio4" value="0" name="radioInline4" ng-model="altace">
+                                    <label for="inlineRadio4"> No </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Fecha:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <div class="input-group date">
+                                    <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita" ng-change="validaHoraCita()">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Hora:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <div class="input-group clockpicker" data-autoclose="true">
+                                    <input type="text" class="form-control" value="" ng-model="datosCita.horaCita" ng-change="validaHoraCita()">
+                                    <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Comentarios Adicionales:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Servicio:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <div class="checkbox m-r-xs">
+                                    <input type="checkbox" id="checkbox1">
+                                    <label for="checkbox1">
+                                        Mecanica
+                                    </label>
+                                </div>
+                                <div class="checkbox m-r-xs">
+                                    <input type="checkbox" id="checkbox1">
+                                    <label for="checkbox1">
+                                        Hojalateria
+                                    </label>
+                                </div>
+                                <div class="checkbox m-r-xs">
+                                    <input type="checkbox" id="checkbox1">
+                                    <label for="checkbox1">
+                                        Eléctrica
+                                    </label>
+                                </div>
+                                <div class="checkbox m-r-xs">
+                                    <input type="checkbox" id="checkbox1">
+                                    <label for="checkbox1">
+                                        Aire Acondicionado
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Zona:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <select class="form-control">
+                                    <option value=''>Selecionar Zona</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Buscar Taller:</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8H">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"> <span class="input-group-btn"> <button type="button" class="btn btn-primary"><i class="fa fa-search"></i>
+                                        </button> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-xs-8 my-scroll-sp">
                     <form class="form-horizontal">
@@ -178,31 +323,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
-                <div class="col-xs-4">
-                    <div class="widget-head-color-box navy-bgv2 p-lg text-center">
-                        <div class="m-b-md">
-                            <h2 class="font-bold no-margins">
-                                Ficha Técnica de Unidad
-                            </h2>
-                        </div>
-                        <div>
-                            <br>
-                            <br>
-                            <strong>{{nombre}}</strong>
-                            <address>
-                                <h3>
-                            <strong>Zona:</strong> {{unidadInfo.GAR}}<br><br>
-                            <strong>TAR:</strong> {{unidadInfo.TAR}}<br><br>
-                            <strong>No. TAR:</strong> {{unidadInfo.numTAR}}<br><br>
-                            <strong>Unidad:</strong> {{unidadInfo.marca}} - {{unidadInfo.modelo}}<br><br>
-                            <strong>No. Económico:</strong> {{unidadInfo.clienteNumEconomico}}<br><br>
-                            <strong>No. Inventario:</strong> {{unidadInfo.clienteNumInventario}}<br><br>
-                            <strong>Ubicación:</strong> {{unidadInfo.ubicacion}}<br><br>
-                            <strong>Autotanque:</strong> {{unidadInfo.modeloMarca}}<br><br>
-                            </h3></address>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
