@@ -48,3 +48,11 @@
         text-align: left;
     }
 }
+
+@media (max-width: 527px) {
+    .btn-movil {
+        width: 100%;
+        font-size: 14px;
+        padding: 6px 12px;
+    }
+}

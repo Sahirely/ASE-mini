@@ -127,12 +127,12 @@
                                 <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
                             </div>
                             <div class="form-group" ng-show="busqueda == 1">
-                                <input type="text" placeholder="Buscar Unidad" class="form-control">
+                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control">
                             </div>
                             <div class="form-group" ng-show="busqueda == 2">
-                                <input type="text" placeholder="Buscar Orden" class="form-control">
+                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control">
                             </div>
-                            <button class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                             <!-- <button class="btn btn-primary" type="submit">Go</button>
                             <button class="btn btn-info" type="submit">Go</button>
                             <button class="btn btn-warning" type="submit">Go</button>
