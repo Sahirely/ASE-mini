@@ -12,5 +12,6 @@
      dashboard: require('./controllers/dashboard'),
      administracion: require('./controllers/administracion'),
      mobile: require('./controllers/app.controller'),
-     busquedaUnidad: require('./controllers/busquedaUnidad')
+     busquedaUnidad: require('./controllers/busquedaUnidad'),
+     ordenServicio: require('./controllers/ordenServicio')
  }
