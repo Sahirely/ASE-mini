@@ -46,11 +46,11 @@
                         <div class="col-xs-12 col-sm-12">
                             <div class="hr-line-dashed"></div>
                         </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="col-sm-6 col-md-4 col-lg-4">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
-                                        <h5>Detalle de la orden</h5>
+                                        <h5>Detalle de la orden / cotización</h5>
                                     </div>
                                     <div class="ibox-content">
                                         <p>
@@ -76,35 +76,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6 col-md-4 col-lg-4">
-                                <div class="ibox float-e-margins">
-                                    <div class="ibox-title">
-                                        <h5>Detalle del Proveedor</h5>
-                                    </div>
-                                    <div class="ibox-content">
-                                        <p>
-                                            <label>Taller:</label>
-                                            <span>trabajo</span>
-                                        </p>
-                                        <p>
-                                            <label>Dirección:</label>
-                                            <span>Calle Alamos</span>
-                                        </p>
-                                        <p>
-                                            <label>Zona: </label>
-                                            <span>Centro</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 col-md-4 col-lg-4">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
                                         <h5>Detalle del Cliente</h5>
                                     </div>
                                     <div class="ibox-content">
                                         <p>
-                                            <label>Taller:</label>
+                                            <label>Cliente:</label>
                                             <span>trabajo</span>
                                         </p>
                                         <p>
@@ -112,8 +91,17 @@
                                             <span>Calle Alamos</span>
                                         </p>
                                         <p>
-                                            <label>Zona: </label>
-                                            <span>Centro</span>
+                                            <label>Teléfono: </label>
+                                            <span>2323521523</span>
+                                        </p>
+                                        <h3>Presupuesto</h3>
+                                        <p>
+                                            <label>Saldo Disponible: </label>
+                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{20| currency:"$": 2}}</span>
+                                        </p>
+                                        <p>
+                                            <label>Saldo Real: </label>
+                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{10| currency:"$": 2}}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -466,7 +454,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <button class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
-                            <button class="btn btn-primary pull-right btn-movil" type="submit"> Guarda Cotizacion</button>
+                            <button class="btn btn-primary pull-right btn-movil" ng-class="{Inactivo : SaldoReal < GranTotal}" type="submit"> Guarda Cotizacion</button>
                             <button class="btn btn-success pull-right btn-movil" type="submit">Nueva Cotización</button>
                             <button class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>
                             <button class="btn btn-info pull-right btn-movil" type="submit">Comprobante de Recepción</button>
