@@ -1,4 +1,4 @@
-var //busquedaUnidadView = require('../views/ejemploVista'),
+var busquedaUnidadView = require('../views/ejemploVista'),
     busquedaUnidadModel = require('../models/dataAccess2'),
     moment = require('moment');
 
@@ -6,7 +6,7 @@ var //busquedaUnidadView = require('../views/ejemploVista'),
 var busquedaUnidad = function(conf) {
     this.conf = conf || {};
 
-    //this.view = new busquedaUnidadView();
+    this.view = new busquedaUnidadView();
     this.model = new busquedaUnidadModel({
         parameters: this.conf.parameters
     });
@@ -35,7 +35,26 @@ busquedaUnidad.prototype.get_detalleUnidad = function(req, res, next) {
             result: result
         });
     });
-}
+};
+//Obtiene la existencia de la unidad y si el usuario cumple con los permisos necesarios
+busquedaUnidad.prototype.get_existeUnidad = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'economico',
+        value: req.query.economico,
+        type: self.model.types.STRING
+    }];
 
+    this.model.query('SEL_EXISTE_UNIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+};
 
 module.exports = busquedaUnidad;

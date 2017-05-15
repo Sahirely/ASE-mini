@@ -11,7 +11,8 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     }
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
-            console.log(result)
+            $scope.detalleUnidad = result.data[0];
+            console.log($scope.detalleUnidad)
         });
     }
 });

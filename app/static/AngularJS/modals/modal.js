@@ -1,52 +1,65 @@
-
-
-function modal_tiket($scope, $modal, idAprobacionUtilidad, origen, callback, error)
-{
+function modal_tiket($scope, $modal, idAprobacionUtilidad, origen, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/token.html',
         controller: 'token_controller',
         backdrop: 'static',
         size: 300,
         resolve: {
-            idAprobacionUtilidad: function () {
+            idAprobacionUtilidad: function() {
                 return idAprobacionUtilidad;
             },
-            origen: function () {
+            origen: function() {
                 return origen;
             },
-            callback: function () {
+            callback: function() {
                 return callback;
             },
-            error: function () {
+            error: function() {
                 return error;
             }
         }
     });
 }
 
-function modal_detalle_cotizacion($scope, $modal, idTrabajo, origen, utilidad, callback, error)
-{
+function modal_detalle_cotizacion($scope, $modal, idTrabajo, origen, utilidad, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/cotizacionDetalle.html',
         controller: 'cotizacionDetalle_controller',
         backdrop: 'static',
         size: 300,
         resolve: {
-            idTrabajo: function () {
+            idTrabajo: function() {
                 return idTrabajo;
             },
-            origen: function () {
+            origen: function() {
                 return origen;
             },
-            utilidad: function () {
+            utilidad: function() {
                 return utilidad;
             },
-            callback: function () {
+            callback: function() {
                 return callback;
             },
-            error: function () {
+            error: function() {
                 return error;
             }
         }
     });
 }
+
+function modal_respuesta_busqueda($scope, $modal, callback, error) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/modals/Template/respuestaBusqueda.html',
+        controller: 'respuestaBusqueda_controller',
+        backdrop: 'static',
+        size: 300,
+        resolve: {
+            callback: function() {
+                return callback;
+            },
+            error: function() {
+                return error;
+            }
+        }
+    });
+};

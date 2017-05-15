@@ -14,6 +14,27 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        //*****************************************************************************************************************************//
+        // Busca si existe la unidad, si el usuario tiene permisos para el tipo de operación y el rol al que pertenece 
+        // puede visualizar la información de dicha unidad, el SP nos da como respuesta las siguientes opcioes
+        // respuesta = 0 <-- No existe la unidad 
+        // respuesta = 1 <-- Existe la unidad y tiene todos los permisos necesarios 
+        // respuesta = 2 <-- Existe la unidad pero el tipo de operación no le corresponde
+        // respuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
+        //*****************************************************************************************************************************//
+        getExisteUnidad: function(idUsuario, economico) {
+            return $http({
+                url: busquedaUnidadUrl + 'existeUnidad/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario,
+                    economico: economico
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });
