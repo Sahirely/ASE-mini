@@ -1,16 +1,15 @@
-var citaUrl = global_settings.urlCORS + '/api/OrdenServicio/';
+var consultaCitaUrl = global_settings.urlCORS + '/api/OrdenServicio/';
 var cotizacionUrl = global_settings.urlCORS + '/api/cotizacion/';
 
-registrationModule.factory('consultaCitasRepository', function ($http, $q) {
+registrationModule.factory('consultaCitasRepository', function($http, $q) {
     var deferred = $q.defer();
 
     return {
-        getTotalOrdenes: function () {
+        getTotalOrdenes: function() {
             return $http({
-                url: citaUrl + 'getTotalOrdenes/',
+                url: consultaCitaUrl + 'getTotalOrdenes/',
                 method: "GET",
-                params: {
-                },
+                params: {},
                 headers: {
                     'Content-Type': 'application/json'
                 }
