@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="AngularJS/Cita/Styles/nuevaCita.css">
-<div ng-init="initNuevaCita()" class="animated fadeInRight">
+<div ng-init="init()" class="animated fadeInRight">
     <div class="headTitleTallerCita">
         <span class="title title-xs"> Citas</span>
     </div>
@@ -17,14 +17,14 @@
                             <strong>{{'nombre'}}</strong>
                             <address>
                                 <h3>
-                            <strong>Zona:</strong> {{unidadInfo.GAR}}<br><br>
-                            <strong>TAR:</strong> {{unidadInfo.TAR}}<br><br>
-                            <strong>No. TAR:</strong> {{unidadInfo.numTAR}}<br><br>
-                            <strong>Unidad:</strong> {{unidadInfo.marca}} - {{unidadInfo.modelo}}<br><br>
-                            <strong>No. Económico:</strong> {{unidadInfo.clienteNumEconomico}}<br><br>
-                            <strong>No. Inventario:</strong> {{unidadInfo.clienteNumInventario}}<br><br>
-                            <strong>Ubicación:</strong> {{unidadInfo.ubicacion}}<br><br>
-                            <strong>Autotanque:</strong> {{unidadInfo.modeloMarca}}<br><br>
+                            <strong>Zona:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <strong>TAR:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <strong>No. TAR:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <strong>Unidad:</strong> {{detalleUnidad.marca}} - {{detalleUnidad.modelo}}<br><br>
+                            <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
+                            <strong>No. Inventario:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <strong>Ubicación:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <strong>Autotanque:</strong> {{detalleUnidad.pendiente}}<br><br>
                             </h3></address>
                         </div>
                     </div>
@@ -35,9 +35,9 @@
                             <div class="form-group">
                                 <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Tipo de Cita:</label>
                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                    <select class="form-control">
+                                    <select class="form-control" ng-model="cita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita">
                                         <option value=''>Selecionar Tipo de Cita</option>
-                                    </select>
+                                    </select> {{cita}}
                                 </div>
                             </div>
                         </form>
@@ -46,9 +46,9 @@
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Estado de la Unidad:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                <select class="form-control">
-                                    <option value=''>Selecionar el stado de la Unidad</option>
-                                </select>
+                                <select class="form-control" ng-model="prueba" ng-options="estadoUnidad.descripcion for estadoUnidad in estadoUnidad track by estadoUnidad.descripcion">
+                                    <option value=''>Selecionar el Estado de la Unidad</option>
+                                </select>{{prueba}}
                             </div>
                         </div>
                     </form>

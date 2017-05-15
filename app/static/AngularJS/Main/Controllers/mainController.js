@@ -92,9 +92,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
             if ($scope.tipoRespuesta.respuesta == 0) {
                 //
                 $('.modal-dialog').css('width', '1050px');
-                modal_respuesta_busqueda($scope, $modal, '', '');
-
-                console.log('No existe la unidad');
+                modal_respuesta_busqueda($scope, $modal, $rootScope.busqueda, $scope.tipoRespuesta, '', '');
             } else if ($scope.tipoRespuesta.respuesta == 1) {
                 location.href = '/unidad?economico=' + economico;
             }

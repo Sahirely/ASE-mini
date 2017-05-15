@@ -12,27 +12,27 @@
                             <div class="payment-card">
                                 <p>
                                     <label>Unidad:</label>
-                                    <span>Soy la Unidad</span>
-                                </p>
-                                <p>
-                                    <label>No. Ecónomico:</label>
-                                    <span>Soy la Unidad</span>
-                                </p>
-                                <p>
-                                    <label>No. Inventario:</label>
-                                    <span>Soy la Unidad</span>
+                                    <span>{{detalleUnidad.marca}}</span>
                                 </p>
                                 <p>
                                     <label>Modelo:</label>
-                                    <span>Soy la Unidad</span>
+                                    <span>{{detalleUnidad.modelo}}</span>
+                                </p>
+                                <p>
+                                    <label>No. Ecónomico:</label>
+                                    <span>{{detalleUnidad.numeroEconomico}}</span>
+                                </p>
+                                <p>
+                                    <label>No. Inventario:</label>
+                                    <span>{{detalleUnidad.pendiente}}</span>
                                 </p>
                                 <p>
                                     <label>Ubicación:</label>
-                                    <span>Soy la Unidad</span>
+                                    <span>{{detalleUnidad.pendiente}}</span>
                                 </p>
                                 <p>
                                     <label>Zona:</label>
-                                    <span>Soy la Unidad</span>
+                                    <span>{{detalleUnidad.pendiente}}</span>
                                 </p>
                                 <p>
                                     <label>Localización:</label>
@@ -101,7 +101,7 @@
                                             </p>
                                         </div>
                                         <div class="col-xs-12 col-sm-12">
-                                            <button class="btn btn-success pull-right">
+                                            <button class="btn btn-success pull-right" ng-click="btnAgendarCita()">
                                                 <i class="fa fa-calendar"></i> Agendar Cita
                                             </button>
                                         </div>

@@ -47,13 +47,19 @@ function modal_detalle_cotizacion($scope, $modal, idTrabajo, origen, utilidad, c
     });
 }
 
-function modal_respuesta_busqueda($scope, $modal, callback, error) {
+function modal_respuesta_busqueda($scope, $modal, tipobusqueda, respuesta, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/respuestaBusqueda.html',
         controller: 'respuestaBusqueda_controller',
         backdrop: 'static',
         size: 300,
         resolve: {
+            tipobusqueda: function() {
+                return tipobusqueda
+            },
+            respuesta: function() {
+                return respuesta
+            },
             callback: function() {
                 return callback;
             },
