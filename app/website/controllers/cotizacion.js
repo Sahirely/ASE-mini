@@ -71,6 +71,18 @@ Cotizacion.prototype.get_see = function (req, res, next) {
     });
 }
 
+//Obtiene los usuarios ejectivos
+Cotizacion.prototype.get_ejecutivos = function(req, res, next){
+  var self = this;
+
+  this.model.query('SEL_USUARIOS_EJECUTIVOS_SP', "", function (error, result) {
+      self.view.expositor(res, {
+          error: error,
+          result: result
+      });
+  });
+}
+
 //Método para la búsqueda de piezas para una cotización
 Cotizacion.prototype.get_buscarPieza = function (req, res, next) {
     //Con req.query se obtienen los parametros de la url
@@ -88,7 +100,7 @@ Cotizacion.prototype.get_buscarPieza = function (req, res, next) {
         {
             name: 'nombrePieza',
             value: req.query.nombrePieza,
-            type: self.model.types.STRING 
+            type: self.model.types.STRING
         },
         {
             name: 'refaccion',
@@ -675,7 +687,7 @@ var getNameFile = function (dir) {
     return files;
 };
 
-//recuoera la direccion 
+//recuoera la direccion
 Cotizacion.prototype.get_namefileserver = function (req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
@@ -1159,7 +1171,7 @@ Cotizacion.prototype.post_autorizacionRechazoItem = function (req, res, next) {
         {
          name: 'idOsur',
             value: req.body.idOsur,
-            type: self.model.types.DECIMAL    
+            type: self.model.types.DECIMAL
         }*/
         ];
 
@@ -1240,7 +1252,7 @@ Cotizacion.prototype.get_tipoCotizaciones = function (req, res, next) {
     });
 }
 
-//Obtiene el precio del cliente  de un Item 
+//Obtiene el precio del cliente  de un Item
 Cotizacion.prototype.get_precioItemCliente = function (req, res, next) {
         var self = this;
         var params = [{
@@ -1256,7 +1268,7 @@ Cotizacion.prototype.get_precioItemCliente = function (req, res, next) {
             });
         });
     }
-    //Obtiene los talleres disponibles 
+    //Obtiene los talleres disponibles
 Cotizacion.prototype.get_tallerCotizacion = function (req, res, next) {
     //Referencia a la clase para callback
     var self = this;
@@ -1423,8 +1435,8 @@ Cotizacion.prototype.post_newpdfReclamacion = function(req, res, next) {
     var fileresponse = '/uploads/reclamacion/' + idReclamacion +'/'+ filename + '.pdf';
     var dataResponse = {
                 "fileresponse":fileresponse,
-                "idReclamacion":idReclamacion     
-        } 
+                "idReclamacion":idReclamacion
+        }
     if(idReclamacion != undefined || idReclamacion != null){
         if (!fs.existsSync(direclamacion + idReclamacion))
             fs.mkdirSync(direclamacion + idReclamacion);

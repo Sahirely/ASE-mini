@@ -15,6 +15,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'loginController'
         });
 
+        $routeProvider.when('/configurador', {
+            templateUrl: 'AngularJS/Configurador/Templates/Configurador.html',
+            controller: 'configuradorController'
+        });
+
         $routeProvider.when('/cita', {
             templateUrl: 'AngularJS/Cita/Templates/cita.html',
             controller: 'citaController'

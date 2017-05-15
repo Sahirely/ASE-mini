@@ -1,16 +1,14 @@
 var busquedaUnidadUrl = global_settings.urlCORS + '/api/busquedaUnidad/';
 
-registrationModule.factory('busquedaUnidadRepository', function ($http) {
-    return {        
-        getNumCita: function (idTar,idZona,idUsuario) {
+registrationModule.factory('busquedaUnidadRepository', function($http) {
+    return {
+        getDetalleUnidad: function(idUsuario, economico) {
             return $http({
-                url: busquedaUnidadUrl + 'sumatoriaCitas/',
+                url: busquedaUnidadUrl + 'detalleUnidad/',
                 method: "GET",
                 params: {
-                    idTar:idTar,
-                    idZona: idZona,
-                    idUsuario:idUsuario
-                    
+                    idUsuario: idUsuario,
+                    economico: economico
                 },
                 headers: {
                     'Content-Type': 'application/json'

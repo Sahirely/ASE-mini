@@ -1,80 +1,277 @@
-.mayusculas {
-    text-transform: uppercase !important;
-}
-/*INICIA Estilos para los progress bar*/
-.progressPrincipal {
-    /*height: 80px;*/
-    margin-top: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-}
+    .mayusculas {
+        text-transform: uppercase !important;
+    }
+    /*INICIA Estilos para los progress bar*/
 
-.progressBarra {
-    width: 75%;
-    height: 30px;
-    background-color: #284156;
-}
+    .progressPrincipal {
+        /*height: 80px;*/
+        margin-top: 20px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    }
 
-.subProgress {
-    /* width: 93%; */
-    background-color: #ddd;
-    margin: 10px;
-}
+    .pestania>h3{
+        color: #FFA101;
+    }
 
-.subProgressBarra {
-    width: 10%;
-    height: 30px;
-    background-color: #e61429;
-}
-/*TERMINA Estilos para los progress bar*/
-/*INICIA Cambio de estilos en NOTAS*/
-.my-scroll-nota {
-    height: 150px;
-}
-/*TERMINA Cambio de estilos en NOTAS*/
-/*INICIA Estilos de los botones de carga de ARCHIVOS*/
-.btn-archivo.btn-outline {
-    color: #284156;
-}
-.btn-archivo {
-    border-color: #284156;
-}
-.btn-archivo.btn-outline:hover{
-    color: #fff;
-}
-.btn-archivo:hover, .btn-archivo:focus, .btn-archivo:active, .btn-archivo.active, .open .dropdown-toggle.btn-archivo, .btn-archivo:active:focus, .btn-archivo:active:hover, .btn-archivo.active:hover, .btn-archivo.active:focus {
-    background-color: #284156;
-    border-color: #BBBBCC;
-    color: #FFFFFF;
-}
-/*TERMINA Estilos de los botones de carga de ARCHIVOS*/
-/*INICIA Estilos de Botonoes*/
-.btn-negro {
-    background-color: #333;
-    border-color: #333;
-    color: #FFFFFF;
-}
-.btn-negro:hover, .btn-negro:focus, .btn-negro:active, .btn-negro.active, .open .dropdown-toggle.btn-negro, .btn-negro:active:focus, .btn-negro:active:hover, .btn-negro.active:hover, .btn-negro.active:focus {
-    background-color: #555;
-    border-color: #BBBBCC;
-    color: #FFFFFF;
-}
+    @media (min-width: 768px) {
+      .pestania{
+          background-color: #f8f8f8;
+          border-radius: 4px;
+          margin-left: -15px;
+          margin-top: -15px;
+      }
+    }
 
-.btn-morado {
-    background-color: #65208a;
-    border-color: #65208a;
-    color: #FFFFFF;
-}
-.btn-morado:hover, .btn-morado:focus, .btn-morado:active, .btn-morado.active, .open .dropdown-toggle.btn-morado, .btn-morado:active:focus, .btn-morado:active:hover, .btn-morado.active:hover, .btn-morado.active:focus {
-    background-color: #875aab;
-    border-color: #bd90d2;
-    color: #FFFFFF;
-}
-/*TERMINA Estilo de botones*/
-.text-orden {
-    color: #337ab7;
-}
+    @media (max-width: 767px) {
+        .pestania{
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            margin-top: -2px;
+            margin-left: -2px;     
+        }
+    }
+    .progressBarra {
+        width: 75%;
+        height: 30px;
+        background-color: #284156;
+    }
+
+    .subProgress {
+        /* width: 93%; */
+        background-color: #ddd;
+        margin: 10px;
+    }
+
+    .subProgressBarra {
+        width: 10%;
+        height: 30px;
+        background-color: #e61429;
+    }
+    /*TERMINA Estilos para los progress bar*/
+    /*INICIA Cambio de estilos en NOTAS*/
+
+    .my-scroll-nota {
+        height: 150px;
+    }
+    /*TERMINA Cambio de estilos en NOTAS*/
+    /*INICIA Estilos de los botones de carga de ARCHIVOS*/
+
+    .btn-archivo.btn-outline {
+        color: #284156;
+    }
+
+    .btn-archivo {
+        border-color: #284156;
+    }
+
+    .btn-archivo.btn-outline:hover {
+        color: #fff;
+    }
+
+    .btn-archivo:hover,
+    .btn-archivo:focus,
+    .btn-archivo:active,
+    .btn-archivo.active,
+    .open .dropdown-toggle.btn-archivo,
+    .btn-archivo:active:focus,
+    .btn-archivo:active:hover,
+    .btn-archivo.active:hover,
+    .btn-archivo.active:focus {
+        background-color: #284156;
+        border-color: #BBBBCC;
+        color: #FFFFFF;
+    }
+    /*TERMINA Estilos de los botones de carga de ARCHIVOS*/
+    /*INICIA Estilos de Botonoes*/
+
+    .btn-negro {
+        background-color: #333;
+        border-color: #333;
+        color: #FFFFFF;
+    }
+
+    .btn-negro:hover,
+    .btn-negro:focus,
+    .btn-negro:active,
+    .btn-negro.active,
+    .open .dropdown-toggle.btn-negro,
+    .btn-negro:active:focus,
+    .btn-negro:active:hover,
+    .btn-negro.active:hover,
+    .btn-negro.active:focus {
+        background-color: #555;
+        border-color: #BBBBCC;
+        color: #FFFFFF;
+    }
+
+    .btn-morado {
+        background-color: #65208a;
+        border-color: #65208a;
+        color: #FFFFFF;
+    }
+
+    .btn-morado:hover,
+    .btn-morado:focus,
+    .btn-morado:active,
+    .btn-morado.active,
+    .open .dropdown-toggle.btn-morado,
+    .btn-morado:active:focus,
+    .btn-morado:active:hover,
+    .btn-morado.active:hover,
+    .btn-morado.active:focus {
+        background-color: #875aab;
+        border-color: #bd90d2;
+        color: #FFFFFF;
+    }
+
+    .btn-rojo {
+        background-color: #ed0c43;
+        border-color: #ed0c43;
+        color: #FFFFFF;
+    }
+
+    .btn-rojo:hover,
+    .btn-rojo:focus,
+    .btn-rojo:active,
+    .btn-rojo.active,
+    .open .dropdown-toggle.btn-rojo,
+    .btn-rojo:active:focus,
+    .btn-rojo:active:hover,
+    .btn-rojo.active:hover,
+    .btn-rojo.active:focus {
+        background-color: #b9123b;
+        border-color: #b9123b;
+        color: #FFFFFF;
+    }
+    /*TERMINA Estilo de botones*/
+
+    .text-orden {
+        color: #337ab7;
+    }
+
+    @media (max-width: 767px) {
+        .ibox-content {
+            padding: 0px 0px 0px 0px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .ibox-content h1,
+        .ibox-content h2,
+        .ibox-content h3,
+        .ibox-content h4,
+        .ibox-content h5,
+        .ibox-title h1,
+        .ibox-title h2,
+        .ibox-title h3,
+        .ibox-title h4,
+        .ibox-title h5 {
+            margin-top: 10px;
+        }
+        .progressPrincipal {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        .ibox-title {
+            padding: 4px 15px 7px;
+        }
+        p {
+            margin: 10px 0 10px;
+        }
+        .ibox {
+            margin-bottom: 0px;
+        }
+        .m-t-md {
+            margin-top: 5px;
+        }
+        label {
+            padding-top: 10px;
+        }
+        .panel-body {
+            padding: 2px;
+        }
+        .col-xs-1,
+        .col-sm-1,
+        .col-md-1,
+        .col-lg-1,
+        .col-xs-2,
+        .col-sm-2,
+        .col-md-2,
+        .col-lg-2,
+        .col-xs-3,
+        .col-sm-3,
+        .col-md-3,
+        .col-lg-3,
+        .col-xs-4,
+        .col-sm-4,
+        .col-md-4,
+        .col-lg-4,
+        .col-xs-5,
+        .col-sm-5,
+        .col-md-5,
+        .col-lg-5,
+        .col-xs-6,
+        .col-sm-6,
+        .col-md-6,
+        .col-lg-6,
+        .col-xs-7,
+        .col-sm-7,
+        .col-md-7,
+        .col-lg-7,
+        .col-xs-8,
+        .col-sm-8,
+        .col-md-8,
+        .col-lg-8,
+        .col-xs-9,
+        .col-sm-9,
+        .col-md-9,
+        .col-lg-9,
+        .col-xs-10,
+        .col-sm-10,
+        .col-md-10,
+        .col-lg-10,
+        .col-xs-11,
+        .col-sm-11,
+        .col-md-11,
+        .col-lg-11,
+        .col-xs-12,
+        .col-sm-12,
+        .col-md-12,
+        .col-lg-12 {
+            padding-right: 4px;
+            padding-left: 4px;
+        }
+        .btn-movil {
+            width: 50%;
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .m-t-xl {
+            margin-top: 10px;
+        }
+    }
+
+    @media (min-width: 991px) {
+        .my-scroll-nota {
+            height: 49px;
+        }
+        .nota-input {
+            height: 40px !important;
+        }
+    }
+
+    @media (max-width: 527px) {
+        .btn-movil {
+            width: 100%;
+            font-size: 14px;
+            padding: 6px 12px;
+        }
+    }

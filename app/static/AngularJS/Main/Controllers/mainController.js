@@ -72,5 +72,17 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
         }
     };
 
+    //*****************************************************************************************************************************//
+    // Busca el detalle de la unidad
+    //*****************************************************************************************************************************//
+    $scope.getDetalleUnidad = function(economico) {
+        location.href = '/unidad?economico='+economico;
+    };
+    //*****************************************************************************************************************************//
+    // Busca el detalle de la Orden de Servicio
+    //*****************************************************************************************************************************//
+    $scope.getDetalleOrden = function(orden) {
+        location.href = '/detalle?orden='+orden;
+    };
 
 });
