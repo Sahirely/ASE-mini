@@ -14,6 +14,19 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
+        },
+        getExisteOrden: function(idUsuario, numeroOrden) {
+            return $http({
+                url: consultaCitaUrl + 'getOrdenExistente/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario,
+                    numeroOrden: numeroOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });
