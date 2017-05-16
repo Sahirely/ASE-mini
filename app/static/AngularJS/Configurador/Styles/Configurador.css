@@ -9,3 +9,21 @@
     font-size: 15px;
 }
 
+.section_configurador {
+    border: 2px #eee solid;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.footer_btn{
+	padding-left: 100px;
+	padding-right: 100px;
+}
+
+#modulosFormulario{
+	padding-left: 30px;
+}
+
+.titleOrange {
+	color:#FFA101;
+}
