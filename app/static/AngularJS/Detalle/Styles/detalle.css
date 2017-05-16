@@ -2,7 +2,7 @@
         text-transform: uppercase !important;
     }
     /*INICIA Estilos para los progress bar*/
-
+    
     .progressPrincipal {
         /*height: 80px;*/
         margin-top: 20px;
@@ -13,50 +13,51 @@
         -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
     }
-
+    
     .Inactivo {
-        pointer-events:none;
+        pointer-events: none;
         background-color: #ffce88;
         border-color: #ffce88;
     }
     
-    .sinPresupuesto{
+    .sinPresupuesto {
         color: red;
     }
-
-    .pestania>h3{
+    
+    .pestania>h3 {
         color: #FFA101;
     }
-
+    
     @media (min-width: 768px) {
-      .pestania{
-          background-color: #f8f8f8;
-          border-radius: 4px;
-          margin-left: -15px;
-          margin-top: -15px;
-      }
+        .pestania {
+            background-color: #f8f8f8;
+            border-radius: 4px;
+            margin-left: -15px;
+            margin-top: -15px;
+        }
     }
-
+    
     @media (max-width: 767px) {
-        .pestania{
+        .pestania {
             background-color: #f8f8f8;
             border-radius: 4px;
             margin-top: -2px;
             margin-left: -2px;
         }
     }
+    
     .progressBarra {
         width: 75%;
         height: 30px;
         background-color: #284156;
     }
-
+    
     .subProgress {
         /* width: 93%; */
         background-color: #ddd;
         margin: 10px;
     }
-
+    
     .subProgressBarra {
         width: 10%;
         height: 30px;
@@ -64,25 +65,25 @@
     }
     /*TERMINA Estilos para los progress bar*/
     /*INICIA Cambio de estilos en NOTAS*/
-
+    
     .my-scroll-nota {
         height: 150px;
     }
     /*TERMINA Cambio de estilos en NOTAS*/
     /*INICIA Estilos de los botones de carga de ARCHIVOS*/
-
+    
     .btn-archivo.btn-outline {
         color: #284156;
     }
-
+    
     .btn-archivo {
         border-color: #284156;
     }
-
+    
     .btn-archivo.btn-outline:hover {
         color: #fff;
     }
-
+    
     .btn-archivo:hover,
     .btn-archivo:focus,
     .btn-archivo:active,
@@ -97,79 +98,18 @@
         color: #FFFFFF;
     }
     /*TERMINA Estilos de los botones de carga de ARCHIVOS*/
-    /*INICIA Estilos de Botonoes*/
-
-    .btn-negro {
-        background-color: #333;
-        border-color: #333;
-        color: #FFFFFF;
-    }
-
-    .btn-negro:hover,
-    .btn-negro:focus,
-    .btn-negro:active,
-    .btn-negro.active,
-    .open .dropdown-toggle.btn-negro,
-    .btn-negro:active:focus,
-    .btn-negro:active:hover,
-    .btn-negro.active:hover,
-    .btn-negro.active:focus {
-        background-color: #555;
-        border-color: #BBBBCC;
-        color: #FFFFFF;
-    }
-
-    .btn-morado {
-        background-color: #65208a;
-        border-color: #65208a;
-        color: #FFFFFF;
-    }
-
-    .btn-morado:hover,
-    .btn-morado:focus,
-    .btn-morado:active,
-    .btn-morado.active,
-    .open .dropdown-toggle.btn-morado,
-    .btn-morado:active:focus,
-    .btn-morado:active:hover,
-    .btn-morado.active:hover,
-    .btn-morado.active:focus {
-        background-color: #875aab;
-        border-color: #bd90d2;
-        color: #FFFFFF;
-    }
-
-    .btn-rojo {
-        background-color: #ed0c43;
-        border-color: #ed0c43;
-        color: #FFFFFF;
-    }
-
-    .btn-rojo:hover,
-    .btn-rojo:focus,
-    .btn-rojo:active,
-    .btn-rojo.active,
-    .open .dropdown-toggle.btn-rojo,
-    .btn-rojo:active:focus,
-    .btn-rojo:active:hover,
-    .btn-rojo.active:hover,
-    .btn-rojo.active:focus {
-        background-color: #b9123b;
-        border-color: #b9123b;
-        color: #FFFFFF;
-    }
-    /*TERMINA Estilo de botones*/
-
+    
+    
     .text-orden {
         color: #337ab7;
     }
-
+    
     @media (max-width: 767px) {
         .ibox-content {
             padding: 0px 0px 0px 0px;
         }
     }
-
+    
     @media (max-width: 767px) {
         .ibox-content h1,
         .ibox-content h2,
@@ -262,13 +202,13 @@
             padding: 6px 12px;
         }
     }
-
+    
     @media (max-width: 767px) {
         .m-t-xl {
             margin-top: 10px;
         }
     }
-
+    
     @media (min-width: 991px) {
         .my-scroll-nota {
             height: 49px;
@@ -277,7 +217,7 @@
             height: 40px !important;
         }
     }
-
+    
     @media (max-width: 527px) {
         .btn-movil {
             width: 100%;

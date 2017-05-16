@@ -1,0 +1,99 @@
+.btn-warning {
+    background-color: #2aad93;
+    border-color: #2aad93;
+    color: #FFFFFF;
+}
+
+.btn-warning:hover,
+.btn-warning:focus,
+.btn-warning:active,
+.btn-warning.active,
+.open .dropdown-toggle.btn-warning,
+.btn-warning:active:focus,
+.btn-warning:active:hover,
+.btn-warning.active:hover,
+.btn-warning.active:focus {
+    background-color: #59d4bb;
+    border-color: #59d4bb;
+    color: #FFFFFF;
+}
+
+.btn-success {
+    background-color: #55B4F0;
+    border-color: #55B4F0;
+    color: #FFFFFF;
+}
+
+.btn-success:hover,
+.btn-success:focus,
+.btn-success:active,
+.btn-success.active,
+.open .dropdown-toggle.btn-success,
+.btn-success:active:focus,
+.btn-success:active:hover,
+.btn-success.active:hover,
+.btn-success.active:focus {
+    background-color: #acd2ea;
+    border-color: #acd2ea;
+    color: #FFFFFF;
+}
+
+.btn-info {
+    background-color: #ffd101;
+    border-color: #ffd101;
+    color: #FFFFFF;
+}
+
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info,
+.btn-info:active:focus,
+.btn-info:active:hover,
+.btn-info.active:hover,
+.btn-info.active:focus {
+    background-color: #ffe674;
+    border-color: #ffe674;
+    color: #FFFFFF;
+}
+
+.btn-danger {
+    background-color: #ed0c43;
+    border-color: #ed0c43;
+    color: #FFFFFF;
+}
+
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger.active,
+.open .dropdown-toggle.btn-danger,
+.btn-danger:active:focus,
+.btn-danger:active:hover,
+.btn-danger.active:hover,
+.btn-danger.active:focus {
+    background-color: #de6f8a;
+    border-color: #de6f8a;
+    color: #FFFFFF;
+}
+
+.btn-morado {
+    background-color: #ae7fc7;
+    border-color: #ae7fc7;
+    color: #FFFFFF;
+}
+
+.btn-morado:hover,
+.btn-morado:focus,
+.btn-morado:active,
+.btn-morado.active,
+.open .dropdown-toggle.btn-morado,
+.btn-morado:active:focus,
+.btn-morado:active:hover,
+.btn-morado.active:hover,
+.btn-morado.active:focus {
+    background-color: #d6b3e6;
+    border-color: #d6b3e6;
+    color: #FFFFFF;
+}
