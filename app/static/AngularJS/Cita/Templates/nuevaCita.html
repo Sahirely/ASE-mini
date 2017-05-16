@@ -103,28 +103,24 @@
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Servicio:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                <div class="checkbox m-r-xs">
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1">
-                                        Mecanica
+                                <div class="i-checks">
+                                    <label>
+                                        <input type="checkbox" value=""> Mecánica
                                     </label>
                                 </div>
-                                <div class="checkbox m-r-xs">
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1">
-                                        Hojalateria
+                                <div class="i-checks">
+                                    <label>
+                                        <input type="checkbox" value=""> Hojalatería
                                     </label>
                                 </div>
-                                <div class="checkbox m-r-xs">
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1">
-                                        Eléctrica
+                                <div class="i-checks">
+                                    <label>
+                                        <input type="checkbox" value=""> Eléctrica
                                     </label>
                                 </div>
-                                <div class="checkbox m-r-xs">
-                                    <input type="checkbox" id="checkbox1">
-                                    <label for="checkbox1">
-                                        Aire Acondicionado
+                                <div class="i-checks">
+                                    <label>
+                                        <input type="checkbox" value=""> Aire Acondicionado
                                     </label>
                                 </div>
                             </div>
@@ -180,7 +176,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
+                    <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs" ng-click="getModalPartidas()"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
                     <!-- <button type="button" class="btn btn-danger pull-right btn-movil m-t-xs">{{labelItems}} Items</button> -->
                     <button type="button" class="btn btn-success pull-right btn-movil m-t-xs"><span class="glyphicon glyphicon-calendar"></span><strong> Agendar cita</strong></button>
                     <button type="button" class="btn btn-success pull-right btn-movil m-t-xs"><span class="glyphicon glyphicon-calendar"></span><strong> Actualizar cita</strong></button>

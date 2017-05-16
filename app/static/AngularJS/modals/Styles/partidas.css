@@ -1,0 +1,10 @@
+@media (min-width: 768px) {
+    .modal-dialog {
+        margin: 50px;
+        width: auto;
+    }
+}
+
+.modal-title {
+    text-align: center;
+}

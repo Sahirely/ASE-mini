@@ -16,6 +16,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             autoclose: true,
             todayHighlight: true
         });
+        $(document).ready(function() {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
     };
 
     $scope.getDetalleUnidad = function() {
@@ -35,6 +41,13 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.estadoUnidad = result.data;
             console.log(result)
         });
+    };
+    //*****************************************************************************************************************************//
+    // Se manda a llamar la modal para mostrar las partidas y seleccionar las paritdas necesarias para la unidad
+    //*****************************************************************************************************************************//
+    $scope.getModalPartidas = function() {
+        $('.modal-dialog').css('width', '1050px');
+        modal_partidas($scope, $modal);
     };
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra

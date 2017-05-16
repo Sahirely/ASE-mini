@@ -69,3 +69,13 @@ function modal_respuesta_busqueda($scope, $modal, tipobusqueda, respuesta, callb
         }
     });
 };
+
+function modal_partidas($scope, $modal) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/modals/Template/partidas.html',
+        controller: 'partidas_controller',
+        backdrop: 'static',
+        size: 300,
+        resolve: {}
+    });
+};
