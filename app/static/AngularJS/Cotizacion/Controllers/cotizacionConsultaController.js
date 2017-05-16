@@ -5,6 +5,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $rootScope.modulo = 'aprobaciones';
 
     $scope.filtroEstatus = '';
+    $scope.fechaMes = '';
     $scope.message = "Buscando...";
     $scope.userData = localStorageService.get('userData');
     $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
@@ -23,7 +24,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
             autoclose: true,
             todayHighlight: true
         });
-        $('#fechaMes .input-group.date').datepicker({
+        $('#divfechaMes .input-group.date').datepicker({
             minViewMode: 1,
             keyboardNavigation: false,
             forceParse: false,
@@ -34,43 +35,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         //$scope.Maestro();
     }
 
-    //obtiene el mes en formato de fecha
-    $scope.obtieneFechaMes = function() {
-      var result = '';
-      if (fechaMes != '' && fechaMes != null && fechaMes != undefined) {
-          var fechaPartida = fechaMes.split('-');
-          if (fechaPartida[0] == 'Enero') {
-              result = '01/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Febrero') {
-              result = '02/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Marzo') {
-              result = '03/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Abril') {
-              result = '04/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Mayo') {
-              result = '05/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Junio') {
-              result = '06/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Julio') {
-              result = '07/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Agosto') {
-              result = '08/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Septiembre') {
-              result = '09/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Octubre') {
-              result = '10/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Noviembre') {
-              result = '11/01/' + fechaPartida[1];
-          } else if (fechaPartida[0] == 'Diciembre') {
-              result = '12/01/' + fechaPartida[1];
-          }
-        }
-      return result;
-  };
-
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function() {
-            var filtroMes = obtieneFechaMes();
+            var filtroMes = this.obtieneFechaMes();
     };
 
     //obtiene las zonas
@@ -111,6 +78,40 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
     }
+
+    //obtiene el mes en formato de fecha
+    $scope.obtieneFechaMes = function() {
+      var result = '';
+      if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+          var fechaPartida = $scope.fechaMes.split('-');
+          if (fechaPartida[0] == 'Enero') {
+              result = '01/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Febrero') {
+              result = '02/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Marzo') {
+              result = '03/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Abril') {
+              result = '04/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Mayo') {
+              result = '05/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Junio') {
+              result = '06/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Julio') {
+              result = '07/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Agosto') {
+              result = '08/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Septiembre') {
+              result = '09/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Octubre') {
+              result = '10/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Noviembre') {
+              result = '11/01/' + fechaPartida[1];
+          } else if (fechaPartida[0] == 'Diciembre') {
+              result = '12/01/' + fechaPartida[1];
+          }
+        }
+      return result;
+  };
 
     //Abre la modal para la cancelación de la orden
     $scope.cancelarAprobacion = function (idTrabajo,idCotizacion) {

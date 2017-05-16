@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="fechaMes">
+              <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
                   <label class="font-noraml">Mes</label>
                   <div class="input-group date">
                       <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control" value="" ng-change="MesChange()" ng-model="fechaMes" >
@@ -40,15 +40,16 @@
                 <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" id="calendar">
                     <label class="font-noraml">Fecha</label>
                     <div class="input-group date">
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
                         <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control" ng-model="fecha" ng-change="FechaChange()">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     </div>
                 </div>
                 <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
                     <label class="font-noraml">Buscar</label>
                     <br>
                     <button id="btnBuscar" busy="Buscando.." type="button"
-                        class="btn btn-primary" ng-click="">
+                        class="btn btn-primary" ng-click="consultaCotizacionesFiltros()">
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </div>
@@ -68,8 +69,8 @@
                 </div>
                 <div class="col-xs-6 col-sm-7 col-md-6 col-lg-7 radio radio-warning radio-inline">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="margin-left: 10px;"><input type="radio" value="" id="rdTodas" ng-model="filtroEstatus"><label for="rdTodas"> Todos </label></div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="Pendiente" id="rdPendientes" ng-model="filtroEstatus"><label for="rdPendientes"> Pendientes </label></div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="En Proceso" id="rdEnProceso" ng-model="filtroEstatus"><label for="rdEnProceso"> En Proceso </label></div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="1" id="rdPendientes" ng-model="filtroEstatus"><label for="rdPendientes"> Pendientes </label></div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="2" id="rdEnProceso" ng-model="filtroEstatus"><label for="rdEnProceso"> En Proceso </label></div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -88,7 +89,6 @@
                                               <th>Número de la Orden</th>
                                               <th>Número Económico</th>
                                               <th>Zona</th>
-                                              <th>TAR</th>
                                               <th>Taller</th>
                                               <th>Tipo Orden</th>
                                               <th>Fecha</th>
@@ -99,29 +99,30 @@
                                               <th>Cotizó</th>
                                               <th>Porcentaje de Aprobación</th>
                                               <th>Estadistica P/A/R/T</th>
+                                              <th hidden="hidden">Estatus Filtro</th>
                                               <th>Avance</th>
                                               <th>Tiempo en Espera / Tiempo Transcurrido</th>
                                               <th>Abrir</th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          <tr ng-repeat="cotizacion in cotizaciones | filter: {estatus : filtroEstatus}}">
-                                              <td>{{cotizacion.cliente}}</td>
-                                              <td>{{cotizacion.idCita}}</td>
-                                              <td>{{cotizacion.numeroTrabajo}}</td>
-                                              <td>{{cotizacion.numEconomico}}</td>
-                                              <td>{{cotizacion.zona}}</td>
-                                              <td>{{cotizacion.TAR}}</td>
-                                              <td>{{cotizacion.razonSocial}}</td>
-                                              <td>{{cotizacion.idTipoCita == 4 ? "Refacciones" : "Servicio"}}</td>
-                                              <td>{{ cotizacion.fecha | date:'dd-MM-yyyy HH:mm'}}</td>
+                                          <tr ng-repeat="cotizacion in cotizaciones | filter: {'EstatusAprobacion' : filtroEstatus}">
+                                              <td>{{cotizacion.Cliente}}</td>
+                                              <td>{{cotizacion.Consecutivo}}</td>
+                                              <td>{{cotizacion.NumeroOrden}}</td>
+                                              <td>{{cotizacion.NumeroEconomico}}</td>
+                                              <td>{{cotizacion.Zona}}</td>
+                                              <td>{{cotizacion.Taller}}</td>
+                                              <td>{{cotizacion.TipoOrden}}</td>
+                                              <td>{{cotizacion.Fecha | date:'dd-MM-yyyy HH:mm'}}</td>
                                               <td>{{cotizacion.numeroCotizacion}}</td>
-                                              <td>{{cotizacion.marca}}</td>
-                                              <td>{{ cotizacion.estatus }}</td>
-                                              <td>{{cotizacion.observaciones}}</td>
-                                              <td>{{ cotizacion.nombreCompleto }}</td>
-                                              <td>70 %</td>
-                                              <td>3/5/2/1</td>
+                                              <td>{{cotizacion.MarcaModelo}}</td>
+                                              <td>{{cotizacion.Estatus }}</td>
+                                              <td>{{cotizacion.Observaciones}}</td>
+                                              <td>{{cotizacion.Cotizo }}</td>
+                                              <td>{{cotizacion.Porcentaje}} %</td>
+                                              <td>{{cotizacion.Estadistica}}</td>
+                                              <td hidden="hidden">{{cotizacion.EstatusAprobacion}}}</td>
                                               <td>70%</td>
                                               <td>1:30 hr</td>
                                               <td>
@@ -135,7 +136,7 @@
                                           </tr>
                                       </tbody>
                                   </table>
-                              </div>
+                                </div>
                             </tab>
                             <tab heading="Sin Presupuesto" index="0">
                                 <br>
@@ -148,7 +149,6 @@
                                               <th>Número de la Orden</th>
                                               <th>Número Económico</th>
                                               <th>Zona</th>
-                                              <th>TAR</th>
                                               <th>Taller</th>
                                               <th>Tipo Orden</th>
                                               <th>Fecha</th>
@@ -159,29 +159,30 @@
                                               <th>Cotizó</th>
                                               <th>Porcentaje de Aprobación</th>
                                               <th>Estadistica P/A/R/T</th>
+                                              <th hidden="hidden">Estatus Filtro</th>
                                               <th>Avance</th>
                                               <th>Tiempo en Espera / Tiempo Transcurrido</th>
                                               <th>Abrir</th>
                                           </tr>
                                       </thead>
                                       <tbody>
-                                          <tr ng-repeat="cotizacion in cotizacionesGrua | {estatus : filtroEstatus}">
-                                              <td>{{cotizacion.cliente}}</td>
-                                              <td>{{cotizacion.idCita}}</td>
-                                              <td>{{cotizacion.numeroTrabajo}}</td>
-                                              <td>{{cotizacion.numEconomico}}</td>
-                                              <td>{{cotizacion.zona}}</td>
-                                              <td>{{cotizacion.TAR}}</td>
-                                              <td>{{cotizacion.razonSocial}}</td>
-                                              <td>{{cotizacion.idTipoCita == 4 ? "Refacciones" : "Servicio"}}</td>
-                                              <td>{{cotizacion.fecha | date:'dd-MM-yyyy HH:mm'}}</td>
+                                          <tr ng-repeat="cotizacion in cotizacionesSinPresupuesto | filter: {'EstatusAprobacion' : filtroEstatus}">
+                                              <td>{{cotizacion.Cliente}}</td>
+                                              <td>{{cotizacion.Consecutivo}}</td>
+                                              <td>{{cotizacion.NumeroOrden}}</td>
+                                              <td>{{cotizacion.NumeroEconomico}}</td>
+                                              <td>{{cotizacion.Zona}}</td>
+                                              <td>{{cotizacion.Taller}}</td>
+                                              <td>{{cotizacion.TipoOrden}}</td>
+                                              <td>{{cotizacion.Fecha | date:'dd-MM-yyyy HH:mm'}}</td>
                                               <td>{{cotizacion.numeroCotizacion}}</td>
-                                              <td>{{cotizacion.marca}}</td>
-                                              <td>{{ cotizacion.estatus }}</td>
-                                              <td>{{cotizacion.observaciones}}</td>
-                                              <td>{{ cotizacion.nombreCompleto }}</td>
-                                              <td>70 %</td>
-                                              <td>3/5/2/1</td>
+                                              <td>{{cotizacion.MarcaModelo}}</td>
+                                              <td>{{cotizacion.Estatus }}</td>
+                                              <td>{{cotizacion.Observaciones}}</td>
+                                              <td>{{cotizacion.Cotizo }}</td>
+                                              <td>{{cotizacion.Porcentaje}} %</td>
+                                              <td>{{cotizacion.Estadistica}}</td>
+                                              <td hidden="hidden">{{cotizacion.EstatusAprobacion}}}</td>
                                               <td>70%</td>
                                               <td>1:30 hr</td>
                                               <td>
@@ -195,6 +196,7 @@
                                           </tr>
                                       </tbody>
                                   </table>
+                                </div>
                               </div>
                             </tab>
                         </tabset>
