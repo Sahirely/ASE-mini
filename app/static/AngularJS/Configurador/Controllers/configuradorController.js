@@ -30,5 +30,27 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.show_unidad=false;
 		$scope.show_modulos=true;
 	}
+
+	$scope.detalleModulo = function (modulo){
+
+		switch(modulo)
+        {
+            case "citas":
+            	modal_citas($scope, $modal, '', '')
+            break;
+            case "consultaCitas":
+            	modal_consultaCitas($scope, $modal, '', '')
+            break;
+            case "aprobaciones":
+            	modal_aprobaciones($scope, $modal, '', '')
+            break;
+            case "servicio":
+            	modal_servicios($scope, $modal, '', '')
+            break;
+            case "porCobrar":
+            	modal_porCobrar($scope, $modal, '', '')
+            break;
+        }
+	}
 });
 
