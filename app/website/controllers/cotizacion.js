@@ -58,12 +58,40 @@ var obtieneConsecutivo = function (ruta) {
 Cotizacion.prototype.get_see = function (req, res, next) {
     var self = this;
     var params = [{
-        name: 'idUsuario',
-        value: req.query.idUsuario,
-        type: self.model.types.INT
-        }];
+        name: 'idzona',
+        value: req.query.idZona,
+        type: self.model.types.STRING
+      },{
+          name: 'idejecutivo',
+          value: req.query.idEjecutivo,
+          type: self.model.types.STRING
+        },{
+          name: 'fechaMes',
+          value: req.query.Mes,
+          type: self.model.types.STRING
+        },{
+          name: 'rangoInicial',
+          value: req.query.Inicio,
+          type: self.model.types.STRING
+        },{
+          name: 'rangoFinal',
+          value: req.query.Fin,
+          type: self.model.types.STRING
+        },{
+          name: 'fecha',
+          value: req.query.Fecha,
+          type: self.model.types.STRING
+        },{
+          name: 'numOrden',
+          value: req.query.NumOrden,
+          type: self.model.types.STRING
+        },{
+          name: 'porOrden',
+          value: req.query.EsPorOrden,
+          type: self.model.types.BIT
+          }];
 
-    this.model.query('SEL_COTIZACIONES_SP', params, function (error, result) {
+    this.model.query('SEL_CONSULTA_ORDENES_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

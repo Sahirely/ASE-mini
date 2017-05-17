@@ -36,8 +36,32 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     }
 
     //realiza consulta según filtros
-    $scope.consultaCotizacionesFiltros = function() {
-            var filtroMes = this.obtieneFechaMes();
+    $scope.consultaCotizacionesFiltros = function(PorOrden) {
+      if (PorOrden == 1){
+        $scope.promise = cotizacionConsultaRepository.get(null, null, null, null, null, null, $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden).then(function (result) {
+               if (result.data.length > 0) {
+                   $scope.cotizaciones = result.data;
+                   globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
+               } else {
+                   alertFactory.info('No se encontraron cotizaciones.');
+               }
+           },
+           function (error) {
+               alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
+           });
+      } else if(PorOrden == 0){
+        $scope.promise = cotizacionConsultaRepository.get($scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), null, PorOrden).then(function (result) {
+               if (result.data.length > 0) {
+                   $scope.cotizaciones = result.data;
+                   globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
+               } else {
+                   alertFactory.info('No se encontraron cotizaciones.');
+               }
+           },
+           function (error) {
+               alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
+           });
+      }
     };
 
     //obtiene las zonas
@@ -87,27 +111,27 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           if (fechaPartida[0] == 'Enero') {
               result = '01/01/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Febrero') {
-              result = '02/01/' + fechaPartida[1];
+              result = '01/02/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Marzo') {
-              result = '03/01/' + fechaPartida[1];
+              result = '01/03/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Abril') {
-              result = '04/01/' + fechaPartida[1];
+              result = '01/04/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Mayo') {
-              result = '05/01/' + fechaPartida[1];
+              result = '01/05/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Junio') {
-              result = '06/01/' + fechaPartida[1];
+              result = '01/06/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Julio') {
-              result = '07/01/' + fechaPartida[1];
+              result = '01/07/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Agosto') {
-              result = '08/01/' + fechaPartida[1];
+              result = '01/08/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Septiembre') {
-              result = '09/01/' + fechaPartida[1];
+              result = '01/09/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Octubre') {
-              result = '10/01/' + fechaPartida[1];
+              result = '01/10/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Noviembre') {
-              result = '11/01/' + fechaPartida[1];
+              result = '01/11/' + fechaPartida[1];
           } else if (fechaPartida[0] == 'Diciembre') {
-              result = '12/01/' + fechaPartida[1];
+              result = '01/12/' + fechaPartida[1];
           }
         }
       return result;
@@ -189,22 +213,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //}
 
-    //Obtiene las cotizaciones pendientes por autorizar
-    //$scope.Maestro = function () {
-         //$('.dataTableCotizaciones').DataTable().destroy();
-         //$scope.promise =
-            //cotizacionConsultaRepository.get($scope.userData.idUsuario).then(function (result) {
-                    //if (result.data.length > 0) {
-                        //$scope.cotizaciones = result.data;
-                        //globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
-                    //} else {
-                        //alertFactory.info('No se encontraron cotizaciones.');
-                    //}
-                //},
-                //function (error) {
-                    //alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
-                //});
-    //}
+
 
 
     //Redirige los parametros de la cotización para su aprobación

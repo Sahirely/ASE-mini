@@ -18,7 +18,8 @@ var DataAccess2 = function (config) {
         INT: sql.Int,
         DECIMAL: sql.Decimal(18, 2),
         STRING: sql.VarChar(30000),
-        DATE: sql.DateTime
+        DATE: sql.DateTime,
+        BIT: sql.Bit
     }
     this.connection = new sql.Connection(connectionString);
 };
@@ -49,7 +50,7 @@ DataAccess2.prototype.query = function (stored, params, callback) {
 DataAccess2.prototype.post = function (stored, params, callback) {
     var self = this.connection;
     this.connection.connect(function (err) {
-        // Stored Procedure 
+        // Stored Procedure
         var request = new sql.Request(self);
 
         if (params.length > 0) {
@@ -71,7 +72,7 @@ DataAccess2.prototype.evidencia = function (msgObj, callback) {
     var self = this.connection;
     this.connection.connect(function (err) {
         for (var i = 0; i < msgObj.length; i++) {
-            // Stored Procedure 
+            // Stored Procedure
             var request = new sql.Request(self);
             request.stream = true;
             request.input('idTipoEvidencia', sql.Numeric(18, 0), msgObj[i].idTipoEvidencia);
@@ -108,7 +109,7 @@ DataAccess2.prototype.datosCopade = function (copadeObj, callback) {
    var self = this.connection;
    this.connection.connect(function (err) {
        for (var i = 0; i < copadeObj.length; i++) {
-           // Stored Procedure 
+           // Stored Procedure
            var request = new sql.Request(self);
            request.stream = true;
            request.input('subTotal', sql.Decimal(18, 2), copadeObj[i].subTotal);

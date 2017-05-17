@@ -11,11 +11,21 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
-        get: function(idUsuario){
+        get: function(idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden){
+          var objConsultaOrden = {
+            idZona: idZona,
+            idEjecutivo: idEjecutivo,
+            Mes: Mes,
+            Inicio: Inicio,
+            Fin: Fin,
+            Fecha: Fecha,
+            NumOrden: NumOrden,
+            EsPorOrden: EsPorOrden
+          };
             return $http({
                 url: searchUrl + 'see/',
                 method: "GET",
-                params: {idUsuario: idUsuario},
+                params: objConsultaOrden,
                 headers: {
                 'Content-Type': 'application/json'
                 }
