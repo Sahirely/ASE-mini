@@ -2,25 +2,22 @@
 <div class="modal-header barra_popup" ng-init="init()">
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
-        <i class="fa fa-warning modal-icon"></i>
         <h4 class="modal-title">{{mensaje}}</h4>
     </div>
 </div>
 <div class="modal-body">
-    <div class="modal-body">
-        <div class="row">
-            <form role="form">
-                <div class="form-group col-xs-10 col-sm-11" ng-show="busqueda == 1">
-                    <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control">
-                </div>
-                <div class="form-group col-xs-10 col-sm-11" ng-show="busqueda == 2">
-                    <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control">
-                </div>
-                <button class="btn btn-success col-xs-2 col-sm-1" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-            </form>
+    <div class="row">
+        <div class="text-center  m-b-lg m-t-sm">
+            <i class="fa fa-warning modal-icon"></i>
         </div>
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-11" ng-show="busqueda == 1">
+                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control">
+            </div>
+            <div class="form-group col-xs-10 col-sm-11" ng-show="busqueda == 2">
+                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control">
+            </div>
+            <button class="btn btn-success col-xs-2 col-sm-1" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+        </form>
     </div>
-</div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-white" data-dismiss="modal" ng-click="close()">Cancelar</button>
 </div>

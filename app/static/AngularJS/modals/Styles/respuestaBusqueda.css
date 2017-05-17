@@ -4,7 +4,7 @@
 
 .modal-icon {
     font-size: 83px;
-    color: #e2e3e3;
+    color: #ea8c25;
 }
 
 .modal-header {
@@ -22,5 +22,11 @@
 }
 
 .modal-body {
-    padding: 20px 30px 10px 30px;
+    padding: 5px 30px 10px 30px;
+}
+
+.modal-header .close {
+    margin-top: -20px;
+    margin-right: -10px;
+    font-size: 30px;
 }
