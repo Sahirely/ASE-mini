@@ -1,20 +1,38 @@
-registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, localStorageService, alertFactory) {
+registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, globalFactory, configuradorRepository, localStorageService, alertFactory) {
 
-	$scope.show_wizard= false;
-	$scope.show_busquedaCliente=true;
+	
 
-	$scope.nuevoCliente = function (){
+	$scope.init= function (){
+		$scope.show_wizard= false;
+		$scope.show_busquedaOperacion=true;
+		$scope.getOperaciones();
+	}
+
+	$scope.nuevaOperacion= function (){
 
 		$scope.show_wizard= true;
-		$scope.show_busquedaCliente=false;
-		$scope.show_cliente=true;
+		$scope.show_busquedaOperacion=false;
+		$scope.show_operacion=true;
 
 	}
 
-	$scope.guardarCliente = function (){
+	 $scope.getOperaciones = function(){
+         $('.dataTableOperacion').DataTable().destroy();
+         $scope.operaciones=[];
+        $scope.promise = configuradorRepository.getOperaciones().then(function (result) {
+        	debugger;
+            if (result.data.length > 0) {
+                $scope.operaciones = result.data;
+                 globalFactory.waitDrawDocument("dataTableOperacion", "Operaciones");
+            }
+        }, function (error) {
+            alertFactory.error('No se puenen obtener las órdenes');
+        });
+    }
+	/*$scope.guardarCliente = function (){
 		$scope.show_cliente=false;
 		$scope.show_operacion=true;
-	}
+	}*/
 
 	$scope.guardarOperacion = function (){
 		$scope.show_operacion=false;

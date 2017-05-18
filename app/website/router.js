@@ -13,5 +13,6 @@
      administracion: require('./controllers/administracion'),
      mobile: require('./controllers/app.controller'),
      busquedaUnidad: require('./controllers/busquedaUnidad'),
-     ordenServicio: require('./controllers/ordenServicio')
+     ordenServicio: require('./controllers/ordenServicio'),
+     configurador: require('./controllers/configurador')
  }
