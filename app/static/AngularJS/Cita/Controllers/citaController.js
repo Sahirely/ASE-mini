@@ -14,28 +14,29 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             forceParse: false,
             calendarWeeks: true,
             autoclose: true,
-            todayHighlight: true
-        });
-        $(document).ready(function() {
-            $('.i-checks').iCheck({
-                checkboxClass: 'icheckbox_square-green',
-                radioClass: 'iradio_square-green',
-            });
+            todayHighlight: true,
+            format: 'dd/mm/yyyy'
         });
     };
-
+    //*****************************************************************************************************************************//
+    // Obtiene el detalle de la unidad como marca, modelo, etc
+    //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
         });
     };
-
+    //*****************************************************************************************************************************//
+    // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
+    //*****************************************************************************************************************************//
     $scope.getTipoOrdenesServicio = function() {
         citaRepository.getTipoOrdenesServicio().then(function(result) {
             $scope.tipoCita = result.data;
         });
     };
-
+    //*****************************************************************************************************************************//
+    // Obtiene los estados  de la unidad por ejemplo en operacion y parada
+    //*****************************************************************************************************************************//
     $scope.getTipoEstadoUnidad = function() {
         citaRepository.getTipoEstadoUnidad().then(function(result) {
             $scope.estadoUnidad = result.data;
@@ -48,6 +49,19 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getModalPartidas = function() {
         $('.modal-dialog').css('width', '1050px');
         modal_partidas($scope, $modal);
+    };
+    //*****************************************************************************************************************************//
+    // Se inserta la orden de servicio en la base de datos 
+    //*****************************************************************************************************************************//
+    $scope.agendarCita = function() {
+        console.log($scope.tipoDeCita,
+            $scope.estadoDeUnidad,
+            $scope.grua,
+            $scope.fechaCita,
+            $scope.horaCita,
+            $scope.comentarios,
+            $scope.servicio
+        );
     };
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
