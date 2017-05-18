@@ -117,8 +117,8 @@
                                         <td></td>
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
-                                        <td></td> 
-                                        <td></td>           
+                                        <td>{{ordenesTaller.fechaCreacionOden  | date:'dd/MM/yyyy hh:mm'}}</td>
+                                        <td>{{ordenesTaller.comentarioOrden}}</td>         
                                         <td>{{ordenesTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
@@ -160,7 +160,7 @@
                                     <td>{{ordenesSinTaller.numeroOrden}}</td>
                                     <td>{{ordenesSinTaller.numeroEconomico}}</td>
                                     <td></td>
-                                    <td></td>
+                                    <td>{{ordenesSinTaller.comentarioOrden}}</td>
                                     <td></td>
                                     <td>{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
                                     <td></td>
