@@ -148,7 +148,7 @@ OrdenServicio.prototype.get_getOrdenDetalle = function (req, res, next) {
         type: self.model.types.STRING
     }];
 
-    this.model.query('SEL_EXISTE_ORDEN_SP', params, function (error, result) {
+    this.model.query('SEL_DETALLE_ORDEN_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
