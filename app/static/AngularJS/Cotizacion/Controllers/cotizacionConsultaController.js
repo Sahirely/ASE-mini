@@ -1,4 +1,4 @@
-registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, cotizacionConsultaRepository, dashBoardRepository) {
+registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, cotizacionConsultaRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -37,7 +37,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function(PorOrden) {
       if (PorOrden == 1){
-        $scope.promise = cotizacionConsultaRepository.get(null, null, null, null, null, null, $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden).then(function (result) {
+        $scope.promise = cotizacionConsultaRepository.get($scope.userData.idUsuario, null, null, null, null, null, null, $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden).then(function (result) {
                if (result.data.length > 0) {
                    $scope.cotizaciones = result.data;
                    globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
@@ -49,7 +49,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
            });
       } else if(PorOrden == 0){
-        $scope.promise = cotizacionConsultaRepository.get($scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), null, PorOrden).then(function (result) {
+        $scope.promise = cotizacionConsultaRepository.get($scope.userData.idUsuario, $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), null, PorOrden).then(function (result) {
                if (result.data.length > 0) {
                    $scope.cotizaciones = result.data;
                    globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
@@ -65,7 +65,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //obtiene las zonas
     $scope.devuelveZonas = function() {
-        dashBoardRepository.getZonas($scope.userData.idUsuario).then(function(zonas) {
+        cotizacionConsultaRepository.getZonas($scope.userData.idUsuario).then(function(zonas) {
             if (zonas.data.length > 0) {
                 $scope.zonas = zonas.data;
             }
@@ -76,7 +76,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //obtiene los usuarios ejecutivos
     $scope.devuelveEjecutivos = function(){
-        cotizacionConsultaRepository.obtieneEjecutivos().then(function(ejecutivos){
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.idUsuario).then(function(ejecutivos){
             if(ejecutivos.data.length > 0){
                 $scope.listaEjecutivos = ejecutivos.data;
             }
@@ -89,18 +89,50 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
         $scope.fecha = '';
-    }
+    };
 
     $scope.RangoChange = function(){
         $scope.fechaMes = '';
         $scope.fecha = '';
-    }
+        this.ValidaRangoFechas();
+    };
 
     $scope.FechaChange = function(){
         $scope.fechaMes = '';
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
-    }
+    };
+
+    $scope.ValidaRangoFechas = function(){
+      var isValid = true;
+
+      //valida si están seleccionadas ambas fechas del rango
+      if ($scope.fechaInicio != '' && $scope.fechaFin != ''){
+          var fechaInicial = $scope.fechaInicio.split('/');
+          var fechaFinal = $scope.fechaFin.split('/');
+
+          //valida el anio
+          if(parseInt(fechaInicial[2]) > parseInt(fechaFinal[2])){
+              isValid = false;
+          }else if(parseInt(fechaInicial[2]) == parseInt(fechaFinal[2])){
+              //valida el mes
+              if(parseInt(fechaInicial[0]) > parseInt(fechaFinal[0])){
+                  isValid = false;
+              }else if(parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])){
+                  //valida el día
+                  if(parseInt(fechaInicial[1]) > parseInt(fechaFinal[1])){
+                    isValid = false;
+                  }
+              }
+          }
+
+          if(isValid == false){
+              $scope.fechaInicio = '';
+              $scope.fechaFin = '';
+              alertFactory.info('La Fecha de Fin Debe Ser Posterior a la Fecha de Inicio.');
+          }
+      }
+    };
 
     //obtiene el mes en formato de fecha
     $scope.obtieneFechaMes = function() {
@@ -159,10 +191,10 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                     }
                 });
         });
-    }
+    };
 
     $scope.AutorizacionDetalle = function (nOrden) {
         location.href = "/detalle?orden=" + nOrden;
-    }
+    };
 
 });

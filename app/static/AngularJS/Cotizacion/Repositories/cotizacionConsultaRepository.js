@@ -2,17 +2,33 @@ var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
 registrationModule.factory('cotizacionConsultaRepository', function ($http) {
     return {
-        obtieneEjecutivos: function(){
+        getZonas: function (idUsuario) {
+            return $http({
+                url: searchUrl + 'zonas/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        obtieneEjecutivos: function(idUsuario){
             return $http({
                 url: searchUrl + 'ejecutivos/',
                 method: "GET",
+                params: {
+                    idUsuario: idUsuario
+                },
                 headers: {
                 'Content-Type': 'application/json'
                 }
             });
         },
-        get: function(idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden){
+        get: function(idUsuario, idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden){
           var objConsultaOrden = {
+            idUsuario: idUsuario,
             idZona: idZona,
             idEjecutivo: idEjecutivo,
             Mes: Mes,
@@ -30,47 +46,47 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
-        },
-        busquedaPieza: function(){
-        	return $http({
-        		url: searchUrl + 'buscar',
-        		method: "GET"
-        	});
-        },
-        getDetail: function (idCotizacion, idTaller, idUsuario) {
-            var objCotizacion = {
-                idCotizacion: idCotizacion,
-                idTaller: idTaller,
-                idUsuario: idUsuario
-            };
-
-            return $http({
-                url: searchUrl + 'detail',
-                method: "GET",
-                params: objCotizacion,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            /*return $http({
-                url: searchUrl + 'detail/' + idCotizacion,
-                method: "POST"
-            });*/
-        },
-        cancelaOrden: function (idTrabajo,idCotizacion) {
-            var msgObj = {
-                idTrabajo: idTrabajo,
-                idCotizacion:idCotizacion
-            }
-            return $http({
-                url: searchUrl + 'cancelacionOrden',
-                method: "POST",
-                data: msgObj,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        }
+        }//,
+        // busquedaPieza: function(){
+        // 	return $http({
+        // 		url: searchUrl + 'buscar',
+        // 		method: "GET"
+        // 	});
+        // },
+        // getDetail: function (idCotizacion, idTaller, idUsuario) {
+        //     var objCotizacion = {
+        //         idCotizacion: idCotizacion,
+        //         idTaller: idTaller,
+        //         idUsuario: idUsuario
+        //     };
+        //
+        //     return $http({
+        //         url: searchUrl + 'detail',
+        //         method: "GET",
+        //         params: objCotizacion,
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     });
+        //     /*return $http({
+        //         url: searchUrl + 'detail/' + idCotizacion,
+        //         method: "POST"
+        //     });*/
+        // },
+        // cancelaOrden: function (idTrabajo,idCotizacion) {
+        //     var msgObj = {
+        //         idTrabajo: idTrabajo,
+        //         idCotizacion:idCotizacion
+        //     }
+        //     return $http({
+        //         url: searchUrl + 'cancelacionOrden',
+        //         method: "POST",
+        //         data: msgObj,
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     });
+        // }
 
     };
 });

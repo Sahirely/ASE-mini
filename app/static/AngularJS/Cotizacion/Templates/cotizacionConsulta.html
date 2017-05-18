@@ -10,11 +10,11 @@
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                     <label class="font-noraml">Zona</label>
                     <select class="form-control m-b" id="zona" ng-model="zonaSelected"
-                    ng-options="zona.idZona as zona.descripcionZona for zona in zonas">
+                    ng-options="zona.idZona as zona.nombre for zona in zonas">
                         <option value="">Seleccione una Zona</option>
                     </select>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-show="userData.idTipoUsuario == 1">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-show="userData.idTipoUsuario == 2">
                     <label class="font-noraml">Ejecutivo</label>
                     <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected"
                     ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
@@ -68,9 +68,9 @@
                     </button>
                 </div>
                 <div class="col-xs-12 col-sm-7 col-md-6 col-lg-7 radio radio-warning">
-                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><input type="radio" value="" id="rdTodas" ng-model="filtroEstatus"><label for="rdTodas"> Todos </label></div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="1" id="rdPendientes" ng-model="filtroEstatus"><label for="rdPendientes"> Pendientes </label></div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="2" id="rdEnProceso" ng-model="filtroEstatus"><label for="rdEnProceso"> En Proceso </label></div>
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus"><label for="rdTodas"> Todos </label></div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="1" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus"><label for="rdPendientes"> Pendientes </label></div>
+                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="2" id="rdEnProceso" name="opcionEstatus" ng-model="filtroEstatus"><label for="rdEnProceso"> En Proceso </label></div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -122,7 +122,7 @@
                                               <td hidden="hidden">{{cotizacion.EstatusAprobacion}}}</td>
                                               <td>{{cotizacion.TiempoEspera}}</td>
                                               <td>
-                                                  <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="Autorizacion(cotizacion.idCita, cotizacion.idCotizacion, cotizacion.idUnidad, cotizacion.numeroCotizacion, cotizacion.idTrabajo, cotizacion.idTaller, cotizacion.idCliente)">
+                                                  <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacionNumeroOrden)">
                                                       <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
                                                   </button>
                                                   <button ng-hide="userData.idTipoUsuario == 4 || userData.idTipoUsuario == 3" class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idTrabajo,cotizacion.idCotizacion)">
