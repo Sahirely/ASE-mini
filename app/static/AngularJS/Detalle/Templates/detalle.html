@@ -161,12 +161,12 @@
                             <div class="hr-line-dashed"></div>
                         </div>
                         <!--Aprobaciones Servicios-->
-                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" ng-show="orden.IdTipoOrden = 2">
+                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont" ng-show="orden.IdTipoOrden = 2">
                             <table class="table invoice-total">
                                 <tbody>
                                     <tr>
                                         <td><strong>SUBTOTAL :</strong></td>
-                                        <td>{{ vistaPrecio == 1 ? sumaPrecioTotal : sumaPrecioTotalCliente | currency}}</td>
+                                        <td>$236636.23</td>
                                     </tr>
                                     <tr>
                                         <td><strong>I.V.A :</strong></td>
@@ -179,7 +179,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="row" ng-show="orden.idTipoOrden = 2" ng-repeat="">
+                        <div class="row smallerFont" ng-show="orden.idTipoOrden = 2" ng-repeat="">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-body">
@@ -289,7 +289,7 @@
                             </div>
                         </div>
                         <!--Aprobaciones Grua-->
-                        <div class="row" ng-show="orden.idTipoOrden = 1">
+                        <div class="row smallerFont" ng-show="orden.idTipoOrden = 1">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="panel panel-default">
                                     <div class="panel-body">

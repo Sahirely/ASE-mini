@@ -51,6 +51,12 @@
         }
     }
 
+    @media (max-width: 400px){
+        .smallerFont {
+            font-size: x-small;
+        }
+    }
+
     .progressBarra {
         width: 75%;
         height: 30px;
