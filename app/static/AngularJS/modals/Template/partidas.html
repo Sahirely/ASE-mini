@@ -7,10 +7,73 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-xs-5">
+        <div class="col-sm-5">
             <input type="text" placeholder="Búsqueda: Servicio/Paquete/Refacción" ng-model="pieza" class="form-control" ng-enter="getPieza(pieza)">
         </div>
-        <div class="col-xs-0">
+        <div class="col-sm-0">
+            <button id="btnBuscarPieza" busy="Buscando.." type="button" class="btn btn-primary glyphicon glyphicon-search" ng-click="getPieza(pieza)"></button>
+        </div>
+        <br/>
+        <div class="row tablaBusqueda tablaAlign" cg-busy="{promise:promise,message:message}">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover dataTablePiezaTaller">
+                    <thead>
+                        <th>No.Partida</th>
+                        <th>No.Parte</th>
+                        <th>Descripción</th>
+                        <th>Agregar</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="pieza in piezas">
+                            <td>{{ pieza.numeroPartida }}</td>
+                            <td>{{ pieza.numeroParte }}</td>
+                            <td>{{pieza.item}}</td>
+                            <td>
+                                <button class="btn btn-success glyphicon glyphicon-plus" type="button" id="btnCotizar" ng-click="addPieza(pieza)">
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <th>No.Partida</th>
+                    <th>No.Parte</th>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Eliminar</th>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="pieza in listaPiezas | itemsPerPage:3" pagination-id="listaPiezasSeleccionadas">
+                        <td>{{pieza.numeroPartida }}</td>
+                        <td>{{pieza.numeroParte}}</td>
+                        <td>{{pieza.item}}</td>
+                        <td>{{pieza.cantidad}}</td>
+                        <td>
+                            <button class="btn btn-danger glyphicon glyphicon-remove" type="button" id="btnCotizar" ng-click="removePieza(pieza.idItem)">
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="paginationTaller">
+                <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" pagination-id="listaPiezasSeleccionadas">
+                </dir-pagination-controls>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="generarCitaServicio(pieza)"><span class="glyphicon glyphicon-saved"></span><strong> Generar Pre-orden</strong></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <input type="text" placeholder="Búsqueda: Servicio/Paquete/Refacción" ng-model="pieza" class="form-control" ng-enter="getPieza(pieza)">
+        </div>
+        <div class="col-sm-0">
             <button id="btnBuscarPieza" busy="Buscando.." type="button" class="btn btn-primary glyphicon glyphicon-search" ng-click="getPieza(pieza)"></button>
         </div>
     </div>
