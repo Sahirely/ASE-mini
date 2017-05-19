@@ -156,5 +156,18 @@ OrdenServicio.prototype.get_getOrdenDetalle = function (req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_getTalleres = function (req, res, next) {
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_TALLER_PRUEBA_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 
 module.exports = OrdenServicio;
+

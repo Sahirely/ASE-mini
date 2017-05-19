@@ -92,6 +92,16 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+         getTalleres: function() {
+            return $http({
+                url: consultaCitaUrl + 'getTalleres/',
+                method: "GET",
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
         }
     };
 });

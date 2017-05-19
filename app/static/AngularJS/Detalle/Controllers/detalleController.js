@@ -10,16 +10,16 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.init = function() {
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden)
         $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden)
+        $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden)
     };
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
-                console.log($scope.detalleOrden)
             }
         }, function(error) {
-            alertFactory.error('No se puenen obtener los detalles de las órdenes');
+            alertFactory.error('No se puede obtener los detalles de la orden');
         });
     }
 
@@ -29,8 +29,19 @@ registrationModule.controller('detalleController', function($scope, $location, c
                 $scope.detalleCliente = result.data[0];
             }
         }, function(error) {
-            alertFactory.error('No se puenen obtener los detalles de las órdenes');
+            alertFactory.error('No se puede obtener los detalles del cliente');
         });
     }
+
+    $scope.getOrdenDocumentos = function(idUsuario, orden) {
+        consultaCitasRepository.getOrdenDocumentos(idUsuario, orden).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.detalleDocumentos = result.data[0];
+            }
+        }, function(error) {
+            alertFactory.error('No se puede obtener los documentos de la orden');
+        });
+    }
+
 
 });
