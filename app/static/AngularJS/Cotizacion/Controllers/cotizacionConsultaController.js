@@ -7,8 +7,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.filtroEstatus = '';
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
-    $scope.userData = localStorageService.get('userData');
-    $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
+    $scope.idUsuario = '2';
+    // $scope.userData = localStorageService.get('userData');
+    // $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
     $scope.datosCita = {
             idCita: ''
         }
@@ -16,28 +17,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.init = function () {
         $scope.devuelveZonas();
         $scope.devuelveEjecutivos();
-        $('#calendar .input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: true,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true,
-            todayHighlight: true
-        });
-        $('#divfechaMes .input-group.date').datepicker({
-            minViewMode: 1,
-            keyboardNavigation: false,
-            forceParse: false,
-            autoclose: true,
-            todayHighlight: true,
-            format: 'MM-yyyy'
-        });
     }
 
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function(PorOrden) {
       if (PorOrden == 1){
-        $scope.promise = cotizacionConsultaRepository.get($scope.userData.idUsuario, null, null, null, null, null, null, $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden).then(function (result) {
+        $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, null, null, null, null, null, null, $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden).then(function (result) {
                if (result.data.length > 0) {
                    $scope.cotizaciones = result.data;
                    globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
@@ -49,7 +34,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
            });
       } else if(PorOrden == 0){
-        $scope.promise = cotizacionConsultaRepository.get($scope.userData.idUsuario, $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), null, PorOrden).then(function (result) {
+        $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), null, PorOrden).then(function (result) {
                if (result.data.length > 0) {
                    $scope.cotizaciones = result.data;
                    globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
@@ -65,7 +50,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //obtiene las zonas
     $scope.devuelveZonas = function() {
-        cotizacionConsultaRepository.getZonas($scope.userData.idUsuario).then(function(zonas) {
+        cotizacionConsultaRepository.getZonas($scope.idUsuario).then(function(zonas) {
             if (zonas.data.length > 0) {
                 $scope.zonas = zonas.data;
             }
@@ -76,7 +61,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //obtiene los usuarios ejecutivos
     $scope.devuelveEjecutivos = function(){
-        cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.idUsuario).then(function(ejecutivos){
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.idUsuario).then(function(ejecutivos){
             if(ejecutivos.data.length > 0){
                 $scope.listaEjecutivos = ejecutivos.data;
             }
@@ -168,8 +153,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       return result;
   };
 
-    //Abre la modal para la cancelación de la orden
-    $scope.cancelarAprobacion = function (idTrabajo,idCotizacion) {
+    //Abre la modal para confirmar la cancelación de la orden
+    $scope.cancelarAprobacion = function (idCotizacion) {
         $('.btnTerminarTrabajo').ready(function () {
             swal({
                     title: "¿Esta seguro que desea cancelar la cotización?",
@@ -183,14 +168,22 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        //$scope.cancelarOrden(idTrabajo,idCotizacion);
-                        swal("Trabajo terminado!", "La órden se ha cancelado");
+                        $scope.cancelarOrden(idCotizacion);
                         location.href = '/cotizacionconsulta';
                     } else {
-                        swal("No cancelada");
+                        swal("Cotizacion no cancelada");
                     }
                 });
         });
+    };
+
+    $scope.cancelarCotizacion = function(idCotizacion) {
+        $scope.promise = cotizacionConsultaRepository.cancelaCotizacion($scope.idUsuario, idCotizacion).then(function () {
+               swal("Trabajo terminado!", "La cotización se ha cancelado");
+         },
+         function (error) {
+             alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
+         });
     };
 
     $scope.AutorizacionDetalle = function (nOrden) {

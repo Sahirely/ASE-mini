@@ -8,7 +8,7 @@ registrationModule.directive('capitalize', function() {
            if(capitalized !== inputValue) {
               modelCtrl.$setViewValue(capitalized);
               modelCtrl.$render();
-            }         
+            }
             return capitalized;
          }
          modelCtrl.$parsers.push(capitalize);
@@ -133,14 +133,18 @@ registrationModule.directive('calendar', function () {
         require: 'ngModel',
         link: function (scope, el, attr, ngModel) {
             $(el).datepicker({
-              keyboardNavigation: false,
-              forceParse: false,
-              autoclose: true
+                todayBtn: "linked",
+                keyboardNavigation: false,
+                forceParse: false,
+                calendarWeeks: true,
+                autoclose: true,
+                todayHighlight: true,
+                format: 'dd/mm/yyyy'
           });
         }
     };
 
-}); 
+});
 
 registrationModule.directive('mes', function () {
 
@@ -159,8 +163,8 @@ registrationModule.directive('mes', function () {
         }
     };
 
-}); 
-        
+});
+
 
 function isValidName(strToEvaluate) {
     var onlyLetters = /^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ ]*$/;

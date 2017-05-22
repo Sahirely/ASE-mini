@@ -2,6 +2,17 @@ var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
 registrationModule.factory('cotizacionConsultaRepository', function ($http) {
     return {
+        cancelaCotizacion: function(idUsuario, idCotizacion){
+          return $http({
+              url: searchUrl + 'cancelaCot',
+              method: "POST",
+              params: {
+                  idUsuario: idUsuario,
+                  idCotizacion: idCotizacion
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
+        },
         getZonas: function (idUsuario) {
             return $http({
                 url: searchUrl + 'zonas/',
@@ -46,7 +57,8 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
-        }//,
+        }
+        //,
         // busquedaPieza: function(){
         // 	return $http({
         // 		url: searchUrl + 'buscar',

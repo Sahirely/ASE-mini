@@ -122,6 +122,27 @@ Cotizacion.prototype.get_ejecutivos = function(req, res, next){
   });
 }
 
+Cotizacion.prototype.post_cancelaCot = function(req, res, next){
+  var self = this;
+  var params = [
+      {
+        name: 'idusuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+      },{
+        name: 'idcotizacion',
+        value: req.query.idCotizacion,
+        type: self.model.types.INT
+      }];
+
+      this.model.query('UPD_CANCELA_COTIZACION_SP',params, function (error, result) {
+          self.view.expositor(res, {
+              error: error,
+              result: result
+          });
+      });
+}
+
 //
 // //Obtener el tipo de archivo
 // var obtenerTipoArchivo = function (ext) {
