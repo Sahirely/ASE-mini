@@ -56,7 +56,7 @@
         }
     }
 
-    @media (max-width: 400px){
+    @media (max-width: 500px){
         .smallerFont {
             font-size: x-small;
         }
