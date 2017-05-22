@@ -102,6 +102,18 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
+        },
+        getPartidasTaller: function(idTaller) {
+            return $http({
+                url: consultaCitaUrl + 'getPartidasTaller/',
+                method: "GET",
+                params: {
+                    idTaller: idTaller
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

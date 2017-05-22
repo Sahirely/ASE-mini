@@ -6,14 +6,18 @@
         <span class="title title-xs">Cotizaciones</span>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div align="right">
-                <label>Descripción de la Orden:</label>
-                <span>{{trabajo}}</span>
-                <br/>
-                <label>Número Economico: </label>
-                <span>{{numEconomico}}</span>
-                <br/>
-                <label>Marca-Modelo: </label>
-                <span>{{modeloMarca}}</span>
+                <p>
+                    <label>Descripción de la Orden:</label>
+                    <span>{{detalleOrden.comentarioOrden}}</span>
+                </p>
+                <p>
+                    <label>Número Economico: </label>
+                    <span>{{detalleOrden.numeroEconomico}}</span>
+                </p>
+                <p>
+                    <label>Marca-Modelo: </label>
+                    <span>{{detalleOrden.marca}}</span>
+                </p>
             </div>
         </div>
     </div>
@@ -22,7 +26,12 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <select class="form-control m-b" name="tar" ng-model="selectedTipo.idTipoCotizacion" ng-options="tipo.idTipoCotizacion as tipo.cotizacion for tipo in tipoCotizaciones" ng-disabled="verificaRefaccion == 4">
+                                    <option value="">Seleccione el tipo de cotización</option>
+                                </select>
+                            </div>
                             <div class="col-xs-12 col-sm-6 col-md-6col-lg-6">
                                 <div class="col-xs-10">
                                     <input type="text" placeholder="Buscar Taller" ng-model="partida" class="form-control" ng-enter="">
@@ -32,9 +41,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div align="left">
+                                <label>Taller:</label>
+                                <span>{{datosTaller.razonSocial}}</span>
+                                <br/>
+                                <label>Dirección: </label>
+                                <span>{{datosTaller.direccion}}</span>
+                                <br/>
+                                <label>Zona: </label>
+                                <span>{{modeloMarca}}</span>
+                            </div>
                             <br/>
                             <br/>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                             <div class="table-responsive">
                                 <table class="table table-bordered dataTableTalleres">
                                     <thead>
@@ -49,6 +70,33 @@
                                             <td>{{ taller.razonSocial }}</td>
                                             <td>{{ taller.direccion }}</td>
                                             <td align="center">
+                                                <div class="radio radio-info radio-inline">
+                                                    <input type="radio" id="inlineRadio3" value="taller.idTaller" name="radioInline3" checked="" ng-model="grua" ng-click="seleccionarTaller(taller)">
+                                                    <label for="inlineRadio3"> </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="table-responsive">
+                                <table class="table table-bordered dataTableItem dataTablePartidasSeleccionadas">
+                                    <thead>
+                                        <tr>
+                                            <th>No.Partida</th>
+                                            <th>Cantidad</th>
+                                            <th>Precio Unitario</th>
+                                            <th>Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada" ng-class="">
+                                            <td>{{ lstPartidaSeleccionada.idPartida }}</td>
+                                            <td>{{ lstPartidaSeleccionada.cantidad }}</td>
+                                            <td>{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                                            <td>
                                                 <button class="btn btn-success" type="button" id="btnCotizar" ng-click="cotizar(piezas)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
@@ -57,44 +105,38 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <br/>
-                            <br/>
-                            <br/>
+                            <table class="table invoice-total">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>SUBTOTAL :</strong></td>
+                                        <td>{{ subTotal | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>I.V.A :</strong></td>
+                                        <td>{{ ivaSubTotal | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TOTAL :</strong></td>
+                                        <td>{{ total | currency}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div align="left">
-                                <label>Taller:</label>
-                                <span>{{trabajo}}</span>
-                                <br/>
-                                <label>Dirección: </label>
-                                <span>{{numEconomico}}</span>
-                                <br/>
-                                <label>Zona: </label>
-                                <span>{{modeloMarca}}</span>
-                            </div>
-                            <br/>
-                            <br/>
-                        </div>
-                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <select class="form-control m-b" name="tar" ng-model="selectedTipo.idTipoCotizacion" ng-options="tipo.idTipoCotizacion as tipo.cotizacion for tipo in tipoCotizaciones" ng-disabled="verificaRefaccion == 4">
-                                    <option value="">Seleccione el tipo de cotización</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6col-lg-6">
-                                <div class="col-xs-10">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
+                            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                                <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
                                     <input type="text" placeholder="Introduzca servicio o refacción" ng-model="partida" class="form-control" ng-enter="buscarPieza(partida)">
                                 </div>
-                                <div class="col-xs-0">
+                                <div class="col-xs-1">
                                     <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="buscarPieza(partida)" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right"><span class="glyphicon glyphicon-search dim"></span></button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                             <br/>
                             <br/>
-                            <div class="table-responsive scroll_content">
-                                <table class="table table-bordered dataTableItem">
+                            <div class="table-responsive ">
+                                <table class="table table-bordered dataTablePartidasTalleres ">
                                     <thead>
                                         <tr>
                                             <th>No.Partida</th>
@@ -105,13 +147,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="piezas in listaPiezas" ng-class="{'rowVerde': piezas.idNivelAutorizacion==1, 'rowAzul': piezas.idNivelAutorizacion == 2, 'rowAmarillo' : piezas.idNivelAutorizacion == 3, 'rowRojo': piezas.idNivelAutorizacion == 4}">
-                                            <td>{{ piezas.numeroPartida }}</td>
-                                            <td>{{ piezas.numeroParte }}</td>
-                                            <td>{{ piezas.item }}</td>
-                                            <td>{{ piezas.precio | currency}}</td>
+                                        <tr ng-repeat="partidasTaller in partidasTaller" ng-class="">
+                                            <td>{{ partidasTaller.idPartida }}</td>
+                                            <td>{{ partidasTaller.numeroParte }}</td>
+                                            <td>{{ partidasTaller.descripcion }}</td>
+                                            <td>{{ partidasTaller.precio | currency}}</td>
                                             <td>
-                                                <button class="btn btn-success" type="button" id="btnCotizar" ng-click="cotizar(piezas)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
+                                                <button class="btn btn-success" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                 </button>
                                             </td>
@@ -119,35 +161,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                                <br/>
+                            <br/>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
-                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary"  ng-click="buscarPieza(partida)" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                            <div class="table-responsive">
-                                <table class="table table-bordered dataTableItem scroll_content">
-                                    <thead>
-                                        <tr>
-                                            <th>No.Partida</th>
-                                            <th>Cantidad</th>
-                                            <th>Precio Unitario</th>
-                                            <th>Acción</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="piezas in listaPiezas" ng-class="{'rowVerde': piezas.idNivelAutorizacion==1, 'rowAzul': piezas.idNivelAutorizacion == 2, 'rowAmarillo' : piezas.idNivelAutorizacion == 3, 'rowRojo': piezas.idNivelAutorizacion == 4}">
-                                            <td>{{ piezas.numeroPartida }}</td>
-                                            <td>{{ piezas.item }}</td>
-                                            <td>{{ piezas.precio | currency}}</td>
-                                            <td>
-                                                <button class="btn btn-success" type="button" id="btnCotizar" ng-click="cotizar(piezas)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="buscarPieza(partida)" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
                             </div>
                         </div>
                     </div>

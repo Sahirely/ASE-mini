@@ -168,6 +168,22 @@ OrdenServicio.prototype.get_getTalleres = function (req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_getPartidasTaller = function (req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idTaller',
+        value: req.query.idTaller,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_PARTIDAS_PRUEBA_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 
 module.exports = OrdenServicio;
 
