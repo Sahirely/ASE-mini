@@ -94,16 +94,11 @@
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
                                             <p>
-                                                <label>Usuario Modifico</label>
+                                                <label>Usuario que Modificó</label>
                                             </p>
                                             <p class="text-camelCase">
                                                 {{'Juan Perez'.toLowerCase()}}
                                             </p>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12">
-                                            <button class="btn btn-success pull-right" ng-click="btnAgendarCita()">
-                                                <i class="fa fa-calendar"></i> Agendar Cita
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -113,8 +108,8 @@
                             <h3>Orden de Servicio Actual</h3>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <div class="table-responsive" ng-show="muestraOrdenActual">
+                                <table class="table table-bordered table-hover dataTables-example">
                                     <thead>
                                         <tr>
                                             <th>Fecha</th>
@@ -127,27 +122,33 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="gradeX">
-                                            <td>{{ '11/05/2017' | date }}</td>
-                                            <td>{{'Taller'}}</td>
-                                            <td>{{'Dirección'}}</td>
-                                            <td class="center">{{'Descripción'}}</td>
-                                            <td class="center">{{'Agendó'}}</td>
-                                            <td>{{'Estatus'}}</td>
-                                            <td>
-                                                <button class="btn btn-success"><i class="fa fa-eye"></i></button>
+                                        <tr ng-repeat="orden in ordendesActual">
+                                            <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
+                                            <td>{{ orden.taller}}</td>
+                                            <td>{{ orden.direccion}}</td>
+                                            <td>{{orden.descripcion}}</td>
+                                            <td>{{orden.nombreCompleto}}</td>
+                                            <td>{{orden.estatusOrden}}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-success" ng-click="detalleOrden(orden)"><i class="fa fa-eye"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="col-xs-12 col-sm-12" ng-show="agendarCita">
+                                <label ng-hide="muestraOrdenActual">{{ordendesActual[0].mensaje}}</label>
+                                <button class="btn btn-success pull-right" ng-click="btnAgendarCita()">
+                                    <i class="fa fa-calendar"></i> Agendar Cita
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 scol-lg-12">
+                            <h3>Histórico de Órdenes</h3>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
-                            <h3>Histórico de Ordenes</h3>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <div class="table-responsive" ng-show="muestraHistorial">
+                                <table class="table table-bordered table-hover dataTables-example">
                                     <thead>
                                         <tr>
                                             <th>Fecha</th>
@@ -160,19 +161,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="gradeX">
-                                            <td>{{ '11/05/2017' | date }}</td>
-                                            <td>{{'Taller'}}</td>
-                                            <td>{{'Dirección'}}</td>
-                                            <td class="center">{{'Descripción'}}</td>
-                                            <td class="center">{{'Agendó'}}</td>
-                                            <td>{{'Estatus'}}</td>
-                                            <td>
-                                                <button class="btn btn-success"><i class="fa fa-eye"></i></button>
+                                        <tr ng-repeat="historialOrden in historialOrdenes">
+                                            <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
+                                            <td>{{ historialOrden.taller}}</td>
+                                            <td>{{ historialOrden.direccion}}</td>
+                                            <td>{{historialOrden.descripcion}}</td>
+                                            <td>{{historialOrden.nombreCompleto}}</td>
+                                            <td>{{historialOrden.estatusOrden}}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-success" ng-click="detalleOrden(historialOrden)"><i class="fa fa-eye"></i></button>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="col-xs-12 col-sm-12" ng-hide="muestraHistorial">
+                                <label ng-hide="muestraOrdenActual">{{historialOrdenes[0].mensaje}}</label>
                             </div>
                         </div>
                     </div>

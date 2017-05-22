@@ -57,4 +57,45 @@ busquedaUnidad.prototype.get_existeUnidad = function(req, res, next) {
     });
 };
 
+//Obtiene la o las Ordenes de Servicio Actual 
+busquedaUnidad.prototype.get_ordenActual = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'economico',
+        value: req.query.economico,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('SEL_ORDENES_ACTUAL_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+};
+//Obtiene el historico de la o las Ordenes de Servicio
+busquedaUnidad.prototype.get_historicoOrdenes = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'economico',
+        value: req.query.economico,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('SEL_ORDENES_HISTORIAL_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+};
+
 module.exports = busquedaUnidad;

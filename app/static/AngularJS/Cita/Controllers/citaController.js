@@ -24,6 +24,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
+            console.log($scope.detalleUnidad);
+            if ($scope.detalleUnidad.situacionOrden == 1) {
+                location.href = '/unidad?economico=' + $routeParams.economico;
+            }
         });
     };
     //*****************************************************************************************************************************//
@@ -54,15 +58,20 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     // Se inserta la orden de servicio en la base de datos 
     //*****************************************************************************************************************************//
     $scope.agendarCita = function() {
-        console.log($scope.tipoDeCita,
-            $scope.estadoDeUnidad,
+        console.log($scope.tipoDeCita.idTipoCita,
+            $scope.estadoDeUnidad.idEstadoUnidad,
             $scope.grua,
             $scope.fechaCita,
             $scope.horaCita,
-            $scope.comentarios,
-            $scope.servicio
+            $scope.comentarios
         );
+        var fecha = $scope.fechaCita.split('/');
+        var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
+        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, 1, 0).then(function(result) {
+            console.log(result, 'Soy el resultado al insertar la orden de servicio')
+        });
     };
+
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//

@@ -40,6 +40,57 @@ Cita.prototype.get_tipoEstadoUnidad = function(req, res, next) {
     });
 }
 
+Cita.prototype.put_agendarCita = function(req, res, next) {
+    var self = this;
+    console.log(req.query.fechaCita)
+    var params = [{
+        name: 'idUnidad',
+        value: req.query.idUnidad,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idTipoOrdenServicio',
+        value: req.query.idTipoOrdenServicio,
+        type: self.model.types.INT
+    }, {
+        name: 'idEstadoUnidad',
+        value: req.query.idEstadoUnidad,
+        type: self.model.types.INT
+    }, {
+        name: 'grua',
+        value: req.query.grua,
+        type: self.model.types.INT
+    }, {
+        name: 'fechaCita',
+        value: req.query.fechaCita,
+        type: self.model.types.STRING
+    }, {
+        name: 'comentario',
+        value: req.query.comentario,
+        type: self.model.types.STRING
+    }, {
+        name: 'idZona',
+        value: req.query.idZona,
+        type: self.model.types.INT
+    }, {
+        name: 'taller',
+        value: req.query.taller,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('INS_ORDEN_SERVICIO_SP', params, function(error, result) {
+        console.log(result)
+        console.log(error)
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 // //obtiene el trabajo de la cita
 // Cita.prototype.get_unidad = function (req, res, next) {
 //     //Con req.query se obtienen los parametros de la url

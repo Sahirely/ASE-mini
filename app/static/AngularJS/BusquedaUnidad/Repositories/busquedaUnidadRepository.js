@@ -35,6 +35,32 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getOrdenActual: function(idUsuario, economico) {
+            return $http({
+                url: busquedaUnidadUrl + 'ordenActual/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario,
+                    economico: economico
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getHistoricoOrdenes: function(idUsuario, economico) {
+            return $http({
+                url: busquedaUnidadUrl + 'historicoOrdenes/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario,
+                    economico: economico
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

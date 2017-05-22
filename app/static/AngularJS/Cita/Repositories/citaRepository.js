@@ -6,20 +6,40 @@ registrationModule.factory('citaRepository', function($http, $q) {
 
     return {
         getTipoOrdenesServicio: function() {
+            return $http({
+                url: citaUrl + 'tiposOrdenesServicio/',
+                method: "GET",
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        getTipoEstadoUnidad: function() {
+            return $http({
+                url: citaUrl + 'tipoEstadoUnidad/',
+                method: "GET",
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller) {
                 return $http({
-                    url: citaUrl + 'tiposOrdenesServicio/',
-                    method: "GET",
-                    params: {},
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-            },
-            getTipoEstadoUnidad: function() {
-                return $http({
-                    url: citaUrl + 'tipoEstadoUnidad/',
-                    method: "GET",
-                    params: {},
+                    url: citaUrl + 'agendarCita/',
+                    method: "PUT",
+                    params: {
+                        idUnidad: idUnidad,
+                        idUsuario: idUsuario,
+                        idTipoOrdenServicio: idTipoCita,
+                        idEstadoUnidad: idEstadoUnidad,
+                        grua: grua,
+                        fechaCita: fechaCita,
+                        comentario: comentario,
+                        idZona: idZona,
+                        taller: taller
+                    },
                     headers: {
                         'Content-Type': 'application/json'
                     }
