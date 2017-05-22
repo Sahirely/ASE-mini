@@ -20,12 +20,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     }
 
     //realiza consulta según filtros
-    $scope.consultaCotizacionesFiltros = function(PorOrden) {
-      if (PorOrden == 1){
-        $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, null, null, null, null, null, null, $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden).then(function (result) {
+    $scope.consultaCotizacionesFiltros = function(PorOrden, presupuesto) {
+      $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden, presupuesto).then(function (result) {
                if (result.data.length > 0) {
-                   $scope.cotizaciones = result.data;
-                   globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
+                  if (presupuesto = 1){
+                     $scope.cotizaciones = result.data;
+                     globalFactory.waitDrawDocument("dataTableCotizaciones", "");
+                  }else if(presupuesto = 0){
+                      $scope.cotizacionesSinPresupuesto = result.data;
+                      globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
+                  }
                } else {
                    alertFactory.info('No se encontraron cotizaciones.');
                }
@@ -33,19 +37,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
            function (error) {
                alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
            });
-      } else if(PorOrden == 0){
-        $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), null, PorOrden).then(function (result) {
-               if (result.data.length > 0) {
-                   $scope.cotizaciones = result.data;
-                   globalFactory.waitDrawDocument("dataTableCotizaciones", "OrdenporCobrar");
-               } else {
-                   alertFactory.info('No se encontraron cotizaciones.');
-               }
-           },
-           function (error) {
-               alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
-           });
-      }
     };
 
     //obtiene las zonas

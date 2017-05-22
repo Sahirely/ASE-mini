@@ -71,7 +71,11 @@ Cotizacion.prototype.get_see = function (req, res, next) {
           name: 'porOrden',
           value: req.query.EsPorOrden,
           type: self.model.types.BIT
-          }];
+        },{
+          name: 'presupuesto',
+          value: req.query.ConPresupuesto,
+          type: self.model.types.BIT
+        }];
 
     this.model.query('SEL_CONSULTA_ORDENES_SP', params, function (error, result) {
         self.view.expositor(res, {

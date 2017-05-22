@@ -37,7 +37,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
-        get: function(idUsuario, idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden){
+        get: function(idUsuario, idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden, ConPresupuesto){
           var objConsultaOrden = {
             idUsuario: idUsuario,
             idZona: idZona,
@@ -47,7 +47,8 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
             Fin: Fin,
             Fecha: Fecha,
             NumOrden: NumOrden,
-            EsPorOrden: EsPorOrden
+            EsPorOrden: EsPorOrden,
+            ConPresupuesto: ConPresupuesto
           };
             return $http({
                 url: searchUrl + 'see/',
