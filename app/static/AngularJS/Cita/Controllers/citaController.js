@@ -5,8 +5,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.idUsuario = 2;
     $scope.init = function() {
         $scope.getDetalleUnidad();
-        $scope.getTipoOrdenesServicio();
-        $scope.getTipoEstadoUnidad();
         $('.clockpicker').clockpicker();
         $('.input-group.date').datepicker({
             todayBtn: "linked",
@@ -20,13 +18,23 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     //*****************************************************************************************************************************//
     // Obtiene el detalle de la unidad como marca, modelo, etc
+    // Cuando $scope.detalleUnidad.situacionOrden = 1 <-- Significa que la unidad tiene una Orden de Servicio en proceso    
+    //                                                    por lo tanto no se puede crear una nueva cita sin embargo si podrá
+    //                                                    modificar los datos de la Orden de Servicio
+    //        $scope.detalleUnidad.situacionOrden = 0 <-- Significa que la unidad no tiene una Orden de Servicio en proceso
+    //                                                    por lo tanto puede crear una nueva ORden de Servicio para la unidad
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
             console.log($scope.detalleUnidad);
             if ($scope.detalleUnidad.situacionOrden == 1) {
+                $scope.muestraAgendarCita = true;
                 location.href = '/unidad?economico=' + $routeParams.economico;
+            } else if ($scope.detalleUnidad.situacionOrden == 0) {
+                $scope.getTipoOrdenesServicio();
+                $scope.getTipoEstadoUnidad();
+                $scope.muestraAgendarCita = true;
             }
         });
     };
@@ -69,6 +77,16 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, 1, 0).then(function(result) {
             console.log(result, 'Soy el resultado al insertar la orden de servicio')
+            if (result.data[0].respuesta == 1) {
+                alertFactory.success('Orden de Servicio Agendada');
+                setTimeout(function() {
+                    location.href = '/unidad?economico=' + $routeParams.economico;
+                }, 1000);
+            } else if (result.data[0].respuesta == 0) {
+                alertFactory.info('Ocurrio un problema al agendar la orden de servicio. Intente de nuevo')
+            } else {
+                alertFactory.error('Ocurrio un problema')
+            }
         });
     };
 

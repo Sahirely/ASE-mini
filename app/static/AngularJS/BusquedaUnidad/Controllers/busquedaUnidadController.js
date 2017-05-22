@@ -20,6 +20,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getOrdenActual = function() {
         busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.ordendesActual = result.data;
+            console.log($scope.ordendesActual);
             if ($scope.ordendesActual[0].respuesta == 1) {
                 $scope.muestraOrdenActual = true;
                 $scope.agendarCita = true;

@@ -128,7 +128,7 @@
                                             <td>{{ orden.direccion}}</td>
                                             <td>{{orden.descripcion}}</td>
                                             <td>{{orden.nombreCompleto}}</td>
-                                            <td>{{orden.estatusOrden}}</td>
+                                            <td ng-class="{'rowGris': orden.idEstatusOrden == 1, 'rowAmarillo' : orden.idEstatusOrden >= 2 && orden.idEstatusOrden < 8 , 'rowVerde' : orden.idEstatusOrden == 8 }">{{orden.estatusOrden}}</td>
                                             <td class="text-center">
                                                 <button class="btn btn-success" ng-click="detalleOrden(orden)"><i class="fa fa-eye"></i></button>
                                             </td>
@@ -167,7 +167,7 @@
                                             <td>{{ historialOrden.direccion}}</td>
                                             <td>{{historialOrden.descripcion}}</td>
                                             <td>{{historialOrden.nombreCompleto}}</td>
-                                            <td>{{historialOrden.estatusOrden}}</td>
+                                            <td ng-class="{'rowRojo' : historialOrden.idEstatusOrden == 10, 'rowAzul' : historialOrden.idEstatusOrden == 9 }">{{historialOrden.estatusOrden}}</td>
                                             <td class="text-center">
                                                 <button class="btn btn-success" ng-click="detalleOrden(historialOrden)"><i class="fa fa-eye"></i></button>
                                             </td>
