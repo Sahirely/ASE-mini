@@ -61,9 +61,6 @@
                 <li ng-class="{'active': modulo=='home'}">
                     <a href="dashboardgeneral"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Home</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='nuevaCita'}">
-                    <a href="cita" ng-hide="userData.idTipoUsuario == 3" ng-click="showChat = 0"><i class="fa fa-car" data-toggle="tooltip" tooltip="Nueva Cita" tooltip-placement="right"></i> <span class="nav-label">Nueva Cita</span></a>
-                </li>
                 <li ng-class="{'active': modulo=='consultaCitas'}">
                     <a href="consultaCitas" ng-click="showChat = 0"><i class="fa fa-money" data-toggle="tooltip" tooltip="Consulta de Citas" tooltip-placement="right"></i> <span class="nav-label">Consulta de Citas</span></a>
                 </li>
@@ -122,26 +119,24 @@
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
-                <ul class="nav navbar-top-links navbar-right">
+                <ul class="nav navbar-top-links navbar-right scrollmenu">
                     <li>
-                        <form role="form" class="form-inline">
-                            <div class="form-group">
-                                <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
-                            </div>
-                            <div class="form-group" ng-show="busqueda == 1">
-                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control">
-                            </div>
-                            <div class="form-group" ng-show="busqueda == 2">
-                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control">
-                            </div>
-                            <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-                            <!-- <button class="btn btn-primary" type="submit">Go</button>
-                            <button class="btn btn-info" type="submit">Go</button>
-                            <button class="btn btn-warning" type="submit">Go</button>
-                            <button class="btn btn-danger" type="submit">Go</button> -->
-                        </form>
+                        <div class="form-group">
+                            <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
+                        </div>
                     </li>
                     <li>
+                        <div class="form-group" ng-show="busqueda == 1">
+                            <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control">
+                        </div>
+                    </li>
+                    <li>
+                        <div class="form-group" ng-show="busqueda == 2">
+                            <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control">
+                        </div>
+                    </li>
+                    <li>
+                        <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                     </li>
                     <li>
                         <div class="rol" ng-class="{ 'roladmin' : userData.idTipoUsuario == 1, 'rolcall' : userData.idTipoUsuario == 2, 'roltaller' : userData.idTipoUsuario == 3, 'rolcliente' : userData.idTipoUsuario == 4, 'rolproveedor' : userData.esProveedor == 1  }">
@@ -267,8 +262,8 @@
     <script src="AngularJS/modals/modal.js"></script>
     <script src="AngularJS/modals/controller/token_controller.js"></script>
     <script src="AngularJS/modals/controller/cotizacionDetalle_controller.js"></script>
-    <script src="AngularJS/modals/controller/respuestaBusqueda_controller.js""></script>
-    <script src="AngularJS/modals/controller/partidas_controller.js""></script>
+    <script src="AngularJS/modals/controller/respuestaBusqueda_controller.js" "></script>
+    <script src="AngularJS/modals/controller/partidas_controller.js ""></script>
     <!--Librería de dropZone -->
     <script src="Libraries/js/dropZone/dropzone.js"></script>
     <script src="Libraries/js/dropZone/ng-dropzone.min.js"></script>
@@ -350,7 +345,6 @@
     <script src="AngularJS/Configurador/Controllers/nuevaUnidadController.js"></script>
     <script src="AngularJS/Configurador/Controllers/presupuestosController.js"></script>
     <script src="AngularJS/Configurador/Repositories/configuradorRepository.js"></script>
-    
     <!-- Mainly scripts -->
     <script src="Libraries/js/metisMenu/jquery.metisMenu.js"></script>
     <script src="Libraries/js/slimscroll/jquery.slimscroll.min.js"></script>
