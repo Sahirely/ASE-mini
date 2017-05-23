@@ -13,6 +13,22 @@ var Mobile = function(conf){
     }
 }
 
+//Petición a base de datos de la configuración de la aplicación 
+Mobile.prototype.get_settings = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [];
+
+    this.model.query('APP_SETTINGS',params, function (error, result) {
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 //Valida credenciales de usuario
 Mobile.prototype.get_login = function (req, res, next) {
     var object = {};
@@ -54,6 +70,8 @@ Mobile.prototype.get_insertToken = function (req, res, next) {
 
     var params = [
                     {name: 'token', value: req.query.token, type: self.model.types.STRING},
+                    {name: 'Vigencia', value: req.query.Vigencia, type: self.model.types.STRING},
+                    {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING},
                     {name: 'ubicacionToken', value: req.query.ubicacionToken, type: self.model.types.STRING},
                     {name: 'datosMovil', value: req.query.datosMovil, type: self.model.types.STRING},
                     {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING},
