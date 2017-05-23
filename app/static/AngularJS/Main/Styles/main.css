@@ -172,7 +172,7 @@ body {
     margin-left: 20px;
     transform: skew(-10deg);
     padding-top: 19px;
-    padding-bottom: 20px;
+    padding-bottom: 25px;
     text-align: center;
     font-size: 14px;
     font-weight: 300;
@@ -248,4 +248,8 @@ body {
         float: right !important;
         margin-right: -15px;
     }
+}
+
+.p-t-xs {
+    padding-top: 1px !important;
 }

@@ -119,7 +119,7 @@
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
-                <ul class="nav navbar-top-links navbar-right-mod scrollmenu">
+                <ul class="nav navbar-top-links navbar-right-mod scrollmenu" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
                     <li>
                         <div class="form-group">
                             <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
@@ -127,12 +127,12 @@
                     </li>
                     <li>
                         <div class="form-group" ng-show="busqueda == 1">
-                            <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control">
+                            <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus>
                         </div>
                     </li>
                     <li>
                         <div class="form-group" ng-show="busqueda == 2">
-                            <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control">
+                            <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus>
                         </div>
                     </li>
                     <li>

@@ -1,4 +1,4 @@
-registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository,localStorageService, mainRepository, busquedaUnidadRepository) {
+registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, mainRepository, busquedaUnidadRepository) {
     $rootScope.showChat = 0;
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Se inicializa variable para activar en que opción del menú se encuentra
@@ -71,8 +71,10 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     //*****************************************************************************************************************************//
     $scope.botonBusqueda = function(busqueda) {
         if (busqueda == 1) {
+            $scope.numeroOrden = '';
             $rootScope.busqueda = 2;
         } else if (busqueda == 2) {
+            $scope.numeroEconomico = '';
             $rootScope.busqueda = 1;
         }
     };
@@ -104,15 +106,15 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
     $scope.getDetalleOrden = function(orden) {
-        consultaCitasRepository.getExisteOrden($scope.idUsuarioPruebas,orden).then(function(result) {
+        consultaCitasRepository.getExisteOrden($scope.idUsuarioPruebas, orden).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
-            if($scope.tipoRespuesta.respuesta == 0){
+            if ($scope.tipoRespuesta.respuesta == 0) {
                 $('.modal-dialog').css('width', '1050px');
                 modal_respuesta_busqueda($scope, $modal, $rootScope.busqueda, $scope.tipoRespuesta, '', '');
-            }else if ($scope.tipoRespuesta.respuesta == 1){
+            } else if ($scope.tipoRespuesta.respuesta == 1) {
                 location.href = '/detalle?orden=' + orden;
             }
-        });       
+        });
     };
 
 });
