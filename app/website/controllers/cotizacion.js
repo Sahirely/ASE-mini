@@ -85,15 +85,19 @@ Cotizacion.prototype.get_see = function (req, res, next) {
     });
 }
 
-//Obtiene todas las zonas
+//Obtiene las zonas por nivel y padre seleccionado
 Cotizacion.prototype.get_zonas = function (req, res, next) {
     //Referencia a la clase para callback
     var self = this;
     //Obtención de valores de los parámetros del request
     var params = [
         {
-            name: 'idUsuario',
-            value: req.query.idUsuario,
+            name: 'idNivel',
+            value: req.query.idNivel,
+            type: self.model.types.INT
+       },{
+            name: 'idPadre',
+            value: req.query.idPadre,
             type: self.model.types.INT
        }
    ];

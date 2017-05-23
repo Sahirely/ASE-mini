@@ -7,14 +7,35 @@
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="row">
             <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2">
                     <label class="font-noraml">Zona</label>
-                    <select class="form-control m-b" id="zona" ng-model="zonaSelected"
+                    <select class="form-control m-b" id="zona1" ng-model="zonaSelected" ng-change="SeleccionoZona(1)"
                     ng-options="zona.idZona as zona.nombre for zona in zonas">
                         <option value="">Seleccione una Zona</option>
                     </select>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-show="userData.idTipoUsuario == 2">
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-show='TieneZona2'>
+                    <label class="font-noraml">Zona</label>
+                    <select class="form-control m-b" id="zona2" ng-model="zonaSelected" ng-change="SeleccionoZona(2)"
+                    ng-options="zona.idZona as zona.nombre for zona in zonas2">
+                        <option value="">Seleccione una Zona</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-show='TieneZona3'>
+                    <label class="font-noraml">Zona</label>
+                    <select class="form-control m-b" id="zona3" ng-model="zonaSelected" ng-change="SeleccionoZona(3)"
+                    ng-options="zona.idZona as zona.nombre for zona in zonas3">
+                        <option value="">Seleccione una Zona</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-show='TieneZona4'>
+                    <label class="font-noraml">Zona</label>
+                    <select class="form-control m-b" id="zona4" ng-model="zonaSelected" ng-change="SeleccionoZona(4)"
+                    ng-options="zona.idZona as zona.nombre for zona in zonas4">
+                        <option value="">Seleccione una Zona</option>
+                    </select>
+                </div>
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" >
                     <label class="font-noraml">Ejecutivo</label>
                     <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected"
                     ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">

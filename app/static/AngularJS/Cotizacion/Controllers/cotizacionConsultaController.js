@@ -8,6 +8,11 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
     $scope.idUsuario = '2';
+    $scope.zonaSelected = '';
+    $scope.TieneZona2 = false;
+    $scope.TieneZona3= false;
+    $scope.TieneZona4 = false;
+    $scope.nivelesZona = 2;
     // $scope.userData = localStorageService.get('userData');
     // $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
     $scope.datosCita = {
@@ -15,7 +20,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
 
     $scope.init = function () {
-        $scope.devuelveZonas();
+        $scope.devuelveZonas(1,0);
         $scope.devuelveEjecutivos();
     }
 
@@ -39,11 +44,38 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
            });
     };
 
+    $scope.SeleccionoZona = function(nivelZona){
+        if(nivelZona < $scope.nivelesZona){
+          $scope.TieneZona2 = false;
+          $scope.TieneZona3= false;
+          $scope.TieneZona4 = false;
+          switch (nivelZona) {
+              case 1:
+                  if($scope.zonaSelected != ''){
+                      devuelveZonas(2,$scope.zonaSelected);
+                      $scope.TieneZona2 = true;
+                  }
+                  break;
+              case 2:
+                  $scope.TieneZona3 = true;
+                  break;
+              case 3:
+                  $scope.TieneZona4 = true;
+                  break;
+            }
+        }
+    }
+
     //obtiene las zonas
-    $scope.devuelveZonas = function() {
-        cotizacionConsultaRepository.getZonas($scope.idUsuario).then(function(zonas) {
+    $scope.devuelveZonas = function(nivel, padre) {
+        cotizacionConsultaRepository.getZonas(nivel, padre).then(function(zonas) {
             if (zonas.data.length > 0) {
-                $scope.zonas = zonas.data;
+              switch (nivel) {
+                  case 1: $scope.zonas = zonas.data; break;
+                  case 2: $scope.zonas2 = zonas.data; break;
+                  case 3: $scope.zonas3 = zonas.data; break;
+                  case 4: $scope.zonas4 = zonas.data; break;
+                }
             }
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las zonas');
