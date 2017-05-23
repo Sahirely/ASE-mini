@@ -76,6 +76,7 @@ Mobile.prototype.get_insertToken = function (req, res, next) {
                     {name: 'datosMovil', value: req.query.datosMovil, type: self.model.types.STRING},
                     {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING},
                     {name: 'idOrdenServicio', value: req.query.idOrdenServicio, type: self.model.types.STRING},
+                    {name: 'origenToken', value: req.query.origenToken, type: self.model.types.STRING},
                     {name: 'idEstatusOrden', value: req.query.idEstatusOrden, type: self.model.types.STRING}
                 ]; 
 
