@@ -161,11 +161,11 @@
                                             <th>Precio</th>
                                             <th>Fecha última modificación</th>
                                             <th>Estatus</th>
-                                            <th>Ver Orden</th>
+                                            <!-- <th>Ver Orden</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="historialOrden in historialOrdenes">
+                                        <tr ng-repeat="historialOrden in historialOrdenes" ng-dblclick="detalleOrden(historialOrden)" class="cursor">
                                             <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
                                             <td>{{ historialOrden.taller}}</td>
                                             <td>{{ historialOrden.direccion}}</td>
@@ -175,9 +175,9 @@
                                             <td>{{'43' | currency}}</td>
                                             <td>{{'12/1272013'}}</td>
                                             <td ng-class="{'rowRojo' : historialOrden.idEstatusOrden == 10, 'rowAzul' : historialOrden.idEstatusOrden == 9 }">{{historialOrden.estatusOrden}}</td>
-                                            <td class="text-center">
+                                            <!-- <td class="text-center">
                                                 <button class="btn btn-success" ng-click="detalleOrden(historialOrden)"><i class="fa fa-eye"></i></button>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     </tbody>
                                 </table>
