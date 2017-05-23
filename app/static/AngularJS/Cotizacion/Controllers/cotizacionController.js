@@ -5,14 +5,14 @@
 // -- Modificó: Mario Mejía
 // -- Fecha: 
 // -- =============================================
-registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
+registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, $routeParams,globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
-
+    $scope.numeroOrden = $routeParams.orden;
     $scope.lstPartidaSeleccionada = [];
     $scope.init = function() {
 
         $scope.getTalleres();
-        $scope.getOrdenDetalle(1, '100010');
+        $scope.getOrdenDetalle(1, $routeParams.orden);
     }
 
     $scope.getTalleres = function() {
@@ -60,7 +60,6 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     }
 
     $scope.partidaSeleccionada = function(obj) {
-        //$('.dataTablePartidasSeleccionadas').DataTable().destroy();
         $scope.objeto = obj
         var existe = 0;
         var noExiste = 0;
@@ -95,7 +94,6 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             }
                 $scope.ivaSubTotal += $scope.subTotal * 0.16
                 $scope.total += $scope.subTotal + $scope.ivaSubTotal
-        //globalFactory.minDrawDocument("dataTablePartidasSeleccionadas", "PartidasTalleres");
     }
 
     
