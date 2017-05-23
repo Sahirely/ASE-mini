@@ -43,5 +43,9 @@ registrationModule.controller('detalleController', function($scope, $location, c
         });
     }
 
+    $scope.nuevaCotizacion = function(){
+        location.href = '/cotizacionnueva?orden=' + $routeParams.orden;
+    }
+
 
 });

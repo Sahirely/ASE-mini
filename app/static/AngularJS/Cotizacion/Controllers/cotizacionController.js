@@ -8,11 +8,12 @@
 registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, $routeParams,globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
     $scope.numeroOrden = $routeParams.orden;
+    $scope.numeroOrden = $routeParams.orden;
     $scope.lstPartidaSeleccionada = [];
     $scope.init = function() {
 
         $scope.getTalleres();
-        $scope.getOrdenDetalle(1, $routeParams.orden);
+        $scope.getOrdenDetalle(1, $scope.numeroOrden);
     }
 
     $scope.getTalleres = function() {

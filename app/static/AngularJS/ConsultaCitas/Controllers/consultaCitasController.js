@@ -55,5 +55,9 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $("#borderTop").slideUp(3000);
     };
 
+    $scope.seleccionarOrden = function(obj){
+         location.href = '/detalle?orden=' + obj.numeroOrden;
+    }
+
 
 });
