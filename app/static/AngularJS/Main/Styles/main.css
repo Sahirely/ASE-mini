@@ -253,3 +253,7 @@ body {
 .p-t-xs {
     padding-top: 1px !important;
 }
+
+.cursor {
+    cursor: pointer;
+}

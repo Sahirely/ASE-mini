@@ -119,20 +119,20 @@
                                             <th>Descripción</th>
                                             <th>Agendó</th>
                                             <th>Estatus</th>
-                                            <th>Ver Orden</th>
+                                            <!-- <th>Ver Orden</th> -->
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="orden in ordendesActual">
+                                        <tr ng-repeat="orden in ordendesActual" ng-dblclick="detalleOrden(orden)" class="cursor">
                                             <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
                                             <td>{{ orden.taller}}</td>
                                             <td>{{ orden.direccion}}</td>
                                             <td>{{orden.descripcion}}</td>
                                             <td>{{orden.nombreCompleto}}</td>
                                             <td ng-class="{'rowGris': orden.idEstatusOrden == 1, 'rowAmarillo' : orden.idEstatusOrden >= 2 && orden.idEstatusOrden < 8 , 'rowVerde' : orden.idEstatusOrden == 8 }">{{orden.estatusOrden}}</td>
-                                            <td class="text-center">
+                                            <!-- <td class="text-center">
                                                 <button class="btn btn-success" ng-click="detalleOrden(orden)"><i class="fa fa-eye"></i></button>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     </tbody>
                                 </table>
