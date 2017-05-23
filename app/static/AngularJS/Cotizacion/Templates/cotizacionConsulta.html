@@ -35,7 +35,7 @@
                         <option value="">Seleccione una Zona</option>
                     </select>
                 </div>
-                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" >
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                     <label class="font-noraml">Ejecutivo</label>
                     <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected"
                     ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
@@ -124,7 +124,7 @@
                                               <th>Abrir</th>
                                           </tr>
                                       </thead>
-                                      <tbody  id="dataTableCotizaciones">
+                                      <tbody  id="dataTableCotizaciones_">
                                           <tr ng-repeat="cotizacion in cotizaciones | filter: {'EstatusAprobacion' : filtroEstatus}">
                                               <td>{{cotizacion.Cliente}}</td>
                                               <td>{{cotizacion.Consecutivo}}</td>
@@ -206,32 +206,6 @@
                                                       <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
                                                   </button>
                                               </td>
-                                          </tr>
-                                          <tr>
-                                            <td>ieruhfieur</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>ieruhfie</td>
-                                            <td>24 %</td>
-                                            <td>ieruhfie</td>
-                                            <td hidden="hidden">1</td>
-                                            <td>tyfu</td>
-                                            <td>
-                                                <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.NumeroOrden)">
-                                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
-                                                </button>
-                                                <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(1)">
-                                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
-                                                </button>
-                                            </td>
                                           </tr>
                                       </tbody>
                                   </table>

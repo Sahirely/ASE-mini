@@ -12,7 +12,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.TieneZona2 = false;
     $scope.TieneZona3= false;
     $scope.TieneZona4 = false;
-    $scope.nivelesZona = 2;
+    $scope.nivelesZona = 0;
     // $scope.userData = localStorageService.get('userData');
     // $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
     $scope.datosCita = {
@@ -26,18 +26,30 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function(PorOrden, presupuesto) {
-      $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected, $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected, $scope.fechaMes == '' || $scope.fechaMes == undefined ? null : $scope.fechaMes, $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio, $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin, this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes(), $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo, PorOrden, presupuesto).then(function (result) {
-               if (result.data.length > 0) {
-                  if (presupuesto = 1){
-                     $scope.cotizaciones = result.data;
-                     globalFactory.waitDrawDocument("dataTableCotizaciones", "");
-                  }else if(presupuesto = 0){
-                      $scope.cotizacionesSinPresupuesto = result.data;
-                      globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
-                  }
-               } else {
-                   alertFactory.info('No se encontraron cotizaciones.');
-               }
+      $scope.cotizaciones = [];
+      $scope.cotizacionesSinPresupuesto = [];
+      $('.dataTableCotizaciones_').DataTable().destroy();
+      $('.dataTableCotizacionesSinPresupuesto').DataTable().destroy();
+      var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
+      var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
+      var fechaMes = this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
+      var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio;
+      var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin;
+      var fecha = $scope.fecha == '' || $scope.fecha == undefined ? null : $scope.fecha;
+      var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
+      $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, presupuesto)
+      .then(function (result) {
+            debugger;
+              if (result.data.length == 0) {
+                  alertFactory.info('No se encontraron cotizaciones.');
+              }
+              if (presupuesto == 1){
+                 $scope.cotizaciones = result.data;
+                 globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
+              }else if(presupuesto == 0){
+                  $scope.cotizacionesSinPresupuesto = result.data;
+                  globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
+              }
            },
            function (error) {
                alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
@@ -51,16 +63,25 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           $scope.TieneZona4 = false;
           switch (nivelZona) {
               case 1:
-                  if($scope.zonaSelected != ''){
-                      devuelveZonas(2,$scope.zonaSelected);
+                  if($scope.zonaSelected != null){
+                      $scope.devuelveZonas(2, $scope.zonaSelected);
                       $scope.TieneZona2 = true;
                   }
                   break;
               case 2:
-                  $scope.TieneZona3 = true;
+                  if($scope.zonaSelected != null){
+                      $scope.devuelveZonas(3, $scope.zonaSelected);
+                      $scope.TieneZona2 = true;
+                      $scope.TieneZona3 = true;
+                  }
                   break;
               case 3:
-                  $scope.TieneZona4 = true;
+                  if($scope.zonaSelected != null){
+                      $scope.devuelveZonas(4, $scope.zonaSelected);
+                      $scope.TieneZona2 = true;
+                      $scope.TieneZona3 = true;
+                      $scope.TieneZona4 = true;
+                  }
                   break;
             }
         }
@@ -69,14 +90,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     //obtiene las zonas
     $scope.devuelveZonas = function(nivel, padre) {
         cotizacionConsultaRepository.getZonas(nivel, padre).then(function(zonas) {
-            if (zonas.data.length > 0) {
               switch (nivel) {
                   case 1: $scope.zonas = zonas.data; break;
                   case 2: $scope.zonas2 = zonas.data; break;
                   case 3: $scope.zonas3 = zonas.data; break;
                   case 4: $scope.zonas4 = zonas.data; break;
                 }
-            }
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las zonas');
         });

@@ -36,7 +36,7 @@ var Cotizacion = function (conf) {
 Cotizacion.prototype.get_see = function (req, res, next) {
     var self = this;
     var params = [{
-        name: 'idUsuario',
+        name: 'idusuario',
         value: req.query.idUsuario,
         type: self.model.types.INT
        },{
@@ -64,17 +64,17 @@ Cotizacion.prototype.get_see = function (req, res, next) {
           value: req.query.Fecha,
           type: self.model.types.STRING
         },{
-          name: 'numOrden',
+          name: 'numorden',
           value: req.query.NumOrden,
           type: self.model.types.STRING
         },{
           name: 'porOrden',
           value: req.query.EsPorOrden,
-          type: self.model.types.BIT
+          type: self.model.types.INT
         },{
           name: 'presupuesto',
           value: req.query.ConPresupuesto,
-          type: self.model.types.BIT
+          type: self.model.types.INT
         }];
 
     this.model.query('SEL_CONSULTA_ORDENES_SP', params, function (error, result) {
