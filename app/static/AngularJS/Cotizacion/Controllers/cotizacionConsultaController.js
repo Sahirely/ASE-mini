@@ -159,7 +159,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                 },
                 function (isConfirm) {
                     if (isConfirm) {
-                        $scope.cancelarOrden(idCotizacion);
+                        $scope.cancelarCotizacion(idCotizacion);
                         location.href = '/cotizacionconsulta';
                     } else {
                         swal("Cotizacion no cancelada");
