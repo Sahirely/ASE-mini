@@ -242,3 +242,10 @@ body {
     overflow: auto !important;
     white-space: nowrap !important;
 }
+
+@media (min-width: 956px) {
+    .navbar-right-mod {
+        float: right !important;
+        margin-right: -15px;
+    }
+}
