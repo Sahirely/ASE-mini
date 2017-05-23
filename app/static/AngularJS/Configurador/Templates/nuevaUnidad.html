@@ -1,0 +1,86 @@
+<div class="modal-header barra_popup" ng-init="init()">
+    <div class="modal-title">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
+        <h4 class="modal-title">Consulta de Citas</h4>
+        
+    </div>
+</div>
+<div class="modal-body">
+    <div id="content_popDrag">
+       <div class="modal-body">
+       		<form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Número Económico</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <input type="text" class="form-control" value="" id="numEconomico" ng-model="numEconomico"  capitalize>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">VIN</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <input type="text" class="fo" value="" id="vin" ng-model="vin" onlyletterss capitalize>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Marca</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <input type="text" class="fo" value="" id="marca" ng-model="marca" onlyletterss capitalize>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">SubMarca</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <input type="text" class="fo" value="" id="subMarca" ng-model="subMarca" onlyletterss capitalize>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Modelo</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <input type="text" class="fo" value="" id="modelo" ng-model="modelo" onlyletterss capitalize>
+                    </div>
+                </div>
+            </form>
+             <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Tipo de Unidad</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <select class="form-control" id="tipoUnidad"
+                        ng-model="tipoUnidad" ng-options="tipo.idTipoOperacion as tipo.nombreTipoOperacion  for tipo in tipoUnidades" >
+                             <option value=''>Selecionar Tipo de Unidad</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Sustituto</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="sustituto1" value="1" name="sustituto1" checked="" ng-model="sustituto" ng-change="show_porcentajaUtilidad=true">
+                            <label for="sustituto1"> Si </label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="sustituto2" value="0" name="sustituto2" ng-model="sustituto" ng-change="show_porcentajaUtilidad=false">
+                            <label for="sustituto2"> No </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+           
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="saveUnidad()">Guardar</button>
+</div>
+
+      

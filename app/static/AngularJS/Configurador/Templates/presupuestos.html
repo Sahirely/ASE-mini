@@ -1,0 +1,30 @@
+<div class="modal-header barra_popup" ng-init="init()">
+    <div class="modal-title">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
+        <h4 class="modal-title">Centros de Trabjo</h4>
+        
+    </div>
+</div>
+<div class="modal-body">
+    <div id="content_popDrag">
+       <div class="modal-body">
+
+            <form class="form-horizontal" ng-repeat="model in models">
+                <div class="form-group">
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <input type="text" class="form-control" value="" id="nomCentro" ng-model="nomCentro" capitalize ng-change="dataCentro(model.ID, nomCentro)">
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                       <button class="btn btn-primary" tooltip="Nuevo Centro de Trabajo" type="button" ng-click="plusCentro()"><span class="glyphicon glyphicon-plus"></span></button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" ng-click="guardarCentros()">Guardar</button>
+</div>
+
+      
