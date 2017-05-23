@@ -177,20 +177,20 @@ Cotizacion.prototype.post_cotizacionNueva = function(req, res, next){
   var params = [
       {
         name: 'idTaller',
-        value: req.query.idTaller,
+        value: req.body.idTaller,
         type: self.model.types.INT
       },{
         name: 'idUsuario',
-        value: req.query.idUsuario,
+        value: req.body.idUsuario,
         type: self.model.types.INT
       },{
         name: 'idEstatusCotizacion',
-        value: req.query.idEstatusCotizacion,
+        value: req.body.idEstatusCotizacion,
         type: self.model.types.INT
       },{
         name: 'idOrden',
-        value: req.query.idOrden,
-        type: self.model.types.INT
+        value: req.body.idOrden,
+        type: self.model.types.STRING
       }];
 
       this.model.query('INS_COTIZACION_NUEVA_SP',params, function (error, result) {
@@ -206,27 +206,27 @@ Cotizacion.prototype.post_cotizacionDetalle = function(req, res, next){
   var params = [
       {
         name: 'idCotizacion',
-        value: req.query.idCotizacion,
+        value: req.body.idCotizacion,
         type: self.model.types.INT
       },{
         name: 'costo',
-        value: req.query.costo,
+        value: req.body.costo,
         type: self.model.types.DECIMAL
       },{
         name: 'cantidad',
-        value: req.query.cantidad,
+        value: req.body.cantidad,
         type: self.model.types.INT
       },{
         name: 'venta',
-        value: req.query.venta,
+        value: req.body.venta,
         type: self.model.types.DECIMAL
       },{
         name: 'idPartida',
-        value: req.query.idPartida,
+        value: req.body.idPartida,
         type: self.model.types.INT
       },{
         name: 'idEstatusPartida',
-        value: req.query.idEstatusPartida,
+        value: req.body.idEstatusPartida,
         type: self.model.types.INT
       }];
 
