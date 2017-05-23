@@ -5,18 +5,15 @@ var ruta = global_settings.uploadPath;
 registrationModule.factory('cotizacionRepository', function ($http) {
     return {
        
-        insertCotizacionMaestro: function (idCita, idUsuario, observaciones, idUnidad, idTipoCotizacion, idTaller, idEstatus) {
+        insCotizacionNueva: function (idTaller, idUsuario, idEstatusCotizacion, idOrden) {
             var msgObj = {
-                idCita: idCita,
-                idUsuario: idUsuario,
-                observaciones: observaciones,
-                idUnidad: idUnidad,
-                idTipoCotizacion: idTipoCotizacion,
                 idTaller: idTaller,
-                idEstatus: idEstatus
+                idUsuario: idUsuario,
+                idEstatusCotizacion: idEstatusCotizacion,
+                idOrden: idOrden
             }
             return $http({
-                url: searchUrl + 'cotizacionMaestro',
+                url: searchUrl + 'cotizacionNueva',
                 method: "POST",
                 data: msgObj,
                 headers: {
@@ -24,16 +21,14 @@ registrationModule.factory('cotizacionRepository', function ($http) {
                 }
             });
         },
-        insertCotizacionDetalle: function (idCotizacion, idTipoElemento, idElemento, precio, cantidad, idEstatus, idNivelAutorizacion, idUsuario) {
+        inCotizacionDetalle: function (idCotizacion, costo, cantidad, venta, idPartida, idEstatusPartida) {
             var msgObj = {
                 idCotizacion: idCotizacion,
-                idTipoElemento: idTipoElemento,
-                idElemento: idElemento,
-                precio: precio,
+                costo: costo,
                 cantidad: cantidad,
-                idNivelAutorizacion: idNivelAutorizacion,
-                idEstatus: idEstatus,
-                idUsuario:idUsuario
+                venta: venta,
+                idPartida: idPartida,
+                idEstatusPartida: idEstatusPartida
             }
             return $http({
                 url: searchUrl + 'cotizacionDetalle',

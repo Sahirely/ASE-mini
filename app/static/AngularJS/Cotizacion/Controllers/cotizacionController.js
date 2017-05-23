@@ -5,10 +5,11 @@
 // -- Modificó: Mario Mejía
 // -- Fecha: 
 // -- =============================================
-registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, $routeParams,globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
+registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
     $scope.numeroOrden = $routeParams.orden;
     $scope.numeroOrden = $routeParams.orden;
+    $scope.idTaller = '';
     $scope.lstPartidaSeleccionada = [];
     $scope.init = function() {
 
@@ -49,6 +50,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     }
 
     $scope.getPartidasTaller = function(idTaller) {
+        $scope.idTaller = idTaller;
         $('.dataTablePartidasTalleres').DataTable().destroy();
         consultaCitasRepository.getPartidasTaller(idTaller).then(function(result) {
             if (result.data.length > 0) {
@@ -91,11 +93,38 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             }
         }
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
-                $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
-            }
-                $scope.ivaSubTotal += $scope.subTotal * 0.16
-                $scope.total += $scope.subTotal + $scope.ivaSubTotal
+            $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
+        }
+        $scope.ivaSubTotal += $scope.subTotal * 0.16
+        $scope.total += $scope.subTotal + $scope.ivaSubTotal
     }
 
-    
+    $scope.slideDown = function() {
+        $("#borderTop").slideDown(2000);
+    };
+    //contrae el div de las tablas
+    $scope.slideUp = function() {
+        $("#borderTop").slideUp(3000);
+    };
+
+    $scope.nuevaCotizacion = function() {
+        console.log('nueva ' + $scope.idTaller , ' ', $scope.numeroOrden)
+        cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden).then(function(result) {
+            if (result.data[0].idCotizacion > 0) {
+                console.log(result.data[0].idCotizacion + ' nuevaaa' +result.data[0].mensaje)
+                console.log('dentro de nueva ' + $scope.idTaller + ' '+ $scope.numeroOrden)
+                $scope.idCotizacion = result.data[0].idCotizacion;
+                $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
+                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, 1).then(function(nuevos) {
+                        if (nuevos.data[0].idCotizacionDetalle > 0) {
+                            console.log(nuevos.data[0].idCotizacionDetalle+'Se guardo bien ' + nuevos.data[0].mensaje)
+                        } else {
+                            console.log('Error al Guardar')
+                        }
+                    });
+                });
+            }
+        });
+    }
+
 });
