@@ -31,3 +31,9 @@
         padding: 15px 0px 20px 0px;
     }
 }
+
+@media (min-width: 1300px) {
+    .espacio {
+        margin-bottom: 21px;
+    }
+}
