@@ -7,7 +7,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.filtroEstatus = '';
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
-    $scope.idUsuario = '2';
+    $scope.idUsuario = 2;
     $scope.zonaSelected = '';
     $scope.TieneZona2 = false;
     $scope.TieneZona3= false;
@@ -40,7 +40,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
       $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, presupuesto)
       .then(function (result) {
-            debugger;
               if (result.data.length == 0) {
                   alertFactory.info('No se encontraron cotizaciones.');
               }
@@ -90,7 +89,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.obtieneNivelZona = function(){
         $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idUsuario).then(function (result) {
-            debugger;
             $scope.nivelesZona = result.data[0].Niveles;
          },
          function (error) {
