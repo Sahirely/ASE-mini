@@ -162,7 +162,7 @@
                         </div>
 
                         <!--Ordenes en Aprobación-->
-                          <div class="scroll_content col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont">
+                          <div class=" col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont">
                               <!--Costos totales de las  cotizaciones-->
                               <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" ng-show="orden.IdTipoOrden = 2">
                                   <table class="table invoice-total">
@@ -279,7 +279,7 @@
                               </div> -->
 
                               <!--Cotizaciones Grua-->
-                              <div class="row" ng-show="orden.idTipoOrden = 1">
+                              <div class="row scroll_content" ng-show="orden.idTipoOrden = 1">
                                   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 panelCotizaciones">
                                     <div class="panel panel-default">
                                       <div class="panel-body">
@@ -485,7 +485,7 @@
  <script>
     $(document).ready(function () {
         $('.scroll_content').slimscroll({
-            height: '300px',
+            height: '450px',
             width: '100%'
         })
     });

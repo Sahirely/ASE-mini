@@ -17,3 +17,13 @@
     height: 2em;
 }
 
+.panel {
+	border-color: #DCDCDC !important;
+}
+.panel-heading{
+	background-color: #DCDCDC !important;
+	border-color: #DCDCDC !important;
+}
+.panel-body{
+	border-color: #DCDCDC !important
+}

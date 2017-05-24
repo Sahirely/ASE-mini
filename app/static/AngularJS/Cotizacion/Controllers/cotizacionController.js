@@ -11,8 +11,11 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     $scope.numeroOrden = $routeParams.orden;
     $scope.idTaller = '';
     $scope.lstPartidaSeleccionada = [];
+    $scope.mostrarTalleres = true;
+    $scope.mostrarPartida = false;
     $scope.init = function() {
-
+        $scope.mostrarTalleres = true;
+        $scope.mostrarPartida = false;
         $scope.getTalleres();
         $scope.getOrdenDetalle(1, $scope.numeroOrden);
     }
@@ -40,12 +43,22 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     }
 
     $scope.seleccionarTaller = function(obj) {
+        $scope.limpiarParametros();
         $scope.datosTaller = obj;
         $scope.getPartidasTaller(obj.idTaller)
+        $scope.mostrarTalleres = false;
+        $scope.mostrarPartida = true;
+        
+    }
+
+    $scope.limpiarParametros = function(){
         $scope.lstPartidaSeleccionada = [];
+        $scope.partidasTaller = [];
         $scope.subTotal = 0;
         $scope.ivaSubTotal = 0;
         $scope.total = 0;
+        $scope.mostrarTalleres = true;
+        $scope.mostrarPartida = false;
         $('.dataTablePartidasSeleccionadas').DataTable().destroy();
     }
 
@@ -55,7 +68,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         consultaCitasRepository.getPartidasTaller(idTaller).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
-                globalFactory.minDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
+                globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
             }
         }, function(error) {
             alertFactory.error('No se puenen obtener las órdenes');
@@ -108,22 +121,27 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     };
 
     $scope.nuevaCotizacion = function() {
-        console.log('nueva ' + $scope.idTaller , ' ', $scope.numeroOrden)
         cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden).then(function(result) {
             if (result.data[0].idCotizacion > 0) {
-                console.log(result.data[0].idCotizacion + ' nuevaaa' +result.data[0].mensaje)
-                console.log('dentro de nueva ' + $scope.idTaller + ' '+ $scope.numeroOrden)
                 $scope.idCotizacion = result.data[0].idCotizacion;
                 $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
                     cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, 1).then(function(nuevos) {
                         if (nuevos.data[0].idCotizacionDetalle > 0) {
-                            console.log(nuevos.data[0].idCotizacionDetalle+'Se guardo bien ' + nuevos.data[0].mensaje)
                         } else {
                             console.log('Error al Guardar')
                         }
                     });
                 });
+                alertFactory.success('se creo nueva cotización');
+                $scope.limpiarParametros();
+            }else{
+                alertFactory.error('No se pudo crear cotización');
+                $scope.limpiarParametros();
+                
             }
+        },function(error) {
+            alertFactory.error('No se pudo crear cotización');
+            $scope.limpiarParametros();
         });
     }
 

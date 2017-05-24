@@ -27,6 +27,8 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            <br/>
+                            <br/>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <select class="form-control m-b" name="tar" ng-model="selectedTipo.idTipoCotizacion" ng-options="tipo.idTipoCotizacion as tipo.cotizacion for tipo in tipoCotizaciones" ng-disabled="verificaRefaccion == 4">
                                     <option value="">Seleccione el tipo de cotización</option>
@@ -34,12 +36,13 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Buscar taller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary"><i class="fa fa-search"></i>
+                                    <input type="text" class="form-control" placeholder="Buscar taller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" ng-click="limpiarParametros()"><i class="fa fa-search"></i>
                                         </button> </span>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                            <br/>
                             <div align="left">
                                 <label>Taller:</label>
                                 <span>{{datosTaller.razonSocial}}</span>
@@ -53,7 +56,7 @@
                             <br/>
                             <br/>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="mostrarTalleres">
                             <div class="table-responsive">
                                 <table class="table table-bordered dataTableTalleres">
                                     <thead>
@@ -78,7 +81,47 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="mostrarPartida">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Introduzca servicio o refacción"> <span class="input-group-btn"> <button type="button" class="btn btn-primary"><i class="fa fa-search"></i>
+                                        </button> </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="mostrarPartida">
+                            <div class="table-responsive ">
+                                <table class="table table-bordered dataTablePartidasTalleres ">
+                                    <thead>
+                                        <tr>
+                                            <th>No.Partida</th>
+                                            <th>No.Parte</th>
+                                            <th>Descripción</th>
+                                            <th>Precio</th>
+                                            <th>Agregar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="partidasTaller in partidasTaller" ng-class="">
+                                            <td>{{ partidasTaller.idPartida }}</td>
+                                            <td>{{ partidasTaller.numeroParte }}</td>
+                                            <td>{{ partidasTaller.descripcion }}</td>
+                                            <td>{{ partidasTaller.precio | currency}}</td>
+                                            <td>
+                                                <button class="btn btn-success" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br/>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
+                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="nuevaCotizacion()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-show="mostrarPartida">
                             <div class="table-responsive scroll_content">
                                 <table class="table table-bordered dataTableItem dataTablePartidasSeleccionadas">
                                     <thead>
@@ -120,46 +163,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Introduzca servicio o refacción"> <span class="input-group-btn"> <button type="button" class="btn btn-primary"><i class="fa fa-search"></i>
-                                        </button> </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                            <div class="table-responsive ">
-                                <table class="table table-bordered dataTablePartidasTalleres ">
-                                    <thead>
-                                        <tr>
-                                            <th>No.Partida</th>
-                                            <th>No.Parte</th>
-                                            <th>Descripción</th>
-                                            <th>Precio</th>
-                                            <th>Agregar</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="partidasTaller in partidasTaller" ng-class="">
-                                            <td>{{ partidasTaller.idPartida }}</td>
-                                            <td>{{ partidasTaller.numeroParte }}</td>
-                                            <td>{{ partidasTaller.descripcion }}</td>
-                                            <td>{{ partidasTaller.precio | currency}}</td>
-                                            <td>
-                                                <button class="btn btn-success" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
-                                                    <span class="glyphicon glyphicon-plus"></span>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <br/>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
-                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="nuevaCotizacion()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
