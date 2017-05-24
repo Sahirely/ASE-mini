@@ -69,6 +69,7 @@ registrationModule.factory('globalFactory', function() {
             }, 1500);
         },
         filtrosTabla: function(dataTable, title, displayLength) {
+          $('.' + dataTable).DataTable().destroy();
             $('.' + dataTable + ' thead th').each(function() {
                 var titulo = $(this).text();
                 $(this).html(titulo + '<input type="text"/>');

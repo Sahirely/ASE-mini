@@ -23,14 +23,14 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.obtieneNivelZona();
         $scope.devuelveZonas(0, 1);
         $scope.devuelveEjecutivos();
+        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
     }
 
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function(PorOrden, presupuesto) {
       $scope.cotizaciones = [];
       $scope.cotizacionesSinPresupuesto = [];
-      $('.dataTableCotizaciones_').DataTable().destroy();
-      $('.dataTableCotizacionesSinPresupuesto').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
       var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
       var fechaMes = this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
@@ -45,10 +45,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
               }
               if (presupuesto == 1){
                  $scope.cotizaciones = result.data;
-                 globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
+                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+                 //globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
               }else if(presupuesto == 0){
                   $scope.cotizacionesSinPresupuesto = result.data;
-                  globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
+                  globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
+                  //globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
               }
            },
            function (error) {
