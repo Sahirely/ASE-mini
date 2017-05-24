@@ -20,6 +20,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getOrdenActual = function() {
         busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.ordendesActual = result.data;
+            globalFactory.filtrosTabla("ordenActual", "Ordenes Actuales", 5);
             console.log($scope.ordendesActual);
             if ($scope.ordendesActual[0].respuesta == 1) {
                 $scope.muestraOrdenActual = true;
@@ -42,26 +43,26 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getHistoricoOrdenes = function() {
         busquedaUnidadRepository.getHistoricoOrdenes($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.historialOrdenes = result.data;
-
+            globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 5);
             //globalFactory.waitDrawDocument("historialUnidad", "Historial Unidades");
-            $('.historialUnidad thead th').each(function() {
-                var title = $(this).text();
-                $(this).html(title + '<input type="text"/>');
-            });
-            setTimeout(function() {
-                var table = $('.historialUnidad').DataTable();
-                table.columns().every(function() {
-                    var that = this;
+            // $('.historialUnidad thead th').each(function() {
+            //     var title = $(this).text();
+            //     $(this).html(title + '<input type="text"/>');
+            // });
+            // setTimeout(function() {
+            //     var table = $('.historialUnidad').DataTable();
+            //     table.columns().every(function() {
+            //         var that = this;
 
-                    $('input', this.header()).on('keyup change', function() {
-                        if (that.search() !== this.value) {
-                            that
-                                .search(this.value)
-                                .draw();
-                        }
-                    });
-                });
-            }, 1000);
+            //         $('input', this.header()).on('keyup change', function() {
+            //             if (that.search() !== this.value) {
+            //                 that
+            //                     .search(this.value)
+            //                     .draw();
+            //             }
+            //         });
+            //     });
+            // }, 1000);
 
 
             if ($scope.historialOrdenes[0].respuesta == 1) {
