@@ -1,9 +1,45 @@
-var trabajoUrl = global_settings.urlCORS + '/api/trabajo/';
-var ordenUrl = global_settings.urlCORS + '/api/orden/';
+var trabajoUrl      = global_settings.urlCORS + '/api/trabajo/';
+var cotizacionUrl   = global_settings.urlCORS + '/api/cotizacion/';
+var ordenUrl        = global_settings.urlCORS + '/api/orden/';
 var reporteDummyUrl = global_settings.urlCORS + '/api/reporte/';
 
 registrationModule.factory('trabajoRepository', function ($http) {
     return {
+        getNivelZona: function(idUsuario){
+          return $http({
+              url: cotizacionUrl + 'nivelZona',
+              method: "GET",
+              params: {
+                  idUsuario: idUsuario
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
+        },
+        getZonas: function (idnivel, idpadre) {
+            return $http({
+                url: cotizacionUrl + 'zonas/',
+                method: "GET",
+                params: {
+                    idNivel: idnivel,
+                    idPadre: idpadre
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        obtieneEjecutivos: function(idUsuario){
+            return $http({
+                url: cotizacionUrl + 'ejecutivos/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario
+                },
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+        },
         getTrabajo: function (idUsuario) {
             return $http({
                 url: trabajoUrl + 'trabajo/',
