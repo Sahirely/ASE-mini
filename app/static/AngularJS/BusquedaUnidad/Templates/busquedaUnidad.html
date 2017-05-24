@@ -123,7 +123,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="orden in ordendesActual" ng-dblclick="detalleOrden(orden)" class="cursor">
+                                        <tr ng-repeat="orden in ordendesActual" ng-dblclick="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                             <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
                                             <td>{{ orden.taller}}</td>
                                             <td>{{ orden.direccion}}</td>
@@ -166,7 +166,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="historialOrden in historialOrdenes" ng-dblclick="detalleOrden(historialOrden)" class="cursor">
+                                        <tr ng-repeat="historialOrden in historialOrdenes" ng-dblclick="detalleOrden(historialOrden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                             <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
                                             <td>{{ historialOrden.taller}}</td>
                                             <td>{{ historialOrden.direccion}}</td>
