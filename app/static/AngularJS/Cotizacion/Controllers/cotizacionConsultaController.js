@@ -20,6 +20,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
 
     $scope.init = function () {
+        $scope.obtieneNivelZona();
         $scope.devuelveZonas(1,0);
         $scope.devuelveEjecutivos();
     }
@@ -85,6 +86,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                   break;
             }
         }
+    }
+
+    $scope.obtieneNivelZona = function(){
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idUsuario).then(function (result) {
+            debugger;
+            $scope.nivelesZona = result.data[0].Niveles;
+         },
+         function (error) {
+             alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
+         });
     }
 
     //obtiene las zonas
@@ -162,7 +173,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     };
 
     //obtiene el mes en formato de fecha
-    $scope.obtieneFechaMes = function() {
+    $scope.obtieneFechaMes = function(){
       var result = '';
       if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
           var fechaPartida = $scope.fechaMes.split('-');
@@ -193,7 +204,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           }
         }
       return result;
-  };
+    }
 
     //Abre la modal para confirmar la cancelación de la orden
     $scope.cancelarAprobacion = function (idCotizacion) {

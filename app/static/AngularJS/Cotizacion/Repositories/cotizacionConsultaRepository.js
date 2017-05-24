@@ -2,6 +2,16 @@ var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
 registrationModule.factory('cotizacionConsultaRepository', function ($http) {
     return {
+        getNivelZona: function(idUsuario){
+          return $http({
+              url: searchUrl + 'nivelZona',
+              method: "GET",
+              params: {
+                  idUsuario: idUsuario
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
+        },
         cancelaCotizacion: function(idUsuario, idCotizacion){
           return $http({
               url: searchUrl + 'cancelaCot',

@@ -110,6 +110,27 @@ Cotizacion.prototype.get_zonas = function (req, res, next) {
     });
 }
 
+//Obtiene las zonas por nivel y padre seleccionado
+Cotizacion.prototype.get_nivelZona = function (req, res, next) {
+    //Referencia a la clase para callback
+    var self = this;
+    //Obtención de valores de los parámetros del request
+    var params = [
+        {
+            name: 'idusuario',
+            value: req.query.idUsuario,
+            type: self.model.types.INT
+       }
+   ];
+
+    this.model.query('SEL_NIVEL_ZONAS_CLIENTE_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 //Obtiene los usuarios ejectivos
 Cotizacion.prototype.get_ejecutivos = function(req, res, next){
   var self = this;
