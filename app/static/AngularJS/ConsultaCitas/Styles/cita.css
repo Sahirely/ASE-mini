@@ -27,3 +27,13 @@
 .panel-body{
 	border-color: #DCDCDC !important
 }
+
+
+table thead tr {
+  background-color: #F5F5F6;
+}
+
+table tbody tr:hover {
+
+  cursor: pointer;
+}

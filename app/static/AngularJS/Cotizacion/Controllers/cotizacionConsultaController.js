@@ -21,16 +21,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.init = function () {
         $scope.obtieneNivelZona();
-        $scope.devuelveZonas(1,0);
+        $scope.devuelveZonas(0, 1);
         $scope.devuelveEjecutivos();
+        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
     }
 
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function(PorOrden, presupuesto) {
       $scope.cotizaciones = [];
       $scope.cotizacionesSinPresupuesto = [];
-      $('.dataTableCotizaciones_').DataTable().destroy();
-      $('.dataTableCotizacionesSinPresupuesto').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
       var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
       var fechaMes = this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
@@ -45,10 +45,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
               }
               if (presupuesto == 1){
                  $scope.cotizaciones = result.data;
-                 globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
+                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+                 //globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
               }else if(presupuesto == 0){
                   $scope.cotizacionesSinPresupuesto = result.data;
-                  globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
+                  globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
+                  //globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
               }
            },
            function (error) {
@@ -64,20 +66,20 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           switch (nivelZona) {
               case 1:
                   if($scope.zonaSelected != null){
-                      $scope.devuelveZonas(2, $scope.zonaSelected);
+                      $scope.devuelveZonas($scope.zonaSelected, 2);
                       $scope.TieneZona2 = true;
                   }
                   break;
               case 2:
                   if($scope.zonaSelected != null){
-                      $scope.devuelveZonas(3, $scope.zonaSelected);
+                      $scope.devuelveZonas($scope.zonaSelected, 3);
                       $scope.TieneZona2 = true;
                       $scope.TieneZona3 = true;
                   }
                   break;
               case 3:
                   if($scope.zonaSelected != null){
-                      $scope.devuelveZonas(4, $scope.zonaSelected);
+                      $scope.devuelveZonas($scope.zonaSelected, 4);
                       $scope.TieneZona2 = true;
                       $scope.TieneZona3 = true;
                       $scope.TieneZona4 = true;
@@ -97,9 +99,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     }
 
     //obtiene las zonas
-    $scope.devuelveZonas = function(nivel, padre) {
-        cotizacionConsultaRepository.getZonas(nivel, padre).then(function(zonas) {
-              switch (nivel) {
+    $scope.devuelveZonas = function(padre, orden) {
+        cotizacionConsultaRepository.getZonas($scope.idUsuario, padre, orden).then(function(zonas) {
+              switch (orden) {
                   case 1: $scope.zonas = zonas.data; break;
                   case 2: $scope.zonas2 = zonas.data; break;
                   case 3: $scope.zonas3 = zonas.data; break;

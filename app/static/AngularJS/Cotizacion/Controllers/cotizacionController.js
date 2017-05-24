@@ -21,14 +21,17 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     }
 
     $scope.getTalleres = function() {
+        $('#loadModal').modal('show');
         $('.dataTableTalleres').DataTable().destroy();
         $scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
                 globalFactory.minMinDrawDocument("dataTableTalleres", "Talleres");
             }
+            $('#loadModal').modal('hide');
         }, function(error) {
             alertFactory.error('No se puenen obtener las órdenes');
+            $('#loadModal').modal('hide');
         });
     }
 
@@ -63,16 +66,21 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     }
 
     $scope.getPartidasTaller = function(idTaller) {
+        $('#loadModal').modal('show');
         $scope.idTaller = idTaller;
         $('.dataTablePartidasTalleres').DataTable().destroy();
         consultaCitasRepository.getPartidasTaller(idTaller).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
                 globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
+                
             }
+            $('#loadModal').modal('hide');
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puenen obtener las órdenes');
         });
+
     }
 
     $scope.partidaSeleccionada = function(obj) {
@@ -121,6 +129,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     };
 
     $scope.nuevaCotizacion = function() {
+        $('#loadModal').modal('show');
         cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden).then(function(result) {
             if (result.data[0].idCotizacion > 0) {
                 $scope.idCotizacion = result.data[0].idCotizacion;
@@ -134,12 +143,16 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 });
                 alertFactory.success('se creo nueva cotización');
                 $scope.limpiarParametros();
+                $('#loadModal').modal('hide');
+                location.href = '/detalle?orden=' + $scope.numeroOrden;
             }else{
+                $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
                 $scope.limpiarParametros();
                 
             }
         },function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se pudo crear cotización');
             $scope.limpiarParametros();
         });

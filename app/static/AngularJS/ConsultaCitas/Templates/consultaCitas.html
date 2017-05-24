@@ -90,7 +90,7 @@
                         <div class="table-responsive">
                             <br/>
                             <br/>
-                            <table class="table table-bordered dataTableOrdenes" cg-busy="{promise:promise,message:message}">
+                            <table class="table table-bordered table-hover dataTableOrdenes" cg-busy="{promise:promise,message:message}">
                                 <thead>
                                     <tr>
                                         <th>Cliente</th>
@@ -98,22 +98,18 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>-TAR-</th>
+                                        <th>Centro Trabajo</th>
                                         <th>Taller</th>
                                         <th>Tipo Servicio</th>
                                         <th>Fecha</th>
-                                        <!-- <th>Dirección Taller</th> -->
                                         <th>Comentarios Adicionales</th>
-                                        <!-- <th>Observaciones</th> -->
                                         <th>Estatus</th>
                                         <th>Agendó</th>
-                                        <!-- <th>Tipo Orden</th> -->
                                         <th>Tiempo Transcurrido Tiempo Asignado</th>
-                                        <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} ">
+                                    <tr  title="Doble click para ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-dblclick="seleccionarOrden(ordenesTaller)">
                                         <td></td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>
@@ -129,9 +125,6 @@
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
                                         <td></td>
-                                        <td class="center">
-                                            <button class="btn btn-success btn-xs" ng-click="seleccionarOrden(ordenesTaller)" title="Detalles"><i class="glyphicon glyphicon-list-alt"></i></button>
-                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -141,7 +134,7 @@
                         <div class="table-responsive">
                             <br/>
                             <br/>
-                            <table class="table table-bordered dataTableOrdenes">
+                            <table class="table table-bordered table-hover dataTableOrdenes">
                                 <thead>
                                     <tr>
                                         <th>Cliente</th>
@@ -149,13 +142,10 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>-TAR-</th>
-                                        <th>Sin Taller</th>
+                                        <th>Centro Trabajo</th>
                                         <th>Tipo Orden</th>
                                         <th>Fecha</th>
-                                        <!-- <th>Dirección Taller</th> -->
                                         <th>Comentarios Adicionales</th>
-                                        <!-- <th>Observaciones</th> -->
                                         <th>Estatus</th>
                                         <th>Agendó</th>
                                         <th>Acción</th>
@@ -169,11 +159,10 @@
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
                                         <td></td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
-                                        <td></td>
                                         <td>{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
                                         <td></td>
                                         <td>
-                                            </th> d
+                                            </th>
                                             <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                             <td>{{ordenesSinTaller.nombreUsuario}}</td>
                                             <td>
@@ -185,50 +174,6 @@
                             </table>
                         </div>
                     </tab>
-                    <!--  <tab heading="Citas con Grúa" index="2">
-                        <div class="table-responsive">
-                            <br/>
-                            <br/>
-                            <table class="table table-bordered dataTableCitaTaller">
-                                <thead>
-                                    <tr>
-                                        <th>Cliente</th>
-                                        <th>Consecutivo</th>
-                                        <th>Número de la Orden</th>
-                                        <th>Número Económico</th>
-                                        <th>Zona</th>
-                                        <th>-TAR-</th>
-                                        <th>Taller</th>
-                                        <th>Tipo Orden</th>
-                                        <th>Fecha</th>
-                                        <!-- <th>Dirección Taller</th> 
-                                        <th>Comentarios Adicionales</th>
-                                        <!-- <th>Observaciones</th> 
-                                        <th>Estatus</th>
-                                        <th>Agendó</th>
-                                        <th>Acción</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   <tr ng-repeat="ordenesGrua in totalOrdenes | filter:{idTipoOrden: '2'} ">
-                                   <th></th>
-                                    <th>{{ordenesGrua.idOrden}}</th>
-                                    <th>{{ordenesGrua.numeroOrden}}</th>
-                                    <th>{{ordenesGrua.numeroEconomico}}</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th>{{ordenesGrua.nombreTipoOrdenServicio}}</th>
-                                    <th></th>
-                                    <th></th>                               
-                                    <th>{{ordenesGrua.nombreEstatusOrden}}</th>
-                                    <th>{{ordenesGrua.nombreUsuario}}</th>
-                                    <th></th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </tab> -->
                 </tabset>
             </div>
         </div>
