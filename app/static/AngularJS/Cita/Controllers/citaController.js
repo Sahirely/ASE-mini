@@ -6,15 +6,18 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.init = function() {
         $scope.getDetalleUnidad();
         $('.clockpicker').clockpicker();
-        $('.input-group.date').datepicker({
-            todayBtn: "linked",
-            keyboardNavigation: true,
-            forceParse: false,
-            calendarWeeks: true,
-            autoclose: true,
-            todayHighlight: true,
-            format: 'dd/mm/yyyy'
-        });
+        // $('.input-group.date').datepicker({
+        //     todayBtn: "linked",
+        //     keyboardNavigation: true,
+        //     forceParse: false,
+        //     calendarWeeks: true,
+        //     autoclose: true,
+        //     todayHighlight: true,
+        //     format: 'dd/mm/yyyy'
+        // });
+    };
+    var error = function() {
+        alertFactory.error('Ocurrio un Error');
     };
     //*****************************************************************************************************************************//
     // Obtiene el detalle de la unidad como marca, modelo, etc
@@ -34,6 +37,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             } else if ($scope.detalleUnidad.situacionOrden == 0) {
                 $scope.getTipoOrdenesServicio();
                 $scope.getTipoEstadoUnidad();
+                $scope.getServicios();
                 $scope.muestraAgendarCita = true;
             }
         });
@@ -53,6 +57,25 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         citaRepository.getTipoEstadoUnidad().then(function(result) {
             $scope.estadoUnidad = result.data;
             console.log(result)
+        });
+    };
+    //*****************************************************************************************************************************//
+    // Obtiene los servicios(especialidades) que se le pueden ofrecer dependiendo de la operación y el contrato
+    //*****************************************************************************************************************************//
+    $scope.getServicios = function() {
+        citaRepository.getServicios($scope.idUsuario, $routeParams.economico).then(function(result) {
+            $scope.servicios = result.data;
+            if ($scope.servicios[0].respuesta == 1) {
+                $scope.mensajeServicios = false;
+                console.log('Respuesta correcta')
+            } else if ($scope.servicios[0].respuesta == 0) {
+                $scope.mensajeServicios = true;
+                console.log('No se encontraros registros')
+            } else {
+                error();
+            }
+            console.log(result.data, 'Son las Especialidades');
+
         });
     };
     //*****************************************************************************************************************************//

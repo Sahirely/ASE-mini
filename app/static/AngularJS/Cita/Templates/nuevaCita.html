@@ -14,12 +14,12 @@
                             </h2>
                         </div>
                         <div>
-                            <strong>{{'nombre'}}</strong>
+                            <!-- <strong>{{'nombre'}}</strong> -->
                             <address>
                                 <h3>
-                            <strong>Zona:</strong> {{detalleUnidad.pendiente}}<br><br>
+                           <!--  <strong>Zona:</strong> {{detalleUnidad.pendiente}}<br><br>
                             <strong>TAR:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>No. TAR:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <strong>No. TAR:</strong> {{detalleUnidad.pendiente}}<br><br> -->
                             <strong>Unidad:</strong> {{detalleUnidad.marca}} - {{detalleUnidad.modelo}}<br><br>
                             <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
                             <strong>No. Inventario:</strong> {{detalleUnidad.pendiente}}<br><br>
@@ -72,7 +72,7 @@
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Fecha:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" value="" ng-model="fechaCita" ng-change="validaHoraCita()">
+                                    <input type="text" class="form-control" value="" ng-model="fechaCita" calendar>
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
@@ -102,23 +102,14 @@
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Servicio:</label>
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                <div class="checkbox checkbox-warning">
-                                    <input id="mecanica" type="checkbox" value="1" ng-model="mecanica">
-                                    <label for="mecanica">Mecánica</label>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-hide="mensajeServicios">
+                                <div class="checkbox checkbox-warning" ng-repeat="servicio in servicios">
+                                    <input id="{{servicio.idServicio}}" type="checkbox">
+                                    <label for="{{servicio.idServicio}}">{{servicio.nombreServicio}}</label>
                                 </div>
-                                <div class="checkbox checkbox-warning">
-                                    <input id="hojalateria" type="checkbox" value="2" ng-model="hojalateria">
-                                    <label for="hojalateria">Hojalatería</label>
-                                </div>
-                                <div class="checkbox checkbox-warning">
-                                    <input id="electrica" type="checkbox" value="3" ng-model="electrica">
-                                    <label for="electrica">Eléctrica</label>
-                                </div>
-                                <div class="checkbox checkbox-warning">
-                                    <input id="aireAcondicionado" type="checkbox" value="4" ng-model="aireacondicionado">
-                                    <label for="aireAcondicionado">Aire Acondicionado</label>
-                                </div>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="mensajeServicios">
+                                <label class="text-danger">{{servicios[0].mensaje}}</label>
                             </div>
                         </div>
                     </form>
@@ -181,79 +172,3 @@
         </div>
     </div>
 </div>
-<!-- <div class="modal inmodal fade " id="citaServicioModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content animated flipInY">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Pre-orden de servicio</h4>
-            </div>
-            <div class="modal-body" ng-init="initCitaServicio()">
-                <div class="row">
-                    <div class="col-xs-5">
-                        <input type="text" placeholder="Búsqueda: Servicio/Paquete/Refacción" ng-model="pieza" class="form-control" ng-enter="getPieza(pieza)">
-                    </div>
-                    <div class="col-xs-0">
-                        <button id="btnBuscarPieza" busy="Buscando.." type="button" class="btn btn-primary glyphicon glyphicon-search" ng-click="getPieza(pieza)"></button>
-                    </div>
-                </div>
-                <br/>
-                <div class="row tablaBusqueda tablaAlign" cg-busy="{promise:promise,message:message}">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTablePiezaTaller">
-                            <thead>
-                                <th>No.Partida</th>
-                                <th>No.Parte</th>
-                                <th>Descripción</th>
-                                <th>Agregar</th>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="pieza in piezas">
-                                    <td>{{ pieza.numeroPartida }}</td>
-                                    <td>{{ pieza.numeroParte }}</td>
-                                    <td>{{pieza.item}}</td>
-                                    <td>
-                                        <button class="btn btn-success glyphicon glyphicon-plus" type="button" id="btnCotizar" ng-click="addPieza(pieza)">
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <br/>
-                <div class="row">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <th>No.Partida</th>
-                            <th>No.Parte</th>
-                            <th>Descripción</th>
-                            <th>Cantidad</th>
-                            <th>Eliminar</th>
-                        </thead>
-                        <tbody>
-                            <tr dir-paginate="pieza in listaPiezas | itemsPerPage:3" pagination-id="listaPiezasSeleccionadas">
-                                <td>{{pieza.numeroPartida }}</td>
-                                <td>{{pieza.numeroParte}}</td>
-                                <td>{{pieza.item}}</td>
-                                <td>{{pieza.cantidad}}</td>
-                                <td>
-                                    <button class="btn btn-danger glyphicon glyphicon-remove" type="button" id="btnCotizar" ng-click="removePieza(pieza.idItem)">
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div id="paginationTaller">
-                        <dir-pagination-controls max-size="5" direction-links="true" boundary-links="true" pagination-id="listaPiezasSeleccionadas">
-                        </dir-pagination-controls>
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="generarCitaServicio(pieza)"><span class="glyphicon glyphicon-saved"></span><strong> Generar Pre-orden</strong></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
- -->

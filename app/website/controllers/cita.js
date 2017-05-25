@@ -91,6 +91,26 @@ Cita.prototype.put_agendarCita = function(req, res, next) {
     });
 }
 
+Cita.prototype.get_servicios = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'numeroEconomico',
+        value: req.query.economico,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('SEL_SERVICIOS_TALLERES_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 // //obtiene el trabajo de la cita
 // Cita.prototype.get_unidad = function (req, res, next) {
 //     //Con req.query se obtienen los parametros de la url

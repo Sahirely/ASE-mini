@@ -9,6 +9,9 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         $scope.getOrdenActual();
         $scope.getHistoricoOrdenes();
     };
+    var error = function() {
+        alertFactory.error('Ocurrio un Error');
+    };
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
@@ -37,6 +40,8 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
             } else if ($scope.ordendesActual[0].respuesta == 0) {
                 $scope.muestraOrdenActual = false;
                 $scope.agendarCita = true;
+            } else {
+                error();
             }
         });
     };
@@ -50,6 +55,8 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
                 $scope.muestraHistorial = true;
             } else if ($scope.historialOrdenes[0].respuesta == 0) {
                 $scope.muestraHistorial = false;
+            } else {
+                error();
             }
         });
     };

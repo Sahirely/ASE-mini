@@ -26,24 +26,37 @@ registrationModule.factory('citaRepository', function($http, $q) {
             })
         },
         putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller) {
+            return $http({
+                url: citaUrl + 'agendarCita/',
+                method: "PUT",
+                params: {
+                    idUnidad: idUnidad,
+                    idUsuario: idUsuario,
+                    idTipoOrdenServicio: idTipoCita,
+                    idEstadoUnidad: idEstadoUnidad,
+                    grua: grua,
+                    fechaCita: fechaCita,
+                    comentario: comentario,
+                    idZona: idZona,
+                    taller: taller
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        getServicios: function(idUsuario, economico) {
                 return $http({
-                    url: citaUrl + 'agendarCita/',
-                    method: "PUT",
+                    url: citaUrl + 'servicios/',
+                    method: "GET",
                     params: {
-                        idUnidad: idUnidad,
                         idUsuario: idUsuario,
-                        idTipoOrdenServicio: idTipoCita,
-                        idEstadoUnidad: idEstadoUnidad,
-                        grua: grua,
-                        fechaCita: fechaCita,
-                        comentario: comentario,
-                        idZona: idZona,
-                        taller: taller
+                        economico: economico
                     },
                     headers: {
                         'Content-Type': 'application/json'
                     }
-                })
+                });
             }
             // getUnidadInformation: function (datoUnidad, idUsuario) {
             //     return $http({
