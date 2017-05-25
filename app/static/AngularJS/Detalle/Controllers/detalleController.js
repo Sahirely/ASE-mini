@@ -7,6 +7,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
 
     $scope.idUsuario = 2;
     $scope.numeroOrden = $routeParams.orden;
+    $scope.textoNota = null;
     $scope.init = function() {
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden)
         $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden)
@@ -47,5 +48,10 @@ registrationModule.controller('detalleController', function($scope, $location, c
         location.href = '/cotizacionnueva?orden=' + $routeParams.orden;
     }
 
+    $scope.enviaNota = function(){
+      var Nota = $scope.textoNota;
+      
+      detalleRepository.insNota();
+    }
 
 });

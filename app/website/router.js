@@ -14,5 +14,6 @@
      mobile: require('./controllers/app.controller'),
      busquedaUnidad: require('./controllers/busquedaUnidad'),
      ordenServicio: require('./controllers/ordenServicio'),
-     configurador: require('./controllers/configurador')
+     configurador: require('./controllers/configurador'),
+     detalle: require('./controllers/detalle')
  }
