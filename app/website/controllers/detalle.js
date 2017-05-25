@@ -18,7 +18,7 @@ var Detalle = function (conf) {
    ]
 }
 
-Detalle.prototype.post_insertaNota = function(req, res, next){
+Detalle.prototype.get_insertaNota = function(req, res, next){
   var self = this;
   var params = [
       {

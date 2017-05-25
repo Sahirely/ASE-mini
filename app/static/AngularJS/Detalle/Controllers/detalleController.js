@@ -8,10 +8,12 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.idUsuario = 2;
     $scope.numeroOrden = $routeParams.orden;
     $scope.textoNota = null;
+    $scope.notaTrabajo = [];
     $scope.init = function() {
-        $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden)
-        $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden)
-        $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden)
+        $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden);
+        $scope.enviaNota();
     };
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
@@ -49,9 +51,16 @@ registrationModule.controller('detalleController', function($scope, $location, c
     }
 
     $scope.enviaNota = function(){
-      var Nota = $scope.textoNota;
-      
-      detalleRepository.insNota();
-    }
+      $scope.notaTrabajo = [];
+      var Nota = $scope.textoNota == '' ? null : $scope.textoNota;
+      detalleRepository.insNota(Nota, $scope.numeroOrden, $scope.idUsuario).then(function(result){
+          if (result.data.length > 0){
+              $scope.notaTrabajo = result.data;
+          }
+      },function(error){
+          alertFactory.error('No se pudieron obtener las notas');
+      });
+      $scope.textoNota = null;
+    };
 
 });

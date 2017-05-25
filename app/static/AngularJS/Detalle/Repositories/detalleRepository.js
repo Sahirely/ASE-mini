@@ -18,18 +18,18 @@ registrationModule.factory('detalleRepository', function ($http) {
             });
         },
         insNota: function (nota,idOrden,idUsuario) {
-                    return $http({
-                        url: detalleUrl + '/insertaNota',
-                        method: "POST",
-                        params: {
-                            nota: nota,
-                            idOrden: idOrden,
-                            idUsuario: idUsuario
-                        },
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    });
+            return $http({
+                url: detalleUrl + 'insertaNota/',
+                method: "GET",
+                params: {
+                    nota: nota,
+                    idOrden: idOrden,
+                    idUsuario: idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
                 }
+            });
+        }
     };
 });

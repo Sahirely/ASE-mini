@@ -20,6 +20,10 @@
         border-color: #ffce88;
     }
 
+    .planAccion{
+        height: 307px !important;
+    }
+
     .sinPresupuesto {
         color: red;
     }
@@ -84,7 +88,7 @@
     /*INICIA Cambio de estilos en NOTAS*/
 
     .my-scroll-nota {
-        height: 150px;
+        height: 150px !important;
     }
     /*TERMINA Cambio de estilos en NOTAS*/
     /*INICIA Estilos de los botones de carga de ARCHIVOS*/

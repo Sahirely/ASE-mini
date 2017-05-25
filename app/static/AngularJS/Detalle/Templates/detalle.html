@@ -387,12 +387,12 @@
                                             <div class="chat-activity-list">
                                                 <div ng-repeat="notas in notaTrabajo">
                                                     <div class="chat-element">
-                                                        <a href="#" ng-class="notas.idUsuario === userData.idUsuario ? 'pull-left' : 'pull-right'">
+                                                        <a href="#" ng-class="notas.idUsuario === idUsuario ? 'pull-left' : 'pull-right'">
                                                             <img alt="image" class="img-circle" src="image/profile/man2.jpg">
                                                         </a>
                                                         <div class="media-body">
-                                                            <small ng-class="notas.idUsuario === userData.idUsuario ? 'pull-right' : 'pull-left'">{{notas.tiempoTranscurrido}}</small>
-                                                            <div ng-class="notas.idUsuario === userData.idUsuario ? 'pull-left' : 'pull-right'">
+                                                            <small ng-class="notas.idUsuario === idUsuario ? 'pull-right' : 'pull-left'">{{notas.tiempoTranscurrido}}</small>
+                                                            <div ng-class="notas.idUsuario === idUsuario ? 'pull-left' : 'pull-right'">
                                                                 <strong>{{notas.nombreCompleto}}</strong>
                                                                 <p class="m-b-xs">
                                                                     {{notas.texto}}
@@ -421,7 +421,7 @@
 
                         <!-- Acciones -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
-                            <div class="panel panel-default">
+                            <div class="panel panel-default planAccion">
                                 <div class="panel-heading">
                                     Plan de Acción
                                 </div>
