@@ -22,14 +22,18 @@
                         <div class="col-xs-12 col-sm-12">
                             <div class="hr-line-dashed"></div>
                         </div>
+
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
+                                <div class="progressBarraPadre">
+                                  <div ng-repeat='historico in HistoricoOrden' class="progressBarra" style="width: {{historico.PorcentajeTotal}}%">
+                                    <a href="#" title="{{historico.nombreCompleto}}" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="{{historico.fecha | date:'dd-MM-yyyy' }}">{{historico.nombreEstatusOrden}}</a>
+                                  </div>
+                                </div>
                                 <div ng-repeat='ids in IdsCotizacionesPorOrden'>
                                     <div class="subProgress">
                                         <div ng-class="{'subProgressBarra':ids.Porcentaje > 0, 'subProgressBarraSinPorcentaje':ids.Porcentaje == 0}" style="width: {{ids.Porcentaje}}%;"><p>{{ids.numeroCotizacion}}</p></div>
                                     </div>
-                                </div>
-                                <div class="progressBarra" style="width: {{HistoricoOrden[0].PorcentajeTotal}}%">
                                 </div>
                             </div>
                         </div>
@@ -478,6 +482,7 @@
             height: '580px',
             width: '100%'
         })
+        setTimeout(function() { $('[data-toggle="popover"]').popover();}, 2500);
     });
 
 </script>

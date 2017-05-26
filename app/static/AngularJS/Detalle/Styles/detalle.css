@@ -68,19 +68,25 @@
     }
 
     .progressBarra {
-        /*width: 75%;*/
         height: 30px;
-        background-color: #284156;
+        background-color: #7597b3;
+        float: left;
+    }
+
+    .progressBarra a{
+      color: white;
+    }
+
+    .progressBarraPadre{
+        height: 30px;
     }
 
     .subProgress {
-        /* width: 93%; */
         background-color: #ddd;
         margin: 10px;
     }
 
     .subProgressBarra {
-        /*width: 10%;*/
         height: 30px;
         background-color: #e61429;
         color: white;
