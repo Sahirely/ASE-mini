@@ -49,6 +49,18 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
+        consultarOrdenes: function(tipoConsulta){
+          return $http({
+              url: searchUrl + 'ConsultaOrdenes/',
+              method: "GET",
+              params: {
+                tipoConsulta: tipoConsulta
+              },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
+        },
         get: function(idUsuario, idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden, ConPresupuesto){
           var objConsultaOrden = {
             idUsuario: idUsuario,

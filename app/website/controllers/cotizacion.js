@@ -32,6 +32,50 @@ var Cotizacion = function (conf) {
     this.middlewares = [
    ]
 }
+
+Cotizacion.prototype.get_ConsultaOrdenes = function (req, res, next){
+  var self = this;
+  var params = [
+  //   {
+  //     name: 'fechaInicial',
+  //     value: req.query.Inicio,
+  //     type: self.model.types.STRING
+  // },{
+  //     name: 'fechaFin',
+  //     value: req.query.Fin,
+  //     type: self.model.types.STRING
+  // },{
+  //     name: 'idContratoOperacion',
+  //     value: 2,
+  //     type: self.model.types.INT
+  // },{
+  //     name: 'idZona',
+  //     value: 1,
+  //     type: self.model.types.INT
+  // },{
+  //     name: 'fechaEspecifico',
+  //     value: req.query.Fecha,
+  //     type: self.model.types.STRING
+  // },{
+  //     name: 'mes',
+  //     value: req.query.Mes,
+  //     type: self.model.types.STRING
+  // },
+  {
+     name: 'tipoConsulta',
+     value: req.query.tipoConsulta,
+     type: self.model.types.INT
+  }];
+
+  this.model.query('SEL_TOTAL_ORDENES_SERVICIO_SP',params, function (error, result) {
+      self.view.expositor(res, {
+          error: error,
+          result: result
+      });
+  });
+
+}
+
 //Obtiene las cotizaciones pendientes por autorizar
 Cotizacion.prototype.get_see = function (req, res, next) {
     var self = this;

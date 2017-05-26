@@ -31,6 +31,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.consultaCotizacionesFiltros = function(PorOrden, presupuesto) {
       $scope.cotizaciones = [];
       $scope.cotizacionesSinPresupuesto = [];
+      $('.ordenesPresupuesto').DataTable().destroy();
+      $('.ordenesSinPresupuesto').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
       var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
       var fechaMes = this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
@@ -38,24 +40,35 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? null : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, presupuesto)
-      .then(function (result) {
-              if (result.data.length == 0) {
-                  alertFactory.info('No se encontraron cotizaciones.');
-              }
-              if (presupuesto == 1){
-                 $scope.cotizaciones = result.data;
-                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
-                 //globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
-              }else if(presupuesto == 0){
-                  $scope.cotizacionesSinPresupuesto = result.data;
-                  globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
-                  //globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
-              }
-           },
-           function (error) {
-               alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
-           });
+      $scope.promise = cotizacionConsultaRepository.consultarOrdenes(2).then(function (result){
+          if (result.data.length != 0){
+              $scope.cotizaciones = result.data;
+              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+              $scope.cotizacionesSinPresupuesto = result.data;
+              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
+          }
+
+      },function (error) {
+          alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.')
+      });
+      // $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, presupuesto)
+      // .then(function (result) {
+      //         if (result.data.length == 0) {
+      //             alertFactory.info('No se encontraron cotizaciones.');
+      //         }
+      //         if (presupuesto == 1){
+      //            $scope.cotizaciones = result.data;
+      //            globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+      //            //globalFactory.waitDrawDocument("dataTableCotizaciones_", "");
+      //         }else if(presupuesto == 0){
+      //             $scope.cotizacionesSinPresupuesto = result.data;
+      //             globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
+      //             //globalFactory.waitDrawDocument("dataTableCotizacionesSinPresupuesto","");
+      //         }
+      //      },
+      //      function (error) {
+      //          alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
+      //      });
     };
 
     $scope.SeleccionoZona = function(nivelZona){
