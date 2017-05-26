@@ -24,22 +24,12 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
-                                <div>
+                                <div ng-repeat='ids in IdsCotizacionesPorOrden'>
                                     <div class="subProgress">
-                                        <div class="subProgressBarra" style="width: 25%"></div>
+                                        <div ng-class="{'subProgressBarra':ids.Porcentaje > 0, 'subProgressBarraSinPorcentaje':ids.Porcentaje == 0}" style="width: {{ids.Porcentaje}}%;"><p>{{ids.numeroCotizacion}}</p></div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="subProgress">
-                                        <div class="subProgressBarra" style="width: 55%"></div>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="subProgress">
-                                        <div class="subProgressBarra" style="width: 85%"></div>
-                                    </div>
-                                </div>
-                                <div class="progressBarra">
+                                <div class="progressBarra" style="width: {{HistoricoOrden[0].PorcentajeTotal}}%">
                                 </div>
                             </div>
                         </div>

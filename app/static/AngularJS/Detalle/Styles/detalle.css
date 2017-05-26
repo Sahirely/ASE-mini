@@ -68,7 +68,7 @@
     }
 
     .progressBarra {
-        width: 75%;
+        /*width: 75%;*/
         height: 30px;
         background-color: #284156;
     }
@@ -80,9 +80,17 @@
     }
 
     .subProgressBarra {
-        width: 10%;
+        /*width: 10%;*/
         height: 30px;
         background-color: #e61429;
+        color: white;
+    }
+
+    .subProgressBarraSinPorcentaje{
+      width: 100% !important;
+      height: 30px;
+      background-color: #ddd;
+      color: #000000;
     }
     /*TERMINA Estilos para los progress bar*/
     /*INICIA Cambio de estilos en NOTAS*/

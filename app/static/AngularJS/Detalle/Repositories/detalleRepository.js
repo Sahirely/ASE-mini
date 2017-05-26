@@ -30,6 +30,42 @@ registrationModule.factory('detalleRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getHistoricoOrden: function(idOrden){
+          return $http({
+              url: detalleUrl + 'obtenerHistoricoOrden/',
+              method: "GET",
+              params: {
+                  idOrden: idOrden
+              },
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+        },
+        getIdCotizacionesPorOrden: function(idOrden){
+          return $http({
+              url: detalleUrl + 'obtenerIdCotzPorOrden/',
+              method: "GET",
+              params: {
+                  idOrden: idOrden
+              },
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+        },
+        getHistoricoCotizacion: function(idCotizacion){
+          return $http({
+              url: detalleUrl + 'obtenerHistoricoCotizacion/',
+              method: "GET",
+              params: {
+                  idCotizacion: idCotizacion
+              },
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
         }
     };
 });

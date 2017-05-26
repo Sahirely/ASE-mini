@@ -9,12 +9,38 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.numeroOrden = $routeParams.orden;
     $scope.textoNota = null;
     $scope.notaTrabajo = [];
+    $scope.HistoricoOrden = [];
+    $scope.IdsCotizacionesPorOrden = [];
     $scope.init = function() {
+        $scope.getHistoricos();
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden);
         $scope.enviaNota();
     };
+
+    $scope.getHistoricos = function (){
+
+        detalleRepository.getHistoricoOrden($scope.numeroOrden).then(function(result){
+          if(result.data.length > 0){
+            $scope.HistoricoOrden = result.data;
+          }
+        },function(error){
+          alertFactory.error('No se puede obtener el historico de la orden.');
+        });
+
+        detalleRepository.getIdCotizacionesPorOrden($scope.numeroOrden).then(function(result){
+            if(result.data.length > 0){
+              $scope.IdsCotizacionesPorOrden = result.data;
+            }
+        },function(error){
+          alertFactory.error('No se puede obtener las cotizaciones de la orden.');
+        });
+
+
+
+
+    }
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
