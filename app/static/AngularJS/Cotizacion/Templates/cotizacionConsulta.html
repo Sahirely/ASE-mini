@@ -148,7 +148,7 @@
                                     <td>{{cotizacion.estadistica}}</td>
                                     <td hidden="hidden">{{cotizacion.EstatusAprobacion}}}</td>
                                     <td>{{cotizacion.TiempoEspera}}</td>
-                                    <td>
+                                    <td class='center'>
                                         <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.idOrden)">
                                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
                                         </button>
@@ -188,26 +188,26 @@
                             </thead>
                             <tbody ="dataTableCotizacionesSinPresupuesto">
                                 <tr ng-repeat="cotizacion in cotizacionesSinPresupuesto | filter: {'EstatusAprobacion' : filtroEstatus}">
-                                    <td>{{cotizacion.Cliente}}</td>
-                                    <td>{{cotizacion.Consecutivo}}</td>
-                                    <td>{{cotizacion.NumeroOrden}}</td>
-                                    <td>{{cotizacion.NumeroEconomico}}</td>
-                                    <td>{{cotizacion.Zona}}</td>
-                                    <td>{{cotizacion.Taller}}</td>
-                                    <td>{{cotizacion.TipoOrden}}</td>
-                                    <td>{{cotizacion.Fecha | date:'dd-MM-yyyy HH:mm'}}</td>
-                                    <td>{{cotizacion.numeroCotizacion}}</td>
-                                    <td>{{cotizacion.MarcaModelo}}</td>
-                                    <td>{{cotizacion.Estatus }}</td>
-                                    <td>{{cotizacion.Cotizo }}</td>
-                                    <td>{{cotizacion.Porcentaje}} %</td>
-                                    <td>{{cotizacion.Estadistica}}</td>
-                                    <td hidden="hidden">{{cotizacion.EstatusAprobacion}}}</td>
-                                    <td>{{cotizacion.TiempoEspera}}</td>
-                                    <td>
-                                        <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.NumeroOrden)">
-                                            <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
-                                        </button>
+                                  <td>{{cotizacion.nombreCliente}}</td>
+                                  <td>{{cotizacion.consecutivoOrden}}</td>
+                                  <td>{{cotizacion.numeroOrden}}</td>
+                                  <td>{{cotizacion.numeroEconomico}}</td>
+                                  <td>{{cotizacion.nombreZona}}</td>
+                                  <td>{{cotizacion.nombreTaller}}</td>
+                                  <td>{{cotizacion.nombreTipoORden}}</td>
+                                  <td>{{cotizacion.fechaCita | date:'dd-MM-yyyy HH:mm'}}</td>
+                                  <td>{{cotizacion.numeroCotizacion}}</td>
+                                  <td>{{cotizacion.marcaUnidad}}</td>
+                                  <td>{{cotizacion.estatusCotizacion}}</td>
+                                  <td>{{cotizacion.nombreCompleto}}</td>
+                                  <td>{{cotizacion.porcentaje}} %</td>
+                                  <td>{{cotizacion.estadistica}}</td>
+                                  <td hidden="hidden">{{cotizacion.EstatusAprobacion}}}</td>
+                                  <td>{{cotizacion.TiempoEspera}}</td>
+                                  <td>
+                                      <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.idOrden)">
+                                          <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
+                                      </button>
                                         <button ng-hide="userData.idTipoUsuario == 4 || userData.idTipoUsuario == 3" class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
                                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
                                         </button>
