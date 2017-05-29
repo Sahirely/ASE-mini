@@ -27,12 +27,17 @@
                             <div class="progressPrincipal">
                                 <div class="progressBarraPadre">
                                   <div ng-repeat='historico in HistoricoOrden' class="progressBarra" style="width: {{historico.PorcentajeTotal}}%">
-                                    <a href="#" title="{{historico.nombreCompleto}}" data-toggle="popover" data-placement="top" data-trigger="focus" data-content="{{historico.fecha | date:'dd-MM-yyyy' }}">{{historico.nombreEstatusOrden}}</a>
+                                    <a href="#" title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{historico.nombreCompleto}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Fecha: {{historico.fecha | date:"dd-MM-yyyy" }}'>{{historico.nombreEstatusOrden}}</a>
                                   </div>
                                 </div>
-                                <div ng-repeat='ids in IdsCotizacionesPorOrden'>
-                                    <div class="subProgress">
-                                        <div ng-class="{'subProgressBarra':ids.Porcentaje > 0, 'subProgressBarraSinPorcentaje':ids.Porcentaje == 0}" style="width: {{ids.Porcentaje}}%;"><p>{{ids.numeroCotizacion}}</p></div>
+                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'">
+                                    <div class='subProgress'>
+                                        <p>{{cotz.data[0].numeroCotizacion}}</p>
+                                        <div ng-class="{subProgressBarra:cot.idEstatusCotizacion!= 4,subProgressBarraCancelada: cot.idEstatusCotizacion==4}" ng-repeat="cot in cotz.data" style="width: {{cot.Porcentaje}}%;">
+                                            <a href="#" title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{cot.nombreCompleto}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Fecha: {{cot.fecha | date:"dd-MM-yyyy" }}'>
+                                                {{cot.nombreEstatusCotizacion}}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -482,7 +487,7 @@
             height: '580px',
             width: '100%'
         })
-        setTimeout(function() { $('[data-toggle="popover"]').popover();}, 2500);
+        setTimeout(function() { $('[data-toggle="popover"]').popover({ html : true });}, 500);
     });
 
 </script>

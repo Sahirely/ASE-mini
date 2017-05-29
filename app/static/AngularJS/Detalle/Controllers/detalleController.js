@@ -11,6 +11,9 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.notaTrabajo = [];
     $scope.HistoricoOrden = [];
     $scope.IdsCotizacionesPorOrden = [];
+    $scope.x = 0;
+    $scope.numCotz = 0;
+    $scope.HistoricoCotizaciones = [];
     $scope.init = function() {
         $scope.getHistoricos();
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
@@ -30,9 +33,11 @@ registrationModule.controller('detalleController', function($scope, $location, c
         });
 
         detalleRepository.getIdCotizacionesPorOrden($scope.numeroOrden).then(function(result){
+            $scope.numCotz = result.data.length;
             if(result.data.length > 0){
               $scope.IdsCotizacionesPorOrden = result.data;
             }
+            $scope.getHistoricosCotz();
         },function(error){
           alertFactory.error('No se puede obtener las cotizaciones de la orden.');
         });
@@ -41,6 +46,23 @@ registrationModule.controller('detalleController', function($scope, $location, c
 
 
     }
+
+    $scope.getHistoricosCotz = function(){
+        for ($scope.x = 0; $scope.x < $scope.numCotz; $scope.x ++){ 
+          detalleRepository.getHistoricoCotizacion($scope.IdsCotizacionesPorOrden[$scope.x].idCotizacion).then(function(result){
+              if(result.data.length > 0){
+                var valueToPush = {};
+                valueToPush.consecutivo = result.data[0].consecutivo;
+                valueToPush.data = result.data;
+                $scope.HistoricoCotizaciones.push(valueToPush);
+              }
+          },function(error){
+            alertFactory.error('No se pudo recuperar el historico de la cotización.');
+          });
+        }
+        console.log($scope.HistoricoCotizaciones);
+    }
+
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {

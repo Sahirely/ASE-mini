@@ -69,11 +69,13 @@
 
     .progressBarra {
         height: 30px;
-        background-color: #7597b3;
+        background-color: #4f89b9;
         float: left;
     }
 
-    .progressBarra a{
+    .progressBarra a,
+    .subProgressBarra a,
+    .subProgressBarraCancelada a{
       color: white;
     }
 
@@ -84,20 +86,21 @@
     .subProgress {
         background-color: #ddd;
         margin: 10px;
+        overflow: hidden;
+    }
+
+    .subProgressBarraCancelada {
+        height: 30px;
+        background-color: #e61429;
+        float: left;
     }
 
     .subProgressBarra {
         height: 30px;
-        background-color: #e61429;
-        color: white;
+        background-color: #96ab18;
+        float: left;
     }
 
-    .subProgressBarraSinPorcentaje{
-      width: 100% !important;
-      height: 30px;
-      background-color: #ddd;
-      color: #000000;
-    }
     /*TERMINA Estilos para los progress bar*/
     /*INICIA Cambio de estilos en NOTAS*/
 
