@@ -140,12 +140,8 @@ Cotizacion.prototype.get_zonas = function (req, res, next) {
             value: req.query.idUsuario,
             type: self.model.types.INT
        },{
-            name: 'idPadre',
-            value: req.query.idPadre,
-            type: self.model.types.INT
-       },{
-            name: 'orden',
-            value: req.query.orden,
+            name: 'idNivel',
+            value: req.query.idNivel,
             type: self.model.types.INT
        }
    ];
