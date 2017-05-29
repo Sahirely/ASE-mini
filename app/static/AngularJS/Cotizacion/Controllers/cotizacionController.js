@@ -51,10 +51,10 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         $scope.getPartidasTaller(obj.idTaller)
         $scope.mostrarTalleres = false;
         $scope.mostrarPartida = true;
-        
+
     }
 
-    $scope.limpiarParametros = function(){
+    $scope.limpiarParametros = function() {
         $scope.lstPartidaSeleccionada = [];
         $scope.partidasTaller = [];
         $scope.subTotal = 0;
@@ -73,7 +73,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
                 globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
-                
+
             }
             $('#loadModal').modal('hide');
         }, function(error) {
@@ -113,11 +113,12 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 });
             }
         }
-        for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
-            $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
-        }
-        $scope.ivaSubTotal += $scope.subTotal * 0.16
-        $scope.total += $scope.subTotal + $scope.ivaSubTotal
+        $scope.sumatoriaTotal();
+        // for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
+        //     $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
+        // }
+        // $scope.ivaSubTotal += $scope.subTotal * 0.16
+        // $scope.total += $scope.subTotal + $scope.ivaSubTotal
     }
 
     $scope.slideDown = function() {
@@ -135,8 +136,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 $scope.idCotizacion = result.data[0].idCotizacion;
                 $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
                     cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, 1).then(function(nuevos) {
-                        if (nuevos.data[0].idCotizacionDetalle > 0) {
-                        } else {
+                        if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
                             console.log('Error al Guardar')
                         }
                     });
@@ -145,17 +145,47 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 $scope.limpiarParametros();
                 $('#loadModal').modal('hide');
                 location.href = '/detalle?orden=' + $scope.numeroOrden;
-            }else{
+            } else {
                 $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
                 $scope.limpiarParametros();
-                
+
             }
-        },function(error) {
+        }, function(error) {
             $('#loadModal').modal('hide');
             alertFactory.error('No se pudo crear cotización');
             $scope.limpiarParametros();
         });
+    }
+
+    $scope.sumatoriaTotal = function() {
+        $scope.total = 0; $scope.subTotal =0; $scope.ivaSubTotal = 0;
+        for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
+            $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
+        }
+        $scope.ivaSubTotal += $scope.subTotal * 0.16
+        $scope.total += $scope.subTotal + $scope.ivaSubTotal
+    }
+
+    $scope.agregarItem = function(obj) {
+        for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
+            if ($scope.lstPartidaSeleccionada[h].idPartida == obj.idPartida) {
+                $scope.lstPartidaSeleccionada.slice(h, 1, $scope.lstPartidaSeleccionada[h].cantidad += 1)
+            }
+        }
+        $scope.sumatoriaTotal();
+    }
+    $scope.quitarItem = function(obj) {
+        for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
+            if ($scope.lstPartidaSeleccionada[h].idPartida == obj.idPartida) {
+                $scope.lstPartidaSeleccionada.slice(h, 1, $scope.lstPartidaSeleccionada[h].cantidad -= 1)
+            }
+        }
+        $scope.sumatoriaTotal();
+    }
+    
+     $scope.mostrarDetallesPartida = function(obj){
+        
     }
 
 });
