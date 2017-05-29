@@ -1583,4 +1583,54 @@ Orden.prototype.post_insertaNotas = function (req, res, next) {
     });
 }
 
+
+// Se obtiene las cotizaciones que se han generado a una orden
+Orden.prototype.get_cotizaciones = function (req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+    try{
+
+        if( req.query.numeroOrden == null || req.query.numeroOrden == '' ){
+            object.result = {success: false, msg: 'No se ha proporcionado el Número de Orden.'};
+            self.view.expositor(res, object);
+        }
+        else{
+            var params = [
+                {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING },
+                {name: 'estatus', value: req.query.estatus, type: self.model.types.INT }            
+            ];
+
+            self.model.query('SEL_COTIZACIONES_ORDEN_SP', params, function (error, result) {
+                var cotizaciones = result;
+                var tamanio = cotizaciones.length;
+                var contador = 0;
+                var i = 0;
+                for( i = 0; i < parseInt( tamanio ); i++ ){
+                    var params = [
+                        {name: 'idCotizacion', value: cotizaciones[ i ].idCotizacion, type: self.model.types.STRING }
+                    ];
+                    contador++;
+                    self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (error, datos) {
+                        cotizaciones [ i - 1 ].detalle = datos;
+                    });
+                }
+
+                setTimeout( function(){
+                    self.view.expositor(res, {
+                        error: error,
+                        result: cotizaciones
+                    });    
+                },1000 );
+                
+            });
+        }
+    }
+    catch( e ){
+        console.log( e );
+    }
+}
 module.exports = Orden;
