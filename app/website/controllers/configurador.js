@@ -18,7 +18,6 @@ var Configurador = function(conf) {
 Configurador.prototype.get_operaciones = function(req, res, next) {
     var self = this;
     var params = [];
-
     this.model.query('SEL_CONFIGURACIONES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -115,6 +114,12 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         name: 'centros',
         value: req.body.centros,
         type: self.model.types.STRING
+    }, {
+        name: 'idOperacion',
+        value: req.body.idOperacion,
+        type: self.model.types.INT
+
+        
     }];
 
 
@@ -165,5 +170,212 @@ Configurador.prototype.post_contratoOperacion = function(req, res, next) {
         self.view.expositor(res, object);
     });
 }
+
+//Inserta nueva Unidad
+Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'numeroEconomico',
+        value: req.body.numeroEconomico,
+        type: self.model.types.STRING
+    }, {
+        name: 'vin',
+        value: req.body.vin,
+        type: self.model.types.STRING
+    },{
+        name: 'gps',
+        value: req.body.gps,
+        type: self.model.types.INT
+    }, {
+        name: 'idTipoUnidad',
+        value: req.body.idTipoUnidad,
+        type: self.model.types.INT
+    }, {
+        name: 'sustituto',
+        value: req.body.sustituto,
+        type: self.model.types.INT
+    }, {
+        name: 'idOperacion',
+        value: req.body.idOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'idCentroTrabajo',
+        value: req.body.idCentroTrabajo,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.post('INS_UNIDAD_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+//Centros De Trabajo
+Configurador.prototype.get_centrosDeTrabajo = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_CENTROS_DE_TRABAJO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//tipo de unidad
+Configurador.prototype.get_tipoUnidades = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//Modulos
+Configurador.prototype.get_catalogoModulos = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    },{
+        name: 'tipo',
+        value: req.query.tipo,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('SEL_CATALOGO_MODULOS_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//Detalle Modulos
+Configurador.prototype.get_detalleModulo = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idModulo',
+        value: req.query.idModulo,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_CATALOGO_DETALLE_MODULO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idModulo',
+        value: req.body.idModulo,
+        type: self.model.types.INT
+    }, {
+        name: 'detalle',
+        value: req.body.detalle,
+        type: self.model.types.STRING
+    }];
+
+
+    this.model.post('INS_DETALLE_MODULO_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+Configurador.prototype.post_moduloAdicional= function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOperacion',
+        value: req.body.idOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'modulos',
+        value: req.body.modulos,
+        type: self.model.types.STRING
+    }];
+
+
+    this.model.post('INS_MODULO_ADICIONAL_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+//Datos de la Operación
+Configurador.prototype.get_datosOperacion = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_DATOS_OPERACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//Tipo de unidades por Operación
+ Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
+
+    var self = this;
+    var params = [{
+         name: 'idOperacion',
+         value: req.query.idCita,
+         type: self.model.types.INT
+     }];
+
+     this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+     });
+}
+
+
+
+
 
 module.exports = Configurador;

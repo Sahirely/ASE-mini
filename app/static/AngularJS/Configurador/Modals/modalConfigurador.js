@@ -14,13 +14,22 @@ function modal_presupuestos($scope, $modal, callback, error) {
         }
     });
 }
-function modal_nuevaUnidad($scope, $modal, callback, error) {
+function modal_nuevaUnidad($scope, $modal, idOperacion, presupuesto, gps, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/Configurador/Templates/nuevaUnidad.html',
         controller: 'nuevaUnidadController',
         backdrop: 'static',
         size: 300,
         resolve: {
+            idOperacion: function() {
+                return idOperacion;
+            },
+            presupuesto: function() {
+                return presupuesto;
+            },
+            gps: function() {
+                return gps;
+            },
             callback: function() {
                 return callback;
             },
@@ -30,13 +39,19 @@ function modal_nuevaUnidad($scope, $modal, callback, error) {
         }
     });
 }
-function modal_citas($scope, $modal, callback, error) {
+function modal_detalleModulos($scope, $modal, idOperacion, detalle, callback, error) {
     var modalInstance = $modal.open({
-        templateUrl: '../AngularJS/Configurador/Templates/citas.html',
-        controller: 'detalleCitasController',
+        templateUrl: '../AngularJS/Configurador/Templates/detalleModulos.html',
+        controller: 'detalleModulosController',
         backdrop: 'static',
         size: 300,
         resolve: {
+            idOperacion: function() {
+                return idOperacion;
+            },
+            detalle: function() {
+                return detalle;
+            },
             callback: function() {
                 return callback;
             },
@@ -47,73 +62,6 @@ function modal_citas($scope, $modal, callback, error) {
     });
 }
 
-function modal_consultaCitas($scope, $modal, callback, error) {
-    var modalInstance = $modal.open({
-        templateUrl: '../AngularJS/Configurador/Templates/consultaCitas.html',
-        controller: 'detalleConsultaCitasController',
-        backdrop: 'static',
-        size: 300,
-        resolve: {
-            callback: function() {
-                return callback;
-            },
-            error: function() {
-                return error;
-            }
-        }
-    });
-}
-
-function modal_aprobaciones($scope, $modal, callback, error) {
-    var modalInstance = $modal.open({
-        templateUrl: '../AngularJS/Configurador/Templates/aprobaciones.html',
-        controller: 'detalleAprobacionesController',
-        backdrop: 'static',
-        size: 300,
-        resolve: {
-            callback: function() {
-                return callback;
-            },
-            error: function() {
-                return error;
-            }
-        }
-    });
-}
-
-function modal_servicios($scope, $modal, callback, error) {
-    var modalInstance = $modal.open({
-        templateUrl: '../AngularJS/Configurador/Templates/servicios.html',
-        controller: 'detalleServiciosController',
-        backdrop: 'static',
-        size: 300,
-        resolve: {
-            callback: function() {
-                return callback;
-            },
-            error: function() {
-                return error;
-            }
-        }
-    });
-}
-
-function modal_porCobrar($scope, $modal, callback, error) {
-    var modalInstance = $modal.open({
-        templateUrl: '../AngularJS/Configurador/Templates/porCobrar.html',
-        controller: 'detallePorCobrarController',
-        backdrop: 'static',
-        size: 300,
-        resolve: {
-            callback: function() {
-                return callback;
-            },
-            error: function() {
-                return error;
-            }
-        }
-    });
-}
 //Valida correo
 function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);

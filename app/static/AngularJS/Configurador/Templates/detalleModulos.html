@@ -1,7 +1,7 @@
 <div class="modal-header barra_popup" ng-init="init()">
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
-        <h4 class="modal-title">Órdenes de Servicio</h4>
+        <h4 class="modal-title">{{titulo}}</h4>
         
     </div>
 </div>
@@ -15,20 +15,11 @@
                     <th>Seleccionar</th>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Fecha Inicio</td>
+                    <tr ng-repeat="detalle in detalles">
+                        <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
                             <div class="checkbox checkbox-warning">
-                                <input id="checkbox1" type="checkbox">
-                                 <label></label>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Termino de Trabajo por Token</td>
-                        <td>
-                            <div class="checkbox checkbox-warning">
-                                <input id="checkbox1" type="checkbox">
+                                <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
                                  <label></label>
                             </div>
                         </td>
@@ -40,7 +31,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-success" ng-click="saveToken()">Guardar</button>
+    <button type="button" class="btn btn-success" ng-click="guardarDetalle()">Guardar</button>
 </div>
 
       

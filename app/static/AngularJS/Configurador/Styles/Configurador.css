@@ -27,3 +27,11 @@
 .titleOrange {
 	color:#FFA101;
 }
+
+.activityMenu, .activityMenu button {
+	background: rgba(83, 143, 181, 0.66) !important;
+}
+
+.dataTableOperacion tr{
+	cursor:pointer;
+}
