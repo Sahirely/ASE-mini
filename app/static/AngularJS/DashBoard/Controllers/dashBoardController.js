@@ -18,45 +18,110 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.sumatoriaOrdenesPorCobrar();
     };
     $scope.sumatoriaCitas = function() {
-        dashBoardRepository.getTotalCitas($scope.tarSelected, $scope.userData.idUsuario, $scope.zonaSelected).then(function(datos) {
-            if (datos.data.length > 0) {
-                $('#morris-donut-citas').empty();
-                var solicitadas = 0;
-                var agendadas = 0;
-                var confirmadas = 0;
-                var canceladas = 0;
-                $scope.citas = datos.data;
-                $scope.totalHorasCitas = 0;
-                datos.data.forEach(function(sumatoria) {
-                        if (sumatoria.estatus == 'Solicitadas por Cliente') solicitadas = sumatoria.total;
-                        if (sumatoria.estatus == 'Falta cotizar orden') confirmadas = sumatoria.total;
-                        if (sumatoria.estatus == 'Canceladas') canceladas = sumatoria.total;
-                        $scope.totalHorasCitas = $scope.totalHorasCitas + sumatoria.promedio;
-                    }
+        // Totales
+        $scope.totalCitas = 0;
+        $scope.totalHorasCitas = 0;
+        // Tabla
+        // $scope.citas = [
+        //     {color: "#00BFFF",estatus:"Sin taller", total: 1, promedio:12.9},
+        //     {color: "#074F7D",estatus:"Con taller", total: 2, promedio:23.1},
+        //     {color: "#5B86A6",estatus:"En taller", total: 3, promedio:45.0}
+        // ];
 
-                );
-                $scope.totalCitas = solicitadas + confirmadas + canceladas;
-                Morris.Donut({
-                    element: 'morris-donut-citas',
-                    data: [{
-                        label: "Solicitadas por Cliente",
-                        value: solicitadas
-                    }, {
-                        label: "Falta cotizar orden",
-                        value: confirmadas
-                    }, {
-                        label: "Canceladas",
-                        value: canceladas
-                    }],
-                    resize: true,
-                    colors: ['#00BFFF', '#074F7D', '#5B86A6'],
-                }).on('click', function(i, row) {
-                    location.href = '/reportecita?tipoCita=' + i + '&idZona=' + $scope.zonaSelected + '&idTar=' + $scope.tarSelected;
-                });
-            }
+        // Grafica
+        // $('#morris-donut-citas').empty();
+        // Morris.Donut({
+        //     element: 'morris-donut-citas',
+        //     data: [{
+        //         label: "Solicitadas por Cliente",
+        //         value: 1
+        //     }, {
+        //         label: "Falta cotizar orden",
+        //         value: 2
+        //     }, {
+        //         label: "Canceladas",
+        //         value: 3
+        //     }],
+        //     resize: true,
+        //     colors: ['#00BFFF', '#074F7D', '#5B86A6'],
+        // }).on('click', function(i, row) {
+        //     location.href = '/consultaCitas';
+        // });
+
+        dashBoardRepository.getTotalCitas( 2 ).then(function(datos) {
+            var Resultados = datos.data;
+            // console.log( Resultados );
+
+            Resultados.forEach(function(item, key) {
+                // console.log( "total:", item.total );
+                $scope.totalHorasCitas = $scope.totalHorasCitas + parseInt( item.promedio );
+                $scope.totalCitas = $scope.totalCitas + parseInt( item.total );
+            });
+
+            $scope.citas = Resultados;
+
+            // Grafica
+            $('#morris-donut-citas').empty();
+            Morris.Donut({
+                element: 'morris-donut-citas',
+                data: [{
+                    label: Resultados[0].estatus,
+                    value: Resultados[0].total
+                }, {
+                    label: Resultados[1].estatus,
+                    value: Resultados[1].total
+                }, {
+                    label: Resultados[2].estatus,
+                    value: Resultados[2].total
+                }],
+                resize: true,
+                colors: ['#00BFFF', '#074F7D', '#5B86A6'],
+            }).on('click', function(i, row) {
+                location.href = '/consultaCitas';
+            });
+            // console.log( datos );
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las citas');
         });
+        // dashBoardRepository.getTotalCitas($scope.tarSelected, $scope.userData.idUsuario, $scope.zonaSelected).then(function(datos) {
+        //     if (datos.data.length > 0) {
+        //         $('#morris-donut-citas').empty();
+        //         var solicitadas = 0;
+        //         var agendadas = 0;
+        //         var confirmadas = 0;
+        //         var canceladas = 0;
+        //         $scope.citas = datos.data;
+        //         $scope.totalHorasCitas = 0;
+        //         datos.data.forEach(function(sumatoria) {
+        //                 if (sumatoria.estatus == 'Solicitadas por Cliente') solicitadas = sumatoria.total;
+        //                 if (sumatoria.estatus == 'Falta cotizar orden') confirmadas = sumatoria.total;
+        //                 if (sumatoria.estatus == 'Canceladas') canceladas = sumatoria.total;
+        //                 $scope.totalHorasCitas = $scope.totalHorasCitas + sumatoria.promedio;
+        //             }
+
+        //         );
+        //         $scope.totalCitas = solicitadas + confirmadas + canceladas;
+        //         Morris.Donut({
+        //             element: 'morris-donut-citas',
+        //             data: [{
+        //                 label: "Solicitadas por Cliente",
+        //                 value: solicitadas
+        //             }, {
+        //                 label: "Falta cotizar orden",
+        //                 value: confirmadas
+        //             }, {
+        //                 label: "Canceladas",
+        //                 value: canceladas
+        //             }],
+        //             resize: true,
+        //             colors: ['#00BFFF', '#074F7D', '#5B86A6'],
+        //         }).on('click', function(i, row) {
+        //             location.href = '/reportecita?tipoCita=' + i + '&idZona=' + $scope.zonaSelected + '&idTar=' + $scope.tarSelected;
+        //         });
+        //     }
+        // }, function(error) {
+        //     alertFactory.error('No se pudo recuperar información de las citas');
+        // });
     };
     $scope.sumatoriaCotizaciones = function() {
         dashBoardRepository.getTotalCotizaciones($scope.zonaSelected, $scope.tarSelected, $scope.userData.idUsuario).then(function(cotizaciones) {
