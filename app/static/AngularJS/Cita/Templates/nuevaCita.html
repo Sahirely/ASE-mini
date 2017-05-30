@@ -99,6 +99,12 @@
                             </div>
                         </div>
                     </form>
+                    <div class="hr-line-dashed"></div>
+                    <div>
+                        <label>
+                            <h3>Búsqueda Taller</h3>
+                        </label>
+                    </div>
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Servicio:</label>
@@ -114,11 +120,14 @@
                         </div>
                     </form>
                     <form class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Zona:</label>
+                        <div class="form-group" ng-repeat="zona in Zonas | orderBy:'orden'">
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">{{zona.etiqueta}}:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                <select class="form-control">
-                                    <option value=''>Selecionar Zona</option>
+                                <select class="form-control" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden, zona, ZonasSeleccionadas)">
+                                    <option value='0'>Selecionar Zona</option>
+                                    <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                                        {{z.nombre}}
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -126,11 +135,16 @@
                     <form class="form-horizontal">
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Buscar Taller:</label>
-                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8H">
-                                <div class="input-group">
-                                    <input type="text" class="form-control"> <span class="input-group-btn"> <button type="button" class="btn btn-primary"><i class="fa fa-search"></i>
-                                        </button> </span>
-                                </div>
+                            <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                                <input type="text" class="form-control" ng-model="taller">
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <button type="button" class="btn btn-primary pull-right" ng-click="buscarTaller()"><i class="fa fa-search"> Buscar</i>
+                                </button>
                             </div>
                         </div>
                     </form>

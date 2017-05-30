@@ -1586,7 +1586,6 @@ Orden.prototype.post_insertaNotas = function (req, res, next) {
 
 // Se obtiene las cotizaciones que se han generado a una orden
 Orden.prototype.get_cotizaciones = function (req, res, next) {
-    console.log("este es un ejemplo");
     //Objeto que almacena la respuesta
     var object = {};
     //Objeto que envía los parámetros
@@ -1597,6 +1596,10 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
 
         if( req.query.numeroOrden == null || req.query.numeroOrden == '' ){
             object.result = {success: false, msg: 'No se ha proporcionado el Número de Orden.'};
+            self.view.expositor(res, object);
+        }
+        else if( req.query.estatus == null || req.query.estatus == '' ){
+            object.result = {success: false, msg: 'No se ha proporcionado el Estatus.'};
             self.view.expositor(res, object);
         }
         else{
