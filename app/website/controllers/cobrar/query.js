@@ -1,11 +1,13 @@
-var QueryView = require('../views/ejemploVista'),
-  QueryModel = require('../models/dataAccess2')
+var QueryView = require('../../views/ejemploVista'),
+  QueryModel = require('../../models/dataAccess2')
 
 var Query = function (conf) {
   this.conf = conf || {}
 
   this.view = new QueryView()
-  this.model = new QueryModel(this.conf.connection)
+  this.model = new QueryModel({
+        parameters: this.conf.parameters
+    })
 
   this.response = function () {
     this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next)
