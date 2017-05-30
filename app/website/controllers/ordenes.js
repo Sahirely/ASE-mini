@@ -1586,6 +1586,7 @@ Orden.prototype.post_insertaNotas = function (req, res, next) {
 
 // Se obtiene las cotizaciones que se han generado a una orden
 Orden.prototype.get_cotizaciones = function (req, res, next) {
+    console.log("este es un ejemplo");
     //Objeto que almacena la respuesta
     var object = {};
     //Objeto que envía los parámetros
@@ -1610,22 +1611,32 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                 var contador = 0;
                 var i = 0;
 
-                cotizaciones.forEach(function(item, key) {
-                    var params = [
-                        {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING }
-                    ];
+                if( cotizaciones.length != 0 ){
+                    cotizaciones.forEach(function(item, key) {
+                        var params = [
+                            {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING }
+                        ];
 
-                    self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
-                        cotizaciones [ key ].detalle = datos;
+                        self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
+                            cotizaciones [ key ].detalle = datos;
 
-                        if( key >= ( tamanio - 1 ) ){
-                            self.view.expositor(res, {
-                                error: error,
-                                result: cotizaciones
-                            });   
-                        }
+                            if( key >= ( tamanio - 1 ) ){
+                                self.view.expositor(res, {
+                                    error: error,
+                                    result: {
+                                        success: true,
+                                        msg: 'Se encontraron ' + cotizaciones.length + ' registros.',
+                                        data: cotizaciones
+                                    }
+                                });   
+                            }
+                        });
                     });
-                });
+                }
+                else{
+                    object.result = {success: false, msg: 'No se encontraron resultados'};
+                    self.view.expositor(res, object);
+                }
             });
         }
     }
