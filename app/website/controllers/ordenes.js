@@ -1598,6 +1598,10 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
             object.result = {success: false, msg: 'No se ha proporcionado el Número de Orden.'};
             self.view.expositor(res, object);
         }
+        else if( req.query.estatus == null || req.query.estatus == '' ){
+            object.result = {success: false, msg: 'No se ha proporcionado el Estatus.'};
+            self.view.expositor(res, object);
+        }
         else{
             var params = [
                 {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING },
