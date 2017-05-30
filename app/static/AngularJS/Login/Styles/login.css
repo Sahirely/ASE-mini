@@ -1,12 +1,19 @@
 #container {
   width: 600px;
   border: 1px solid rgba(153, 153, 153, 0.24);
-  height: 300px;
   margin-top: 16%;
   margin-left: calc(50% - 310px);
   box-shadow: 1px 1px 3px #999;
   border-radius: 4px;
   position: relative; }
+
+.conOperacion{
+    height: 350px;
+}
+
+.sinOperacion{
+    height: 300px;
+}
 
 #logo {
   position: absolute;
@@ -30,6 +37,16 @@
 
 #contrasena {
   margin-top: 10px;
+  width: 80%;
+  margin-left: 20px; }
+
+#operaciones {
+  margin-top: 10px;
+  width: 80%;
+  margin-left: 20px; }
+
+#link{
+  margin-top: 20px;
   width: 80%;
   margin-left: 20px; }
 

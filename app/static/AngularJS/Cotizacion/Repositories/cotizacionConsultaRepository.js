@@ -60,21 +60,21 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               }
           });
         },
-        get: function(idUsuario, idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden, ConPresupuesto){
+        getOrdenes: function(idContratoOperacion, idZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, porOrden, tipoConsulta){
           var objConsultaOrden = {
-            idUsuario: idUsuario,
-            idZona: idZona,
-            idEjecutivo: idEjecutivo,
-            Mes: Mes,
-            Inicio: Inicio,
-            Fin: Fin,
-            Fecha: Fecha,
-            NumOrden: NumOrden,
-            EsPorOrden: EsPorOrden,
-            ConPresupuesto: ConPresupuesto
+              idContratoOperacion: idContratoOperacion,
+              idZona: idZona,
+              idEjecutivo: idEjecutivo,
+              fechaMes: fechaMes,
+              fechaInicial: fechaInicial,
+              fechaFin: fechaFin,
+              fechaEspecifico: fechaEspecifico,
+              NumOrden: NumOrden,
+              porOrden: porOrden,
+              tipoConsulta: tipoConsulta
           };
             return $http({
-                url: searchUrl + 'see/',
+                url: searchUrl + 'ObtenerOrdenes/',
                 method: "GET",
                 params: objConsultaOrden,
                 headers: {

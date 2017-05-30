@@ -1,10 +1,13 @@
-registrationModule.controller('loginController', function ($scope, alertFactory, $rootScope, localStorageService, loginRepository, $route, citaRepository) {
+registrationModule.controller('loginController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, loginRepository, $route, citaRepository) {
     $rootScope.sesion = 0;
     $rootScope.showChat = 0;
+    $scope.userData = {};
+    $scope.UserIsValid = false;
 
     $scope.init = function () {}
 
     $scope.login = function (username, password) {
+        userData = userFactory.getUserData();
         loginRepository.login(username, password)
             .then(function (result) {
                 if (result.data.length > 0) {

@@ -8,6 +8,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
     $scope.idUsuario = 2;
+    $scope.idContratoOperacion = 2;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -88,12 +89,10 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? null : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.consultarOrdenes(2).then(function (result){
+      $scope.promise = cotizacionConsultaRepository.getOrdenes($scope.idContratoOperacion, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, 2).then(function (result){
           if (result.data.length != 0){
               $scope.cotizaciones = result.data;
               globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
-              $scope.cotizacionesSinPresupuesto = result.data;
-              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
           }
 
       },function (error) {
