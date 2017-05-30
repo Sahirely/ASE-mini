@@ -1609,23 +1609,23 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                 var tamanio = cotizaciones.length;
                 var contador = 0;
                 var i = 0;
-                for( i = 0; i < parseInt( tamanio ); i++ ){
-                    var params = [
-                        {name: 'idCotizacion', value: cotizaciones[ i ].idCotizacion, type: self.model.types.STRING }
-                    ];
-                    contador++;
-                    self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (error, datos) {
-                        cotizaciones [ i - 1 ].detalle = datos;
-                    });
-                }
 
-                setTimeout( function(){
-                    self.view.expositor(res, {
-                        error: error,
-                        result: cotizaciones
-                    });    
-                },1000 );
-                
+                cotizaciones.forEach(function(item, key) {
+                    var params = [
+                        {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING }
+                    ];
+
+                    self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
+                        cotizaciones [ key ].detalle = datos;
+
+                        if( key >= ( tamanio - 1 ) ){
+                            self.view.expositor(res, {
+                                error: error,
+                                result: cotizaciones
+                            });   
+                        }
+                    });
+                });
             });
         }
     }
