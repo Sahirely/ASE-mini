@@ -3,7 +3,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
     $scope.idUsuario = 2;
-    $scope.contratoOperacion = 3;
+    $scope.idContratoOperacion = 3;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -118,7 +118,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idUsuario).then(function(result) {
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
                 $scope.totalNiveles = result.data.length;
                 if (result.data.length > 0) {
                     $scope.NivelesZona = result.data;
@@ -133,7 +133,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //obtiene las zonas por cada nivel con que cuenta el usuario
     $scope.devuelveZonas = function() {
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-            cotizacionConsultaRepository.getZonas($scope.idUsuario, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
+            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
                 if (result.data.length > 0) {
                     var valueToPush = {};
                     valueToPush.orden = result.data[0].orden;

@@ -2,12 +2,12 @@ var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
 registrationModule.factory('cotizacionConsultaRepository', function ($http) {
     return {
-        getNivelZona: function(idUsuario){
+        getNivelZona: function(idContratoOperacion){
           return $http({
               url: searchUrl + 'nivelZona',
               method: "GET",
               params: {
-                  idUsuario: idUsuario
+                  idContratoOperacion: idContratoOperacion
               },
               headers:{ 'Content-Type': 'application/json' }
           });
@@ -23,12 +23,12 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               headers:{ 'Content-Type': 'application/json' }
           });
         },
-        getZonas: function (idUsuario, idNivel) {
+        getZonas: function (idContratoOperacion, idNivel) {
             return $http({
                 url: searchUrl + 'zonas/',
                 method: "GET",
                 params: {
-                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion,
                     idNivel: idNivel
                 },
                 headers: {

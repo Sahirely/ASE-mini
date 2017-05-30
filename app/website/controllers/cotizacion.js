@@ -137,8 +137,8 @@ Cotizacion.prototype.get_zonas = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         {
-            name: 'idUsuario',
-            value: req.query.idUsuario,
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
             type: self.model.types.INT
        },{
             name: 'idNivel',
@@ -162,8 +162,8 @@ Cotizacion.prototype.get_nivelZona = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         {
-            name: 'idusuario',
-            value: req.query.idUsuario,
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
             type: self.model.types.INT
        }
    ];
