@@ -2,7 +2,7 @@ var tallerUrl = global_settings.urlCORS + '/api/taller/';
 
 registrationModule.factory('tallerRepository', function($http) {
     return {
-        getTalleres: function(idUsuario, idContratoOperacion, idzona, nombretaller) {
+        getTalleres: function(idUsuario, idContratoOperacion, idzona, nombretaller, servicios) {
             return $http({
                 url: tallerUrl + 'Talleres/',
                 method: "GET",
@@ -10,7 +10,8 @@ registrationModule.factory('tallerRepository', function($http) {
                     idUsuario: idUsuario,
                     idContratoOperacion: idContratoOperacion,
                     idzona: idzona,
-                    nombretaller: nombretaller
+                    nombretaller: nombretaller,
+                    servicios: servicios
                 },
                 headers: {
                     'Content-Type': 'application/json'

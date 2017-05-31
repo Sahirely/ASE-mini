@@ -35,6 +35,10 @@ Taller.prototype.get_talleres = function(req, res, next) {
         name: 'nombreTaller',
         value: req.query.nombretaller,
         type: self.model.types.STRING
+    }, {
+        name: 'servicios',
+        value: req.query.servicios,
+        type: self.model.types.STRING
     }];
 
     this.model.query('SEL_TALLERES_SP', params, function(error, result) {
