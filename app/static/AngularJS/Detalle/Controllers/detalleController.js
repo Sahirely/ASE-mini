@@ -111,4 +111,9 @@ registrationModule.controller('detalleController', function($scope, $location, c
       $scope.textoNota = null;
     };
 
+    $scope.comprobante = function(){
+       location.href = '/comprobanteRecepcion?orden=' + $routeParams.orden;
+    }
+    
+
 });

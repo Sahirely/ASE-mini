@@ -235,6 +235,11 @@ Cotizacion.prototype.post_cotizacionNueva = function(req, res, next){
         name: 'idOrden',
         value: req.body.idOrden,
         type: self.model.types.STRING
+      },
+      ,{
+        name: 'idCatalogoTipoOrdenServicio',
+        value: req.body.idCatalogoTipoOrdenServicio,
+        type: self.model.types.INT
       }];
 
       this.model.query('INS_COTIZACION_NUEVA_SP',params, function (error, result) {

@@ -30,13 +30,13 @@
                             <br/>
                             <br/>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <select class="form-control m-b" name="tar" ng-model="selectedTipo.idTipoCotizacion" ng-options="tipo.idTipoCotizacion as tipo.cotizacion for tipo in tipoCotizaciones" ng-disabled="verificaRefaccion == 4">
-                                    <option value="">Seleccione el tipo de cotización</option>
+                                <select class="form-control" ng-model="tipoDeCita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita">
+                                    <option value=''>Selecionar Tipo de Cotización</option>
                                 </select>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Buscar taller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" ng-click="limpiarParametros()"><i class="fa fa-search"></i>
+                                    <input type="text" class="form-control" placeholder="Buscar taller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" ng-click="seleccionarTipoCotizacion(tipoDeCita)"><i class="fa fa-search"></i>
                                         </button> </span>
                                 </div>
                             </div>
@@ -133,8 +133,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada" ng-dblclick="mostrarDetallesPartida(lstPartidaSeleccionada)">
-                                            <td>{{ lstPartidaSeleccionada.idPartida }}</td>
+                                        <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
+                                            <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.idPartida }} </a></td>
                                             <td>{{ lstPartidaSeleccionada.cantidad }}</td>
                                             <td>{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
                                             <td>
@@ -183,27 +183,6 @@
         </div>
     </div>
 </div>
-
-
-<!-- <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated bounceInRight">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <i class="fa fa-laptop modal-icon"></i>
-                <h4 class="modal-title">Detalle Resumen</h4>
-                <small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 <script>
 $(document).ready(function() {
     $('.scroll_content').slimscroll({
@@ -211,8 +190,12 @@ $(document).ready(function() {
         size: '4px',
         height: '400px',
         alwaysVisible: true
-    })
+    });
+    setTimeout(function() {
+        $('[data-toggle="popover"]').popover({
+            html: true
+        });
+    }, 500);
 });
 </script>
-
 <!-- hola -->

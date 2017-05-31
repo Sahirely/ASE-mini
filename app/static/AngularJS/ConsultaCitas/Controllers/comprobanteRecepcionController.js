@@ -1,4 +1,6 @@
-registrationModule.controller('comprobanteRecepcionController', function($scope, $route, $modal, $rootScope, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
+
+registrationModule.controller('comprobanteRecepcionController', function($scope, $route, consultaCitasRepository,$modal, $rootScope,$routeParams, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
+    $scope.numeroOrden = $routeParams.orden;
     $scope.init = function() {
         $scope.infoCita = localStorageService.get('cita');
         $scope.show_exteriores = true;

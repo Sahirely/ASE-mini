@@ -5,12 +5,13 @@ var ruta = global_settings.uploadPath;
 registrationModule.factory('cotizacionRepository', function ($http) {
     return {
        
-        insCotizacionNueva: function (idTaller, idUsuario, idEstatusCotizacion, idOrden) {
+        insCotizacionNueva: function (idTaller, idUsuario, idEstatusCotizacion, idOrden,idCatalogoTipoOrdenServicio) {
             var msgObj = {
                 idTaller: idTaller,
                 idUsuario: idUsuario,
                 idEstatusCotizacion: idEstatusCotizacion,
-                idOrden: idOrden
+                idOrden: idOrden,
+                idCatalogoTipoOrdenServicio:idCatalogoTipoOrdenServicio
             }
             return $http({
                 url: searchUrl + 'cotizacionNueva',

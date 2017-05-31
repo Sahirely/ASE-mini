@@ -8,16 +8,29 @@
 registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
     $scope.numeroOrden = $routeParams.orden;
-    $scope.numeroOrden = $routeParams.orden;
     $scope.idTaller = '';
+    $scope.idCatalogoTipoOrdenServicio = 0;
     $scope.lstPartidaSeleccionada = [];
     $scope.mostrarTalleres = true;
     $scope.mostrarPartida = false;
     $scope.init = function() {
+        $scope.getTipoOrdenesServicio()
         $scope.mostrarTalleres = true;
         $scope.mostrarPartida = false;
-        $scope.getTalleres();
+        //$scope.getTalleres();
         $scope.getOrdenDetalle(1, $scope.numeroOrden);
+    }
+
+    $scope.getTipoOrdenesServicio = function() {
+        citaRepository.getTipoOrdenesServicio().then(function(result) {
+            $scope.tipoCita = result.data;
+        });
+    };
+    $scope.seleccionarTipoCotizacion = function(obj){
+        console.log(obj)
+        $scope.idCatalogoTipoOrdenServicio = obj.idCatalogoTipoOrdenServicio
+        $scope.getTalleres()
+        $scope.limpiarParametros()
     }
 
     $scope.getTalleres = function() {
@@ -94,6 +107,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             $scope.lstPartidaSeleccionada.push({
                 idPartida: $scope.objeto.idPartida,
                 cantidad: 1,
+                descripcion : $scope.objeto.descripcion,
                 precioUnitario: $scope.objeto.precio
             });
         } else {
@@ -109,16 +123,12 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 $scope.lstPartidaSeleccionada.push({
                     idPartida: $scope.objeto.idPartida,
                     cantidad: 1,
+                    descripcion : $scope.objeto.descripcion,
                     precioUnitario: $scope.objeto.precio
                 });
             }
         }
         $scope.sumatoriaTotal();
-        // for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
-        //     $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
-        // }
-        // $scope.ivaSubTotal += $scope.subTotal * 0.16
-        // $scope.total += $scope.subTotal + $scope.ivaSubTotal
     }
 
     $scope.slideDown = function() {
@@ -131,11 +141,11 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
 
     $scope.nuevaCotizacion = function() {
         $('#loadModal').modal('show');
-        cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden).then(function(result) {
+        cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden,1).then(function(result) {
             if (result.data[0].idCotizacion > 0) {
                 $scope.idCotizacion = result.data[0].idCotizacion;
                 $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, 1).then(function(nuevos) {
+                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, $scope.idCatalogoTipoOrdenServicio).then(function(nuevos) {
                         if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
                             console.log('Error al Guardar')
                         }
@@ -159,7 +169,9 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     }
 
     $scope.sumatoriaTotal = function() {
-        $scope.total = 0; $scope.subTotal =0; $scope.ivaSubTotal = 0;
+        $scope.total = 0;
+        $scope.subTotal = 0;
+        $scope.ivaSubTotal = 0;
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
             $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
         }
@@ -174,18 +186,51 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             }
         }
         $scope.sumatoriaTotal();
+        console.log($scope.lstPartidaSeleccionada)
     }
+
     $scope.quitarItem = function(obj) {
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
             if ($scope.lstPartidaSeleccionada[h].idPartida == obj.idPartida) {
-                $scope.lstPartidaSeleccionada.slice(h, 1, $scope.lstPartidaSeleccionada[h].cantidad -= 1)
+                $scope.posicion = h
+                if ($scope.lstPartidaSeleccionada[h].cantidad <= 1) {
+                    // $scope.eliminar();
+                    // setTimeout(function () {
+                    // console.log($scope.respuesta)
+                    // if ($scope.respuesta == 1) {                    
+                        $scope.lstPartidaSeleccionada.splice((h), 1)
+                        $scope.sumatoriaTotal();
+                    // }
+                    // }, 2000);
+                } else {
+                    $scope.lstPartidaSeleccionada.slice(h, 1, $scope.lstPartidaSeleccionada[h].cantidad -= 1)
+                    $scope.sumatoriaTotal();
+                }
             }
         }
-        $scope.sumatoriaTotal();
     }
-    
-     $scope.mostrarDetallesPartida = function(obj){
-        
+    $scope.eliminar = function() {
+        swal({
+            title: "¿Quieres eliminar la partida?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si",
+            closeOnConfirm: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.respuesta = 1
+                    // break;
+                swal("Exito!", "Registro Eliminado", "success");
+            } else {
+                swal("Cancelado", "Se cancelo eliminación", "error");
+                $scope.respuesta = 2
+            }
+        });
+    }
+
+    $scope.mostrarDetallesPartida = function(obj) {
+
     }
 
 });
