@@ -1,4 +1,4 @@
-registrationModule.controller('loginController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, loginRepository, $route, citaRepository) {
+registrationModule.controller('loginController', function ($scope, alertFactory, $rootScope, localStorageService, loginRepository, $route, citaRepository) {
     $rootScope.sesion = 0;
     $rootScope.showChat = 0;
     $scope.userData = {};
@@ -22,6 +22,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                 for($scope.cont = 0; $scope.cont < result.data.length; $scope.cont++){
                   var operacion = {
                       idContratoOperacion: result.data[$scope.cont].idContratoOperacion,
+                      idOperacion: result.data[$scope.cont].idOperacion,
                       nombreOperacion: result.data[$scope.cont].nombreOperacion,
                       idRol: result.data[$scope.cont].idCatalogoRol,
                       nombreRol: result.data[$scope.cont].nombreRol
@@ -29,19 +30,21 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                   $scope.operaciones.push(operacion);
                 }
 
-                $scope.userData = userFactory.saveUserData(id, nombre, correo, $scope.operaciones);
+                $scope.userData = $scope.saveUserData(id, nombre, correo, $scope.operaciones);
 
                 if ($scope.userData.Operaciones.length > 1){
                   alertFactory.info('Seleccione una operación para ingresar.');
                 } else {
                   var contOpe = $scope.userData.Operaciones[0].idContratoOperacion;
+                  var idOp = $scope.userData.Operaciones[0].idOperacion;
+                  var nomOp = $scope.userData.Operaciones[0].nombreOperacion;
                   var Rol = $scope.userData.Operaciones[0].idRol;
                   var nombreRol = $scope.userData.Operaciones[0].nombreRol;
 
                   if (contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
                     alertFactory.info('No cuenta con operaciones o roles para ingresar.');
                   } else{
-                    $scope.userData = userFactory.updateSelectedOperation(contOpe, Rol, nombreRol);
+                    $scope.userData = $scope.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
                     $scope.Home();
                   }
                 }
@@ -64,27 +67,60 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
 
       $scope.ingresar = function() {
         var contOpe = $scope.ObjetoOperacionSelected.idContratoOperacion;
+        var idOp = $scope.ObjetoOperacionSelected.idOperacion;
+        var nomOp = $scope.ObjetoOperacionSelected.nombreOperacion;
         var Rol = $scope.ObjetoOperacionSelected.idRol;
         var nombreRol = $scope.ObjetoOperacionSelected.nombreRol;
 
         if (contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
           alertFactory.info('Seleccione una operación para ingresar.');
         } else{
-          $scope.userData = userFactory.updateSelectedOperation(contOpe, Rol, nombreRol);
+          $scope.userData = $scope.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
           $scope.Home();
         }
       }
 
       $scope.Home = function(){
-        debugger;
         if ($scope.userData.idRol == 3){
-          alertFactory.info('ingresó un usuario call center');
+          location.href = '/dashboardCallCenter';
         } else if ($scope.userData.idRol == 5){
-          alertFactory.info('ingresó un usuario configurador');
+          location.href = '/configurador';
         } else {
           location.href = '/dashboardgeneral';
         }
       }
 
+      $scope.getUserData = function(){
+        return (localStorageService.get('userData'));
+      }
+
+      $scope.saveUserData = function(id, nombreCompleto, Correo, operaciones){
+        var userData= {
+          idUsuario: id,
+          nombreCompleto: nombreCompleto,
+          Correo: Correo,
+          Operaciones: operaciones,
+          contratoOperacionSeleccionada: 0,
+          idOperacion: 0,
+          nombreOperacion: '',
+          idRol: 0,
+          Rol: ''
+        };
+
+        localStorageService.set('userData', userData);
+        return (localStorageService.get('userData'));
+      }
+
+      $scope.updateSelectedOperation = function(idContratoOperacion, idOp, nomOp, idRol, Rol){
+        var userData = localStorageService.get('userData');
+        userData.contratoOperacionSeleccionada = idContratoOperacion;
+        userData.idOperacion = idOp;
+        userData.nombreOperacion = nomOp;
+        userData.idRol = idRol;
+        userData.Rol = Rol;
+
+        localStorageService.set('userData', userData);
+        return (localStorageService.get('userData'));
+      }
 
 });

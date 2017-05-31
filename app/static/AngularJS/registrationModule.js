@@ -2,8 +2,8 @@
 // -- Author:      Vladimir Juárez
 // -- Create date: 18/03/2016
 // -- Description: Is the container of the application
-// -- Modificó: 
-// -- Fecha: 
+// -- Modificó:
+// -- Fecha:
 // -- =============================================
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule",
         "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch","thatisuday.dropzone","nsPopover"])
@@ -79,22 +79,22 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/PorCobrar/Templates/ordenesporcobrar.html',
             controller: 'ordenPorCobrarController'
         });
-        
+
         $routeProvider.when('/reporte', {
             templateUrl: 'AngularJS/Reporte/Templates/reporte.html',
             controller: 'reporteController'
         });
-        
+
         $routeProvider.when('/osur', {
             templateUrl: 'AngularJS/Osur/Templates/osur.html',
             controller: 'osurController'
         });
-        
+
         $routeProvider.when('/administracionordenes', {
             templateUrl: 'AngularJS/Administracion/Templates/administracionOrdenes.html',
             controller: 'administracionOrdenController'
         });
-        
+
         $routeProvider.when('/administraciontaller', {
             templateUrl: 'AngularJS/Talleres/Templates/administracionTaller.html',
             controller: 'tallerController'
@@ -104,7 +104,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/Talleres/Templates/accionTaller.html',
             controller: 'tallerController'
         });
-        
+
         $routeProvider.when('/ordenanticipo', {
             templateUrl: 'AngularJS/OrdenAnticipo/Templates/ordenAnticipo.html',
             controller: 'ordenAnticipoController'
@@ -114,12 +114,12 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/Aprobacion/Templates/aprobacionutilidad.html',
             controller: 'aprobacionutilidadController'
         });
-         
+
          $routeProvider.when('/Tutorial', {
             templateUrl: 'AngularJS/Tutorial/Templates/tutorial.html',
             controller: 'tutorialController'
         });
-        
+
         $routeProvider.when('/aprobacionProvision', {
             templateUrl: 'AngularJS/Aprobacion/Templates/aprobacionProvision.html',
             controller: 'aprobacionProvisionController'
@@ -128,6 +128,10 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         $routeProvider.when('/dashboardgeneral', {
             templateUrl: 'AngularJS/DashBoard/Templates/dashBoardGeneral.html',
             controller: 'dashBoardController'
+        });
+
+        $routeProvider.when('/dashboardCallCenter',{
+          templateUrl: 'AngularJS/HomeCallCenter/Templates/dashboardCallCenter.html'
         });
 
         $routeProvider.when('/reportecita', {
@@ -149,7 +153,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         //     templateUrl: 'AngularJS/Reporte/Templates/reportePorCobrar.html',
         //     controller: 'reportePorCobrarController'
         // });
-        
+
         $routeProvider.when('/reporteunidad', {
             templateUrl: 'AngularJS/Reporte/Templates/reporteUnidad.html',
             controller: 'reporteUnidadController'
@@ -159,7 +163,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/Reporte/Templates/reporteUtilidad.html',
             controller: 'reporteUtilidadController'
         });
-        
+
         $routeProvider.when('/reporteCertificadoConformidad', {
             templateUrl: 'AngularJS/Reporte/Templates/reporteCertificadoConformidad.html',
             controller: 'reporteCertificadoConformidadController'
@@ -203,9 +207,9 @@ registrationModule.directive('resize', function ($window) {
             element.css('height', (w.height() - 20) + 'px');
         };
         w.bind('resize', function () {
-            changeHeight(); // when window size gets changed          	 
+            changeHeight(); // when window size gets changed
         });
-        changeHeight(); // when page loads          
+        changeHeight(); // when page loads
     }
 });
 

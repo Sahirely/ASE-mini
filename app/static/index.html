@@ -55,25 +55,28 @@
                         </a>
                     </div>
                 </li>
-                <li ng-class="{'active': modulo=='Configurador'}">
+                <li ng-class="{'active': modulo=='Configurador'}" ng-show="userData.idRol == 5">
                     <a href="configurador"><i class="glyphicon glyphicon-cog" data-toggle="tooltip" tooltip="Configurador" tooltip-placement="right"></i> <span class="nav-label">Configurador</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='home'}">
+                <li ng-class="{'active': modulo=='home'}" ng-hide="{{userData.idRol == 5 || userData.idRol == 3}}">
                     <a href="dashboardgeneral"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Home</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='consultaCitas'}">
+                <li class="active" ng-show="userData.idRol == 3">
+                    <a href="dashboardCallCenter"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Home</span></a>
+                </li>
+                <li ng-class="{'active': modulo=='consultaCitas'}" ng-show="{{userData.idRol != 5}}">
                     <a href="consultaCitas" ng-click="showChat = 0"><i class="fa fa-money" data-toggle="tooltip" tooltip="Consulta de Citas" tooltip-placement="right"></i> <span class="nav-label">Consulta de Citas</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='aprobaciones'}">
+                <li ng-class="{'active': modulo=='aprobaciones'}" ng-show="{{userData.idRol != 5}}">
                     <a href="cotizacionconsulta" ng-click="showChat = 0"><i class="fa fa-check" data-toggle="tooltip" tooltip="Aprobaciones" tooltip-placement="right"></i> <span class="nav-label">Aprobaciones</span><span class="label label-warning pull-right"></span></a>
                 </li>
-                <li ng-class="{'active': modulo=='ordenServicio'}">
+                <li ng-class="{'active': modulo=='ordenServicio'}" ng-show="{{userData.idRol != 5}}">
                     <a href="trabajo" ng-click="showChat = 0"><i class="fa fa-clipboard" data-toggle="tooltip" tooltip="Órdenes de Servicio" tooltip-placement="right"></i> <span class="nav-label">Órdenes de Servicio</span>  </a>
                 </li>
-                <li ng-class="{'active': modulo=='ordenxCobrar'}">
+                <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="{{userData.idRol != 5}}">
                     <a href="ordenesporcobrar" ng-click="showChat = 0" ng-hide="userData.idTipoUsuario == 3"><i class="fa fa-credit-card" data-toggle="tooltip" tooltip="Órdenes por Cobrar" tooltip-placement="right"></i> <span class="nav-label">Órdenes por Cobrar</span><span class="label label-warning pull-right"></span></a>
                 </li>
-                <li ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
+                <li ng-show="{{userData.idRol != 5}}" ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
                         <li ng-hide="true" ng-class="{'active': modulo=='reporteReclamacion'}"><a href="/reporteReclamacion">Reporte Reclamacion</a></li>
@@ -106,7 +109,7 @@
                 <li ng-show="userData.idUsuario == 190  || userData.idUsuario == 213" ng-class="{'active': modulo=='control'}">
                     <a href="usuarioTar" ng-click="showChat = 0"><i class="glyphicon glyphicon-wrench" data-toggle="tooltip" tooltip="Control" tooltip-placement="right"></i> <span class="nav-label">Control</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='tutorial'}">
+                <li ng-class="{'active': modulo=='tutorial'}" ng-show="{{userData.idRol != 5}}">
                     <a href="Tutorial" ng-click="showChat = 0"><i class="glyphicon glyphicon-facetime-video" data-toggle="tooltip" tooltip="Tutorial" tooltip-placement="right"></i> <span class="nav-label">Tutorial</span></a>
                 </li>
             </ul>
@@ -139,16 +142,15 @@
                         <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                     </li>
                     <li>
-                        <div class="rol" ng-class="{ 'roladmin' : userData.idTipoUsuario == 1, 'rolcall' : userData.idTipoUsuario == 2, 'roltaller' : userData.idTipoUsuario == 3, 'rolcliente' : userData.idTipoUsuario == 4, 'rolproveedor' : userData.esProveedor == 1  }">
-                            <span ng-show="userData.esProveedor==0">Rol - {{ userData.tipoUsuario}}</span>
-                            <span ng-show="userData.esProveedor==1">Rol - Proveedor</span>
+                        <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                            <span>Rol - {{ userData.Rol}}</span>
                         </div>
                     </li>
                     <li>
                         <span class="m-r-md text-muted">Talleres Externos</span>
                     </li>
                     <li>
-                        <a href="/">
+                        <a href="/" ng-click="logOut()" >
                             <i class="fa fa-sign-out"></i> Cerrar Sesión
                         </a>
                     </li>
@@ -253,7 +255,6 @@
     <!--librerias de componenetes-->
     <script src="AngularJS/alertFactory.js"></script>
     <script src="AngularJS/globalFactory.js"></script>
-    <script src="AngularJS/userFactory.js"></script>
     <script src="AngularJS/Servicios/commonService.js"></script>
     <!--Librería de Switch -->
     <script src="AngularJS/bsSwitch.js"></script>

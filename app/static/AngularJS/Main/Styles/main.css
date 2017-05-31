@@ -183,11 +183,7 @@ body {
 }
 
 .rolcall {
-    background-color: #FFD701;
-}
-
-.roltaller {
-    background-color: #B3B3B3;
+    background-color: #41DAB4;
 }
 
 .rolcliente {
@@ -200,6 +196,10 @@ body {
 
 .rolproveedor {
     background-color: #43AD06;
+}
+
+.rolConfigurador{
+    background-color: #C63131
 }
 
 .rowRojo {

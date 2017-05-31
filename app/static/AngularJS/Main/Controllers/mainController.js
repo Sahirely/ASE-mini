@@ -18,7 +18,11 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     $scope.init = function() {
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
-        $rootScope.userData = localStorageService.get('userData');
+        $scope.userData = localStorageService.get('userData');
+    }
+
+    $scope.logOut = function(){
+      localStorageService.clearAll();
     }
 
     $scope.cargaChatTaller = function() {
@@ -66,7 +70,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
         $scope.comentario = '';
     };
     //*****************************************************************************************************************************//
-    // Funcion para mostrar u ocultar input de busqueda en el header  busqueda = 1 <-- Muestra Busca Unidad 
+    // Funcion para mostrar u ocultar input de busqueda en el header  busqueda = 1 <-- Muestra Busca Unidad
     //                                                                busqueda = 2 <-- Muestra Busca Orden
     //*****************************************************************************************************************************//
     $scope.botonBusqueda = function(busqueda) {
@@ -81,10 +85,10 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
 
     //*****************************************************************************************************************************//
     // ***  busquedaUnidadRepository.getExisteUnidad($scope.idUsuarioPruebas, economico)  ***/
-    // Busca si existe la unidad, si el usuario tiene permisos para el tipo de operación y el rol al que pertenece 
+    // Busca si existe la unidad, si el usuario tiene permisos para el tipo de operación y el rol al que pertenece
     // puede visualizar la información de dicha unidad
-    // $scope.tipoRespuesta = 0 <-- No existe la unidad 
-    // $scope.tipoRespuesta = 1 <-- Existe la unidad y tiene todos los permisos necesarios 
+    // $scope.tipoRespuesta = 0 <-- No existe la unidad
+    // $scope.tipoRespuesta = 1 <-- Existe la unidad y tiene todos los permisos necesarios
     // $scope.tipoRespuesta = 2 <-- Existe la unidad pero el tipo de operación no le corresponde
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
