@@ -6,7 +6,10 @@ registrationModule.factory('loginRepository', function ($http) {
             return $http({
                 url: loginUrl + 'validaCredenciales/',
                 method: "GET",
-                params: {usuario:usuario,password:password},
+                params: {
+                    usuario:usuario,
+                    password:password
+                  },
                 headers: {
                 'Content-Type': 'application/json'
                 }

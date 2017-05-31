@@ -14,7 +14,7 @@ var Login = function(conf){
 }
 
 //Valida credenciales de usuario
-Login.prototype.get_validacredenciales = function (req, res, next) {
+Login.prototype.get_validaCredenciales = function (req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
     //Objeto que envía los parámetros
@@ -22,12 +22,16 @@ Login.prototype.get_validacredenciales = function (req, res, next) {
     //Referencia a la clase para callback
     var self = this;
 
-    var params = [{name: 'usuario', value: req.query.usuario, 
-                  type: self.model.types.STRING},
-                 {name: 'contrasena', value: req.query.password, 
-                  type: self.model.types.STRING}];
+    var params = [{
+										name: 'login',
+										value: req.query.usuario,
+										type: self.model.types.STRING
+									},{
+										name: 'pass',
+										value: req.query.password,
+										type: self.model.types.STRING}];
 
-    this.model.query('SEL_VALIDA_CREDENCIALES_SP',params, function (error, result) {
+    this.model.query('SEL_VALIDA_LOGIN_SP',params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
