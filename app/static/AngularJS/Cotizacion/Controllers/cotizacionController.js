@@ -9,10 +9,11 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
 
     $scope.numeroOrden = $routeParams.orden;
     $scope.idTaller = '';
-    $scope.idCatalogoTipoOrdenServicio = 0;
+    //$scope.idCatalogoTipoOrdenServicio = 0;
     $scope.lstPartidaSeleccionada = [];
     $scope.mostrarTalleres = true;
     $scope.mostrarPartida = false;
+    $scope.idTipoCita = 0;
     $scope.init = function() {
         $scope.getTipoOrdenesServicio()
         $scope.mostrarTalleres = true;
@@ -28,7 +29,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     };
     $scope.seleccionarTipoCotizacion = function(obj){
         console.log(obj)
-        $scope.idCatalogoTipoOrdenServicio = obj.idCatalogoTipoOrdenServicio
+        $scope.idTipoCita = obj.idTipoCita;
+        //$scope.idCatalogoTipoOrdenServicio = obj.idCatalogoTipoOrdenServicio
         $scope.getTalleres()
         $scope.limpiarParametros()
     }
@@ -140,12 +142,13 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     };
 
     $scope.nuevaCotizacion = function() {
+        console.log( $scope.idTipoCita)
         $('#loadModal').modal('show');
-        cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden,1).then(function(result) {
+        cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden, $scope.idTipoCita).then(function(result) {
             if (result.data[0].idCotizacion > 0) {
                 $scope.idCotizacion = result.data[0].idCotizacion;
                 $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, $scope.idCatalogoTipoOrdenServicio).then(function(nuevos) {
+                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, 1).then(function(nuevos) {
                         if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
                             console.log('Error al Guardar')
                         }
@@ -186,7 +189,6 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             }
         }
         $scope.sumatoriaTotal();
-        console.log($scope.lstPartidaSeleccionada)
     }
 
     $scope.quitarItem = function(obj) {
