@@ -234,7 +234,9 @@
                                                           <td>{{partida.idEstatusPartida}}</td>
                                                           <td>{{partida.numeroParte}} </td>
                                                           <td>{{partida.cantidad}} </td>
-                                                          <td>{{partida.costo}} </td>
+                                                          <td>{{partida.costo | currency}} </td>
+                                                          <td>{{(partida.costo * partida.cantidad) * 0.16 | currency }} </td>
+                                                          <td>{{partida.costo * partida.cantidad | currency}} </td>
                                                          <!--  <td style="text-align:left; width: 100px;">{{partida.descripcionLarga}}</td>
                                                           <td style="text-align:left;  width:300px;">
                                                               <div><strong>Número de Partida: {{ partida.numeroPartida }}</strong></div>
