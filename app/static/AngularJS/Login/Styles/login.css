@@ -1,5 +1,6 @@
 #container {
   width: 600px;
+  height: 320px;
   border: 1px solid rgba(153, 153, 153, 0.24);
   margin-top: 16%;
   margin-left: calc(50% - 310px);
@@ -7,20 +8,12 @@
   border-radius: 4px;
   position: relative; }
 
-.conOperacion{
-    height: 350px;
-}
-
-.sinOperacion{
-    height: 300px;
-}
-
 #logo {
   position: absolute;
   left: 0;
   top: 0;
   width: 40%;
-  height: 300px;
+  height: 200px;
   margin-top: 72px; }
 
 #datos {
@@ -30,10 +23,17 @@
   width: 59%;
   height: 300px; }
 
-#usuario {
+#usuario{
   margin-top: 60px;
   width: 80%;
   margin-left: 20px; }
+
+#nombreUsuarioLogin {
+  margin-top: 60px;
+  width: 80%;
+  margin-left: 20px;
+  text-align: right;
+}
 
 #contrasena {
   margin-top: 10px;
@@ -41,12 +41,13 @@
   margin-left: 20px; }
 
 #operaciones {
-  margin-top: 10px;
-  width: 80%;
-  margin-left: 20px; }
+    margin-top: 35px;
+    width: 80%;
+    margin-left: 20px;
+}
 
 #link{
-  margin-top: 20px;
+  margin-top: 290px;
   width: 80%;
   margin-left: 20px; }
 
@@ -55,4 +56,4 @@
   bottom: 0;
   right: 0;
   margin-right: 53px;
-  margin-bottom: 15px; }
+  margin-bottom: 60px }
