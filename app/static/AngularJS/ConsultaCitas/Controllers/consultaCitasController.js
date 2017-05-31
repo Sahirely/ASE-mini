@@ -1,14 +1,26 @@
-registrationModule.controller('consultaCitasController', function($scope, $route, $modal, $rootScope, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
+registrationModule.controller('consultaCitasController', function($scope, $route, $modal, $rootScope, cotizacionConsultaRepository,localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
    $scope.citas = [];
     
-    $scope.init = function() {};
+    var Zona = 0//$scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
+      var idEjecutivo = 0//$scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
+      var fechaMes = ''//this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
+      var rInicio = ''//$scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio;
+      var rFin = ''//$scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin;
+      var fecha = ''//$scope.fecha == '' || $scope.fecha == undefined ? null : $scope.fecha;
+      var numeroOrden = ''//$scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
+      var porOrden=0
+      
+    $scope.idContratoOperacion = 2
+    var tipoConsulta = 1
 
+    $scope.init = function() {};
+    
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {
-        $scope.getTotalOrdenes();
+        $scope.getTotalOrdenes($scope.idContratoOperacion , tipoConsulta);
         $('#calendar .input-group.date').datepicker({
             todayBtn: "linked",
             keyboardNavigation: true,
@@ -36,7 +48,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
     $scope.getTotalOrdenes = function(){
          $('.dataTableOrdenes').DataTable().destroy();
-        $scope.promise = consultaCitasRepository.getTotalOrdenes().then(function (result) {
+         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.idContratoOperacion, Zona,0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function (result){
+                console.log(result)
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
                  globalFactory.waitDrawDocument("dataTableOrdenes", "Ordenes");

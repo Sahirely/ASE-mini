@@ -81,7 +81,32 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
+        },
+
+        ObtenerOrdenesTipoConsulta: function(idContratoOperacion, idZona, nivelZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, tipoConsulta){
+          var objConsultaOrden = {
+              idContratoOperacion: idContratoOperacion,
+              idZona: idZona,
+              nivelZona:nivelZona,
+              idUsuario: idEjecutivo,
+              fechaMes: fechaMes,
+              fechaInicial: fechaInicial,
+              fechaFin: fechaFin,
+              fechaEspecifico: fechaEspecifico,
+              numeroOrden: NumOrden,
+              tipoConsulta: tipoConsulta
+          };
+            return $http({
+                url: searchUrl + 'ObtenerOrdenesTipoConsulta/',
+                method: "GET",
+                params: objConsultaOrden,
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
         }
+
+
         //,
         // busquedaPieza: function(){
         // 	return $http({

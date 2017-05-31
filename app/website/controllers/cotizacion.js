@@ -289,5 +289,58 @@ Cotizacion.prototype.post_cotizacionDetalle = function(req, res, next){
 }
 
 
+Cotizacion.prototype.get_ObtenerOrdenesTipoConsulta = function (req, res, next) {
+var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+       },{
+          name: 'idZona',
+          value: req.query.idZona,
+          type: self.model.types.INT
+        },{
+          name: 'nivelZona',
+          value: req.query.nivelZona,
+          type: self.model.types.INT
+        },{
+          name: 'idUsuario',
+          value: req.query.idUsuario,
+          type: self.model.types.INT
+        },{
+          name: 'fechaMes',
+          value: req.query.fechaMes,
+          type: self.model.types.STRING
+        },{
+          name: 'fechaInicial',
+          value: req.query.fechaInicial,
+          type: self.model.types.STRING
+        },{
+          name: 'fechaFin',
+          value: req.query.fechaFin,
+          type: self.model.types.STRING
+        },{
+          name: 'fechaEspecifico',
+          value: req.query.fechaEspecifico,
+          type: self.model.types.STRING
+        },{
+          name: 'numeroOrden',
+          value: req.query.numeroOrden,
+          type: self.model.types.STRING
+        },{
+          name: 'tipoConsulta',
+          value: req.query.tipoConsulta,
+          type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_TOTAL_ORDENES_SERVICIO_SP', params, function (error, result) {
+      console.log(result)
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 
 module.exports = Cotizacion;
