@@ -24,7 +24,7 @@
                             <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
                             <strong>No. Inventario:</strong> {{detalleUnidad.pendiente}}<br><br>
                             <strong>Ubicación:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>Autotanque:</strong> {{detalleUnidad.pendiente}}<br><br>
+                            <!-- <strong>Autotanque:</strong> {{detalleUnidad.pendiente}}<br><br> -->
                             </h3></address>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <select class="form-control" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden, zona, ZonasSeleccionadas)">
                                     <option value='0'>Selecionar Zona</option>
-                                    <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                                    <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden -1]" value="{{z.idZona}}">
                                         {{z.nombre}}
                                     </option>
                                 </select>
@@ -150,8 +150,8 @@
                     </form>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="table-responsive" ng-hide="userData.idTipoUsuario == 4">
-                        <table class="table table-striped table-bordered table-hover dataTableTaller" cg-busy="{promise:promise,message:message}">
+                    <div class="table-responsive" ng-show="mostrarTabla">
+                        <table class="table table-striped table-bordered table-hover talleres" cg-busy="{promise:promise,message:message}">
                             <thead>
                                 <th>Taller</th>
                                 <th>Dirección</th>

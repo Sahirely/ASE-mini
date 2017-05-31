@@ -72,7 +72,7 @@ registrationModule.factory('globalFactory', function() {
           $('.' + dataTable).DataTable().destroy();
             $('.' + dataTable + ' thead th').each(function() {
                 var titulo = $(this).text();
-                $(this).html(titulo + '<input type="text"/>');
+                $(this).html(titulo + '<br><input type="text"/>');
             });
             setTimeout(function() {
                 var table = $('.' + dataTable).DataTable({

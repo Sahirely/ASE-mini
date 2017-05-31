@@ -1,9 +1,10 @@
-registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository) {
+registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
     $scope.idUsuario = 2;
     $scope.idContratoOperacion = 3;
+    $scope.mostrarTabla = false;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -162,6 +163,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.buscarTaller = function() {
         console.log($scope.zonaSelected, 'Soy la zona seleccionada', $scope.totalNiveles, 'Soy el numero de niveles que tengo ')
+        tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, '').then(function(result) {
+            $scope.mostrarTabla = true;
+            $scope.talleres = result.data;
+            globalFactory.filtrosTabla("talleres", "Talleres", 5);
+            console.log($scope.talleres, 'Somos los talleres ');
+        });
     };
 
     //*****************************************************************************************************************************//
