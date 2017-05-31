@@ -1,4 +1,5 @@
 var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
+var cotizacion = global_settings.urlCORS + '/api/orden/';
 var ruta = global_settings.uploadPath;
 //var ruta = 'C:/Users/Mario/Documents/FileUpload';
 
@@ -35,6 +36,20 @@ registrationModule.factory('cotizacionRepository', function ($http) {
                 url: searchUrl + 'cotizacionDetalle',
                 method: "POST",
                 data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getMostrarCotizaciones: function (numeroOrden, estatus ) {
+            console.log(numeroOrden,estatus)
+            return $http({
+                url: cotizacion + 'cotizaciones',
+                method: "GET",
+                params: {
+                    numeroOrden:numeroOrden,
+                    estatus:estatus
+                },
                 headers: {
                     'Content-Type': 'application/json'
                 }

@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, consultaCitasRepository, $rootScope, $routeParams,  alertFactory, globalFactory, commonService, localStorageService, detalleRepository) {
+registrationModule.controller('detalleController', function($scope, $location,cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams,  alertFactory, globalFactory, commonService, localStorageService, detalleRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -16,9 +16,11 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.HistoricoCotizaciones = [];
     $scope.init = function() {
         $scope.getHistoricos();
+
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden);
+        $scope.getMostrarCotizaciones($scope.numeroOrden,1)
         $scope.enviaNota();
     };
 
@@ -91,6 +93,22 @@ registrationModule.controller('detalleController', function($scope, $location, c
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los documentos de la orden');
+        });
+    }
+
+    $scope.getMostrarCotizaciones = function(numeroOrden, estatus) {
+        cotizacionRepository.getMostrarCotizaciones(numeroOrden,estatus).then(function(result) {
+          console.log(result.data)
+            if (result.data.success == true) {
+                $scope.cotizaciones = result.data.data;
+                console.log($scope.cotizaciones)
+                console.log($scope.cotizaciones[0].detalle)
+
+            }else {
+              alertFactory.error('No se puede obtener los documentos de la orden');
+            }
+        }, function(error) {
+            alertFactory.error(result.msg);
         });
     }
 

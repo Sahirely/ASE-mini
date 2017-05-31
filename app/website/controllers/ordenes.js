@@ -1586,6 +1586,7 @@ Orden.prototype.post_insertaNotas = function (req, res, next) {
 
 // Se obtiene las cotizaciones que se han generado a una orden
 Orden.prototype.get_cotizaciones = function (req, res, next) {
+    console.log('entre a cotizaciones')
     //Objeto que almacena la respuesta
     var object = {};
     //Objeto que envía los parámetros
