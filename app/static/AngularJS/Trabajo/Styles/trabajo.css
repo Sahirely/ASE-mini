@@ -1,0 +1,28 @@
+.ibox-content{
+    border-top: none !important;
+}
+
+.fondoBlanco{
+    background-color: white !important;
+}
+
+.espacioSuperior{
+    margin-top: 30px;
+}
+
+@media only screen and (max-width: 500px) {
+    .table-responsive {
+        border: none;
+    }
+    .ibox-content {
+        width: 113%;
+        padding: 0px !important;
+        margin-left: -10px;
+    }
+    .ibox-content {
+        border: none;
+    }
+    .ng-isolate-scope .nav {
+        padding-left: 10px;
+    }
+}

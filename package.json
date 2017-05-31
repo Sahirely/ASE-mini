@@ -13,5 +13,8 @@
     "serve-favicon": "^2.1.6",
     "socket.io": "^1.2.0",
     "swig": "^1.4.2"
+  },
+  "scripts": {
+    "debug": "node --nolazy --debug-brk=5858 workers.js"
   }
 }

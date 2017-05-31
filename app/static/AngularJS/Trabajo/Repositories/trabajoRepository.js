@@ -7,7 +7,7 @@ registrationModule.factory('trabajoRepository', function ($http) {
     return {
         getNivelZona: function(idUsuario){
           return $http({
-              url: cotizacionUrl + 'nivelZona',
+              url: searchUrl + 'nivelZona',
               method: "GET",
               params: {
                   idUsuario: idUsuario
@@ -15,13 +15,13 @@ registrationModule.factory('trabajoRepository', function ($http) {
               headers:{ 'Content-Type': 'application/json' }
           });
         },
-        getZonas: function (idnivel, idpadre) {
+        getZonas: function (idUsuario, idNivel) {
             return $http({
-                url: cotizacionUrl + 'zonas/',
+                url: searchUrl + 'zonas/',
                 method: "GET",
                 params: {
-                    idNivel: idnivel,
-                    idPadre: idpadre
+                    idUsuario: idUsuario,
+                    idNivel: idNivel
                 },
                 headers: {
                     'Content-Type': 'application/json'

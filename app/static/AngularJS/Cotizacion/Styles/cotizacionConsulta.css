@@ -1,3 +1,11 @@
 .espacioInferior{
     padding-bottom: 15px;
 }
+
+.espacioSuperior{
+    padding-top: 40px;
+}
+
+.fondoBlanco{
+    background: white !important;
+}

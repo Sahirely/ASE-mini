@@ -21,24 +21,13 @@ DashBoard.prototype.get_sumatoriaCitas = function (req, res, next) {
     var self = this;
     //Obtención de valores de los parámetros del request
     var params = [
-        {
-            name: 'idTar',
-            value: req.query.idTar,
-            type: self.model.types.INT
-        },
-        {
-            name: 'idZona',
-            value: req.query.idZona,
-            type: self.model.types.INT
-        },
-        {
-            name: 'idUsuario',
-            value: req.query.idUsuario,
-            type: self.model.types.INT
-        }
+        { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
+        // { name: 'idTar', value: req.query.idTar, type: self.model.types.INT },
+        // { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
-    this.model.query('SEL_REPORTE_CITAS_SP', params, function (error, result) {
+    this.model.query('SEL_DASHBOARD_CITAS_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

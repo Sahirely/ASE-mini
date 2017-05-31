@@ -2,12 +2,12 @@ var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
 registrationModule.factory('cotizacionConsultaRepository', function ($http) {
     return {
-        getNivelZona: function(idUsuario){
+        getNivelZona: function(idContratoOperacion){
           return $http({
               url: searchUrl + 'nivelZona',
               method: "GET",
               params: {
-                  idUsuario: idUsuario
+                  idContratoOperacion: idContratoOperacion
               },
               headers:{ 'Content-Type': 'application/json' }
           });
@@ -23,12 +23,12 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               headers:{ 'Content-Type': 'application/json' }
           });
         },
-        getZonas: function (idUsuario, idNivel) {
+        getZonas: function (idContratoOperacion, idNivel) {
             return $http({
                 url: searchUrl + 'zonas/',
                 method: "GET",
                 params: {
-                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion,
                     idNivel: idNivel
                 },
                 headers: {
@@ -60,21 +60,21 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               }
           });
         },
-        get: function(idUsuario, idZona, idEjecutivo, Mes, Inicio, Fin, Fecha, NumOrden, EsPorOrden, ConPresupuesto){
+        getOrdenes: function(idContratoOperacion, idZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, porOrden, tipoConsulta){
           var objConsultaOrden = {
-            idUsuario: idUsuario,
-            idZona: idZona,
-            idEjecutivo: idEjecutivo,
-            Mes: Mes,
-            Inicio: Inicio,
-            Fin: Fin,
-            Fecha: Fecha,
-            NumOrden: NumOrden,
-            EsPorOrden: EsPorOrden,
-            ConPresupuesto: ConPresupuesto
+              idContratoOperacion: idContratoOperacion,
+              idZona: idZona,
+              idEjecutivo: idEjecutivo,
+              fechaMes: fechaMes,
+              fechaInicial: fechaInicial,
+              fechaFin: fechaFin,
+              fechaEspecifico: fechaEspecifico,
+              NumOrden: NumOrden,
+              porOrden: porOrden,
+              tipoConsulta: tipoConsulta
           };
             return $http({
-                url: searchUrl + 'see/',
+                url: searchUrl + 'ObtenerOrdenes/',
                 method: "GET",
                 params: objConsultaOrden,
                 headers: {

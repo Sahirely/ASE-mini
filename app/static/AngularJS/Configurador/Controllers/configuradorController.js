@@ -52,17 +52,17 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.promise = configuradorRepository.getDatosOperacion(data.idOperacion).then(function (result) {
             if (result.data.length > 0) {
 
-            	var fechaIni=new Date(result.data[0].fechaInicio);
-            	fechaIni = fechaIni.toString();
-            	var fechaFin=new Date(result.data[0].fechaFin);
-            	fechaFin = fechaFin.toString();
+            	//var fechaIni=new Date(result.data[0].fechaInicio);
+            	//fechaIni = fechaIni.toString();
+            	//var fechaFin=new Date(result.data[0].fechaFin);
+            	//fechaFin = fechaFin.toString();
             	$scope.datosOperacion= result.data;
             	$scope.nomOperacion = result.data[0].nombreOperacion;
             	$scope.nomContacto = result.data[0].nombreContacto;
             	$scope.correoContacto = result.data[0].correoContacto;
             	$scope.telContacto = result.data[0].telefonoContacto;
-            	$scope.fechaIni = fechaIni;
-            	$scope.fechaFin = fechaFin;
+            	$scope.fechaIni = result.data[0].fechaInicio;
+            	$scope.fechaFin = result.data[0].fechaFin;
             	$scope.utilidad = result.data[0].manejoUtilidad;
             	$scope.porcentajeUtilidad = result.data[0].porcentajeUtilidad;
             	$scope.presupuesto = result.data[0].presupuesto;
@@ -105,7 +105,12 @@ registrationModule.controller('configuradorController', function ($scope, $route
                 $scope.tipoOperaciones = result.data;
                 debugger;
                 if ($scope.idOperacion !== '') {
-                	$scope.tipoOperacion =$scope.tipoOperaciones[$scope.datosOperacion[0].idCatalogoTipoOperacion]
+                	for (var i = 0 ; i < result.data.length; i++) {
+                		debugger;
+                		if ($scope.datosOperacion[0].idCatalogoTipoOperacion == result.data[i].idTipoOperacion) {
+                			$scope.tipoOperacion =result.data[i];
+                		}
+                	}
                 };
             }
         }, function (error) {
@@ -119,7 +124,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
                 $scope.formaDePagos = result.data;
                 if ($scope.idOperacion !== '') {
                 	for (var i = 0 ; i < result.data.length; i++) {
-                		if ($scope.datosOperacion[0].idCatalogoFormaPago == result.data[i].idCatalogoFormaPago) {
+                		debugger;
+                		if ($scope.datosOperacion[0].idCatalogoFormaPago == result.data[i].idFormaPago) {
                 			$scope.formaDePago =result.data[i];
                 		}
                 	}

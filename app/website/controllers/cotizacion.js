@@ -76,52 +76,53 @@ Cotizacion.prototype.get_ConsultaOrdenes = function (req, res, next){
 
 }
 
+
 //Obtiene las cotizaciones pendientes por autorizar
-Cotizacion.prototype.get_see = function (req, res, next) {
+Cotizacion.prototype.get_ObtenerOrdenes = function (req, res, next) {
     var self = this;
     var params = [{
-        name: 'idusuario',
-        value: req.query.idUsuario,
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
         type: self.model.types.INT
        },{
-          name: 'idzona',
+          name: 'idZona',
           value: req.query.idZona,
-          type: self.model.types.STRING
+          type: self.model.types.INT
         },{
-          name: 'idejecutivo',
+          name: 'idEjecutivo',
           value: req.query.idEjecutivo,
           type: self.model.types.STRING
         },{
           name: 'fechaMes',
-          value: req.query.Mes,
+          value: req.query.fechaMes,
           type: self.model.types.STRING
         },{
-          name: 'rangoInicial',
-          value: req.query.Inicio,
+          name: 'fechaInicial',
+          value: req.query.fechaInicial,
           type: self.model.types.STRING
         },{
-          name: 'rangoFinal',
-          value: req.query.Fin,
+          name: 'fechaFin',
+          value: req.query.fechaFin,
           type: self.model.types.STRING
         },{
-          name: 'fecha',
-          value: req.query.Fecha,
+          name: 'fechaEspecifico',
+          value: req.query.fechaEspecifico,
           type: self.model.types.STRING
         },{
-          name: 'numorden',
+          name: 'NumOrden',
           value: req.query.NumOrden,
           type: self.model.types.STRING
         },{
           name: 'porOrden',
-          value: req.query.EsPorOrden,
+          value: req.query.porOrden,
           type: self.model.types.INT
         },{
-          name: 'presupuesto',
-          value: req.query.ConPresupuesto,
+          name: 'tipoConsulta',
+          value: req.query.tipoConsulta,
           type: self.model.types.INT
         }];
 
-    this.model.query('SEL_CONSULTA_ORDENES_SP', params, function (error, result) {
+    this.model.query('SEL_CONSULTA_ORDENES_SP_Pruebas', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -136,8 +137,8 @@ Cotizacion.prototype.get_zonas = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         {
-            name: 'idUsuario',
-            value: req.query.idUsuario,
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
             type: self.model.types.INT
        },{
             name: 'idNivel',
@@ -161,8 +162,8 @@ Cotizacion.prototype.get_nivelZona = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         {
-            name: 'idusuario',
-            value: req.query.idUsuario,
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
             type: self.model.types.INT
        }
    ];
