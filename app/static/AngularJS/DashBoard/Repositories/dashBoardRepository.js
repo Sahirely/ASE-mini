@@ -17,72 +17,77 @@ registrationModule.factory('dashBoardRepository', function ($http) {
                 }
             });
         },
-        getTotalCotizaciones: function (idZona,idTar,idUsuario) {
+        getTotalCotizaciones: function ( idOperacion ) {
             return $http({
                 url: tableroUrl + 'sumatoriaCotizaciones/',
                 method: "GET",
                 params: {
-                    idZona:idZona,
-                    idTar: idTar,
-                    idUsuario:idUsuario
+                    // idZona:idZona,
+                    // idTar: idTar,
+                    // idUsuario:idUsuario
+                    idOperacion: idOperacion
                    },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getZonas: function (idUsuario) {
-            return $http({
-                url: tableroUrl + 'zonas/',
-                method: "GET",
-                params: {
-                    idUsuario: idUsuario
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
-        getTars: function (idZona, idUsuario) {
-            return $http({
-                url: tableroUrl + 'tars',
-                method: "GET",
-                params: {
-                    idZona: idZona,
-                    idUsuario: idUsuario
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
-        getTotalOrdenes: function (idZona,idTar,idUsuario) {
+        getTotalOrdenes: function ( idOperacion ) {
             return $http({
                 url: tableroUrl + 'sumatoriaOrdenes',
                 method: "GET",
                 params: {
-                    idZona:idZona,
-                    idTar: idTar,
-                    idUsuario:idUsuario
+                    // idZona:idZona,
+                    // idTar: idTar,
+                    // idUsuario:idUsuario
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getTotalOrdenesPorCobrar: function (idZona,idTar,idUsuario) {
+        getTotalOrdenesPorCobrar: function ( idOperacion ) {
             return $http({
                 url: tableroUrl + 'sumatoriaOrdenesPorCobrar',
                 method: "GET",
                 params: {
-                    idZona:idZona,
-                    idTar: idTar,
-                    idUsuario:idUsuario
+                    // idZona:idZona,
+                    // idTar: idTar,
+                    // idUsuario:idUsuario
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         }
+        // getZonas: function (idUsuario) {
+        //     return $http({
+        //         url: tableroUrl + 'zonas/',
+        //         method: "GET",
+        //         params: {
+        //             idUsuario: idUsuario
+        //         },
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     });
+        // },
+        // getTars: function (idZona, idUsuario) {
+        //     return $http({
+        //         url: tableroUrl + 'tars',
+        //         method: "GET",
+        //         params: {
+        //             idZona: idZona,
+        //             idUsuario: idUsuario
+        //         },
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     });
+        // },
+        
+        
     };
 });
