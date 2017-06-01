@@ -1,7 +1,5 @@
 registrationModule.controller('dashBoardController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository) {
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
-    $scope.idUsuario             = 2;
-    $scope.idContratoOperacion   = 3;
 
     // $scope.zonaSelected          = null;
     $scope.tarSelected           = null;
@@ -11,9 +9,10 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.totalOrdenesPorCobrar = 0;
     $scope.userData              = userFactory.getUserData();
     $scope.idOperacion           = $scope.userData.idOperacion;
+    $scope.idUsuario             = $scope.userData.idUsuario;
+    $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
 
-    // $scope.idUsuario = 2;
-
+    console.log( $scope.userData );
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -41,31 +40,35 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.totalCitas = 0;
         $scope.totalHorasCitas = 0;
 
-        // dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario ).then(function(datos) {
         dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected ).then(function(datos) {
             var Resultados = datos.data;
 
             Resultados.forEach(function(item, key) {
-                $scope.totalHorasCitas  = $scope.totalHorasCitas + parseInt( item.promedio );
                 $scope.totalCitas       = $scope.totalCitas + parseInt( item.total );
+                $scope.totalHorasCitas  = $scope.totalHorasCitas + parseInt( item.promedio );
             });
 
             $scope.citas = Resultados;
 
             // Grafica
             $('#morris-donut-citas').empty();
-            Morris.Donut({
-                element: 'morris-donut-citas',
-                data: [
-                    {label: Resultados[0].estatus, value: Resultados[0].total },
-                    {label: Resultados[1].estatus, value: Resultados[1].total }, 
-                    {label: Resultados[2].estatus, value: Resultados[2].total }
-                ],
-                resize: true,
-                colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
-            }).on('click', function(i, row) {
-                location.href = '/consultaCitas';
-            });
+            if( $scope.totalCitas == 0 ){
+                // console.log( 'Los datos de la grafica estan en 0' );
+            }   
+            else{
+                Morris.Donut({
+                    element: 'morris-donut-citas',
+                    data: [
+                        {label: Resultados[0].estatus, value: Resultados[0].total },
+                        {label: Resultados[1].estatus, value: Resultados[1].total }, 
+                        {label: Resultados[2].estatus, value: Resultados[2].total }
+                    ],
+                    resize: true,
+                    colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
+                }).on('click', function(i, row) {
+                    location.href = '/consultaCitas';
+                });
+            }
 
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las citas');
@@ -91,14 +94,20 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             });
 
             $('#morris-donut-cotizaciones').empty();
-            Morris.Donut({
-                element: 'morris-donut-cotizaciones',
-                data: valuesDonut,
-                resize: true,
-                colors: colores,
-            }).on('click', function(i, row) {
-                location.href = '/cotizacionconsulta';
-            });
+            if( $scope.totalCotizaciones == 0 ){
+                // console.log( 'Los datos de la grafica estan en 0' );
+            }   
+            else{
+                Morris.Donut({
+                    element: 'morris-donut-cotizaciones',
+                    data: valuesDonut,
+                    resize: true,
+                    colors: colores,
+                }).on('click', function(i, row) {
+                    location.href = '/cotizacionconsulta';
+                });
+                
+            }
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las cotizaciones');
         });
@@ -119,18 +128,24 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
 
             // Grafica
             $('#morris-donut-ordenes').empty();
-            Morris.Donut({
-                element: 'morris-donut-ordenes',
-                data: [
-                    {label: Resultados[0].estatus, value: Resultados[0].total },
-                    {label: Resultados[1].estatus, value: Resultados[1].total }, 
-                    {label: Resultados[2].estatus, value: Resultados[2].total }
-                ],
-                resize: true,
-                colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
-            }).on('click', function(i, row) {
-                location.href = '/trabajo';
-            });
+            if( $scope.totalOrdenes == 0 ){
+                // console.log( 'Los datos de la grafica estan en 0' );
+            }   
+            else{
+                Morris.Donut({
+                    element: 'morris-donut-ordenes',
+                    data: [
+                        {label: Resultados[0].estatus, value: Resultados[0].total },
+                        {label: Resultados[1].estatus, value: Resultados[1].total }, 
+                        {label: Resultados[2].estatus, value: Resultados[2].total }
+                    ],
+                    resize: true,
+                    colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
+                }).on('click', function(i, row) {
+                    location.href = '/trabajo';
+                });
+            }
+            
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las ordenes');
         });
@@ -156,14 +171,19 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.ordenesCobrar = Resultados;
 
             $('#morris-donut-cobrar').empty();
-            Morris.Donut({
-                element: 'morris-donut-cobrar',
-                data: valuesDonut,
-                resize: true,
-                colors: colores,
-            }).on('click', function(i, row) {
-                location.href = '/ordenesporcobrar';
-            });
+            if( $scope.totalOrdenesPorCobrar == 0 ){
+                // console.log( 'Los datos de la grafica estan en 0' );
+            }   
+            else{
+                Morris.Donut({
+                    element: 'morris-donut-cobrar',
+                    data: valuesDonut,
+                    resize: true,
+                    colors: colores,
+                }).on('click', function(i, row) {
+                    location.href = '/ordenesporcobrar';
+                });
+            }
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las ordenes por cobrar');
         });
@@ -207,47 +227,10 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
 
-        console.log( $scope.zonaSelected );
         $scope.LoadData();
         //se limpian los combos siguientes.
         for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
             $scope.ZonasSeleccionadas[$scope.x] = "0";
         }
-    };
-
-    // $scope.devuelveZonas = function() {
-    //     dashBoardRepository.getZonas($scope.userData.idUsuario).then(function(zonas) {
-    //         if (zonas.data.length > 0) {
-    //             $scope.zonas = zonas.data;
-
-    //         }
-    //     }, function(error) {
-    //         alertFactory.error('No se pudo recuperar información de las citas');
-    //     });
-    // };
-
-    // $scope.devuelveTars = function() {
-    //     if ($scope.zonaSelected != null) {
-    //         dashBoardRepository.getTars($scope.zonaSelected).then(function(tars) {
-    //             if (tars.data.length > 0) {
-    //                 $scope.tars = tars.data;
-    //             }
-    //         }, function(error) {
-    //             alertFactory.error('No se pudo recuperar información de las citas');
-    //         });
-    //     } else {
-    //         $scope.tarSelected = null;
-    //     }
-    //     $scope.sumatoriaCitas();
-    //     $scope.sumatoriaCotizaciones();
-    //     $scope.sumatoriaOrdenes();
-    //     $scope.sumatoriaOrdenesPorCobrar();
-    // };
-
-    // $scope.getDashBoard = function() {
-    //     $scope.sumatoriaCitas();
-    //     $scope.sumatoriaCotizaciones();
-    //     $scope.sumatoriaOrdenes();
-    //     $scope.sumatoriaOrdenesPorCobrar();
-    // };    
+    };  
 });
