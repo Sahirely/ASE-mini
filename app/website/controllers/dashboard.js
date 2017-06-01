@@ -21,10 +21,8 @@ DashBoard.prototype.get_sumatoriaCitas = function (req, res, next) {
     var self = this;
     //Obtención de valores de los parámetros del request
     var params = [
-        { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
-        // { name: 'idTar', value: req.query.idTar, type: self.model.types.INT },
-        // { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
-        // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_CITAS_SP', params, function (error, result) {
@@ -41,10 +39,8 @@ DashBoard.prototype.get_sumatoriaCotizaciones = function (req, res, next) {
     var self = this;
     //Obtención de valores de los parámetros del request
     var params = [
-        // { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
-        // { name: 'idTar', value: req.query.idTar, type: self.model.types.INT },
-        // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
-        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }
+        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_COTIZACIONES_SP', params, function (error, result) {
@@ -61,10 +57,8 @@ DashBoard.prototype.get_sumatoriaOrdenes = function (req, res, next) {
     var self = this;
     //Obtención de valores de los parámetros del request
     var params = [
-        // {name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
-        // {name: 'idTar', value: req.query.idTar, type: self.model.types.INT },
-        // {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
-        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }
+        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_ORDENES_SERVICIO_SP', params, function (error, result) {

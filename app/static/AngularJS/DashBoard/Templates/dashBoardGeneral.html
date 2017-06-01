@@ -2,15 +2,14 @@
 <!-- <link href="../../css/dashBoardTables.css" rel="stylesheet"> -->
 <div ng-init="init()">
     <div class="wrapper wrapper-content">
-        <div class="row" ng-hide="userData.esProveedor == 1">
-            <div class="col-lg-5">
-                <select class="form-control m-b" id="zona" ng-model="zonaSelected" ng-options="zona.idZona as zona.descripcionZona for zona in zonas" ng-change="devuelveTars()">
-                    <option value="">Seleccione una Zona</option>
-                </select>
-            </div>
-            <div class="col-lg-5">
-                <select ng-disabled="zonaSelected == null" class="form-control m-b" id="tar" ng-model="tarSelected" ng-options="tar.idTAR as tar.nombreTar for tar in tars" ng-change="getDashBoard()">
-                    <option value="">Seleccione una TAR</option>
+        <div class="row">
+            <div class="col-xs-12 col-sm-2" ng-repeat="zona in Zonas | orderBy:'orden'">
+                <label class="font-noraml">{{zona.etiqueta}}</label>
+                <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
+                    <option value="0">Seleccione una Zona</option>
+                    <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                      {{z.nombre}}
+                    </option>
                 </select>
             </div>
         </div>
@@ -33,8 +32,8 @@
                                     <div class="col-sm-2">Totales</div>
                                     <div class="col-sm-4">Promedio hrs</div>
                                 </div>
-                                <div class="row rowBody" ng-repeat="x in citas">
-                                    <div class="col-sm-2" style="background-color:{{x.color}};">&nbsp;</div>
+                                <div class="row rowBody" ng-repeat="x in citas" style="border-bottom: solid 1px #f4f4f4;">
+                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
                                     <div class="col-sm-4">{{x.promedio}}</div>
@@ -70,8 +69,8 @@
                                     <div class="col-sm-2">Totales</div>
                                     <div class="col-sm-4">Promedio hrs</div>
                                 </div>
-                                <div class="row rowBody" ng-repeat="x in cotizaciones">
-                                    <div class="col-sm-2" style="background-color:{{x.color}};">&nbsp;</div>
+                                <div class="row rowBody" ng-repeat="x in cotizaciones" style="border-bottom: solid 1px #f4f4f4;">
+                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
                                     <div class="col-sm-4">{{x.promedio}}</div>
@@ -108,8 +107,8 @@
                                     <div class="col-sm-2">Totales</div>
                                     <div class="col-sm-4">Promedio hrs</div>
                                 </div>
-                                <div class="row rowBody" ng-repeat="x in ordenesServicio">
-                                    <div class="col-sm-2" style="background-color:{{x.color}};">&nbsp;</div>
+                                <div class="row rowBody" ng-repeat="x in ordenesServicio" style="border-bottom: solid 1px #f4f4f4;">
+                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
                                     <div class="col-sm-4">{{x.promedio}}</div>
@@ -146,8 +145,8 @@
                                     <div class="col-sm-2">Totales</div>
                                     <div class="col-sm-4">Promedio hrs</div>
                                 </div>
-                                <div class="row rowBody" ng-repeat="x in ordenesCobrar">
-                                    <div class="col-sm-2" style="background-color:{{x.color}};">&nbsp;</div>
+                                <div class="row rowBody" ng-repeat="x in ordenesCobrar" style="border-bottom: solid 1px #f4f4f4;">
+                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
                                     <div class="col-sm-4">{{x.promedio}}</div>
