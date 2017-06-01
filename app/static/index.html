@@ -150,11 +150,21 @@
                         <span class="m-r-md text-muted">Talleres Externos</span>
                     </li>
                     <li>
+
+                    </li>
+                    <li>
                         <a href="/" ng-click="logOut()" >
                             <i class="fa fa-sign-out"></i> Cerrar Sesión
                         </a>
                     </li>
                 </ul>
+                <div class="dropdown">
+                  <button class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
+                  <span class="caret"></span></button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion, ope.idOperacion, ope.nombreOperacion, ope.idRol, ope.nombreRol);">{{ope.nombreOperacion}}</a></li>
+                  </ul>
+                </div>
             </nav>
         </div>
         <div ng-view></div>
@@ -255,6 +265,7 @@
     <!--librerias de componenetes-->
     <script src="AngularJS/alertFactory.js"></script>
     <script src="AngularJS/globalFactory.js"></script>
+    <script src="AngularJS/userFactory.js"></script>
     <script src="AngularJS/Servicios/commonService.js"></script>
     <!--Librería de Switch -->
     <script src="AngularJS/bsSwitch.js"></script>

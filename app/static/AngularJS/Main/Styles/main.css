@@ -108,6 +108,14 @@ body {
     box-shadow: 2px 0.5px 1px rgba(142, 177, 207, 0.37);
 }
 
+#CambiarOperacion{
+    background: none !important;
+    border-style: none !important;
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-size: 13px !important;
+    color: #676a6c !important;
+}
+
 .title {
     font-size: 25px;
     color: #FFA101;

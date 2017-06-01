@@ -1,4 +1,4 @@
-registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, mainRepository, busquedaUnidadRepository) {
+registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository) {
     $rootScope.showChat = 0;
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Se inicializa variable para activar en que opción del menú se encuentra
@@ -18,11 +18,22 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     $scope.init = function() {
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
-        $scope.userData = localStorageService.get('userData');
+        $scope.userData = userFactory.getUserData();//localStorageService.get('userData');
+    }
+
+    $scope.CambiarOperacion = function(idCont, idOpe, nombreOpe, idRol, nombreRol){
+      $scope.userData = userFactory.updateSelectedOperation(idCont, idOpe, nombreOpe, idRol, nombreRol);
+      if ($scope.userData.idRol == 3){
+        location.href = '/dashboardCallCenter';
+      } else if ($scope.userData.idRol == 5){
+        location.href = '/configurador';
+      } else {
+        location.href = '/dashboardgeneral';
+      }
     }
 
     $scope.logOut = function(){
-      localStorageService.clearAll();
+      userFactory.logOut();
     }
 
     $scope.cargaChatTaller = function() {

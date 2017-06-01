@@ -1,4 +1,4 @@
-registrationModule.controller('loginController', function ($scope, alertFactory, $rootScope, localStorageService, loginRepository, $route, citaRepository) {
+registrationModule.controller('loginController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, loginRepository, $route, citaRepository) {
     $rootScope.sesion = 0;
     $rootScope.showChat = 0;
     $scope.userData = {};
@@ -30,7 +30,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                   $scope.operaciones.push(operacion);
                 }
 
-                $scope.userData = $scope.saveUserData(id, nombre, correo, $scope.operaciones);
+                $scope.userData = userFactory.saveUserData(id, nombre, correo, $scope.operaciones);
 
                 if ($scope.userData.Operaciones.length > 1){
                   alertFactory.info('Seleccione una operación para ingresar.');
@@ -44,7 +44,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                   if (contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
                     alertFactory.info('No cuenta con operaciones o roles para ingresar.');
                   } else{
-                    $scope.userData = $scope.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
+                    $scope.userData = userFactory.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
                     $scope.Home();
                   }
                 }
@@ -75,7 +75,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
         if (contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
           alertFactory.info('Seleccione una operación para ingresar.');
         } else{
-          $scope.userData = $scope.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
+          $scope.userData = userFactory.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
           $scope.Home();
         }
       }
@@ -88,39 +88,6 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
         } else {
           location.href = '/dashboardgeneral';
         }
-      }
-
-      $scope.getUserData = function(){
-        return (localStorageService.get('userData'));
-      }
-
-      $scope.saveUserData = function(id, nombreCompleto, Correo, operaciones){
-        var userData= {
-          idUsuario: id,
-          nombreCompleto: nombreCompleto,
-          Correo: Correo,
-          Operaciones: operaciones,
-          contratoOperacionSeleccionada: 0,
-          idOperacion: 0,
-          nombreOperacion: '',
-          idRol: 0,
-          Rol: ''
-        };
-
-        localStorageService.set('userData', userData);
-        return (localStorageService.get('userData'));
-      }
-
-      $scope.updateSelectedOperation = function(idContratoOperacion, idOp, nomOp, idRol, Rol){
-        var userData = localStorageService.get('userData');
-        userData.contratoOperacionSeleccionada = idContratoOperacion;
-        userData.idOperacion = idOp;
-        userData.nombreOperacion = nomOp;
-        userData.idRol = idRol;
-        userData.Rol = Rol;
-
-        localStorageService.set('userData', userData);
-        return (localStorageService.get('userData'));
       }
 
 });
