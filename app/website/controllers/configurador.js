@@ -1,5 +1,7 @@
 var ConfiguradorView = require('../views/ejemploVista'),
     ConfiguradorModel = require('../models/dataAccess2');
+var XLSX = require('xlsx');
+var path = require('path');
 
 var Configurador = function(conf) {
     this.conf = conf || {};
@@ -409,99 +411,80 @@ Configurador.prototype.get_unidadOperacion = function(req, res, next) {
         });
     });
 }
-
+//Carga de informacion de unidades en EXCEL
 Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
 
     var self = this;
-
-    //Obtención de valores de los parámetros del request
-    var params = [{
-        name: 'idTaller',
-        value: req.body.idtaller,
-        type: self.model.types.INT
-    }];
-
-    this.model.query('INS_UNIDAD_SP', params, function(error, result) {
-
-        //Obtención de valores de los parámetros del request
-
-        var workbook = XLSX.readFile(path.resolve(__dirname, '../../static/AngularJS/Configurador') + '/' + req.body.archivo);
-
-        var first_sheet_name = workbook.SheetNames[0];
-
+    var workbook = XLSX.readFile(path.resolve(__dirname, '../../static/AngularJS/Configurador') + '/' + req.body.archivo);
+    var first_sheet_name = workbook.SheetNames[0];
         //Método para carga
         var row = 0;
         var column = 'A';
         var address_of_cell = '';
         var hasRows = true;
-
         /* Get worksheet */
         var worksheet = workbook.Sheets[first_sheet_name];
-
         //Recorro el contenido
         while (hasRows) {
             row++;
             address_of_cell = column + row.toString();
-            if (worksheet[address_of_cell] != null) {
-                if (worksheet[address_of_cell].v != '') {
+            if(row != 1){
+                if (worksheet[address_of_cell] != null) {
+                    if (worksheet[address_of_cell].v != '') {
 
-                    console.log(row);
-                    var params = [{
-                        name: 'numeroEconomico',
-                        value: worksheet['A' + row].v,
-                        type: self.model.types.STRING
-                    }, {
-                        name: 'vin',
-                        value: worksheet['B' + row].v,
-                        type: self.model.types.STRING
-                    },{
-                        name: 'gps',
-                        value: worksheet['C' + row].v,
-                        type: self.model.types.INT
-                    }, {
-                        name: 'idTipoUnidad',
-                        value: worksheet['D' + row].v,
-                        type: self.model.types.INT
-                    }, {
-                        name: 'sustituto',
-                        value: worksheet['E' + row].v,
-                        type: self.model.types.INT
-                    }, {
-                        name: 'idOperacion',
-                        value: req.body.idOperacion,
-                        type: self.model.types.INT
-                    }, {
-                        name: 'idCentroTrabajo',
-                        value: worksheet['F' + row].v,
-                        type: self.model.types.INT
-                    }, {
-                        name: 'placas',
-                        value: worksheet['G' + row].v,
-                        type: self.model.types.STRING
-                    }];
-                  
+                        console.log(row);
+                        var params = [{
+                            name: 'numeroEconomico',
+                            value: worksheet['A' + row].v,
+                            type: self.model.types.STRING
+                        }, {
+                            name: 'vin',
+                            value: worksheet['B' + row].v,
+                            type: self.model.types.STRING
+                        },{
+                            name: 'gps',
+                            value: worksheet['C' + row].v,
+                            type: self.model.types.INT
+                        }, {
+                            name: 'idTipoUnidad',
+                            value: worksheet['D' + row].v,
+                            type: self.model.types.INT
+                        }, {
+                            name: 'sustituto',
+                            value: worksheet['E' + row].v,
+                            type: self.model.types.INT
+                        }, {
+                            name: 'idOperacion',
+                            value: req.body.idOperacion,
+                            type: self.model.types.INT
+                        }, {
+                            name: 'idCentroTrabajo',
+                            value: worksheet['F' + row].v,
+                            type: self.model.types.INT
+                        }, {
+                            name: 'placas',
+                            value: worksheet['G' + row].v,
+                            type: self.model.types.STRING
+                        }];
+                      
 
-                    self.model.queryConnect('INS_UNIDAD_SP', params, null);
+                        self.model.queryConnect('INS_UNIDAD_SP', params, null);
 
+                    } else {
+                        hasRows = false;
+                    }
                 } else {
                     hasRows = false;
                 }
-            } else {
-                hasRows = false;
             }
         }
-
         //Devuelvo la salida
-        self.view.speakJSON(res, {
+        self.view.expositor(res, {
             error: null,
             result: 'finish'
         });
-
-
-    });
+    /*});*/
 };
-
-
 
 //Tipo de unidades por Operación
  Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
@@ -520,9 +503,5 @@ Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
         });
      });
 }
-
-
-
-
 
 module.exports = Configurador;

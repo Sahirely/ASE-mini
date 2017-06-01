@@ -46,6 +46,25 @@ DataAccess2.prototype.query = function (stored, params, callback) {
     });
 };
 
+//método genérico para acciones get
+DataAccess2.prototype.queryConnect = function(stored, params, callback) {
+    var self = this.connection;
+    var cnn = 'cnn';
+    var name = this[cnn + Date.now()];
+    name = new sql.Connection(connectionString, function(err) {
+        var request = new sql.Request(name); // or: var request = connection1.request(); 
+        // Add inputs
+        if (params.length > 0) {
+            params.forEach(function(param) {
+                request.input(param.name, param.type, param.value);
+            });
+        }
+        request.execute(stored, function(err, recordsets, returnValue) {
+            // ... error checks 
+            console.dir(recordsets);
+        });
+    });
+};
 //método genérico para acciones post
 DataAccess2.prototype.post = function (stored, params, callback) {
     var self = this.connection;

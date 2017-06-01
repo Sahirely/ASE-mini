@@ -390,7 +390,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
     $scope.descarga_formatoExcelDeUnidades= function () {
     	debugger;
-    	var url= 'C:/Users/apere/Documents/Proyectos/ASEv2/app/static/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx';
+    	var url= 'C:/Produccion/ASE/ASEv2/app/static/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx';
        $window.open(url);
     }
 
