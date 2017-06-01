@@ -47,6 +47,11 @@
     .form-horizontal .control-label {
         text-align: left;
     }
+    .navy-bgv2-mod {
+        display: block;
+        margin: auto;
+        width: 60%;
+    }
 }
 
 @media (max-width: 527px) {

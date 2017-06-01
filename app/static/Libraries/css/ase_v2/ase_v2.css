@@ -101,19 +101,19 @@
 @media (min-width: 768px) {
     div.dataTables_wrapper div.dataTables_filter {
         text-align: right;
-        position: fixed;
-        right: 30px;
+        position: absolute;
+        right: 11px;
     }
     div.dataTables_wrapper div.dataTables_length label {
-        position: fixed;
-        left: 35px;
+        position: absolute;
+        left: 17px;
         float: none;
         margin-top: -35px;
     }
     .html5buttons {
         text-align: right;
-        position: fixed;
-        right: 35px;
+        position: absolute;
+        right: 17px;
         float: none;
         margin-top: -35px;
     }
@@ -123,8 +123,8 @@
     }
     div.dataTables_wrapper div.dataTables_paginate ul.pagination {
         text-align: right;
-        position: fixed;
-        right: 35px;
+        position: absolute;
+        right: 17px;
         float: none;
         margin-top: 12px;
     }

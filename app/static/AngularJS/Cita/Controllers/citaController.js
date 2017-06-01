@@ -5,6 +5,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.idUsuario = 2;
     $scope.idContratoOperacion = 3;
     $scope.mostrarTabla = false;
+    $scope.mostrarMapa = false;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
