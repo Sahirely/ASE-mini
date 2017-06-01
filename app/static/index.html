@@ -119,50 +119,55 @@
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom" ng-hide="sesion == 0">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
+                <div class="navbar-header" id="MenuButton">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
-                <ul class="nav navbar-top-links navbar-right-mod scrollmenu" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
-                    <li>
-                        <div class="form-group">
-                            <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-group" ng-show="busqueda == 1">
-                            <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="form-group" ng-show="busqueda == 2">
-                            <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus>
-                        </div>
-                    </li>
-                    <li>
-                        <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-                    </li>
-                    <li>
-                        <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                            <span>Rol - {{ userData.Rol}}</span>
-                        </div>
-                    </li>
-                    <li>
-                        <span class="m-r-md text-muted">Talleres Externos</span>
-                    </li>
-                    <li>
+                <div class="col-xs-10 col-sm-11 col-md-11 col-lg-11" id="opcionesMenuSuperior">
+                  <div class="dropdown DropOperaciones col-xs-3 col-sm-2 col-md-3 col-lg-2">
+                    <span>Operación: </span>
+                    <button class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion, ope.idOperacion, ope.nombreOperacion, ope.idRol, ope.nombreRol);">{{ope.nombreOperacion}}</a></li>
+                    </ul>
+                  </div>
+                  <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-9 col-sm-10 col-md-9 col-lg-8" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
+                      <li>
+                          <div class="form-group">
+                              <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="form-group" ng-show="busqueda == 1">
+                              <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus>
+                          </div>
+                      </li>
+                      <li>
+                          <div class="form-group" ng-show="busqueda == 2">
+                              <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus>
+                          </div>
+                      </li>
+                      <li>
+                          <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+                      </li>
+                      <li>
 
-                    </li>
-                    <li>
-                        <a href="/" ng-click="logOut()" >
-                            <i class="fa fa-sign-out"></i> Cerrar Sesión
-                        </a>
-                    </li>
-                </ul>
-                <div class="dropdown">
-                  <button class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
-                  <span class="caret"></span></button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion, ope.idOperacion, ope.nombreOperacion, ope.idRol, ope.nombreRol);">{{ope.nombreOperacion}}</a></li>
+                          <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+
+                              <span>Rol - {{ userData.Rol}}</span>
+                          </div>
+                      </li>
+                      <li>
+                          <span class="m-r-md text-muted">Talleres Externos</span>
+                      </li>
+                      <li>
+
+                      </li>
+                      <li>
+                          <a href="/" ng-click="logOut()" >
+                              <i class="fa fa-sign-out"></i> Cerrar Sesión
+                          </a>
+                      </li>
                   </ul>
                 </div>
             </nav>

@@ -111,9 +111,20 @@ body {
 #CambiarOperacion{
     background: none !important;
     border-style: none !important;
-    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-family: "Source Sans Pro", sans-serif;
+    /*font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;*/
     font-size: 13px !important;
-    color: #676a6c !important;
+    color: #a7b1c2 !important;
+}
+
+#MenuButton{
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#opcionesMenuSuperior{
+  float: right !important;
 }
 
 .title {
@@ -178,7 +189,7 @@ body {
     /* margin-top: -35px; */
     margin-right: 20px;
     margin-left: 20px;
-    transform: skew(-10deg);
+    /*transform: skew(-10deg);*/
     padding-top: 19px;
     padding-bottom: 25px;
     text-align: center;
@@ -191,23 +202,40 @@ body {
 }
 
 .rolcall {
-    background-color: #41DAB4;
+    color: #41DAB4;
 }
 
 .rolcliente {
-    background-color: #55B4F0;
+    color: #55B4F0;
 }
 
 .roladmin {
-    background-color: #FFA100;
+    color: #FFA100;
 }
 
 .rolproveedor {
-    background-color: #43AD06;
+    color: #43AD06;
 }
 
 .rolConfigurador{
-    background-color: #C63131
+    color: #C63131
+}
+
+.DropOperaciones{
+    font-family: "Source Sans Pro", sans-serif;
+    padding-top: 16px;
+    color: #a7b1c2;
+    float: right !important;
+    position: relative !important;
+}
+
+.indicaRol{
+  border-style:solid;
+  border-radius: 50%;
+  width: 10%;
+  height: auto;
+  padding-top: 10%;
+  background: #ef8913;
 }
 
 .rowRojo {
