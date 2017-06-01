@@ -19,7 +19,7 @@ registrationModule.controller('detalleModulosController', function ($scope, $mod
     }
 
     $scope.changeDetalle = function (data, detalle) {
-        debugger;
+      
         var bandera = false;
 
         if ($scope.detallesPorModulo.length>0) {

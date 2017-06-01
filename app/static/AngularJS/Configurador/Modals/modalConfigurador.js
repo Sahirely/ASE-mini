@@ -39,6 +39,7 @@ function modal_nuevaUnidad($scope, $modal, idOperacion, presupuesto, gps, callba
         }
     });
 }
+
 function modal_detalleModulos($scope, $modal, idOperacion, detalle, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/Configurador/Templates/detalleModulos.html',
@@ -57,6 +58,20 @@ function modal_detalleModulos($scope, $modal, idOperacion, detalle, callback, er
             },
             error: function() {
                 return error;
+            }
+        }
+    });
+}
+
+function modal_tipoUnidad($scope, $modal, data) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/Configurador/Templates/tipoUnidades.html',
+        controller: 'tipoUnidadesController',
+        backdrop: 'static',
+        size: 300,
+        resolve: {
+            data: function() {
+                return data;
             }
         }
     });

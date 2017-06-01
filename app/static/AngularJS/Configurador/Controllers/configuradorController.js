@@ -1,11 +1,13 @@
-registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, globalFactory, configuradorRepository, localStorageService, alertFactory) {
+registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, globalFactory, configuradorRepository, localStorageService, alertFactory, $window) {
 
 	
 	$scope.show_cargaUnidades=false;
 	$scope.contadorModulo=0;
+	$scope.contador=0;
 	$scope.adicionaleModulos=[];
-	$scope.disabledOperacion=true;
+	$scope.operacioActiva=true;
 	$scope.idOperacion = '';
+	$scope.unidades = [];
 
 	$scope.init= function (){
 		$scope.limpiarDatos ();
@@ -46,16 +48,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	}
 
 	$scope.lookUpOperacion = function (data){
-		debugger;
 		
 		$scope.idOperacion=data.idOperacion;
 		$scope.promise = configuradorRepository.getDatosOperacion(data.idOperacion).then(function (result) {
             if (result.data.length > 0) {
-
-            	//var fechaIni=new Date(result.data[0].fechaInicio);
-            	//fechaIni = fechaIni.toString();
-            	//var fechaFin=new Date(result.data[0].fechaFin);
-            	//fechaFin = fechaFin.toString();
             	$scope.datosOperacion= result.data;
             	$scope.nomOperacion = result.data[0].nombreOperacion;
             	$scope.nomContacto = result.data[0].nombreContacto;
@@ -68,8 +64,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.presupuesto = result.data[0].presupuesto;
             	$scope.gsp = result.data[0].geolocalizacion;
             	$scope.estatus = result.data[0].idEstatusOperacion;
-            	if (result.data[0].idEstatusOperacion == 1) {
-            		$scope.disabledOperacion=true;
+            	if ($scope.estatus == 1) {
+            		$scope.operacioActiva=false;
             	}
 
             	if ($scope.presupuesto == 1) {
@@ -103,12 +99,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.promise = configuradorRepository.getTipoOperaciones().then(function (result) {
             if (result.data.length > 0) {
                 $scope.tipoOperaciones = result.data;
-                debugger;
                 if ($scope.idOperacion !== '') {
                 	for (var i = 0 ; i < result.data.length; i++) {
-                		debugger;
                 		if ($scope.datosOperacion[0].idCatalogoTipoOperacion == result.data[i].idTipoOperacion) {
-                			$scope.tipoOperacion =result.data[i];
+                			$scope.tipoOperacion =result.data[i].idTipoOperacion;
                 		}
                 	}
                 };
@@ -124,9 +118,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
                 $scope.formaDePagos = result.data;
                 if ($scope.idOperacion !== '') {
                 	for (var i = 0 ; i < result.data.length; i++) {
-                		debugger;
                 		if ($scope.datosOperacion[0].idCatalogoFormaPago == result.data[i].idFormaPago) {
-                			$scope.formaDePago =result.data[i];
+                			$scope.formaDePago =result.data[i].idFormaPago;
                 		}
                 	}
                 };
@@ -187,11 +180,28 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 
 	$scope.disabledOperacion = function () {
-		
-		if ($scope.nomOperacion !=='' && $scope.nomContacto !=='' && $scope.correoContacto !=='' && $scope.telContacto !=='' && $scope.fechaIni !=='' && $scope.fechaFin !=='' && $scope.tipoOperacion !=='' && $scope.utilidad !=='' && $scope.gsp !=='' &&  $scope.estatus !=='' &&  $scope.formaDePago !=='' &&  $scope.presupuesto !=='' ) {
 
-			if ($scope.utilidad == 1) {
-				if ($scope.porcentajeUtilidad !=='') {
+		if ($scope.estatus == 1) {
+			return true;
+		}else{
+			if ($scope.nomOperacion !=='' && $scope.nomContacto !=='' && $scope.correoContacto !=='' && $scope.telContacto !=='' && $scope.fechaIni !=='' && $scope.fechaFin !=='' && $scope.tipoOperacion !=='' && $scope.utilidad !=='' && $scope.gsp !=='' &&  $scope.estatus !=='' &&  $scope.formaDePago !=='' &&  $scope.presupuesto !=='' ) {
+
+				if ($scope.utilidad == 1) {
+					if ($scope.porcentajeUtilidad !=='') {
+						if ($scope.presupuesto == 1) {
+							if ( $scope.centros !=='' ) {
+								return true;
+							}else {
+								return false;
+							}
+						}else{
+							return true;
+						}
+					}else{
+						return false;
+					}
+
+				}else{
 					if ($scope.presupuesto == 1) {
 						if ( $scope.centros !=='' ) {
 							return true;
@@ -201,25 +211,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
 					}else{
 						return true;
 					}
-				}else{
-					return false;
 				}
-
+				
 			}else{
-				if ($scope.presupuesto == 1) {
-					if ( $scope.centros !=='' ) {
-						return true;
-					}else {
-						return false;
-					}
-				}else{
-					return true;
-				}
-			}
-			
-		}else{
-			return false;
-		}
+				return false;
+			}	
+		}	
+		
 		  
 	}
 
@@ -237,9 +235,16 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.getLicitaciones = function() {
          $('.dataTableLicitaciones').DataTable().destroy();
          $scope.licitaciones=[];
-        $scope.promise = configuradorRepository.getLicitaciones().then(function (result) {
+        $scope.promise = configuradorRepository.getLicitaciones($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
-                $scope.licitaciones = result.data;
+            	for (var i = 0 ; i < result.data.length; i++) {
+            		if (result.data[i].idOperacion == null) {
+            			$scope.licitaciones.push(result.data[i]);
+            		}else if (result.data[i].idOperacion == $scope.idOperacion) {
+            			$scope.licitaciones.push(result.data[i]);
+            		};
+            	}
+                
                  globalFactory.filtrosTabla("dataTableLicitaciones", "Operaciones", 5);
             }
         }, function (error) {
@@ -284,10 +289,16 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********UNIDAD*************/	
 
 	$scope.getTipoUnidad = function(){
-		$scope.disabledTipoUnidad=false;
         $scope.promise = configuradorRepository.getTipoUnidades(3).then(function (result) {
             if (result.data.length > 0) {
                 $scope.tiposUnidades = result.data;
+
+                for (var i = 0 ; i < result.data.length; i++) {
+	                if (result.data[i].cantidad !== null) {
+	                	$scope.show_cargaUnidades=true;
+	                	$scope.numeroUnidades();
+	                };
+	            };
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener los Centros de Trabajo');
@@ -309,23 +320,93 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	}
 
 	$scope.nuevaUnidad = function () {
-    	modal_nuevaUnidad($scope, $modal, $scope.idOperacion, $scope.presupuesto, $scope.gsp, '', '');
+    	modal_nuevaUnidad($scope, $modal, $scope.idOperacion, $scope.presupuesto, $scope.gsp, $scope.numeroUnidades, '');
+    }
+
+    $scope.verTipoUnidades = function () {
+    	modal_tipoUnidad($scope, $modal, $scope.numUnidades);
     }
 
     $scope.changeTipo = function (tipo, valor) {
-    	var obj=new Object();
-        obj=new Object();
-        obj.ID= tipo.idTipoUnidad;
-        obj.valor=valor;
-        $scope.unidades.push(obj);
+        var bandera = false;
+        var indice = 0
+
+        if ($scope.unidades.length>0) {
+            for (var i = 0 ; i < $scope.unidades.length; i++) {
+                if ($scope.unidades[i].ID == tipo.idTipoUnidad) {
+                	indice= i;
+                    bandera = true
+                };
+            };
+
+            if(!bandera){
+               var obj=new Object();
+			        obj.ID= tipo.idTipoUnidad;
+			        obj.valor=valor;
+			        $scope.unidades.push(obj);
+	                $scope.contador += 1;
+            }else{
+                $scope.unidades[indice].valor=valor
+            }
+        }else{
+            var obj=new Object();
+		        obj.ID= tipo.idTipoUnidad;
+		        obj.valor=valor;
+		        $scope.unidades.push(obj);
+                $scope.contador += 1;
+        }
     }
 
     $scope.guardarTipoUnidades = function () {
+    	var unidades = '';
+    	var numUnidades = '';
+        for (var i = 0 ; i < $scope.unidades.length; i++) {
+            unidades += $scope.unidades[i].ID +',';
+           	numUnidades += $scope.unidades[i].valor +',';
+        };
 
-    	///falta guardar info
-    	$scope.show_cargaUnidades=true;
-    	$scope.disabledTipoUnidad=true;
+    	$scope.promise = configuradorRepository.postnumeroUnidades($scope.idOperacion, unidades, numUnidades).then(function (result) {
+            if (result.data.length > 0) {
+                
+                $scope.show_cargaUnidades=true;
+    			$scope.numeroUnidades();
+            }
+        }, function (error) {
+            alertFactory.error('No se guardaron las unidades');
+        });
+    	
     }
+
+    $scope.numeroUnidades = function () {
+    	$scope.promise = configuradorRepository.getunidadOperacion($scope.idOperacion).then(function (result) {
+            if (result.data.length > 0) {
+            	$scope.numUnidades = result.data;
+            }
+        }, function (error) {
+            alertFactory.error('No se guardaron las unidades');
+        });
+    	
+    }
+
+    $scope.descarga_formatoExcelDeUnidades= function () {
+    	debugger;
+    	var url= 'C:/Users/apere/Documents/Proyectos/ASEv2/app/static/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx';
+       $window.open(url);
+    }
+
+    $scope.carga_formatoExcelDeUnidades = function () {
+
+    	$scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'FormatoExcelDeUnidades.xlsx').then(function (result) {
+            if (result.data.length > 0) {
+                debugger;
+                
+            }
+        }, function (error) {
+            alertFactory.error('No se pueden obtener los Modulos');
+        });
+
+    }
+
 
 /********MODULOS*************/	
 
@@ -339,7 +420,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
         $scope.promise = configuradorRepository.getCatalogoModulos($scope.idOperacion, tipo).then(function (result) {
             if (result.data.length > 0) {
-	                debugger;
                 if (tipo == 'Default') {
                 	$scope.modulosDefault = result.data;
                 }else{
@@ -358,7 +438,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	}
 
 	 $scope.changeModulo = function (data, modulo) {
-        debugger;
         var bandera = false;
         if ($scope.adicionaleModulos.length>0) {
 	        for (var i = 0 ; i < $scope.adicionaleModulos.length; i++) {
@@ -402,7 +481,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 		$scope.promise = configuradorRepository.postModuloAdicional($scope.idOperacion, modulos).then(function (result) {
             if (result.data.length > 0) {
-            	debugger;
+
             	$scope.show_busquedaOperacion=true;
 				$scope.show_modulos=false;
             }

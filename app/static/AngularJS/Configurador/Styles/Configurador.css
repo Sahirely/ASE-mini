@@ -29,9 +29,24 @@
 }
 
 .activityMenu, .activityMenu button {
-	background: rgba(83, 143, 181, 0.66) !important;
+	/*background: rgba(83, 143, 181, 0.66) !important;*/
+	background: #fff !important;
+    color: #55B4F0 !important;
+    border: 2px #55B4F0 solid !important;
 }
 
 .dataTableOperacion tr{
 	cursor:pointer;
+}
+
+#licitaciones .dataTables_wrapper, #licitaciones .dataTables_length label{
+	margin-left: 50px !important;
+}
+
+#licitaciones .html5buttons, #licitaciones .dataTables_filter{
+	margin-right: 50px !important;
+}
+
+#licitaciones .pagination{
+	width: 250px!important;
 }

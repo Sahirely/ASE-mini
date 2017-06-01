@@ -62,11 +62,14 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        getLicitaciones: function() {
+        getLicitaciones: function(idOperacion) {
+            var msgObj = {
+                idOperacion: idOperacion
+            };
             return $http({
                 url: onfiguradorUrl + 'licitaciones/',
                 method: "GET",
-                params: {},
+                params: msgObj,
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -87,7 +90,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo) {
+        postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo, placas) {
           
            var msgObj = {
                 numeroEconomico: numeroEconomico,
@@ -96,7 +99,8 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 idTipoUnidad: idTipoUnidad,
                 sustituto: sustituto,
                 idOperacion: idOperacion,
-                idCentroTrabajo: idCentroTrabajo
+                idCentroTrabajo: idCentroTrabajo,
+                placas: placas
             };
             return $http({
                 url: onfiguradorUrl + 'nuevaUnidad/',
@@ -205,6 +209,51 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
+        },
+        postnumeroUnidades: function(idOperacion, unidades, numUnidades) {
+          
+           var msgObj = {
+                idOperacion: idOperacion,
+                unidades: unidades,
+                numUnidades: numUnidades
+            };
+            return $http({
+                url: onfiguradorUrl + 'numeroUnidades/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getunidadOperacion: function(idOperacion) {
+            var msgObj = {
+                idOperacion: idOperacion
+            };
+
+            return $http({
+                url: onfiguradorUrl + 'unidadOperacion/',
+                method: "GET",
+                params: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        }, 
+        postCargararMaxUnidades: function(idOperacion, archivo) {
+          
+           var msgObj = {
+                idOperacion: idOperacion,
+                archivo: archivo
+            };
+            return $http({
+                url: onfiguradorUrl + 'cargararMaxUnidades/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
 
     }    

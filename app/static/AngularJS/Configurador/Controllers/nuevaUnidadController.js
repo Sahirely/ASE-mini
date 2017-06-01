@@ -42,9 +42,10 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     }
 
 	$scope.guardarUnidad = function () {
-		$scope.promise = configuradorRepository.postUnidad($scope.numEconomico, $scope.vin, $scope.numGPS, $scope.tipoUnidad, $scope.sustituto, idOperacion, $scope.centroTrabajo).then(function (result) {
+		$scope.promise = configuradorRepository.postUnidad($scope.numEconomico, $scope.vin, $scope.numGPS, $scope.tipoUnidad, $scope.sustituto, idOperacion, $scope.centroTrabajo, $scope.placa).then(function (result) {
            if (result.data.length > 0) {
            		alertFactory.success('Se guardó correctamente la unidad.');
+                callback();
             	$scope.close();
             }
         }, function (error) {
