@@ -109,12 +109,16 @@ body {
 }
 
 #CambiarOperacion{
-    background: none !important;
-    border-style: none !important;
-    font-family: "Source Sans Pro", sans-serif;
-    /*font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif !important;*/
+    background: none;
+    font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px !important;
     color: #a7b1c2 !important;
+    border-style: none;
+    font-weight: 600;
+}
+
+#NombreOperacion{
+    font-weight: 900;
 }
 
 #MenuButton{
@@ -194,7 +198,7 @@ body {
     padding-bottom: 25px;
     text-align: center;
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 600;
     color: whitesmoke;
     /* margin: 20px; */
     padding-left: 10px;
@@ -219,6 +223,20 @@ body {
 
 .rolConfigurador{
     color: #C63131
+}
+
+.singOut{
+  font-family: "Source Sans Pro", sans-serif;
+  padding-top: 22px;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+  float: right !important;
+  position: relative !important;
+}
+
+#Close{
+  color: #a7b1c2;
+  float:  right !important;
 }
 
 .DropOperaciones{

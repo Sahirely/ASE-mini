@@ -97,18 +97,6 @@
                         <li ng-class="{'active': modulo=='talleres'}"><a href="/acciontaller">Talleres</a></li>
                     </ul>
                 </li>
-                <li ng-show="userData.idTipoUsuario == 1 || userData.idTipoUsuario == 2" ng-class="{'active': modulo=='comprasUnificadas'}">
-                    <a href="administracionordenes" ng-click="showChat = 0"><i class="fa fa-cc-mastercard" data-toggle="tooltip" tooltip="Compras Unificadas" tooltip-placement="right"></i> <span class="nav-label">Compras Unificadas</span></a>
-                </li>
-                <li ng-show="userData.idUsuario == 190  || userData.idUsuario == 213" ng-class="{'active': modulo=='aprobaciones2'}">
-                    <a href="aprobacionutilidad" ng-click="showChat = 0"><i class="glyphicon glyphicon-ok-circle" data-toggle="tooltip" tooltip="Aprobaciones" tooltip-placement="right"></i> <span class="nav-label">Aprobaciones</span></a>
-                </li>
-                <li ng-show="userData.idTipoUsuario == 1 " ng-class="{'active': modulo=='aprobacionProvision'}">
-                    <a href="aprobacionProvision" ng-click="showChat = 0"><i class="glyphicon glyphicon-ok-sign" data-toggle="tooltip" tooltip="Aprobación Provisión" tooltip-placement="right"></i> <span class="nav-label">Aprobación Provisión  </span></a>
-                </li>
-                <li ng-show="userData.idUsuario == 190  || userData.idUsuario == 213" ng-class="{'active': modulo=='control'}">
-                    <a href="usuarioTar" ng-click="showChat = 0"><i class="glyphicon glyphicon-wrench" data-toggle="tooltip" tooltip="Control" tooltip-placement="right"></i> <span class="nav-label">Control</span></a>
-                </li>
                 <li ng-class="{'active': modulo=='tutorial'}" ng-show="{{userData.idRol != 5}}">
                     <a href="Tutorial" ng-click="showChat = 0"><i class="glyphicon glyphicon-facetime-video" data-toggle="tooltip" tooltip="Tutorial" tooltip-placement="right"></i> <span class="nav-label">Tutorial</span></a>
                 </li>
@@ -123,15 +111,21 @@
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
                 <div class="col-xs-10 col-sm-11 col-md-11 col-lg-11" id="opcionesMenuSuperior">
-                  <div class="dropdown DropOperaciones col-xs-3 col-sm-2 col-md-3 col-lg-2">
+                  <div data-toggle="tooltip" title="Cerrar Sesión" class="singOut col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                    <a href="/" ng-click="logOut()" >
+                        <i class="fa fa-sign-out" id="Close"></i>
+                    </a>
+                  </div>
+                  <div class="dropdown DropOperaciones col-xs-3 col-sm-2 col-md-3 col-lg-2" ng-hide="{{userData.idRol == 5}}">
                     <span>Operación: </span>
-                    <button class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
+                    <span id="NombreOperacion" ng-show="{{userData.Operaciones.length == 1}}">{{userData.nombreOperacion}}</span>
+                    <button ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
                     <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                       <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion, ope.idOperacion, ope.nombreOperacion, ope.idRol, ope.nombreRol);">{{ope.nombreOperacion}}</a></li>
                     </ul>
                   </div>
-                  <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-9 col-sm-10 col-md-9 col-lg-8" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
+                  <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-8 col-sm-9 col-md-8 col-lg-8" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
                       <li>
                           <div class="form-group">
                               <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
@@ -153,20 +147,12 @@
                       <li>
 
                           <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-
-                              <span>Rol - {{ userData.Rol}}</span>
+                              <i class="fa fa-circle"></i>
+                              <span>  Rol - {{userData.Rol}}</span>
                           </div>
                       </li>
                       <li>
                           <span class="m-r-md text-muted">Talleres Externos</span>
-                      </li>
-                      <li>
-
-                      </li>
-                      <li>
-                          <a href="/" ng-click="logOut()" >
-                              <i class="fa fa-sign-out"></i> Cerrar Sesión
-                          </a>
                       </li>
                   </ul>
                 </div>
