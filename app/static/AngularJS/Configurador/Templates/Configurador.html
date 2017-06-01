@@ -207,6 +207,21 @@
                                         </form>
                                         <form class="form-horizontal">
                                             <div class="form-group">
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Tiempo Asignado</label>
+                                                <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                                    <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                                        <input type="radio" id="asignado1" value="1" name="asignado1" checked="" ng-model="asignado" ng-disabled="!operacioActiva">
+                                                        <label for="asignado1"> Si </label>
+                                                    </div>
+                                                    <div class="radio radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                                        <input type="radio" id="asignado2" value="0" name="asignado2" ng-model="asignado" ng-disabled="!operacioActiva">
+                                                        <label for="asignado2"> No </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <form class="form-horizontal">
+                                            <div class="form-group">
                                                 <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Geolocalización</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                                     <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">

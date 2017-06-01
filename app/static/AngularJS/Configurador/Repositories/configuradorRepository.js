@@ -34,7 +34,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        postOperaciones: function(nombreOperacion, nombreContacto, correoContacto, telefonoContacto, fechaInicio, fechaFin, idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, estatusOperacion, idCatalogoFormaPago, presupuesto, centros, idOperacion) {
+        postOperaciones: function(nombreOperacion, nombreContacto, correoContacto, telefonoContacto, fechaInicio, fechaFin, idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, idCatalogoFormaPago, presupuesto, centros, idOperacion) {
           
            var msgObj = {
                 nombreOperacion: nombreOperacion,
@@ -47,6 +47,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 manejoUtilidad: manejoUtilidad,
                 porcentajeUtilidad: porcentajeUtilidad,
                 geolocalizacion: geolocalizacion,
+                tiempoAsignado: tiempoAsignado,
                 estatusOperacion: estatusOperacion,
                 idCatalogoFormaPago: idCatalogoFormaPago,
                 presupuesto: presupuesto,
@@ -166,11 +167,12 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        postModuloPorDertalle: function(idModulo, detalle) {
+        postModuloPorDertalle: function(idModulo, detalle, tiempoAsignado) {
           
            var msgObj = {
                 idModulo: idModulo,
-                detalle: detalle
+                detalle: detalle,
+                tiempoAsignado: tiempoAsignado
             };
             return $http({
                 url: onfiguradorUrl + 'moduloPorDertalle/',

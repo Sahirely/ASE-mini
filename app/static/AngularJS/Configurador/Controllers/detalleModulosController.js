@@ -1,10 +1,25 @@
-registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, callback, error, $modalInstance, configuradorRepository) {
+registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, callback, error, $modalInstance, configuradorRepository, localStorageService) {
+$scope.timeAsignacion = localStorageService.get('timeAsigna');
+$scope.horaAsignacion = null;
 
     $scope.init = function () {
         $scope.titulo= detalle.nombreModulos;
         $scope.detalleModulo ();
         $scope.contador =0;
         $scope.detallesPorModulo = [];
+
+                //fecha
+    $('#fechaAsignada .input-group.date').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: true,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        todayHighlight: true,
+        startDate: new Date()
+    });
+
+    $('.horaAsignada').clockpicker();
     }
 
     $scope.detalleModulo = function () {
@@ -53,6 +68,7 @@ registrationModule.controller('detalleModulosController', function ($scope, $mod
 
 	$scope.close = function () {
         $modalInstance.dismiss('cancel');
+        $scope.horaAsignacion = null;
     };
 
     $scope.guardarDetalle = function () {
@@ -63,7 +79,7 @@ registrationModule.controller('detalleModulosController', function ($scope, $mod
             };
         };
 
-		$scope.promise = configuradorRepository.postModuloPorDertalle(detalle.idModulo, detalle).then(function (result) {
+		$scope.promise = configuradorRepository.postModuloPorDertalle(detalle.idModulo, detalle, $scope.horaAsignacion).then(function (result) {
             if (result.data.length > 0) {
             	$scope.close();
             }
@@ -71,6 +87,8 @@ registrationModule.controller('detalleModulosController', function ($scope, $mod
             alertFactory.error('No se puede guardar la configuración');
         });
 	}
+
+
 
 
 });

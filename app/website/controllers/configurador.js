@@ -101,6 +101,10 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         value: req.body.geolocalizacion,
         type: self.model.types.INT
     }, {
+        name: 'tiempoAsignado',
+        value: req.body.tiempoAsignado,
+        type: self.model.types.INT
+    }, {
         name: 'estatusOperacion',
         value: req.body.estatusOperacion,
         type: self.model.types.INT
@@ -312,6 +316,10 @@ Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
         name: 'detalle',
         value: req.body.detalle,
         type: self.model.types.STRING
+    }, {
+        name: 'tiempoAsignado',
+        value: req.body.tiempoAsignado,
+        type: self.model.types.STRING
     }];
 
 
@@ -432,7 +440,7 @@ Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
                 if (worksheet[address_of_cell] != null) {
                     if (worksheet[address_of_cell].v != '') {
 
-                        console.log(row);
+                        //console.log(row);
                         var params = [{
                             name: 'numeroEconomico',
                             value: worksheet['A' + row].v,

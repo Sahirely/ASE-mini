@@ -27,6 +27,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.utilidad = '';  
 		$scope.porcentajeUtilidad = ''; 
 		$scope.gsp = '';  
+        $scope.asignado = '';  
 		$scope.estatus = '';  
 		$scope.formaDePago = '';  
 		$scope.presupuesto = ''; 
@@ -63,6 +64,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.porcentajeUtilidad = result.data[0].porcentajeUtilidad;
             	$scope.presupuesto = result.data[0].presupuesto;
             	$scope.gsp = result.data[0].geolocalizacion;
+                $scope.asignado = result.data[0].tiempoAsignado; 
             	$scope.estatus = result.data[0].idEstatusOperacion;
             	if ($scope.estatus == 1) {
             		$scope.operacioActiva=false;
@@ -150,7 +152,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
         var fechaFin = fecha2[2] + '/' + fecha2[1] + '/' + fecha2[0]
 
 		if ( $scope.validarCorreo($scope.correoContacto)) {
-			$scope.promise = configuradorRepository.postOperaciones($scope.nomOperacion, $scope.nomContacto, $scope.correoContacto, $scope.telContacto, fechaIni, fechaFin, $scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
+            localStorageService.set('timeAsigna', $scope.asignado);
+			$scope.promise = configuradorRepository.postOperaciones($scope.nomOperacion, $scope.nomContacto, $scope.correoContacto, $scope.telContacto, fechaIni, fechaFin, $scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
 	            if (result.data[0].idOperacion != undefined) {
 	            
 	            	$scope.idOperacion=result.data[0].idOperacion;
@@ -184,7 +187,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		if ($scope.estatus == 1) {
 			return true;
 		}else{
-			if ($scope.nomOperacion !=='' && $scope.nomContacto !=='' && $scope.correoContacto !=='' && $scope.telContacto !=='' && $scope.fechaIni !=='' && $scope.fechaFin !=='' && $scope.tipoOperacion !=='' && $scope.utilidad !=='' && $scope.gsp !=='' &&  $scope.estatus !=='' &&  $scope.formaDePago !=='' &&  $scope.presupuesto !=='' ) {
+			if ($scope.nomOperacion !=='' && $scope.nomContacto !=='' && $scope.correoContacto !=='' && $scope.telContacto !=='' && $scope.fechaIni !=='' && $scope.fechaFin !=='' && $scope.tipoOperacion !=='' && $scope.utilidad !=='' && $scope.gsp !=='' && $scope.asignado !== '' && $scope.estatus !=='' &&  $scope.formaDePago !=='' &&  $scope.presupuesto !=='' ) {
 
 				if ($scope.utilidad == 1) {
 					if ($scope.porcentajeUtilidad !=='') {
@@ -376,6 +379,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         });
     	
     }
+
 
     $scope.numeroUnidades = function () {
     	$scope.promise = configuradorRepository.getunidadOperacion($scope.idOperacion).then(function (result) {
