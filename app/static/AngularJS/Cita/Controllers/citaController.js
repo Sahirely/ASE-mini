@@ -1,9 +1,7 @@
-registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository) {
+registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
-    //*****************************************************************************************************************//
-    $scope.idUsuario = 2;
-    $scope.idContratoOperacion = 3;
+    //*****************************************************************************************************************// 
     $scope.mostrarTabla = false;
     $scope.mostrarMapa = false;
     //VARIABLES PARA ZONAS DINAMICAS
@@ -14,6 +12,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.NivelesZona = [];
     $scope.Zonas = [];
     $scope.init = function() {
+        $scope.userData = userFactory.getUserData();
+        $scope.idUsuario = $scope.userData.idUsuario;
+        $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
         $scope.getDetalleUnidad();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";

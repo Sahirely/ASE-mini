@@ -1,10 +1,13 @@
-registrationModule.controller('busquedaUnidadController', function($scope, $location, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, busquedaUnidadRepository) {
+registrationModule.controller('busquedaUnidadController', function($scope, $location, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, userFactory, busquedaUnidadRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
-    $scope.idUsuario = 2;
+
     //Inicializa la pagina
     $scope.init = function() {
+        $scope.userData = userFactory.getUserData();
+        $scope.idUsuario = $scope.userData.idUsuario;
+        console.log($scope.userData)
         $scope.getDetalleUnidad();
         $scope.getOrdenActual();
         $scope.getHistoricoOrdenes();
