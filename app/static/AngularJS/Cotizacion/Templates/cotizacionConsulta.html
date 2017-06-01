@@ -110,14 +110,14 @@
                                 </tr>
                             </thead>
                             <tbody  id="dataTableCotizaciones_">
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus}">
+                                <tr ng-repeat="cotizacion in cotizaciones"><!--| filter: {'idEstatusCotizacion' : filtroEstatus-->
                                     <td>{{cotizacion.nombreCliente}}</td>
                                     <td>{{cotizacion.consecutivoOrden}}</td>
                                     <td>{{cotizacion.numeroOrden}}</td>
                                     <td>{{cotizacion.numeroEconomico}}</td>
                                     <td>{{cotizacion.nombreZona}}</td>
                                     <td>{{cotizacion.nombreTaller}}</td>
-                                    <td>{{cotizacion.nombreTipoOrden}}</td>
+                                    <td>{{cotizacion.nombreTipoORden}}</td>
                                     <td>{{cotizacion.fechaEstatusActual | date:'dd-MM-yyyy HH:mm'}}</td>
                                     <td>{{cotizacion.numeroAprobacion}}</td>
                                     <td>{{cotizacion.marcaUnidad}}</td>

@@ -36,12 +36,12 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
-        obtieneEjecutivos: function(idUsuario){
+        obtieneEjecutivos: function(idContratoOperacion){
             return $http({
                 url: searchUrl + 'ejecutivos/',
                 method: "GET",
                 params: {
-                    idUsuario: idUsuario
+                    idContratoOperacion: idContratoOperacion
                 },
                 headers: {
                 'Content-Type': 'application/json'

@@ -182,8 +182,8 @@ Cotizacion.prototype.get_ejecutivos = function(req, res, next){
 
   var params = [
       {
-          name: 'idUsuario',
-          value: req.query.idUsuario,
+          name: 'idContratoOperacion',
+          value: req.query.idContratoOperacion,
           type: self.model.types.INT
      }
  ];

@@ -1,4 +1,4 @@
-registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, cotizacionConsultaRepository) {
+registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, userFactory, alertFactory, globalFactory, cotizacionConsultaRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -7,8 +7,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.filtroEstatus = '';
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
-    $scope.idUsuario = 2;
-    $scope.idContratoOperacion = 2;
+    $scope.userData = userFactory.getUserData();
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -16,6 +15,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+    $scope.cotizaciones = [];
 
     // $scope.userData = localStorageService.get('userData');
     // $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
@@ -36,7 +36,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function(){
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idUsuario).then(function (result) {
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function (result) {
             $scope.totalNiveles = result.data.length;
             if(result.data.length > 0){
               $scope.NivelesZona = result.data;
@@ -51,7 +51,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     //obtiene las zonas por cada nivel con que cuenta el usuario
     $scope.devuelveZonas = function() {
       for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x ++){
-        cotizacionConsultaRepository.getZonas($scope.idUsuario, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
+        cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
           if (result.data.length > 0){
             var valueToPush = {};
                 valueToPush.orden = result.data[0].orden;
@@ -77,19 +77,19 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     }
 
     //realiza consulta según filtros
-    $scope.consultaCotizacionesFiltros = function(PorOrden, presupuesto) {
+    $scope.consultaCotizacionesFiltros = function() {
       $scope.cotizaciones = [];
       $scope.cotizacionesSinPresupuesto = [];
       $('.ordenesPresupuesto').DataTable().destroy();
       $('.ordenesSinPresupuesto').DataTable().destroy();
-      var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
-      var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
-      var fechaMes = this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
-      var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio;
-      var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin;
-      var fecha = $scope.fecha == '' || $scope.fecha == undefined ? null : $scope.fecha;
-      var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.getOrdenes($scope.idContratoOperacion, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, 2).then(function (result){
+      var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
+      var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
+      var fechaMes = this.obtieneFechaMes();
+      var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
+      var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
+      var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+      var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
+      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
           if (result.data.length != 0){
               $scope.cotizaciones = result.data;
               globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
@@ -120,7 +120,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //obtiene los usuarios ejecutivos
     $scope.devuelveEjecutivos = function(){
-        cotizacionConsultaRepository.obtieneEjecutivos($scope.idUsuario).then(function(ejecutivos){
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.contratoOperacionSeleccionada).then(function(ejecutivos){
             if(ejecutivos.data.length > 0){
                 $scope.listaEjecutivos = ejecutivos.data;
             }
@@ -237,7 +237,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     };
 
     $scope.cancelarCotizacion = function(idCotizacion) {
-        $scope.promise = cotizacionConsultaRepository.cancelaCotizacion($scope.idUsuario, idCotizacion).then(function () {
+        $scope.promise = cotizacionConsultaRepository.cancelaCotizacion($scope.userData.idUsuario, idCotizacion).then(function () {
                swal("Trabajo terminado!", "La cotización se ha cancelado");
          },
          function (error) {

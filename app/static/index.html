@@ -90,13 +90,6 @@
                         <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteCertificadoConformidad" ng-hide="userData.idTipoUsuario == 4 || userData.idTipoUsuario == 3">Certificado Conformidad</a></li>
                     </ul>
                 </li>
-                <li ng-show="userData.idTipoUsuario == 1" ng-class="{'active': (modulo=='osur' || modulo=='talleres')}">
-                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Administración</span></a>
-                    <ul class="nav nav-second-level">
-                        <li ng-class="{'active': modulo=='osur'}"><a href="/osur">Osur</a></li>
-                        <li ng-class="{'active': modulo=='talleres'}"><a href="/acciontaller">Talleres</a></li>
-                    </ul>
-                </li>
                 <li ng-class="{'active': modulo=='tutorial'}" ng-show="{{userData.idRol != 5}}">
                     <a href="Tutorial" ng-click="showChat = 0"><i class="glyphicon glyphicon-facetime-video" data-toggle="tooltip" tooltip="Tutorial" tooltip-placement="right"></i> <span class="nav-label">Tutorial</span></a>
                 </li>
