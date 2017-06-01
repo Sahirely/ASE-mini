@@ -1,4 +1,4 @@
-registrationModule.controller('dashBoardController', function($scope, alertFactory, $rootScope, localStorageService, $route, dashBoardRepository) {
+registrationModule.controller('dashBoardController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository) {
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
 
     $scope.zonaSelected          = null;
@@ -7,7 +7,8 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.totalCotizaciones     = 0;
     $scope.totalOrdenes          = 0;
     $scope.totalOrdenesPorCobrar = 0;
-    $scope.userData              = localStorageService.get('userData');
+    $scope.userData              = userFactory.getUserData();
+    $scope.idOperacion           = $scope.userData.idOperacion;
 
     $scope.init = function() {
         $scope.sumatoriaCitas();
@@ -15,6 +16,9 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.sumatoriaOrdenes();
         $scope.sumatoriaOrdenesPorCobrar();
 
+        console.log( $scope.userData );
+        console.log( $scope.userData.idOperacion );
+        // console.log( userFactory.getUserData() );
         // $scope.devuelveZonas();
     };
 
@@ -22,7 +26,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.totalCitas = 0;
         $scope.totalHorasCitas = 0;
 
-        dashBoardRepository.getTotalCitas( 2 ).then(function(datos) {
+        dashBoardRepository.getTotalCitas( $scope.idOperacion ).then(function(datos) {
             var Resultados = datos.data;
 
             Resultados.forEach(function(item, key) {
@@ -53,7 +57,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaCotizaciones = function() {
-        dashBoardRepository.getTotalCotizaciones( 3 ).then(function( cotizaciones ) {
+        dashBoardRepository.getTotalCotizaciones( $scope.idOperacion ).then(function( cotizaciones ) {
             var Resultados  = cotizaciones.data;
             var valuesDonut = [];
             var colores     = [];
@@ -85,7 +89,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaOrdenes = function() {
-        dashBoardRepository.getTotalOrdenes( 2 ).then(function(ordenes) {
+        dashBoardRepository.getTotalOrdenes( $scope.idOperacion ).then(function(ordenes) {
             var Resultados                    = ordenes.data;
             $scope.totalOrdenes               = 0;
             $scope.totalHorasOrdenesServicio  = 0;
@@ -117,7 +121,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaOrdenesPorCobrar = function() {
-        dashBoardRepository.getTotalOrdenesPorCobrar( 2 ).then(function(ordenesCobrar) {
+        dashBoardRepository.getTotalOrdenesPorCobrar( $scope.idOperacion ).then(function(ordenesCobrar) {
             var Resultados  = ordenesCobrar.data;
             var valuesDonut = [];
             var colores     = [];
@@ -183,9 +187,5 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     //     $scope.sumatoriaCotizaciones();
     //     $scope.sumatoriaOrdenes();
     //     $scope.sumatoriaOrdenesPorCobrar();
-    // };
-
-    
-
-    
+    // };    
 });
