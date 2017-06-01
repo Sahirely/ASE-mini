@@ -38,15 +38,12 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                   var contOpe = $scope.userData.Operaciones[0].idContratoOperacion;
                   var idOp = $scope.userData.Operaciones[0].idOperacion;
                   var nomOp = $scope.userData.Operaciones[0].nombreOperacion;
-                  var Rol = $scope.userData.Operaciones[0].idRol;
-                  var nombreRol = $scope.userData.Operaciones[0].nombreRol;
+                  var Rol = $scope.userData.Operaciones[0].idContratoOperacion == null ? 5 : $scope.userData.Operaciones[0].idRol;
+                  var nombreRol = $scope.userData.Operaciones[0].idContratoOperacion == null ? 'Configurador' : $scope.userData.Operaciones[0].nombreRol;
 
-                  if (contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
-                    alertFactory.info('No cuenta con operaciones o roles para ingresar.');
-                  } else{
-                    $scope.userData = userFactory.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
-                    $scope.Home();
-                  }
+                  debugger;
+                  $scope.userData = userFactory.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
+                  $scope.Home();
                 }
 
             } else {
