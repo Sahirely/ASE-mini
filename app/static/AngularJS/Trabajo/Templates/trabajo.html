@@ -6,13 +6,39 @@
     <div class="headTitleTallerCita">
         <span class="title"> Órdenes de Servicio </span>
     </div>
+
+    <div class="wrapper wrapper-content">
+        <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">
+            <label>XML</label> <input type="file" name="myFile1" id="myFile1">
+            <br>
+            <label>PDF</label> <input type="file" name="myFile2" id="myFile2">
+            <br>
+            <input class="btn btn-warning" type="submit" name="submit" id="myButton">
+        </form>
+        <script type="text/javascript">
+            var form = document.forms.namedItem("myForm");
+            form.addEventListener('submit', function( ev ){
+                // var myFile = document.getElementById('myFile2').files[0];
+                var oData = new FormData( form );
+                var oReq = new XMLHttpRequest();
+                oReq.open( 'post', "api/trabajo/subirArchivo", true );
+                oReq.onload = function( oEvent ){
+                    console.log( oReq.status );
+                }
+                oReq.send( oData );
+                ev.preventDefault();
+                // console.log( 'hola mundo' );
+            }, false);
+        </script>
+    </div>
+
     <div class="wrapper wrapper-content">
         <div class="row">
             <!-- Filtros -->
             <div class="panel panel-default">
                 <div class="panel-heading">
                   Filtros de Búsqueda
-              </div>
+                </div>
               <div class="panel-body">
                 <div class="row ">
                     <div class="col-xs-12 col-sm-2" ng-repeat="zona in Zonas | orderBy:'orden'">

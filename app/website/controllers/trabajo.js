@@ -2,6 +2,8 @@ var TrabajoView = require('../views/ejemploVista'),
 	TrabajoModel = require('../models/dataAccess2'),
 	moment = require('moment');
 
+var Load_Files = require('../controllers/load_files');
+
 var Trabajo = function(conf){
 	this.conf = conf || {};
 
@@ -11,6 +13,28 @@ var Trabajo = function(conf){
 	this.response = function(){
 		this[this.conf.funcionalidad](this.conf.req,this.conf.res,this.conf.next);
 	}
+}
+
+//devuelve los trabajos con estatus iniciados
+Trabajo.prototype.post_subirArchivo = function(req, res, next){
+    var self = this;
+    
+    var Subir = new Load_Files();
+    // Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
+    //                 "myFile1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
+    //                 "myFile2": {"Name":"","Path": "C:/ASE_Temp/factura/pdf", "Type": "*"}
+    //             });
+
+    Subir.upload( function( respuesta ){
+        self.view.expositor(res, {
+            error: false,
+            result: {success: true, respuesta: respuesta }
+        });
+    },"C:/ASE_Temp", req, res );
+
+
+    // setTimeout( function(){},3000 );
+    
 }
 
 //devuelve los trabajos con estatus iniciados
