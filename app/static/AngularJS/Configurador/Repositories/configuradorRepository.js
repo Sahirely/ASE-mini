@@ -167,12 +167,11 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        postModuloPorDertalle: function(idModulo, detalle, tiempoAsignado) {
+        postModuloPorDertalle: function(idModulo, detalle) {
           
            var msgObj = {
                 idModulo: idModulo,
-                detalle: detalle,
-                tiempoAsignado: tiempoAsignado
+                detalle: detalle
             };
             return $http({
                 url: onfiguradorUrl + 'moduloPorDertalle/',
@@ -256,7 +255,35 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
-        }
+        },
+        postFechas: function(idOperacion, idEstatusOrden, tiempoEnEspera) {
+           var msgObj = {
+                idOperacion: idOperacion,
+                idEstatusOrden: idEstatusOrden,
+                tiempoEnEspera: tiempoEnEspera
+            };
+            return $http({
+                url: onfiguradorUrl + 'moduloporFechas/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getTiempoEspera: function(idOperacion) {
+            var msgObj = {
+                idOperacion: idOperacion
+            };
 
+            return $http({
+                url: onfiguradorUrl + 'datosOperacionTiempoEspera/',
+                method: "GET",
+                params: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        }
     }    
 });
