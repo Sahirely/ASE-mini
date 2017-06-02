@@ -47,9 +47,9 @@ Detalle.prototype.get_obtenerHistoricoOrden = function(req, res, next){
   var self = this;
   var params = [
       {
-        name: 'idOrden',
-        value: req.query.idOrden,
-        type: self.model.types.INT
+        name: 'numOrden',
+        value: req.query.numOrden,
+        type: self.model.types.STRING
       }];
 
       this.model.query('SEL_HISTORICO_ORDEN',params, function (error, result) {
@@ -64,9 +64,9 @@ Detalle.prototype.get_obtenerIdCotzPorOrden = function(req, res, next){
   var self = this;
   var params = [
       {
-        name: 'idOrden',
-        value: req.query.idOrden,
-        type: self.model.types.INT
+        name: 'numOrden',
+        value: req.query.numOrden,
+        type: self.model.types.STRING
       }];
 
       this.model.query('SEL_ID_COTIZACIONES_POR_ORDEN',params, function (error, result) {
