@@ -246,7 +246,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     };
 
     $scope.AutorizacionDetalle = function (nOrden) {
-        location.href = "/detalle?orden=" + nOrden;
+        location.href = "/detalle?orden=" + nOrden + "&estatus=4";
     };
 
 });
