@@ -140,3 +140,15 @@
 .table > thead:first-child > tr:first-child > td {
     background-color: whitesmoke;
 }
+
+.filtro-tabla {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #e5e6e7;
+    border-radius: 1px;
+    color: inherit;
+    display: block;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    font-size: 14px;
+}

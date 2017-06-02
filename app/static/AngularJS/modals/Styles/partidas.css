@@ -8,3 +8,19 @@
 .modal-title {
     text-align: center;
 }
+
+@media (min-width: 1200px) {
+    .partidasSel {
+        margin-top: 32px;
+    }
+    .ancho {
+        width: 70px;
+    }
+}
+
+.pietabla {
+    border-top: 1px solid #3684b9;
+    line-height: 1.42857;
+    padding: 8px;
+    vertical-align: top;
+}

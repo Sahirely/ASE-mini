@@ -7,33 +7,31 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-xs-12 col-sm-12 m-b-lg">
+        <!-- <div class="col-xs-12 col-sm-12 m-b-lg">
             <div class="col-sm-5">
                 <input type="text" placeholder="Búsqueda: Servicio/Paquete/Refacción" ng-model="pieza" class="form-control" ng-enter="getPieza(pieza)">
             </div>
             <div class="col-sm-1">
                 <button id="btnBuscarPieza" busy="Buscando.." type="button" class="btn btn-primary glyphicon glyphicon-search" ng-click="getPieza(pieza)"></button>
             </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
-            <div class="table-responsive ">
-                <table class="table table-bordered talleres ">
+        </div> -->
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover partidas" cg-busy="{promise:promise,message:message}">
                     <thead>
-                        <tr>
-                            <th>No.Partida</th>
-                            <th>No.Parte</th>
-                            <th>Descripción</th>
-                            <th>Precio</th>
-                            <th>Agregar</th>
-                        </tr>
+                        <th>No.Partida</th>
+                        <th>No.Parte</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Agregar</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="partidasTaller in partidasTaller" ng-class="">
+                        <tr ng-repeat="partidasTaller in partidasTaller">
                             <td>{{ partidasTaller.idPartida }}</td>
                             <td>{{ partidasTaller.numeroParte }}</td>
                             <td>{{ partidasTaller.descripcion }}</td>
-                            <td>{{ partidasTaller.precio | currency}}</td>
-                            <td>
+                            <td class="text-right">{{ partidasTaller.precio | currency}}</td>
+                            <td class="text-center">
                                 <button class="btn btn-success btn-sm" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
@@ -43,50 +41,66 @@
                 </table>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 partidasSel">
             <div class="table-responsive scroll_content">
-                <table class="table table-bordered dataTableItem dataTablePartidasSeleccionadas">
+                <table class="table table-bordered dataTableItem">
                     <thead>
                         <tr>
-                            <th>No.Partida</th>
+                            <th>No. Partida</th>
                             <th>Cantidad</th>
+                            <th>Costo Unitario</th>
                             <th>Precio Unitario</th>
-                            <th>Acción</th>
+                            <th class="ancho text-center">Acción</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
                             <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.idPartida }} </a></td>
                             <td>{{ lstPartidaSeleccionada.cantidad }}</td>
-                            <td>{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                            <td class="text-right">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                            <td class="text-right">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
                             <td>
-                                <button class="btn btn-success btn-xs" type="button" id="btnCotizar" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
+                                <div class="btn-group">
+                                    <button class="btn-success btn btn-xs" type="button" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar"><span class="glyphicon glyphicon-plus"></span></button>
+                                    <button class="btn-danger btn btn-xs" ng-click="quitarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar"><span class="glyphicon glyphicon-minus"></span></button>
+                                </div>
+                                <!--  <button class="btn btn-success btn-xs" type="button" id="btnCotizar" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                     <span class="glyphicon glyphicon-plus"></span>
                                 </button>
                                 <button class="btn btn-danger btn-xs" type="button" id="btnCotizar" ng-click="quitarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar">
                                     <span class="glyphicon glyphicon-minus"></span>
-                                </button>
+                                </button> -->
                             </td>
                         </tr>
                     </tbody>
+                    <tfoot class="pietabla">
+                        <tr class="text-right">
+                            <td colspan="2">
+                                <strong>SUBTOTAL :</strong>
+                            </td>
+                            <td>{{ subTotal | currency}}</td>
+                            <td>{{ subTotal | currency}}</td>
+                            <td> </td>
+                        </tr>
+                        <tr class="text-right">
+                            <td colspan="2">
+                                <strong>I.V.A :</strong>
+                            </td>
+                            <td>{{ ivaSubTotal | currency}}</td>
+                            <td>{{ ivaSubTotal | currency}}</td>
+                            <td> </td>
+                        </tr>
+                        <tr class="text-right">
+                            <td colspan="2">
+                                <strong>TOTAL :</strong>
+                            </td>
+                            <td>{{ total | currency}}</td>
+                            <td>{{ total | currency}}</td>
+                            <td> </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
-            <table class="table invoice-total">
-                <tbody>
-                    <tr>
-                        <td><strong>SUBTOTAL :</strong></td>
-                        <td>{{ subTotal | currency}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>I.V.A :</strong></td>
-                        <td>{{ ivaSubTotal | currency}}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>TOTAL :</strong></td>
-                        <td>{{ total | currency}}</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
 </div>

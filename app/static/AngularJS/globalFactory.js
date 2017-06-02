@@ -69,10 +69,10 @@ registrationModule.factory('globalFactory', function() {
             }, 1500);
         },
         filtrosTabla: function(dataTable, title, displayLength) {
-          $('.' + dataTable).DataTable().destroy();
+            $('.' + dataTable).DataTable().destroy();
             $('.' + dataTable + ' thead th').each(function() {
                 var titulo = $(this).text();
-                $(this).html(titulo + '<br><input type="text"/>');
+                $(this).html(titulo + '<br><input type="text" class="filtro-tabla"/>');
             });
             setTimeout(function() {
                 var table = $('.' + dataTable).DataTable({
@@ -104,7 +104,7 @@ registrationModule.factory('globalFactory', function() {
                         }
                     });
                 });
-            }, 1500);
+            }, 10);
         }
     }
 
