@@ -363,6 +363,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.guardarTipoUnidades = function () {
     	var unidades = '';
     	var numUnidades = '';
+        debugger;
         for (var i = 0 ; i < $scope.unidades.length; i++) {
             unidades += $scope.unidades[i].ID +',';
            	numUnidades += $scope.unidades[i].valor +',';
@@ -384,6 +385,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.numeroUnidades = function () {
     	$scope.promise = configuradorRepository.getunidadOperacion($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
+                debugger;
             	$scope.numUnidades = result.data;
             }
         }, function (error) {
