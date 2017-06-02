@@ -90,7 +90,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getModalPartidas = function() {
         $('.modal-dialog').css('width', '1050px');
-        modal_partidas($scope, $modal);
+        modal_partidas($scope, $modal, $scope.idTaller);
     };
     //*****************************************************************************************************************************//
     // Se inserta la orden de servicio en la base de datos 
@@ -105,7 +105,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         );
         var fecha = $scope.fechaCita.split('/');
         var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, 1, 0).then(function(result) {
+        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
             console.log(result, 'Soy el resultado al insertar la orden de servicio')
             if (result.data[0].respuesta == 1) {
                 alertFactory.success('Orden de Servicio Agendada');
@@ -180,7 +180,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             console.log($scope.talleres, 'Somos los talleres ');
         });
     };
-
+    $scope.sendIdTaller = function(idTaller) {
+        $scope.idTaller = idTaller;
+        console.log(idTaller, 'Soy el taller Seleccionado ')
+    };
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//

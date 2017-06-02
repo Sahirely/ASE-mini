@@ -174,15 +174,12 @@
                                     <td>{{taller.razonSocial}}</td>
                                     <td>{{taller.direccion}}</td>
                                     <td>
-                                        <input type="radio" name="optTaller" ng-click="getTaller(taller.idTaller)" />
-                                    </td>
-                                </tr>
-                                <tr ng-show="edita == 1 && datosCita.direccion != null">
-                                    <td>{{datosCita.razonSocial}}</td>
-                                    <td>{{datosCita.direccion}}</td>
-                                    <td>
-                                        <!-- <input type="radio" name="optTaller" ng-click="getTaller(datosCita.idTaller)" /> -->
-                                        <input type="radio" value="1" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus" class="radio radio-warning">
+                                        <!-- <input type="radio" name="optTaller" ng-model="taller.seleccionado" /> -->
+                                        <div class="radio radio-warning">
+                                            <input type="radio" value="" name="opcionEstatus" ng-model="taller.seleccionado" ng-click="sendIdTaller(taller.idProveedor)">
+                                            <label></label>
+                                            <!-- sendIdTaller(taller.idProveedor) -->
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
