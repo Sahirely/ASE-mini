@@ -1,3 +1,51 @@
+/* 
+Load_Files.options(); => Proporciones de forma detallada el comportamiento de cada field
+    Options = "nameField": {
+        "Name": "", // => El nombre con el que se guardara el archivo, si este va vacio se guardara con el nombre original
+        "Path": "", // => El directorio donde se guardara el archivo de este field
+        "Type": ""  // => Determina el tipo de archivo a cargar
+                             *    => Todos los archivos
+                            img   => Imagenes con formatos jpg, png, gif
+                            xml   => Archivos xml
+                            pdf   => Archivos PDF
+                            docs  => Archivos de Word y PDF
+                            xls   => Archivos de Excel
+    } 
+
+upload( callback, Path_General, req, res );
+    callback     => Lo que ocurrira cuando se carguen todos los archivos
+    Path_General => El directorio que se usara en caso de que no se especifiquen por field
+
+Si no se especifica los options, todos los archivos que se carguen tomara la ruta del Path_General y los nombres de los archivos sera el nombre original
+
+
+
+Ejemplo:
+
+var Load_Files = require('../controllers/load_files');
+
+Modulo.prototype.post_subirArchivo = function(req, res, next){
+
+    var self = this;
+
+    var Subir = new Load_Files();
+    Subir.options({ 
+                    "myFile1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
+                    "myFile2": {"Name":"","Path": "C:/ASE_Temp/factura/pdf", "Type": "*"}
+                });
+
+    Subir.upload( function( respuesta ){
+        self.view.expositor(res, {
+            error: false,
+            result: {success: true, respuesta: respuesta }
+        });
+    },"C:/ASE_Temp", req, res 
+
+}
+*/
+
+
+
 var type_images     = ["jpg", "JPG", "jpeg", "JPEG", "png", "PNG", "gif", "GIF"];
 var type_pdfs       = ["pdf", "PDF"];
 var type_docs       = ["pdf", "PDF", "doc", "DOC", "docx", "DOCX"];
