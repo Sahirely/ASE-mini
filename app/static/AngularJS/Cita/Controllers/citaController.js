@@ -90,7 +90,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getModalPartidas = function() {
         $('.modal-dialog').css('width', '1050px');
-        modal_partidas($scope, $modal, $scope.idTaller);
+        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1));
     };
     //*****************************************************************************************************************************//
     // Se inserta la orden de servicio en la base de datos 
@@ -164,16 +164,16 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     // Se obtienen los talleres con los filtros seleccionados
     //*****************************************************************************************************************************//
     $scope.buscarTaller = function() {
-        var idServicios = ''
+        $scope.idServicios = ''
         angular.forEach($scope.servicios, function(value, key) {
             if (value.seleccionado == true) {
-                idServicios = value.idServicio + ',' + idServicios;
+                $scope.idServicios = value.idServicio + ',' + $scope.idServicios;
             }
 
         });
-        console.log('Soy la cadena de los servicios ', idServicios.slice(0, -1))
+        console.log('Soy la cadena de los servicios ', $scope.idServicios.slice(0, -1))
         console.log($scope.zonaSelected, 'Soy la zona seleccionada', $scope.totalNiveles, 'Soy el numero de niveles que tengo ')
-        tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, '', idServicios.slice(0, -1)).then(function(result) {
+        tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, '', $scope.idServicios.slice(0, -1)).then(function(result) {
             $scope.mostrarTabla = true;
             $scope.talleres = result.data;
             globalFactory.filtrosTabla("talleres", "Talleres", 5);

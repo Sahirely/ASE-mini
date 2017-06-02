@@ -93,7 +93,7 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-         getTalleres: function() {
+        getTalleres: function() {
             return $http({
                 url: consultaCitaUrl + 'getTalleres/',
                 method: "GET",
@@ -103,24 +103,25 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             })
         },
-        getPartidasTaller: function(idTaller) {
+        getPartidasTaller: function(idTaller, especialidad) {
             return $http({
                 url: consultaCitaUrl + 'getPartidasTaller/',
                 method: "GET",
                 params: {
-                    idTaller: idTaller
+                    idTaller: idTaller,
+                    especialidad: especialidad
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getdatosComprobante: function (idTipoUnidad ) {
+        getdatosComprobante: function(idTipoUnidad) {
             return $http({
                 url: consultaCitaUrl + 'getdatosComprobante',
                 method: "GET",
                 params: {
-                    idTipoUnidad:idTipoUnidad
+                    idTipoUnidad: idTipoUnidad
                 },
                 headers: {
                     'Content-Type': 'application/json'

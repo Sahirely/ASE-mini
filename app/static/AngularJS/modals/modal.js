@@ -70,7 +70,7 @@ function modal_respuesta_busqueda($scope, $modal, tipobusqueda, respuesta, callb
     });
 };
 
-function modal_partidas($scope, $modal, idtaller) {
+function modal_partidas($scope, $modal, idtaller, especialidades) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/partidas.html',
         controller: 'partidas_controller',
@@ -79,6 +79,9 @@ function modal_partidas($scope, $modal, idtaller) {
         resolve: {
             idtaller: function() {
                 return idtaller
+            },
+            especialidades: function() {
+                return especialidades
             }
         }
     });
