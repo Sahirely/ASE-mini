@@ -32,24 +32,24 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        getHistoricoOrden: function(idOrden) {
+        getHistoricoOrden: function(numOrden) {
             return $http({
                 url: detalleUrl + 'obtenerHistoricoOrden/',
                 method: "GET",
                 params: {
-                    idOrden: idOrden
+                    numOrden: numOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getIdCotizacionesPorOrden: function(idOrden) {
+        getIdCotizacionesPorOrden: function(numOrden) {
             return $http({
                 url: detalleUrl + 'obtenerIdCotzPorOrden/',
                 method: "GET",
                 params: {
-                    idOrden: idOrden
+                    numOrden: numOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

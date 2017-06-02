@@ -12,7 +12,6 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.idUsuario             = $scope.userData.idUsuario;
     $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
 
-    console.log( $scope.userData );
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;

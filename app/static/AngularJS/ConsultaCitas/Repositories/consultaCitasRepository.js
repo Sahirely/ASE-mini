@@ -114,6 +114,18 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getdatosComprobante: function (idTipoUnidad ) {
+            return $http({
+                url: consultaCitaUrl + 'getdatosComprobante',
+                method: "GET",
+                params: {
+                    idTipoUnidad:idTipoUnidad
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

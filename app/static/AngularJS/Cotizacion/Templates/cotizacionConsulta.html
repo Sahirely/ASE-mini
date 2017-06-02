@@ -128,7 +128,7 @@
                                     <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
                                     <td>{{cotizacion.TiempoEspera}}</td>
                                     <td class='center'>
-                                        <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.idOrden)">
+                                        <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
                                         </button>
                                         <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">

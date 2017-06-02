@@ -1,7 +1,8 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
-    $scope.idTaller = 1;
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
+    $scope.idTaller = idtaller;
 
     $scope.init = function() {
+
         consultaCitasRepository.getPartidasTaller($scope.idTaller).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
