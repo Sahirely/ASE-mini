@@ -1,3 +1,4 @@
+
 <link rel="stylesheet" href="AngularJS/Detalle/Styles/detalle.css">
 <div ng-init="init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
@@ -237,6 +238,15 @@
                                                           <td>{{partida.costo | currency}} </td>
                                                           <td>{{(partida.costo * partida.cantidad) * 0.16 | currency }} </td>
                                                           <td>{{partida.costo * partida.cantidad | currency}} </td>
+                                                          <td>a</td>
+                                                          <td>      
+                                                            <button ng-init="partida.btnClass='btn btn-success';partida.btnStatus=0;
+                                                            partida.btnText='*'; partida.canApprove=false; partida.btnIcon='glyphicon glyphicon-question-sign'" 
+                                                            ng-class="partida.btnClass" 
+                                                            ng-click="setApprove(partida)" ><span ng-class="partida.btnIcon"></span></button>
+                                                          </td>
+
+
                                                          <!--  <td style="text-align:left; width: 100px;">{{partida.descripcionLarga}}</td>
                                                           <td style="text-align:left;  width:300px;">
                                                               <div><strong>Número de Partida: {{ partida.numeroPartida }}</strong></div>
@@ -373,15 +383,15 @@
 
                         <!-- Botones -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <button class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
-                            <button class="btn btn-primary pull-right btn-movil" ng-class="{Inactivo : SaldoReal < GranTotal}" type="submit"> Guarda Cotizacion</button>
-                            <button class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>
-                            <button class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>
-                            <button class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">Comprobante de Recepción</button>
-                            <button class="btn btn-warning pull-right  btn-movil" type="submit">Editar Cita</button>
-                            <button class="btn btn-rojo pull-right  btn-movil" type="submit">Cancelar Cita</button>
-                            <button class="btn btn-negro pull-right  btn-movil" type="submit">Negro</button>
-                            <button class="btn btn-morado pull-right  btn-movil" type="submit">Morado</button>
+                            <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
+                            <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" ng-class="{Inactivo : SaldoReal < GranTotal}" type="submit"> Guarda Cotizacion</button>
+                            <button ng-hide="btnNuevaCotizacionIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>
+                            <button ng-hide="btnEditarCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>
+                            <button ng-hide="btnComprobanteRecepcionIsEnable" class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">Comprobante de Recepción</button>
+                            <button ng-hide="btnEditarCitaIsEnable" class="btn btn-warning pull-right  btn-movil" type="submit">Editar Cita</button>
+                            <button ng-hide="btnCancelarCitaIsEnable" class="btn btn-rojo pull-right  btn-movil" type="submit">Cancelar Cita</button>
+                            <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right  btn-movil" type="submit">Negro</button>
+                            <button ng-hide="btnMoradoIsEnable" class="btn btn-morado pull-right  btn-movil" type="submit">Morado</button>
                         </div>
                     </div>
                 </div>
