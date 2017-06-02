@@ -4052,7 +4052,8 @@ body.tour-open .animated {
 
 body {
     font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: #444343;
+    /*background-color: #444343;*/
+    background-color: #0E4579;
     font-size: 13px;
     color: #676a6c;
     overflow-x: hidden;
