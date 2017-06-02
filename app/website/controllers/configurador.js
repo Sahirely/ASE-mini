@@ -316,10 +316,6 @@ Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
         name: 'detalle',
         value: req.body.detalle,
         type: self.model.types.STRING
-    }, {
-        name: 'tiempoAsignado',
-        value: req.body.tiempoAsignado,
-        type: self.model.types.STRING
     }];
 
 
@@ -505,6 +501,54 @@ Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
      }];
 
      this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+     });
+}
+
+Configurador.prototype.post_moduloporFechas = function(req, res, next) {
+
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOperacion',
+        value: req.body.idOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'idEstatusOrden',
+        value: req.body.idEstatusOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'tiempoEnEspera',
+        value: req.body.tiempoEnEspera,
+        type: self.model.types.STRING
+    }];
+
+
+    this.model.post('INS_OPERACION_TIEMPO_EN_ESPERA_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+//Tipo de unidades por Operación
+ Configurador.prototype.get_datosOperacionTiempoEspera = function (req, res, next) {
+
+    var self = this;
+    var params = [{
+         name: 'idOperacion',
+         value: req.query.idOperacion,
+         type: self.model.types.INT
+     }];
+
+     this.model.query('SEL_OPERACION_TIEMPO_EN_ESPERA_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

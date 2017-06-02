@@ -5,10 +5,9 @@
         
     </div>
 </div>
-<div class="modal-body">
+<div class="modal-body" ng-show="banderaModulo == 3">
     <div id="content_popDrag">
        <div class="modal-body">
-
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <th>Característica</th>
@@ -24,36 +23,320 @@
                             </div>
                         </td>
                     </tr>
-                    <tr ng-hide="timeAsignacion != 1">
-                        <td>Tiempo Asignado</td>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body" ng-show="banderaModulo == 4">
+    <div id="content_popDrag">
+       <div class="modal-body">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <th>Característica</th>
+                    <th>Seleccionar</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detalle in detalles">
+                        <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
-                        <!--<div class="form-group">
-                                <label class="col-sm-3 control-label">Fecha: </label>
-                                <div class="col-sm-9">
-                                    <div id="fechaAsignada">
-                                        <div class="input-group date">
-                                            <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
-                                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-                            <div class="form-group">
-                                <!-- <label class="col-sm-3">Hora: </label> -->
-                                <div class="col-sm-9">
-                                    <div class="input-group horaAsignada" data-autoclose="true">
-                                        <input type="text" class="form-control" value="" ng-model="horaAsignacion">
-                                        <span class="input-group-addon">
-                                            <span class="fa fa-clock-o"></span>
-                                        </span>
-                                    </div>
-                                </div>
+                            <div class="checkbox checkbox-warning">
+                                <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
+                                 <label></label>
                             </div>
                         </td>
                     </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - Nueva Sin Taller</td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="sintaller">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - Nueva Con Taller </td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="contaller">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - En Taller </td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="entaller">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
 
+<div class="modal-body" ng-show="banderaModulo == 5">
+    <div id="content_popDrag">
+       <div class="modal-body">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <th>Característica</th>
+                    <th>Seleccionar</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detalle in detalles">
+                        <td>{{detalle.nombreDetalleModulo}}</td>
+                        <td>
+                            <div class="checkbox checkbox-warning">
+                                <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
+                                 <label></label>
+                            </div>
+                        </td>
+                    </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - En Aprobación</td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="aprobacion">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body" ng-show="banderaModulo == 6">
+    <div id="content_popDrag">
+       <div class="modal-body">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <th>Característica</th>
+                    <th>Seleccionar</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detalle in detalles">
+                        <td>{{detalle.nombreDetalleModulo}}</td>
+                        <td>
+                            <div class="checkbox checkbox-warning">
+                                <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
+                                 <label></label>
+                            </div>
+                        </td>
+                    </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - En Proceso</td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="enproceso">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - Término Trabajo</td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="terminotrabajo">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - Entrega </td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="entrega">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal-body" ng-show="banderaModulo == 7">
+    <div id="content_popDrag">
+       <div class="modal-body">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <th>Característica</th>
+                    <th>Seleccionar</th>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="detalle in detalles">
+                        <td>{{detalle.nombreDetalleModulo}}</td>
+                        <td>
+                            <div class="checkbox checkbox-warning">
+                                <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
+                                 <label></label>
+                            </div>
+                        </td>
+                    </tr>
+                        <tr ng-hide="timeAsignacion != 1">
+                            <td>Tiempo Espera - Orden Por Cobrar</td>
+                            <td>
+                            <!--<div class="form-group">
+                                    <label class="col-sm-3 control-label">Fecha: </label>
+                                    <div class="col-sm-9">
+                                        <div id="fechaAsignada">
+                                            <div class="input-group date">
+                                                <input type="text" class="form-control" value="" ng-model="datosCita.fechaCita">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-group">
+                                    <!-- <label class="col-sm-3">Hora: </label> -->
+                                    <div class="col-sm-9">
+                                        <div class="input-group horaAsignada" data-autoclose="true">
+                                            <input type="text" class="form-control" value="" ng-model="porcobrar">
+                                            <span class="input-group-addon">
+                                                <span class="fa fa-clock-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
