@@ -295,7 +295,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.promise = configuradorRepository.getTipoUnidades(3).then(function (result) {
             if (result.data.length > 0) {
                 $scope.tiposUnidades = result.data;
-
+                $scope.numUnidad = $scope.tiposUnidades[0].cantidad;
                 for (var i = 0 ; i < result.data.length; i++) {
 	                if (result.data[i].cantidad !== null) {
 	                	$scope.show_cargaUnidades=true;
