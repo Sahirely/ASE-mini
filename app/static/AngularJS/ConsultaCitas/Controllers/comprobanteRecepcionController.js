@@ -19,32 +19,29 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
 
 
     $scope.getdatosComprobante = function(idTipoUnidad) {
-            consultaCitasRepository.getdatosComprobante(idTipoUnidad).then(function(result) {
-                console.log(result.data)
-                if (result.data.success == true) {
-                    $scope.modulosComprobante = result.data.data;
-                    console.log($scope.modulosComprobante)
-                    console.log($scope.modulosComprobante[0].detalle)
-
-                } else {
-                    alertFactory.error('No pueden mostrar los registros para el comprobante de recipción');
-                }
-            }, function(error) {
-                alertFactory.error(result.msg);
-            });
+        consultaCitasRepository.getdatosComprobante(idTipoUnidad).then(function(result) {
+            if (result.data.success == true) {
+                $scope.modulosComprobante = result.data.data;
+            } else {
+                alertFactory.error('No pueden mostrar los registros para el comprobante de recipción');
+            }
+        }, function(error) {
+            alertFactory.error(result.msg);
+        });
     }
+
     $scope.menu = function(data) {
-            $scope.show_exteriores = false;
-            $scope.show_interiores = false;
-            $scope.show_accesorios = false;
-            $scope.show_componentes = false;
-            $scope.show_documentos = false;
-            $scope.show_tablero = false;
-            $scope.show_unidad = false;
-            switch (data) {
-                case 0:
-                    $scope.show_exteriores = true;
-                    break;
+        $scope.show_exteriores = false;
+        $scope.show_interiores = false;
+        $scope.show_accesorios = false;
+        $scope.show_componentes = false;
+        $scope.show_documentos = false;
+        $scope.show_tablero = false;
+        $scope.show_unidad = false;
+        switch (data) {
+            case 0:
+                $scope.show_exteriores = true;
+                break;
 
             case 1:
                 $scope.show_interiores = true;
@@ -70,10 +67,25 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                 $scope.show_unidad = true;
                 break;
         }
-    };
+    }
 
-    $scope.addComprobanteRecepcion = function(obj){
-        console.log(obj)
+    $scope.addComprobanteRecepcion = function(obj) {
+        var contador = 0;
+        var contadorTotal = 0;
+        angular.forEach(obj, function(value, key) {
+            contadorTotal += value.detalle.length
+            angular.forEach(value.detalle, function(value2, key) {
+                if (value2.select == 0 || value2.select == 1)
+                    contador++
+            });
+        });
+        if (contadorTotal == contador) {
+            console.log('todo validado' + contador + ' total ' + contadorTotal)
+        } else {
+            console.log('faltan campos' + contador + ' total ' + contadorTotal)
+        }
+        console.log(contador)
+
     }
 
 

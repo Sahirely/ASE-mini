@@ -27,6 +27,10 @@
 .panel-body{
 	border-color: #DCDCDC !important
 }
+.tamanioImagen{
+  height: 80px;
+  width: 180px;
+}
 
 
 table thead tr {

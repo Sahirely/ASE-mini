@@ -49,7 +49,7 @@
                             <div class="row col-xs-12 col-sm-12 col-md-3 col-lg-3">
                             </div>
                             <div class="row  col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-show="{{titulos.entradaDatos}}==0">
-                            <br/>
+                                <br/>
                                 <table class="table table-striped table-bordered table-hover">
                                     <tbody>
                                         <tr ng-repeat="detalle in titulos.detalle">
@@ -71,12 +71,22 @@
                                 </table>
                             </div>
                             <div class="row  col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.entradaDatos}}==1">
-                                <div class="row col-xs-12 col-sm-12 col-md-6 col-lg-6"  ng-repeat="detalle in titulos.detalle">
-                                <br/>
+                                <div class="row col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="detalle in titulos.detalle">
+                                    <br/>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                        <img src="{{detalle.rutaImagen}}"></img>
+                                        <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
                                         <input type="checkbox" id="{{detalle.idCatalogoDetalleModuloComprobante}}" value="0" name="ubi_ParteDerecha" ng-model="ubi_ParteDerecha" ng-change="changeDesc('derecha', ubi_ParteDerecha)">
                                         <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="ubi_ParteDerechaDesc" ng-disabled="ubi_ParteDerecha==false"></textarea>
+<!--                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                            <select class="form-control" name="tab_Descripcion" ng-model="tab_Descripcion" ng-show="{{detalle.nombreCatalogoDetalleModuloComprobante}} != 'Combustible'}}">
+                                                <option value="">Seleccione Combustible</option>
+                                                <option value="Lleno">Lleno</option>
+                                                <option value="Tres Cuartos">Tres Cuartos</option>
+                                                <option value="Mitad">Mitad</option>
+                                                <option value="Un Cuarto">Un Cuarto</option>
+                                                <option value="Reserva">Reserva</option>
+                                            </select>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -85,8 +95,8 @@
                 </div>
             </div>
             <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-            <br/>
-            <br/>
+                <br/>
+                <br/>
                 <div class="radio radio-inline col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <h4 for="acepta"> 
                         <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">  

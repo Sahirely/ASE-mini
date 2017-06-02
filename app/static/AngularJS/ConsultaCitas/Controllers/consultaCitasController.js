@@ -69,7 +69,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     };
 
     $scope.seleccionarOrden = function(obj){
-         location.href = '/detalle?orden=' + obj.numeroOrden;
+         location.href = '/detalle?orden=' + obj.numeroOrden +'&estatus='+1;
     }
 
 
