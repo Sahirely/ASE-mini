@@ -134,6 +134,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
           templateUrl: 'AngularJS/HomeCallCenter/Templates/dashboardCallCenter.html'
         });
 
+        $routeProvider.when('/reporteparquevehicular',{
+          templateUrl: 'AngularJS/Reporte/Templates/reporteParqueVehicular.html',
+          controller: 'reporteParqueVehicularController.js'
+        });
+
         $routeProvider.when('/reportecita', {
             templateUrl: 'AngularJS/Reporte/Templates/reporteCita.html',
             controller: 'reporteCitaController'
