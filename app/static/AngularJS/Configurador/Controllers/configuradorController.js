@@ -37,6 +37,29 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.idContrato = '';
 	}
 
+    $scope.menu = function (modulo) {
+
+        $scope.operacionActivity='';
+        $scope.licitacionActivity='';
+        $scope.unidadActivity='';
+        $scope.modulosActivity='';
+
+        switch(modulo) {
+            case "operacion":
+                $scope.operacionActivity='activityMenu';
+                break;
+            case "licitacion":
+                $scope.licitacionActivity='activityMenu';
+                break;
+            case "unidad":
+                $scope.unidadActivity='activityMenu';
+                break;
+            case "modulos":
+                $scope.modulosActivity='activityMenu';
+                break;
+        }
+    }
+
 /********BUSQUEDA*************/	
 
 	$scope.nuevaOperacion= function (){
@@ -44,7 +67,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.show_wizard= true;
 		$scope.show_busquedaOperacion=false;
 		$scope.show_operacion=true;
-		$scope.operacionActivity='activityMenu';
+		$scope.menu('operacion');
 		$scope.getTipoOperacion();
 		$scope.getFormaPago();
 
@@ -162,8 +185,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	            	$scope.idOperacion=result.data[0].idOperacion;
 	                $scope.show_operacion=false;
 					$scope.show_licitacion=true;
-					$scope.operacionActivity='';
-					$scope.licitacionActivity='activityMenu';
+					$scope.menu('licitacion');
 					$scope.getLicitaciones();
 	            }
 	        }, function (error) {
@@ -273,8 +295,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	           		$scope.idContratoOperacion=result.data[0].idContratoOperacion;
 	                $scope.show_licitacion=false;
 					$scope.show_unidad=true;
-					$scope.licitacionActivity='';
-					$scope.unidadActivity='activityMenu';
+					$scope.menu('unidad');
 					$scope.getTipoUnidad();
 	            }
 	        }, function (error) {
@@ -290,6 +311,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.openOperacion = function (){
 		$scope.show_operacion=true;
 		$scope.show_licitacion=false;
+        $scope.menu('operacion');
 	}
 
 /********UNIDAD*************/	
@@ -314,8 +336,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.guardarUnidad = function (){
 		$scope.show_unidad=false;
 		$scope.show_modulos=true;
-		$scope.unidadActivity='';
-		$scope.moduloActivity='activityMenu';
+		$scope.menu('modulos');
 		$scope.catalogoDeModulos('Default');
 		$scope.catalogoDeModulos('Adicional');
 	}
@@ -323,6 +344,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.openLicitacion = function (){
 		$scope.show_licitacion=true;
 		$scope.show_unidad=false;
+        $scope.menu('licitacion');
 	}
 
 	$scope.nuevaUnidad = function () {
@@ -366,7 +388,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.guardarTipoUnidades = function () {
     	var unidades = '';
     	var numUnidades = '';
-        debugger;
         for (var i = 0 ; i < $scope.unidades.length; i++) {
             unidades += $scope.unidades[i].ID +',';
            	numUnidades += $scope.unidades[i].valor +',';
@@ -410,7 +431,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
     	$scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
             if (result.data.length > 0) {
-                debugger;
                 
             }
         }, function (error) {
@@ -423,7 +443,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********MODULOS*************/	
 
 	$scope.detalleModulo = function (modulo){
-        debugger;
 
 		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion , $scope.numUnidades);
 	}
@@ -449,6 +468,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.openUnidad = function (){
 		$scope.show_unidad=true;
 		$scope.show_modulos=false;
+        $scope.menu('unidad');
 	}
 
 	 $scope.changeModulo = function (data, modulo) {

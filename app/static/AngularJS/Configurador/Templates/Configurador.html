@@ -12,7 +12,7 @@
                         <br/>
                         <div  class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_busquedaOperacion">
                             <div class="row" >
-                                <button class="btn btn-success ng-binding pull-right" tooltip="Nueva Operación" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="nuevaOperacion()"> Nueva Operación </button>
+                                <button class="btn btn-primary ng-binding pull-right" tooltip="Nueva Operación" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="nuevaOperacion()"> Nueva Operación </button>
                             </div>
                             <div class="space"></div>
                             <div class="table-responsive row">
@@ -52,7 +52,7 @@
                                         <li role="tab" class="first current"  aria-disabled="false" aria-selected="true">
                                             <a  class="{{operacionActivity}}">
                                                 <div class="center">
-                                                    <button type="button" class="btn btn-success btn-circle circle ">
+                                                    <button type="button" class="btn btn-primary btn-circle circle ">
                                                         <i class="glyphicon glyphicon-lock"></i>
                                                     </button>
                                                 </div> 
@@ -63,7 +63,7 @@
                                         <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
                                             <a  class="{{licitacionActivity}}">
                                                 <div class="center">
-                                                    <button type="button" class="btn btn-success btn-circle circle" >
+                                                    <button type="button" class="btn btn-primary btn-circle circle" >
                                                         <i class="glyphicon glyphicon-link"></i>
                                                     </button>
                                                 </div> 
@@ -74,7 +74,7 @@
                                         <li role="tab" class="first current" aria-disabled="false" aria-selected="true" >
                                             <a  class="{{unidadActivity}}">
                                                 <div class="center">
-                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                    <button type="button" class="btn btn-primary btn-circle circle">
                                                         <i class="fa fa-car"></i>
                                                     </button>
                                                 </div>    
@@ -85,7 +85,7 @@
                                         <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
                                             <a   class="{{moduloActivity}}">
                                                 <div class="center">
-                                                    <button type="button" class="btn btn-success btn-circle circle">
+                                                    <button type="button" class="btn btn-primary btn-circle circle">
                                                         <i class="glyphicon glyphicon-cog"></i>
                                                     </button>
                                                 </div> 
@@ -270,10 +270,10 @@
                                         </form>
                                         <div class="space"></div>
                                         <div class="footer_btn">
-                                            <button type="button" class="btn btn-success pull-right m-t-n-xs" ng-click="guardarOperacion()" ng-disabled="disabledOperacion()==false">
+                                            <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarOperacion()" ng-disabled="disabledOperacion()==false">
                                                 <strong> Guardar</strong>
                                             </button>
-                                             <button type="button" class="btn btn-success pull-left m-t-n-xs" ng-click="openBusqueda()">
+                                             <button type="button" class="btn btn-primary pull-left m-t-n-xs" ng-click="openBusqueda()">
                                                 <strong> Anterior</strong>
                                             </button>
                                         </div>
@@ -318,10 +318,10 @@
 
                                         <div class="space"></div>
                                         <div class="footer_btn row">
-                                            <button type="button" class="btn btn-success pull-right m-t-n-xs" ng-click="guardarLicitacion()">
+                                            <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarLicitacion()">
                                                 <strong> Siguiente</strong>
                                             </button>
-                                             <button type="button" class="btn btn-success pull-left m-t-n-xs" >
+                                             <button type="button" class="btn btn-primary pull-left m-t-n-xs" >
                                                 <strong ng-click="openOperacion()"> Anterior</strong>
                                             </button>
                                         </div>
@@ -441,10 +441,10 @@
                                         </br>
                                         </br>
                                         <div class="footer_btn ">
-                                            <button type="button" class="btn btn-success pull-right m-t-n-xs" ng-click="guardarUnidad()">
+                                            <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarUnidad()">
                                                 <strong> Siguiente</strong>
                                             </button>
-                                             <button type="button" class="btn btn-success pull-left m-t-n-xs" ng-click="openLicitacion()">
+                                             <button type="button" class="btn btn-primary pull-left m-t-n-xs" ng-click="openLicitacion()">
                                                 <strong> Anterior</strong>
                                             </button>
                                         </div>
@@ -506,10 +506,10 @@
                                         
                                         <div class="space"></div>
                                         <div class="footer_btn ">
-                                            <button type="button" class="btn btn-success pull-right m-t-n-xs" ng-click="guardarModulos()">
+                                            <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarModulos()">
                                                 <strong> Guardar</strong>
                                             </button>
-                                             <button type="button" class="btn btn-success pull-left m-t-n-xs" ng-click="openUnidad()">
+                                             <button type="button" class="btn btn-primary pull-left m-t-n-xs" ng-click="openUnidad()">
                                                 <strong> Anterior</strong>
                                             </button>
                                         </div>
@@ -540,7 +540,7 @@
                     <div class="dropzone" options="dzOptionsCotizacion" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" ng-click="dzMethods.processQueue();">Adjuntar Evidencia</button>
+                    <button type="button" class="btn btn-primary" ng-click="dzMethods.processQueue();">Adjuntar Evidencia</button>
                 </div>
             </div>
         </div>
