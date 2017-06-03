@@ -24,6 +24,7 @@
                 oReq.open( 'post', "api/trabajo/subirArchivo", true );
                 oReq.onload = function( oEvent ){
                     console.log( oReq.status );
+                    console.log( JSON.parse(oReq.response) );
                 }
                 oReq.send( oData );
                 ev.preventDefault();

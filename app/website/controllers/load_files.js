@@ -270,7 +270,7 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
                         miCallback( { success:false, data:err } );
                     }
                     else{
-                        miCallback( { success:true, data:result } );                        
+                        miCallback( { success:true, xml: data, data:result } );                        
                     }
                 });
             }
