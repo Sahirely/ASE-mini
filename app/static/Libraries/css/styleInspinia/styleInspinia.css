@@ -358,7 +358,8 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
     position: absolute;
     left: 70px;
     top: 0;
-    background-color: #444343;
+    /*background-color: #444343;*/
+    background-color: #0E4579;
     padding: 10px 10px 10px 10px;
     font-size: 12px;
 }
@@ -431,6 +432,7 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
 .navbar-fixed-top,
 .navbar-static-top {
     background: #f3f3f4;
+    border-bottom: 2px solid #0E4579 !important;
 }
 
 .fixed-nav #wrapper {
@@ -806,8 +808,10 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 }
 
 .btn-primary {
-    background-color: #FFA100;
-    border-color: #FFA100;
+    /*background-color: #FFA100;
+    border-color: #FFA100;*/
+    background-color: #5597DA;
+    border-color: #55b2d8;
     color: #FFFFFF;
 }
 
@@ -820,7 +824,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-primary:active:hover,
 .btn-primary.active:hover,
 .btn-primary.active:focus {
-    background-color: #FF8300;
+    /*background-color: #FF8300;*/
+    background-color: #55b2d8;
     border-color: #BBBBCC;
     color: #FFFFFF;
 }
@@ -2271,7 +2276,7 @@ div.dt-button-info {
 
 .form-control:focus,
 .single-line:focus {
-    border-color: #FFA100 !important;
+    border-color: #0E4579 !important;
 }
 
 .has-success .form-control {

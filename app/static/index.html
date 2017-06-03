@@ -46,7 +46,7 @@
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                         <span>
-                            <img alt="image"  src="image/profile/logoDiconsa.png" />
+                            <img alt="image"  src="image/profile/logoTotalParts.png" />
                         </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
@@ -121,7 +121,7 @@
                   <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-8 col-sm-9 col-md-8 col-lg-8" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
                       <li>
                           <div class="form-group">
-                              <button class="btn btn-success" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
+                              <button class="btn btn-primary" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
                           </div>
                       </li>
                       <li>
@@ -135,17 +135,16 @@
                           </div>
                       </li>
                       <li>
-                          <button class="btn btn-success" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+                          <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                       </li>
                       <li>
 
                           <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                              <i class="fa fa-circle"></i>
-                              <span>  Rol - {{userData.Rol}}</span>
+                                <span>  Rol - {{userData.Rol}}</span>
                           </div>
                       </li>
                       <li>
-                          <span class="m-r-md text-muted">Talleres Externos</span>
+                          <span class="m-r-md text-muted title">TOTAL PARTS</span>
                       </li>
                   </ul>
                 </div>

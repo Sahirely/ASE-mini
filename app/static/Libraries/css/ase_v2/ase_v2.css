@@ -1,7 +1,7 @@
 .btn-warning {
-    background-color: #2aad93;
-    border-color: #2aad93;
-    color: #FFFFFF;
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
 }
 
 .btn-warning:hover,
@@ -13,15 +13,15 @@
 .btn-warning:active:hover,
 .btn-warning.active:hover,
 .btn-warning.active:focus {
-    background-color: #59d4bb;
-    border-color: #59d4bb;
-    color: #FFFFFF;
+    color: #fff;
+    background-color: #ec971f;
+    border-color: #985f0d;
 }
 
 .btn-success {
-    background-color: #55B4F0;
-    border-color: #55B4F0;
-    color: #FFFFFF;
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
 }
 
 .btn-success:hover,
@@ -33,9 +33,9 @@
 .btn-success:active:hover,
 .btn-success.active:hover,
 .btn-success.active:focus {
-    background-color: #acd2ea;
-    border-color: #acd2ea;
-    color: #FFFFFF;
+    color: #fff;
+    background-color: #449d44;
+    border-color: #255625;
 }
 
 .btn-info {
