@@ -26,6 +26,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.init = function () {
         //para obtener las zonas promero se inicializa la primer zona padre.
+        userFactory.ValidaSesion();
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.

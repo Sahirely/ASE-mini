@@ -33,6 +33,14 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
     },
     logOut: function(){
       localStorageService.clearAll();
+    },
+    ValidaSesion: function(){
+      debugger;
+      var userData = localStorageService.get('userData');
+
+      if (userData == null || userData == undefined){
+        location.href = '/';
+      }
     }
   }
 });
