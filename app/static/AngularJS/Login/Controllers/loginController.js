@@ -10,7 +10,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
 
     $scope.init = function () {
         $scope.userData = userFactory.getUserData();
-        if( $scope.userData != null || $scope.userData == undefined){
+        if($scope.userData != null && $scope.userData != undefined){
             var id = $scope.userData.idUsuario;
 
             loginRepository.ValidaSesionActiva(id).then(function(result){
