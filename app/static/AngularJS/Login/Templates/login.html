@@ -7,7 +7,7 @@
         <div ng-show="!UserIsValid">
           <div id="usuario">
                <label for="username">Usuario</label>
-                  <input type="text" ng-model="user" name="username" id="username" class="form-control" ng-model="vm.username" required ng-enter="login(user, password)"/>
+                  <input type="text" ng-model="user" name="username" id="username" class="form-control" ng-model="vm.username" required ng-enter="login(user, password)" capitalize/>
                    <span ng-show="username.$dirty && username.$error.required" class="help-block">Username is required</span>
           </div>
           <div id="contrasena" >
@@ -29,7 +29,7 @@
       </div>
     </div>
     <div id="action">
-        <button type="submit" ng-show="!UserIsValid" class="btn btn-default" ng-click="login(user, password)">Iniciar sesión</button>
+        <button type="submit" ng-show="!UserIsValid" class="btn btn-primary" ng-click="login(user, password)">Iniciar sesión</button>
         <button type="submit" ng-show="UserIsValid" class="btn btn-default" ng-click="ingresar(operacionSeleccionada)">Ingresar</button>
     </div>
     <div id="link">
