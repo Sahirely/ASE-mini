@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta http-equiv="Access-Control-Allow-Origin" content="*" />
-    <title>Talleres Externos</title>
+    <title>SIAF</title>
     <meta name="description" content="description project">
     <meta name="author" content="name" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -122,22 +122,22 @@
                       </div>
                 </div>
                   <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-9 col-sm-9 col-md-9 col-lg-9" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
-                      <li>
+                      <li  ng-hide="userData.idRol == 5">
                           <div class="form-group">
                               <button class="btn btn-primary" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
                           </div>
                       </li>
-                      <li>
+                      <li  ng-hide="userData.idRol == 5">
                           <div class="form-group" ng-show="busqueda == 1">
                               <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus>
                           </div>
                       </li>
-                      <li>
+                      <li  ng-hide="userData.idRol == 5">
                           <div class="form-group" ng-show="busqueda == 2">
                               <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus>
                           </div>
                       </li>
-                      <li>
+                      <li  ng-hide="userData.idRol == 5">
                           <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                       </li>
                         <li ng-hide="userData.idRol == 5">
