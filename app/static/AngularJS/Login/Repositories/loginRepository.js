@@ -38,6 +38,18 @@ registrationModule.factory('loginRepository', function ($http) {
               'Content-Type': 'application/json'
               }
           });
+        },
+        ValidaSesionActiva: function(idUsuario){
+          return $http({
+              url: loginUrl + 'validaSesionActiva/',
+              method: "GET",
+              params: {
+                  idUsuario: idUsuario
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
         }
     };
 });

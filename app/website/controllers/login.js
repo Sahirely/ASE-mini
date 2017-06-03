@@ -53,6 +53,24 @@ Login.prototype.post_cierraHistorial = function(req, res, next){
     });
 }
 
+Login.prototype.get_validaSesionActiva = function(req, res, next){
+    var obj = {};
+
+    var self = this;
+
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }]
+
+    self.model.query('SEL_VALIDA_SESION_ACTIVA_SP', params,function(error, result){
+        obj.error = error;
+        obj.result = result;
+        self.view.expositor(res, obj);
+    });
+}
+
 //Valida credenciales de usuario
 Login.prototype.get_validaCredenciales = function(req, res, next) {
     //Objeto que almacena la respuesta
@@ -78,7 +96,7 @@ Login.prototype.get_validaCredenciales = function(req, res, next) {
         var totalOp = OperacionesUsuarios.length;
 
         if (totalOp > 0) {
-            if (OperacionesUsuarios.HasSesion == 'False'){
+            if (OperacionesUsuarios.HasSession == 'False'){
                 OperacionesUsuarios.forEach(function(item, key) {
                     var idOp = item.idOperacion;
 

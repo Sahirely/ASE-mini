@@ -70,10 +70,12 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
             var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
             var Total        = xml['cfdi:Comprobante'].$['total'];
 
+            console.log( "=============================================" );
             console.log( UUID );
             console.log( RFC_Emisor );
             console.log( RFC_Receptor );
             console.log( Total );
+
             // 4524.25 - 4524.98
             var totalCotizacion = 4525.98;
 
@@ -83,6 +85,22 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
             else{
                 console.log( 'No esta dentro del rango' );
             }
+
+
+            console.log( "====================[ Esperando respuesta de SOAP ]====================" );
+
+            var soap = require('soap');
+            // var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
+            var url = 'http://www.webservicex.net/whois.asmx?WSDL';
+            var args = {HostName: 'griant.com'};
+
+            soap.createClient(url, function(err, client) {
+                console.log( client.GetWhoIS );
+                client.GetWhoIS(args, function(err, result) {
+                    console.log(result);
+                });
+            });
+
         }
 
         self.view.expositor(res, {
