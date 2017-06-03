@@ -1,7 +1,7 @@
 <div class="modal-header barra_popup" ng-init="init()">
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
-        <h4 class="modal-title">Centros de Trabjo</h4>
+        <h4 class="modal-title">Centros de Trabajo</h4>
         
     </div>
 </div>
@@ -9,7 +9,7 @@
     <div id="content_popDrag">
        <div class="modal-body">
 
-            <form class="form-horizontal" ng-repeat="model in models">
+            <form class="form-horizontal" ng-repeat="model in models" ng-hide="modalPlus == 1">
                 <div class="form-group">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                         <input type="text" class="form-control" value="" id="nomCentro" ng-model="nomCentro" capitalize ng-change="dataCentro(model.ID, nomCentro)">
@@ -19,7 +19,22 @@
                     </div>
                 </div>
             </form>
-
+            <div class="table-responsive row">
+                <table class="table table-bordered table-hover dataTableCentros" >
+                    <thead>
+                        <tr>
+                            <th>No Centro de Control</th>
+                            <th>Nombre de Centro de Control</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="centro in centrosDeTrabajo"  tooltip="Detalle">
+                            <td>{{centro.idCentroTrabajo}}</td>
+                            <td>{{centro.nombreCentroTrabajo}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

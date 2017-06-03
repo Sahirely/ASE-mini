@@ -1,10 +1,16 @@
-function modal_presupuestos($scope, $modal, callback, error) {
+function modal_presupuestos($scope, $modal, idOperacion, modalUnidad, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/Configurador/Templates/presupuestos.html',
         controller: 'presupuestosController',
         backdrop: 'static',
         size: 300,
         resolve: {
+            idOperacion: function() {
+                return idOperacion;
+            },
+            modalUnidad: function() {
+                return modalUnidad;
+            },
             callback: function() {
                 return callback;
             },

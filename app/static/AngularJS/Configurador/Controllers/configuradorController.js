@@ -133,8 +133,9 @@ registrationModule.controller('configuradorController', function ($scope, $route
         });
     }
 
-    $scope.presupuestos = function () {
-    	modal_presupuestos($scope, $modal, $scope.centrosDeTrabajo, '');
+    $scope.presupuestos = function (modalUnidad) {
+        modalUnidad != 1 ? modalUnidad = 2 : modalUnidad;
+    	modal_presupuestos($scope, $modal, $scope.idOperacion, modalUnidad, $scope.centrosDeTrabajo, '');
     }
 
     $scope.centrosDeTrabajo = function (data) {
