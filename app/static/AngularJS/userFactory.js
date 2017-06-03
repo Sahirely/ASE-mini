@@ -5,6 +5,10 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
     },
     saveUserData: function(userData){
       localStorageService.set('userData',userData);
+      loginRepository.iniciaSesionHistorial(userData.idUsuario).then(function (result){
+        debugger;
+      });
+
       return (localStorageService.get('userData'));
     },
     updateSelectedOperation: function(data){
@@ -32,6 +36,9 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       return (localStorageService.get('userData'));
     },
     logOut: function(){
+      var userData = localStorageService.get('userData');
+      loginRepository.cierraSesionHistorial(userData.idUsuario).then(function(){
+      })
       localStorageService.clearAll();
     },
     ValidaSesion: function(){

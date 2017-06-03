@@ -15,6 +15,44 @@ var Login = function(conf) {
     }
 }
 
+Login.prototype.post_ingresaHistorial = function(req, res, next){
+
+  var obj = {};
+
+  var self = this;
+
+  var params = [{
+    name: 'idUsuario',
+    value: req.query.idUsuario,
+    type: self.model.types.INT
+  }]
+
+  self.model.query('INS_HISTORICO_LOGIN', params,function(error, result){
+    obj.error = error;
+    obj.result = result;
+    self.view.expositor(res, obj);
+  });
+
+}
+
+Login.prototype.post_cierraHistorial = function(req, res, next){
+    var obj = {};
+
+    var self = this;
+
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }]
+
+    self.model.query('UPD_HISTORICO_LOGIN', params,function(error, result){
+        obj.error = error;
+        obj.result = result;
+        self.view.expositor(res, obj);
+    });
+}
+
 //Valida credenciales de usuario
 Login.prototype.get_validaCredenciales = function(req, res, next) {
     //Objeto que almacena la respuesta
@@ -40,119 +78,74 @@ Login.prototype.get_validaCredenciales = function(req, res, next) {
         var totalOp = OperacionesUsuarios.length;
 
         if (totalOp > 0) {
-            OperacionesUsuarios.forEach(function(item, key) {
-                var idOp = item.idOperacion;
+            if (OperacionesUsuarios.HasSesion == 'False'){
+                OperacionesUsuarios.forEach(function(item, key) {
+                    var idOp = item.idOperacion;
 
-                var params2 = [{
-                    name: 'idOperacion',
-                    value: idOp,
-                    type: self.model.types.INT
-                }];
+                    var params2 = [{
+                        name: 'idOperacion',
+                        value: idOp,
+                        type: self.model.types.INT
+                    }];
 
-                self.model.query('SEL_MODULOS_OPERACION', params2, function(err, respuesta) {
-                    item.modulos = respuesta;
-                    totalModulos = item.modulos.length;
+                    self.model.query('SEL_MODULOS_OPERACION', params2, function(err, respuesta) {
+                        item.modulos = respuesta;
+                        totalModulos = item.modulos.length;
 
-										if(totalModulos > 0){
-	                    	item.modulos.forEach(function(elemento, llave) {
-	                        var params3 = [{
-	                            name: 'idModulo',
-	                            value: elemento.idModulo,
-	                            type: self.model.types.INT
-	                        }, {
-	                            name: 'idOperacion',
-	                            value: idOp,
-	                            type: self.model.types.INT
-	                        }];
+    										if(totalModulos > 0){
+    	                    	item.modulos.forEach(function(elemento, llave) {
+    	                        var params3 = [{
+    	                            name: 'idModulo',
+    	                            value: elemento.idModulo,
+    	                            type: self.model.types.INT
+    	                        }, {
+    	                            name: 'idOperacion',
+    	                            value: idOp,
+    	                            type: self.model.types.INT
+    	                        }];
 
-	                        self.model.query('SEL_DETALLE_MODULO_OPERACION', params3, function(e, r) {
-	                            elemento.detalle = r;
+    	                        self.model.query('SEL_DETALLE_MODULO_OPERACION', params3, function(e, r) {
+    	                            elemento.detalle = r;
 
-	                            if ((key >= (totalOp - 1)) && (llave >= (totalModulos - 1))) {
-	                                self.view.expositor(res, {
-	                                    error: error,
-	                                    result: {
-	                                        success: true,
-	                                        data: OperacionesUsuarios
-	                                    }
-	                                });
-	                            }
-	                        });
-	                    });
-										}else{
-											self.view.expositor(res, {
-													error: error,
-													result: {
-															success: true,
-															data: OperacionesUsuarios
-													}
-											});
-										}
+    	                            if ((key >= (totalOp - 1)) && (llave >= (totalModulos - 1))) {
+    	                                self.view.expositor(res, {
+    	                                    error: error,
+    	                                    result: {
+    	                                        success: true,
+    	                                        data: OperacionesUsuarios
+    	                                    }
+    	                                });
+    	                            }
+    	                        });
+    	                    });
+    										}else{
+    											self.view.expositor(res, {
+    													error: error,
+    													result: {
+    															success: true,
+    															data: OperacionesUsuarios,
+                                  msg: 'La operación no cuenta con módulos configurados.'
+    													}
+    											});
+    										}
+                    });
                 });
-            });
-
+            }else{
+                object.result = {
+                    success: true,
+                    data: result,
+                    msg: 'No puede iniciar sesión por que ya tiene una sesión activa.'
+                };
+                self.view.expositor(res, object);
+            }
         } else {
             object.result = {
                 success: false,
                 data: result,
-                msg: 'No se encontraron resultados'
+                msg: 'No se encontraron resultados.'
             };
             self.view.expositor(res, object);
         }
-        //Callback
-        //object.error = error;
-        //object.result = result;
-        //self.view.expositor(res, object);
-    });
-}
-
-Login.prototype.get_ObtieneModulosOperacion = function(req, res, next) {
-    //Objeto que almacena la respuesta
-    var object = {};
-    //Objeto que envía los parámetros
-    var params = {};
-    //Referencia a la clase para callback
-    var self = this;
-
-    var params = [{
-        name: 'idOperacion',
-        value: req.query.idOperacion,
-        type: self.model.types.INT
-    }];
-
-    this.model.query('SEL_MODULOS_OPERACION', params, function(error, result) {
-        //Callback
-        object.error = error;
-        object.result = result;
-
-        self.view.expositor(res, object);
-    });
-}
-
-Login.prototype.get_ObtieneDetalleModuloOperacion = function(req, res, next) {
-    //Objeto que almacena la respuesta
-    var object = {};
-    //Objeto que envía los parámetros
-    var params = {};
-    //Referencia a la clase para callback
-    var self = this;
-
-    var params = [{
-        name: 'idModulo',
-        value: req.query.idModulo,
-        type: self.model.types.INT
-    }, {
-        name: 'idOperacion',
-        value: req.query.idOperacion,
-        type: self.model.types.INT
-    }];
-
-    this.model.query('SEL_DETALLE_MODULO_OPERACION', params, function(error, result) {
-        //Callback
-        object.error = error;
-        object.result = result;
-
-        self.view.expositor(res, object);
     });
 }
 

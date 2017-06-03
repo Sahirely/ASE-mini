@@ -15,25 +15,24 @@ registrationModule.factory('loginRepository', function ($http) {
                 }
             });
         },
-        obtieneModulos: function(idOperacion){
+        iniciaSesionHistorial: function(idUsuario){
           return $http({
-              url: loginUrl + 'ObtieneModulosOperacion/',
-              method: "GET",
+              url: loginUrl + 'ingresaHistorial/',
+              method: "POST",
               params: {
-                  idOperacion: idOperacion
+                  idUsuario: idUsuario
                 },
               headers: {
               'Content-Type': 'application/json'
               }
           });
         },
-        obtieneDetalleModulo: function(idModulo, idOperacion){
+        cierraSesionHistorial: function(idUsuario){
           return $http({
-              url: loginUrl + 'ObtieneDetalleModuloOperacion/',
-              method: "GET",
+              url: loginUrl + 'cierraHistorial/',
+              method: "POST",
               params: {
-                  idModulo: idModulo,                  
-                  idOperacion: idOperacion
+                  idUsuario: idUsuario
                 },
               headers: {
               'Content-Type': 'application/json'
