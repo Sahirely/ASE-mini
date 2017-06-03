@@ -1,11 +1,13 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
     $scope.idTaller = idtaller;
+    $scope.especialidades = especialidades;
     $scope.lstPartidaSeleccionada = [];
     $scope.init = function() {
-
-        consultaCitasRepository.getPartidasTaller($scope.idTaller).then(function(result) {
+        console.log($scope.especialidades, 'Soy las especialidades')
+        consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
+                console.log($scope.partidasTaller, 'Somos las partidas de los tallesres')
                 globalFactory.filtrosTabla("partidas", "Partidas Talleres", 5);
 
             }
@@ -27,9 +29,12 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         if ($scope.lstPartidaSeleccionada.length == 0) {
             $scope.lstPartidaSeleccionada.push({
                 idPartida: $scope.objeto.idPartida,
+                partida: $scope.objeto.partida,
+                numPartida: $scope.objeto.noParte,
                 cantidad: 1,
                 descripcion: $scope.objeto.descripcion,
-                precioUnitario: $scope.objeto.precio
+                costoUnitario: $scope.objeto.costo,
+                precioUnitario: $scope.objeto.venta
             });
         } else {
             for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
@@ -43,23 +48,32 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
             if (existe == 0) {
                 $scope.lstPartidaSeleccionada.push({
                     idPartida: $scope.objeto.idPartida,
+                    partida: $scope.objeto.partida,
+                    numPartida: $scope.objeto.noParte,
                     cantidad: 1,
                     descripcion: $scope.objeto.descripcion,
-                    precioUnitario: $scope.objeto.precio
+                    costoUnitario: $scope.objeto.costo,
+                    precioUnitario: $scope.objeto.venta
                 });
             }
         }
         $scope.sumatoriaTotal();
     };
     $scope.sumatoriaTotal = function() {
-        $scope.total = 0;
-        $scope.subTotal = 0;
-        $scope.ivaSubTotal = 0;
+        $scope.subTotalPrecio = 0;
+        $scope.subTotalCosto = 0;
+        $scope.ivaSubTotalPrecio = 0;
+        $scope.ivaSubTotalCosto = 0;
+        $scope.totalPrecio = 0;
+        $scope.totalCosto = 0;
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
-            $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
+            $scope.subTotalPrecio += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario;
+            $scope.subTotalCosto += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].costoUnitario;
         }
-        $scope.ivaSubTotal += $scope.subTotal * 0.16
-        $scope.total += $scope.subTotal + $scope.ivaSubTotal
+        $scope.ivaSubTotalPrecio += $scope.subTotalPrecio * 0.16;
+        $scope.ivaSubTotalCosto += $scope.subTotalCosto * 0.16;
+        $scope.totalPrecio += $scope.subTotalPrecio + $scope.ivaSubTotalPrecio;
+        $scope.totalCosto += $scope.subTotalCosto + $scope.ivaSubTotalCosto;
     };
     $scope.agregarItem = function(obj) {
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {

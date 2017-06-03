@@ -19,18 +19,20 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover partidas" cg-busy="{promise:promise,message:message}">
                     <thead>
-                        <th>No.Partida</th>
-                        <th>No.Parte</th>
+                        <th>Partida</th>
+                        <th>No. Parte</th>
                         <th>Descripción</th>
+                        <th>Costo</th>
                         <th>Precio</th>
                         <th>Agregar</th>
                     </thead>
                     <tbody>
                         <tr ng-repeat="partidasTaller in partidasTaller">
-                            <td>{{ partidasTaller.idPartida }}</td>
-                            <td>{{ partidasTaller.numeroParte }}</td>
+                            <td>{{ partidasTaller.partida }}</td>
+                            <td>{{ partidasTaller.noParte }}</td>
                             <td>{{ partidasTaller.descripcion }}</td>
-                            <td class="text-right">{{ partidasTaller.precio | currency}}</td>
+                            <td class="text-right">{{ partidasTaller.costo | currency}}</td>
+                            <td class="text-right">{{partidasTaller.venta | currency}}</td>
                             <td class="text-center">
                                 <button class="btn btn-success btn-sm" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                     <span class="glyphicon glyphicon-plus"></span>
@@ -43,7 +45,7 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 partidasSel">
             <div class="table-responsive scroll_content">
-                <table class="table table-bordered dataTableItem">
+                <table class="table dataTableItem">
                     <thead>
                         <tr>
                             <th>No. Partida</th>
@@ -55,9 +57,9 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
-                            <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.idPartida }} </a></td>
+                            <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.numPartida }} </a></td>
                             <td>{{ lstPartidaSeleccionada.cantidad }}</td>
-                            <td class="text-right">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                            <td class="text-right">{{ lstPartidaSeleccionada.costoUnitario | currency}}</td>
                             <td class="text-right">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
                             <td>
                                 <div class="btn-group">
@@ -78,24 +80,24 @@
                             <td colspan="2">
                                 <strong>SUBTOTAL :</strong>
                             </td>
-                            <td>{{ subTotal | currency}}</td>
-                            <td>{{ subTotal | currency}}</td>
+                            <td>{{ subTotalCosto | currency}}</td>
+                            <td>{{ subTotalPrecio | currency}}</td>
                             <td> </td>
                         </tr>
                         <tr class="text-right">
                             <td colspan="2">
                                 <strong>I.V.A :</strong>
                             </td>
-                            <td>{{ ivaSubTotal | currency}}</td>
-                            <td>{{ ivaSubTotal | currency}}</td>
+                            <td>{{ ivaSubTotalCosto | currency}}</td>
+                            <td>{{ ivaSubTotalPrecio | currency}}</td>
                             <td> </td>
                         </tr>
                         <tr class="text-right">
                             <td colspan="2">
                                 <strong>TOTAL :</strong>
                             </td>
-                            <td>{{ total | currency}}</td>
-                            <td>{{ total | currency}}</td>
+                            <td>{{ totalCosto | currency}}</td>
+                            <td>{{ totalPrecio | currency}}</td>
                             <td> </td>
                         </tr>
                     </tfoot>
