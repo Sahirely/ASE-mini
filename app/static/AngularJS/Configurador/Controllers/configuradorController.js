@@ -565,13 +565,12 @@ registrationModule.controller('configuradorController', function ($scope, $route
         setTimeout(function () {
         $scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
             if (result.data.length > 0) {
-                debugger;
-                
+                $scope.numeroUnidades();   
             }
         }, function (error) {
             alertFactory.error('No se pueden obtener los Modulos');
         });
-        }, 2000); 
+        }, 1000); 
 /*        cotizacionEvidenciasRepository.getEvidenciasByCotizacion(idCotizacion, $scope.userData.idTipoUsuario, $scope.idTrabajo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.slides = result.data;
