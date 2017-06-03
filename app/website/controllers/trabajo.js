@@ -4,37 +4,76 @@ var TrabajoView = require('../views/ejemploVista'),
 
 var Load_Files = require('../controllers/load_files');
 
+var fs = require('fs'),
+    xml2js = require('xml2js');
+
 var Trabajo = function(conf){
-	this.conf = conf || {};
+    this.conf = conf || {};
 
-	this.view = new TrabajoView();
-	this.model = new TrabajoModel({ parameters : this.conf.parameters});
+    this.view = new TrabajoView();
+    this.model = new TrabajoModel({ parameters : this.conf.parameters});
 
-	this.response = function(){
-		this[this.conf.funcionalidad](this.conf.req,this.conf.res,this.conf.next);
-	}
+    this.response = function(){
+        this[this.conf.funcionalidad](this.conf.req,this.conf.res,this.conf.next);
+    }
+
+
+ 
+    // var parseString = require('xml2js').parseString;
+    // var xml = "<root>Hello xml2js!</root>"
+    // parseString(xml, function (err, result) {
+    //     console.dir(result);
+    // });
 }
 
 //devuelve los trabajos con estatus iniciados
 Trabajo.prototype.post_subirArchivo = function(req, res, next){
     var self = this;
-    
-    var Subir = new Load_Files();
-    // Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
+
+    // Subir Archivos    
+    // var lf = new Load_Files();
+    // lf.options({ // Type Options: * / img / xml / pdf / docs / xls
     //                 "myFile1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
-    //                 "myFile2": {"Name":"","Path": "C:/ASE_Temp/factura/pdf", "Type": "*"}
+    //                 "myFile2": {"Name":"facturapdf001","Path": "C:/ASE_Temp/factura/pdf", "Type": "pdf"}
     //             });
 
-    Subir.upload( function( respuesta ){
+    // lf.upload( "C:/ASE_Temp", req, res, function( respuesta ){
+    //     self.view.expositor(res, {
+    //         error: false,
+    //         result: {success: true, res: respuesta }
+    //     });
+    // });
+
+
+
+
+    // Subir imagenes
+    // var lf = new Load_Files();
+    // lf.img('C:/ASE_Temp', req, res, function( respuesta ){
+    //     self.view.expositor(res, {
+    //         error: false,
+    //         result: {success: true, res: respuesta }
+    //     });
+    // });
+
+    // Subir imagenes
+    var lf = new Load_Files();
+    lf.read_xml(req, res, function( xml ){
+        var UUID = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
+        var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
+        var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
+        var Total = xml['cfdi:Comprobante'].$['total'];
+
+        console.log( UUID );
+        console.log( RFC_Emisor );
+        console.log( RFC_Receptor );
+        console.log( Total );
+
         self.view.expositor(res, {
             error: false,
-            result: {success: true, respuesta: respuesta }
+            result: {success: true, res: xml }
         });
-    },"C:/ASE_Temp", req, res );
-
-
-    // setTimeout( function(){},3000 );
-    
+    });
 }
 
 //devuelve los trabajos con estatus iniciados

@@ -1,16 +1,20 @@
 registrationModule.controller('dashBoardController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository) {
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
 
-    // $scope.zonaSelected          = null;
     $scope.tarSelected           = null;
     $scope.totalCitas            = 0;
     $scope.totalCotizaciones     = 0;
     $scope.totalOrdenes          = 0;
     $scope.totalOrdenesPorCobrar = 0;
     $scope.userData              = userFactory.getUserData();
-    $scope.idOperacion           = $scope.userData.idOperacion;
-    $scope.idUsuario             = $scope.userData.idUsuario;
-    $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
+
+    // $scope.idOperacion           = $scope.userData.idOperacion;
+    // $scope.idUsuario             = $scope.userData.idUsuario;
+    // $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
+
+    $scope.idOperacion           = 2;
+    $scope.idUsuario             = 2;
+    $scope.idContratoOperacion   = 3;
 
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
@@ -191,6 +195,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     // =================================================================================
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
+        console.log( "idContratoOperacion", $scope.idContratoOperacion );
         $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
                 $scope.totalNiveles = result.data.length;
                 if (result.data.length > 0) {

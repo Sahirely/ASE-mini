@@ -1,7 +1,10 @@
 registrationModule.controller('trabajoController', function($scope, $modal, $rootScope, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository) {
     $rootScope.modulo = 'ordenServicio'; // <<-- Para activar en que opción del menú se encuentra
-    $scope.idUsuario = 2;
     
+    $scope.idOperacion           = 2;
+    $scope.idUsuario             = 2;
+    $scope.idContratoOperacion   = 3;
+
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -29,49 +32,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
         //-----------------------------------------------------------------//
         //$scope.getOrdenesServicio(3);
     };
-
-    //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
-    $scope.obtieneNivelZona = function(){
-        console.log( 'estamos en zonas' );
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idUsuario).then(function (result) {
-            $scope.totalNiveles = result.data.length;
-            if(result.data.length > 0){
-              $scope.NivelesZona = result.data;
-              $scope.devuelveZonas();
-            }
-         },
-         function (error) {
-             alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
-         });
-    }
-
-    //obtiene las zonas por cada nivel con que cuenta el usuario
-    $scope.devuelveZonas = function() {
-      for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x ++){
-        cotizacionConsultaRepository.getZonas($scope.idUsuario, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
-          if (result.data.length > 0){
-            var valueToPush = {};
-                valueToPush.orden = result.data[0].orden;
-                valueToPush.etiqueta = result.data[0].etiqueta;
-                valueToPush.data = result.data;
-            $scope.Zonas.push(valueToPush);
-            //se establece por default cada zona seleccionada en 0
-            $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
-          }
-        }, function(error) {
-            alertFactory.error('No se pudo recuperar información de las zonas');
-        });
-      }
-    };
-
-    $scope.cambioZona = function(id, orden){
-      //al cambiar de zona se establece como zona seleccionada.
-      $scope.zonaSelected = id;
-      //se limpian los combos siguientes.
-      for($scope.x = orden+1; $scope.x <= $scope.totalNiveles; $scope.x ++){
-        $scope.ZonasSeleccionadas[$scope.x] = "0";
-      }
-    }
 
     //obtiene los usuarios ejecutivos
     $scope.devuelveEjecutivos = function(){
@@ -112,6 +72,54 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
     };
+
+    // =================================================================================
+    //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
+    $scope.obtieneNivelZona = function() {
+        console.log( "idContratoOperacion", $scope.idContratoOperacion );
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
+                $scope.totalNiveles = result.data.length;
+                if (result.data.length > 0) {
+                    $scope.NivelesZona = result.data;
+                    $scope.devuelveZonas();
+                }
+            },
+            function(error) {
+                alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
+            });
+    };
+
+    //obtiene las zonas por cada nivel con que cuenta el usuario
+    $scope.devuelveZonas = function() {
+        for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
+            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
+                if (result.data.length > 0) {
+                    var valueToPush = {};
+                    valueToPush.orden = result.data[0].orden;
+                    valueToPush.etiqueta = result.data[0].etiqueta;
+                    valueToPush.data = result.data;
+                    $scope.Zonas.push(valueToPush);
+                    //se establece por default cada zona seleccionada en 0
+                    $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
+                }
+            }, function(error) {
+                alertFactory.error('No se pudo recuperar información de las zonas');
+            });
+        }
+    };
+
+    $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
+        //al cambiar de zona se establece como zona seleccionada.
+        $scope.zonaSelected = id;
+
+        $scope.LoadData();
+        //se limpian los combos siguientes.
+        for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
+            $scope.ZonasSeleccionadas[$scope.x] = "0";
+        }
+    }; 
+
+
     //     $scope.filtroEstatus = '';
     //     $scope.fechaMes = '';
     //     $scope.message = "Buscando...";
