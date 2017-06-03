@@ -253,7 +253,7 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
     upload( req, res, function( err ){
         flagImg   = false;
         if( err ){
-            miCallback( err );
+            miCallback( { success:true, data:err } );
             return res.end("Error uploading file.");
         }
 
@@ -261,16 +261,16 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
 
         fs.readFile( pathname , 'utf-8', (err, data) => {
             if(err) {
-                miCallback( err );
+                miCallback( { success:false, data:err } );
             } else {
                 var parseString = require('xml2js').parseString;
                 var xml = data;
                 parseString(xml, function (err, result) {
                     if( err ){
-                        miCallback( err );
+                        miCallback( { success:false, data:err } );
                     }
                     else{
-                        miCallback( result );                        
+                        miCallback( { success:true, data:result } );                        
                     }
                 });
             }
@@ -279,7 +279,7 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
 
     setTimeout( function() {
         if( flagImg ){
-            miCallback( Respuesta );
+            miCallback( { success:false, data:Respuesta } );
         }
     },5000);
 };

@@ -59,15 +59,31 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
     // Subir imagenes
     var lf = new Load_Files();
     lf.read_xml(req, res, function( xml ){
-        var UUID = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
-        var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
-        var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
-        var Total = xml['cfdi:Comprobante'].$['total'];
 
-        console.log( UUID );
-        console.log( RFC_Emisor );
-        console.log( RFC_Receptor );
-        console.log( Total );
+        if( !xml.success ){
+            console.log("No se encontro el archivo de la factura" );
+        }
+        else{
+            var xml          = xml.data;
+            var UUID         = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
+            var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
+            var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
+            var Total        = xml['cfdi:Comprobante'].$['total'];
+
+            console.log( UUID );
+            console.log( RFC_Emisor );
+            console.log( RFC_Receptor );
+            console.log( Total );
+            // 4524.25 - 4524.98
+            var totalCotizacion = 4525.98;
+
+            if( Total >= (totalCotizacion - 1) && Total <= (totalCotizacion + 1)){
+                console.log( 'Esta dentro del rango' );
+            }
+            else{
+                console.log( 'No esta dentro del rango' );
+            }
+        }
 
         self.view.expositor(res, {
             error: false,
