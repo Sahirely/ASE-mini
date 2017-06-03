@@ -7,72 +7,77 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
     $scope.cont = 0;
     $scope.operacionSeleccionada = '';
     $scope.ObjetoOperacionSelected = {};
-
     $scope.init = function () {}
 
     $scope.login = function (username, password) {
-        loginRepository.login(username,password).then(function (result){
-            if (result.data.length > 0) {
+      loginRepository.login(username,password).then(function (result){
+          debugger;
+          if (result.data.data.length > 0) {
+              var id = result.data.data[0].idUsuario == null ? 0 : result.data.data[0].idUsuario;
+              var nombre = result.data.data[0].nombreCompleto == null ? '' : result.data.data[0].nombreCompleto;
+              var correo = result.data.data[0].Correo == null ? '' : result.data.data[0].Correo;
+              var operaciones = [];
+
+              for(var x = 0; x < result.data.data.length; x++){
+                //var modulos = $scope.obteniendoModulos(result.data[x].idOperacion);
+                var operacion = {
+                    idContratoOperacion: result.data.data[x].idContratoOperacion,
+                    idOperacion: result.data.data[x].idOperacion,
+                    nombreOperacion: result.data.data[x].nombreOperacion,
+                    modulos: result.data.data[x].modulos,
+                    manejoUtilidad: result.data.data[x].manejoUtilidad,
+                    porcentajeUtilidad: result.data.data[x].porcentajeUtilidad,
+                    presupuesto: result.data.data[x].presupuesto,
+                    geolocalizacion: result.data.data[x].geolocalizacion,
+                    tiempoAsignado: result.data.data[x].tiempoAsignado,
+                    idRol: result.data.data[x].idCatalogoRol,
+                    nombreRol: result.data.data[x].nombreRol
+                  };
+                operaciones.push(operacion);
+              }
+
+              userData = {
+                idUsuario: id,
+                nombreCompleto: nombre,
+                Correo: correo,
+                Operaciones: operaciones,
+                Modulos: [],
+                contratoOperacionSeleccionada: 0,
+                idOperacion: 0,
+                nombreOperacion: '',
+                manejoUtilidad: 0,
+                porcentajeUtilidad: 0.0000,
+                presupuesto: 0,
+                geolocalizacion: 0,
+                tiempoAsignado: 0,
+                idRol: 0,
+                Rol: ''
+              };
+
+              $scope.userData = userFactory.saveUserData(userData);
+              if ($scope.userData.Operaciones.length > 1){
                 $scope.UserIsValid = true;
-
-                var id = result.data[0].idUsuario == null ? 0 : result.data[0].idUsuario;
-                var nombre = result.data[0].nombreCompleto == null ? '' : result.data[0].nombreCompleto;
-                var correo = result.data[0].Correo == null ? '' : result.data[0].Correo;
-
-                for($scope.cont = 0; $scope.cont < result.data.length; $scope.cont++){
-                  var operacion = {
-                      idContratoOperacion: result.data[$scope.cont].idContratoOperacion,
-                      idOperacion: result.data[$scope.cont].idOperacion,
-                      nombreOperacion: result.data[$scope.cont].nombreOperacion,
-                      idRol: result.data[$scope.cont].idCatalogoRol,
-                      nombreRol: result.data[$scope.cont].nombreRol
-                    };
-                  $scope.operaciones.push(operacion);
-                }
-
-                $scope.userData = userFactory.saveUserData(id, nombre, correo, $scope.operaciones);
-
-                if ($scope.userData.Operaciones.length > 1){
-                  alertFactory.info('Seleccione una operación para ingresar.');
-                } else {
-                  var contOpe = $scope.userData.Operaciones[0].idContratoOperacion;
-                  var idOp = $scope.userData.Operaciones[0].idOperacion;
-                  var nomOp = $scope.userData.Operaciones[0].nombreOperacion;
-                  var Rol = $scope.userData.Operaciones[0].idContratoOperacion == null ? 5 : $scope.userData.Operaciones[0].idRol;
-                  var nombreRol = $scope.userData.Operaciones[0].idContratoOperacion == null ? 'Configurador' : $scope.userData.Operaciones[0].nombreRol;
-
-                  debugger;
-                  $scope.userData = userFactory.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
-                  $scope.Home();
-                }
-
-            } else {
-                alertFactory.info('Usuario y/o contraseña no validos');
-            }
-        }, function (error) {
-            alertFactory.error('Ocurrio un error al validar sus datos.');
-        });
-      }
-
-      $scope.seleccinoOperacion = function (data) {
-        for (var i = 0; i < $scope.userData.Operaciones.length; i++) {
-          if($scope.userData.Operaciones[i].idContratoOperacion == data){
-            $scope.ObjetoOperacionSelected = $scope.userData.Operaciones[i];
+                alertFactory.info('Seleccione una operación para ingresar.');
+              } else {
+                var contOpe = $scope.userData.Operaciones[0].idContratoOperacion;
+                debugger;
+                $scope.userData = userFactory.updateSelectedOperation(contOpe);
+                $scope.Home();
+              }
+          } else {
+              alertFactory.info('Usuario y/o contraseña no validos');
           }
-        }
-      }
+      }, function (error) {
+          alertFactory.error('Ocurrio un error al validar sus datos.');
+      });
 
-      $scope.ingresar = function() {
-        var contOpe = $scope.ObjetoOperacionSelected.idContratoOperacion;
-        var idOp = $scope.ObjetoOperacionSelected.idOperacion;
-        var nomOp = $scope.ObjetoOperacionSelected.nombreOperacion;
-        var Rol = $scope.ObjetoOperacionSelected.idRol;
-        var nombreRol = $scope.ObjetoOperacionSelected.nombreRol;
+    }
 
-        if (contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
+      $scope.ingresar = function(data) {
+        if (data == 0 || data == undefined || data == ''){//contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
           alertFactory.info('Seleccione una operación para ingresar.');
         } else{
-          $scope.userData = userFactory.updateSelectedOperation(contOpe, idOp, nomOp, Rol, nombreRol);
+          $scope.userData = userFactory.updateSelectedOperation(data);
           $scope.Home();
         }
       }

@@ -14,6 +14,31 @@ registrationModule.factory('loginRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
+        },
+        obtieneModulos: function(idOperacion){
+          return $http({
+              url: loginUrl + 'ObtieneModulosOperacion/',
+              method: "GET",
+              params: {
+                  idOperacion: idOperacion
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
+        },
+        obtieneDetalleModulo: function(idModulo, idOperacion){
+          return $http({
+              url: loginUrl + 'ObtieneDetalleModuloOperacion/',
+              method: "GET",
+              params: {
+                  idModulo: idModulo,                  
+                  idOperacion: idOperacion
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
         }
     };
 });

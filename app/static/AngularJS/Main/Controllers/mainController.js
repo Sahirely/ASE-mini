@@ -21,8 +21,8 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
         $scope.userData = userFactory.getUserData();//localStorageService.get('userData');
     }
 
-    $scope.CambiarOperacion = function(idCont, idOpe, nombreOpe, idRol, nombreRol){
-      $scope.userData = userFactory.updateSelectedOperation(idCont, idOpe, nombreOpe, idRol, nombreRol);
+    $scope.CambiarOperacion = function(idCont){
+      $scope.userData = userFactory.updateSelectedOperation(idCont);
       if ($scope.userData.idRol == 3){
         location.href = '/dashboardCallCenter';
       } else if ($scope.userData.idRol == 5){

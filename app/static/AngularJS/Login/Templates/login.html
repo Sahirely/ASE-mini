@@ -22,7 +22,7 @@
         </div>
         <div id="operaciones">
           <label for="operacion">Operación</label>
-            <select name="operacion" id="operacion" class="form-control" ng-model="operacionSeleccionada" ng-change="seleccinoOperacion(operacionSeleccionada)"  ng-options="option.idContratoOperacion as option.nombreOperacion for option in userData.Operaciones">
+            <select name="operacion" id="operacion" class="form-control" ng-model="operacionSeleccionada" ng-options="option.idContratoOperacion as option.nombreOperacion for option in userData.Operaciones">
                 <option value=''>Seleccione una operación</option>
             </select>
         </div>

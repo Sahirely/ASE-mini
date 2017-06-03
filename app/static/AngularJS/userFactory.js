@@ -1,31 +1,32 @@
-registrationModule.factory('userFactory', function(localStorageService) {
+registrationModule.factory('userFactory', function(localStorageService, loginRepository, alertFactory) {
   return{
     getUserData: function(){
       return (localStorageService.get('userData'));
     },
-    saveUserData: function(id, nombreCompleto, Correo, operaciones){
-      var userData= {
-        idUsuario: id,
-        nombreCompleto: nombreCompleto,
-        Correo: Correo,
-        Operaciones: operaciones,
-        contratoOperacionSeleccionada: 0,
-        idOperacion: 0,
-        nombreOperacion: '',
-        idRol: 0,
-        Rol: ''
-      };
-
-      localStorageService.set('userData', userData);
+    saveUserData: function(userData){
+      localStorageService.set('userData',userData);
       return (localStorageService.get('userData'));
     },
-    updateSelectedOperation: function(idContratoOperacion, idOp, nomOp, idRol, Rol){
+    updateSelectedOperation: function(data){
       var userData = localStorageService.get('userData');
-      userData.contratoOperacionSeleccionada = idContratoOperacion;
-      userData.idOperacion = idOp;
-      userData.nombreOperacion = nomOp;
-      userData.idRol = idRol;
-      userData.Rol = Rol;
+
+      for (var i = 0; i < userData.Operaciones.length; i++) {
+        if(userData.Operaciones[i].idContratoOperacion == data){
+          ObjetoOperacionSelected = userData.Operaciones[i];
+        }
+      }
+
+      userData.contratoOperacionSeleccionada = ObjetoOperacionSelected.idContratoOperacion;
+      userData.idOperacion = ObjetoOperacionSelected.idOp;
+      userData.nombreOperacion = ObjetoOperacionSelected.nombreOperacion;
+      userData.manejoUtilidad = ObjetoOperacionSelected.manejoUtilidad;
+      userData.porcentajeUtilidad = ObjetoOperacionSelected.porcentajeUtilidad;
+      userData.presupuesto = ObjetoOperacionSelected.presupuesto;
+      userData.geolocalizacion = ObjetoOperacionSelected.geolocalizacion;
+      userData.tiempoAsignado = ObjetoOperacionSelected.tiempoAsignado;
+      userData.Modulos = ObjetoOperacionSelected.modulos;
+      userData.idRol = ObjetoOperacionSelected.idRol;
+      userData.Rol = ObjetoOperacionSelected.nombreRol;
 
       localStorageService.set('userData', userData);
       return (localStorageService.get('userData'));
