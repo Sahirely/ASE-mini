@@ -1,3 +1,4 @@
+<link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <div class="modal-header barra_popup" ng-init="init()">
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
@@ -418,7 +419,7 @@
 
             <form class="form-horizontal" ng-repeat="nivel in niveles" ng-show="show_nivelMonto">
                 <div class="form-group">
-                     <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">{{nivel.ID}}° Nivel  </label>
+                     <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">{{nivel.numNiveles}}° Nivel  </label>
                      <label class="col-xs-1 col-sm-1 col-md-1 col-lg-1 control-label">De </label>
                     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                         <input type="numeric" class="form-control" value="" id="cantidadDe" ng-model="cantidadDe" capitalize ng-change="dataCentro(nivel.ID, cantidadDe)">
@@ -428,7 +429,7 @@
                         <input type="numeric" class="form-control" value="" id="cantidadA" ng-model="cantidadA" capitalize ng-change="dataCentro(nivel.ID, cantidadA)">
                     </div>
                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                       <button class="btn btn-primary" tooltip="Nuevo Nivel De Autorización" type="button" ng-click="plusNivel()"><span class="glyphicon glyphicon-plus"></span></button>
+                       <button class="btn btn-primary" tooltip="Nuevo Nivel De Autorización" type="button" ng-click="guardarNivelMonto(nivel, cantidadDe, cantidadA)">Guardar</button>
                     </div>
                 </div>
             </form>
@@ -436,10 +437,10 @@
             <div ng-repeat="data in dataPartidas" ng-show="show_nivelPartida">
                 <form class="form-horizontal">
                     <div class="form-group">
-                         <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12 control-label">{{dta.unidad}  </label>
+                         <label class="col-xs-12 col-sm-12 col-md-12 col-lg-12 control-label">{{data.unidad}}  </label>
                     </div>
                 </form>
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-striped table-bordered table-hover dataTablePartidas">
                     <thead>
                         <th>Partida</th>
                         <th>Descripción</th>
@@ -455,13 +456,18 @@
                             <td>{{partida.venta}}</td>
                             <td>
                                  <div class="checkbox checkbox-warning">
-                                    <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
+                                    <input id="checkbox1" type="checkbox" ng-model="selectPartida" ng-change="changePartida(partida, selectPartida, data.idTipoUnidad )">
                                      <label></label>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <div >
+                    <button type="button" class="btn btn-primary" ng-click="guardarNivelPartidas()" >
+                    Guardar Nivel {{numNiveles}}°</button>
+                </div>
+
             </div>
 
 
@@ -472,7 +478,7 @@
 
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="guardarDetalle()">Guardar</button>
+    <button type="button" class="btn btn-primary" ng-click="guardarDetalle()" ng-show="!show_nivelesAprobacion">Guardar</button>
 </div>
 
       

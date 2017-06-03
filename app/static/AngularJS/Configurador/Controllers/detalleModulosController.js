@@ -2,11 +2,14 @@ registrationModule.controller('detalleModulosController', function ($scope, $mod
 $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.init = function () {
+        debugger;
         $scope.titulo= detalle.nombreModulos;
         $scope.detalleModulo ();
         $scope.contador =0;
+        $scope.contadorPartida = 0;
         $scope.detallesPorModulo = [];
         $scope.show_nivelesAprobacion=false;
+        $scope.nivelPartida = [];
 
 
                 //fecha
@@ -32,22 +35,23 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                 $scope.promise = configuradorRepository.getTiempoEspera(idOperacion).then(function (result) {
                 if (result.data.length > 0) {
                         for (var i = 0 ; i < result.data.length; i++) {
-                            if(result.data[i].idEstatusOrden == 1)
-                                $scope.sintaller=result.data[i].tiempoEnEspera;
-                                if(result.data[i].idEstatusOrden == 2)
-                                    $scope.contaller=result.data[i].tiempoEnEspera;
-                                    if(result.data[i].idEstatusOrden == 3)
-                                        $scope.entaller=result.data[i].tiempoEnEspera;
-                                        if(result.data[i].idEstatusOrden == 4)
-                                            $scope.aprobacion=result.data[i].tiempoEnEspera;
-                                            if(result.data[i].idEstatusOrden == 5)
-                                                $scope.enproceso=result.data[i].tiempoEnEspera;
-                                                if(result.data[i].idEstatusOrden == 6)
-                                                    $scope.terminotrabajo=result.data[i].tiempoEnEspera;
-                                                    if(result.data[i].idEstatusOrden == 7)
-                                                        $scope.entrega=result.data[i].tiempoEnEspera;
-                                                        if(result.data[i].idEstatusOrden == 8)
-                                                            $scope.porcobrar=result.data[i].tiempoEnEspera;
+                           
+                                if(result.data[i].idEstatusOrden == 1)
+                                    $scope.sintaller=result.data[i].tiempoEnEspera;
+                                    if(result.data[i].idEstatusOrden == 2)
+                                        $scope.contaller=result.data[i].tiempoEnEspera;
+                                        if(result.data[i].idEstatusOrden == 3)
+                                            $scope.entaller=result.data[i].tiempoEnEspera;
+                                            if(result.data[i].idEstatusOrden == 4)
+                                                $scope.aprobacion=result.data[i].tiempoEnEspera;
+                                                if(result.data[i].idEstatusOrden == 5)
+                                                    $scope.enproceso=result.data[i].tiempoEnEspera;
+                                                    if(result.data[i].idEstatusOrden == 6)
+                                                        $scope.terminotrabajo=result.data[i].tiempoEnEspera;
+                                                        if(result.data[i].idEstatusOrden == 7)
+                                                            $scope.entrega=result.data[i].tiempoEnEspera;
+                                                            if(result.data[i].idEstatusOrden == 8)
+                                                                $scope.porcobrar=result.data[i].tiempoEnEspera;
 
                         }
                     }
@@ -59,6 +63,14 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         $scope.promise = configuradorRepository.getDetalleModulo(detalle.idModulo).then(function (result) {
             if (result.data.length > 0) {
                $scope.detalles = result.data;
+                debugger;
+                    for (var i = 0 ; i < result.data.length; i++) {
+                        if(result.data[i].idCatalogoDetalleModulo == 12){
+                            $scope.show_nivelesAprobacion = true;
+                            $scope.getAprobaciones();
+                        }
+
+                    }        
             }
         }, function (error) {
             alertFactory.error('No se puede guardar la configuración');
@@ -77,15 +89,15 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
     }
 
     $scope.getPartidasUnidad = function(){
-        debugger;
         $scope.dataPartidas=[];
+        $('.dataTablePartidas').DataTable().destroy();
         for (var i = 0 ; i < unidades.length; i++) {  
             var obj=new Object();
             obj.ID = unidades[i].idTipoUnidad;
             obj.unidad = unidades[i].unidad;
             $scope.partidas=[];
             $scope.promise = configuradorRepository.getPartidasUnidad(idContratoOperacion, unidades[i].idTipoUnidad).then(function (result) {
-                debugger;
+              
                 if (result.data.length > 0) {
                     
                     $scope.partidas = result.data;
@@ -102,8 +114,10 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
     }
 
      $scope.plusNivel = function (){
+
         var obj=new Object();
-        obj.ID= $scope.numNiveles + 1;
+        obj.ID= $scope.numNiveles;
+        obj.numNiveles= $scope.numNiveles + 1;
         obj.valor='';
         $scope.niveles.push(obj);
 
@@ -111,19 +125,141 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     };
 
+     $scope.guardarNivelMonto = function (data,montoDe, montoA){
+        $scope.promise = configuradorRepository.postNivelMonto(idContratoOperacion, montoDe, montoA, data.numNiveles).then(function (result) {
+             
+            if (result.data.length > 0) {
+                swal({
+                    title: "Advertencia",
+                    text: "¿Desea otro nivel de aprobacion?  ",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#67BF11 ",
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    function (isConfirm) {
+                            debugger;
+                        if (isConfirm) {
+                             $scope.plusNivel();
+                        }else{
+                            $scope.close();
+                        }
+                });
+
+            }
+        }, function (error) {
+            alertFactory.error('No se puenen obtener las Operaciones');
+        });
+
+    };
+
+     $scope.changePartida = function (data, detalle, idTipoUnidad) {
+      debugger;
+
+     
+        var bandera = false;
+
+        if ($scope.nivelPartida.length>0) {
+            for (var i = 0 ; i < $scope.nivelPartida.length; i++) {
+                if ($scope.nivelPartida[i].idPartida == data.idPartida) {
+                    bandera = true
+                };
+            };
+
+            if(!bandera){
+                var obj=new Object();
+                    obj.ID= $scope.contador;
+                    obj.idPartida = data.idPartida;
+                    obj.idTipoUnidad = idTipoUnidad;
+                    obj.valor=detalle;
+                    $scope.nivelPartida.push(obj);
+                    $scope.contadorPartida += 1;
+            }else{
+                $scope.nivelPartida[data.ID].valor=detalle
+            }
+        }else{
+            var obj=new Object();
+                obj.ID= $scope.contador;
+                obj.idPartida = data.idPartida;
+                obj.idTipoUnidad = idTipoUnidad;
+                obj.valor=detalle;
+                $scope.nivelPartida.push(obj);
+                $scope.contadorPartida += 1;
+        }
+    }
+
+    $scope.guardarNivelPartidas = function () {
+        debugger;
+        var partidas = '';
+        for (var i = 0 ; i < $scope.nivelPartida.length; i++) {
+            if ($scope.nivelPartida[i].valor) {
+                partidas += $scope.nivelPartida[i].idPartida +',';
+            };
+        };
+         $scope.promise = configuradorRepository. postNivelPartda(idContratoOperacion, partidas, $scope.numNiveles).then(function (result) {
+             
+            if (result.data.length > 0) {
+                swal({
+                    title: "Advertencia",
+                    text: "¿Desea otro nivel de aprobacion?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#67BF11 ",
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    closeOnConfirm: true,
+                    closeOnCancel: true
+                },
+                    function (isConfirm) {
+                            debugger;
+                        if (isConfirm) {
+                             $scope.numNiveles += 1;
+
+
+                            $('.dataTablePartidas').DataTable().destroy();
+                             for (var i = 0 ; i < $scope.dataPartidas.length; i++) {
+                                for (var j = 0 ; j < $scope.dataPartidas[i].partidas.length; j++) {
+                                    for (var l = 0 ; l < $scope.nivelPartida.length; l++) {
+                                        if ($scope.dataPartidas[i].partidas[j].idPartida ==  $scope.nivelPartida[l].idPartida) {
+                                            if ($scope.nivelPartida[l].idPartida) {
+                                                $scope.dataPartidas[i].partidas.splice(j, 1);
+                                            };
+                                        };
+                                    }
+                                }    
+                            };
+
+                            $scope.nivelPartida =[];
+                        }else{
+                            $scope.close();
+                        }
+                });
+
+            }
+        }, function (error) {
+            alertFactory.error('No se puenen obtener las Operaciones');
+        });
+
+    }
+
+
     $scope.change_nivelAprobacion = function () {
         debugger;
         $scope.show_nivelMonto = false;
         $scope.show_nivelPartida = false;
+        $scope.numNiveles = 0;
 
         if ($scope.tipoNivel == 1) {
             $scope.show_nivelMonto = true;
             $scope.niveles = [];
-            $scope.numNiveles = 0;
             $scope.plusNivel ();
 
         }else{
             $scope.show_nivelPartida = true;
+            $scope.numNiveles += 1
             $scope.getPartidasUnidad();
         }
     }
@@ -132,8 +268,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
       debugger;
 
       if (data.idCatalogoDetalleModulo == 12 && detalle ) {
-            $scope.show_nivelesAprobacion=true;
-            $scope.getAprobaciones();
+            $scope.banAprobacione = true;
       };
         var bandera = false;
 
@@ -187,10 +322,11 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                 detalle += $scope.detallesPorModulo[i].idCatalogoDetalleModulo +',';
             };
         };
+        debugger;
         if($scope.banderaModulo == 3){
                     $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
                         if (result.data.length > 0) {
-                            $scope.close();
+                            $scope.close();          
                         }
                     }, function (error) {
                         alertFactory.error('No se puede guardar la configuración');
@@ -235,13 +371,25 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
             if(($scope.aprobacion != undefined && $scope.aprobacion != "")){
                     $scope.promise = configuradorRepository.postFechas(idOperacion, 4, $scope.aprobacion).then(function (result) {
                         if (result.data.length > 0) {
+                            debugger;
+                            if ($scope.banAprobacione) {
+                                $scope.show_nivelesAprobacion=true;
+                                $scope.getAprobaciones()
+                            }
                         }
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     }); 
                             $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
                                 if (result.data.length > 0) {
-                                    $scope.close();
+                                    debugger;
+                                    if ($scope.banderaidModulo == 19) {
+                                        $scope.show_nivelesAprobacion=true;
+                                        $scope.getAprobaciones()
+                                    }else{
+                                        $scope.close();
+                                    }
+                                    
                                 }
                             }, function (error) {
                                 alertFactory.error('No se puede guardar la configuración');

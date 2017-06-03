@@ -834,4 +834,66 @@ Configurador.prototype.post_eliminaModulo = function(req, res, next) {
     });
 }
 
+Configurador.prototype.post_nivelMonto = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOperacionContrato',
+        value: req.body.idOperacionContrato,
+        type: self.model.types.INT
+    },{
+        name: 'montoDe',
+        value: req.body.montoDe,
+        type: self.model.types.DECIMAL
+    },{
+        name: 'montoA',
+        value: req.body.montoA,
+        type: self.model.types.DECIMAL
+    },{
+        name: 'nivel',
+        value: req.body.nivel,
+        type: self.model.types.DECIMAL
+    }];
+
+
+    this.model.post('INS_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+Configurador.prototype.post_nivelPartida = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOperacionContrato',
+        value: req.body.idOperacionContrato,
+        type: self.model.types.INT
+    },{
+        name: 'idPartida',
+        value: req.body.idPartida,
+        type: self.model.types.STRING
+    },{
+        name: 'nivel',
+        value: req.body.nivel,
+        type: self.model.types.DECIMAL
+    }];
+
+
+    this.model.post('INS_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 module.exports = Configurador;

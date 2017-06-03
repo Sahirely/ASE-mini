@@ -265,7 +265,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.promise = configuradorRepository.getLicitaciones($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
             	for (var i = 0 ; i < result.data.length; i++) {
-                    debugger;
+                   
             		if (result.data[i].idOperacion == null) {
             			$scope.licitaciones.push(result.data[i]);
             		}else if (result.data[i].idOperacion == $scope.idOperacion) {
@@ -299,13 +299,17 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 		if ($scope.idContrato != '' || $scope.idContrato != undefined) {
 		$scope.promise = configuradorRepository.postContratoOperacion($scope.idOperacion, $scope.idContrato).then(function (result) {
-				
+				debugger;
 	        	if (result.data.length > 0) {
-	           		$scope.idContratoOperacion=result.data[0].idContratoOperacion;
-	                $scope.show_licitacion=false;
-					$scope.show_unidad=true;
-					$scope.menu('unidad');
-					$scope.getTipoUnidad();
+                    if (result.data[0].idContratoOperacion != undefined) {
+                        $scope.idContratoOperacion=result.data[0].idContratoOperacion;
+                       
+                    };
+                    $scope.show_licitacion=false;
+                    $scope.show_unidad=true;
+                    $scope.menu('unidad');
+                    $scope.getTipoUnidad();
+	           		
 	            }
 	        }, function (error) {
 	            alertFactory.error('No se puenen guardar la Operación');
@@ -452,8 +456,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********MODULOS*************/	
 
 	$scope.detalleModulo = function (modulo){
-
-		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion , $scope.numUnidades);
+        debugger;
+		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion, $scope.numUnidades);
 	}
 
 	$scope.catalogoDeModulos = function(tipo){

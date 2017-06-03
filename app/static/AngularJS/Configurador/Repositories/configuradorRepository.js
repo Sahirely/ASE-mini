@@ -350,13 +350,32 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        deleteModulos: function(idModulo) {
+        postNivelMonto: function(idOperacionContrato, montoDe, montoA, nivel) {
           
            var msgObj = {
-                idModulo: idModulo
+                idOperacionContrato: idOperacionContrato,
+                montoDe: montoDe,
+                montoA: montoA,
+                nivel: nivel
             };
             return $http({
-                url: onfiguradorUrl + 'eliminaModulo/',
+                url: onfiguradorUrl + 'nivelMonto/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        postNivelPartda: function(idOperacionContrato, idPartida, nivel) {
+          
+           var msgObj = {
+                idOperacionContrato: idOperacionContrato,
+                idPartida: idPartida,
+                nivel: nivel
+            };
+            return $http({
+                url: onfiguradorUrl + 'nivelPartida/',
                 method: "POST",
                 data: msgObj,
                 headers: {
