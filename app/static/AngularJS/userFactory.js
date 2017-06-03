@@ -21,7 +21,7 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       }
 
       userData.contratoOperacionSeleccionada = ObjetoOperacionSelected.idContratoOperacion;
-      userData.idOperacion = ObjetoOperacionSelected.idOp;
+      userData.idOperacion = ObjetoOperacionSelected.idOperacion;
       userData.nombreOperacion = ObjetoOperacionSelected.nombreOperacion;
       userData.manejoUtilidad = ObjetoOperacionSelected.manejoUtilidad;
       userData.porcentajeUtilidad = ObjetoOperacionSelected.porcentajeUtilidad;
