@@ -334,7 +334,7 @@
                                          
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label titleOrange">Tipo de Unidades</strong>
+                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label titleBlue">Tipo de Unidades</strong>
                                                 
                                             </div>
                                         </form>
@@ -361,43 +361,45 @@
                                         <div class="space"></div>
                                         </br>
                                         </br> 
+                                        <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-                                        <form class="form-horizontal">
-                                            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleOrange">Unidades Cargadas</strong>
-                                                
-                                            </div>
-                                        </form>
-
-                                        <form class="form-horizontal" ng-repeat="unidades in numUnidades" ng-show="show_cargaUnidades">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <strong for="checkbo1">{{unidades.unidad}} : </strong>
-                                                <label>{{unidades.registros}} / {{unidades.cantidad}}</label>
-                                            </div>
-                                        </form> 
-                                        <div class="space"></div>
-
-                                        <form class="form-horizontal" ng-repeat="unidades in numUnidades" ng-show="show_cargaUnidades">
-                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div  ng-show="show_linkPresupuesto==true">
-                                                    <a href="#"  ng-click="presupuestos(1)">  Ver Centros de Trabajo</a>
+                                            <form class="form-horizontal">
+                                                <div class="form-group">
+                                                    <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleBlue">Unidades Cargadas</strong>
+                                                    
                                                 </div>
-                                                <div>
-                                                    <a href="#"  ng-click="verTipoUnidades()"> Ver Tipo Unidades </a>
-                                                </div>
-                                            </div>
-                                        </form> 
+                                            </form>
 
+                                            <form class="form-horizontal" ng-repeat="unidades in numUnidades" ng-show="show_cargaUnidades">
+                                                <div class="form-group">
+                                                    <strong for="checkbo1" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{unidades.unidad}} : </strong>
+                                                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{{unidades.registros}} / {{unidades.cantidad}}</label>
+                                                </div>
+                                            </form> 
+                                            <div class="space"></div>
+
+                                            <form class="form-horizontal" ng-repeat="unidades in numUnidades" ng-show="show_cargaUnidades">
+                                                <div class="form-group">
+                                                    <div  ng-show="show_linkPresupuesto==true" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        <a href="#"  ng-click="presupuestos(1)">  Ver Centros de Trabajo</a>
+                                                    </div>
+                                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        <a href="#"  ng-click="verTipoUnidades()"> Ver Tipo Unidades </a>
+                                                    </div>
+                                                </div>
+                                            </form> 
+                                            <div class="space"></div>
+                                            <div class="space"></div>
+                                            </br>
+                                            </br>
+                                        </div>
                                         
 
-                                        <div class="space"></div>
-                                        <div class="space"></div>
-                                        </br>
-                                        </br>  
+                                          
                                         
                                         <div class="footer_btn row col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_cargaUnidades" >
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                                <button type="button" class="btn btn-primary  m-t-n-xs" ng-click="nuevaUnidad()">
+                                                <button type="button" class="btn btn-success  m-t-n-xs" ng-click="nuevaUnidad()">
                                                     <span class="glyphicon glyphicon-plus"></span>
                                                     <strong> Unidad</strong>
                                                 </button>
@@ -420,7 +422,7 @@
                                                         <br>
                                                         <button id="myButton" busy="Buscando.." type="submit" class="btn btn-warning" name="submit" ng-click="uploadExcelUnidades()"><span>Cargar Archivo</span></button>
                                                     </form> -->
-                                                    <button class="btn btn-primary btn-block" ng-click="adjuntarEvidencia()">Cargar Archivo Excel</button>
+                                                    <button class="btn btn-info btn-block" ng-click="adjuntarEvidencia()">Cargar Archivo Excel</button>
 <!--                                                     <script type="text/javascript">
                                                         var form = document.forms.namedItem("myForm");
                                                         form.addEventListener('submit', function( ev ){
@@ -435,11 +437,11 @@
                                                         }, false);
                                                     </script> -->
                                                 </div>
+                                                <div class="space"></div>
+                                                <div class="space"></div>
+                                                </br>
+                                                </br>
                                         </div>
-                                        <div class="space"></div>
-                                        <div class="space"></div>
-                                        </br>
-                                        </br>
                                         <div class="footer_btn ">
                                             <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarUnidad()">
                                                 <strong> Siguiente</strong>
@@ -456,7 +458,7 @@
                                              
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleOrange">Default</strong>
+                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleBlue">Default</strong>
                                                 
                                             </div>
                                         </form>
@@ -476,7 +478,7 @@
 
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleOrange">Agregar Módulo</strong>
+                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleBlue">Agregar Módulo</strong>
                                                 
                                             </div>
                                         </form>

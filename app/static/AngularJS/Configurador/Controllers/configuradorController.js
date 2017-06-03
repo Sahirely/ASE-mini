@@ -38,11 +38,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	}
 
     $scope.menu = function (modulo) {
-
         $scope.operacionActivity='';
         $scope.licitacionActivity='';
         $scope.unidadActivity='';
-        $scope.modulosActivity='';
+        $scope.moduloActivity='';
 
         switch(modulo) {
             case "operacion":
@@ -55,7 +54,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
                 $scope.unidadActivity='activityMenu';
                 break;
             case "modulos":
-                $scope.modulosActivity='activityMenu';
+                $scope.moduloActivity='activityMenu';
                 break;
         }
     }
@@ -266,10 +265,12 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.promise = configuradorRepository.getLicitaciones($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
             	for (var i = 0 ; i < result.data.length; i++) {
+                    debugger;
             		if (result.data[i].idOperacion == null) {
             			$scope.licitaciones.push(result.data[i]);
             		}else if (result.data[i].idOperacion == $scope.idOperacion) {
             			$scope.licitaciones.push(result.data[i]);
+                        $scope.idContratoOperacion=result.data[i].idContratoOperacion;
             		};
             	}
                 
