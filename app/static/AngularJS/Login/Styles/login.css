@@ -57,3 +57,14 @@
   right: 0;
   margin-right: 53px;
   margin-bottom: 60px }
+
+.logoTP {
+  padding-top: 21px; 
+  padding-left: 57px;
+ }
+
+.contornoTP {
+  border-color: #0E4579;
+  border-style: solid; 
+  border-width: 2px;
+}
