@@ -299,7 +299,13 @@
                                                         <td>{{licitacion.fechaInicio | date:'dd-MM-yy HH:mm'}}</td>
                                                         <td>{{licitacion.descripcion}}</td>
                                                         <td class="center">
-                                                            <div class="radio radio-info radio-warning radio-inline" ng-show="licitacion.idOperacion == null">
+                                                             <button ng-show="licitacion.idOperacion != null" class="btn btn-success" type="button" data-toggle="tooltip" tooltip="Seleccionar Contrato" id="btnCotizar" tooltip-placement="top" ng-click="selectLicitacion(licitacion)">
+                                                            <span class="glyphicon glyphicon-ok"></span>
+                                                            </button>
+                                                            <button ng-show="licitacion.idOperacion == null" class="btn btn-danger" type="button" data-toggle="tooltip" tooltip="Seleccionar Contrato" id="btnCotizar" tooltip-placement="top" ng-click="selectLicitacion(licitacion)">
+                                                            <span class="glyphicon glyphicon-remove"></span>
+                                                            </button> 
+                                                            <!--<div class="radio radio-info radio-warning radio-inline" ng-show="licitacion.idOperacion == null">
                                                                 <input type="radio" id="licitacion1" value="1" name="licitacion1" checked="" ng-model="select" ng-change="selectLicitacion(licitacion)" ng-disabled="!operacioActiva">
                                                                 <label for="licitacion1">  </label>
                                                             </div>
@@ -308,7 +314,7 @@
 
                                                                 <input type="radio" id="licitacion1" value="1" name="licitacion1" ng-model="select" ng-change="selectLicitacion(licitacion)"  checked class="ng-dirty ng-valid-parse ng-touched" ng-disabled="!operacioActiva">
                                                                 <label for="licitacion1">  </label>
-                                                            </div>
+                                                            </div>  -->
                                                         </td>
                                                     </tr>
                                                 </tbody>

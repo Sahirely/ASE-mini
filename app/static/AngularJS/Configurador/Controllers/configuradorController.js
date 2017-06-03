@@ -284,6 +284,14 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.selectLicitacion = function (contrato) {
     	$scope.idContrato=contrato.idContrato;
 
+        $scope.promise = configuradorRepository.postContratoOperacion($scope.idOperacion, $scope.idContrato).then(function (result) {
+                if (result.data.length > 0) {
+                    $scope.getLicitaciones();
+                }
+            }, function (error) {
+                alertFactory.error('No se puenen guardar la Operación');
+            });
+
     }
 
 

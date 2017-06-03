@@ -175,7 +175,7 @@ Configurador.prototype.post_contratoOperacion = function(req, res, next) {
     }];
 
 
-    this.model.post('[INS_CONTRATO_OPERACION_SP]', params, function(error, result) {
+    this.model.post('INS_CONTRATO_OPERACION_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
