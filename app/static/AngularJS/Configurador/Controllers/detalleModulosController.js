@@ -1,4 +1,4 @@
-registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, callback, error, $modalInstance, configuradorRepository, localStorageService, alertFactory) {
+registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, idContratoOperacion, unidades, $modalInstance, configuradorRepository, localStorageService, alertFactory) {
 $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.init = function () {
@@ -6,6 +6,8 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         $scope.detalleModulo ();
         $scope.contador =0;
         $scope.detallesPorModulo = [];
+        $scope.show_nivelesAprobacion=false;
+
 
                 //fecha
     $('#fechaAsignada .input-group.date').datepicker({
@@ -63,8 +65,76 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         });
     }
 
+    $scope.getAprobaciones = function(){
+         $scope.tiposNiveles=[];
+        $scope.promise = configuradorRepository.getTiposAprobacion().then(function (result) {
+            if (result.data.length > 0) {
+                $scope.tiposNiveles = result.data;
+            }
+        }, function (error) {
+            alertFactory.error('No se puenen obtener las Operaciones');
+        });
+    }
+
+    $scope.getPartidasUnidad = function(){
+        debugger;
+        $scope.dataPartidas=[];
+        for (var i = 0 ; i < unidades.length; i++) {  
+            var obj=new Object();
+            obj.ID = unidades[i].idTipoUnidad;
+            obj.unidad = unidades[i].unidad;
+            $scope.partidas=[];
+            $scope.promise = configuradorRepository.getPartidasUnidad(idContratoOperacion, unidades[i].idTipoUnidad).then(function (result) {
+                debugger;
+                if (result.data.length > 0) {
+                    
+                    $scope.partidas = result.data;
+
+                    
+                    obj.partidas=$scope.partidas;
+                    $scope.dataPartidas.push(obj);
+
+                }
+            }, function (error) {
+                alertFactory.error('No se puenen obtener las Operaciones');
+            });
+        };
+    }
+
+     $scope.plusNivel = function (){
+        var obj=new Object();
+        obj.ID= $scope.numNiveles + 1;
+        obj.valor='';
+        $scope.niveles.push(obj);
+
+        $scope.numNiveles += 1;
+
+    };
+
+    $scope.change_nivelAprobacion = function () {
+        debugger;
+        $scope.show_nivelMonto = false;
+        $scope.show_nivelPartida = false;
+
+        if ($scope.tipoNivel == 1) {
+            $scope.show_nivelMonto = true;
+            $scope.niveles = [];
+            $scope.numNiveles = 0;
+            $scope.plusNivel ();
+
+        }else{
+            $scope.show_nivelPartida = true;
+            $scope.getPartidasUnidad();
+        }
+    }
+
     $scope.changeDetalle = function (data, detalle) {
-      
+      debugger;
+
+      if (data.idCatalogoDetalleModulo == 12 && detalle ) {
+            $scope.show_nivelesAprobacion=true;
+            $scope.getAprobaciones();
+      };
         var bandera = false;
 
         if ($scope.detallesPorModulo.length>0) {

@@ -308,6 +308,33 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             };
 
             return dzOptions;
+        },
+        getTiposAprobacion: function() {
+
+            return $http({
+                url: onfiguradorUrl + 'tiposAprobacion/',
+                method: "GET",
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        getPartidasUnidad: function(idContratoOperacion, idTipoUnidad) {
+            debugger;
+            var msgObj = {
+                idContratoOperacion: idContratoOperacion,
+                idTipoUnidad: idTipoUnidad
+            };
+
+            return $http({
+                url: onfiguradorUrl + 'partidasUnidad/',
+                method: "GET",
+                params: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
         }
     }    
 });

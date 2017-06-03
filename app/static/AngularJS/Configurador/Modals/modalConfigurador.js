@@ -40,7 +40,7 @@ function modal_nuevaUnidad($scope, $modal, idOperacion, presupuesto, gps, callba
     });
 }
 
-function modal_detalleModulos($scope, $modal, idOperacion, detalle, callback, error) {
+function modal_detalleModulos($scope, $modal, idOperacion, detalle, idContratoOperacion, unidades) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/Configurador/Templates/detalleModulos.html',
         controller: 'detalleModulosController',
@@ -53,11 +53,11 @@ function modal_detalleModulos($scope, $modal, idOperacion, detalle, callback, er
             detalle: function() {
                 return detalle;
             },
-            callback: function() {
-                return callback;
+            idContratoOperacion: function() {
+                return idContratoOperacion;
             },
-            error: function() {
-                return error;
+            unidades: function() {
+                return unidades;
             }
         }
     });

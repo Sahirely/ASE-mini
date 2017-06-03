@@ -422,7 +422,9 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********MODULOS*************/	
 
 	$scope.detalleModulo = function (modulo){
-		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, '', '');
+        debugger;
+
+		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion , $scope.numUnidades);
 	}
 
 	$scope.catalogoDeModulos = function(tipo){

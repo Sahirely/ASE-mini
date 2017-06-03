@@ -755,4 +755,42 @@ var obtieneConsecutivo = function (ruta) {
     return consecutivo.length + 1;
 }
 
+//Tipos de Niveles
+ Configurador.prototype.get_tiposAprobacion = function (req, res, next) {
+
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_TIPO_APROBACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//Partidas Unidad
+ Configurador.prototype.get_partidasUnidad = function (req, res, next) {
+
+    var self = this;
+    var params = [{
+         name: 'idContratoOperacion',
+         value: req.query.idContratoOperacion,
+         type: self.model.types.INT
+     },
+     {
+         name: 'idTipoUnidad',
+         value: req.query.idTipoUnidad,
+         type: self.model.types.INT
+     }];
+
+    this.model.query('SEL_PARTIDAS_UNIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+
 module.exports = Configurador;
