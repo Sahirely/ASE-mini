@@ -476,7 +476,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         var bandera = false;
         if ($scope.adicionaleModulos.length>0) {
 	        for (var i = 0 ; i < $scope.adicionaleModulos.length; i++) {
-	            if ($scope.adicionaleModulos[i].idCatalogoModulo == data.idCatalogoModulo) {
+	            if ($scope.adicionaleModulos[i].idCatalogoModulo == data.idCatalogoModulos) {
 	                bandera = true
 	            };
 	        };
@@ -485,7 +485,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	            var obj=new Object();
 	                obj=new Object();
 	                obj.ID= $scope.contadorModulo;
-	                obj.idCatalogoModulo = data.idCatalogoModulo;
+	                obj.idCatalogoModulo = data.idCatalogoModulos;
 	                obj.valor=modulo;
 	                $scope.adicionaleModulos.push(obj);
 	                $scope.contadorModulo += 1;
@@ -496,7 +496,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	     	var obj=new Object();
                 obj=new Object();
                 obj.ID= $scope.contadorModulo;
-                obj.idCatalogoModulo = data.idCatalogoModulo;
+                obj.idCatalogoModulo = data.idCatalogoModulos;
                 obj.valor=modulo;
                 $scope.adicionaleModulos.push(obj);
                 $scope.contadorModulo += 1;
@@ -520,16 +520,16 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.guardarModulos = function () {
         var modulos = '';
         for (var i = 0 ; i < $scope.adicionaleModulos.length; i++) {
-            if ($scope.detalles[i].valor) {
-                modulos += $scope.detalles[i].idCatalogoModulo +',';
+            if ($scope.adicionaleModulos[i].valor) {
+                modulos += $scope.adicionaleModulos[i].idCatalogoModulo +',';
             };
         };
 
 		$scope.promise = configuradorRepository.postModuloAdicional($scope.idOperacion, modulos).then(function (result) {
             if (result.data.length > 0) {
-
             	$scope.show_busquedaOperacion=true;
 				$scope.show_modulos=false;
+                $scope.show_wizard=false;
             }
         }, function (error) {
             alertFactory.error('No se puede guardar la configuración');
@@ -610,6 +610,17 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.efectoEvidencias = function () {
         $('.file-box').each(function () {
             animationHover(this, 'pulse');
+        });
+    }
+
+    $scope.deleteModulo = function (idModulo) {
+        $scope.promise = configuradorRepository.deleteModulos(idModulo).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.catalogoDeModulos('Default');
+                $scope.catalogoDeModulos('Adicional');
+            }
+        }, function (error) {
+            alertFactory.error('No se pueden obtener los Modulos');
         });
     }
 

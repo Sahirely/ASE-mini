@@ -349,6 +349,20 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        deleteModulos: function(idModulo) {
+          
+           var msgObj = {
+                idModulo: idModulo
+            };
+            return $http({
+                url: onfiguradorUrl + 'eliminaModulo/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
 
     }    

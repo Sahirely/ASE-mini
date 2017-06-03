@@ -494,9 +494,21 @@
                                                     <tr ng-repeat="adicional in modulosAdicional">
                                                         <td>{{adicional.nombreModulos}}</td>
                                                         <td>
-                                                            <div class="checkbox checkbox-warning">
+                                                            <div class="checkbox checkbox-warning" ng-hide="adicional.verificar == 'true'">
                                                                 <input id="checkbox1" type="checkbox" ng-model="moduloAdicional" ng-change="changeModulo(adicional,moduloAdicional)">
                                                                  <label></label>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    <div ng-hide="adicional.verificar == 'false'">
+                                                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 text-right">
+                                                                    <div ng-hide="adicional.verificar == 'false'">
+                                                                        <span class="label label-danger" ng-click="deleteModulo(adicional.idModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </td>
 

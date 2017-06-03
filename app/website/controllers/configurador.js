@@ -813,5 +813,25 @@ Configurador.prototype.post_eliminaDetalleModulo = function(req, res, next) {
     });
 }
 
+Configurador.prototype.post_eliminaModulo = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idModulo',
+        value: req.body.idModulo,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.post('DEL_MODULO_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
 
 module.exports = Configurador;
