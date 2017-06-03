@@ -10,6 +10,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.unidades = [];
 
 	$scope.init= function (){
+        Dropzone.autoDiscover = false;
+        $scope.dzOptionsCotizacion = configuradorRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",20);
 		$scope.limpiarDatos ();
 		$scope.show_wizard= false;
 		$scope.show_busquedaOperacion=true;
@@ -405,7 +407,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
     $scope.carga_formatoExcelDeUnidades = function () {
 
-    	$scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'FormatoExcelDeUnidades.xlsx').then(function (result) {
+    	$scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
             if (result.data.length > 0) {
                 debugger;
                 
@@ -480,6 +482,17 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
     }
 
+    $scope.uploadExcelUnidades = function () {
+        $scope.promise = configuradorRepository.postuploadExcel().then(function (result) {
+            if (result.data.length > 0) {
+
+            }
+        }, function (error) {
+            alertFactory.error('No se puede cargar el Archivo');
+        });
+
+    }
+
     $scope.guardarModulos = function () {
         var modulos = '';
         for (var i = 0 ; i < $scope.adicionaleModulos.length; i++) {
@@ -498,5 +511,84 @@ registrationModule.controller('configuradorController', function ($scope, $route
             alertFactory.error('No se puede guardar la configuración');
         });
 	}
+
+    $scope.dzCallbacks = {
+        'addedfile': function (file) {
+            $scope.newFile = file;
+        },
+        'sending': function(file, xhr, formData){
+            formData.append('idTrabajo', 0);
+            formData.append('idCotizacion', 0);
+            formData.append('idCategoria', 4);
+            formData.append('idNombreEspecial', 0);//evidenciaTrabajo
+        }
+        ,
+        'completemultiple': function (file, xhr) {
+            var checkErrorFile = file.some(checkExistsError);
+            if(!checkErrorFile){
+                var allSuccess = file.every(checkAllSuccess);
+                if(allSuccess){
+                    $scope.cargaEvidencias();
+                    setTimeout(function(){
+                        $scope.dzMethods.removeAllFiles(true);
+                        $('#cotizacionDetalle').appendTo('body').modal('hide');
+                    },1000);
+                }
+            }
+        },
+        'error': function (file, xhr) {
+            if(!file.accepted){
+                $scope.dzMethods.removeFile(file);
+            }
+            else{
+                $scope.dzMethods.removeAllFiles(true);
+                alertFactory.info("No se pudieron subir los archivos");   
+            }
+        },
+    };
+
+    //valida si todos son success
+    function checkAllSuccess(file, index, array) {
+        return file.status === 'success';
+    }
+    
+    //valida si existe algún error
+    function checkExistsError(file) {
+        return file.status === 'error';
+    }
+
+    $scope.adjuntarEvidencia = function () {
+        $('#cotizacionDetalle').appendTo('body').modal('show');
+    }
+
+    $scope.cargaEvidencias = function () {
+        setTimeout(function () {
+        $scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
+            if (result.data.length > 0) {
+                debugger;
+                
+            }
+        }, function (error) {
+            alertFactory.error('No se pueden obtener los Modulos');
+        });
+        }, 2000); 
+/*        cotizacionEvidenciasRepository.getEvidenciasByCotizacion(idCotizacion, $scope.userData.idTipoUsuario, $scope.idTrabajo).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.slides = result.data;
+                setTimeout(function () {
+                    $scope.efectoEvidencias();
+                }, 1000)
+            } else {
+                $scope.alerta = 1;
+            }
+        }, function (error) {});*/
+    }
+
+    $scope.efectoEvidencias = function () {
+        $('.file-box').each(function () {
+            animationHover(this, 'pulse');
+        });
+    }
+
 });
 

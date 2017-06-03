@@ -408,12 +408,33 @@
                                                     <strong> Formato Excel de Unidades</strong>
                                                 </button>
                                             </div>
-                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                       <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                 <button type="button" class="btn btn-info m-t-n-xs"  ng-click="carga_formatoExcelDeUnidades()">
                                                     <span class="glyphicon glyphicon-open"></span>
                                                     <strong> Carga Excel de Unidades</strong>
                                                 </button>
-                                            </div>
+                                            </div> -->
+                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                    <!-- <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">     
+                                                        <label>Cargar Archivo de Unidades Excel </label> <input type="file" name="myFile2" id="myFile2">
+                                                        <br>
+                                                        <button id="myButton" busy="Buscando.." type="submit" class="btn btn-warning" name="submit" ng-click="uploadExcelUnidades()"><span>Cargar Archivo</span></button>
+                                                    </form> -->
+                                                    <button class="btn btn-primary btn-block" ng-click="adjuntarEvidencia()">Cargar Archivo Excel</button>
+<!--                                                     <script type="text/javascript">
+                                                        var form = document.forms.namedItem("myForm");
+                                                        form.addEventListener('submit', function( ev ){
+                                                            var oData = new FormData( form );
+                                                            var oReq = new XMLHttpRequest();
+                                                            oReq.open( 'post', "api/configurador/subirArchivo", true );
+                                                            oReq.onload = function( oEvent ){
+                                                                //console.log( oReq.status );
+                                                            }
+                                                            oReq.send( oData );
+                                                            ev.preventDefault();
+                                                        }, false);
+                                                    </script> -->
+                                                </div>
                                         </div>
                                         <div class="space"></div>
                                         <div class="space"></div>
@@ -504,4 +525,24 @@
             </div>
         </div>
     <!--/div-->
+</div>
+<div id="cotizacionDetalle" class="modal inmodal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Carga de Unnidades</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive m-t">
+                    <div class="dropzone" options="dzOptionsCotizacion" callbacks="dzCallbacks" methods="dzMethods" ng-dropzone></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="dzMethods.processQueue();">Adjuntar Evidencia</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
