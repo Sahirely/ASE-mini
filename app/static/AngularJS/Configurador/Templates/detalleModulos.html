@@ -17,10 +17,22 @@
                     <tr ng-repeat="detalle in detalles">
                         <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
-                            <div class="checkbox checkbox-warning">
+                            <div class="checkbox checkbox-warning" ng-hide="detalle.verificar == 'true'">
                                 <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
                                  <label></label>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                        <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                    </div>
+                                </div>
+                            </div> 
                         </td>
                     </tr>
                 </tbody>
@@ -41,10 +53,22 @@
                     <tr ng-repeat="detalle in detalles">
                         <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
-                            <div class="checkbox checkbox-warning">
+                            <div class="checkbox checkbox-warning"  ng-hide="detalle.verificar == 'true'">
                                 <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
                                  <label></label>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                        <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                    </div>
+                                </div>
+                            </div> 
                         </td>
                     </tr>
                         <tr ng-hide="timeAsignacion != 1">
@@ -146,10 +170,22 @@
                     <tr ng-repeat="detalle in detalles">
                         <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
-                            <div class="checkbox checkbox-warning">
+                            <div class="checkbox checkbox-warning" ng-hide="detalle.verificar == 'true'">
                                 <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
                                  <label></label>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                        <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                    </div>
+                                </div>
+                            </div> 
                         </td>
                     </tr>
                         <tr ng-hide="timeAsignacion != 1">
@@ -197,10 +233,22 @@
                     <tr ng-repeat="detalle in detalles">
                         <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
-                            <div class="checkbox checkbox-warning">
+                            <div class="checkbox checkbox-warning" ng-hide="detalle.verificar == 'true'">
                                 <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
                                  <label></label>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                        <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                    </div>
+                                </div>
+                            </div> 
                         </td>
                     </tr>
                         <tr ng-hide="timeAsignacion != 1">
@@ -302,10 +350,22 @@
                     <tr ng-repeat="detalle in detalles">
                         <td>{{detalle.nombreDetalleModulo}}</td>
                         <td>
-                            <div class="checkbox checkbox-warning">
+                            <div class="checkbox checkbox-warning" ng-hide="detalle.verificar == 'true'">
                                 <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
                                  <label></label>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-right">
+                                    <div ng-hide="detalle.verificar == 'false'">
+                                        <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                    </div>
+                                </div>
+                            </div> 
                         </td>
                     </tr>
                         <tr ng-hide="timeAsignacion != 1">

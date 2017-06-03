@@ -792,5 +792,26 @@ var obtieneConsecutivo = function (ruta) {
     });
 }
 
+Configurador.prototype.post_eliminaDetalleModulo = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idDetalleModulo',
+        value: req.body.idDetalleModulo,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.post('DEL_DETALLE_MODULO_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 
 module.exports = Configurador;

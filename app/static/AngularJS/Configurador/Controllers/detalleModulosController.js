@@ -170,6 +170,16 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         $modalInstance.dismiss('cancel');
     };
 
+    $scope.deleteDetalleModulo = function (idDetalleModulo) {
+        $scope.promise = configuradorRepository.quitaDetalleModulo(idDetalleModulo).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.detalleModulo();
+            }
+        }, function (error) {
+            alertFactory.error('No se puede guardar la configuración');
+        });
+    };
+
     $scope.guardarDetalle = function () {
         var detalle = '';
         for (var i = 0 ; i < $scope.detallesPorModulo.length; i++) {

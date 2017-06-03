@@ -335,6 +335,21 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
+        },
+        quitaDetalleModulo: function(idDetalleModulo) {
+          
+           var msgObj = {
+                idDetalleModulo: idDetalleModulo
+            };
+            return $http({
+                url: onfiguradorUrl + 'eliminaDetalleModulo/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
+
     }    
 });

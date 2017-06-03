@@ -50,3 +50,7 @@
 #licitaciones .pagination{
 	width: 250px!important;
 }
+
+#cursorPoint{
+	cursor:pointer;
+}
