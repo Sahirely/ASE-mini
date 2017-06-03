@@ -94,6 +94,7 @@ Login.prototype.get_validaCredenciales = function(req, res, next) {
         } else {
             object.result = {
                 success: false,
+                data: result,
                 msg: 'No se encontraron resultados'
             };
             self.view.expositor(res, object);

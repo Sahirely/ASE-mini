@@ -65,7 +65,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                 $scope.Home();
               }
           } else {
-              alertFactory.info('Usuario y/o contraseña no validos');
+              alertFactory.info('Usuario y/o contraseña no válidos');
           }
       }, function (error) {
           alertFactory.error('Ocurrio un error al validar sus datos.');
