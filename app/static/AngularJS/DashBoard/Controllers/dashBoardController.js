@@ -17,12 +17,12 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.idContratoOperacion   = 3;
 
     //VARIABLES PARA ZONAS DINAMICAS
-    $scope.x = 0;
-    $scope.totalNiveles = 0;
-    $scope.zonaSelected = "0";
-    $scope.ZonasSeleccionadas = {};
-    $scope.NivelesZona = [];
-    $scope.Zonas = [];
+    $scope.x                     = 0;
+    $scope.totalNiveles          = 0;
+    $scope.zonaSelected          = "0";
+    $scope.ZonasSeleccionadas    = {};
+    $scope.NivelesZona           = [];
+    $scope.Zonas                 = [];
 
     $scope.init = function() {
         //para obtener las zonas promero se inicializa la primer zona padre.
@@ -92,7 +92,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 valuesDonut.push( { label: item.estatus, value: item.total } );
                 colores.push( item.color );
 
-                $scope.totalCotizaciones  = $scope.totalCotizaciones + parseInt( item.total );
+                $scope.totalCotizaciones       = $scope.totalCotizaciones + parseInt( item.total );
                 $scope.totalHorasCotizaciones  = $scope.totalHorasCotizaciones + parseInt( item.promedio );
             });
 
@@ -123,8 +123,8 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.totalHorasOrdenesServicio  = 0;
 
             Resultados.forEach(function(item, key) {
-                $scope.totalOrdenes       = $scope.totalOrdenes + parseInt( item.total );
-                $scope.totalHorasOrdenesServicio  = $scope.totalHorasOrdenesServicio + parseInt( item.promedio );
+                $scope.totalOrdenes              = $scope.totalOrdenes + parseInt( item.total );
+                $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt( item.promedio );
             });
 
             $scope.ordenesServicio = Resultados;
@@ -195,7 +195,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     // =================================================================================
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
-        console.log( "idContratoOperacion", $scope.idContratoOperacion );
+        // console.log( "idContratoOperacion", $scope.idContratoOperacion );
         $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
                 $scope.totalNiveles = result.data.length;
                 if (result.data.length > 0) {
@@ -213,10 +213,10 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
             cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
                 if (result.data.length > 0) {
-                    var valueToPush = {};
-                    valueToPush.orden = result.data[0].orden;
+                    var valueToPush      = {};
+                    valueToPush.orden    = result.data[0].orden;
                     valueToPush.etiqueta = result.data[0].etiqueta;
-                    valueToPush.data = result.data;
+                    valueToPush.data     = result.data;
                     $scope.Zonas.push(valueToPush);
                     //se establece por default cada zona seleccionada en 0
                     $scope.ZonasSeleccionadas[result.data[0].orden] = "0";

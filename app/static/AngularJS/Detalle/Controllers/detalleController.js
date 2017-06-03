@@ -5,26 +5,34 @@ registrationModule.controller('detalleController', function($scope, $location, c
     //$rootScope.modulo = 'reporteHistorial';
     //Inicializa la pagina
 
-    $scope.idUsuario = 2;
-    $scope.numeroOrden = $routeParams.orden;
-    $scope.estatus = $routeParams.estatus;
-    $scope.textoNota = null;
-    $scope.notaTrabajo = [];
-    $scope.HistoricoOrden = [];
-    $scope.IdsCotizacionesPorOrden = [];
-    $scope.x = 0;
-    $scope.numCotz = 0;
-    $scope.HistoricoCotizaciones = [];
+    $scope.idUsuario                = 2;
+    $scope.numeroOrden              = $routeParams.orden;
+    $scope.idEstatusOrden           = 0;
+    $scope.estatus                  = $routeParams.estatus;
+    $scope.textoNota                = null;
+    $scope.notaTrabajo              = [];
+    $scope.HistoricoOrden           = [];
+    $scope.IdsCotizacionesPorOrden  = [];
+    $scope.x                        = 0;
+    $scope.numCotz                  = 0;
+    $scope.HistoricoCotizaciones    = [];
+
     $scope.init = function() {
+        console.log( "##### Mi estatus ", $scope.estatus );
+
         $scope.getHistoricos();
 
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden);
-        $scope.getMostrarCotizaciones($scope.numeroOrden, 1)
+        // Las cotizaciones se muestran desde GetOrdenDetalle
         $scope.setActiveButtons($scope.estatus);
         $scope.enviaNota();
 
+        console.log( '==============================' );
+        // console.log( $scope.detalleOrden );
+        console.log( $scope.idEstatusOrden );
+        console.log( '==============================' );
     };
 
     $scope.getHistoricos = function() {
@@ -32,6 +40,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
         detalleRepository.getHistoricoOrden($scope.numeroOrden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.HistoricoOrden = result.data;
+                console.log( result.data );
             }
         }, function(error) {
             alertFactory.error('No se puede obtener el historico de la orden.');
@@ -46,10 +55,6 @@ registrationModule.controller('detalleController', function($scope, $location, c
         }, function(error) {
             alertFactory.error('No se puede obtener las cotizaciones de la orden.');
         });
-
-
-
-
     }
 
     $scope.getHistoricosCotz = function() {
@@ -73,6 +78,15 @@ registrationModule.controller('detalleController', function($scope, $location, c
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
+                $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
+
+                var statusCotizacion = 0;
+                switch( $scope.idEstatusOrden ){
+                    case 1: statusCotizacion = 1; break;
+                    case 5: statusCotizacion = 3; break;
+                }
+
+                $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion)
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los detalles de la orden');
