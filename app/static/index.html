@@ -50,7 +50,7 @@
                         </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                
+
                             </span>
                         </a>
                     </div>
@@ -79,6 +79,7 @@
                 <li ng-show="{{userData.idRol != 5}}" ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
+                        <li><a href="/reporteParqueVehicular">Reporte Parque Vehicular</a></li>
                         <li ng-hide="true" ng-class="{'active': modulo=='reporteReclamacion'}"><a href="/reporteReclamacion">Reporte Reclamacion</a></li>
                         <li ng-class="{'active': modulo=='reporteAntiguedad'}"><a href="/reporte" ng-hide="userData.idTipoUsuario == 4 || userData.idTipoUsuario == 3">Reporte Antigüedad de Saldos</a></li>
                         <li ng-class="{'active': modulo=='reporteCitas'}"><a href="/reportecita">Reporte Citas</a></li>
