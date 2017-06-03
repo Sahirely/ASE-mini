@@ -42,7 +42,9 @@ registrationModule.factory('cotizacionRepository', function ($http) {
             });
         },
         getMostrarCotizaciones: function (numeroOrden, estatus ) {
-            console.log(numeroOrden,estatus)
+            console.log('+++++++++++++++++++++++++++');
+            console.log(numeroOrden,estatus);
+            console.log('+++++++++++++++++++++++++++');
             return $http({
                 url: cotizacion + 'cotizaciones',
                 method: "GET",
