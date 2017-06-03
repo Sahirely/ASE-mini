@@ -38,7 +38,7 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
     logOut: function(){
       var userData = localStorageService.get('userData');
       loginRepository.cierraSesionHistorial(userData.idUsuario).then(function(){
-      })
+      });
       localStorageService.clearAll();
     },
     ValidaSesion: function(){

@@ -7,13 +7,25 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
     $scope.cont = 0;
     $scope.operacionSeleccionada = '';
     $scope.ObjetoOperacionSelected = {};
-    $scope.init = function () {}
+
+    $scope.init = function () {
+        $scope.userData = userFactory.getUserData();
+        if( $scope.userData != null || $scope.userData == undefined){
+            var id = $scope.userData.idUsuario;
+
+            loginRepository.ValidaSesionActiva(id).then(function(result){
+                if (result.data[0].HasSession == 'True'){
+                    $scope.Home();
+                }
+            });
+        }
+    }
 
     $scope.login = function (username, password) {
       loginRepository.login(username,password).then(function (result){
           if (result.data.data.length > 0) {
               debugger;
-              if (result.data.data[0].HasSesion == 'False'){
+              if (result.data.data[0].HasSession == 'False'){
                 var id = result.data.data[0].idUsuario == null ? 0 : result.data.data[0].idUsuario;
                 var nombre = result.data.data[0].nombreCompleto == null ? '' : result.data.data[0].nombreCompleto;
                 var correo = result.data.data[0].Correo == null ? '' : result.data.data[0].Correo;
