@@ -3,6 +3,7 @@
 	border: 3px solid ;
     border-style: solid;
     border-color: white;
+    cursor: none !important;
 }
 
 .menu{

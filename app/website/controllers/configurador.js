@@ -896,4 +896,101 @@ Configurador.prototype.post_nivelPartida = function(req, res, next) {
     });
 }
 
+Configurador.prototype.post_modificacionNivelMonto = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOperacionContrato',
+        value: req.body.idOperacionContrato,
+        type: self.model.types.INT
+    },{
+        name: 'montoDe',
+        value: req.body.montoDe,
+        type: self.model.types.DECIMAL
+    },{
+        name: 'montoA',
+        value: req.body.montoA,
+        type: self.model.types.DECIMAL
+    },{
+        name: 'nivel',
+        value: req.body.nivel,
+        type: self.model.types.DECIMAL
+    }];
+
+
+    this.model.post('UPD_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+Configurador.prototype.post_modificacionNivelPartida = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOperacionContrato',
+        value: req.body.idOperacionContrato,
+        type: self.model.types.INT
+    },{
+        name: 'idPartida',
+        value: req.body.idPartida,
+        type: self.model.types.STRING
+    },{
+        name: 'nivel',
+        value: req.body.nivel,
+        type: self.model.types.DECIMAL
+    }];
+
+
+    this.model.post('UPD_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
+
+     var self = this;
+    var params = [{
+        name: 'idOperacionContrato',
+        value: req.query.idOperacionContrato,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
+
+     var self = this;
+    var params = [{
+        name: 'idOperacionContrato',
+        value: req.query.idOperacionContrato,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+
 module.exports = Configurador;

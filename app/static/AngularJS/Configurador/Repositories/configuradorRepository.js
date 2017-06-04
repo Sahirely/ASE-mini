@@ -321,7 +321,6 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             })
         },
         getPartidasUnidad: function(idContratoOperacion, idTipoUnidad) {
-            debugger;
             var msgObj = {
                 idContratoOperacion: idContratoOperacion,
                 idTipoUnidad: idTipoUnidad
@@ -382,6 +381,67 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        postModificacionNivelMonto: function(idOperacionContrato, montoDe, montoA, nivel) {
+          
+           var msgObj = {
+                idOperacionContrato: idOperacionContrato,
+                montoDe: montoDe,
+                montoA: montoA,
+                nivel: nivel
+            };
+            return $http({
+                url: onfiguradorUrl + 'modificacionNivelMonto/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        postModificacionNivelPartida: function(idOperacionContrato, idPartida, nivel) {
+          
+           var msgObj = {
+                idOperacionContrato: idOperacionContrato,
+                idPartida: idPartida,
+                nivel: nivel
+            };
+            return $http({
+                url: onfiguradorUrl + 'modificacionNivelPartida/',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getInfoNivelMonto: function(idOperacionContrato) {
+            var msgObj = {
+                idOperacionContrato: idOperacionContrato
+            };
+
+            return $http({
+                url: onfiguradorUrl + 'infoNivelMonto/',
+                method: "GET",
+                params: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        getInfoNivelPartida: function(idContratoOperacion) {
+            var msgObj = {
+                idContratoOperacion: idContratoOperacion
+            };
+
+            return $http({
+                url: onfiguradorUrl + 'infoNivelPartida/',
+                method: "GET",
+                params: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
         }
 
     }    
