@@ -1,4 +1,4 @@
-registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, globalFactory, configuradorRepository, localStorageService, alertFactory, $window) {
+registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, userFactory, globalFactory, configuradorRepository, localStorageService, alertFactory, $window) {
 
 	
 	$scope.show_cargaUnidades=false;
@@ -10,6 +10,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.unidades = [];
 
 	$scope.init= function (){
+        userFactory.ValidaSesion();
         Dropzone.autoDiscover = false;
         $scope.dzOptionsCotizacion = configuradorRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",20);
 		$scope.limpiarDatos ();
@@ -299,7 +300,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 		if ($scope.idContrato != '' || $scope.idContrato != undefined) {
 		$scope.promise = configuradorRepository.postContratoOperacion($scope.idOperacion, $scope.idContrato).then(function (result) {
-				debugger;
+				
 	        	if (result.data.length > 0) {
                     if (result.data[0].idContratoOperacion != undefined) {
                         $scope.idContratoOperacion=result.data[0].idContratoOperacion;
@@ -330,10 +331,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********UNIDAD*************/	
 
 	$scope.getTipoUnidad = function(){
-        $scope.promise = configuradorRepository.getTipoUnidades(3).then(function (result) {
+        $scope.promise = configuradorRepository.getTipoUnidades($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
                 $scope.tiposUnidades = result.data;
-                $scope.numUnidad = $scope.tiposUnidades[0].cantidad;
+                
                 for (var i = 0 ; i < result.data.length; i++) {
 	                if (result.data[i].cantidad !== null) {
 	                	$scope.show_cargaUnidades=true;
@@ -422,7 +423,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.numeroUnidades = function () {
     	$scope.promise = configuradorRepository.getunidadOperacion($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
-                debugger;
+                
             	$scope.numUnidades = result.data;
             }
         }, function (error) {
@@ -456,7 +457,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********MODULOS*************/	
 
 	$scope.detalleModulo = function (modulo){
-        debugger;
+        
 		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion, $scope.numUnidades);
 	}
 
@@ -542,6 +543,15 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.show_busquedaOperacion=true;
 				$scope.show_modulos=false;
                 $scope.show_wizard=false;
+                swal({
+                    title: "Éxito",
+                    text: "Se Guardo Correctamente La Operación",
+                    type: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#67BF11 ",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                });
             }
         }, function (error) {
             alertFactory.error('No se puede guardar la configuración');
