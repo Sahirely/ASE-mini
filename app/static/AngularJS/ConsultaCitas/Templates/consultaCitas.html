@@ -241,9 +241,8 @@
                                         <td>{{ordenesSinTaller.nombreZona}}</td>
                                         <td>{{}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoORden}}</td>
-                                        <td>{{ordenesSinTaller.fechaCita}}</td>
+                                        <td>{{ordenesSinTaller.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
-                                        <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
                                         <td></td>

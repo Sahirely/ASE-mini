@@ -5,7 +5,7 @@
 // -- Modificó: Mario Mejía
 // -- Fecha: 
 // -- =============================================
-registrationModule.controller('cotizacionController', function($scope, $route, $rootScope, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
+registrationModule.controller('cotizacionController', function($scope, $route, tallerRepository,$rootScope, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
     $scope.numeroOrden = $routeParams.orden;
     $scope.idTaller = '';
@@ -28,7 +28,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             $scope.tipoCita = result.data;
         });
     };
-    $scope.seleccionarTipoCotizacion = function(obj){
+    $scope.seleccionarTipoCotizacion = function(obj) {
         console.log(obj)
         $scope.idTipoCita = obj.idTipoCita;
         //$scope.idCatalogoTipoOrdenServicio = obj.idCatalogoTipoOrdenServicio
@@ -49,6 +49,12 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
             alertFactory.error('No se puenen obtener las órdenes');
             $('#loadModal').modal('hide');
         });
+
+        // tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
+        //     $scope.mostrarTabla = true;
+        //     $scope.talleres = result.data;
+        //     globalFactory.filtrosTabla("talleres", "Talleres", 5);
+        // });
     }
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
@@ -81,11 +87,15 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         $('.dataTablePartidasSeleccionadas').DataTable().destroy();
     }
 
+
+
+
+
     $scope.getPartidasTaller = function(idTaller) {
         $('#loadModal').modal('show');
         $scope.idTaller = idTaller;
         $('.dataTablePartidasTalleres').DataTable().destroy();
-        consultaCitasRepository.getPartidasTaller(1,$scope.especialidad).then(function(result) {
+        consultaCitasRepository.getPartidasTaller(1, $scope.especialidad).then(function(result) {
             if (result.data.length > 0) {
                 console.log(result.data)
                 $scope.partidasTaller = result.data;
@@ -145,7 +155,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     };
 
     $scope.nuevaCotizacion = function() {
-        console.log( $scope.idTipoCita)
+        console.log($scope.idTipoCita)
         $('#loadModal').modal('show');
         cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden, $scope.idTipoCita).then(function(result) {
             if (result.data[0].idCotizacion > 0) {
@@ -160,7 +170,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 alertFactory.success('se creo nueva cotización');
                 $scope.limpiarParametros();
                 $('#loadModal').modal('hide');
-                location.href = '/detalle?orden=' + $scope.numeroOrden+'&estatus='+1;
+                location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
             } else {
                 $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
@@ -215,7 +225,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         $scope.sumatoriaTotal();
     };
 
-    
+
     $scope.sumatoriaTotal = function() {
         $scope.subTotalPrecio = 0;
         $scope.subTotalCosto = 0;
@@ -262,8 +272,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                     // setTimeout(function () {
                     // console.log($scope.respuesta)
                     // if ($scope.respuesta == 1) {                    
-                        $scope.lstPartidaSeleccionada.splice((h), 1)
-                        $scope.sumatoriaTotal();
+                    $scope.lstPartidaSeleccionada.splice((h), 1)
+                    $scope.sumatoriaTotal();
                     // }
                     // }, 2000);
                 } else {
