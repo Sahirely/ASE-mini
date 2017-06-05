@@ -126,6 +126,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function() {
       $('.dataTableOrdenes').DataTable().destroy();
+      $scope.getTotalOrdenes($scope.idContratoOperacion , tipoConsulta);
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
       var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
       var fechaMes = this.obtieneFechaMes();
@@ -133,7 +134,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-      $scope.getTotalOrdenes($scope.idContratoOperacion , tipoConsulta);
+      
       // $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
       //     if (result.data.length != 0){
       //         $scope.cotizaciones = result.data;
