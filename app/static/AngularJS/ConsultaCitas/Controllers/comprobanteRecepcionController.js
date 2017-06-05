@@ -1,4 +1,6 @@
 registrationModule.controller('comprobanteRecepcionController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
+   
+
     $scope.numeroOrden = $routeParams.orden;
     $scope.validateAprobacion = true;
     $scope.init = function() {
@@ -16,7 +18,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         // $scope.ubi_ParteIzquierda = false;
         // $scope.ubi_Techo = false;
         $scope.getdatosComprobante(1)
-        $scope.getOrdenDetalle(1,$scope.numeroOrden)
+        $scope.getOrdenDetalle(1, $scope.numeroOrden)
     };
 
 
@@ -24,7 +26,6 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         consultaCitasRepository.getdatosComprobante(idTipoUnidad).then(function(result) {
             if (result.data.success == true) {
                 $scope.modulosComprobante = result.data.data;
-                console.log($scope.modulosComprobante)
             } else {
                 alertFactory.error('No pueden mostrar los registros para el comprobante de recipción');
             }
@@ -34,10 +35,9 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
     }
 
 
-      $scope.getOrdenDetalle = function(idUsuario, orden) {
+    $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
-                console.log(result.data)
                 $scope.detalleOrden = result.data[0];
             }
         }, function(error) {
@@ -90,13 +90,13 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         angular.forEach(obj, function(value, key) {
             contadorTotal += value.detalle.length
             angular.forEach(value.detalle, function(value2, key) {
-                if (value2.select == 0 || value2.select == 1 )
+                if (value2.select == 0 || value2.select == 1)
                     contador++
             });
         });
-        if ((contadorTotal)-2 == contador) {
+        if ((contadorTotal) - 2 == contador) {
             console.log('todo validado' + contador + ' total ' + contadorTotal)
-             $scope.validateAprobacion = false;
+            $scope.validateAprobacion = false;
 
         } else {
             console.log('faltan campos' + contador + ' total ' + contadorTotal)
@@ -104,6 +104,30 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
 
     }
 
+    $scope.nuevoComprobanteRecepcion = function(obj) {
+        console.log(obj)
+        angular.forEach(obj, function(value, key) {
+            console.log(value.idCatalogoModuloComprobante)
+            consultaCitasRepository.agregarModuloComprobante(value.idCatalogoModuloComprobante, $scope.numeroOrden).then(function(result) {
+                if (result.data[0].idModuloComprobante > 0) {
+                    $scope.idModuloComprobante = result.data[0].idModuloComprobante;
+                    angular.forEach(value.detalle, function(value2, key) {
+                        console.log(value2.idCatalogoDetalleModuloComprobante)
+                        consultaCitasRepository.agregarDetalleModuloComprobante(value2.select, value2.idCatalogoDetalleModuloComprobante, $scope.idModuloComprobante, value2.selectTxt).then(function(result) {
+                            if (result.data[0].idDetalleModuloComprobante > 0) {
+                                console.log('detalle agregado')
+                            } else {
+                                console.log('error')
+                            }
+                        });
+                    });
+                } else {
+                    console.log('error')
+                }
+            });
+             location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+1;
+        });
+    }
 
 
     // $scope.changeDesc = function(data, esttus) {

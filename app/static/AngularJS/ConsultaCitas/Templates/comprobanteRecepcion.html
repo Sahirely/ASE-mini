@@ -75,12 +75,12 @@
                                     <br/>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 6">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
-                                        <input type="checkbox" id="{{detalle.idCatalogoDetalleModuloComprobante}}" value="1" name="detalle.select" ng-model="detalle.select" ng-change="" ng-click="addComprobanteRecepcion(modulosComprobante)">
+                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" ng-model="detalle.select" ng-change="" ng-click="addComprobanteRecepcion(modulosComprobante)">
                                         <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled="ubi_ParteDerecha==false"></textarea>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 2">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
-                                        <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled="ubi_ParteDerecha==false"></textarea>
+                                        <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled=""></textarea>
                                     </div> 
                                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 1">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="pull-right">
-                        <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="" ng-disabled="validateAprobacion"><span class="{{class_buttonCeritficado}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
+                        <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="nuevoComprobanteRecepcion(modulosComprobante)" ng-disabled="validateAprobacion"><span class="{{class_buttonCeritficado}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
                     </div>
                 </div>
                 <!--  <div class="row">

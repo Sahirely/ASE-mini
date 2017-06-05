@@ -189,6 +189,64 @@ OrdenServicio.prototype.get_getPartidasTaller = function(req, res, next) {
 }
 
 
+    //crea nuevo comprobante de recepción
+    OrdenServicio.prototype.post_agregarModuloComprobante = function(req, res, next) {
+        //Objeto que almacena la respuesta
+        var object = {};
+        var self = this;
+
+        var params = [{
+            name: 'idCatalogoModuloCOmprobante',
+            value: req.body.idCatalogoModuloCOmprobante,
+            type: self.model.types.INT
+        }, {
+            name: 'numeroOrden',
+            value: req.body.numeroOrden,
+            type: self.model.types.STRING
+        }];
+
+        this.model.post('INS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
+            //Callback
+            object.error = error;
+            object.result = result;
+
+            self.view.expositor(res, object);
+        });
+    }
+
+    //crea detalles del comprobante de recepción
+    OrdenServicio.prototype.post_agregarDetalleModuloComprobante = function(req, res, next) {
+        //Objeto que almacena la respuesta
+        var object = {};
+        //Referencia a la clase para callback
+        var self = this;
+
+        var params = [{
+            name: 'accion',
+            value: req.body.accion,
+            type: self.model.types.INT
+        },{
+            name: 'idCatalogoDetalleModuloComprobante',
+            value: req.body.idCatalogoDetalleModuloComprobante,
+            type: self.model.types.INT
+        },{
+            name: 'idModuloComprobante',
+            value: req.body.idModuloComprobante,
+            type: self.model.types.INT
+        },{
+            name: 'descripcion',
+            value: req.body.descripcion,
+            type: self.model.types.STRING
+        }];
+
+        this.model.post('INS_COMPROBANTE_RECEPCION_DETALLE_SP', params, function(error, result) {
+            object.error = error;
+            object.result = result;
+
+            self.view.expositor(res, object);
+        });
+    }
+
 OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
@@ -246,44 +304,6 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
     });
 
 
-    //     self.model.query('SEL_MODULOS_COMPROBANTE_RECEPCION_SP', params, function (error, result) {
-    //         var cotizaciones = result;
-    //         var tamanio = cotizaciones.length;
-    //         var contador = 0;
-    //         var i = 0;
-
-    //         if( cotizaciones.length != 0 ){
-    //             cotizaciones.forEach(function(item, key) {
-    //                 var params = [
-    //                     {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING }
-    //                 ];
-
-    //                 self.model.query('SEL_DETALLE_MODULOS_COMPROBANTE_RECEPCION_SP', params, function (err, datos) {
-    //                     cotizaciones [ key ].detalle = datos;
-
-    //                     if( key >= ( tamanio - 1 ) ){
-    //                         self.view.expositor(res, {
-    //                             error: error,
-    //                             result: {
-    //                                 success: true,
-    //                                 msg: 'Se encontraron ' + cotizaciones.length + ' registros.',
-    //                                 data: cotizaciones
-    //                             }
-    //                         });   
-    //                     }
-    //                 });
-    //             });
-    //         }
-    //         else{
-    //             object.result = {success: false, msg: 'No se encontraron resultados'};
-    //             self.view.expositor(res, object);
-    //         }
-    //     });
-    // }
-    // }
-    // catch( e ){
-    //     console.log( e );
-    // }
 }
 
 

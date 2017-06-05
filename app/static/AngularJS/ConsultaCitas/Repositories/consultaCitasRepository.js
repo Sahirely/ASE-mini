@@ -127,6 +127,36 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        agregarModuloComprobante: function (idCatalogoModuloCOmprobante,numeroOrden) {
+            var msgObj = {
+                idCatalogoModuloCOmprobante: idCatalogoModuloCOmprobante,
+                numeroOrden: numeroOrden
+            }
+            return $http({
+                url: consultaCitaUrl + 'agregarModuloComprobante',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        agregarDetalleModuloComprobante: function (accion, idCatalogoDetalleModuloComprobante, idModuloComprobante, descripcion) {
+            var msgObj = {
+                accion : accion,
+                idCatalogoDetalleModuloComprobante : idCatalogoDetalleModuloComprobante,
+                idModuloComprobante : idModuloComprobante,
+                descripcion : descripcion
+            }
+            return $http({
+                url: consultaCitaUrl + 'agregarDetalleModuloComprobante',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

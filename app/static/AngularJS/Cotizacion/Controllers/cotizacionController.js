@@ -214,6 +214,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         }
         $scope.sumatoriaTotal();
     };
+
+    
     $scope.sumatoriaTotal = function() {
         $scope.subTotalPrecio = 0;
         $scope.subTotalCosto = 0;
