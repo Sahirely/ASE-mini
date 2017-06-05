@@ -139,7 +139,7 @@ registrationModule.directive('calendar', function () {
                 calendarWeeks: true,
                 autoclose: true,
                 todayHighlight: true,
-                format: 'dd/mm/yyyy'
+                format: 'yyyy/mm/dd'
           });
         }
     };
