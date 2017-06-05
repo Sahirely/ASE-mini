@@ -4,7 +4,12 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     //*****************************************************************************************************************************//
    $scope.citas = [];
     $scope.userData = userFactory.getUserData();
+    $scope.x = 0;
+    $scope.totalNiveles = 0;
+    $scope.zonaSelected = "0";
     $scope.ZonasSeleccionadas = {};
+    $scope.NivelesZona = [];
+    $scope.Zonas = [];
     var Zona = 0//$scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
       var idEjecutivo = 0//$scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
       var fechaMes = ''//this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
@@ -14,18 +19,17 @@ registrationModule.controller('consultaCitasController', function($scope, $route
       var numeroOrden = ''//$scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
       var porOrden=0
       
-    $scope.idContratoOperacion = 2
+    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada 
     var tipoConsulta = 1
 
     $scope.init = function() {};
     
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {
-        console.log($scope.userData)
+        console.log($scope.idContratoOperacion )
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
         $scope.ZonasSeleccionadas[0] = "0";
-        $scope.getTotalOrdenes($scope.idContratoOperacion , tipoConsulta);
         $('#calendar .input-group.date').datepicker({
             todayBtn: "linked",
             keyboardNavigation: true,
@@ -54,10 +58,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.getTotalOrdenes = function(){
          $('.dataTableOrdenes').DataTable().destroy();
          cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.idContratoOperacion, Zona,0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function (result){
-                console.log(result)
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
-                 globalFactory.waitDrawDocument("dataTableOrdenes", "Ordenes");
+                globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 10);
+                 //globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes");
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener las órdenes');
@@ -77,7 +81,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
          location.href = '/detalle?orden=' + obj.numeroOrden +'&estatus='+1;
     }
 
-      //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
+     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function(){
         $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function (result) {
             $scope.totalNiveles = result.data.length;
@@ -109,12 +113,19 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         });
       }
     };
+
+    $scope.cambioZona = function(id, orden){
+      //al cambiar de zona se establece como zona seleccionada.
+      $scope.zonaSelected = id;
+      //se limpian los combos siguientes.
+      for($scope.x = orden+1; $scope.x <= $scope.totalNiveles; $scope.x ++){
+        $scope.ZonasSeleccionadas[$scope.x] = "0";
+      }
+    }
+
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function() {
-      $scope.cotizaciones = [];
-      $scope.cotizacionesSinPresupuesto = [];
-      $('.ordenesPresupuesto').DataTable().destroy();
-      $('.ordenesSinPresupuesto').DataTable().destroy();
+      $('.dataTableOrdenes').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
       var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
       var fechaMes = this.obtieneFechaMes();
@@ -122,18 +133,19 @@ registrationModule.controller('consultaCitasController', function($scope, $route
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
-          if (result.data.length != 0){
-              $scope.cotizaciones = result.data;
-              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
-          }
+      $scope.getTotalOrdenes($scope.idContratoOperacion , tipoConsulta);
+      // $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
+      //     if (result.data.length != 0){
+      //         $scope.cotizaciones = result.data;
+      //         globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+      //     }
 
-      },function (error) {
-          alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.')
-      });
+      // },function (error) {
+      //     alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.')
+      // });
     };
 
-//obtiene los usuarios ejecutivos
+    //obtiene los usuarios ejecutivos
     $scope.devuelveEjecutivos = function(){
         cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.contratoOperacionSeleccionada).then(function(ejecutivos){
             if(ejecutivos.data.length > 0){
@@ -144,7 +156,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         });
     };
 
-     $scope.MesChange = function (){
+    $scope.MesChange = function (){
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
         $scope.fecha = '';
