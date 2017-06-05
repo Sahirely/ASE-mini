@@ -303,6 +303,35 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
         }
     });
 
+    //crea nuevo comprobante de recepción
+    OrdenServicio.prototype.post_cancelarOrden = function(req, res, next) {
+        //Objeto que almacena la respuesta
+        var object = {};
+        var self = this;
+
+        var params = [{
+            name: 'numeroOrden',
+            value: req.body.numeroOrden,
+            type: self.model.types.STRING
+        }, {
+            name: 'idEstatus',
+            value: req.body.idEstatus,
+            type: self.model.types.INT
+        },{
+            name: 'idUsuario',
+            value: req.body.idUsuario,
+            type: self.model.types.INT
+        }];
+
+        this.model.post('UPD_ESTATUS_ORDEN_SP', params, function(error, result) {
+            //Callback
+            object.error = error;
+            object.result = result;
+
+            self.view.expositor(res, object);
+        });
+    }
+
 
 }
 

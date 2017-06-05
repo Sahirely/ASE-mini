@@ -189,14 +189,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="Doble click para ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-dblclick="seleccionarOrden(ordenesTaller)">
-                                        <td></td>
+                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-click="seleccionarOrden(ordenesTaller)">
+                                        <td>{{ordenesTallerCliente}}</td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>
                                         <td>{{ordenesTaller.numeroEconomico}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ordenesTaller.nombreZona}}</td>
+                                        <td>{{}}</td>
+                                        <td>{{ordenesTaller.nombreTaller}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
                                         <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
@@ -214,7 +214,7 @@
                         <div class="table-responsive">
                             <br/>
                             <br/>
-                            <table class="table table-bordered table-hover dataTableOrdenes">
+                            <table class="table table-bordered table-hover dataTableOrdenesSinDatos">
                                 <thead>
                                     <tr>
                                         <th>Cliente</th>
@@ -223,32 +223,34 @@
                                         <th>Número Económico</th>
                                         <th>Zona</th>
                                         <th>Centro Trabajo</th>
-                                        <th>Tipo Orden</th>
+                                        <th>Tipo Servicio</th>
                                         <th>Fecha</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
                                         <th>Agendó</th>
+                                        <th>Tiempo Transcurrido Tiempo Asignado</th>
                                         <th>Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} ">
-                                        <td></td>
+                                        <td>{{ordenesSinTaller.nombreCliente}}</td>
                                         <td>{{ordenesSinTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
-                                        <td></td>
+                                        <td>{{ordenesSinTaller.nombreZona}}</td>
+                                        <td>{{}}</td>
+                                        <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoORden}}</td>
+                                        <td>{{ordenesSinTaller.fechaCita}}</td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
-                                        <td>{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
+                                        <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
+                                        <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
+                                        <td>{{ordenesSinTaller.nombreUsuario}}</td>
                                         <td></td>
                                         <td>
-                                            </th>
-                                            <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
-                                            <td>{{ordenesSinTaller.nombreUsuario}}</td>
-                                            <td>
-                                                <button class="btn btn-info btn-xs" title="Editar"><i class="glyphicon glyphicon-refresh"></i></button>
-                                                <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
-                                            </td>
+                                            <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)"><i class="glyphicon glyphicon-refresh"></i></button>
+                                            <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
