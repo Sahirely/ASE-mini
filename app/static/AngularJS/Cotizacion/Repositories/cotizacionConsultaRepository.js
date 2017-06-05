@@ -69,10 +69,10 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 idZona: idZona,
                 fechaInicial: fechaInicial,
                 fechaFin: fechaFin,
-                fechaEspecifico: fecha,
+                fecha: fecha,
                 fechaMes: fechaMes,
-                numeroOrden: numeroTrabajo,
-                nivelZona: NivelZona,
+                numeroTrabajo: numeroTrabajo,
+                NivelZona: NivelZona,
                 idUsuario: idUsuario
               },
               headers: {
