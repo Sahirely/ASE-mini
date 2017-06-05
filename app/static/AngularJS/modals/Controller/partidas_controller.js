@@ -1,9 +1,11 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
     $scope.idTaller = idtaller;
     $scope.especialidades = especialidades;
     $scope.lstPartidaSeleccionada = [];
     $scope.init = function() {
         console.log($scope.especialidades, 'Soy las especialidades')
+        $scope.userData = userFactory.getUserData();
+        $scope.permisosUsuario();
         consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
@@ -17,6 +19,27 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
     };
     $scope.close = function() {
         $modalInstance.dismiss('cancel');
+    };
+    $scope.permisosUsuario = function() {
+        switch ($scope.userData.idRol) {
+            case 1:
+                $scope.muestraCosto = false;
+                $scope.muestraPrecio = true;
+                break;
+            case 2:
+                $scope.muestraCosto = true;
+                $scope.muestraPrecio = true;
+                break;
+            case 3:
+                $scope.muestraCosto = true;
+                $scope.muestraPrecio = true;
+                break;
+            case 4:
+                $scope.muestraCosto = true;
+                $scope.muestraPrecio = false;
+                break;
+
+        }
     };
 
     $scope.partidaSeleccionada = function(obj) {
