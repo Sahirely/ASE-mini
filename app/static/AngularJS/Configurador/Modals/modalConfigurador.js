@@ -112,3 +112,18 @@ function isValidEmailAddress(emailAddress) {
     /* return pattern.test(emailAddress); */
     return (incorrect > 0) ? false : true;
 }
+
+function validate_fecha(fechaInicial,fechaFinal)
+{
+    valuesStart=fechaInicial.split("/");
+    valuesEnd=fechaFinal.split("/");
+
+    // Verificamos que la fecha no sea posterior a la actual
+    var dateStart=new Date(valuesStart[2],(valuesStart[1]-1),valuesStart[0]);
+    var dateEnd=new Date(valuesEnd[2],(valuesEnd[1]-1),valuesEnd[0]);
+    if(dateStart>=dateEnd)
+    {
+        return false;
+    }
+    return true;
+}

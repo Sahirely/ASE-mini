@@ -975,14 +975,20 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
     });
 }
 
-Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
+//Partidas Unidad
+ Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
 
-     var self = this;
+    var self = this;
     var params = [{
-        name: 'idOperacionContrato',
-        value: req.query.idOperacionContrato,
-        type: self.model.types.INT
-    }];
+         name: 'idContratoOperacion',
+         value: req.query.idContratoOperacion,
+         type: self.model.types.INT
+     },
+     {
+         name: 'idTipoUnidad',
+         value: req.query.idTipoUnidad,
+         type: self.model.types.INT
+     }];
 
     this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
         self.view.expositor(res, {

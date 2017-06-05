@@ -429,9 +429,10 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        getInfoNivelPartida: function(idContratoOperacion) {
+        getInfoNivelPartida: function(idContratoOperacion, idTipoUnidad) {
             var msgObj = {
-                idContratoOperacion: idContratoOperacion
+                idContratoOperacion: idContratoOperacion,
+                idTipoUnidad,idTipoUnidad
             };
 
             return $http({

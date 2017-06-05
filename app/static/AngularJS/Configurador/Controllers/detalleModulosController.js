@@ -89,12 +89,13 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.selAprobaciones = function(){
         //monto
-        $scope.promise = configuradorRepository.getInfoNivelMonto(idContratoOperacion).then(function (result) {
+       $scope.promise = configuradorRepository.getInfoNivelMonto(idContratoOperacion).then(function (result) {
             if (result.data.length > 0) {
-                debugger;
-                 $scope.niveles = [];
-                  $scope.show_nivelMonto = true;
+               
+                   $scope.niveles = [];
+                   $scope.show_nivelMonto = true;
                    $scope.tipoNivel = 1;
+                  // $scope.disabledTipoNivel = true;
                 for (var i = 0 ; i < result.data.length; i++) {  
                     var obj=new Object();
                     obj.ID= $scope.numNiveles;
@@ -108,20 +109,13 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
                     $scope.numNiveles += 1;
                  }   
-                
-                 
-           
-                //$scope.tiposNiveles = result.data;
             }else{
                 //partidas
-                 $scope.promise = configuradorRepository.getInfoNivelPartida(idContratoOperacion).then(function (result) {
-                    if (result.data.length > 0) {
-                        debugger;
-                        //$scope.tiposNiveles = result.data;
-                    }
-                }, function (error) {
-                    alertFactory.error('No se puenen obtener los Niveles de Atorización');
-                });
+                
+                    $scope.getPartidasUnidad ();
+                    $scope.show_nivelPartida = true;
+                    $scope.tipoNivel = 2;
+                   
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener los Niveles de Atorización');
@@ -137,7 +131,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
             obj.unidad = unidades[i].unidad;
             $scope.partidas=[];
 
-            $scope.promise = configuradorRepository.getPartidasUnidad(idContratoOperacion, unidades[i].idTipoUnidad).then(function (result) {
+            $scope.promise = configuradorRepository.getInfoNivelPartida(idContratoOperacion, unidades[i].idTipoUnidad).then(function (result) {
               
                 if (result.data.length > 0) {
                     
@@ -196,107 +190,25 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     };
 
-     $scope.changePartida = function (data, detalle, idTipoUnidad) {
-     
-        var bandera = false;
-
-        if ($scope.nivelPartida.length>0) {
-            for (var i = 0 ; i < $scope.nivelPartida.length; i++) {
-                if ($scope.nivelPartida[i].idPartida == data.idPartida) {
-                    bandera = true
-                };
-            };
-
-            if(!bandera){
-                var obj=new Object();
-                    obj.ID= $scope.contador;
-                    obj.idPartida = data.idPartida;
-                    obj.idTipoUnidad = idTipoUnidad;
-                    obj.valor=detalle;
-                    $scope.nivelPartida.push(obj);
-                    $scope.contadorPartida += 1;
-            }else{
-                $scope.nivelPartida[data.ID].valor=detalle
-            }
-        }else{
-            var obj=new Object();
-                obj.ID= $scope.contador;
-                obj.idPartida = data.idPartida;
-                obj.idTipoUnidad = idTipoUnidad;
-                obj.valor=detalle;
-                $scope.nivelPartida.push(obj);
-                $scope.contadorPartida += 1;
-        }
-    }
-
-    $scope.guardarNivelPartidas = function () {
-        var partidas = '';
-        for (var i = 0 ; i < $scope.nivelPartida.length; i++) {
-            if ($scope.nivelPartida[i].valor) {
-                partidas += $scope.nivelPartida[i].idPartida +',';
-            };
-        };
-         $scope.promise = configuradorRepository. postNivelPartda(idContratoOperacion, partidas, $scope.numNiveles).then(function (result) {
-             
+     $scope.changePartida = function (data, idTipoUnidad) {
+        $scope.promise = configuradorRepository. postNivelPartda(idContratoOperacion, data.idPartida, data.nivel).then(function (result) {
+            
             if (result.data.length > 0) {
-                swal({
-                    title: "Advertencia",
-                    text: "¿Desea otro nivel de aprobacion?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#67BF11 ",
-                    confirmButtonText: "Si",
-                    cancelButtonText: "No",
-                    closeOnConfirm: true,
-                    closeOnCancel: true
-                },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                             $scope.tablaPartidas ();
-                        }else{
-                            $scope.close();
-                        }
-                });
+               //  alertFactory.success('Se guardo correctamente el nivel');
 
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener las Operaciones');
         });
-
+     
     }
 
-
-    $scope.tablaPartidas = function () {
-        $scope.$apply( function () { 
-            $('.dataTablePartidas').DataTable().destroy();
-             $scope.numNiveles += 1;
-             $scope.dataPartidasTemporal = [];
-             $scope.dataPartidasTemporal= $scope.dataPartidas;
-             $scope.dataPartidas =[];
-
-
-            
-             for (var i = 0 ; i < $scope.dataPartidasTemporal.length; i++) {
-                for (var j = 0 ; j < $scope.dataPartidasTemporal[i].partidas.length; j++) {
-                    for (var l = 0 ; l < $scope.nivelPartida.length; l++) {
-                        if ($scope.dataPartidasTemporal[i].partidas[j].idPartida ==  $scope.nivelPartida[l].idPartida) {
-                            if ($scope.nivelPartida[l].idPartida) {
-                                $scope.dataPartidasTemporal[i].partidas.splice(j, 1);
-                            };
-                        };
-                    }
-                }    
-            };
-
-             $scope.dataPartidas= $scope.dataPartidasTemporal;
-            $scope.nivelPartida =[];
-         });
-    }
-
+   
     $scope.change_nivelAprobacion = function () {
         $scope.show_nivelMonto = false;
         $scope.show_nivelPartida = false;
         $scope.numNiveles = 0;
+        $scope.disabledTipoNivel = false;
 
         if ($scope.tipoNivel == 1) {
             $scope.show_nivelMonto = true;
@@ -306,6 +218,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         }else{
             $scope.show_nivelPartida = true;
             $scope.numNiveles += 1
+            show_nuevaPartida = true
             $scope.getPartidasUnidad();
         }
     }

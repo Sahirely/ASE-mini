@@ -172,28 +172,32 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
    
 	$scope.guardarOperacion = function () {
-		var fecha= $scope.fechaIni.split('/');
-        var fechaIni = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        var fecha2 = $scope.fechaFin.split('/');
-        var fechaFin = fecha2[2] + '/' + fecha2[1] + '/' + fecha2[0]
+        if (validate_fecha ($scope.fechaIni, $scope.fechaFin )) {
+    		var fecha= $scope.fechaIni.split('/');
+            var fechaIni = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
+            var fecha2 = $scope.fechaFin.split('/');
+            var fechaFin = fecha2[2] + '/' + fecha2[1] + '/' + fecha2[0]
 
-		if ( $scope.validarCorreo($scope.correoContacto)) {
-            localStorageService.set('timeAsigna', $scope.asignado);
-			$scope.promise = configuradorRepository.postOperaciones($scope.nomOperacion, $scope.nomContacto, $scope.correoContacto, $scope.telContacto, fechaIni, fechaFin, $scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
-	            if (result.data[0].idOperacion != undefined) {
-	            
-	            	$scope.idOperacion=result.data[0].idOperacion;
-	                $scope.show_operacion=false;
-					$scope.show_licitacion=true;
-					$scope.menu('licitacion');
-					$scope.getLicitaciones();
-	            }
-	        }, function (error) {
-	            alertFactory.error('No se puenen guardar la Operación');
-	        });
-		}else{
-			alertFactory.error('El formato del Correo es incorrecto');
-		}
+    		if ( $scope.validarCorreo($scope.correoContacto)) {
+                localStorageService.set('timeAsigna', $scope.asignado);
+    			$scope.promise = configuradorRepository.postOperaciones($scope.nomOperacion, $scope.nomContacto, $scope.correoContacto, $scope.telContacto, fechaIni, fechaFin, $scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
+    	            if (result.data[0].idOperacion != undefined) {
+    	            
+    	            	$scope.idOperacion=result.data[0].idOperacion;
+    	                $scope.show_operacion=false;
+    					$scope.show_licitacion=true;
+    					$scope.menu('licitacion');
+    					$scope.getLicitaciones();
+    	            }
+    	        }, function (error) {
+    	            alertFactory.error('No se puenen guardar la Operación');
+    	        });
+    		}else{
+    			alertFactory.error('El formato del Correo es incorrecto');
+    		}
+        }else{
+            alertFactory.error('La fecha fin debe ser mayor a la inicial');
+        }
 	}
 
 	$scope.validarCorreo = function(correos) {
