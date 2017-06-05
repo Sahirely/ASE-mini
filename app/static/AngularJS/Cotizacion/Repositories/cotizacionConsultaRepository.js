@@ -53,7 +53,12 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               url: searchUrl + 'ConsultaOrdenes/',
               method: "GET",
               params: {
+                fechaInicial: '2017/05/21',
+                fechaFin: '2017/06/01',
+                idContratoOperacion: 2,
+                idZona: 1,
                 tipoConsulta: tipoConsulta
+                // tipoConsulta: tipoConsulta
               },
               headers: {
               'Content-Type': 'application/json'
