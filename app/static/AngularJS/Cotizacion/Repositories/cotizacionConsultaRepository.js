@@ -48,17 +48,32 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
-        consultarOrdenes: function(tipoConsulta){
+        consultarOrdenes: function(
+          tipoConsulta, 
+          idContratoOperacion, 
+          idZona, 
+          fechaInicial, 
+          fechaFin,
+          fecha,
+          fechaMes,
+          numeroTrabajo,
+          NivelZona,
+          idUsuario
+        ){
           return $http({
               url: searchUrl + 'ConsultaOrdenes/',
               method: "GET",
               params: {
-                fechaInicial: '2017/05/21',
-                fechaFin: '2017/06/01',
-                idContratoOperacion: 2,
-                idZona: 1,
-                tipoConsulta: tipoConsulta
-                // tipoConsulta: tipoConsulta
+                tipoConsulta: tipoConsulta,
+                idContratoOperacion: idContratoOperacion,
+                idZona: idZona,
+                fechaInicial: fechaInicial,
+                fechaFin: fechaFin,
+                fecha: fecha,
+                fechaMes: fechaMes,
+                numeroTrabajo: numeroTrabajo,
+                NivelZona: NivelZona,
+                idUsuario: idUsuario
               },
               headers: {
               'Content-Type': 'application/json'

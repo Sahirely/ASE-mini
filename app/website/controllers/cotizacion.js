@@ -40,7 +40,24 @@ Cotizacion.prototype.get_ConsultaOrdenes = function(req, res, next) {
             {name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING },
             {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
             {name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
-            {name: 'tipoConsulta', value: req.query.tipoConsulta, type: self.model.types.INT }
+            {name: 'tipoConsulta', value: req.query.tipoConsulta, type: self.model.types.INT },
+
+            {name: 'fecha', value: req.query.fecha, type: self.model.types.STRING },
+            {name: 'fechaMes', value: req.query.fechaMes, type: self.model.types.STRING },
+            {name: 'numeroTrabajo', value: req.query.numeroTrabajo, type: self.model.types.STRING },
+            {name: 'NivelZona', value: req.query.NivelZona, type: self.model.types.INT },
+            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+
+            // tipoConsulta: tipoConsulta,
+            // idContratoOperacion: idContratoOperacion,
+            // idZona: idZona,
+            // fechaInicial: fechaInicial,
+            // fechaFin: fechaFin,
+            // fecha: fecha,
+            // fechaMes: fechaMes,
+            // numeroTrabajo: numeroTrabajo,
+            // NivelZona: NivelZona,
+            // idUsuario: idUsuario
         ];
 
     this.model.query('SEL_TOTAL_ORDENES_SERVICIO_SP', params, function(error, result) {
