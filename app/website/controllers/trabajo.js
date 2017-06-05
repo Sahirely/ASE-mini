@@ -88,21 +88,34 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
 
 
             console.log( "====================[ Esperando respuesta de SOAP ]====================" );
+                var soap = require('soap');
+                var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
+                var xml_base64 = new Buffer( resp.xml ).toString('base64');
+                var args = {xml: xml_base64};
 
-            var soap = require('soap');
-            var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
-            var xml_base64 = new Buffer( resp.xml ).toString('base64');
-            var args = {xml: xml_base64};
-
-            soap.createClient(url, function(err, client) {
-                client.ValidaAll(args, function(err, validacion) {
-                    // console.log(validacion);
-                    self.view.expositor(res, {
-                        error: false,
-                        result: {success: true, res: validacion }
-                    });
+                soap.createClient(url, function(err, client) {
+                    if(err){
+                        console.log(1);
+                        self.view.expositor(res, {
+                            error: false,
+                            result: {success: false, error: err }
+                        });
+                    }
+                    else{
+                        console.log(2);
+                        client.ValidaAll(args, function(err, validacion) {
+                            // console.log(validacion);
+                            self.view.expositor(res, {
+                                error: false,
+                                result: {success: true, res: validacion }
+                            });
+                        });                        
+                    }
                 });
-            });
+
+                
+
+            
         }
 
         // self.view.expositor(res, {
