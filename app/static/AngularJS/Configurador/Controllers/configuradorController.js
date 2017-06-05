@@ -6,8 +6,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.contador=0;
 	$scope.adicionaleModulos=[];
 	$scope.operacioActiva=true;
-	$scope.idOperacion = '';
+	$scope.idOperacion = 0;
 	$scope.unidades = [];
+    $scope.idContrato = '';
+    $scope.porcentajeUtilidad = 0;
 
 	$scope.init= function (){
         userFactory.ValidaSesion();
@@ -28,14 +30,14 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.fechaFin = '';  
 		$scope.tipoOperacion = '';  
 		$scope.utilidad = '';  
-		$scope.porcentajeUtilidad = ''; 
+		$scope.porcentajeUtilidad = 0; 
 		$scope.gsp = '';  
         $scope.asignado = '';  
 		$scope.estatus = '';  
 		$scope.formaDePago = '';  
 		$scope.presupuesto = ''; 
 		$scope.centros = ''; 
-		$scope.idContrato = '';
+		$scope.idContrato = 0;
 	}
 
     $scope.menu = function (modulo) {
@@ -301,8 +303,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 
 	$scope.guardarLicitacion = function (){
-
-		if ($scope.idContrato != '' || $scope.idContrato != undefined) {
+		if ($scope.idContrato != 0 && $scope.idContrato != undefined) {
 		$scope.promise = configuradorRepository.postContratoOperacion($scope.idOperacion, $scope.idContrato).then(function (result) {
 				
 	        	if (result.data.length > 0) {
@@ -352,11 +353,15 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
 	$scope.guardarUnidad = function (){
-		$scope.show_unidad=false;
-		$scope.show_modulos=true;
-		$scope.menu('modulos');
-		$scope.catalogoDeModulos('Default');
-		$scope.catalogoDeModulos('Adicional');
+        if ($scope.show_cargaUnidades) {
+    		$scope.show_unidad=false;
+    		$scope.show_modulos=true;
+    		$scope.menu('modulos');
+    		$scope.catalogoDeModulos('Default');
+    		$scope.catalogoDeModulos('Adicional');
+        }else{
+            alertFactory.error('No cuenta con  unidades la licitación');   
+        }
 	}
 
 	$scope.openLicitacion = function (){
@@ -411,15 +416,22 @@ registrationModule.controller('configuradorController', function ($scope, $route
            	numUnidades += $scope.unidades[i].valor +',';
         };
 
-    	$scope.promise = configuradorRepository.postnumeroUnidades($scope.idOperacion, unidades, numUnidades).then(function (result) {
-            if (result.data.length > 0) {
-                
-                $scope.show_cargaUnidades=true;
-    			$scope.numeroUnidades();
-            }
-        }, function (error) {
-            alertFactory.error('No se guardaron las unidades');
-        });
+        if (unidades == undefined) {
+
+        	$scope.promise = configuradorRepository.postnumeroUnidades($scope.idOperacion, unidades, numUnidades).then(function (result) {
+                if (result.data.length > 0) {
+                    
+                    $scope.show_cargaUnidades=true;
+        			$scope.numeroUnidades();
+                }
+            }, function (error) {
+                alertFactory.error('No se guardaron las unidades');
+            });
+
+        }else{
+
+            alertFactory.error('No cuenta con  unidades la licitación');
+        }
     	
     }
 
