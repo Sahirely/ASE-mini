@@ -21,12 +21,69 @@
                   <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
                     <br>
                       <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                          class="btn btn-primary" ng-click="">
+                          class="btn btn-primary" ng-click="GetReporteParqueVehicular();">
                           <span class="glyphicon glyphicon-search"></span>
                       </button>
                   </div>
               </div>
             </div>
+        </div>
+      </div>
+      <div class="row" ng-show="Unidades.length > 0">
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover parqueVehicular" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+              <thead>
+                  <tr>
+                      <th class="center">Número Económico</th>
+                      <th class="center">Tipo</th>
+                      <th class="center">Marca</th>
+                      <th class="center">Sub Marca</th>
+                      <th class="center">Año</th>
+                      <th class="center">Versión</th>
+                      <th class="center">VIN</th>
+                      <th class="center" ng-show="showGPS">GPS</th>
+                      <th class="center">Sustituto</th>
+                      <th class="center">Placas</th>
+                      <th class="center" ng-show="showCentro">Centro de Trabajo</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="unidad in Unidades" ng-click="irDetalle(unidad.numeroEconomico)">
+                      <td class="center">
+                          {{unidad.numeroEconomico}}
+                      </td>
+                      <td class='center'>
+                          {{unidad.tipo}}
+                      </td>
+                      <td class="center">
+                          {{unidad.nombreMarca}}
+                      </td>
+                      <td class="center">
+                          {{unidad.nombreSubMarca}}
+                      </td>
+                      <td class="center">
+                          {{unidad.anio}}
+                      </td>
+                      <td class="center">
+                          {{unidad.version}}
+                      </td>
+                      <td class="center">
+                          {{unidad.vin}}
+                      </td>
+                      <td class="center" ng-show="showGPS">
+                          {{unidad.gps == 1 ? 'Si' : 'No'}}
+                      </td>
+                      <td class="center">
+                          {{unidad.sustituto == 1 ? 'Si' : 'No'}}
+                      </td>
+                      <td class="center">
+                  			   {{unidad.placas}}
+                      </td>
+                      <td class="center" ng-show="showCentro">
+                  			   {{unidad.nombreCentroTrabajo}}
+                      </td>
+              </tbody>
+          </table>
         </div>
       </div>
     </div>
