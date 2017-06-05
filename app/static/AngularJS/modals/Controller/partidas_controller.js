@@ -1,4 +1,4 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory) {
     $scope.idTaller = idtaller;
     $scope.especialidades = especialidades;
     $scope.lstPartidaSeleccionada = [];
@@ -96,6 +96,10 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
                 }
             }
         }
-    }
+    };
+    $scope.agregar = function() {
+        callback($scope.lstPartidaSeleccionada);
+        $scope.close();
+    };
 
 });

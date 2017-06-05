@@ -1,9 +1,11 @@
-registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository) {
+registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************// 
     $scope.mostrarTabla = false;
     $scope.mostrarMapa = false;
+    $scope.muestraBtnPreOrden = false;
+    $scope.idTaller = 0;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -90,7 +92,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getModalPartidas = function() {
         $('.modal-dialog').css('width', '1050px');
-        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1));
+        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.resultado, '');
+    };
+    $scope.resultado = function(partidas) {
+        $scope.partidas = partidas;
+        console.log($scope.partidas, 'Soy la respuesta de la modal')
+        $scope.labelItems = partidas.length;
     };
     //*****************************************************************************************************************************//
     // Se inserta la orden de servicio en la base de datos 
@@ -108,10 +115,27 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
             console.log(result, 'Soy el resultado al insertar la orden de servicio')
             if (result.data[0].respuesta == 1) {
-                alertFactory.success('Orden de Servicio Agendada');
-                setTimeout(function() {
-                    location.href = '/unidad?economico=' + $routeParams.economico;
-                }, 1000);
+                $scope.numeroOrden = result.data[0].numeroOrden;
+                if ($scope.labelItems > 0) {
+                    cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
+                        $scope.idCotizacion = result.data[0].idCotizacion;
+                        angular.forEach($scope.partidas, function(value, key) {
+                            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costoUnitario, value.cantidad, value.precioUnitario, value.idPartida, 1).then(function(result) {
+                                console.log(result)
+                                alertFactory.success('Orden de Servicio Agendada');
+                                setTimeout(function() {
+                                    location.href = '/unidad?economico=' + $routeParams.economico;
+                                }, 1000);
+                            });
+                        });
+                    });
+                } else {
+                    alertFactory.success('Orden de Servicio Agendada');
+                    setTimeout(function() {
+                        location.href = '/unidad?economico=' + $routeParams.economico;
+                    }, 1000);
+                }
+
             } else if (result.data[0].respuesta == 0) {
                 alertFactory.info('Ocurrio un problema al agendar la orden de servicio. Intente de nuevo')
             } else {
@@ -182,6 +206,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     $scope.sendIdTaller = function(idTaller) {
         $scope.idTaller = idTaller;
+        $scope.muestraBtnPreOrden = true;
         console.log(idTaller, 'Soy el taller Seleccionado ')
     };
     //*****************************************************************************************************************************//
