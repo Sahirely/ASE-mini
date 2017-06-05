@@ -25,9 +25,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         //--------------------------------------
         $('.clockpicker').clockpicker();
     };
+
     var error = function() {
         alertFactory.error('Ocurrio un Error');
-    };
+    };    
 
     //*****************************************************************************************************************************//
     // Obtiene el detalle de la unidad como marca, modelo, etc

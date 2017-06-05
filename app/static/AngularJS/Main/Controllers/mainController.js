@@ -8,7 +8,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
     $rootScope.busqueda = 1;
-    $scope.idUsuarioPruebas = 2;
+
     var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');
@@ -18,22 +18,23 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     $scope.init = function() {
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
-        $scope.userData = userFactory.getUserData();//localStorageService.get('userData');
+        $scope.userData = userFactory.getUserData(); //localStorageService.get('userData');
+        $scope.idUsuario = $scope.userData.idUsuario;
     }
 
-    $scope.CambiarOperacion = function(idCont){
-      $scope.userData = userFactory.updateSelectedOperation(idCont);
-      if ($scope.userData.idRol == 3){
-        location.href = '/dashboardCallCenter';
-      } else if ($scope.userData.idRol == 5){
-        location.href = '/configurador';
-      } else {
-        location.href = '/dashboardgeneral';
-      }
+    $scope.CambiarOperacion = function(idCont) {
+        $scope.userData = userFactory.updateSelectedOperation(idCont);
+        if ($scope.userData.idRol == 3) {
+            location.href = '/dashboardCallCenter';
+        } else if ($scope.userData.idRol == 5) {
+            location.href = '/configurador';
+        } else {
+            location.href = '/dashboardgeneral';
+        }
     }
 
-    $scope.logOut = function(){
-      userFactory.logOut();
+    $scope.logOut = function() {
+        userFactory.logOut();
     }
 
     $scope.cargaChatTaller = function() {
@@ -95,7 +96,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     };
 
     //*****************************************************************************************************************************//
-    // ***  busquedaUnidadRepository.getExisteUnidad($scope.idUsuarioPruebas, economico)  ***/
+    // ***  busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico)  ***/
     // Busca si existe la unidad, si el usuario tiene permisos para el tipo de operación y el rol al que pertenece
     // puede visualizar la información de dicha unidad
     // $scope.tipoRespuesta = 0 <-- No existe la unidad
@@ -104,7 +105,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function(economico) {
-        busquedaUnidadRepository.getExisteUnidad($scope.idUsuarioPruebas, economico).then(function(result) {
+        busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 //
@@ -121,7 +122,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
     $scope.getDetalleOrden = function(orden) {
-        consultaCitasRepository.getExisteOrden($scope.idUsuarioPruebas, orden).then(function(result) {
+        consultaCitasRepository.getExisteOrden($scope.idUsuario, orden).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 $('.modal-dialog').css('width', '1050px');

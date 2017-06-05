@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="AngularJS/BusquedaUnidad/Styles/BusquedaUnidad.css">
 <div ng-init="init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
-        <span class="title title-xs"> Ficha Técnica de Unidad</span>
+        <span class="title title-xs"> Ficha Técnica de la Unidad</span>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
@@ -52,24 +52,28 @@
                                     <div class="widget style1">
                                         <div class="row">
                                             <div class="col-xs-12 col-sm-4 text-right">
-                                                <span> Costo </span>
-                                                <h2 class="font-bold">{{detalleUnidad.costoTotal | currency}}</h2>
+                                                <div ng-show="muestraCosto">
+                                                    <span> Costo </span>
+                                                    <h2 class="font-bold">{{detalleUnidad.costoTotal | currency}}</h2>
+                                                </div>
                                             </div>
                                             <div class="col-xs-12 col-sm-8 text-right">
-                                                <span> Precio </span>
-                                                <h2 class="font-bold">{{detalleUnidad.precioTotal | currency}}</h2>
-                                                <div class="row">
-                                                    <div class="col-xs-12 col-sm-4">
-                                                        <h6 class="text-verde m-b-modi"><strong>En Proceso</strong></h6>
-                                                        <h4>{{detalleUnidad.enProceso | currency}}</h4>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-4">
-                                                        <h6 class="espacio"><strong class="text-danger">Pendiente por Cobrar</strong></h6>
-                                                        <h4>{{detalleUnidad.porCobrar | currency}}</h4>
-                                                    </div>
-                                                    <div class="col-xs-12 col-sm-4">
-                                                        <h6 class="text-warning"><strong>Pendiente de Certificado</strong></h6>
-                                                        <h4>{{detalleUnidad.pendienteCertificado | currency}}</h4>
+                                                <div ng-show="muestraPrecio">
+                                                    <span> Precio </span>
+                                                    <h2 class="font-bold">{{detalleUnidad.precioTotal | currency}}</h2>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-4">
+                                                            <h6 class="text-verde m-b-modi"><strong>En Proceso</strong></h6>
+                                                            <h4>{{detalleUnidad.enProceso | currency}}</h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4">
+                                                            <h6 class="espacio"><strong class="text-danger">Pendiente por Cobrar</strong></h6>
+                                                            <h4>{{detalleUnidad.porCobrar | currency}}</h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-4">
+                                                            <h6 class="text-warning"><strong>Pendiente de Certificado</strong></h6>
+                                                            <h4>{{detalleUnidad.pendienteCertificado | currency}}</h4>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -118,8 +122,8 @@
                                             <th>Dirección</th>
                                             <th>Descripción</th>
                                             <th>Agendó</th>
-                                            <th>Costo</th>
-                                            <th>Precio</th>
+                                            <th ng-show="muestraCosto">Costo</th>
+                                            <th ng-show="muestraPrecio">Precio</th>
                                             <th>Fecha última modificación</th>
                                             <th>Estatus</th>
                                             <!-- <th>Ver Orden</th> -->
@@ -132,8 +136,8 @@
                                             <td>{{ orden.direccion}}</td>
                                             <td>{{orden.descripcion}}</td>
                                             <td>{{orden.nombreCompleto}}</td>
-                                            <td>{{orden.costo | currency}}</td>
-                                            <td>{{orden.precio | currency}}</td>
+                                            <td ng-show="muestraCosto">{{orden.costo | currency}}</td>
+                                            <td ng-show="muestraPrecio">{{orden.precio | currency}}</td>
                                             <td>{{orden.ultimaModificacion | date : "dd/MM/y"}}</td>
                                             <td ng-class="{'rowGris': orden.idEstatusOrden == 1, 'rowAmarillo' : orden.idEstatusOrden >= 2 && orden.idEstatusOrden < 8 , 'rowVerde' : orden.idEstatusOrden == 8 }">{{orden.estatusOrden}}</td>
                                             <!-- <td class="text-center">
@@ -145,7 +149,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-12" ng-show="agendarCita">
                                 <label ng-hide="muestraOrdenActual">{{ordendesActual[0].mensaje}}</label>
-                                <button class="btn btn-success pull-right" ng-click="btnAgendarCita()">
+                                <button class="btn btn-primary pull-right" ng-click="btnAgendarCita()">
                                     <i class="fa fa-calendar"></i> Agendar Cita
                                 </button>
                             </div>
@@ -164,8 +168,8 @@
                                             <th>Dirección</th>
                                             <th>Descripción</th>
                                             <th>Agendó</th>
-                                            <th>Costo</th>
-                                            <th>Precio</th>
+                                            <th ng-show="muestraCosto">Costo</th>
+                                            <th ng-show="muestraPrecio">Precio</th>
                                             <th>Fecha última modificación</th>
                                             <th>Estatus</th>
                                             <!-- <th>Ver Orden</th> -->
@@ -178,7 +182,7 @@
                                             <td>{{ historialOrden.direccion}}</td>
                                             <td>{{historialOrden.descripcion}}</td>
                                             <td>{{historialOrden.nombreCompleto}}</td>
-                                            <td>{{historialOrden.costo | currency}}</td>
+                                            <td ng-show="muestraCosto">{{historialOrden.costo | currency}}</td>
                                             <td>{{historialOrden.precio | currency}}</td>
                                             <td>{{historialOrden.ultimaModificacion | date : "dd/MM/y"}}</td>
                                             <td ng-class="{'rowRojo' : historialOrden.idEstatusOrden == 10, 'rowAzul' : historialOrden.idEstatusOrden == 9 }">{{historialOrden.estatusOrden}}</td>

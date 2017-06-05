@@ -2,12 +2,14 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
-
+    $scope.muestraCosto = false;
+    $scope.muestraPrecio = true;
     //Inicializa la pagina
     $scope.init = function() {
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         console.log($scope.userData)
+        $scope.permisosUsuario();
         $scope.getDetalleUnidad();
         $scope.getOrdenActual();
         $scope.getHistoricoOrdenes();
@@ -15,9 +17,31 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     var error = function() {
         alertFactory.error('Ocurrio un Error');
     };
+    $scope.permisosUsuario = function() {
+        switch ($scope.userData.idRol) {
+            case 1:
+                $scope.muestraCosto = false;
+                $scope.muestraPrecio = true;
+                break;
+            case 2:
+                $scope.muestraCosto = true;
+                $scope.muestraPrecio = true;
+                break;
+            case 3:
+                $scope.muestraCosto = true;
+                $scope.muestraPrecio = true;
+                break;
+            case 4:
+                $scope.muestraCosto = true;
+                $scope.muestraPrecio = false;
+                break;
+
+        }
+    };
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
+            console.log($scope.detalleUnidad,'Soy el detalle de la unidad')
         });
     };
     $scope.btnAgendarCita = function() {
