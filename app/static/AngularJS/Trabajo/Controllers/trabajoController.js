@@ -125,7 +125,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
             $scope.fechaMes,
             $scope.numeroTrabajo,
             0, // Nivel Zona
-            $scope.idUsuario)
+            0) // $scope.idUsuario
         .then(function(result) {
             console.log(result.data);
             $scope.ordenes = result.data;
