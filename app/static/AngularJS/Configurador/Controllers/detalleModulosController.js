@@ -89,13 +89,15 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.selAprobaciones = function(){
         //monto
+        $scope.disabledTipoNivel = false;
        $scope.promise = configuradorRepository.getInfoNivelMonto(idContratoOperacion).then(function (result) {
+           
             if (result.data.length > 0) {
                
                    $scope.niveles = [];
                    $scope.show_nivelMonto = true;
                    $scope.tipoNivel = 1;
-                  // $scope.disabledTipoNivel = true;
+                   $scope.disabledTipoNivel = true;
                 for (var i = 0 ; i < result.data.length; i++) {  
                     var obj=new Object();
                     obj.ID= $scope.numNiveles;
@@ -111,7 +113,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                  }   
             }else{
                 //partidas
-                
+                    $scope.disabledTipoNivel = true;
                     $scope.getPartidasUnidad ();
                     $scope.show_nivelPartida = true;
                     $scope.tipoNivel = 2;
@@ -215,7 +217,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
             $scope.niveles = [];
             $scope.plusNivel ();
 
-        }else{
+        }else if ($scope.tipoNivel == 2) {
             $scope.show_nivelPartida = true;
             $scope.numNiveles += 1
             show_nuevaPartida = true

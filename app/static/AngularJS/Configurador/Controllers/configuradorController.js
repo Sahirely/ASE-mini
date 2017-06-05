@@ -65,11 +65,11 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********BUSQUEDA*************/	
 
 	$scope.nuevaOperacion= function (){
-		
 		$scope.show_wizard= true;
 		$scope.show_busquedaOperacion=false;
 		$scope.show_operacion=true;
-		$scope.menu('operacion');
+		$scope.menu('operacion'); 
+        $scope.btn_operacion = 'Guardar';
 		$scope.getTipoOperacion();
 		$scope.getFormaPago();
 
@@ -78,8 +78,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.lookUpOperacion = function (data){
 		
 		$scope.idOperacion=data.idOperacion;
+
 		$scope.promise = configuradorRepository.getDatosOperacion(data.idOperacion).then(function (result) {
             if (result.data.length > 0) {
+                $scope.nuevaOperacion();
             	$scope.datosOperacion= result.data;
             	$scope.nomOperacion = result.data[0].nombreOperacion;
             	$scope.nomContacto = result.data[0].nombreContacto;
@@ -93,15 +95,18 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.gsp = result.data[0].geolocalizacion;
                 $scope.asignado = result.data[0].tiempoAsignado; 
             	$scope.estatus = result.data[0].idEstatusOperacion;
+                $scope.btn_operacion = 'Siguiente';
             	if ($scope.estatus == 1) {
             		$scope.operacioActiva=false;
-            	}
+            	}else {
+                    $scope.operacioActiva=true;
+                }
 
             	if ($scope.presupuesto == 1) {
             		$scope.show_linkPresupuesto=true;
             	};
 
-            	$scope.nuevaOperacion();
+            	
 
             }
         }, function (error) {
@@ -303,7 +308,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 
 	$scope.guardarLicitacion = function (){
-		if ($scope.idContrato != 0 && $scope.idContrato != undefined) {
+		if (($scope.idContrato != 0 && $scope.idContrato != undefined) || $scope.idContratoOperacion>0) {
 		$scope.promise = configuradorRepository.postContratoOperacion($scope.idOperacion, $scope.idContrato).then(function (result) {
 				
 	        	if (result.data.length > 0) {
@@ -416,8 +421,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
            	numUnidades += $scope.unidades[i].valor +',';
         };
 
-        if (unidades == undefined) {
-
         	$scope.promise = configuradorRepository.postnumeroUnidades($scope.idOperacion, unidades, numUnidades).then(function (result) {
                 if (result.data.length > 0) {
                     
@@ -427,11 +430,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
             }, function (error) {
                 alertFactory.error('No se guardaron las unidades');
             });
-
-        }else{
-
-            alertFactory.error('No cuenta con  unidades la licitación');
-        }
     	
     }
 
