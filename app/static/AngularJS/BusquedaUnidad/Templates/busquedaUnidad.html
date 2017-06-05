@@ -26,7 +26,7 @@
                                     <label>No. Inventario:</label>
                                     <span>{{detalleUnidad.pendiente}}</span>
                                 </p>
-                                <p>
+                                <!-- <p>
                                     <label>Ubicación:</label>
                                     <span>{{detalleUnidad.pendiente}}</span>
                                 </p>
@@ -38,7 +38,7 @@
                                     <label>Localización:</label>
                                     <br>
                                     <label>AQUÍ VA EL MAPA</label>
-                                </p>
+                                </p> -->
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -83,7 +83,7 @@
                                                 <label>Fecha de Último Servicio</label>
                                             </p>
                                             <p>
-                                                {{'10/05/2017' | date}}
+                                                {{detalleUnidad.ultimoServicio | date : "dd/MM/y"}}
                                             </p>
                                         </div>
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -91,14 +91,14 @@
                                                 <label>Fecha de Última Modificación</label>
                                             </p>
                                             <p>
-                                                {{'10/05/2017' | date}}</p>
+                                                {{detalleUnidad.ultimaModificacion | date : "dd/MM/y"}}</p>
                                         </div>
                                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-12">
                                             <p>
                                                 <label>Usuario que Modificó</label>
                                             </p>
                                             <p class="text-camelCase">
-                                                {{'Juan Perez'.toLowerCase()}}
+                                                {{detalleUnidad.usuarioModifico.toLowerCase()}}
                                             </p>
                                         </div>
                                     </div>

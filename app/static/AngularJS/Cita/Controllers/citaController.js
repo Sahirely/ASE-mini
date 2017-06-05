@@ -6,6 +6,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.mostrarMapa = false;
     $scope.muestraBtnPreOrden = false;
     $scope.idTaller = 0;
+    $scope.taller = '';
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -39,7 +40,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
-            console.log($scope.detalleUnidad);
             if ($scope.detalleUnidad.situacionOrden == 1) {
                 $scope.muestraAgendarCita = true;
                 location.href = '/unidad?economico=' + $routeParams.economico;
@@ -65,7 +65,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getTipoEstadoUnidad = function() {
         citaRepository.getTipoEstadoUnidad().then(function(result) {
             $scope.estadoUnidad = result.data;
-            console.log(result)
         });
     };
     //*****************************************************************************************************************************//
@@ -76,15 +75,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.servicios = result.data;
             if ($scope.servicios[0].respuesta == 1) {
                 $scope.mensajeServicios = false;
-                console.log('Respuesta correcta')
             } else if ($scope.servicios[0].respuesta == 0) {
                 $scope.mensajeServicios = true;
                 console.log('No se encontraros registros')
             } else {
                 error();
             }
-            console.log(result.data, 'Son las Especialidades');
-
         });
     };
     //*****************************************************************************************************************************//
@@ -96,7 +92,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     $scope.resultado = function(partidas) {
         $scope.partidas = partidas;
-        console.log($scope.partidas, 'Soy la respuesta de la modal')
         $scope.labelItems = partidas.length;
     };
     //*****************************************************************************************************************************//
@@ -113,7 +108,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         var fecha = $scope.fechaCita.split('/');
         var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
-            console.log(result, 'Soy el resultado al insertar la orden de servicio')
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
                 if ($scope.labelItems > 0) {
@@ -121,7 +115,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.idCotizacion = result.data[0].idCotizacion;
                         angular.forEach($scope.partidas, function(value, key) {
                             cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costoUnitario, value.cantidad, value.precioUnitario, value.idPartida, 1).then(function(result) {
-                                console.log(result)
                                 alertFactory.success('Orden de Servicio Agendada');
                                 setTimeout(function() {
                                     location.href = '/unidad?economico=' + $routeParams.economico;
@@ -195,19 +188,15 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
 
         });
-        console.log('Soy la cadena de los servicios ', $scope.idServicios.slice(0, -1))
-        console.log($scope.zonaSelected, 'Soy la zona seleccionada', $scope.totalNiveles, 'Soy el numero de niveles que tengo ')
-        tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, '', $scope.idServicios.slice(0, -1)).then(function(result) {
+        tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
             $scope.mostrarTabla = true;
             $scope.talleres = result.data;
             globalFactory.filtrosTabla("talleres", "Talleres", 5);
-            console.log($scope.talleres, 'Somos los talleres ');
         });
     };
     $scope.sendIdTaller = function(idTaller) {
         $scope.idTaller = idTaller;
         $scope.muestraBtnPreOrden = true;
-        console.log(idTaller, 'Soy el taller Seleccionado ')
     };
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra

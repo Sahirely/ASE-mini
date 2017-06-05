@@ -104,55 +104,54 @@
                 <div class="navbar-header" id="MenuButton">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
-                <div class="col-xs-10 col-sm-11 col-md-11 col-lg-11"  id="opcionesMenuSuperior">
-                <div>
-                      <div data-toggle="tooltip" title="Cerrar Sesión" class="singOut col-xs-1 col-sm-1 col-md-1 col-lg-1">
-                        <a href="/" ng-click="logOut()" > Cerrar Sesión
+                <div class="col-xs-10 col-sm-11 col-md-11 col-lg-11" id="opcionesMenuSuperior">
+                    <div>
+                        <div data-toggle="tooltip" title="Cerrar Sesión" class="singOut col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                            <a href="/" ng-click="logOut()"> Cerrar Sesión
                             <i class="fa fa-sign-out" style="font-size: 22px;" id="Close"></i>
                         </a>
-                      </div>
-                      <div class="dropdown DropOperaciones col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-hide="{{userData.idRol == 5}}">
-                        <span>Operación: </span>
-                        <span id="NombreOperacion" ng-show="{{userData.Operaciones.length == 1}}">{{userData.nombreOperacion}}</span>
-                        <button ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
-                        <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                          <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
-                        </ul>
-                      </div>
-                </div>
-                  <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-9 col-sm-9 col-md-9 col-lg-9" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
-                      <li  ng-hide="userData.idRol == 5">
-                          <div class="form-group">
-                              <button class="btn btn-primary" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
-                          </div>
-                      </li>
-                      <li  ng-hide="userData.idRol == 5">
-                          <div class="form-group" ng-show="busqueda == 1">
-                              <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus>
-                          </div>
-                      </li>
-                      <li  ng-hide="userData.idRol == 5">
-                          <div class="form-group" ng-show="busqueda == 2">
-                              <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus>
-                          </div>
-                      </li>
-                      <li  ng-hide="userData.idRol == 5">
-                          <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-                      </li>
+                        </div>
+                        <div class="dropdown DropOperaciones col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-hide="{{userData.idRol == 5}}">
+                            <span>Operación: </span>
+                            <span id="NombreOperacion" ng-show="{{userData.Operaciones.length == 1}}">{{userData.nombreOperacion}}</span>
+                            <button ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
+                                <span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-9 col-sm-9 col-md-9 col-lg-9" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
                         <li ng-hide="userData.idRol == 5">
-                          <span class="m-r-md text-muted title" style="font-size: 19px; padding-left: 25px;">TOTAL PARTS</span>
-                      </li>
-                      <li>
-
-                          <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                            <div class="form-group">
+                                <button class="btn btn-primary" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button>
+                            </div>
+                        </li>
+                        <li ng-hide="userData.idRol == 5">
+                            <div class="form-group" ng-show="busqueda == 1">
+                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus>
+                            </div>
+                        </li>
+                        <li ng-hide="userData.idRol == 5">
+                            <div class="form-group" ng-show="busqueda == 2">
+                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus>
+                            </div>
+                        </li>
+                        <li ng-hide="userData.idRol == 5">
+                            <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+                        </li>
+                        <li ng-hide="userData.idRol == 5">
+                            <span class="m-r-md text-muted title" style="font-size: 19px; padding-left: 25px;">TOTAL PARTS</span>
+                        </li>
+                        <li>
+                            <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
                                 <span>  Rol - {{userData.Rol}}</span>
-                          </div>
-                      </li>
-                      <li>
+                            </div>
+                        </li>
+                        <li>
                             <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
-                      </li>
-                  </ul>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </div>
@@ -304,7 +303,6 @@
     <script src="AngularJS/UploadFiles/Repositories/uploadRepository.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionOrdenController.js"></script>
     <script src="AngularJS/Talleres/Repositories/tallerRepository.js"></script>
-    <script src="AngularJS/Talleres/Controllers/tallerController.js"></script>
     <script src="AngularJS/OrdenAnticipo/Repositories/ordenAnticipoRepository.js"></script>
     <script src="AngularJS/OrdenAnticipo/Controllers/ordenAnticipoController.js"></script>
     <script src="AngularJS/DashBoard/Repositories/dashBoardRepository.js"></script>
