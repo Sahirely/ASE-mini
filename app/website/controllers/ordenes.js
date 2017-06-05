@@ -1617,11 +1617,13 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                 if( cotizaciones.length != 0 ){
                     cotizaciones.forEach(function(item, key) {
                         var params = [
-                            {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING }
+                            {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING}, 
+                            {name: 'usuario', value: req.query.usuario , type: self.model.types.STRING}                        
                         ];
 
-                        // self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
+                        
                         self.model.query('SEL_PARTIDAS_APROBACION_SP', params, function (err, datos) {
+
                             cotizaciones [ key ].detalle = datos;
 
                             if( key >= ( tamanio - 1 ) ){

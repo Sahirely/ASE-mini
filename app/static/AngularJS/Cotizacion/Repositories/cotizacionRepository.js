@@ -41,16 +41,17 @@ registrationModule.factory('cotizacionRepository', function ($http) {
                 }
             });
         },
-        getMostrarCotizaciones: function (numeroOrden, estatus ) {
+        getMostrarCotizaciones: function (numeroOrden, estatus , usuario ) {
             console.log('+++++++++++++++++++++++++++');
-            console.log(numeroOrden,estatus);
+            console.log(numeroOrden,estatus, usuario );
             console.log('+++++++++++++++++++++++++++');
             return $http({
                 url: cotizacion + 'cotizaciones',
                 method: "GET",
                 params: {
                     numeroOrden:numeroOrden,
-                    estatus:estatus
+                    estatus:estatus,
+                    usuario:usuario
                 },
                 headers: {
                     'Content-Type': 'application/json'

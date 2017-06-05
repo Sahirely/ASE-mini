@@ -110,7 +110,7 @@
                                     <!-- <div class="item active">
                                         <img alt="image" class="img-responsive" src="image/mapa.jpg">
                                     </div> -->
-<!--                                     <div class="item">
+                                    <!--                                     <div class="item">
                                         <img alt="image" class="img-responsive" src="image/pemex_logo.png">
                                     </div>
                                     <div class="item ">
@@ -118,10 +118,10 @@
                                     </div> -->
                                 </div>
                                 <a data-slide="prev" href="#carousel1" class="left carousel-control">
-                                <span class="icon-prev"></span>
+                                    <span class="icon-prev"></span>
                                 </a>
                                 <a data-slide="next" href="#carousel1" class="right carousel-control">
-                                <span class="icon-next"></span>
+                                    <span class="icon-next"></span>
                                 </a>
                             </div>
                         </div>
@@ -180,86 +180,84 @@
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            <div class="pestania" >
+                                            <div class="pestania">
                                                 <h3>{{ cotizacion.numeroCotizacion }}</h3>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
                                             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
                                                 <h4>Detalle de la Cotización</h4>
                                                 <address>
-                                                    Estatus: <strong>{{descripcion}}</strong><br>
-                                                    Descripción de la Cotización: <strong>{{descripcion}}</strong>
+                                                    Estatus: <strong>{{descripcion}}</strong>
+                                                    <br> Descripción de la Cotización: <strong>{{descripcion}}</strong>
                                                 </address>
                                             </div>
                                             <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
                                             <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
                                                 <h4>Detalle de Proveedor</h4>
                                                 <address>
-                                                    Taller: <strong>{{unidadInfo.razonSocial}}</strong><br>
-                                                    Dirección: <strong>{{unidadInfo.direccion[1]}}</strong><br>
-                                                    Zona: <strong>{{unidadInfo.GAR[0]}}</strong>
+                                                    Taller: <strong>{{unidadInfo.razonSocial}}</strong>
+                                                    <br> Dirección: <strong>{{unidadInfo.direccion[1]}}</strong>
+                                                    <br> Zona: <strong>{{unidadInfo.GAR[0]}}</strong>
                                                 </address>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="btn-group pull-right">
-                                                    <button type="button" class="btn btn-success" ng-click="isSelectedChange('yep')">Costo</button>
-                                                    <button type="button" class="btn btn-default" ng-click="isSelectedChange('nope')">Venta</button>
+                                                    <button type="button" ng-init="btnSwitch.classCosto='btn btn-success'; btnSwitch.showCostoVenta=true" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true; 
+                                                    btnSwitch.classVenta='btn btn-default';
+                                                    btnSwitch.classCosto='btn btn-success'">Costo</button>
+                                                    <button type="button" ng-init="btnSwitch.classVenta='btn btn-default'" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false; 
+                                                    btnSwitch.classVenta='btn btn-success';
+                                                    btnSwitch.classCosto='btn btn-default' ">Venta</button>
                                                 </div>
-
                                                 <button class="btn btn-primary pull-right" style="margin: 0 10px;">Cargar Factura</button>
                                             </div>
                                             <br>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="table-responsive m-t">
-                                                    <table class="table invoice-table">
+                                                    <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th>No. Partida</th>
-                                                                <th style="text-align:left;">Estatus</th>
-                                                                <th style="text-align:left;">Artículos</th>
-                                                                <th>Cantidad</th>
-                                                                <th>Precio Unitario</th>
-                                                                <th>I.V.A</th>
-                                                                <th>Precio Total</th>
-                                                                <th ng-hide="idEstatusOrden = 5">Aprobó</th>
-                                                                <th>Seleccionar</th>
+                                                                <th>ID Partida</th>
+                                                                <th ng-hide="true">idEspecialidad</th>
+                                                                <th>Especialidad</th>
+                                                                <th ng-hide="true">idPartidaClasificacion</th>
+                                                                <th>Clasificación</th>
+                                                                <th ng-hide="true">idPartidaSubClasificacion</th>
+                                                                <th>Subclasificación</th>
+                                                                <th>Partida</th>
+                                                                <th>No. Parte</th>
+                                                                <th>Descripción</th>
+                                                                <th>Foto</th>
+                                                                <th>Instructivo</th>
+                                                                <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                                                <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                                                <th>_</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr ng-repeat="partida in cotizacion.detalle" ng-class="{'rowVerde': articulo.idNivelAutorizacion==1, 'rowAzul': articulo.idNivelAutorizacion == 2, 'rowAmarillo' : articulo.idNivelAutorizacion == 3, 'rowRojo': articulo.idNivelAutorizacion == 4, 'rowEtGlobal': articulo.idNivelAutorizacion == 5}">
+                                                            <tr ng-repeat="partida in cotizacion.detalle">
                                                                 <td>{{partida.idPartida}}</td>
-                                                                <td>{{partida.idEstatusPartida}}</td>
-                                                                <td>{{partida.numeroParte}} </td>
-                                                                <td>{{partida.cantidad}} </td>
-                                                                <td>{{partida.costo | currency}} </td>
-                                                                <td>{{(partida.costo * partida.cantidad) * 0.16 | currency }} </td>
-                                                                <td>{{partida.costo * partida.cantidad | currency}} </td>
-                                                                <td>a</td>
-                                                                <td ng-hide="idEstatusOrden = 5">      
-                                                                    <button ng-init="partida.btnClass='btn btn-success';partida.btnStatus=0;
-                                                                        partida.btnText='*'; partida.canApprove=false; partida.btnIcon='glyphicon glyphicon-question-sign'" 
-                                                                        ng-class="partida.btnClass" 
-                                                                        ng-click="setApprove(partida)" ><span ng-class="partida.btnIcon"></span></button>
+                                                                <td ng-hide="true">{{partida.idEspecialidad}}</td>
+                                                                <td>{{partida.especialidad}}</td>
+                                                                <td ng-hide="true">{{partida.idPartidaClasificacion}}</td>
+                                                                <td>{{partida.clasificacion}}</td>
+                                                                <td ng-hide="true">{{partida.idPartidaSubClasificacion}}</td>
+                                                                <td>{{partida.subClasificacion}}</td>
+                                                                <td>{{partida.partida}}</td>
+                                                                <td>{{partida.noParte}}</td>
+                                                                <td>{{partida.descripcion}}</td>
+                                                                <td>{{partida.foto}}</td>
+                                                                <td>{{partida.instructivo}}</td>
+                                                                <td ng-show="btnSwitch.showCostoVenta">{{partida.costo}}</td>
+                                                                <td ng-hide="btnSwitch.showCostoVenta">{{partida.venta}}</td>
+                                                                <td>
+                                                                    <button ng-init="partida.btnClass='btn btn-success';
+                                                                        partida.btnStatus=0;
+                                                                        partida.btnText='*'; 
+                                                                        partida.btnIcon='glyphicon glyphicon-question-sign'" ng-class="partida.btnClass" ng-click="setApprove(partida)">
+                                                                        <span ng-class="partida.btnIcon"></span>
+                                                                    </button>
                                                                 </td>
-                                                                <!--  <td style="text-align:left; width: 100px;">{{partida.descripcionLarga}}</td>
-                                                                    <td style="text-align:left;  width:300px;">
-                                                                        <div><strong>Número de Partida: {{ partida.numeroPartida }}</strong></div>
-                                                                        <small>{{partida.item}}</small></td>
-                                                                    <td>{{partida.cantidad}}</td>
-                                                                    <td>{{ vistaPrecio == 1 ? partida.precio : partida.precioCliente | currency }}</td>
-                                                                    <td>{{ vistaPrecio == 1 ? (articulo.cantidad * (articulo.precio * (articulo.valorIva / 100))) : (articulo.cantidad * (articulo.precioCliente * (articulo.valorIva / 100))) | currency }}</td>
-                                                                    <td>{{ vistaPrecio == 1 ? ((articulo.cantidad * articulo.precio) + (articulo.cantidad * (articulo.precio * (articulo.valorIva / 100)))) : ((articulo.cantidad * articulo.precioCliente) + (articulo.cantidad * (articulo.precioCliente * (articulo.valorIva / 100)))) | currency }}</td>
-                                                                    <td>Nombre DD/MM/AAAA 00:00</td>
-                                                                    <td style="text-align:center;">
-                                                                        <form action="" ng-show="articulo.idEstatus == 8">
-                                                                            <div class="checkbox">
-                                                                                <input type="checkbox" name="autorizar" id="autorizar" ng-click="" ng-hide="userData.idTipoUsuario == 3" data-toggle="tooltip" tooltip="Autorizar" tooltip-placement="center" ng-disabled="userData.idUsuario != articulo.UsuarioAutorizador">
-                                                                                <label></label>
-                                                                            </div>
-                                                                        </form>
-                                                                        <div ng-show="articulo.idEstatus == 9">Autorizado</div>
-                                                                        <div ng-show="articulo.idEstatus == 10">Rechazado</div>
-                                                                    </td> -->
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -302,7 +300,7 @@
                                                 <div ng-repeat="notas in notaTrabajo">
                                                     <div class="chat-element">
                                                         <a href="#" ng-class="notas.idUsuario === idUsuario ? 'pull-left' : 'pull-right'">
-                                                        <img alt="image" class="img-circle" src="image/profile/man2.jpg">
+                                                            <img alt="image" class="img-circle" src="image/profile/man2.jpg">
                                                         </a>
                                                         <div class="media-body">
                                                             <small ng-class="notas.idUsuario === idUsuario ? 'pull-right' : 'pull-left'">{{notas.tiempoTranscurrido}}</small>
@@ -392,12 +390,15 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
-        $('.scroll_content').slimscroll({
-            height: '580px',
-            width: '100%'
-        })
-        setTimeout(function() { $('[data-toggle="popover"]').popover({ html : true });}, 500);
-    });
-    
+$(document).ready(function() {
+    $('.scroll_content').slimscroll({
+        height: '580px',
+        width: '100%'
+    })
+    setTimeout(function() {
+        $('[data-toggle="popover"]').popover({
+            html: true
+        });
+    }, 500);
+});
 </script>

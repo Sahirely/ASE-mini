@@ -5,20 +5,20 @@ registrationModule.controller('detalleController', function($scope, $location, c
     //$rootScope.modulo = 'reporteHistorial';
     //Inicializa la pagina
 
-    $scope.idUsuario                = 2;
-    $scope.numeroOrden              = $routeParams.orden;
-    $scope.idEstatusOrden           = 0;
-    $scope.estatus                  = $routeParams.estatus;
-    $scope.textoNota                = null;
-    $scope.notaTrabajo              = [];
-    $scope.HistoricoOrden           = [];
-    $scope.IdsCotizacionesPorOrden  = [];
-    $scope.x                        = 0;
-    $scope.numCotz                  = 0;
-    $scope.HistoricoCotizaciones    = [];
+    $scope.idUsuario = 2;
+    $scope.numeroOrden = $routeParams.orden;
+    $scope.idEstatusOrden = 0;
+    $scope.estatus = $routeParams.estatus;
+    $scope.textoNota = null;
+    $scope.notaTrabajo = [];
+    $scope.HistoricoOrden = [];
+    $scope.IdsCotizacionesPorOrden = [];
+    $scope.x = 0;
+    $scope.numCotz = 0;
+    $scope.HistoricoCotizaciones = [];
 
     $scope.init = function() {
-        console.log( "##### Mi estatus ", $scope.estatus );
+        console.log("##### Mi estatus ", $scope.estatus);
 
         $scope.getHistoricos();
 
@@ -30,10 +30,10 @@ registrationModule.controller('detalleController', function($scope, $location, c
         $scope.setActiveButtons($scope.estatus);
         $scope.enviaNota();
 
-        console.log( '==============================' );
+        console.log('==============================');
         // console.log( $scope.detalleOrden );
-        console.log( $scope.idEstatusOrden );
-        console.log( '==============================' );
+        console.log($scope.idEstatusOrden);
+        console.log('==============================');
     };
 
     $scope.getHistoricos = function() {
@@ -81,12 +81,16 @@ registrationModule.controller('detalleController', function($scope, $location, c
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
 
                 var statusCotizacion = 0;
-                switch( $scope.idEstatusOrden ){
-                    case 1: statusCotizacion = 1; break;
-                    case 5: statusCotizacion = 3; break;
+                switch ($scope.idEstatusOrden) {
+                    case 1:
+                        statusCotizacion = 1;
+                        break;
+                    case 5:
+                        statusCotizacion = 3;
+                        break;
                 }
 
-                $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion)
+                $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los detalles de la orden');
@@ -124,8 +128,12 @@ registrationModule.controller('detalleController', function($scope, $location, c
         });
     }
 
-    $scope.getMostrarCotizaciones = function(numeroOrden, estatus) {
-        cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus).then(function(result) {
+    $scope.getMostrarCotizaciones = function(numeroOrden, estatus, idUsuario) {
+
+        console.log("variables",numeroOrden, estatus, idUsuario);
+
+
+        cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario).then(function(result) {
             console.log(result.data)
             if (result.data.success == true) {
                 $scope.cotizaciones = result.data.data;
@@ -170,15 +178,13 @@ registrationModule.controller('detalleController', function($scope, $location, c
 
     $scope.setApprove = function(item) {
 
-        /*
-                if (item.canApprove === false) {
-                    item.btnClass = "btn btn-default";
-                    item.btnStatus = "0";
-                    item.btnText = "?";
-                    item.btnIcon = "glyphicon glyphicon-ban-circle";
-                    return;
-                }
-        */
+        if (item.Aprueba == 0) {
+            item.btnClass = "btn btn-default";
+            item.btnStatus = "0";
+            item.btnText = "?";
+            item.btnIcon = "glyphicon glyphicon-ban-circle";
+            return;
+        }
 
         var index = item.btnStatus + 1;
 
@@ -198,11 +204,10 @@ registrationModule.controller('detalleController', function($scope, $location, c
 
     $scope.setActiveButtons = function(idstatus) {
 
-        
-
         switch (Number(idstatus)) {
             case 1:
-                $scope.hideAllButtons1();
+                $scope.hideAllButtons();
+                $scope.showButtonsInProcess();
                 break;
             case 2:
                 $scope.hideAllButtons();
@@ -217,9 +222,8 @@ registrationModule.controller('detalleController', function($scope, $location, c
                 break;
             default:
                 $scope.hideAllButtons();
-
-
         }
+
     };
 
 
@@ -235,18 +239,16 @@ registrationModule.controller('detalleController', function($scope, $location, c
         $scope.btnMoradoIsEnable = true;
 
     };
-    $scope.hideAllButtons1 = function() {
+    $scope.showButtonsInProcess = function() {
+
         $scope.btnEditarIsEnable = false;
         $scope.btnGuardaCotizacionIsEnable = false;
         $scope.btnNuevaCotizacionIsEnable = false;
-        $scope.btnEditarCotizacionIsEnable = true;
         $scope.btnComprobanteRecepcionIsEnable = false;
         $scope.btnEditarCitaIsEnable = false;
-        $scope.btnCancelarCitaIsEnable = true;
-        $scope.btnNegroIsEnable = true;
-        $scope.btnMoradoIsEnable = true;
-
     };
+
+
 
 
 });
