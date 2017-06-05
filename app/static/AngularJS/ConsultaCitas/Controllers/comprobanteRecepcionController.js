@@ -15,6 +15,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         // $scope.ubi_ParteIzquierda = false;
         // $scope.ubi_Techo = false;
         $scope.getdatosComprobante(1)
+        $scope.getOrdenDetalle(1,$scope.numeroOrden)
     };
 
 
@@ -27,6 +28,18 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
             }
         }, function(error) {
             alertFactory.error(result.msg);
+        });
+    }
+
+
+      $scope.getOrdenDetalle = function(idUsuario, orden) {
+        consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
+            if (result.data.length > 0) {
+                console.log(result.data)
+                $scope.detalleOrden = result.data[];
+            }
+        }, function(error) {
+            alertFactory.error('No se puede obtener los detalles de la orden');
         });
     }
 
