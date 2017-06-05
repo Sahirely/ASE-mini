@@ -101,20 +101,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
     };
 
     $scope.getOrdenesServicio = function(tipoConsulta) {
-        // console.log( "Esta es la Zona", $scope.zonaSelected );
-        // console.log( $scope.fechaMes );
-
-        // fechaEspecifico
-        // fechaMes
-        // numeroOrden
-        // nivelZona
-        // idUsuario
-
-        // var idContratoOperacion = 2;
-        // var idZona = 1;
-        // var fechaInicial = '2017/05/21';
-        // var fechaFin = '2017/06/01';
-
+        $scope.numeroTrabajo = '';
         cotizacionConsultaRepository.consultarOrdenes(
             tipoConsulta, 
             $scope.idContratoOperacion, 
@@ -133,12 +120,35 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
             globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
         });
     };
+
+    $scope.getOrdenesByNumero = function(tipoConsulta) {
+        if( $scope.numeroTrabajo == '' ){
+            alert('Numero de Orden vacío');
+        }
+        else{
+            cotizacionConsultaRepository.consultarOrdenes(
+                tipoConsulta, 
+                $scope.idContratoOperacion, 
+                0, 
+                '', 
+                '',
+                '',
+                '',
+                $scope.numeroTrabajo,
+                0, // Nivel Zona
+                0) // $scope.idUsuario
+            .then(function(result) {
+                console.log(result.data);
+                $scope.ordenes = result.data;
+                $scope.muestraTabla = true;
+                globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
+            });            
+        }
+    };
+
     $scope.detalleOrden = function(orden) {
         location.href = '/detalle?orden=' + orden.numeroOrden;
-    };
-    
-
-    
+    };    
 
     // =================================================================================
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
