@@ -8,7 +8,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
     // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
     $rootScope.busqueda = 1;
-
+    $scope.numeroEconomico = '';
     var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');
@@ -113,6 +113,9 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
                 modal_respuesta_busqueda($scope, $modal, $rootScope.busqueda, $scope.tipoRespuesta, '', '');
             } else if ($scope.tipoRespuesta.respuesta == 1) {
                 location.href = '/unidad?economico=' + economico;
+            } else if ($scope.tipoRespuesta.respuesta == 2) {
+                $('.modal-dialog').css('width', '1050px');
+                modal_respuesta_busqueda($scope, $modal, $rootScope.busqueda, $scope.tipoRespuesta, '', '');
             }
 
         });

@@ -4,6 +4,7 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
     //*****************************************************************************************************************************//
     $scope.busqueda = tipobusqueda;
     $scope.idUsuarioPruebas = 0;
+    $scope.numeroEconomico = '';
 
     $scope.init = function() {
         $scope.mensaje = respuesta.mensaje;
@@ -31,6 +32,10 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
             } else if ($scope.tipoRespuesta.respuesta == 1) {
                 $modalInstance.dismiss('cancel');
                 location.href = '/unidad?economico=' + economico;
+            } else if ($scope.tipoRespuesta.respuesta == 2) {
+                $modalInstance.dismiss('cancel');
+                $('.modal-dialog').css('width', '1050px');
+                modal_respuesta_busqueda($scope, $modal, $scope.busqueda, $scope.tipoRespuesta, '', '');
             }
 
         });
