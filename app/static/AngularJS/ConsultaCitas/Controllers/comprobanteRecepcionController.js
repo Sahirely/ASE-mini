@@ -1,5 +1,6 @@
 registrationModule.controller('comprobanteRecepcionController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
     $scope.numeroOrden = $routeParams.orden;
+    $scope.validateAprobacion = true;
     $scope.init = function() {
         // $scope.infoCita = localStorageService.get('cita');
         // $scope.show_exteriores = true;
@@ -23,6 +24,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         consultaCitasRepository.getdatosComprobante(idTipoUnidad).then(function(result) {
             if (result.data.success == true) {
                 $scope.modulosComprobante = result.data.data;
+                console.log($scope.modulosComprobante)
             } else {
                 alertFactory.error('No pueden mostrar los registros para el comprobante de recipción');
             }
@@ -36,7 +38,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 console.log(result.data)
-                $scope.detalleOrden = result.data[];
+                $scope.detalleOrden = result.data[0];
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los detalles de la orden');
@@ -88,16 +90,17 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         angular.forEach(obj, function(value, key) {
             contadorTotal += value.detalle.length
             angular.forEach(value.detalle, function(value2, key) {
-                if (value2.select == 0 || value2.select == 1)
+                if (value2.select == 0 || value2.select == 1 )
                     contador++
             });
         });
-        if (contadorTotal == contador) {
+        if ((contadorTotal)-2 == contador) {
             console.log('todo validado' + contador + ' total ' + contadorTotal)
+             $scope.validateAprobacion = false;
+
         } else {
             console.log('faltan campos' + contador + ' total ' + contadorTotal)
         }
-        console.log(contador)
 
     }
 
