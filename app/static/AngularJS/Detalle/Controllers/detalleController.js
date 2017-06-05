@@ -25,6 +25,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
         $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden);
         $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenEvidencias($scope.idUsuario, $scope.numeroOrden);
         // Las cotizaciones se muestran desde GetOrdenDetalle
         $scope.setActiveButtons($scope.estatus);
         $scope.enviaNota();
@@ -40,7 +41,6 @@ registrationModule.controller('detalleController', function($scope, $location, c
         detalleRepository.getHistoricoOrden($scope.numeroOrden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.HistoricoOrden = result.data;
-                console.log( result.data );
             }
         }, function(error) {
             alertFactory.error('No se puede obtener el historico de la orden.');
@@ -107,6 +107,17 @@ registrationModule.controller('detalleController', function($scope, $location, c
         consultaCitasRepository.getOrdenDocumentos(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleDocumentos = result.data[0];
+            }
+        }, function(error) {
+            alertFactory.error('No se puede obtener los documentos de la orden');
+        });
+    }
+
+    $scope.getOrdenEvidencias = function(idUsuario, orden) {
+        consultaCitasRepository.getOrdenEvidencias(idUsuario, orden).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.detalleEvidencias = result.data;
+                console.log($scope.detalleEvidencias)
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los documentos de la orden');
@@ -191,7 +202,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
 
         switch (Number(idstatus)) {
             case 1:
-                $scope.hideAllButtons();
+                $scope.hideAllButtons1();
                 break;
             case 2:
                 $scope.hideAllButtons();
@@ -219,6 +230,18 @@ registrationModule.controller('detalleController', function($scope, $location, c
         $scope.btnEditarCotizacionIsEnable = true;
         $scope.btnComprobanteRecepcionIsEnable = true;
         $scope.btnEditarCitaIsEnable = true;
+        $scope.btnCancelarCitaIsEnable = true;
+        $scope.btnNegroIsEnable = true;
+        $scope.btnMoradoIsEnable = true;
+
+    };
+    $scope.hideAllButtons1 = function() {
+        $scope.btnEditarIsEnable = false;
+        $scope.btnGuardaCotizacionIsEnable = false;
+        $scope.btnNuevaCotizacionIsEnable = false;
+        $scope.btnEditarCotizacionIsEnable = true;
+        $scope.btnComprobanteRecepcionIsEnable = false;
+        $scope.btnEditarCitaIsEnable = false;
         $scope.btnCancelarCitaIsEnable = true;
         $scope.btnNegroIsEnable = true;
         $scope.btnMoradoIsEnable = true;

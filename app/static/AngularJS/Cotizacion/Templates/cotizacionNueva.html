@@ -104,9 +104,9 @@
                                     <tbody>
                                         <tr ng-repeat="partidasTaller in partidasTaller" ng-class="">
                                             <td>{{ partidasTaller.idPartida }}</td>
-                                            <td>{{ partidasTaller.numeroParte }}</td>
+                                            <td>{{ partidasTaller.noParte }}</td>
                                             <td>{{ partidasTaller.descripcion }}</td>
-                                            <td>{{ partidasTaller.precio | currency}}</td>
+                                            <td>{{ partidasTaller.costo | currency}}</td>
                                             <td>
                                                 <button class="btn btn-success btn-sm" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                                     <span class="glyphicon glyphicon-plus"></span>
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-show="mostrarPartida">
-                            <div class="table-responsive scroll_content">
+                            <!--                             <div class="table-responsive scroll_content">
                                 <table class="table table-bordered dataTableItem dataTablePartidasSeleccionadas">
                                     <thead>
                                         <tr>
@@ -164,7 +164,62 @@
                                         <td>{{ total | currency}}</td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 partidasSel">
+                                <div class="table-responsive scroll_content">
+                                    <table class="table dataTableItem">
+                                        <thead>
+                                            <tr>
+                                                <th>No. Partida</th>
+                                                <th>Cantidad</th>
+                                                <th>Costo Unitario</th>
+                                                <th>Precio Unitario</th>
+                                                <th class="ancho text-center">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
+                                                <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.numPartida }} </a></td>
+                                                <td>{{ lstPartidaSeleccionada.cantidad }}</td>
+                                                <td class="text-right">{{ lstPartidaSeleccionada.costoUnitario | currency}}</td>
+                                                <td class="text-right">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        <button class="btn-success btn btn-xs" type="button" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar"><span class="glyphicon glyphicon-plus"></span></button>
+                                                        <button class="btn-danger btn btn-xs" ng-click="quitarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar"><span class="glyphicon glyphicon-minus"></span></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot class="pietabla">
+                                            <tr class="text-right">
+                                                <td colspan="2">
+                                                    <strong>SUBTOTAL :</strong>
+                                                </td>
+                                                <td>{{ subTotalCosto | currency}}</td>
+                                                <td>{{ subTotalPrecio | currency}}</td>
+                                                <td> </td>
+                                            </tr>
+                                            <tr class="text-right">
+                                                <td colspan="2">
+                                                    <strong>I.V.A :</strong>
+                                                </td>
+                                                <td>{{ ivaSubTotalCosto | currency}}</td>
+                                                <td>{{ ivaSubTotalPrecio | currency}}</td>
+                                                <td> </td>
+                                            </tr>
+                                            <tr class="text-right">
+                                                <td colspan="2">
+                                                    <strong>TOTAL :</strong>
+                                                </td>
+                                                <td>{{ totalCosto | currency}}</td>
+                                                <td>{{ totalPrecio | currency}}</td>
+                                                <td> </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

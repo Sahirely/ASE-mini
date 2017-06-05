@@ -14,6 +14,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
     $scope.mostrarTalleres = true;
     $scope.mostrarPartida = false;
     $scope.idTipoCita = 0;
+    $scope.especialidad = '2,4'
     $scope.init = function() {
         $scope.getTipoOrdenesServicio()
         $scope.mostrarTalleres = true;
@@ -84,11 +85,12 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         $('#loadModal').modal('show');
         $scope.idTaller = idTaller;
         $('.dataTablePartidasTalleres').DataTable().destroy();
-        consultaCitasRepository.getPartidasTaller(idTaller).then(function(result) {
+        consultaCitasRepository.getPartidasTaller(1,$scope.especialidad).then(function(result) {
             if (result.data.length > 0) {
+                console.log(result.data)
                 $scope.partidasTaller = result.data;
-                globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
-
+                //globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
+                globalFactory.filtrosTabla("dataTablePartidasTalleres", "PartidasTalleres", 5);
             }
             $('#loadModal').modal('hide');
         }, function(error) {
@@ -98,40 +100,41 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
 
     }
 
-    $scope.partidaSeleccionada = function(obj) {
-        $scope.objeto = obj
-        var existe = 0;
-        var noExiste = 0;
-        $scope.subTotal = 0;
-        $scope.ivaSubTotal = 0;
-        $scope.total = 0;
-        if ($scope.lstPartidaSeleccionada.length == 0) {
-            $scope.lstPartidaSeleccionada.push({
-                idPartida: $scope.objeto.idPartida,
-                cantidad: 1,
-                descripcion : $scope.objeto.descripcion,
-                precioUnitario: $scope.objeto.precio
-            });
-        } else {
-            for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
-                if ($scope.lstPartidaSeleccionada[i].idPartida != $scope.objeto.idPartida) {
-                    noExiste += 1;
-                } else {
-                    $scope.lstPartidaSeleccionada[i].cantidad += 1
-                    existe += 1;
-                }
-            }
-            if (existe == 0) {
-                $scope.lstPartidaSeleccionada.push({
-                    idPartida: $scope.objeto.idPartida,
-                    cantidad: 1,
-                    descripcion : $scope.objeto.descripcion,
-                    precioUnitario: $scope.objeto.precio
-                });
-            }
-        }
-        $scope.sumatoriaTotal();
-    }
+    // $scope.partidaSeleccionada = function(obj) {
+    //     $scope.objeto = obj
+    //     var existe = 0;
+    //     var noExiste = 0;
+    //     $scope.subTotal = 0;
+    //     $scope.ivaSubTotal = 0;
+    //     $scope.total = 0;
+    //     if ($scope.lstPartidaSeleccionada.length == 0) {
+    //         $scope.lstPartidaSeleccionada.push({
+    //             idPartida: $scope.objeto.idPartida,
+    //             cantidad: 1,
+    //             descripcion : $scope.objeto.descripcion,
+    //             precioUnitario: $scope.objeto.precio
+    //         });
+    //     } else {
+    //         for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
+    //             if ($scope.lstPartidaSeleccionada[i].idPartida != $scope.objeto.idPartida) {
+    //                 noExiste += 1;
+    //             } else {
+    //                 $scope.lstPartidaSeleccionada[i].cantidad += 1
+    //                 existe += 1;
+    //             }
+    //         }
+    //         if (existe == 0) {
+    //             $scope.lstPartidaSeleccionada.push({
+    //                 idPartida: $scope.objeto.idPartida,
+    //                 cantidad: 1,
+    //                 descripcion : $scope.objeto.descripcion,
+    //                 costo: $scope.objeto.costo,
+    //                 venta: $scope.objeto.venta
+    //             });
+    //         }
+    //     }
+    //     $scope.sumatoriaTotal();
+    // }
 
     $scope.slideDown = function() {
         $("#borderTop").slideDown(2000);
@@ -157,7 +160,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
                 alertFactory.success('se creo nueva cotización');
                 $scope.limpiarParametros();
                 $('#loadModal').modal('hide');
-                location.href = '/detalle?orden=' + $scope.numeroOrden;
+                location.href = '/detalle?orden=' + $scope.numeroOrden+'&estatus='+1;
             } else {
                 $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
@@ -171,16 +174,73 @@ registrationModule.controller('cotizacionController', function($scope, $route, $
         });
     }
 
-    $scope.sumatoriaTotal = function() {
-        $scope.total = 0;
+    $scope.partidaSeleccionada = function(obj) {
+        $scope.objeto = obj
+        var existe = 0;
+        var noExiste = 0;
         $scope.subTotal = 0;
         $scope.ivaSubTotal = 0;
-        for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
-            $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario
+        $scope.total = 0;
+        if ($scope.lstPartidaSeleccionada.length == 0) {
+            $scope.lstPartidaSeleccionada.push({
+                idPartida: $scope.objeto.idPartida,
+                partida: $scope.objeto.partida,
+                numPartida: $scope.objeto.noParte,
+                cantidad: 1,
+                descripcion: $scope.objeto.descripcion,
+                costoUnitario: $scope.objeto.costo,
+                precioUnitario: $scope.objeto.venta
+            });
+        } else {
+            for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
+                if ($scope.lstPartidaSeleccionada[i].idPartida != $scope.objeto.idPartida) {
+                    noExiste += 1;
+                } else {
+                    $scope.lstPartidaSeleccionada[i].cantidad += 1
+                    existe += 1;
+                }
+            }
+            if (existe == 0) {
+                $scope.lstPartidaSeleccionada.push({
+                    idPartida: $scope.objeto.idPartida,
+                    partida: $scope.objeto.partida,
+                    numPartida: $scope.objeto.noParte,
+                    cantidad: 1,
+                    descripcion: $scope.objeto.descripcion,
+                    costoUnitario: $scope.objeto.costo,
+                    precioUnitario: $scope.objeto.venta
+                });
+            }
         }
-        $scope.ivaSubTotal += $scope.subTotal * 0.16
-        $scope.total += $scope.subTotal + $scope.ivaSubTotal
-    }
+        $scope.sumatoriaTotal();
+    };
+    $scope.sumatoriaTotal = function() {
+        $scope.subTotalPrecio = 0;
+        $scope.subTotalCosto = 0;
+        $scope.ivaSubTotalPrecio = 0;
+        $scope.ivaSubTotalCosto = 0;
+        $scope.totalPrecio = 0;
+        $scope.totalCosto = 0;
+        for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
+            $scope.subTotalPrecio += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario;
+            $scope.subTotalCosto += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].costoUnitario;
+        }
+        $scope.ivaSubTotalPrecio += $scope.subTotalPrecio * 0.16;
+        $scope.ivaSubTotalCosto += $scope.subTotalCosto * 0.16;
+        $scope.totalPrecio += $scope.subTotalPrecio + $scope.ivaSubTotalPrecio;
+        $scope.totalCosto += $scope.subTotalCosto + $scope.ivaSubTotalCosto;
+    };
+
+    // $scope.sumatoriaTotal = function() {
+    //     $scope.total = 0;
+    //     $scope.subTotal = 0;
+    //     $scope.ivaSubTotal = 0;
+    //     for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
+    //         $scope.subTotal += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].costo
+    //     }
+    //     $scope.ivaSubTotal += $scope.subTotal * 0.16
+    //     $scope.total += $scope.subTotal + $scope.ivaSubTotal
+    // }
 
     $scope.agregarItem = function(obj) {
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
