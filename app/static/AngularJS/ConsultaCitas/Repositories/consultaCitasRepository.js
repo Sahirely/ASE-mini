@@ -128,7 +128,7 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        agregarModuloComprobante: function (idCatalogoModuloCOmprobante,numeroOrden) {
+        agregarModuloComprobante: function(idCatalogoModuloCOmprobante, numeroOrden) {
             var msgObj = {
                 idCatalogoModuloCOmprobante: idCatalogoModuloCOmprobante,
                 numeroOrden: numeroOrden
@@ -142,15 +142,47 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        agregarDetalleModuloComprobante: function (accion, idCatalogoDetalleModuloComprobante, idModuloComprobante, descripcion) {
+        agregarDetalleModuloComprobante: function(accion, idCatalogoDetalleModuloComprobante, idModuloComprobante, descripcion) {
             var msgObj = {
-                accion : accion,
-                idCatalogoDetalleModuloComprobante : idCatalogoDetalleModuloComprobante,
-                idModuloComprobante : idModuloComprobante,
-                descripcion : descripcion
+                accion: accion,
+                idCatalogoDetalleModuloComprobante: idCatalogoDetalleModuloComprobante,
+                idModuloComprobante: idModuloComprobante,
+                descripcion: descripcion
             }
             return $http({
                 url: consultaCitaUrl + 'agregarDetalleModuloComprobante',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        agregarEvidencias: function(nombreEvidencia, descripcionEvidencia, rutaEvidencia, numeroOrden) {
+            var msgObj = {
+                nombreEvidencia: nombreEvidencia,
+                descripcionEvidencia: descripcionEvidencia,
+                rutaEvidencia: rutaEvidencia,
+                numeroOrden: numeroOrden
+            }
+            return $http({
+                url: consultaCitaUrl + 'agregarEvidencias',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },agregarAcciones: function(nombreAccion, fechaAccion, idUsuario, numeroOrden , recordatorio) {
+            var msgObj = {
+                nombreAccion: nombreAccion,
+                fechaAccion: fechaAccion ,
+                idUsuario:  idUsuario,
+                numeroOrden: numeroOrden,
+                recordatorio: recordatorio
+            }
+            return $http({
+                url: consultaCitaUrl + 'agregarAcciones',
                 method: "POST",
                 data: msgObj,
                 headers: {

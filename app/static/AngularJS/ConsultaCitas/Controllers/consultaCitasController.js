@@ -56,10 +56,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
 
     $scope.getTotalOrdenes = function(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta) {
-         $('.dataTableOrdenes').DataTable().destroy();
+        $('.dataTableOrdenes').DataTable().destroy();
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         console.log(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta)
-        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(3, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
+        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
                 globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 10);
@@ -141,7 +141,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
         var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-        $scope.getTotalOrdenes( $scope.idContratoOperacion , Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
+        $scope.getTotalOrdenes($scope.idContratoOperacion, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
     };
 
     //obtiene los usuarios ejecutivos
@@ -238,10 +238,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         return result;
     }
 
-    $scope.actualizarOrden = function(obj){
-      console.log(obj)
-      location.href = '/nuevacita?economico=' + obj.numeroEconomico + '&estatus=' + 1;
-      
+    $scope.actualizarOrden = function(obj) {
+        console.log(obj)
+        location.href = '/nuevacita?economico=' + obj.numeroEconomico + '&estatus=' + 1;
+
     }
 
 
