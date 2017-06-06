@@ -1,0 +1,139 @@
+<link rel="stylesheet" type="text/css" href="AngularJS/Cotizacion/Styles/cotizacion.css">
+<link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
+<link type="text/css" href="Libraries/css/ladda/ladda-themeless.min.css" rel="stylesheet">
+<div ng-init="init()" class="animated bounceInRight">
+    <div class="headTitleTallerCita">
+        <span class="title title-xs">Cotizaciones</span>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div align="right">
+                <p>
+                    <label>Descripción de la Orden:</label>
+                    <span>{{numeroOrden}}</span>
+                </p>
+                <p>
+                    <label>Número Economico: </label>
+                    <span>{{detalleOrden.numeroEconomico}}</span>
+                </p>
+                <p>
+                    <label>Marca-Modelo: </label>
+                    <span>{{detalleOrden.marca}}</span>
+                </p>
+            </div>
+
+            <div align="left">
+                <div class="pestania">
+                    <h3>{{ cotizacion.numeroCotizacion }}</h3>
+                </div>
+
+                <div >
+                    <h4>Detalle de la Cotización</h4>
+                    <address>
+                        Estatus: <strong>{{cotizacion.nombreEstatusCotizacion}}</strong>
+                    </address>
+                </div>
+                <div >
+                    <h4>Detalle de Proveedor</h4>
+                    <address>
+                        Taller: <strong>{{cotizacion.razonSocial}}</strong>
+                        <br> Dirección: <strong>{{cotizacion.direccion}}</strong>
+                        <br> Zona: <strong>{{cotizacion.nombreZona}}</strong>
+                    </address>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+    <div class="wrapper wrapper-content">
+        
+        <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+                                            
+                                            
+                                           
+                                            <br>
+                                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                                <div class="table-responsive m-t">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>ID Partida</th>
+                                                                <th ng-hide="true">idEspecialidad</th>
+                                                                <th>Especialidad</th>
+                                                                <th ng-hide="true">idPartidaClasificacion</th>
+                                                                <th>Clasificación</th>
+                                                                <th ng-hide="true">idPartidaSubClasificacion</th>
+                                                                <th>Subclasificación</th>
+                                                                <th>Partida</th>
+                                                                <th>No. Parte</th>
+                                                                <th>Descripción</th>
+                                                                <th>Foto</th>
+                                                                <th>Instructivo</th>
+                                                                <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                                                <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                                                <th ng-hide="estatus == 5">&nbsp;</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="partida in detalle">
+                                                                <td>{{partida.idPartida}}</td>
+                                                                <td ng-hide="true">{{partida.idEspecialidad}}</td>
+                                                                <td>{{partida.especialidad}}</td>
+                                                                <td ng-hide="true">{{partida.idPartidaClasificacion}}</td>
+                                                                <td>{{partida.clasificacion}}</td>
+                                                                <td ng-hide="true">{{partida.idPartidaSubClasificacion}}</td>
+                                                                <td>{{partida.subClasificacion}}</td>
+                                                                <td>{{partida.partida}}</td>
+                                                                <td>{{partida.noParte}}</td>
+                                                                <td>{{partida.descripcion}}</td>
+                                                                <td>{{partida.foto}}</td>
+                                                                <td>{{partida.instructivo}}</td>
+                                                                <td ng-show="btnSwitch.showCostoVenta">{{partida.costo}}</td>
+                                                                <td ng-hide="btnSwitch.showCostoVenta">{{partida.venta}}</td>
+                                                                <td ng-hide="estatus == 5">
+                                                                    <button ng-init="partida.btnClass='btn btn-success';
+                                                                        partida.btnStatus=0;
+                                                                        partida.btnText='*'; 
+                                                                        partida.btnIcon='glyphicon glyphicon-question-sign'" ng-class="partida.btnClass" ng-click="setApprove(partida)">
+                                                                        <span ng-class="partida.btnIcon"></span>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                                    <table class="table invoice-total">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><strong>SUBTOTAL :</strong></td>
+                                                                <td>{{ vistaPrecio == 1 ? sumaPrecioTotal : sumaPrecioTotalCliente | currency}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>I.V.A :</strong></td>
+                                                                <td>{{ vistaPrecio == 1 ? sumaIvaTotal : sumaIvaTotalCliente | currency}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>TOTAL :</strong></td>
+                                                                <td>{{ vistaPrecio == 1 ? sumaGranTotal : sumaGranTotalCliente | currency}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div>
+                                                        <button  class="btn btn-primary pull-right btn-movil" type="submit" ng-click= "editarCotizacion(otizacion.detalle)">Editar Cotización</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+       
+    </div>
+</div>
+

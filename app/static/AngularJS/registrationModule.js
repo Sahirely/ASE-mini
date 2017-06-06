@@ -199,6 +199,10 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/BusquedaUnidad/Templates/busquedaUnidad.html',
             controller: 'busquedaUnidadController'
         });
+         $routeProvider.when('/editarCotizacion', {
+            templateUrl: 'AngularJS/ConsultaCitas/Templates/editalcotizacion.html',
+            controller: 'editarCotizacionController'
+        });
 
         $locationProvider.html5Mode({
             enabled: true,

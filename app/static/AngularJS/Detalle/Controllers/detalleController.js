@@ -256,6 +256,15 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.btnEditarCitaIsEnable = false;
     };
 
+     $scope.editarCotizacion = function (data) {
+        debugger;
+        var orden = $scope.numeroOrden;
+        var idCotizacion = data.idCotizacion
+        location.href = '/editarCotizacion?idCotizacion='+$routeParams.idCotizacion;
+        // + $routeParams.orden+', data='
+
+    }
+
     //********** [ Aqui Comienza Ordenes en Proceso ] *****************************************************************************//
     $scope.pnl_token_admin = false;
 
