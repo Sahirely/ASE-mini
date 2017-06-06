@@ -43,7 +43,7 @@
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                                 <div class="ibox float-e-margins">
                                     <div class="ibox-title">
-                                        <h5>Detalle de la orden / cotización</h5>
+                                        <h5>Detalle de la orden</h5>
                                     </div>
                                     <div class="ibox-content">
                                         <p>
@@ -262,7 +262,7 @@
                                                                 <td>{{partida.instructivo}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta">{{partida.costo}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta">{{partida.venta}}</td>
-                                                                <td ng-hide="idEstatusOrden == 5">
+                                                                <td ng-show="idEstatusOrden == 5">
                                                                     <button ng-init="partida.btnClass='btn btn-success';
                                                                         partida.btnStatus=0;
                                                                         partida.btnText='*'; 

@@ -242,7 +242,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.showButtonsInProcess = function() {
 
         $scope.btnEditarIsEnable = false;
-        $scope.btnGuardaCotizacionIsEnable = false;
+        $scope.btnGuardaCotizacionIsEnable = true;
         $scope.btnNuevaCotizacionIsEnable = false;
         $scope.btnComprobanteRecepcionIsEnable = false;
         $scope.btnEditarCitaIsEnable = false;

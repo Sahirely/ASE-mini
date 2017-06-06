@@ -62,8 +62,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
-                globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 10);
-                globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 10);
+                globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
+                globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
                 //globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes");
             }
             // globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 10);

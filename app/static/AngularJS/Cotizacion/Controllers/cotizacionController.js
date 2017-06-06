@@ -100,7 +100,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                 console.log(result.data)
                 $scope.partidasTaller = result.data;
                 //globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
-                globalFactory.filtrosTabla("dataTablePartidasTalleres", "PartidasTalleres", 5);
+                globalFactory.filtrosTabla("dataTablePartidasTalleres", "PartidasTalleres", 100);
             }
             $('#loadModal').modal('hide');
         }, function(error) {
