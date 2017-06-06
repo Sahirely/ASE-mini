@@ -237,6 +237,12 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
 
+
+    $scope.btnSaveCotizacion = function(objDetalle) {
+        console.log(objDetalle);
+
+    };
+
     $scope.hideAllButtons = function() {
         $scope.btnEditarIsEnable = true;
         $scope.btnGuardaCotizacionIsEnable = true;
@@ -250,8 +256,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
     $scope.showButtonsInProcess = function() {
-        $scope.btnEditarCotizacionIsEnable = false;
-        $scope.btnGuardaCotizacionIsEnable = false;
+        $scope.btnEditarCotizacionIsEnable = false;        
         $scope.btnNuevaCotizacionIsEnable = false;
         $scope.btnComprobanteRecepcionIsEnable = false;
         $scope.btnEditarCitaIsEnable = false;
@@ -272,11 +277,11 @@ registrationModule.controller('detalleController', function($scope, $location, u
         });
     };
 
-     $scope.editarCotizacion = function (data) {
+    $scope.editarCotizacion = function(data) {
         debugger;
         var orden = $scope.numeroOrden;
         var idCotizacion = data.idCotizacion
-        location.href = '/editarCotizacion?idCotizacion='+$routeParams.idCotizacion;
+        location.href = '/editarCotizacion?idCotizacion=' + $routeParams.idCotizacion;
         // + $routeParams.orden+', data='
 
     }

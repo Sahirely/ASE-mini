@@ -285,7 +285,7 @@
                                                                 <td>{{partida.instructivo}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
-                                                                <td ng-show="estatus == 5">
+                                                                <td ng-show="estatus == 4">
                                                                     <button ng-init="partida.btnClass='btn btn-success';
                                                                         partida.btnStatus=0;
                                                                         partida.btnText='*'; 
@@ -409,7 +409,7 @@
                         <!-- Botones -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
-                            <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" ng-class="{Inactivo : SaldoReal < GranTotal}" type="submit"> Guarda Cotizacion</button>
+                            <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" ng-clik="btnSaveCotizacion(cotizacion.detalle)" type="submit"> Guarda Cotizacion</button>
                             <button ng-hide="btnNuevaCotizacionIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>
                             <button ng-hide="btnEditarCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>
                             <button  ng-hide="btnComprobanteRecepcionIsEnable" class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">Comprobante de Recepción</button>
