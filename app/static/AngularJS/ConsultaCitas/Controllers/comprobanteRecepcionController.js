@@ -106,14 +106,20 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
 
     $scope.nuevoComprobanteRecepcion = function(obj) {
         console.log(obj)
+        $scope.numeroComprobanteRecepcion = 0;
         angular.forEach(obj, function(value, key) {
             console.log(value.idCatalogoModuloComprobante)
             consultaCitasRepository.agregarModuloComprobante(value.idCatalogoModuloComprobante, $scope.numeroOrden).then(function(result) {
+                $scope.moduloComprobante = result.data[0].idModuloComprobante;
                 if (result.data[0].idModuloComprobante > 0) {
                     $scope.idModuloComprobante = result.data[0].idModuloComprobante;
                     angular.forEach(value.detalle, function(value2, key) {
                         console.log(value2.idCatalogoDetalleModuloComprobante)
                         consultaCitasRepository.agregarDetalleModuloComprobante(value2.select, value2.idCatalogoDetalleModuloComprobante, $scope.idModuloComprobante, value2.selectTxt).then(function(result) {
+                            $scope.numeroComprobanteRecepcion = $scope.numeroComprobanteRecepcion + 1;
+                            if($scope.numeroComprobanteRecepcion == 1){
+                              $scope.comprobanteRecepcion();  
+                            }    
                             if (result.data[0].idDetalleModuloComprobante > 0) {
                                 console.log('detalle agregado')
                             } else {
@@ -124,12 +130,72 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                 } else {
                     console.log('error')
                 }
-            });
-             location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+1;
+            });    
+            setTimeout(function () {
+              location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+1;
+             }, 8000); 
         });
     }
 
+    $scope.comprobanteRecepcion = function() {
+            consultaCitasRepository.getDatosRecepcion().then(function(result) {
+                if (result.data.length > 0) {
+                var data = {
+                    "DatosUnidad": 
+                        {
+                        "ext_Claxon": result.data[0].accion,
+                        "ext_TaponGasolina": result.data[1].accion,
+                        "ext_TaponLlantas": result.data[2].accion,
+                        "ext_FarosDelanteros": result.data[3].accion,
+                        "ext_Antena": result.data[4].accion,
+                        "ext_Emblemas": result.data[5].accion,
+                        "ext_Cristales": result.data[6].accion,
+                        "int_EspejoRetrovisor": result.data[7].accion,
+                        "int_Radio": result.data[8].accion,
+                        "int_CinturonSeguridad": result.data[9].accion,
+                        "int_ManijasSeguros": result.data[10].accion,
+                        "int_Tapetes": result.data[11].accion,
+                        "int_Ac": result.data[12].accion,
+                        "int_BolsaAireDelantera": result.data[13].accion,
+                        "int_BolsaAireLateral": result.data[14].accion,
+                        "int_LlavesUnidad": result.data[15].accion,
+                        "acs_Reflejantes": result.data[16].accion,
+                        "acs_Extintor": result.data[17].accion,
+                        "acs_LlantaRefaccion": result.data[18].accion,
+                        "acs_CableCorriente": result.data[19].accion,
+                        "acs_PeliculaAntiasalto": result.data[20].accion,
+                        "com_TaponAceite": result.data[21].accion,
+                        "com_TaponRadiador": result.data[22].accion,
+                        "com_VarillaAceite": result.data[23].accion,
+                        "com_Bateria": result.data[24].accion,
+                        "com_TaponMotor": result.data[25].accion,
+                        "doc_PolizaSeguro": result.data[26].accion,
+                        "doc_TarjetaCirculacion": result.data[27].accion,
+                        "tab_Descripcion": result.data[28].descripcion,
+                        "tab_Odometro": result.data[29].descripcion
 
+                        }
+                    }   
+                }   
+   
+                    var jsonData = {
+                        "template": {
+                            "name": "ASEUnidad_rpt" 
+                        },
+                        "data": data
+                    }
+
+                consultaCitasRepository.callExternalPdf(jsonData).then(function (result) {               
+                    setTimeout(function () {
+/*                         var url = $rootScope.vIpServer + result.data;
+                          var a = document.createElement('a');
+                          a.href = url;
+                          a.download = 'ComprobanteRecepción';
+                          a.click();*/
+                     }, 5000);                          
+                });
+            });
+        }
     // $scope.changeDesc = function(data, esttus) {
     //     if (!esttus) {
     //         switch (data) {

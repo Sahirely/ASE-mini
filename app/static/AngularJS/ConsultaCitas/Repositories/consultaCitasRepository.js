@@ -189,6 +189,27 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getDatosRecepcion: function() {
+            return $http({
+                url: consultaCitaUrl + 'getRecepcionInfo/',
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        callExternalPdf: function (jsonData) {
+            return $http({
+                url: consultaCitaUrl + 'newpdf/',
+                method: "POST",
+                data: {
+                    values: jsonData
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });
