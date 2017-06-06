@@ -75,35 +75,22 @@
 </div>
 <div class="col-lg-6">
     <div class="table-responsive">
-        <span class="subtitle"><strong>Recordatorios</strong></span>
-        <br/>
-        <br/>
-        <br/>
-        <table class="table table-bordered table-hover dataTableOrdenes" cg-busy="{promise:promise,message:message}">
+        <table class="table table-bordered table-hover dataTableRecordatorios" cg-busy="{promise:promise,message:message}">
             <thead>
                 <tr>
-                    <th>Descripción</th>
+                    <th>Recordatorio</th>
+                    <th>Plan</th>
                     <th>Fecha</th>
-                    <th>Tiempo Vencido</th>
+                    <th>Tiempo vencido</th>
                 </tr>
             </thead>
             <tbody>
-                <tr title="Doble click para ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-dblclick="seleccionarOrden(ordenesTaller)">
-                    <td></td>
-                    <td>{{ordenesTaller.consecutivoOrden}}</td>
-                    <td>{{ordenesTaller.numeroOrden}}</td>
-                    <td>{{ordenesTaller.numeroEconomico}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
-                    <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
-                    <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
-                    <td>{{ordenesTaller.comentarioOrden}}</td>
-                    <td>{{ordenesTaller.nombreEstatusOrden}}</td>
-                    <td>{{ordenesTaller.nombreUsuario}}</td>
-                    <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
-                    <td></td>
+                <tr title="Doble click para ver detalles" ng-repeat="recordatorio in recordatorios " >
+                    <td>{{recordatorio.nombreAccion}}</td>
+                    <td>{{recordatorio.nombrePlan}}</td>
+                    <td>{{recordatorio.fechaAccion | date:"MM/dd/yyyy hh:mm"}}</td>
+                    <td>{{recordatorio.tiempo}}</td>
+
                 </tr>
             </tbody>
         </table>
@@ -115,93 +102,40 @@
     <div>
         
         <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover dataTableGarantia" cg-busy="{promise:promise,message:message}">
+            <table class="table table-striped table-bordered table-hover dataTableOrdenCallCenter" cg-busy="{promise:promise,message:message}">
                 <thead>
                     <tr>
-                        <th>Cliente</th>
                         <th>Consecutivo</th>
-                        <th>Número de la Orden</th>
-                        <th>Número Económico</th>
+                        <th>Orden</th>
                         <th>Zona</th>
-                        <th>TAR</th>
-                        <th>Nombre Taller</th>
-                        <th>Fecha Cita</th>
-                        <th>Fecha Reclamación</th>
-                        <th>Tipo Cita</th>
-                        <th>Trabajo</th>
-                        <th>Observación</th>
-                        <th>Estatus Órden Servicio</th>
-                        <th>Horas en Garantía</th>
+                        <th>Costo</th>
+                        <th>Venta</th>
+                        <th>Descripción</th>
+                        <th>Estatus</th>
+                        <th>Tiempo Restante</th>
+                        <th>Plan de Acción</th>
+                        <th>Fecha Limite</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="garantias in garantia">
-                        <td>{{garantias.cliente}}</td>
-                        <td>{{garantias.idCita}}</td>
-                        <td>{{garantias.numeroTrabajo}}</td>
-                        <td>{{garantias.numEconomico}}</td>
-                        <td>{{garantias.zona}}</td>
-                        <td>{{garantias.TAR}}</td>
-                        <td>{{garantias.razonSocial}}</td>
-                        <td>{{garantias.fechaCita | date:'dd-MM-yyyy HH:mm'}}</td>
-                        <td>{{garantias.fechaEstatus | date:'dd-MM-yyyy HH:mm'}}</td>
-                        <td>{{garantias.tipoCita}}</td>
-                        <td>{{garantias.trabajo}}</td>
-                        <td>{{garantias.observacion}}</td>
-                        <td>{{garantias.estatus}}</td>
-                        <td ng-class="{'rowVerde': garantias.horasRetraso <= 49, 'rowAmarillo': garantias.horasRetraso >= 50 && garantias.horasRetraso  <=100, 'rowRojo': garantias.horasRetraso >= 101}">{{garantias.horasRetraso}}</td>
+                    <tr ng-repeat="ordenescall in ordencall" ng-click="seleccionarOrden(ordenescall)">>
+                        <td>{{ordenescall.consecutivoOrden}}</td>
+                        <td>{{ordenescall.numeroOrden}}</td>
+                        <td>{{ordenescall.zona}}</td>
+                        <td>{{ordenescall.costo}}</td>
+                        <td>{{ordenescall.venta}}</td>
+                        <td>{{ordenescall.nombreAccion}}</td>
+                        <td>{{ordenescall.nombreEstatusAccion}}</td>
+                        <td>{{ordenescall.tiempo}}</td>
+                        <td>{{ordenescall.nombrePlan}}</td>
+                        <td>{{ordenescall.fechaAccion | date:"MM/dd/yyyy"}}</td>
+                        <!-- <td ng-class="{'rowVerde': garantias.horasRetraso <= 49, 'rowAmarillo': garantias.horasRetraso >= 50 && garantias.horasRetraso  <=100, 'rowRojo': garantias.horasRetraso >= 101}">{{garantias.horasRetraso}}</td> -->
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div ng-show="tipoOrden==4">
-        <span class="subtitle"><strong>En Proceso de Reparación </strong></span>
-        <br>
-        <br>
-        <div class="table-responsive">
-            <table class="table table-striped table-bordered table-hover dataTableProceso" cg-busy="{promise:promise,message:message}">
-                <thead>
-                    <tr>
-                        <th>Cliente</th>
-                        <th>Consecutivo</th>
-                        <th>Número de la Orden</th>
-                        <th>Número Económico</th>
-                        <th>Zona</th>
-                        <th>TAR</th>
-                        <th>Nombre Taller</th>
-                        <th>Fecha Cita</th>
-                        <th>Fecha Aprobación</th>
-                        <th>Fecha Inicio de Reparación</th>
-                        <th>Tipo Cita</th>
-                        <th>Trabajo</th>
-                        <th>Observación</th>
-                        <th>Estatus Órden Servicio</th>
-                        <th>Horas en Reparación</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="procesos in proceso">
-                        <td>{{procesos.cliente}}</td>
-                        <td>{{procesos.idCita}}</td>
-                        <td>{{procesos.numeroTrabajo}}</td>
-                        <td>{{procesos.numEconomico}}</td>
-                        <td>{{procesos.zona}}</td>
-                        <td>{{procesos.TAR}}</td>
-                        <td>{{procesos.razonSocial}}</td>
-                        <td>{{procesos.fechaCita | date:'dd-MM-yyyy HH:mm'}}</td>
-                        <td>{{procesos.fechaInicioTrabajo | date:'dd-MM-yyyy HH:mm'}}</td>
-                        <td>{{procesos.fechaInicioRealTrabajo | date:'dd-MM-yyyy HH:mm'}}</td>
-                        <td>{{procesos.tipoCita}}</td>
-                        <td>{{procesos.trabajo}}</td>
-                        <td>{{procesos.observacion}}</td>
-                        <td>{{procesos.estatus}}</td>
-                        <td ng-class="{'rowVerde': procesos.horasRetraso <= 49, 'rowAmarillo': procesos.horasRetraso >= 50 && procesos.horasRetraso  <=100, 'rowRojo': procesos.horasRetraso >= 101}">{{procesos.horasRetraso}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+   
 </div>
 </div>
 </div>

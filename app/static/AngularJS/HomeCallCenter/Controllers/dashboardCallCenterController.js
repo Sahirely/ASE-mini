@@ -1,4 +1,4 @@
-registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter) {
+registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory) {
     
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
@@ -9,6 +9,8 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
       $scope.traeOrdenesAtrasadas();
       $scope.traeOrdenesParaHoy();
       $scope.traeOrdenesSinObjetivo();
+      $scope.traeRecordatorios();
+      $scope.traeOrdenCallCenter();
     };
 
     //funcion reloj recursiva cada minuto
@@ -51,15 +53,36 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
                 });
         };
 
-     $scope.traeRecordatorios = function() {
-            dashboardCallCenterRepository.getRecordatorios($scope.idOperacion, $scope.userData.idUsuario)
-                .then(function successCallback(response) {
-                   $('.dataTableRecordatorios').DataTable().destroy();
-                  $scope.recordatorios = ordentermina.data;
-                  waitDrawDocument("dataTableRecordatorios");
-                }, function errorCallback(response) {
-                    $scope.ordenesSinObjetivo = 0;
-                });
-        };
+
+     $scope.traeRecordatorios = function(){
+         $('.dataTableRecordatorios').DataTable().destroy();
+         $scope.operaciones=[];
+        $scope.promise = dashboardCallCenterRepository.getRecordatorios($scope.idOperacion, $scope.userData.idUsuario).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.recordatorios = result.data;
+                 globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 3);
+            }
+        }, function (error) {
+            alertFactory.error('El usuario no tiene recordatorios');
+        });
+    };
+
+    $scope.traeOrdenCallCenter = function(){
+         $('.dataTableOrdenCallCenter').DataTable().destroy();
+         $scope.operaciones=[];
+        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.idOperacion, $scope.userData.idUsuario).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.ordencall = result.data;
+                 globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 10);
+            }
+        }, function (error) {
+            alertFactory.error('El usuario no tiene recordatorios');
+        });
+    };
+
+     $scope.seleccionarOrden = function(obj) {
+        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;
+    }
+
 
 });
