@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository) {
+registrationModule.controller('detalleController', function($scope, $location, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -16,16 +16,17 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.x = 0;
     $scope.numCotz = 0;
     $scope.HistoricoCotizaciones = [];
+    $scope.userData = {};
 
     $scope.init = function() {
         console.log("##### Mi estatus ", $scope.estatus);
-
+        userFactory.ValidaSesion();
+        $scope.userData = userFactory.getUserData();
         $scope.getHistoricos();
-
-        $scope.getOrdenDetalle($scope.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenCliente($scope.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenDocumentos($scope.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenEvidencias($scope.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
         // Las cotizaciones se muestran desde GetOrdenDetalle
         $scope.setActiveButtons($scope.estatus);
         $scope.enviaNota();
@@ -155,7 +156,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
     $scope.enviaNota = function() {
         $scope.notaTrabajo = [];
         var Nota = $scope.textoNota == '' ? null : $scope.textoNota;
-        detalleRepository.insNota(Nota, $scope.numeroOrden, $scope.idUsuario).then(function(result) {
+        detalleRepository.insNota(Nota, $scope.numeroOrden, $scope.userData.idUsuario).then(function(result) {
             if (result.data.length > 0) {
                 $scope.notaTrabajo = result.data;
             }
@@ -215,7 +216,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
             case 3:
                 $scope.hideAllButtons();
                 break;
-            case 4: //Botones habilitados para modulo aprobación                
+            case 4: //Botones habilitados para modulo aprobación
                 $scope.hideAllButtons();
                 $scope.btnEditarIsEnable = false;
                 $scope.btnGuardaCotizacionIsEnable = false;

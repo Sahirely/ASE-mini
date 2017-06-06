@@ -26,9 +26,9 @@ Detalle.prototype.get_insertaNota = function(req, res, next){
         value: req.query.nota,
         type: self.model.types.STRING
       },{
-        name: 'idOrden',
-        value: req.query.idOrden,
-        type: self.model.types.INT
+        name: 'numOrden',
+        value: req.query.numOrden,
+        type: self.model.types.STRING
       },{
         name: 'idUsuario',
         value: req.query.idUsuario,
