@@ -187,11 +187,11 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
 
                 consultaCitasRepository.callExternalPdf(jsonData).then(function (result) {               
                     setTimeout(function () {
-/*                         var url = $rootScope.vIpServer + result.data;
+                          var url = $rootScope.vIpServer + result.data;
                           var a = document.createElement('a');
                           a.href = url;
                           a.download = 'ComprobanteRecepción';
-                          a.click();*/
+                          a.click();
                      }, 5000);                          
                 });
             });

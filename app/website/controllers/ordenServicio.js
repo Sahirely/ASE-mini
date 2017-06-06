@@ -421,10 +421,9 @@ OrdenServicio.prototype.post_newpdf = function(req, res, next) {
 
     var http = require('http'),
         fs = require('fs');
-
     var filename = 'ComprobanteRecepcion';
-    var filePath = 'C:/ASE_Temp/'+ filename + '.pdf';
-    var fileresponse = 'C:/ASE_Temp/'+ filename + '.pdf';
+    var filePath = 'C:/Desarrollo/imgserver/public/comprobante'+ filename + '.pdf';
+    var fileresponse = '/comprobante/'+ filename + '.pdf';
 
     var options = {
         "method": "POST",
