@@ -1594,22 +1594,24 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
     var self = this;
     try{
 
-        if( req.query.numeroOrden == null || req.query.numeroOrden == '' ){
+        if( req.query.numeroOrden == null || req.query.numeroOrden == '' ){            
             object.result = {success: false, msg: 'No se ha proporcionado el Número de Orden.'};
             self.view.expositor(res, object);
         }
-        else if( req.query.estatus == null || req.query.estatus == '' ){
+        else if( req.query.estatus == null || req.query.estatus == '' ){            
             object.result = {success: false, msg: 'No se ha proporcionado el Estatus.'};
             self.view.expositor(res, object);
         }
         else{
             var params = [
                 {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING },
-                {name: 'estatus', value: req.query.estatus, type: self.model.types.INT }            
+                {name: 'estatus', value: req.query.estatus, type: self.model.types.STRING }            
             ];
-
+            console.log(req.query.numeroOrden)
+            console.log(req.query.estatus)
             self.model.query('SEL_COTIZACIONES_ORDEN_SP', params, function (error, result) {
                 var cotizaciones = result;
+                console.log(cotizaciones);
                 var tamanio = cotizaciones.length;
                 var contador = 0;
                 var i = 0;
@@ -1621,8 +1623,8 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                             {name: 'usuario', value: req.query.usuario , type: self.model.types.STRING}                        
                         ];
 
-                        // self.model.query('SEL_PARTIDAS_APROBACION_SP', params, function (err, datos) {
-                        self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
+                         self.model.query('SEL_PARTIDAS_APROBACION_SP', params, function (err, datos) {
+                        //self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
 
                             cotizaciones [ key ].detalle = datos;
 

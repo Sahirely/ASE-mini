@@ -18,13 +18,13 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        insNota: function(nota, idOrden, idUsuario) {
+        insNota: function(nota, numOrden, idUsuario) {
             return $http({
                 url: detalleUrl + 'insertaNota/',
                 method: "GET",
                 params: {
                     nota: nota,
-                    idOrden: idOrden,
+                    numOrden: numOrden,
                     idUsuario: idUsuario
                 },
                 headers: {
