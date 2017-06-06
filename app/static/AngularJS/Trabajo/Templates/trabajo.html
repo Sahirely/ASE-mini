@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="AngularJS/Administracion/Styles/administracionOrden.css">
 <link rel="stylesheet" href="Libraries/css/nsPopover.css"> -->
 <link rel="stylesheet" href="AngularJS/Trabajo/Styles/trabajo.css">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="Init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
         <span class="title"> Órdenes de Servicio </span>
     </div>
@@ -136,7 +136,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden : '!7' }" ng-dblclick="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : '!7' }" ng-dblclick="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                                     <td>{{orden.nombreCliente}}</td>
                                                     <td>{{orden.idOrden}}</td>
                                                     <td>{{orden.numeroOrden}}</td>
@@ -150,9 +150,12 @@
                                                     <td>{{orden.nombreEstatusOrden}}</td>
                                                     <td>{{'BPRO'}}</td>
                                                     <td>{{'10' | currency}}</td>
-                                                    <td>{{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}}</td>
-                                                    <td>{{orden.fechaInicioTrabajo}}
-                                                        <!-- <button ng-if="trabajo.estatus == 'Iniciado' || trabajo.estatus == 'OrdenGarantia'" ng-hide="userData.idTipoUsuario == 4" class="btn btn-success" type="button" ng-click="cargaFecha(trabajo.idTrabajo)" data-toggle="tooltip" tooltip="Fecha Inicio real de trabajos" tooltip-placement="up"><span class="glyphicon glyphicon-calendar"></span></button> -->
+                                                    <td> {{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}} </td>
+                                                    <td>
+                                                        <button class="btn btn-primary" ng-click="OpenModal( key, orden.idOrden );" ng-show="orden.fechaInicioTrabajo == null">
+                                                            <span class="glyphicon glyphicon-calendar"></span>
+                                                        </button>
+                                                        {{orden.fechaInicioTrabajo | date:"dd-MM-yy HH:mm"}}
                                                     </td>
                                                     <td></td>
                                                 </tr>
@@ -214,6 +217,52 @@
                 </div>
             </div>
             
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Fecha de Trabajo</h4>
+            </div>
+            <div class="modal-body">
+                <p>Introduce la fecha real de trabajo</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Fecha</label>
+                        <div class="input-group date">
+                            <input type="text" class="form-control" value="" ng-model="fecha_inicio" calendar>
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Hora</label>
+                        <div class="input-group clockpicker" data-autoclose="true">
+                            <input type="text" class="form-control" value="" ng-model="hora_inicio" ng-change="validaHoraCita()">
+                            <span class="input-group-addon">
+                            <span class="fa fa-clock-o"></span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-12">
+                        <br>
+                        <div class="alert alert-warning" ng-show="fecha_error">
+                            <strong>Atención!</strong> {{ msg_error }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-click="Guardar_Fecha();">Guardar Fecha</button>
+            </div>
         </div>
     </div>
 </div>

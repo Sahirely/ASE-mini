@@ -20,6 +20,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
     $scope.fecha         = '';
     $scope.numeroTrabajo = '';
 
+    $scope.idOrden_Temp  = 0;
+
     $scope.init = function() {
         $scope.muestraTabla = false;
 
@@ -28,6 +30,9 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
         $scope.devuelveEjecutivos();
+
+        
+        console.log( 'Picker' );
         // globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
         // globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
 
@@ -39,6 +44,60 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
         //-----------------------------------------------------------------//
         //$scope.getOrdenesServicio(3);
     };
+
+    $scope.indiceOrdenes = -1;
+    $scope.OpenModal = function( index, Id ){
+        $scope.fecha_inicio  = '';
+        $scope.hora_inicio   = '';
+        $scope.indiceOrdenes = index;
+        $scope.idOrden_Temp  = Id;
+        $("#myModal").modal();
+    }
+
+    $scope.fecha_error = false;
+    $scope.Guardar_Fecha = function(){
+        if( $scope.indiceOrdenes == -1 ){
+            console.log('Esta ocurriendo un error, por algun motivo no se esta seleccionando el indice de ragistro');
+        }
+        else{
+            console.log( $scope.fecha_inicio + ' ' + $scope.hora_inicio )
+            if( $scope.fecha_inicio == '' || $scope.fecha_inicio === undefined ){
+                $scope.fecha_error = true;
+                $scope.msg_error = 'Debes ingresar la fecha de Inicio del Trabajo';
+
+                setTimeout( function(argument) {
+                    $scope.fecha_error = false;
+                    $scope.msg_error = '';
+                }, 2000 );
+            }
+            else if( $scope.hora_inicio == '' || $scope.hora_inicio === undefined ){
+                $scope.fecha_error = true;
+                $scope.msg_error = 'Debes ingresar la hora de Inicio del Trabajo';   
+
+                setTimeout( function(argument) {
+                    $scope.fecha_error = false;
+                    $scope.msg_error = '';
+                }, 2000 );
+            }
+            else{
+                var fechaTrabajo = $scope.fecha_inicio + ' ' + $scope.hora_inicio;
+                $scope.ordenes[ $scope.indiceOrdenes ].fechaInicioTrabajo = fechaTrabajo;
+                trabajoRepository.saveFechaTrabajo($scope.idOrden_Temp, fechaTrabajo).then(function( registros ){
+                    console.log( registros );
+                    // if(ejecutivos.data.length > 0){
+                        // $scope.listaEjecutivos = ejecutivos.data;
+                    // }
+                }, function(error){
+                    alertFactory.error('No se pudo recuperar la respuesta');
+                });
+
+                $("#myModal").modal('hide');
+                
+            }
+
+        }
+
+    }
 
     $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
@@ -101,6 +160,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
     };
 
     $scope.getOrdenesServicio = function(tipoConsulta) {
+        $('.clockpicker').clockpicker();
+
         $scope.numeroTrabajo = '';
         cotizacionConsultaRepository.consultarOrdenes(
             tipoConsulta, 
@@ -122,6 +183,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
     };
 
     $scope.getOrdenesByNumero = function(tipoConsulta) {
+        $('.clockpicker').clockpicker();
+
         if( $scope.numeroTrabajo == '' ){
             alert('Numero de Orden vacío');
         }

@@ -5,6 +5,17 @@ var reporteDummyUrl = global_settings.urlCORS + '/api/reporte/';
 
 registrationModule.factory('trabajoRepository', function ($http) {
     return {
+        saveFechaTrabajo: function(idOrden, fechaInicio){
+          return $http({
+              url: trabajoUrl + 'fechaRealTrabajo',
+              method: "GET",
+              params: {
+                  idOrden: idOrden,
+                  fechaInicio: fechaInicio
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
+        },
         getNivelZona: function(idUsuario){
           return $http({
               url: searchUrl + 'nivelZona',

@@ -10,6 +10,23 @@
     margin-top: 30px;
 }
 
+.modal-header {
+    background-color: #55B4F0;
+}
+.modal-title {
+    color: #ffffff;
+    font-size: 20px;
+}
+.close {
+    opacity: 1;
+    color: #ffffff;
+}
+.modal-header .close {
+    /*margin-top: -20px;*/
+    /*margin-right: -10px;*/
+    font-size: 30px;
+}
+
 @media only screen and (max-width: 500px) {
     .table-responsive {
         border: none;
