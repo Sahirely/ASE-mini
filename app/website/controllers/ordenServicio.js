@@ -405,6 +405,64 @@ OrdenServicio.prototype.post_agregarAcciones= function(req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_getRecepcionInfo = function(req, res, next) {
+    var self = this;
+    var params = [];
 
+    this.model.query('SEL_DATOS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+OrdenServicio.prototype.post_newpdf = function(req, res, next) {
+
+    var http = require('http'),
+        fs = require('fs');
+    var filename = 'ComprobanteRecepcion';
+    var filePath = 'C:/Desarrollo/imgserver/public/comprobante/'+ filename + '.pdf';
+    var fileresponse = '/comprobante/'+ filename + '.pdf';
+
+    var options = {
+        "method": "POST",
+        "hostname": "189.204.141.193",
+        "port": "5488",
+        "path": "/api/report",
+        "headers": {
+            "content-type": "application/json"
+        }
+    };
+
+    var request = http.request(options, function(response) {
+        var chunks = [];
+
+        response.on("data", function(chunk) {
+            chunks.push(chunk);
+        });
+
+        response.on("end", function() {
+            var body = Buffer.concat(chunks);
+
+            fs.writeFile(filePath, body, function(err) {
+                if (err) return console.log(err);
+                //console.log('Archivo creado');
+            });
+
+        });
+    });
+
+    request.write(JSON.stringify(req.body.values));
+    request.end();
+
+    var self = this;
+
+    self.view.expositor(res, {
+        error: null,
+        //result: filename
+        result: fileresponse
+    });
+};
 
 module.exports = OrdenServicio;

@@ -257,6 +257,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
 
+
     $scope.getSaldos = function(numeroOrden) {
 
         aprobacionRepository.getPresupuesto(numeroOrden).then(function(result) {
@@ -269,6 +270,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
             alertFactory.error('sinsaldos');
         });
     };
+
+     $scope.editarCotizacion = function (data) {
+        debugger;
+        var orden = $scope.numeroOrden;
+        var idCotizacion = data.idCotizacion
+        location.href = '/editarCotizacion?idCotizacion='+$routeParams.idCotizacion;
+        // + $routeParams.orden+', data='
+
+    }
+
 
     //********** [ Aqui Comienza Ordenes en Proceso ] *****************************************************************************//
     $scope.pnl_token_admin = false;

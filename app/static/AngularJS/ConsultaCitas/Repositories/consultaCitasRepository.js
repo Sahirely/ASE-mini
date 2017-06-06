@@ -93,6 +93,19 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
+        getCotizacionDetalle: function(idCotizacion, usuario) {
+            return $http({
+                url: consultaCitaUrl + 'getCitizacionDetalle/',
+                method: "GET",
+                params: {
+                    idCotizacion: idCotizacion,
+                    usuario: usuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getTalleres: function() {
             return $http({
                 url: consultaCitaUrl + 'getTalleres/',
@@ -185,6 +198,27 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 url: consultaCitaUrl + 'agregarAcciones',
                 method: "POST",
                 data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getDatosRecepcion: function() {
+            return $http({
+                url: consultaCitaUrl + 'getRecepcionInfo/',
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        callExternalPdf: function (jsonData) {
+            return $http({
+                url: consultaCitaUrl + 'newpdf/',
+                method: "POST",
+                data: {
+                    values: jsonData
+                },
                 headers: {
                     'Content-Type': 'application/json'
                 }
