@@ -12,9 +12,10 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.x = 0;
     $scope.totalNiveles = 0;
     $scope.zonaSelected = "0";
-    $scope.ZonasSeleccionadas = {};
+    $scope.ZonasSeleccionadas = [];
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+    
     $scope.cotizaciones = [];
 
     // $scope.userData = localStorageService.get('userData');
@@ -31,8 +32,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
         $scope.devuelveEjecutivos();
-        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
-        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
+        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
+        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
     }
 
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
@@ -90,10 +91,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
-          if (result.data.length != 0){
+      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( 3, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
+          if (result.data.length > 0){
               $scope.cotizaciones = result.data;
-              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
+              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
+              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
+          } else {
+              $scope.cotizaciones = [];
+              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
+              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
+              alertFactory.info('No se Encontraron Ordenes en Aprobación.');
           }
 
       },function (error) {
@@ -185,29 +192,29 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
           var fechaPartida = $scope.fechaMes.split('-');
           if (fechaPartida[0] == 'Enero') {
-              result = '01/01/' + fechaPartida[1];
+              result = fechaPartida[1] + '/01/01' ;
           } else if (fechaPartida[0] == 'Febrero') {
-              result = '01/02/' + fechaPartida[1];
+              result = fechaPartida[1] + '/02/01' ;
           } else if (fechaPartida[0] == 'Marzo') {
-              result = '01/03/' + fechaPartida[1];
+              result = fechaPartida[1] + '/03/01' ;
           } else if (fechaPartida[0] == 'Abril') {
-              result = '01/04/' + fechaPartida[1];
+              result = fechaPartida[1] + '/04/01' ;
           } else if (fechaPartida[0] == 'Mayo') {
-              result = '01/05/' + fechaPartida[1];
+              result = fechaPartida[1] + '/05/01' ;
           } else if (fechaPartida[0] == 'Junio') {
-              result = '01/06/' + fechaPartida[1];
+              result = fechaPartida[1] + '/06/01';
           } else if (fechaPartida[0] == 'Julio') {
-              result = '01/07/' + fechaPartida[1];
+              result = fechaPartida[1] + '/07/01' ;
           } else if (fechaPartida[0] == 'Agosto') {
-              result = '01/08/' + fechaPartida[1];
+              result = fechaPartida[1] + '/08/01' ;
           } else if (fechaPartida[0] == 'Septiembre') {
-              result = '01/09/' + fechaPartida[1];
+              result = fechaPartida[1] + '/09/01' ;
           } else if (fechaPartida[0] == 'Octubre') {
-              result = '01/10/' + fechaPartida[1];
+              result = fechaPartida[1] + '/10/01' ;
           } else if (fechaPartida[0] == 'Noviembre') {
-              result = '01/11/' + fechaPartida[1];
+              result = fechaPartida[1] + '/11/01' ;
           } else if (fechaPartida[0] == 'Diciembre') {
-              result = '01/12/' + fechaPartida[1];
+              result = fechaPartida[1] + '/12/01' ;
           }
         }
       return result;

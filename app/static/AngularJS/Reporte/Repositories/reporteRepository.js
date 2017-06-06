@@ -2,13 +2,14 @@ var reporteGralUrl = global_settings.urlCORS + '/api/reporte/';
 
 registrationModule.factory('reporteRepository', function ($http) {
     return {
-          reporteParqueVehicular: function(idOperacion, filtro){
+          reporteParqueVehicular: function(idOperacion, filtro, idZona){
             return $http({
                    url: reporteGralUrl + 'ReporteParqueVehicular',
                    method: "GET",
                    params: {
                        idOperacion: idOperacion,
-                       filtro: filtro
+                       filtro: filtro,
+                       idZona: idZona
                    },
                    headers: {
                        'Content-Type': 'application/json'

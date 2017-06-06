@@ -96,7 +96,7 @@ Login.prototype.get_validaCredenciales = function(req, res, next) {
         var totalOp = OperacionesUsuarios.length;
 
         if (totalOp > 0) {
-            if (OperacionesUsuarios.HasSession == 'False'){
+            if (OperacionesUsuarios[0].HasSession == 'False'){
                 OperacionesUsuarios.forEach(function(item, key) {
                     var idOp = item.idOperacion;
 

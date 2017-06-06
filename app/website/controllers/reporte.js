@@ -36,6 +36,10 @@ Reporte.prototype.get_ReporteParqueVehicular = function (req, res, next){
                 name: 'filtro',
                 value: req.query.filtro,
                 type: self.model.types.INT
+            },{
+                name: 'idZona',
+                value: req.query.idZona,
+                type: self.model.types.INT
             }];
 
     self.model.query('SEL_REPORTE_PARQUE_VEHICULAR_SP', params,function(error, result){

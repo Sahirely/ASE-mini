@@ -12,19 +12,32 @@
             </div>
             <div class="panel-body">
               <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                      <label class="font-noraml">Tipo de Unidad</label>
-                      <select class="form-control m-b" id="tipoUni" ng-model="tipoUnidadSelected"
-                      ng-options="tipUni.idTipoUnidad as tipUni.unidad for tipUni in tiposUnidad">
-                          <option value="">Seleccione un Tipo de Unidad</option>
-                      </select>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
+                        <label class="font-noraml">{{zona.etiqueta}}</label>
+                        <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
+                            <option value="0">Seleccione una Zona</option>
+                            <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                              {{z.nombre}}
+                            </option>
+                        </select>
+                    </div>
                   </div>
-                  <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                    <br>
-                      <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                          class="btn btn-primary" ng-click="GetReporteParqueVehicular();">
-                          <span class="glyphicon glyphicon-search"></span>
-                      </button>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <label class="font-noraml">Tipo de Unidad</label>
+                        <select class="form-control m-b" id="tipoUni" ng-model="tipoUnidadSelected"
+                        ng-options="tipUni.idTipoUnidad as tipUni.unidad for tipUni in tiposUnidad">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                      <br>
+                        <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
+                            class="btn btn-primary" ng-click="GetReporteParqueVehicular();">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </div>
                   </div>
               </div>
             </div>
@@ -36,6 +49,7 @@
               <thead>
                   <tr>
                       <th class="center">Número Económico</th>
+                      <th class="center">Placas</th>
                       <th class="center">Tipo</th>
                       <th class="center">Marca</th>
                       <th class="center">Sub Marca</th>
@@ -44,14 +58,17 @@
                       <th class="center">VIN</th>
                       <th class="center" ng-show="showGPS">GPS</th>
                       <th class="center">Sustituto</th>
-                      <th class="center">Placas</th>
                       <th class="center" ng-show="showCentro">Centro de Trabajo</th>
+                      <th class="center">Zona</th>
                   </tr>
               </thead>
               <tbody>
                   <tr ng-repeat="unidad in Unidades" ng-click="irDetalle(unidad.numeroEconomico)">
                       <td class="center">
                           {{unidad.numeroEconomico}}
+                      </td>
+                      <td class="center">
+                  			   {{unidad.placas}}
                       </td>
                       <td class='center'>
                           {{unidad.tipo}}
@@ -77,11 +94,11 @@
                       <td class="center">
                           {{unidad.sustituto == 1 ? 'Si' : 'No'}}
                       </td>
-                      <td class="center">
-                  			   {{unidad.placas}}
-                      </td>
                       <td class="center" ng-show="showCentro">
                   			   {{unidad.nombreCentroTrabajo}}
+                      </td>
+                      <td>
+                          {{unidad.nombreZona}}
                       </td>
               </tbody>
           </table>
