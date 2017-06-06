@@ -1,4 +1,4 @@
-registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository) {
+﻿registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository) {
     $rootScope.showChat = 0;
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Se inicializa variable para activar en que opción del menú se encuentra
@@ -19,7 +19,7 @@ registrationModule.controller('mainController', function($scope, $rootScope, $lo
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
         $scope.userData = userFactory.getUserData(); //localStorageService.get('userData');
-        $scope.idUsuario = $scope.userData.idUsuario;
+        //$scope.idUsuario = $scope.userData.idUsuario;
     }
 
     $scope.CambiarOperacion = function(idCont) {
