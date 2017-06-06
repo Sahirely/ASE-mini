@@ -259,8 +259,8 @@
                                                                 <td>{{partida.descripcion}}</td>
                                                                 <td>{{partida.foto}}</td>
                                                                 <td>{{partida.instructivo}}</td>
-                                                                <td ng-show="btnSwitch.showCostoVenta">{{partida.costo}}</td>
-                                                                <td ng-hide="btnSwitch.showCostoVenta">{{partida.venta}}</td>
+                                                                <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
+                                                                <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td ng-hide="estatus == 5">
                                                                     <button ng-init="partida.btnClass='btn btn-success';
                                                                         partida.btnStatus=0;
@@ -278,15 +278,15 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td><strong>SUBTOTAL :</strong></td>
-                                                                <td>{{ vistaPrecio == 1 ? sumaPrecioTotal : sumaPrecioTotalCliente | currency}}</td>
+                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto : cotizacion.sumaVenta | currency}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>I.V.A :</strong></td>
-                                                                <td>{{ vistaPrecio == 1 ? sumaIvaTotal : sumaIvaTotalCliente | currency}}</td>
+                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto * 0.16 : cotizacion.sumaVenta * 0.16 | currency}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>TOTAL :</strong></td>
-                                                                <td>{{ vistaPrecio == 1 ? sumaGranTotal : sumaGranTotalCliente | currency}}</td>
+                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto * 1.16 : cotizacion.sumaVenta * 1.16 | currency}}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
