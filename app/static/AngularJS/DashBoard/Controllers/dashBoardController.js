@@ -8,13 +8,13 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.totalOrdenesPorCobrar = 0;
     $scope.userData              = userFactory.getUserData();
 
-    // $scope.idOperacion           = $scope.userData.idOperacion;
-    // $scope.idUsuario             = $scope.userData.idUsuario;
-    // $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
+    $scope.idOperacion           = $scope.userData.idOperacion;
+    $scope.idUsuario             = $scope.userData.idUsuario;
+    $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
 
-    $scope.idOperacion           = 2;
-    $scope.idUsuario             = 2;
-    $scope.idContratoOperacion   = 3;
+    // $scope.idOperacion           = 2;
+    // $scope.idUsuario             = 2;
+    // $scope.idContratoOperacion   = 3;
 
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x                     = 0;
