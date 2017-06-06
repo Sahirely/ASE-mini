@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository) {
+registrationModule.controller('detalleController', function($scope, $location, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -35,6 +35,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         // console.log( $scope.detalleOrden );
         console.log($scope.idEstatusOrden);
         console.log('==============================');
+        $scope.getSaldos($routeParams.orden);
     };
 
     $scope.getHistoricos = function() {
@@ -234,7 +235,6 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
 
-
     $scope.hideAllButtons = function() {
         $scope.btnEditarIsEnable = true;
         $scope.btnGuardaCotizacionIsEnable = true;
@@ -254,6 +254,20 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.btnNuevaCotizacionIsEnable = false;
         $scope.btnComprobanteRecepcionIsEnable = false;
         $scope.btnEditarCitaIsEnable = false;
+    };
+
+
+    $scope.getSaldos = function(numeroOrden) {
+
+        aprobacionRepository.getPresupuesto(numeroOrden).then(function(result) {
+            if (result.data.length > 0) {
+                console.log("entro AQUI");
+                $scope.detalleCliente = result.data[0];
+                console.log(result.data[0]);
+            }
+        }, function(error) {
+            alertFactory.error('sinsaldos');
+        });
     };
 
     //********** [ Aqui Comienza Ordenes en Proceso ] *****************************************************************************//
