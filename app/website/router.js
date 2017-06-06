@@ -16,6 +16,6 @@ module.exports = {
   ordenServicio: require('./controllers/ordenServicio'),
   configurador: require('./controllers/configurador'),
   detalle: require('./controllers/detalle'),
-  cobrar: require('./controllers/cobrar/cobrar')
+  cobrar: require('./controllers/cobrar/cobrar'),
   dashboardCallcenter: require('./controllers/dashboardCallcenter')
 }
