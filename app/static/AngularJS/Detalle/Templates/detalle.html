@@ -209,7 +209,13 @@
                                                     btnSwitch.classVenta='btn btn-success';
                                                     btnSwitch.classCosto='btn btn-default' ">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right" style="margin: 0 10px;">Cargar Factura</button>
+
+                                                <button 
+                                                    class="btn btn-primary pull-right cargar-factura" 
+                                                    ng-show="idEstatusOrden == 5"
+                                                    ng-click="OpenModalFactura();">
+                                                    Cargar Factura
+                                                </button>
                                             </div>
                                             <br>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -231,7 +237,7 @@
                                                                 <th>Instructivo</th>
                                                                 <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                                                 <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
-                                                                <th>_</th>
+                                                                <th ng-hide="idEstatusOrden == 5">&nbsp;</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -250,7 +256,7 @@
                                                                 <td>{{partida.instructivo}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta">{{partida.costo}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta">{{partida.venta}}</td>
-                                                                <td>
+                                                                <td ng-hide="idEstatusOrden == 5">
                                                                     <button ng-init="partida.btnClass='btn btn-success';
                                                                         partida.btnStatus=0;
                                                                         partida.btnText='*'; 
@@ -383,12 +389,113 @@
                             <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right  btn-movil" type="submit">Negro</button>
                             <button ng-hide="btnMoradoIsEnable" class="btn btn-morado pull-right  btn-movil" type="submit">Morado</button>
                         </div>
+
+                        <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
+                        <div ng-show="idEstatusOrden == 5";>
+                            <div class="col-sm-12 pull-right">
+                                <button 
+                                    class="btn btn-primary pull-right btn-movil" 
+                                    type="button"
+                                    ng-click="ShowAutorizacionAdmin();">
+                                    Terminar Trabajo
+                                </button>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 pull-right" ng-show="pnl_token_admin">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Token de Autorización Administrador
+                                    </div>
+                                    <div class="panel-body">
+                                        <p> La orden se encuentra en espera de autorización, para permitir la salida de la unidad.</p>
+                                        <p>Introduzca el token proporcionado por el administrador.</p>
+                                        
+                                        <br><br>
+
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <label>Token</label>
+                                        </div>
+                                        <div class="col-sm-9 col-md-9 col-lg-9">
+                                            <input type="text" class="token_admin form-control">
+                                        </div>
+
+                                        <div class="col-sm-12">
+                                            <br>
+                                            <button 
+                                                class="btn btn-primary pull-right btn-movil" 
+                                                type="button"
+                                                ng-click="">
+                                                Aceptar
+                                            </button>
+
+                                            <button 
+                                                class="btn btn-default tbn-cancelar pull-right btn-movil" 
+                                                type="button"
+                                                ng-click="HideAutorizacionAdmin();">
+                                                Cancelar
+                                            </button>
+                                        </div>
+
+                                        <br><br><br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Fecha de Trabajo</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                <p>Introduce la fecha real de trabajo</p>
+                    <form id="myForm" class="" name="myForm" enctype="multipart/form-data" method="post">
+                        <label>XML</label> <input type="file" name="myFile1" id="myFile1">
+                        <br>
+                        <!-- <label>PDF</label> <input type="file" name="myFile2" id="myFile2"> -->
+                        <br>
+                        <input class="btn btn-warning" type="submit" name="submit" id="myButton">
+                    </form>
+                    <script type="text/javascript">
+                        var form = document.forms.namedItem("myForm");
+                        form.addEventListener('submit', function( ev ){
+                            // var myFile = document.getElementById('myFile2').files[0];
+                            var oData = new FormData( form );
+                            var oReq = new XMLHttpRequest();
+                            oReq.open( 'post', "api/trabajo/subirArchivo", true );
+                            oReq.onload = function( oEvent ){
+                                console.log( oReq.status );
+                                console.log( JSON.parse(oReq.response) );
+                            }
+                            oReq.send( oData );
+                            ev.preventDefault();
+                            // console.log( 'hola mundo' );
+                        }, false);
+                    </script>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-click="Guardar_Fecha();">Guardar Fecha</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
 $(document).ready(function() {
     $('.scroll_content').slimscroll({

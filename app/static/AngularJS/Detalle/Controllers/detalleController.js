@@ -248,6 +248,27 @@ registrationModule.controller('detalleController', function($scope, $location, c
         $scope.btnEditarCitaIsEnable = false;
     };
 
+    //********** [ Aqui Comienza Ordenes en Proceso ] *****************************************************************************//
+    $scope.pnl_token_admin = false;
+
+    $scope.ShowAutorizacionAdmin = function(){
+        $scope.pnl_token_admin = true;    
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        setTimeout( function(){ $(".token_admin").focus(); }, 1001 );
+    }
+
+    $scope.HideAutorizacionAdmin = function(){
+        $scope.pnl_token_admin = false;
+    }
+
+    $scope.OpenModalFactura = function( index, Id ){
+        $("#myModal").modal();
+    }
+
+    $scope.HideModalFactura = function( index, Id ){
+        $("#myModal").modal('hide');
+    }
+    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
 
 
