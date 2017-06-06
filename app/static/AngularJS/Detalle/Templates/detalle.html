@@ -102,13 +102,13 @@
                         <!-- Eidencias por orden -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <div class="carousel slide" id="carousel1" ng-repeat="evidencia in detalleEvidencias">
+                            <div class="carousel slide" id="carousel1" style="height: 350px;width: 90%">
                                 <div class="carousel-inner">
-                                    <div class="item active">
-                                        <img alt="image" class="img-responsive" src="{{evidencia.rutaEvidencia}}/{{evidencia.nombreEvidencia}}">
+                                    <div class="item" ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
+                                        <img alt="image" class="img-responsive" src="{{evidencia.rutaEvidencia}}">
                                     </div>
-                                    <!-- <div class="item active">
-                                        <img alt="image" class="img-responsive" src="image/mapa.jpg">
+                                    <!--   <div class="item">
+                                        <img alt="image" class="img-responsive" src="{{evidencia.rutaEvidencia}}">
                                     </div> -->
                                     <!--                                     <div class="item">
                                         <img alt="image" class="img-responsive" src="image/pemex_logo.png">
@@ -123,6 +123,16 @@
                                 <a data-slide="next" href="#carousel1" class="right carousel-control">
                                     <span class="icon-next"></span>
                                 </a>
+                            </div>
+                            <div class="wrapper wrapper-content">
+                                <br/>
+                                <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">
+                                    <label>Carga Evidencia</label>
+                                    <input type="file" name="myFile1" id="myFile1">
+                                    <br>
+                                    <!-- <label>PDF</label> <input type="file" name="myFile2" id="myFile2"> -->
+                                    <input class="btn btn-warning" type="submit" name="submit" id="myButton" ng-click="subirEvidencias()">
+                                </form>
                             </div>
                         </div>
                         <!-- Documentos por orden -->
@@ -209,11 +219,7 @@
                                                     btnSwitch.classVenta='btn btn-success';
                                                     btnSwitch.classCosto='btn btn-default' ">Venta</button>
                                                 </div>
-
-                                                <button 
-                                                    class="btn btn-primary pull-right cargar-factura" 
-                                                    ng-show="idEstatusOrden == 5"
-                                                    ng-click="OpenModalFactura();">
+                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="idEstatusOrden == 5" ng-click="OpenModalFactura();">
                                                     Cargar Factura
                                                 </button>
                                             </div>
@@ -389,18 +395,13 @@
                             <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right  btn-movil" type="submit">Negro</button>
                             <button ng-hide="btnMoradoIsEnable" class="btn btn-morado pull-right  btn-movil" type="submit">Morado</button>
                         </div>
-
                         <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
-                        <div ng-show="idEstatusOrden == 5";>
+                        <div ng-show="idEstatusOrden == 5" ;>
                             <div class="col-sm-12 pull-right">
-                                <button 
-                                    class="btn btn-primary pull-right btn-movil" 
-                                    type="button"
-                                    ng-click="ShowAutorizacionAdmin();">
+                                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ShowAutorizacionAdmin();">
                                     Terminar Trabajo
                                 </button>
                             </div>
-
                             <div class="col-sm-12 col-md-6 pull-right" ng-show="pnl_token_admin">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
@@ -409,34 +410,27 @@
                                     <div class="panel-body">
                                         <p> La orden se encuentra en espera de autorización, para permitir la salida de la unidad.</p>
                                         <p>Introduzca el token proporcionado por el administrador.</p>
-                                        
-                                        <br><br>
-
+                                        <br>
+                                        <br>
                                         <div class="col-sm-3 col-md-3 col-lg-3">
                                             <label>Token</label>
                                         </div>
                                         <div class="col-sm-9 col-md-9 col-lg-9">
                                             <input type="text" class="token_admin form-control">
                                         </div>
-
                                         <div class="col-sm-12">
                                             <br>
-                                            <button 
-                                                class="btn btn-primary pull-right btn-movil" 
-                                                type="button"
-                                                ng-click="">
+                                            <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="">
                                                 Aceptar
                                             </button>
-
-                                            <button 
-                                                class="btn btn-default tbn-cancelar pull-right btn-movil" 
-                                                type="button"
-                                                ng-click="HideAutorizacionAdmin();">
+                                            <button class="btn btn-default tbn-cancelar pull-right btn-movil" type="button" ng-click="HideAutorizacionAdmin();">
                                                 Cancelar
                                             </button>
                                         </div>
-
-                                        <br><br><br><br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
                                     </div>
                                 </div>
                             </div>
@@ -448,7 +442,6 @@
         </div>
     </div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
@@ -460,29 +453,30 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                <p>Introduce la fecha real de trabajo</p>
+                    <p>Introduce la fecha real de trabajo</p>
                     <form id="myForm" class="" name="myForm" enctype="multipart/form-data" method="post">
-                        <label>XML</label> <input type="file" name="myFile1" id="myFile1">
+                        <label>XML</label>
+                        <input type="file" name="myFile1" id="myFile1">
                         <br>
                         <!-- <label>PDF</label> <input type="file" name="myFile2" id="myFile2"> -->
                         <br>
                         <input class="btn btn-warning" type="submit" name="submit" id="myButton">
                     </form>
                     <script type="text/javascript">
-                        var form = document.forms.namedItem("myForm");
-                        form.addEventListener('submit', function( ev ){
-                            // var myFile = document.getElementById('myFile2').files[0];
-                            var oData = new FormData( form );
-                            var oReq = new XMLHttpRequest();
-                            oReq.open( 'post', "api/trabajo/subirArchivo", true );
-                            oReq.onload = function( oEvent ){
-                                console.log( oReq.status );
-                                console.log( JSON.parse(oReq.response) );
-                            }
-                            oReq.send( oData );
-                            ev.preventDefault();
-                            // console.log( 'hola mundo' );
-                        }, false);
+                    var form = document.forms.namedItem("myForm");
+                    form.addEventListener('submit', function(ev) {
+                        // var myFile = document.getElementById('myFile2').files[0];
+                        var oData = new FormData(form);
+                        var oReq = new XMLHttpRequest();
+                        oReq.open('post', "api/trabajo/subirArchivo", true);
+                        oReq.onload = function(oEvent) {
+                            console.log(oReq.status);
+                            console.log(JSON.parse(oReq.response));
+                        }
+                        oReq.send(oData);
+                        ev.preventDefault();
+                        // console.log( 'hola mundo' );
+                    }, false);
                     </script>
                 </div>
             </div>
@@ -493,9 +487,6 @@
         </div>
     </div>
 </div>
-
-
-
 <script>
 $(document).ready(function() {
     $('.scroll_content').slimscroll({
