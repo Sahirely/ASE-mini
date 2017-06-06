@@ -220,9 +220,11 @@ registrationModule.controller('detalleController', function($scope, $location, u
                 break;
             case 2:
                 $scope.hideAllButtons();
+                $scope.showButtonsInProcess();
                 break;
             case 3:
                 $scope.hideAllButtons();
+                $scope.showButtonsInProcess();
                 break;
             case 4: //Botones habilitados para modulo aprobación
                 $scope.hideAllButtons();
@@ -248,9 +250,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
     $scope.showButtonsInProcess = function() {
-
-        $scope.btnEditarIsEnable = false;
-        $scope.btnGuardaCotizacionIsEnable = true;
+        $scope.btnEditarCotizacionIsEnable = false;
+        $scope.btnGuardaCotizacionIsEnable = false;
         $scope.btnNuevaCotizacionIsEnable = false;
         $scope.btnComprobanteRecepcionIsEnable = false;
         $scope.btnEditarCitaIsEnable = false;
