@@ -130,7 +130,7 @@ registrationModule.controller('detalleController', function($scope, $location, c
 
     $scope.getMostrarCotizaciones = function(numeroOrden, estatus, idUsuario) {
 
-        console.log("variables",numeroOrden, estatus, idUsuario);
+        console.log("variables", numeroOrden, estatus, idUsuario);
 
 
         cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario).then(function(result) {
@@ -248,7 +248,58 @@ registrationModule.controller('detalleController', function($scope, $location, c
         $scope.btnEditarCitaIsEnable = false;
     };
 
+    //********** [ Aqui Comienza Ordenes en Proceso ] *****************************************************************************//
+    $scope.pnl_token_admin = false;
 
+    $scope.ShowAutorizacionAdmin = function() {
+        $scope.pnl_token_admin = true;
+        $("html, body").animate({ scrollTop: $(document).height() }, 1000);
+        setTimeout(function() { $(".token_admin").focus(); }, 1001);
+    }
 
+    $scope.HideAutorizacionAdmin = function() {
+        $scope.pnl_token_admin = false;
+    }
+
+    $scope.OpenModalFactura = function(index, Id) {
+        $("#myModal").modal();
+    }
+
+    $scope.HideModalFactura = function(index, Id) {
+            $("#myModal").modal('hide');
+        }
+        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+
+    $scope.subirEvidencias = function() {
+        $scope.respuesta = []
+        var form = document.forms.namedItem("myForm");
+        form.addEventListener('submit', function(ev) {
+            var oData = new FormData(form);
+            var oReq = new XMLHttpRequest();
+            oReq.open('post', "api/trabajo/subirArchivoImg", true);
+            oReq.onload = function(oEvent) {
+                console.log(oReq.status);
+                //console.log(JSON.parse(oReq.response));
+                $scope.respuesta = JSON.parse(oReq.response)
+                var ruta = $scope.respuesta.res[0].Path
+                var rutaCorrecta = ruta.substring(11)
+                console.log(rutaCorrecta)
+                consultaCitasRepository.agregarEvidencias($scope.respuesta.res[0].nombre, '', rutaCorrecta, $scope.numeroOrden).then(function(result) {
+                    if (result.data[0].length > 0) {} else {
+                        location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
+                        alertFactory.success('Se guardo con exito evidencia');
+                        //$scope.getOrdenEvidencias($scope.idUsuario, $scope.numeroOrden)
+                        var ruta = ''
+                        var rutaCorrecta = ''
+                        $scope.respuesta = []
+                    }
+                });
+            }
+            oReq.send(oData);
+            ev.preventDefault();
+            // console.log( 'hola mundo' );
+        }, false);
+
+    }
 
 });

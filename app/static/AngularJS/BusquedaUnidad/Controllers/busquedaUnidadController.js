@@ -9,14 +9,14 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         console.log($scope.userData)
-        $scope.mapa();
+        $scope.permisos();
         $scope.permisosUsuario();
         $scope.getDetalleUnidad();
         $scope.getOrdenActual();
         $scope.getHistoricoOrdenes();
 
     };
-    $scope.mapa = function() {
+    $scope.permisos = function() {
         if ($scope.userData.geolocalizacion == 0) {
             $scope.mostrarMapa = false;
         } else if ($scope.userData.geolocalizacion == 1) {
@@ -39,6 +39,17 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
             //MAPA
             ///////////////////////////////////////////////////////////
         }
+        $scope.mostrarComentarios = false;
+        angular.forEach($scope.userData.Modulos, function(value, key) {
+            if (value.idCatalogoModulo == 3) {
+                $scope.consultaCita = value;
+                angular.forEach($scope.consultaCita.detalle, function(value, key) {
+                    if (value.idCatalogoDetalleModulo == 7) {
+                        $scope.mostrarComentarios = true;
+                    }
+                });
+            }
+        });
     };
     var error = function() {
         alertFactory.error('Ocurrio un Error');
@@ -101,7 +112,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getHistoricoOrdenes = function() {
         busquedaUnidadRepository.getHistoricoOrdenes($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.historialOrdenes = result.data;
-            globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 5);
+            globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 100);
 
 
             if ($scope.historialOrdenes[0].respuesta == 1) {

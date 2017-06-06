@@ -10,7 +10,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
                 console.log($scope.partidasTaller, 'Somos las partidas de los tallesres')
-                globalFactory.filtrosTabla("partidas", "Partidas Talleres", 5);
+                globalFactory.filtrosTabla("partidas", "Partidas Talleres", 100);
 
             }
         }, function(error) {

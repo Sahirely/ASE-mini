@@ -188,64 +188,63 @@ OrdenServicio.prototype.get_getPartidasTaller = function(req, res, next) {
     });
 }
 
+//crea nuevo comprobante de recepción
+OrdenServicio.prototype.post_agregarModuloComprobante = function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    var self = this;
 
-    //crea nuevo comprobante de recepción
-    OrdenServicio.prototype.post_agregarModuloComprobante = function(req, res, next) {
-        //Objeto que almacena la respuesta
-        var object = {};
-        var self = this;
+    var params = [{
+        name: 'idCatalogoModuloCOmprobante',
+        value: req.body.idCatalogoModuloCOmprobante,
+        type: self.model.types.INT
+    }, {
+        name: 'numeroOrden',
+        value: req.body.numeroOrden,
+        type: self.model.types.STRING
+    }];
 
-        var params = [{
-            name: 'idCatalogoModuloCOmprobante',
-            value: req.body.idCatalogoModuloCOmprobante,
-            type: self.model.types.INT
-        }, {
-            name: 'numeroOrden',
-            value: req.body.numeroOrden,
-            type: self.model.types.STRING
-        }];
+    this.model.post('INS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
 
-        this.model.post('INS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
-            //Callback
-            object.error = error;
-            object.result = result;
+        self.view.expositor(res, object);
+    });
+}
 
-            self.view.expositor(res, object);
-        });
-    }
+//crea detalles del comprobante de recepción
+OrdenServicio.prototype.post_agregarDetalleModuloComprobante = function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Referencia a la clase para callback
+    var self = this;
 
-    //crea detalles del comprobante de recepción
-    OrdenServicio.prototype.post_agregarDetalleModuloComprobante = function(req, res, next) {
-        //Objeto que almacena la respuesta
-        var object = {};
-        //Referencia a la clase para callback
-        var self = this;
+    var params = [{
+        name: 'accion',
+        value: req.body.accion,
+        type: self.model.types.INT
+    }, {
+        name: 'idCatalogoDetalleModuloComprobante',
+        value: req.body.idCatalogoDetalleModuloComprobante,
+        type: self.model.types.INT
+    }, {
+        name: 'idModuloComprobante',
+        value: req.body.idModuloComprobante,
+        type: self.model.types.INT
+    }, {
+        name: 'descripcion',
+        value: req.body.descripcion,
+        type: self.model.types.STRING
+    }];
 
-        var params = [{
-            name: 'accion',
-            value: req.body.accion,
-            type: self.model.types.INT
-        },{
-            name: 'idCatalogoDetalleModuloComprobante',
-            value: req.body.idCatalogoDetalleModuloComprobante,
-            type: self.model.types.INT
-        },{
-            name: 'idModuloComprobante',
-            value: req.body.idModuloComprobante,
-            type: self.model.types.INT
-        },{
-            name: 'descripcion',
-            value: req.body.descripcion,
-            type: self.model.types.STRING
-        }];
+    this.model.post('INS_COMPROBANTE_RECEPCION_DETALLE_SP', params, function(error, result) {
+        object.error = error;
+        object.result = result;
 
-        this.model.post('INS_COMPROBANTE_RECEPCION_DETALLE_SP', params, function(error, result) {
-            object.error = error;
-            object.result = result;
-
-            self.view.expositor(res, object);
-        });
-    }
+        self.view.expositor(res, object);
+    });
+}
 
 OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
     //Objeto que almacena la respuesta
@@ -304,36 +303,108 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
     });
 
     //crea nuevo comprobante de recepción
-    OrdenServicio.prototype.post_cancelarOrden = function(req, res, next) {
-        //Objeto que almacena la respuesta
-        var object = {};
-        var self = this;
 
-        var params = [{
-            name: 'numeroOrden',
-            value: req.body.numeroOrden,
-            type: self.model.types.STRING
-        }, {
-            name: 'idEstatus',
-            value: req.body.idEstatus,
-            type: self.model.types.INT
-        },{
-            name: 'idUsuario',
-            value: req.body.idUsuario,
-            type: self.model.types.INT
-        }];
-
-        this.model.post('UPD_ESTATUS_ORDEN_SP', params, function(error, result) {
-            //Callback
-            object.error = error;
-            object.result = result;
-
-            self.view.expositor(res, object);
-        });
-    }
 
 
 }
+
+
+OrdenServicio.prototype.post_cancelarOrden = function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    var self = this;
+
+    var params = [{
+        name: 'numeroOrden',
+        value: req.body.numeroOrden,
+        type: self.model.types.STRING
+    }, {
+        name: 'idEstatus',
+        value: req.body.idEstatus,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.body.idUsuario,
+        type: self.model.types.INT
+    }];
+
+    this.model.post('UPD_ESTATUS_ORDEN_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+OrdenServicio.prototype.post_agregarEvidencias = function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    var self = this;
+
+    var params = [{
+        name: 'nombreEvidencia',
+        value: req.body.nombreEvidencia,
+        type: self.model.types.STRING
+    }, {
+        name: 'descripcionEvidencia',
+        value: req.body.descripcionEvidencia,
+        type: self.model.types.STRING
+    }, {
+        name: 'rutaEvidencia',
+        value: req.body.rutaEvidencia,
+        type: self.model.types.STRING
+    }, {
+        name: 'numeroOrden',
+        value: req.body.numeroOrden,
+        type: self.model.types.STRING
+    }];
+
+    this.model.post('INS_EVIDENCIAS_ORDEN_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+OrdenServicio.prototype.post_agregarAcciones= function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    var self = this;
+
+    var params = [{
+        name: 'nombreAccion',
+        value: req.body.nombreAccion,
+        type: self.model.types.STRING
+    }, {
+        name: 'fechaAccion',
+        value: req.body.fechaAccion,
+        type: self.model.types.STRING
+    }, {
+        name: 'idUsuario',
+        value: req.body.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'numeroOrden',
+        value: req.body.numeroOrden,
+        type: self.model.types.STRING
+    }, {
+        name: 'recordatorio',
+        value: req.body.recordatorio,
+        type: self.model.types.INT
+    }];
+
+    this.model.post('INS_ACCION_ORDEN_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 
 
 module.exports = OrdenServicio;

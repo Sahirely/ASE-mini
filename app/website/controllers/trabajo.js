@@ -110,6 +110,22 @@ Trabajo.prototype.get_fechaRealTrabajo = function(req, res, next){
     });
 }
 
+Trabajo.prototype.post_subirArchivoImg = function(req, res, next){
+    var self = this;
+
+    
+
+    //Subir imagenes
+    var lf = new Load_Files();
+    lf.img('app/static/image/Evidencia', req, res, function( respuesta ){
+        self.view.expositor(res, {
+            error: false,
+            result: {success: true, res: respuesta }
+        });
+    });
+
+}
+
 // //devuelve los trabajos con estatus iniciados
 // Trabajo.prototype.get_trabajo = function(req, res, next){
 // 	//Con req.query se obtienen los parametros de la url
