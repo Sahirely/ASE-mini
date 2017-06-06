@@ -178,7 +178,6 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>Centro Trabajo</th>
                                         <th>Taller</th>
                                         <th>Tipo Servicio</th>
                                         <th>Fecha</th>
@@ -190,12 +189,11 @@
                                 </thead>
                                 <tbody>
                                     <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-click="seleccionarOrden(ordenesTaller)">
-                                        <td>{{ordenesTallerCliente}}</td>
+                                        <td>{{ordenesTaller.nombreCliente}}</td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>
                                         <td>{{ordenesTaller.numeroEconomico}}</td>
                                         <td>{{ordenesTaller.nombreZona}}</td>
-                                        <td>{{}}</td>
                                         <td>{{ordenesTaller.nombreTaller}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
@@ -222,7 +220,6 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>Centro Trabajo</th>
                                         <th>Tipo Servicio</th>
                                         <th>Fecha</th>
                                         <th>Comentarios Adicionales</th>
@@ -239,7 +236,6 @@
                                         <td>{{ordenesSinTaller.numeroOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
                                         <td>{{ordenesSinTaller.nombreZona}}</td>
-                                        <td>{{}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoORden}}</td>
                                         <td>{{ordenesSinTaller.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
