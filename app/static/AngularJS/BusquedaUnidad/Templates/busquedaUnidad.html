@@ -34,11 +34,11 @@
                                     <label>Zona:</label>
                                     <span>{{detalleUnidad.pendiente}}</span>
                                 </p>-->
-                                <p>
+                                <p  ng-show="mostrarMapa">
                                     <label>Localización:</label>
                                     <br>
-                                    <label>AQUÍ VA EL MAPA</label>
-                                </p> 
+                                    <div class="google-map" id="map1"></div>
+                                </p>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">

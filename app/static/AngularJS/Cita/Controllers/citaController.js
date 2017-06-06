@@ -3,7 +3,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************// 
     $scope.mostrarTabla = false;
-    $scope.mostrarMapa = false;
     $scope.muestraBtnPreOrden = false;
     $scope.idTaller = 0;
     $scope.taller = '';
@@ -18,6 +17,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
+        $scope.mapa();
         $scope.getDetalleUnidad();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
@@ -25,10 +25,33 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         //--------------------------------------
         $('.clockpicker').clockpicker();
     };
+    $scope.mapa = function() {
+        if ($scope.userData.geolocalizacion == 0) {
+            $scope.mostrarMapa = false;
+        } else if ($scope.userData.geolocalizacion == 1) {
+            $scope.mostrarMapa = true;
+            ////////////////////////////////////////////////////////////
+            //MAPA
+            ///////////////////////////////////////////////////////////
+            var mapOptions1 = {
+                zoom: 14,
+                center: new google.maps.LatLng(19.3269503, -99.2138245)
+                    // Style for Google Maps
+                    //styles: [{ "featureType": "water", "stylers": [{ "saturation": 43 }, { "lightness": -11 }, { "hue": "#0088ff" }] }, { "featureType": "road", "elementType": "geometry.fill", "stylers": [{ "hue": "#ff0000" }, { "saturation": -100 }, { "lightness": 99 }] }, { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#808080" }, { "lightness": 54 }] }, { "featureType": "landscape.man_made", "elementType": "geometry.fill", "stylers": [{ "color": "#ece2d9" }] }, { "featureType": "poi.park", "elementType": "geometry.fill", "stylers": [{ "color": "#ccdca1" }] }, { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#767676" }] }, { "featureType": "road", "elementType": "labels.text.stroke", "stylers": [{ "color": "#ffffff" }] }, { "featureType": "poi", "stylers": [{ "visibility": "off" }] }, { "featureType": "landscape.natural", "elementType": "geometry.fill", "stylers": [{ "visibility": "on" }, { "color": "#b8cb93" }] }, { "featureType": "poi.park", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.sports_complex", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.medical", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.business", "stylers": [{ "visibility": "simplified" }] }]
+            };
+            // Get all html elements for map
+            var mapElement1 = document.getElementById('map1');
+            // Create the Google Map using elements
+            var map1 = new google.maps.Map(mapElement1, mapOptions1);
 
+            ////////////////////////////////////////////////////////////
+            //MAPA
+            ///////////////////////////////////////////////////////////
+        }
+    };
     var error = function() {
         alertFactory.error('Ocurrio un Error');
-    };    
+    };
 
     //*****************************************************************************************************************************//
     // Obtiene el detalle de la unidad como marca, modelo, etc
