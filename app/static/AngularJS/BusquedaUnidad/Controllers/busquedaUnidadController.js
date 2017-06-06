@@ -125,6 +125,6 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         });
     };
     $scope.detalleOrden = function(orden) {
-        location.href = '/detalle?orden=' + orden.numeroOrden;
+        location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus='+ orden.idEstatusOrden;
     };
 });
