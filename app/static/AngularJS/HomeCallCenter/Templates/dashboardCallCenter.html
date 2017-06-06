@@ -1,5 +1,210 @@
-<div>
+<link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
+<div ng-init="init()">
     <div class="wrapper wrapper-content">
-      <h5>Home Call Center</h5>
-    </div
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <span class="title">Trabajo Pendiente</span>
+                        <br>
+                        <br>
+                        <br>
+                        <span class="col-md-3 pull-left"> 
+							<div class="col-lg-12">
+								<div class="pointer" ng-click="cotizacionPendiente()">
+									<div class="ibox float-e-margins">
+										<div class="ibox-title">
+							    <span class="label label-success pull-right"><i class="glyphicon glyphicon-user"></i></span>
+                        <h5>{{userData.nombreCompleto}}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </span>
+        <span class="col-md-3 pull-right"> 
+							<div class="col-lg-12">
+								<div class="pointer" ng-click="cotizacionPendiente()">
+									<div class="ibox float-e-margins">
+										<div class="ibox-title">
+							    <span class="label label-success pull-right"><i class="glyphicon glyphicon-time"></i></span>
+        <h5>{{fecha_actual | date:"MM/dd/yyyy"}}-{{theclock}}</h5>
+    </div>
+</div>
+</div>
+</div>
+</span>
+<span class="col-lg-12 pull-right">  
+<div class="col-lg-2">
+<div class="pointer">
+<div class="ibox float-e-margins">
+<div class="ibox-title">
+<span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+<h4>Ordenes Con Atraso</h4>
+</div>
+<div class="ibox-content">
+    <h1 class="no-margins">{{ordenesAtrasadas}}</h1>
+</div>
+</div>
+</div>
+</div>
+<div class="col-lg-2">
+    <div class="pointer" >
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label alerta-color pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                <h4>Ordenes Para Hoy</h4>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{ordenesParaHoy}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="pointer">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-primary pull-right"><i class="glyphicon glyphicon-open-file"></i></span>
+                <h4>Ordenes Sin Objetivo</h4>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{ordenesSinObjetivo}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-6">
+    <div class="table-responsive">
+        <span class="subtitle"><strong>Recordatorios</strong></span>
+        <br/>
+        <br/>
+        <br/>
+        <table class="table table-bordered table-hover dataTableOrdenes" cg-busy="{promise:promise,message:message}">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Tiempo Vencido</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr title="Doble click para ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-dblclick="seleccionarOrden(ordenesTaller)">
+                    <td></td>
+                    <td>{{ordenesTaller.consecutivoOrden}}</td>
+                    <td>{{ordenesTaller.numeroOrden}}</td>
+                    <td>{{ordenesTaller.numeroEconomico}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
+                    <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
+                    <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
+                    <td>{{ordenesTaller.comentarioOrden}}</td>
+                    <td>{{ordenesTaller.nombreEstatusOrden}}</td>
+                    <td>{{ordenesTaller.nombreUsuario}}</td>
+                    <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</span>
+<br>
+<div class="ibox-content">
+    <div>
+        
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover dataTableGarantia" cg-busy="{promise:promise,message:message}">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Consecutivo</th>
+                        <th>Número de la Orden</th>
+                        <th>Número Económico</th>
+                        <th>Zona</th>
+                        <th>TAR</th>
+                        <th>Nombre Taller</th>
+                        <th>Fecha Cita</th>
+                        <th>Fecha Reclamación</th>
+                        <th>Tipo Cita</th>
+                        <th>Trabajo</th>
+                        <th>Observación</th>
+                        <th>Estatus Órden Servicio</th>
+                        <th>Horas en Garantía</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="garantias in garantia">
+                        <td>{{garantias.cliente}}</td>
+                        <td>{{garantias.idCita}}</td>
+                        <td>{{garantias.numeroTrabajo}}</td>
+                        <td>{{garantias.numEconomico}}</td>
+                        <td>{{garantias.zona}}</td>
+                        <td>{{garantias.TAR}}</td>
+                        <td>{{garantias.razonSocial}}</td>
+                        <td>{{garantias.fechaCita | date:'dd-MM-yyyy HH:mm'}}</td>
+                        <td>{{garantias.fechaEstatus | date:'dd-MM-yyyy HH:mm'}}</td>
+                        <td>{{garantias.tipoCita}}</td>
+                        <td>{{garantias.trabajo}}</td>
+                        <td>{{garantias.observacion}}</td>
+                        <td>{{garantias.estatus}}</td>
+                        <td ng-class="{'rowVerde': garantias.horasRetraso <= 49, 'rowAmarillo': garantias.horasRetraso >= 50 && garantias.horasRetraso  <=100, 'rowRojo': garantias.horasRetraso >= 101}">{{garantias.horasRetraso}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div ng-show="tipoOrden==4">
+        <span class="subtitle"><strong>En Proceso de Reparación </strong></span>
+        <br>
+        <br>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover dataTableProceso" cg-busy="{promise:promise,message:message}">
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Consecutivo</th>
+                        <th>Número de la Orden</th>
+                        <th>Número Económico</th>
+                        <th>Zona</th>
+                        <th>TAR</th>
+                        <th>Nombre Taller</th>
+                        <th>Fecha Cita</th>
+                        <th>Fecha Aprobación</th>
+                        <th>Fecha Inicio de Reparación</th>
+                        <th>Tipo Cita</th>
+                        <th>Trabajo</th>
+                        <th>Observación</th>
+                        <th>Estatus Órden Servicio</th>
+                        <th>Horas en Reparación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="procesos in proceso">
+                        <td>{{procesos.cliente}}</td>
+                        <td>{{procesos.idCita}}</td>
+                        <td>{{procesos.numeroTrabajo}}</td>
+                        <td>{{procesos.numEconomico}}</td>
+                        <td>{{procesos.zona}}</td>
+                        <td>{{procesos.TAR}}</td>
+                        <td>{{procesos.razonSocial}}</td>
+                        <td>{{procesos.fechaCita | date:'dd-MM-yyyy HH:mm'}}</td>
+                        <td>{{procesos.fechaInicioTrabajo | date:'dd-MM-yyyy HH:mm'}}</td>
+                        <td>{{procesos.fechaInicioRealTrabajo | date:'dd-MM-yyyy HH:mm'}}</td>
+                        <td>{{procesos.tipoCita}}</td>
+                        <td>{{procesos.trabajo}}</td>
+                        <td>{{procesos.observacion}}</td>
+                        <td>{{procesos.estatus}}</td>
+                        <td ng-class="{'rowVerde': procesos.horasRetraso <= 49, 'rowAmarillo': procesos.horasRetraso >= 50 && procesos.horasRetraso  <=100, 'rowRojo': procesos.horasRetraso >= 101}">{{procesos.horasRetraso}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>

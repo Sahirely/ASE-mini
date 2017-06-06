@@ -17,4 +17,5 @@ module.exports = {
   configurador: require('./controllers/configurador'),
   detalle: require('./controllers/detalle'),
   cobrar: require('./controllers/cobrar/cobrar')
+  dashboardCallcenter: require('./controllers/dashboardCallcenter')
 }
