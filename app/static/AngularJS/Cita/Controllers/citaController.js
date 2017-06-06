@@ -6,6 +6,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.muestraBtnPreOrden = false;
     $scope.idTaller = 0;
     $scope.taller = '';
+    $scope.grua = 0;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -17,7 +18,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
-        $scope.mapa();
+        $scope.permisos();
         $scope.getDetalleUnidad();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
@@ -25,7 +26,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         //--------------------------------------
         $('.clockpicker').clockpicker();
     };
-    $scope.mapa = function() {
+    $scope.permisos = function() {
         if ($scope.userData.geolocalizacion == 0) {
             $scope.mostrarMapa = false;
         } else if ($scope.userData.geolocalizacion == 1) {
@@ -48,6 +49,17 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             //MAPA
             ///////////////////////////////////////////////////////////
         }
+        $scope.mostrarComentarios = false;
+        angular.forEach($scope.userData.Modulos, function(value, key) {
+            if (value.idCatalogoModulo == 3) {
+                $scope.consultaCita = value;
+                angular.forEach($scope.consultaCita.detalle, function(value, key) {
+                    if (value.idCatalogoDetalleModulo == 7) {
+                        $scope.mostrarComentarios = true;
+                    }
+                });
+            }
+        });
     };
     var error = function() {
         alertFactory.error('Ocurrio un Error');
@@ -129,9 +141,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.horaCita,
             $scope.comentarios
         );
-        var fecha = $scope.fechaCita.split('/');
-        var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, fechaTrabajo + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
+        // var fecha = $scope.fechaCita.split('/');
+        // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
+        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
                 if ($scope.labelItems > 0) {
@@ -215,7 +227,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
             $scope.mostrarTabla = true;
             $scope.talleres = result.data;
-            globalFactory.filtrosTabla("talleres", "Talleres", 5);
+            globalFactory.filtrosTabla("talleres", "Talleres", 100);
         });
     };
     $scope.sendIdTaller = function(idTaller) {

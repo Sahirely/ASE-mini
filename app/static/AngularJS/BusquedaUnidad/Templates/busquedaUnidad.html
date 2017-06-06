@@ -34,12 +34,12 @@
                                     <label>Zona:</label>
                                     <span>{{detalleUnidad.pendiente}}</span>
                                 </p>-->
-                                <p  ng-show="mostrarMapa">
-                                    <label>Localización:</label>
-                                    <br>
-                                    <div class="google-map" id="map1"></div>
-                                </p>
                             </div>
+                            <p ng-show="mostrarMapa">
+                                <label>Localización:</label>
+                                <br>
+                                <div class="google-map" id="map1"></div>
+                            </p>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="ibox float-e-margins">
@@ -67,12 +67,12 @@
                                                             <h4>{{detalleUnidad.enProceso | currency}}</h4>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-3">
-                                                            <h6><strong class="text-danger">Pendiente por Cobrar</strong></h6>
-                                                            <h4>{{detalleUnidad.porCobrar | currency}}</h4>
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-3">
                                                             <h6 class="text-warning"><strong>Pendiente de Certificado</strong></h6>
                                                             <h4>{{detalleUnidad.pendienteCertificado | currency}}</h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-3">
+                                                            <h6><strong class="text-danger">Pendiente por Cobrar</strong></h6>
+                                                            <h4>{{detalleUnidad.porCobrar | currency}}</h4>
                                                         </div>
                                                         <div class="col-xs-12 col-sm-3">
                                                             <h6 class="text-success espacio"><strong>Finalizado</strong></h6>
@@ -124,7 +124,7 @@
                                             <th>Fecha</th>
                                             <th>Taller</th>
                                             <th>Dirección</th>
-                                            <th>Descripción</th>
+                                            <th ng-show="mostrarComentarios">Comentarios</th>
                                             <th>Agendó</th>
                                             <th ng-show="muestraCosto">Costo</th>
                                             <th ng-show="muestraPrecio">Venta</th>
@@ -138,7 +138,7 @@
                                             <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
                                             <td>{{ orden.razonSocial}}</td>
                                             <td>{{ orden.direccion}}</td>
-                                            <td>{{orden.descripcion}}</td>
+                                            <td ng-show="mostrarComentarios">{{orden.descripcion}}</td>
                                             <td>{{orden.nombreCompleto}}</td>
                                             <td ng-show="muestraCosto">{{orden.costo | currency}}</td>
                                             <td ng-show="muestraPrecio">{{orden.precio | currency}}</td>
@@ -170,7 +170,7 @@
                                             <th>Fecha</th>
                                             <th>Taller</th>
                                             <th>Dirección</th>
-                                            <th>Descripción</th>
+                                            <th ng-show="mostrarComentarios">Comentarios</th>
                                             <th>Agendó</th>
                                             <th ng-show="muestraCosto">Costo</th>
                                             <th ng-show="muestraPrecio">Venta</th>
@@ -184,7 +184,7 @@
                                             <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
                                             <td>{{ historialOrden.razonSocial}}</td>
                                             <td>{{ historialOrden.direccion}}</td>
-                                            <td>{{historialOrden.descripcion}}</td>
+                                            <td ng-show="mostrarComentarios">{{historialOrden.descripcion}}</td>
                                             <td>{{historialOrden.nombreCompleto}}</td>
                                             <td ng-show="muestraCosto">{{historialOrden.costo | currency}}</td>
                                             <td>{{historialOrden.precio | currency}}</td>
