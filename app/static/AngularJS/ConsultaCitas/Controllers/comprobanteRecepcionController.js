@@ -190,7 +190,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                           var url = $rootScope.vIpServer + result.data;
                           var a = document.createElement('a');
                           a.href = url;
-                          a.download = 'ComprobanteRecepción';
+                          a.download = 'ComprobanteRecepcion';
                           a.click();
                      }, 5000);                          
                 });
