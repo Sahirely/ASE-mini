@@ -19,7 +19,7 @@
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
         $scope.userData = userFactory.getUserData(); //localStorageService.get('userData');
-        //$scope.idUsuario = $scope.userData.idUsuario;
+        $scope.idUsuario = $scope.userData.idUsuario;
     }
 
     $scope.CambiarOperacion = function(idCont) {
