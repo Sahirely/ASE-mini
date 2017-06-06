@@ -82,14 +82,21 @@ registrationModule.controller('detalleController', function($scope, $location, u
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
 
                 var statusCotizacion = 0;
-                switch ($scope.idEstatusOrden) {
-                    case 1:
-                        statusCotizacion = 1;
-                        break;
-                    case 5:
-                        statusCotizacion = 3;
-                        break;
+                if ($scope.idEstatusOrden == 1 || $scope.idEstatusOrden == 2 || $scope.idEstatusOrden == 3) {
+                    statusCotizacion = '1';
+                } else if ($scope.idEstatusOrden == 4) {
+                    statusCotizacion = '1,2';
+                } else if($scope.idEstatusOrden == 5 || $scope.idEstatusOrden == 6 || $scope.idEstatusOrden == 7){
+                    statusCotizacion = '3';
                 }
+                // switch ($scope.idEstatusOrden) {
+                //     case 1:
+                //         statusCotizacion = 1;
+                //         break;
+                //     case 5:
+                //         statusCotizacion = 3;
+                //         break;
+                // }
 
                 $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
             }
