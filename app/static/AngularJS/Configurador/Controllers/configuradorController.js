@@ -341,8 +341,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********UNIDAD*************/	
 
 	$scope.getTipoUnidad = function(){
+        debugger;
         $scope.promise = configuradorRepository.getTipoUnidades($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
+                debugger;
                 $scope.tiposUnidades = result.data;
                 
                 for (var i = 0 ; i < result.data.length; i++) {
@@ -384,6 +386,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
     $scope.changeTipo = function (tipo, valor) {
+        debugger;
         var bandera = false;
         var indice = 0
 
@@ -414,6 +417,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
     $scope.guardarTipoUnidades = function () {
+        debugger;
     	var unidades = '';
     	var numUnidades = '';
         for (var i = 0 ; i < $scope.unidades.length; i++) {

@@ -32,7 +32,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     }
 
     $scope.getTipoUnidad = function(){
-        $scope.promise = configuradorRepository.getTipoUnidades(3).then(function (result) {
+        $scope.promise = configuradorRepository.getTipoUnidades(idOperacion).then(function (result) {
             if (result.data.length > 0) {
                 $scope.tipoUnidades = result.data;
             }
