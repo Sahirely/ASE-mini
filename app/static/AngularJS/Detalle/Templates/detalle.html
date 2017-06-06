@@ -83,12 +83,12 @@
                                             <label>Teléfono: </label>
                                             <span>{{detalleCliente.telefono}}</span>
                                         </p>
-                                        <h3>Presupuesto</h3>
-                                        <p>
+                                        <h3 ng-show="estatus==4">Presupuesto</h3>
+                                        <p ng-show="estatus==4">
                                             <label>Saldo Disponible: </label>
                                             <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{20| currency:"$": 2}}</span>
                                         </p>
-                                        <p>
+                                        <p ng-show="estatus==4">
                                             <label>Saldo Real: </label>
                                             <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{10| currency:"$": 2}}</span>
                                         </p>
@@ -142,49 +142,49 @@
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Recepción</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Conformidad</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Factura</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>COPADE</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="hr-line-dashed"></div>
                         </div>
+                        <!--Costos totales de las  cotizaciones-->
+                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" ng-show="orden.IdTipoOrden = 2">
+                            <table class="table invoice-total">
+                                <tbody>
+                                    <tr>
+                                        <td><strong>SUBTOTAL :</strong></td>
+                                        <td>{{ vistaPrecio == 1 ? sumaPrecioTotal : sumaPrecioTotalCliente | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>I.V.A :</strong></td>
+                                        <td>{{ vistaPrecio == 1 ? sumaIvaTotal : sumaIvaTotalCliente | currency}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TOTAL :</strong></td>
+                                        <td>{{ vistaPrecio == 1 ? sumaGranTotal : sumaGranTotalCliente | currency}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <!--Ordenes en Aprobación-->
                         <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont scroll_content panelCotizaciones">
-                            <!--Costos totales de las  cotizaciones-->
-                            <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" ng-show="orden.IdTipoOrden = 2">
-                                <table class="table invoice-total">
-                                    <tbody>
-                                        <tr>
-                                            <td><strong>SUBTOTAL :</strong></td>
-                                            <td>{{ vistaPrecio == 1 ? sumaPrecioTotal : sumaPrecioTotalCliente | currency}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>I.V.A :</strong></td>
-                                            <td>{{ vistaPrecio == 1 ? sumaIvaTotal : sumaIvaTotalCliente | currency}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>TOTAL :</strong></td>
-                                            <td>{{ vistaPrecio == 1 ? sumaGranTotal : sumaGranTotalCliente | currency}}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
                             <!--Cotizaciones Grua-->
                             <div class="row" ng-show="orden.idTipoOrden = 1" ng-show="cotizacion.success" ng-repeat="cotizacion in cotizaciones">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -385,7 +385,7 @@
                         </div>
                         <!-- Botones -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
+                            <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-show="false"> Editar</button>
                             <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" ng-class="{Inactivo : SaldoReal < GranTotal}" type="submit"> Guarda Cotizacion</button>
                             <button ng-hide="btnNuevaCotizacionIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>
                             <button ng-hide="btnEditarCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>
