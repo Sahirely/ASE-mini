@@ -330,14 +330,145 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.pnl_token_admin = false;
     }
 
-    $scope.OpenModalFactura = function(index, Id) {
+    $scope.OpenModalFactura = function( no, cf, ct) {
+        $scope.idOrden = no;
+        $scope.cotizacionFactura = cf;
+        $scope.cotizacionTotal = ct;
+
+        $(".alert-warning").hide();
         $("#myModal").modal();
+        $(".archivos").show();
+        $(".uploading").hide();
+        $(".btn-cerrar").removeAttr("disabled");
+        $(".btn-subir").removeAttr("disabled");
+
+        document.getElementById("frm_subir_factura").reset();
+
+        var inputs = document.querySelectorAll( '.inputfile' );
+        Array.prototype.forEach.call( inputs, function( input ){
+            var label    = input.nextElementSibling;        
+            label.querySelector( 'span' ).innerHTML = 'Seleccionar archivo';
+        });
     }
 
-    $scope.HideModalFactura = function(index, Id) {
-            $("#myModal").modal('hide');
+    $scope.HideModalFactura = function() {
+        $("#myModal").modal('hide');
+    }
+
+    $scope.errores_factura = false;
+    $scope.Cargar_Factura = function(){
+        var fxml = $(".inputfile-1").val();
+        var fpdf = $(".inputfile-2").val();
+
+        if( fxml == '' && fpdf == '' ){
+            $(".alert-danger").fadeIn();
+            $(".alert-danger span").text('Proporciona al menos uno de los archivos que se piden');
+            setTimeout( function(){
+                $(".alert-danger").fadeOut('fast');
+            },3000 );
         }
-        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+        else{
+            $(".archivos").hide();
+            $(".uploading").show();
+            $(".btn-cerrar").attr("disabled", "disabled");
+            $(".btn-subir").attr("disabled", "disabled"); 
+
+
+            detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
+                // console.log( resul}t );
+                // console.log( oReq.status );
+                // var Respuesta = JSON.parse(result);
+                var Respuesta = result.data;
+
+                $(".alert-warning").show('fast');
+                $(".errores_factura").html('');
+                
+
+                document.getElementById("frm_subir_factura").reset();
+                $(".uploading").hide();
+                console.log( Respuesta.res.return.codigo );
+                if( Respuesta.res.return.codigo == 1 ){
+                    $scope.titulo_factura = 'Factura Cargada correctamente';
+                }
+                else{
+                    $scope.titulo_factura = 'Factura no válida';
+                }
+                    // $("#myModal").modal('hide');
+                $.each( Respuesta.res.return, function( key, item){
+                    $(".errores_factura").append('<tr> <td width="20%"><strong>'+ key +'</strong></td> <td>'+ item +'</td> </tr>');
+                });
+                // }
+                // else{
+                    $(".btn-cerrar").removeAttr("disabled");
+                // }
+
+                // if (result.data.length > 0) {
+                //     $scope.HistoricoOrden = result.data;
+                // }
+            }, function(error) {
+                console.log( error );
+                // alertFactory.error('No se puede obtener el historico de la orden.');
+            });
+                    
+
+            // var form = document.forms.namedItem("frm_subir_factura");
+
+            // var oData = new FormData( form );
+            // oData.append('username', 'Chris');
+
+            // var oReq = new XMLHttpRequest();
+            // oReq.open( 'post', "api/trabajo/subirArchivo", true );
+            // oReq.onload = function( oEvent ){
+            //     console.log( oReq.status );
+            //     var Respuesta = JSON.parse(oReq.response);
+
+            //     $(".alert-warning").show('fast');
+            //     $(".errores_factura").html('');
+            //     $(".btn-cerrar").removeAttr("disabled");
+
+            //     document.getElementById("frm_subir_factura").reset();
+            //     $(".uploading").hide();
+            //     $.each( Respuesta.res.return, function( key, item){
+            //         $(".errores_factura").append('<tr> <td width="20%"><strong>'+ key +'</strong></td> <td>'+ item +'</td> </tr>');
+            //     });
+            // }
+            // oReq.send( oData );            
+        }
+    }
+
+    $scope.ValidaTerminoTrabajo = function(){
+        console.log("Hola:: ", $scope.detalleOrden.idOrden);
+        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+            if( result.data[0].RealizarOperacion ){
+                if( $scope.token_termino == '' || $scope.token_termino === undefined ){
+                    alertFactory.error('Introduce el Token de Verificación');
+                }
+                else{
+                    detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                        if( r_token.data[0].Success ){
+                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                                // Success
+                                alertFactory.success( r_token.data[0].Msg );
+                                setTimeout( function(){
+                                    location.reload();
+                                },2000 );
+                            });
+                        }
+                        else{
+                            alertFactory.error( r_token.data[0].Msg );   
+                            $scope.token_termino = '';
+                        }
+                    });
+                }
+            }
+            else{
+                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            }
+        });
+
+        // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
+    }
+    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
     $scope.subirEvidencias = function() {
         $scope.respuesta = []

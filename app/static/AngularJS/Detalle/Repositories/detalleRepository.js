@@ -1,8 +1,50 @@
 var detalleUrl = global_settings.urlCORS + '/api/detalle/';
 var ordenesUrl = global_settings.urlCORS + '/api/orden/';
+var trabajoUrl = global_settings.urlCORS + 'api/trabajo/'
 
 registrationModule.factory('detalleRepository', function($http) {
     return {
+        validaCotizacionesRevisadas: function( idOrden ) { 
+            // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
+            return $http({
+                url: detalleUrl + 'validaTerminoTrabajo/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        validaToken: function( idOrden, Token ) { 
+            // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
+            return $http({
+                url: detalleUrl + 'validaToken/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    Token:Token
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        CambiaStatusOrden: function( idOrden, idUsuario ) { 
+            // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
+            return $http({
+                url: detalleUrl + 'cambiarStatusOrden/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idUsuario:idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getNumCita: function(idTar, idZona, idUsuario) {
             return $http({
                 url: detalleUrl + 'sumatoriaCitas/',
@@ -80,6 +122,20 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
-        }
+        },
+        postSubirFacturas: function(numOrden) {
+            var form = document.forms.namedItem("frm_subir_factura");
+
+            var oData = new FormData( form );
+            return $http({
+                url: detalleUrl + 'subirFactura/',
+                method: "POST",
+                // params: oData,
+                data: oData,
+                headers: {
+                    'Content-Type': undefined
+                }
+            });
+        },
     };
 });
