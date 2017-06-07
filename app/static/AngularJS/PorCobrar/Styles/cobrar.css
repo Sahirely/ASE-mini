@@ -1,0 +1,21 @@
+.contenedorTabla{
+   
+}
+
+.contenedorFiltros{
+    margin-top: 50px;
+}
+
+.panel-heading {
+    background-color: #DCDCDC !important;
+    border-color: #DCDCDC !important;
+}
+
+.panel {
+    border-color: #DCDCDC !important;
+}
+
+.sumatorias{
+ margin-top: 50px;
+  margin-bottom: 60px;
+}

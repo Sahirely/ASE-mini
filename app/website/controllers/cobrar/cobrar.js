@@ -20,7 +20,7 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   this.query.execute('SEL_PORCOBRAR_SP', params, res)
 }
 
-Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
+Cobrar.prototype.get_obtenerordenespago = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
   // Obtención de valores de los parámetros del request
@@ -31,7 +31,7 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   this.query.execute('SEL_ORDENESPAGO_SP', params, res)
 }
 
-Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
+Cobrar.prototype.get_obtenercoincidencia = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
   // Obtención de valores de los parámetros del request
@@ -42,7 +42,7 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   this.query.execute('SEL_PORCOBRAR_COINCIDENCIA_SP', params, res)
 }
 
-Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
+Cobrar.prototype.get_obtenerprefactura = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
   // Obtención de valores de los parámetros del request
@@ -53,7 +53,7 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   this.query.execute('SEL_PREFACTURA_GENERADA_SP', params, res)
 }
 
-Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
+Cobrar.prototype.get_obtenerabonadas = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
   // Obtención de valores de los parámetros del request
@@ -64,7 +64,7 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   this.query.execute('SEL_ABONADAS_SP', params, res)
 }
 
-Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
+Cobrar.prototype.get_obtenerpagadas = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
   // Obtención de valores de los parámetros del request
