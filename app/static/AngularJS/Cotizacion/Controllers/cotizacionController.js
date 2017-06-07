@@ -5,9 +5,8 @@
 // -- Modificó: Mario Mejía
 // -- Fecha: 
 // -- =============================================
-registrationModule.controller('cotizacionController', function($scope, $route, tallerRepository,$rootScope, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
+registrationModule.controller('cotizacionController', function($scope, $route, tallerRepository,$rootScope, userFactory, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
-    $scope.numeroOrden = $routeParams.orden;
     $scope.idTaller = '';
     //$scope.idCatalogoTipoOrdenServicio = 0;
     $scope.lstPartidaSeleccionada = [];
@@ -15,12 +14,23 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.mostrarPartida = false;
     $scope.idTipoCita = 0;
     $scope.especialidad = '2,4'
+    $scope.userData = userFactory.getUserData();
+    $scope.show_nuevaCotizacion = true;
+
     $scope.init = function() {
+
+        $scope.idCotizacion = $routeParams.idCotizacion;
+        $scope.numeroOrden = $routeParams.orden;
+
         $scope.getTipoOrdenesServicio()
         $scope.mostrarTalleres = true;
         $scope.mostrarPartida = false;
-        //$scope.getTalleres();
-        $scope.getOrdenDetalle(1, $scope.numeroOrden);
+        $scope.getCotizacionDetalle();
+        if ($scope.idCotizacion != undefined ) {
+            $scope.getOrdenDetalle();
+            $scope.show_nuevaCotizacion = false;
+        };
+        
     }
 
     $scope.getTipoOrdenesServicio = function() {
@@ -41,8 +51,17 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $('.dataTableTalleres').DataTable().destroy();
         $scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
             if (result.data.length > 0) {
-                $scope.totalOrdenes = result.data;
-                globalFactory.minMinDrawDocument("dataTableTalleres", "Talleres");
+               
+                if ($scope.idCotizacion != undefined ) {
+                    for (var i = 0 ; i < result.data.length; i++) {
+                         if (result.data[i].idTaller == $scope.idTaller) {
+                            $scope.datosTaller = result.data[i];
+                         };
+                    };
+                }else{
+                    $scope.totalOrdenes = result.data;
+                    globalFactory.minMinDrawDocument("dataTableTalleres", "Talleres");
+                }
             }
             $('#loadModal').modal('hide');
         }, function(error) {
@@ -56,9 +75,38 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         //     globalFactory.filtrosTabla("talleres", "Talleres", 5);
         // });
     }
+        $scope.getCotizacionDetalle = function() {
+            
+            consultaCitasRepository.getCotizacionDetalle($scope.idCotizacion, $scope.userData.idUsuario).then(function(result) {
+               
+                if (result.data.length > 0) {
+                    $scope.getPartidasTaller(result.data[0].idProveedor)
+                    $scope.idTaller=result.data[0].idProveedor;
+                    $scope.mostrarTalleres = false;
+                    $scope.mostrarPartida = true;
+                    $scope.lstPartidaSeleccionada=[];
+                    for (var i = 0 ; i < result.data.length; i++) {
+                        $scope.lstPartidaSeleccionada.push({
+                            idPartida: result.data[i].idPartida,
+                            partida: result.data[i].partida,
+                            numPartida: result.data[i].noParte,
+                            cantidad: result.data[i].cantidad,
+                            descripcion: result.data[i].descripcion,
+                            costoUnitario: result.data[i].costo,
+                            precioUnitario: result.data[i].venta,
+                            estatus: 1
+                        });
+                    } 
+                    $scope.sumatoriaTotal();
+                    $scope.getTalleres();
+                }
+            }, function(error) {
+                alertFactory.error('No se puede obtener los detalles de la orden');
+            });
+        }
 
-    $scope.getOrdenDetalle = function(idUsuario, orden) {
-        consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
+    $scope.getOrdenDetalle = function() {
+        consultaCitasRepository.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
             }
@@ -158,10 +206,11 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         console.log($scope.idTipoCita)
         $('#loadModal').modal('show');
         cotizacionRepository.insCotizacionNueva($scope.idTaller, 2, 1, $scope.numeroOrden, $scope.idTipoCita).then(function(result) {
+            
             if (result.data[0].idCotizacion > 0) {
                 $scope.idCotizacion = result.data[0].idCotizacion;
                 $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, 0, detalleCotizacion.idPartida, 1).then(function(nuevos) {
+                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
                         if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
                             console.log('Error al Guardar')
                         }
@@ -184,13 +233,35 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         });
     }
 
+    $scope.actulizacionDetalle = function (){
+    
+        $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
+            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
+              
+                if (nuevos.data[0].idCotizacionDetalle > 0) {
+                    alertFactory.success('Se  actulizó la cotización');
+                    $scope.limpiarParametros();
+                    $('#loadModal').modal('hide');
+                    location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
+                } else {
+                    console.log('Error al Actulizar')
+                }
+            }, function(error) {
+                alertFactory.error('No se pudo actulizar la cotización');
+            });
+        });
+        
+    }
+
     $scope.partidaSeleccionada = function(obj) {
+    
         $scope.objeto = obj
         var existe = 0;
         var noExiste = 0;
         $scope.subTotal = 0;
         $scope.ivaSubTotal = 0;
         $scope.total = 0;
+
         if ($scope.lstPartidaSeleccionada.length == 0) {
             $scope.lstPartidaSeleccionada.push({
                 idPartida: $scope.objeto.idPartida,
@@ -199,7 +270,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                 cantidad: 1,
                 descripcion: $scope.objeto.descripcion,
                 costoUnitario: $scope.objeto.costo,
-                precioUnitario: $scope.objeto.venta
+                precioUnitario: $scope.objeto.venta,
+                estatus: 1
             });
         } else {
             for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
@@ -218,7 +290,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                     cantidad: 1,
                     descripcion: $scope.objeto.descripcion,
                     costoUnitario: $scope.objeto.costo,
-                    precioUnitario: $scope.objeto.venta
+                    precioUnitario: $scope.objeto.venta,
+                    estatus: 1
                 });
             }
         }
@@ -268,14 +341,17 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             if ($scope.lstPartidaSeleccionada[h].idPartida == obj.idPartida) {
                 $scope.posicion = h
                 if ($scope.lstPartidaSeleccionada[h].cantidad <= 1) {
-                    // $scope.eliminar();
-                    // setTimeout(function () {
-                    // console.log($scope.respuesta)
-                    // if ($scope.respuesta == 1) {                    
-                    $scope.lstPartidaSeleccionada.splice((h), 1)
-                    $scope.sumatoriaTotal();
-                    // }
-                    // }, 2000);
+                      
+                    if ($scope.idCotizacion == undefined) {             
+                        $scope.lstPartidaSeleccionada.splice((h), 1)
+                        $scope.sumatoriaTotal();
+                    }else{
+                       $scope.lstPartidaSeleccionada[h].estatus = 3;
+                       $scope.lstPartidaSeleccionada[h].cantidad = 0;
+                       $scope.lstPartidaSeleccionada[h].precioUnitario = 0;
+                       $scope.lstPartidaSeleccionada[h].costoUnitario = 0;
+                       $scope.sumatoriaTotal();
+                    }
                 } else {
                     $scope.lstPartidaSeleccionada.slice(h, 1, $scope.lstPartidaSeleccionada[h].cantidad -= 1)
                     $scope.sumatoriaTotal();
