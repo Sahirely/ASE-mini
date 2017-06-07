@@ -86,11 +86,11 @@
                                         <h3 ng-show="estatus==4">Presupuesto</h3>
                                         <p ng-show="estatus==4">
                                             <label>Saldo Disponible: </label>
-                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{20| currency:"$": 2}}</span>
+                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{saldos.presupuesto-saldos.saldoDisponible| currency:"$": 2}}</span>
                                         </p>
                                         <p ng-show="estatus==4">
                                             <label>Saldo Real: </label>
-                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{10| currency:"$": 2}}</span>
+                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{saldos.presupuesto-saldos.saldoReal| currency:"$": 2}}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -234,7 +234,7 @@
                                                 </address>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                <div class="btn-group pull-right">
+                                                <div class="btn-group pull-right" ng-hide="hideSwitchBtn">
                                                     <button type="button" ng-init="btnSwitch.classCosto='btn btn-success'; btnSwitch.showCostoVenta=true" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true; 
                                                     btnSwitch.classVenta='btn btn-default';
                                                     btnSwitch.classCosto='btn btn-success'">Costo</button>
@@ -296,10 +296,15 @@
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td ng-show="estatus == 4">
-                                                                    <button ng-init="partida.btnClass='btn btn-success';
-                                                                        partida.btnStatus=0;
-                                                                        partida.btnText='*'; 
-                                                                        partida.btnIcon='glyphicon glyphicon-question-sign'" ng-class="partida.btnClass" ng-click="setApprove(partida)">
+                                                                    <button ng-init="partida.btnClass='btn btn-warning';
+                                                                        partida.btnDisabled=true;
+                                                                        partida.btnStep=0;
+                                                                        partida.idStatus=0;                                                      partida.btnText='*'; 
+                                                                        partida.btnIcon='glyphicon glyphicon-question-sign';
+                                                                        initApproveButtons(partida)" 
+                                                                        ng-class="partida.btnClass" 
+                                                                        ng-click="setApprove(partida)"
+                                                                        ng-disabled="partida.btnEnable">
                                                                         <span ng-class="partida.btnIcon"></span>
                                                                     </button>
                                                                 </td>

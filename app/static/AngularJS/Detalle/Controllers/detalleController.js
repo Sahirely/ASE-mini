@@ -179,34 +179,47 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
     $scope.btnConfig = [
-        { idstatus: 0, btnText: "No Seleccion", cssClass: "btn btn-success", iconClass: "glyphicon glyphicon-question-sign" },
-        { idstatus: 1, btnText: "Aprovado", cssClass: "btn btn-warning", iconClass: "glyphicon glyphicon-ok" },
-        { idstatus: 2, btnText: "Rechazado", cssClass: "btn btn-danger", iconClass: "glyphicon glyphicon-remove" }
+        { idStep: 0, idStatus: 1, btnText: "No Seleccion", cssClass: "btn btn-warning", iconClass: "glyphicon glyphicon-question-sign" },
+        { idStep: 1, idStatus: 2, btnText: "Aprovado", cssClass: "btn btn-success", iconClass: "glyphicon glyphicon-ok" },
+        { idStep: 2, idStatus: 3, btnText: "Rechazado", cssClass: "btn btn-danger", iconClass: "glyphicon glyphicon-remove" }
     ];
+
+    $scope.initApproveButtons = function(item) {
+
+        if (item.Aprueba == 1 && item.idEstatusPartida == 1) {
+            item.btnDisabled = false;
+        } else {
+            item.btnDisabled = true;
+            item.btnClass = "btn btn-default";
+            item.btnStep = 0;
+            if (item.Aprueba == 0 && item.idEstatusPartida == 1) {
+                item.btnIcon = "glyphicon glyphicon-ban-circle";
+            } else {
+                item.btnIcon = $scope.btnConfig[item.idEstatusPartida - 1].iconClass;
+            }
+        }
+
+    };
 
 
     $scope.setApprove = function(item) {
 
-        if (item.Aprueba == 0) {
-            item.btnClass = "btn btn-default";
-            item.btnStatus = "0";
-            item.btnText = "?";
-            item.btnIcon = "glyphicon glyphicon-ban-circle";
-            return;
-        }
+        if (item.btnDisabled == true) return;
 
-        var index = item.btnStatus + 1;
+        var index = item.btnStep + 1;
 
         if (index >= $scope.btnConfig.length) {
             item.btnClass = $scope.btnConfig[0].cssClass;
-            item.btnStatus = $scope.btnConfig[0].idstatus;
+            item.btnStep = $scope.btnConfig[0].idStep;
             item.btnText = $scope.btnConfig[0].btnText;
             item.btnIcon = $scope.btnConfig[0].iconClass;
+            item.idStatus = $scope.btnConfig[0].idStatus;
         } else {
             item.btnClass = $scope.btnConfig[index].cssClass;
-            item.btnStatus = $scope.btnConfig[index].idstatus;
+            item.btnStep = $scope.btnConfig[index].idStep;
             item.btnText = $scope.btnConfig[index].btnText;
             item.btnIcon = $scope.btnConfig[index].iconClass;
+            item.idStatus = $scope.btnConfig[index].idStatus;
         }
 
     };
@@ -242,21 +255,23 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         $scope.cotizaciones[0].detalle.forEach(function(item) {
 
-            if (item.btnStatus != 0) {
+            if (item.btnStep != 0 && item.btnDisabled == false) {
 
-                $scope.params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
-                $scope.params.idUsuario = $scope.idUsuario;
-                $scope.params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
-                $scope.params.idPartida = item.idPartida;
-                $scope.params.idEstatusPartida = item.btnStatus + 1;
+                var params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
+                params.idUsuario = $scope.idUsuario;
+                params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
+                params.idPartida = item.idPartida;
+                params.idEstatusPartida = item.idStatus;
 
-                aprobacionRepository.getUpdateStatusPartida($scope.params).then(function(result) {
+
+                aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
                     if (result.data.length > 0) {
                         console.log("OK");
                     }
                 }, function(error) {
                     alertFactory.error('Aprobacion getUpdateStatusPartida error.');
                 });
+
             }
 
         });
@@ -275,6 +290,27 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
 
+
+    $scope.showButtonSwitch = function(usrRol) {
+
+        switch (Number(usrRol)) {
+            case 1: //cliente
+                $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                break;
+            case 2: //admin
+                $scope.hideSwitchBtn = false;
+                break;
+            case 4: //proveedor
+                $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = false;
+                break;
+            default:
+                $scope.hideSwitchBtn = true;
+
+        }
+    };
+
     $scope.hideAllButtons = function() {
         $scope.btnEditarIsEnable = true;
         $scope.btnGuardaCotizacionIsEnable = true;
@@ -287,6 +323,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.btnMoradoIsEnable = true;
 
     };
+
     $scope.showButtonsInProcess = function() {
         $scope.btnEditarCotizacionIsEnable = false;
         $scope.btnNuevaCotizacionIsEnable = false;
@@ -300,7 +337,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         aprobacionRepository.getPresupuesto(numeroOrden).then(function(result) {
             if (result.data.length > 0) {
-                $scope.detalleCliente = result.data[0];
+                $scope.saldos = result.data[0];
+                console.log($scope.saldos);
             }
         }, function(error) {
             alertFactory.error('sinsaldos');
