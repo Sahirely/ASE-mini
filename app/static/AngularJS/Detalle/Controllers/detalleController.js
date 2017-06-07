@@ -270,7 +270,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
                         console.log("OK");
                     }
                 }, function(error) {
-                    alertFactory.error('Aprobacion getUpdateStatusPartida error.');
+                    alertFactory.error('Aprobación getUpdateStatusPartida error.');
                 });
 
             }
@@ -280,11 +280,30 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         aprobacionRepository.getUpdateStatusCotizacion($scope.cotizaciones[0].idCotizacion, $scope.idUsuario).then(function(result) {
             if (result.data.length > 0) {
-                //$scope.detalleCliente = result.data[0];
-                alertFactory.success('Finalizo XD XD');
+
+                alertFactory.success('Finalizó.');
+                
+                var valor = result.data[0].idEstatusCotizacion;
+
+                switch (Number(valor)) {
+                    case 2: //cliente
+                        location.href = '/detalle?orden=' + $routeParams.idCotizacion + '&estatus=' + $routeParams.estatus;
+                        break
+                    case 3:
+                        location.href = '/trabajo';
+                        break;
+                    case 4:
+                        location.href = '/cotizacionconsulta';
+                        break;
+                    default;
+                    console.log("si acciómn");
+                }
+
+            } else {
+                alertFactory.success('Finalizó sin respuesta.');
             }
         }, function(error) {
-            alertFactory.error('Aprobacion getUpdateStatusCotizacion error.');
+            alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
         });
 
 
@@ -390,7 +409,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.pnl_token_admin = false;
     }
 
-    $scope.OpenModalFactura = function( no, cf, ct) {
+    $scope.OpenModalFactura = function(no, cf, ct) {
         $scope.idOrden = no;
         $scope.cotizacionFactura = cf;
         $scope.cotizacionTotal = ct;
@@ -404,10 +423,10 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         document.getElementById("frm_subir_factura").reset();
 
-        var inputs = document.querySelectorAll( '.inputfile' );
-        Array.prototype.forEach.call( inputs, function( input ){
-            var label    = input.nextElementSibling;        
-            label.querySelector( 'span' ).innerHTML = 'Seleccionar archivo';
+        var inputs = document.querySelectorAll('.inputfile');
+        Array.prototype.forEach.call(inputs, function(input) {
+            var label = input.nextElementSibling;
+            label.querySelector('span').innerHTML = 'Seleccionar archivo';
         });
     }
 
@@ -416,22 +435,21 @@ registrationModule.controller('detalleController', function($scope, $location, u
     }
 
     $scope.errores_factura = false;
-    $scope.Cargar_Factura = function(){
+    $scope.Cargar_Factura = function() {
         var fxml = $(".inputfile-1").val();
         var fpdf = $(".inputfile-2").val();
 
-        if( fxml == '' && fpdf == '' ){
+        if (fxml == '' && fpdf == '') {
             $(".alert-danger").fadeIn();
             $(".alert-danger span").text('Proporciona al menos uno de los archivos que se piden');
-            setTimeout( function(){
+            setTimeout(function() {
                 $(".alert-danger").fadeOut('fast');
-            },3000 );
-        }
-        else{
+            }, 3000);
+        } else {
             $(".archivos").hide();
             $(".uploading").show();
             $(".btn-cerrar").attr("disabled", "disabled");
-            $(".btn-subir").attr("disabled", "disabled"); 
+            $(".btn-subir").attr("disabled", "disabled");
 
 
             detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
@@ -442,34 +460,33 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
                 $(".alert-warning").show('fast');
                 $(".errores_factura").html('');
-                
+
 
                 document.getElementById("frm_subir_factura").reset();
                 $(".uploading").hide();
-                console.log( Respuesta.res.return.codigo );
-                if( Respuesta.res.return.codigo == 1 ){
+                console.log(Respuesta.res.return.codigo);
+                if (Respuesta.res.return.codigo == 1) {
                     $scope.titulo_factura = 'Factura Cargada correctamente';
-                }
-                else{
+                } else {
                     $scope.titulo_factura = 'Factura no válida';
                 }
-                    // $("#myModal").modal('hide');
-                $.each( Respuesta.res.return, function( key, item){
-                    $(".errores_factura").append('<tr> <td width="20%"><strong>'+ key +'</strong></td> <td>'+ item +'</td> </tr>');
+                // $("#myModal").modal('hide');
+                $.each(Respuesta.res.return, function(key, item) {
+                    $(".errores_factura").append('<tr> <td width="20%"><strong>' + key + '</strong></td> <td>' + item + '</td> </tr>');
                 });
                 // }
                 // else{
-                    $(".btn-cerrar").removeAttr("disabled");
+                $(".btn-cerrar").removeAttr("disabled");
                 // }
 
                 // if (result.data.length > 0) {
                 //     $scope.HistoricoOrden = result.data;
                 // }
             }, function(error) {
-                console.log( error );
+                console.log(error);
                 // alertFactory.error('No se puede obtener el historico de la orden.');
             });
-                    
+
 
             // var form = document.forms.namedItem("frm_subir_factura");
 
@@ -496,39 +513,36 @@ registrationModule.controller('detalleController', function($scope, $location, u
         }
     }
 
-    $scope.ValidaTerminoTrabajo = function(){
-        console.log("Hola:: ", $scope.detalleOrden.idOrden);
-        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
-            if( result.data[0].RealizarOperacion ){
-                if( $scope.token_termino == '' || $scope.token_termino === undefined ){
-                    alertFactory.error('Introduce el Token de Verificación');
+    $scope.ValidaTerminoTrabajo = function() {
+            console.log("Hola:: ", $scope.detalleOrden.idOrden);
+            detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+                if (result.data[0].RealizarOperacion) {
+                    if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                        alertFactory.error('Introduce el Token de Verificación');
+                    } else {
+                        detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                            if (r_token.data[0].Success) {
+                                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                                    // Success
+                                    alertFactory.success(r_token.data[0].Msg);
+                                    setTimeout(function() {
+                                        location.reload();
+                                    }, 2000);
+                                });
+                            } else {
+                                alertFactory.error(r_token.data[0].Msg);
+                                $scope.token_termino = '';
+                            }
+                        });
+                    }
+                } else {
+                    alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
                 }
-                else{
-                    detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
-                        if( r_token.data[0].Success ){
-                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
-                                // Success
-                                alertFactory.success( r_token.data[0].Msg );
-                                setTimeout( function(){
-                                    location.reload();
-                                },2000 );
-                            });
-                        }
-                        else{
-                            alertFactory.error( r_token.data[0].Msg );   
-                            $scope.token_termino = '';
-                        }
-                    });
-                }
-            }
-            else{
-                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
-            }
-        });
+            });
 
-        // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
-    }
-    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+            // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
+        }
+        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
     $scope.subirEvidencias = function() {
         $scope.respuesta = []
