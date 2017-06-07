@@ -1,7 +1,6 @@
 var OrdenServicioView = require('../views/ejemploVista'),
     OrdenServicioModel = require('../models/dataAccess2');
-
-
+var dirname = 'C:/ASEv2Documentos/public/orden/';
 
 var OrdenServicio = function(conf) {
     this.conf = conf || {};
@@ -407,7 +406,11 @@ OrdenServicio.prototype.post_agregarAcciones= function(req, res, next) {
 
 OrdenServicio.prototype.get_getRecepcionInfo = function(req, res, next) {
     var self = this;
-    var params = [];
+    var params = [{
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }];
 
     this.model.query('SEL_DATOS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
         self.view.expositor(res, {
@@ -422,8 +425,22 @@ OrdenServicio.prototype.post_newpdf = function(req, res, next) {
     var http = require('http'),
         fs = require('fs');
     var filename = 'ComprobanteRecepcion';
-    var filePath = 'C:/Desarrollo/imgserver/public/comprobante/'+ filename + '.pdf';
-    var fileresponse = '/comprobante/'+ filename + '.pdf';
+    var idOrden = req.body.idOrden;
+    var filePath = dirname + idOrden + '/comprobanteRecepcion/' + filename + '.pdf';
+    var fileresponse = '/orden/' + idOrden + '/' + filename + '.pdf';
+
+    if(idOrden != undefined || idOrden != null){
+        if (!fs.existsSync(dirname + idOrden))
+            fs.mkdirSync(dirname + idOrden);
+        if (!fs.existsSync(dirname + idOrden + '/evidencia'))
+            fs.mkdirSync(dirname + idOrden + '/evidencia');
+        if (!fs.existsSync(dirname + idOrden + '/hojaTrabajo'))
+            fs.mkdirSync(dirname + idOrden + '/hojaTrabajo');
+        if (!fs.existsSync(dirname + idOrden + '/factura'))
+            fs.mkdirSync(dirname + idOrden + '/factura');
+        if (!fs.existsSync(dirname + idOrden + '/comprobanteRecepcion'))
+            fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion')
+    }
 
     var options = {
         "method": "POST",

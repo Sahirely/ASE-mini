@@ -227,6 +227,7 @@ angular.module('frapontillo.bootstrap-switch', []);
 
 registrationModule.run(function($rootScope) {
     $rootScope.vIpServer = global_settings.urlCORS;
+    $rootScope.docServer = global_settings.urlDOCS;
 });
 
 registrationModule.directive('viewportWidth', function () {

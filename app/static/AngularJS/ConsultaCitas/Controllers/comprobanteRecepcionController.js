@@ -1,31 +1,16 @@
 registrationModule.controller('comprobanteRecepcionController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
-   
-
     $scope.numeroOrden = $routeParams.orden;
     $scope.validateAprobacion = true;
+
     $scope.init = function() {
-        // $scope.infoCita = localStorageService.get('cita');
-        // $scope.show_exteriores = true;
-        // $scope.show_interiores = false;
-        // $scope.show_accesorios = false;
-        // $scope.show_componentes = false;
-        // $scope.show_documentos = false;
-        // $scope.show_tablero = false;
-        // $scope.show_unidad = false;
-        // $scope.ubi_Delantera = false;
-        // $scope.ubi_Trasera = false;
-        // $scope.ubi_ParteDerecha = false;
-        // $scope.ubi_ParteIzquierda = false;
-        // $scope.ubi_Techo = false;
         $scope.getdatosComprobante(1)
         $scope.getOrdenDetalle(1, $scope.numeroOrden)
     };
 
-
     $scope.getdatosComprobante = function(idTipoUnidad) {
         consultaCitasRepository.getdatosComprobante(idTipoUnidad).then(function(result) {
             if (result.data.success == true) {
-                $scope.modulosComprobante = result.data.data;
+                    $scope.modulosComprobante = result.data.data;
             } else {
                 alertFactory.error('No pueden mostrar los registros para el comprobante de recipción');
             }
@@ -34,11 +19,11 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         });
     }
 
-
     $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
+                $scope.idOrdenMaestro = result.data[0].idOrden;
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los detalles de la orden');
@@ -94,335 +79,142 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                     contador++
             });
         });
-        if ((contadorTotal) - 2 == contador) {
-            console.log('todo validado' + contador + ' total ' + contadorTotal)
+        if ((contadorTotal) - 7 == contador) {
+            //console.log('todo validado' + contador + ' total ' + contadorTotal)
             $scope.validateAprobacion = false;
 
         } else {
-            console.log('faltan campos' + contador + ' total ' + contadorTotal)
+            //console.log('faltan campos' + contador + ' total ' + contadorTotal)
         }
-
     }
 
     $scope.nuevoComprobanteRecepcion = function(obj) {
-        console.log(obj)
         $scope.numeroComprobanteRecepcion = 0;
+        $scope.class_buttonRecepcion = 'fa fa-spinner fa-spin';
         angular.forEach(obj, function(value, key) {
-            console.log(value.idCatalogoModuloComprobante)
             consultaCitasRepository.agregarModuloComprobante(value.idCatalogoModuloComprobante, $scope.numeroOrden).then(function(result) {
                 $scope.moduloComprobante = result.data[0].idModuloComprobante;
                 if (result.data[0].idModuloComprobante > 0) {
                     $scope.idModuloComprobante = result.data[0].idModuloComprobante;
                     angular.forEach(value.detalle, function(value2, key) {
-                        console.log(value2.idCatalogoDetalleModuloComprobante)
+
                         consultaCitasRepository.agregarDetalleModuloComprobante(value2.select, value2.idCatalogoDetalleModuloComprobante, $scope.idModuloComprobante, value2.selectTxt).then(function(result) {
                             $scope.numeroComprobanteRecepcion = $scope.numeroComprobanteRecepcion + 1;
-                            if($scope.numeroComprobanteRecepcion == 1){
-                              $scope.comprobanteRecepcion();  
-                            }    
+                                if($scope.numeroComprobanteRecepcion == 1){
+                                  $scope.comprobanteRecepcion();  
+                                }    
                             if (result.data[0].idDetalleModuloComprobante > 0) {
-                                console.log('detalle agregado')
-                            } else {
-                                console.log('error')
+
                             }
                         });
                     });
-                } else {
-                    console.log('error')
                 }
             });    
             setTimeout(function () {
               location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+1;
-             }, 8000); 
+             }, 10000); 
         });
     }
 
     $scope.comprobanteRecepcion = function() {
-            consultaCitasRepository.getDatosRecepcion().then(function(result) {
+            consultaCitasRepository.getDatosRecepcion($scope.idOrdenMaestro).then(function(result) {
                 if (result.data.length > 0) {
+                    for(var i = 0; i < result.data.length; i++){
+                        if(result.data[i].id == 1) var ext_Claxon = result.data[i].accion;
+                        if(result.data[i].id == 2) var ext_TaponGasolina = result.data[i].accion;
+                        if(result.data[i].id == 3) var ext_TaponLlantas = result.data[i].accion;
+                        if(result.data[i].id == 4) var ext_FarosDelanteros = result.data[i].accion;
+                        if(result.data[i].id == 5) var ext_Antena = result.data[i].accion;
+                        if(result.data[i].id == 6) var ext_Emblemas = result.data[i].accion;
+                        if(result.data[i].id == 7) var ext_Cristales = result.data[i].accion;
+                        if(result.data[i].id == 8) var int_EspejoRetrovisor = result.data[i].accion;
+                        if(result.data[i].id == 9) var int_Radio = result.data[i].accion;
+                        if(result.data[i].id == 10) var int_CinturonSeguridad = result.data[i].accion;
+                        if(result.data[i].id == 11) var int_ManijasSeguros = result.data[i].accion;
+                        if(result.data[i].id == 12) var int_Tapetes = result.data[i].accion;
+                        if(result.data[i].id == 13) var int_Ac = result.data[i].accion;
+                        if(result.data[i].id == 14) var int_BolsaAireDelantera = result.data[i].accion;
+                        if(result.data[i].id == 15) var int_BolsaAireLateral = result.data[i].accion;
+                        if(result.data[i].id == 16) var int_LlavesUnidad = result.data[i].accion;
+                        if(result.data[i].id == 17) var acs_Reflejantes = result.data[i].accion;
+                        if(result.data[i].id == 18) var acs_Extintor = result.data[i].accion;
+                        if(result.data[i].id == 19) var acs_LlantaRefaccion = result.data[i].accion;
+                        if(result.data[i].id == 20) var acs_CableCorriente = result.data[i].accion;
+                        if(result.data[i].id == 21) var acs_PeliculaAntiasalto = result.data[i].accion;
+                        if(result.data[i].id == 22) var com_TaponAceite = result.data[i].accion;
+                        if(result.data[i].id == 23) var com_TaponRadiador = result.data[i].accion;
+                        if(result.data[i].id == 24) var com_VarillaAceite = result.data[i].accion;
+                        if(result.data[i].id == 25) var com_Bateria = result.data[i].accion;
+                        if(result.data[i].id == 26) var com_TaponMotor = result.data[i].accion;
+                        if(result.data[i].id == 27) var doc_PolizaSeguro = result.data[i].accion;
+                        if(result.data[i].id == 28) var doc_TarjetaCirculacion = result.data[i].accion;
+                        if(result.data[i].id == 29) var tab_Descripcion = result.data[i].descripcion;
+                        if(result.data[i].id == 30) var tab_Odometro = result.data[i].descripcion;
+                        if(result.data[i].id == 31) var ubi_ParteDerechaDesc = result.data[i].descripcion;
+                        if(result.data[i].id == 32) var ubi_DelanteraDesc = result.data[i].descripcion;
+                        if(result.data[i].id == 33) var ubi_TechoDesc = result.data[i].descripcion;
+                        if(result.data[i].id == 34) var ubi_TraseraDesc = result.data[i].descripcion;
+                        if(result.data[i].id == 35) var ubi_ParteIzquierdaDesc = result.data[i].descripcion;
+                    }
                 var data = {
                     "DatosUnidad": 
                         {
-                        "ext_Claxon": result.data[0].accion,
-                        "ext_TaponGasolina": result.data[1].accion,
-                        "ext_TaponLlantas": result.data[2].accion,
-                        "ext_FarosDelanteros": result.data[3].accion,
-                        "ext_Antena": result.data[4].accion,
-                        "ext_Emblemas": result.data[5].accion,
-                        "ext_Cristales": result.data[6].accion,
-                        "int_EspejoRetrovisor": result.data[7].accion,
-                        "int_Radio": result.data[8].accion,
-                        "int_CinturonSeguridad": result.data[9].accion,
-                        "int_ManijasSeguros": result.data[10].accion,
-                        "int_Tapetes": result.data[11].accion,
-                        "int_Ac": result.data[12].accion,
-                        "int_BolsaAireDelantera": result.data[13].accion,
-                        "int_BolsaAireLateral": result.data[14].accion,
-                        "int_LlavesUnidad": result.data[15].accion,
-                        "acs_Reflejantes": result.data[16].accion,
-                        "acs_Extintor": result.data[17].accion,
-                        "acs_LlantaRefaccion": result.data[18].accion,
-                        "acs_CableCorriente": result.data[19].accion,
-                        "acs_PeliculaAntiasalto": result.data[20].accion,
-                        "com_TaponAceite": result.data[21].accion,
-                        "com_TaponRadiador": result.data[22].accion,
-                        "com_VarillaAceite": result.data[23].accion,
-                        "com_Bateria": result.data[24].accion,
-                        "com_TaponMotor": result.data[25].accion,
-                        "doc_PolizaSeguro": result.data[26].accion,
-                        "doc_TarjetaCirculacion": result.data[27].accion,
-                        "tab_Descripcion": result.data[28].descripcion,
-                        "tab_Odometro": result.data[29].descripcion
-
+                        "ext_Claxon": ext_Claxon,
+                        "ext_TaponGasolina": ext_TaponGasolina,
+                        "ext_TaponLlantas": ext_TaponLlantas,
+                        "ext_FarosDelanteros": ext_FarosDelanteros,
+                        "ext_Antena": ext_Antena,
+                        "ext_Emblemas": ext_Emblemas,
+                        "ext_Cristales": ext_Cristales,
+                        "int_EspejoRetrovisor": int_EspejoRetrovisor,
+                        "int_Radio": int_Radio,
+                        "int_CinturonSeguridad": int_CinturonSeguridad,
+                        "int_ManijasSeguros": int_ManijasSeguros,
+                        "int_Tapetes": int_Tapetes,
+                        "int_Ac": int_Ac,
+                        "int_BolsaAireDelantera": int_BolsaAireDelantera,
+                        "int_BolsaAireLateral": int_BolsaAireLateral,
+                        "int_LlavesUnidad": int_LlavesUnidad,
+                        "acs_Reflejantes": acs_Reflejantes,
+                        "acs_Extintor": acs_Extintor,
+                        "acs_LlantaRefaccion": acs_LlantaRefaccion,
+                        "acs_CableCorriente": acs_CableCorriente,
+                        "acs_PeliculaAntiasalto": acs_PeliculaAntiasalto,
+                        "com_TaponAceite": com_TaponAceite,
+                        "com_TaponRadiador": com_TaponRadiador,
+                        "com_VarillaAceite": com_VarillaAceite,
+                        "com_Bateria": com_Bateria,
+                        "com_TaponMotor": com_TaponMotor,
+                        "doc_PolizaSeguro": doc_PolizaSeguro,
+                        "doc_TarjetaCirculacion": doc_TarjetaCirculacion,
+                        "tab_Descripcion": tab_Descripcion,
+                        "tab_Odometro": tab_Odometro,
+                        "ubi_ParteDerechaDesc": ubi_ParteDerechaDesc,
+                        "ubi_DelanteraDesc": ubi_DelanteraDesc,
+                        "ubi_TechoDesc": ubi_TechoDesc,
+                        "ubi_TraseraDesc": ubi_TraseraDesc,
+                        "ubi_ParteIzquierdaDesc": ubi_ParteIzquierdaDesc
                         }
                     }   
                 }   
-   
                     var jsonData = {
                         "template": {
                             "name": "ASEUnidad_rpt" 
                         },
                         "data": data
                     }
-
-                consultaCitasRepository.callExternalPdf(jsonData).then(function (result) {               
+                consultaCitasRepository.callExternalPdf(jsonData, $scope.idOrdenMaestro).then(function (result) {               
                     setTimeout(function () {
-                          var url = $rootScope.vIpServer + result.data;
+                          var url = $rootScope.docServer + result.data;
                           var a = document.createElement('a');
                           a.href = url;
                           a.download = 'ComprobanteRecepcion';
                           a.click();
+                          $scope.$apply( function () { 
+                                $scope.class_buttonRecepcion = 'glyphicon glyphicon-ok';
+                          });
                      }, 5000);                          
                 });
             });
         }
-    // $scope.changeDesc = function(data, esttus) {
-    //     if (!esttus) {
-    //         switch (data) {
-    //             case 'delantera':
-    //                 $scope.ubi_DelanteraDesc = '';
-    //                 break;
-    //             case 'trasera':
-    //                 $scope.ubi_TraseraDesc = '';
-    //                 break;
-    //             case 'derecha':
-    //                 $scope.ubi_ParteDerechaDesc = '';
-    //                 break;
-    //             case 'izquierda':
-    //                 $scope.ubi_ParteIzquierdaDesc = '';
-    //                 break;
-    //             case 'techo':
-    //                 $scope.ubi_TechoDesc = '';
-    //                 break;
-    //         }
-    //     }
-    // };
-    // $scope.addComprobanteRecepcion = function() {
-    //     var data = {};
-    //     if (!$scope.acepta) {
-    //         alertFactory.info("Debe Aceptar las Condiciones.");
-    //     } else {
-    //         $scope.class_buttonCeritficado = 'fa fa-spinner fa-spin';
-    //         data.ext_Claxon = $scope.ext_Claxon;
-    //         data.ext_TaponGasolina = $scope.ext_TaponGasolina;
-    //         data.ext_TaponLlantas = $scope.ext_TaponLlantas;
-    //         data.ext_FarosDelanteros = $scope.ext_FarosDelanteros;
-    //         data.ext_Antena = $scope.ext_Antena;
-    //         data.ext_Emblemas = $scope.ext_Emblemas;
-    //         data.ext_Cristales = $scope.ext_Cristales;
-    //         data.int_EspejoRetrovisor = $scope.int_EspejoRetrovisor;
-    //         data.int_Radio = $scope.int_Radio;
-    //         data.int_CinturonSeguridad = $scope.int_CinturonSeguridad;
-    //         data.int_ManijasSeguros = $scope.int_ManijasSeguros;
-    //         data.int_Tapetes = $scope.int_Tapetes;
-    //         data.int_Ac = $scope.int_Ac;
-    //         data.int_BolsaAireDelantera = $scope.int_BolsaAireDelantera;
-    //         data.int_BolsaAireLateral = $scope.int_BolsaAireLateral;
-    //         data.int_LlavesUnidad = $scope.int_LlavesUnidad;
-    //         data.acs_Reflejantes = $scope.acs_Reflejantes;
-    //         data.acs_Extintor = $scope.acs_Extintor;
-    //         data.acs_LlantaRefaccion = $scope.acs_LlantaRefaccion;
-    //         data.acs_CableCorriente = $scope.acs_CableCorriente;
-    //         data.acs_PeliculaAntiasalto = $scope.acs_PeliculaAntiasalto;
-    //         data.com_TaponAceite = $scope.com_TaponAceite;
-    //         data.com_TaponRadiador = $scope.com_TaponRadiador;
-    //         data.com_VarillaAceite = $scope.com_VarillaAceite;
-    //         data.com_Bateria = $scope.com_Bateria;
-    //         data.com_TaponMotor = $scope.com_TaponMotor;
-    //         data.doc_PolizaSeguro = $scope.doc_PolizaSeguro;
-    //         data.doc_TarjetaCirculacion = $scope.doc_TarjetaCirculacion;
-    //         data.tab_Descripcion = $scope.tab_Descripcion;
-    //         data.tab_Odometro = $scope.tab_Odometro;
-    //         data.ubi_DelanteraDesc = $scope.ubi_DelanteraDesc;
-    //         data.ubi_TraseraDesc = $scope.ubi_TraseraDesc;
-    //         data.ubi_ParteDerechaDesc = $scope.ubi_ParteDerechaDesc;
-    //         data.ubi_ParteIzquierdaDesc = $scope.ubi_ParteIzquierdaDesc;
-    //         data.ubi_TechoDesc = $scope.ubi_TechoDesc;
-    //         data.aprobacion = 1;
-    //         data.idCita = $scope.infoCita.idCita;
-    //         data.idUsuario = $scope.userData.idUsuario;
-
-    //         if ($scope.ubi_Techo) {
-    //             data.ubi_Techo = 1;
-    //         } else {
-    //             data.ubi_Techo = 0;
-    //         }
-
-    //         if ($scope.ubi_Delantera) {
-    //             data.ubi_Delantera = 1;
-    //         } else {
-    //             data.ubi_Delantera = 0;
-    //         }
-
-    //         if ($scope.ubi_Trasera) {
-    //             data.ubi_Trasera = 1;
-    //         } else {
-    //             data.ubi_Trasera = 0;
-    //         }
-
-    //         if ($scope.ubi_ParteDerecha) {
-    //             data.ubi_ParteDerecha = 1;
-    //         } else {
-    //             data.ubi_ParteDerecha = 0;
-    //         }
-
-    //         if ($scope.ubi_ParteIzquierda) {
-    //             data.ubi_ParteIzquierda = 1;
-    //         } else {
-    //             data.ubi_ParteIzquierda = 0;
-    //         }
-    //         consultaCitasRepository.addComprobanteRecepcion(data).then(function(rest) {
-    //             if (rest.data[0].id > 0) {
-    //                 $scope.updateEstatusTrabajo();
-    //             } else {
-    //                 alertFactory.error("Error al insertar datos");
-    //             }
-    //         }, function(error) {
-    //             alertFactory.error("Error al insertar datos");
-    //         });
-    //     }
-    // };
-    // //comprobante recepción cargada
-    // $scope.updateEstatusTrabajo = function() {
-    //     trabajoRepository.insertTrabajo($scope.infoCita.idCita, $scope.userData.idUsuario, $scope.infoCita.idUnidad)
-    //         .then(function(trabajo) {
-    //             $scope.idTrabajoNew = trabajo.data[0].idTrabajo;
-    //             $scope.generarPdfdata();
-    //         }, function(error) {
-    //             alertFactory.error("Error al insertar el trabajo");
-    //         });
-    // };
-    // $scope.dzMethods = {};
-    // $scope.validateAprobacion = function() {
-    //     if ($scope.ext_Claxon != undefined && $scope.ext_TaponGasolina != undefined && $scope.ext_TaponLlantas != undefined && $scope.ext_FarosDelanteros != undefined && $scope.ext_Antena != undefined && $scope.ext_Emblemas != undefined && $scope.ext_Cristales != undefined && $scope.int_EspejoRetrovisor != undefined && $scope.int_Radio != undefined && $scope.int_CinturonSeguridad != undefined && $scope.int_ManijasSeguros != undefined && $scope.int_Tapetes != undefined && $scope.int_Ac != undefined && $scope.int_BolsaAireDelantera != undefined && $scope.int_BolsaAireLateral != undefined && $scope.int_LlavesUnidad != undefined && $scope.acs_Reflejantes != undefined && $scope.acs_Extintor != undefined && $scope.acs_LlantaRefaccion != undefined && $scope.acs_CableCorriente != undefined && $scope.acs_PeliculaAntiasalto != undefined && $scope.com_TaponAceite != undefined && $scope.com_TaponRadiador != undefined && $scope.com_VarillaAceite != undefined && $scope.com_Bateria != undefined && $scope.com_TaponMotor != undefined && $scope.doc_PolizaSeguro != undefined && $scope.doc_TarjetaCirculacion != undefined && $scope.tab_Descripcion != undefined && $scope.tab_Odometro != undefined && $scope.tab_Descripcion != '' && $scope.tab_Odometro != '') {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // };
-    // //////////////////////////////////////////////////////////////////////////////////////////////////
-    // //    Manda a Generar el PDF ultima version (03/feb/2017)
-    // //////////////////////////////////////////////////////////////////////////////////////////////////
-    // $scope.generarPdfdata = function() {
-    //     consultaCitasRepository.getGeneraPdf($scope.infoCita.idCita).then(function(result) {
-    //         if (result.data.length > 0) {
-    //             var data = {
-    //                 "DatosUnidad": {
-    //                     "ext_Claxon": result.data[0].ext_Claxon,
-    //                     "ext_TaponGasolina": result.data[0].ext_TaponGasolina,
-    //                     "ext_TaponLlantas": result.data[0].ext_TaponLlantas,
-    //                     "ext_FarosDelanteros": result.data[0].ext_FarosDelanteros,
-    //                     "ext_Antena": result.data[0].ext_Antena,
-    //                     "ext_Emblemas": result.data[0].ext_Emblemas,
-    //                     "ext_Cristales": result.data[0].ext_Cristales,
-    //                     "int_EspejoRetrovisor": result.data[0].int_EspejoRetrovisor,
-    //                     "int_Radio": result.data[0].int_Radio,
-    //                     "int_CinturonSeguridad": result.data[0].int_CinturonSeguridad,
-    //                     "int_ManijasSeguros": result.data[0].int_ManijasSeguros,
-    //                     "int_Tapetes": result.data[0].int_Tapetes,
-    //                     "int_Ac": result.data[0].int_Ac,
-    //                     "int_BolsaAireDelantera": result.data[0].int_BolsaAireDelantera,
-    //                     "int_BolsaAireLateral": result.data[0].int_BolsaAireLateral,
-    //                     "int_LlavesUnidad": result.data[0].int_LlavesUnidad,
-    //                     "acs_Reflejantes": result.data[0].acs_Reflejantes,
-    //                     "acs_Extintor": result.data[0].acs_Extintor,
-    //                     "acs_LlantaRefaccion": result.data[0].acs_LlantaRefaccion,
-    //                     "acs_CableCorriente": result.data[0].acs_CableCorriente,
-    //                     "acs_PeliculaAntiasalto": result.data[0].acs_PeliculaAntiasalto,
-    //                     "com_TaponAceite": result.data[0].com_TaponAceite,
-    //                     "com_TaponRadiador": result.data[0].com_TaponRadiador,
-    //                     "com_VarillaAceite": result.data[0].com_VarillaAceite,
-    //                     "com_Bateria": result.data[0].com_Bateria,
-    //                     "com_TaponMotor": result.data[0].com_TaponMotor,
-    //                     "doc_PolizaSeguro": result.data[0].doc_PolizaSeguro,
-    //                     "doc_TarjetaCirculacion": result.data[0].doc_TarjetaCirculacion,
-    //                     "ubi_Delantera": result.data[0].ubi_Delantera,
-    //                     "ubi_DelanteraDesc": result.data[0].ubi_DelanteraDesc,
-    //                     "ubi_Trasera": result.data[0].ubi_Trasera,
-    //                     "ubi_TraseraDesc": result.data[0].ubi_TraseraDesc,
-    //                     "ubi_ParteDerecha": result.data[0].ubi_ParteDerecha,
-    //                     "ubi_ParteDerechaDesc": result.data[0].ubi_ParteDerechaDesc,
-    //                     "ubi_ParteIzquierda": result.data[0].ubi_ParteIzquierda,
-    //                     "ubi_ParteIzquierdaDesc": result.data[0].ubi_ParteIzquierdaDesc,
-    //                     "ubi_Techo": result.data[0].ubi_Techo,
-    //                     "ubi_TechoDesc": result.data[0].ubi_TechoDesc,
-    //                     "tab_Descripcion": result.data[0].tab_Descripcion,
-    //                     "tab_Odometro": result.data[0].tab_Odometro,
-    //                     "aprobacion": result.data[0].aprobacion,
-    //                     "nombreCompleto": result.data[0].nombreCompleto,
-    //                     "fecha": result.data[0].fecha,
-    //                     "idTrabajo": result.data[0].idTrabajo
-    //                 },
-    //                 "Taller": {
-    //                     "idTaller": result.data[0].idTaller,
-    //                     "GAR": result.data[0].GAR,
-    //                     "TAD": result.data[0].TAR,
-    //                     "ciudad": result.data[0].ciudad,
-    //                     "razonSocial": result.data[0].razonSocial,
-    //                     "idTAR": result.data[0].idTAR,
-    //                     "idProveedor": result.data[0].idTaller,
-    //                 },
-    //                 "unidad": {
-    //                     "idUnidad": result.data[0].idUnidad,
-    //                     "idLicitacion": result.data[0].idLicitacion,
-    //                     "numEconomico": result.data[0].numEconomico,
-    //                     "modelo": result.data[0].modelo,
-    //                     "clienteNumInventario": result.data[0].clienteNumInventario,
-    //                     "numTAR": result.data[0].numTAR,
-    //                     "TAR": result.data[0].TAR,
-    //                     "GAR": result.data[0].GAR,
-    //                     "ubicacion": result.data[0].ubicacion,
-    //                     "oper_pdes": result.data[0].oper_pdes,
-    //                     "marca": result.data[0].marca,
-    //                     "modeloMarca": result.data[0].modeloMarca,
-    //                     "motor": result.data[0].motor,
-    //                     "capacidadLts": result.data[0].capacidadLts,
-    //                     "idTar": result.data[0].idTar
-    //                 }
-    //             }
-    //         }
-    //         var jsonData = {
-    //             "template": {
-    //                 "name": "talleresUnidad_rpt"
-    //             },
-    //             "data": data
-    //         }
-    //         consultaCitasRepository.callExternalPdf(jsonData).then(function(result) {
-    //             setTimeout(function() {
-    //                 var url = $rootScope.vIpServer + result.data;
-    //                 var a = document.createElement('a');
-    //                 a.href = url;
-    //                 a.download = 'ComprobanteRecepción';
-    //                 //a.target = '_blank';
-    //                 a.click();
-
-    //                 location.href = '/tallercita';
-    //             }, 5000);
-    //         });
-
-    //     }, function(error) {
-    //         alertFactory.error("Error al insertar datos");
-    //     });
-    // };
-
 });

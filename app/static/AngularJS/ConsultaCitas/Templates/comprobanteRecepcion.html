@@ -22,12 +22,6 @@
                             <strong>No. Económico: </strong>{{detalleOrden.numeroEconomico}}
                             <br>
                             <strong>No. Inventario: </strong> {{detalleOrden.vin}}
-                            <!--                             <br>
-                            <strong>No. TAR: </strong> {{detalleOrden.numTAR}}
-                            <br>
-                            <strong>TAR: </strong> {{detalleOrden.TAR}}
-                            <br>
-                            <strong>GAR: </strong> {{detalleOrden.GAR}} -->
                         </address>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 text-right">
@@ -57,12 +51,12 @@
                                             <td>
                                                 <div class="input-group m-b center">
                                                     <div class="radio radio-info radio-inline">
-                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}1" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select">
-                                                        <label for="{{detalle.idCatalogoDetalleModuloComprobante}}1" ng-click="addComprobanteRecepcion(modulosComprobante)"> Si </label>
+                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}1" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select" ng-click="addComprobanteRecepcion(modulosComprobante)">
+                                                        <label for="{{detalle.idCatalogoDetalleModuloComprobante}}1"> Si </label>
                                                     </div>
                                                     <div class="radio radio-inline">
-                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}2" value="0" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select">
-                                                        <label for="{{detalle.idCatalogoDetalleModuloComprobante}}2" ng-click="addComprobanteRecepcion(modulosComprobante)"> No </label>
+                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}2" value="0" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select" ng-click="addComprobanteRecepcion(modulosComprobante)">
+                                                        <label for="{{detalle.idCatalogoDetalleModuloComprobante}}2"> No </label>
                                                     </div>
                                                 </div>
                                             </td>
@@ -75,7 +69,7 @@
                                     <br/>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 6">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
-                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" ng-model="detalle.select" ng-change="" ng-click="addComprobanteRecepcion(modulosComprobante)">
+                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" ng-model="detalle.select" ng-change="">
                                         <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled="ubi_ParteDerecha==false"></textarea>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 2">
@@ -104,14 +98,14 @@
                 <br/>
                 <br/>
                 <div class="radio radio-inline col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                    <h4 for="acepta"> 
+<!--                     <h4 for="acepta"> 
                         <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">  
                            Acepto las condiciones en la que se entrega la unidad.
-                    </h4>
+                    </h4> -->
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="pull-right">
-                        <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="nuevoComprobanteRecepcion(modulosComprobante)" ng-disabled="validateAprobacion"><span class="{{class_buttonCeritficado}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
+                        <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="nuevoComprobanteRecepcion(modulosComprobante)" ng-disabled="validateAprobacion && validateAprobacionArea && validateAprobacionDesc"><span class="{{class_buttonRecepcion}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
                     </div>
                 </div>
                 <!--  <div class="row">

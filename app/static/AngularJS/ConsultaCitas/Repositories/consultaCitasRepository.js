@@ -186,7 +186,8 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
-        },agregarAcciones: function(nombreAccion, fechaAccion, idUsuario, numeroOrden , recordatorio) {
+        },
+        agregarAcciones: function(nombreAccion, fechaAccion, idUsuario, numeroOrden , recordatorio) {
             var msgObj = {
                 nombreAccion: nombreAccion,
                 fechaAccion: fechaAccion ,
@@ -203,21 +204,25 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        getDatosRecepcion: function() {
+        getDatosRecepcion: function(idOrden) {
             return $http({
                 url: consultaCitaUrl + 'getRecepcionInfo/',
                 method: "GET",
+                params: {
+                    idOrden: idOrden
+                },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        callExternalPdf: function (jsonData) {
+        callExternalPdf: function (jsonData, idOrden) {
             return $http({
                 url: consultaCitaUrl + 'newpdf/',
                 method: "POST",
                 data: {
-                    values: jsonData
+                    values: jsonData,
+                    idOrden: idOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'
