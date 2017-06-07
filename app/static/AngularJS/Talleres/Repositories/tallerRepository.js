@@ -17,6 +17,18 @@ registrationModule.factory('tallerRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getTallerXid: function(idTaller) {
+            return $http({
+                url: tallerUrl + 'tallerXid/',
+                method: "GET",
+                params: {
+                    idTaller: idTaller
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

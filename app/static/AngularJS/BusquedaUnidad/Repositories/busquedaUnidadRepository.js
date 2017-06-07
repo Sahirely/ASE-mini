@@ -61,6 +61,18 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getDetalleOrden: function(economico) {
+            return $http({
+                url: busquedaUnidadUrl + 'detalleOrden/',
+                method: "GET",
+                params: {
+                    numeroEconomico: economico
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

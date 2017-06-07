@@ -97,5 +97,21 @@ busquedaUnidad.prototype.get_historicoOrdenes = function(req, res, next) {
         });
     });
 };
+//Obtiene el detalle de la orden de servicio para editarlo 
+busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
+    var self = this;
+    var params = [ {
+        name: 'numeroEconomico',
+        value: req.query.numeroEconomico,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('SEL_DETALLE_ORDEN_X_UNIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+};
 
 module.exports = busquedaUnidad;
