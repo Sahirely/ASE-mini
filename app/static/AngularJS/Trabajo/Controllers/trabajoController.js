@@ -1,9 +1,14 @@
-registrationModule.controller('trabajoController', function($scope, $modal, $rootScope, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository) {
+registrationModule.controller('trabajoController', function($scope, $modal, userFactory, $rootScope, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository) {
     $rootScope.modulo = 'ordenServicio'; // <<-- Para activar en que opción del menú se encuentra
     
-    $scope.idOperacion           = 2;
-    $scope.idUsuario             = 2;
-    $scope.idContratoOperacion   = 2;
+    // $scope.idOperacion           = 2;
+    // $scope.idUsuario             = 2;
+    // $scope.idContratoOperacion   = 2;
+    $scope.userData              = userFactory.getUserData();
+
+    $scope.idOperacion           = $scope.userData.idOperacion;
+    $scope.idUsuario             = $scope.userData.idUsuario;
+    $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
 
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x                    = 0;
@@ -22,17 +27,18 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
 
     $scope.idOrden_Temp  = 0;
 
-    $scope.init = function() {
+    $scope.Init = function() {
+        console.log( $scope.idOperacion + ' :: ' + $scope.idUsuario + ' :: ' + $scope.idContratoOperacion );
+
         $scope.muestraTabla = false;
 
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
+        // $scope.obtieneNivelZona();
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
         $scope.devuelveEjecutivos();
 
-        
-        console.log( 'Picker' );
         // globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
         // globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
 
@@ -186,7 +192,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
         $('.clockpicker').clockpicker();
 
         if( $scope.numeroTrabajo == '' ){
-            alert('Numero de Orden vacío');
+            $("#numeroTrabajo").focus();
+            // alert('Numero de Orden vacío');
         }
         else{
             cotizacionConsultaRepository.consultarOrdenes(
@@ -210,13 +217,13 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
     };
 
     $scope.detalleOrden = function(orden) {
-        location.href = '/detalle?orden=' + orden.numeroOrden;
+        location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus=5';
     };    
 
     // =================================================================================
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
-        console.log( "idContratoOperacion", $scope.idContratoOperacion );
+        // console.log( "idContratoOperacion", $scope.idContratoOperacion );
         $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
                 $scope.totalNiveles = result.data.length;
                 if (result.data.length > 0) {
@@ -234,10 +241,10 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
             cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
                 if (result.data.length > 0) {
-                    var valueToPush = {};
-                    valueToPush.orden = result.data[0].orden;
+                    var valueToPush      = {};
+                    valueToPush.orden    = result.data[0].orden;
                     valueToPush.etiqueta = result.data[0].etiqueta;
-                    valueToPush.data = result.data;
+                    valueToPush.data     = result.data;
                     $scope.Zonas.push(valueToPush);
                     //se establece por default cada zona seleccionada en 0
                     $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
@@ -247,4 +254,15 @@ registrationModule.controller('trabajoController', function($scope, $modal, $roo
             });
         }
     };
+
+    // $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
+    //     //al cambiar de zona se establece como zona seleccionada.
+    //     $scope.zonaSelected = id;
+
+    //     $scope.LoadData();
+    //     //se limpian los combos siguientes.
+    //     for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
+    //         $scope.ZonasSeleccionadas[$scope.x] = "0";
+    //     }
+    // };  
 });

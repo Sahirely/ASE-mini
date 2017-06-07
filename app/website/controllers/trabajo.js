@@ -65,14 +65,12 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
 
                 soap.createClient(url, function(err, client) {
                     if(err){
-                        console.log(1);
                         self.view.expositor(res, {
                             error: false,
                             result: {success: false, error: err }
                         });
                     }
                     else{
-                        console.log(2);
                         client.ValidaAll(args, function(err, validacion) {
                             // console.log(validacion);
                             self.view.expositor(res, {
@@ -81,11 +79,7 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
                             });
                         });                        
                     }
-                });
-
-                
-
-            
+                });            
         }
 
         // self.view.expositor(res, {
@@ -110,11 +104,52 @@ Trabajo.prototype.get_fechaRealTrabajo = function(req, res, next){
     });
 }
 
+Trabajo.prototype.get_cambiarStatusOrden = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
+            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
+        ];
+    
+    this.model.query('UPD_ESTATUS_ORDEN_SERVICIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Trabajo.prototype.get_validaTerminoTrabajo = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
+        ];
+    
+    this.model.query('SEL_VALIDA_TERMINO_TRABAJO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Trabajo.prototype.get_validaToken = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'Token', value: req.query.Token, type: self.model.types.STRING},
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
+        ];
+    
+    this.model.query('SEL_VALIDA_TOKEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Trabajo.prototype.post_subirArchivoImg = function(req, res, next){
     var self = this;
-
-    
-
     //Subir imagenes
     var lf = new Load_Files();
     lf.img('app/static/image/Evidencia', req, res, function( respuesta ){
