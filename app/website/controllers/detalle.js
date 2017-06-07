@@ -263,4 +263,23 @@ Detalle.prototype.get_obtenerHistoricoCotizacion = function(req, res, next){
       });
 }
 
+
+
+//LQMA 07062017
+Detalle.prototype.get_reporteConformidad = function(req, res, next){
+var self = this;
+  var params = [
+      {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+      }];
+      this.model.queryAllRecordSet('SEL_REPORTE_CONFORMIDAD_SP',params, function (error, result) {
+          self.view.expositor(res, {
+              error: error,
+              result: result
+          });
+      });
+}
+
 module.exports = Detalle;

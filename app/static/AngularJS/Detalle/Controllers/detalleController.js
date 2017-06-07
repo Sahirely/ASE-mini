@@ -17,6 +17,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.numCotz = 0;
     $scope.HistoricoCotizaciones = [];
     $scope.userData = {};
+    $scope.btn_editarCotizacion= false;
 
     $scope.init = function() {
         console.log("##### Mi estatus ", $scope.estatus);
@@ -297,13 +298,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
             case 1: //cliente
                 $scope.hideSwitchBtn = true;
                 $scope.btnSwitch.showCostoVenta = true;
+                $scope.btn_editarCotizacion= true;
                 break;
             case 2: //admin
                 $scope.hideSwitchBtn = false;
+                $scope.btn_editarCotizacion= true;
                 break;
             case 4: //proveedor
                 $scope.hideSwitchBtn = true;
                 $scope.btnSwitch.showCostoVenta = false;
+                $scope.btn_editarCotizacion= true;
                 break;
             default:
                 $scope.hideSwitchBtn = true;
@@ -346,12 +350,30 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
     $scope.editarCotizacion = function(data) {
-        debugger;
         var orden = $scope.numeroOrden;
-        var idCotizacion = data.idCotizacion
-        location.href = '/editarCotizacion?idCotizacion=' + $routeParams.idCotizacion;
-        // + $routeParams.orden+', data='
+        var idCotizacion = String(data.idCotizacion);
+        location.href = '/cotizacionnueva?orden=' +orden+'&idCotizacion='+idCotizacion;
 
+    }
+
+     $scope.getReporteConformidad = function() {    
+            detalleRepository.getReporteConformidad(12).then(function(result) {
+                if (result.data.length > 0) {
+                    
+                    //console.log(result.data)
+                    var rptReporteConformidad = {};
+                    rptReporteConformidad.encabezado = result.data[0];   
+                    rptReporteConformidad.partidas = result.data[1];
+                    rptReporteConformidad.total = result.data[2];
+                    var jsonData = {
+                        "template": { "name": "reporteConformidad_rpt" },
+                        "data": rptReporteConformidad
+                    }
+                    console.log(jsonData);
+                }
+            }, function(error) {
+                alertFactory.error('Error al obtener Reporte Conformidad');
+            });
     }
 
 

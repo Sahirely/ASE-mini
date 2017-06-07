@@ -26,15 +26,15 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
                             <br/>
                             <br/>
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="show_nuevaCotizacion">
                                 <select class="form-control" ng-model="tipoDeCita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita">
                                     <option value=''>Selecionar Tipo de Cotización</option>
                                 </select>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="show_nuevaCotizacion">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Buscar taller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" ng-click="seleccionarTipoCotizacion(tipoDeCita)"><i class="fa fa-search"></i>
                                         </button> </span>
@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="mostrarPartida">
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <div class="input-group">
+                                <div class="input-group" ng-show="show_nuevaCotizacion">
                                     <input type="text" class="form-control" placeholder="Introduzca servicio o refacción"> <span class="input-group-btn"> <button type="button" class="btn btn-primary"><i class="fa fa-search"></i>
                                         </button> </span>
                                 </div>
@@ -117,8 +117,11 @@
                                 </table>
                             </div>
                             <br/>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right" ng-show="show_nuevaCotizacion">
                                 <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="nuevaCotizacion()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right" ng-show="!show_nuevaCotizacion">
+                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="actulizacionDetalle()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Actualizar Cotización</button>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" ng-show="mostrarPartida">
