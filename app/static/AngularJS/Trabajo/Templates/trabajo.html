@@ -7,9 +7,9 @@
         <span class="title"> Órdenes de Servicio </span>
     </div>
 
-    <div class="wrapper wrapper-content hidden">
+    <div class="wrapper wrapper-content">
         <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">
-            <label>XML</label> <input type="file" name="myFile1" id="myFile1">
+            <label>XML</label> <input type="file" accept="text/xml" name="myFile1" id="myFile1">
             <br>
             <!-- <label>PDF</label> <input type="file" name="myFile2" id="myFile2"> -->
             <br>
@@ -136,21 +136,21 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : '!7' }" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
-                                                    <td>{{orden.nombreCliente}}</td>
-                                                    <td>{{orden.idOrden}}</td>
-                                                    <td>{{orden.numeroOrden}}</td>
-                                                    <td>{{orden.numeroEconomico}}</td>
-                                                    <td>{{orden.idZona}}</td>
-                                                    <td>{{orden.nombreTaller}}</td>
-                                                    <td>{{orden.nombreTipoOrdenServicio}}</td>
-                                                    <td>{{orden.marcaUnidad}}</td>
-                                                    <td>{{orden.modeloUnidad}}</td>
-                                                    <td>{{orden.comentarioOrden}}</td>
-                                                    <td>{{orden.nombreEstatusOrden}}</td>
-                                                    <td>{{'BPRO'}}</td>
-                                                    <td>{{'10' | currency}}</td>
-                                                    <td> {{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}} </td>
+                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : '!7' }" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreCliente}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.idOrden}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.numeroOrden}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.numeroEconomico}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.idZona}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreTaller}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreTipoOrdenServicio}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.marcaUnidad}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.modeloUnidad}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.comentarioOrden}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreEstatusOrden}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{'BPRO'}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{'10' | currency}}</td>
+                                                    <td ng-click="detalleOrden(orden)"> {{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}} </td>
                                                     <td>
                                                         <button class="btn btn-primary" 
                                                             ng-click="OpenModal( key, orden.idOrden );" 

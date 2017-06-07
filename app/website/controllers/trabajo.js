@@ -20,22 +20,113 @@ var Trabajo = function(conf){
 }
 
 //devuelve los trabajos con estatus iniciados
-Trabajo.prototype.post_subirArchivo = function(req, res, next){
-    var self = this;
+// Trabajo.prototype.post_subirFactura = function(req, res, next){
+//     var self = this;
 
-    // Subir Archivos    
-    // var lf = new Load_Files();
-    // lf.options({ // Type Options: * / img / xml / pdf / docs / xls
-    //                 "myFile1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
-    //                 "myFile2": {"Name":"facturapdf001","Path": "C:/ASE_Temp/factura/pdf", "Type": "pdf"}
-    //             });
+//     // console.log( "USERNAME", req.body.username );
+//     // console.log( self );
 
-    // lf.upload( "C:/ASE_Temp", req, res, function( respuesta ){
-    //     self.view.expositor(res, {
-    //         error: false,
-    //         result: {success: true, res: respuesta }
-    //     });
-    // });
+//     // Subir Archivos    
+//     var lf = new Load_Files();
+//     lf.options({ // Type Options: * / img / xml / pdf / docs / xls
+//                     "file_1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
+//                     "file_2": {"Name":"facturapdf001","Path": "C:/ASE_Temp/factura/pdf", "Type": "pdf"}
+//                 });
+
+//     lf.upload( "C:/ASE_Temp", req, res, function( respuesta ){
+//         console.log( respuesta );
+//         respuesta.forEach(function(element) {
+//             // console.log(element.fieldname);
+//             if( element.fieldname == "file_1" ){
+//                 console.log( element.Path );
+
+//                 var fs = require('fs');
+
+//                 fs.readFile( element.Path , 'utf-8', (err, data) => {
+//                     if(err) {
+//                         console.log( { success:false, data:err } );
+//                     } else {
+//                         var parseString = require('xml2js').parseString;
+//                         var xml = data;
+//                         parseString(xml, function (err, result) {
+//                             if( err ){
+//                                 console.log( { success:false, data:err } );
+//                             }
+//                             else{
+//                                 // console.log( { success:true, xml: data, data:result } ); 
+
+//                                 var soap = require('soap');
+//                                 var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
+//                                 var xml_base64 = new Buffer( data ).toString('base64');
+//                                 var args = {xml: xml_base64};
+
+//                                 soap.createClient(url, function(err, client) {
+//                                     if(err){
+//                                         self.view.expositor(res, {
+//                                             error: false,
+//                                             result: {success: false, error: err }
+//                                         });
+//                                     }
+//                                     else{
+//                                         client.ValidaAll(args, function(err, validacion) {
+//                                             // console.log(validacion.return.codigo);
+//                                             // var codigo = validacion.return.codigo;
+//                                             var codigo = 1;
+//                                             if( codigo == 0 ){
+//                                                 self.view.expositor(res, {
+//                                                     error: false,
+//                                                     result: {success: true, res: validacion }
+//                                                 });
+//                                             }
+//                                             else{
+//                                                 console.log( '==================');
+//                                                 console.log( result );
+//                                                 console.log( '==================');
+//                                                 var xml          = result;
+//                                                 var UUID         = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
+//                                                 var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
+//                                                 var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
+//                                                 var Total        = xml['cfdi:Comprobante'].$['total'];
+
+//                                                 console.log( "=============================================" );
+//                                                 console.log( UUID );
+//                                                 console.log( RFC_Emisor );
+//                                                 console.log( RFC_Receptor );
+//                                                 console.log( Total );
+
+//                                                 // 4524.25 - 4524.98
+//                                                 var totalCotizacion = 4525.98;
+
+
+//                                                 if( Total >= (totalCotizacion - 1) && Total <= (totalCotizacion + 1)){
+//                                                     console.log( 'Esta dentro del rango' );
+//                                                     self.view.expositor(res, {
+//                                                         error: false,
+//                                                         result: {success: true, res: {"return":{"codigo":1, "mensaje": "Esta dentro del rango"}} }
+//                                                     });
+//                                                 }
+//                                                 else{
+//                                                     console.log( 'No esta dentro del rango' );
+//                                                     self.view.expositor(res, {
+//                                                         error: false,
+//                                                         result: {success: true, res: {"return":{"codigo":0, "mensaje": "El monto de la factura no coincide con el de la cotización"}} }
+//                                                     });
+//                                                 }
+//                                             }
+//                                         });                        
+//                                     }
+//                                 });
+//                             }
+//                         });
+//                     }
+//                 }); 
+//             }
+//         });
+//         // self.view.expositor(res, {
+//         //     error: false,
+//         //     result: {success: true, res: respuesta }
+//         // });
+//     });
 
 
 
@@ -50,44 +141,84 @@ Trabajo.prototype.post_subirArchivo = function(req, res, next){
     // });
 
     // Subir imagenes
-    var lf = new Load_Files();
-    lf.read_xml(req, res, function( resp ){
+    // var lf = new Load_Files();
+    // lf.read_xml(req, res, function( resp ){
+    //     // console.log( resp.data );
+    //     console.log( "TOTAL DE REGISTROS ::", resp.data.length );
 
-        if( !resp.success ){
-            console.log("No se encontro el archivo de la factura" );
-        }
-        else{
-            console.log( "====================[ Esperando respuesta de SOAP ]====================" );
-                var soap = require('soap');
-                var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
-                var xml_base64 = new Buffer( resp.xml ).toString('base64');
-                var args = {xml: xml_base64};
+    //     if( !resp.success ){
+    //         self.view.expositor(res, {
+    //             error: false,
+    //             result: resp.data[0]
+    //         });
+    //     }
+    //     else{
+    //         console.log( "====================[ Esperando respuesta de SOAP ]====================" );
+    //             var soap = require('soap');
+    //             var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
+    //             var xml_base64 = new Buffer( resp.xml ).toString('base64');
+    //             var args = {xml: xml_base64};
 
-                soap.createClient(url, function(err, client) {
-                    if(err){
-                        self.view.expositor(res, {
-                            error: false,
-                            result: {success: false, error: err }
-                        });
-                    }
-                    else{
-                        client.ValidaAll(args, function(err, validacion) {
-                            // console.log(validacion);
-                            self.view.expositor(res, {
-                                error: false,
-                                result: {success: true, res: validacion }
-                            });
-                        });                        
-                    }
-                });            
-        }
+    //             soap.createClient(url, function(err, client) {
+    //                 if(err){
+    //                     self.view.expositor(res, {
+    //                         error: false,
+    //                         result: {success: false, error: err }
+    //                     });
+    //                 }
+    //                 else{
+    //                     client.ValidaAll(args, function(err, validacion) {
+    //                         // console.log(validacion.return.codigo);
+    //                         // var codigo = validacion.return.codigo;
+    //                         var codigo = 1;
+    //                         if( codigo == 0 ){
+    //                             self.view.expositor(res, {
+    //                                 error: false,
+    //                                 result: {success: true, res: validacion }
+    //                             });
+    //                         }
+    //                         else{
+    //                             var xml          = resp.data;
+    //                             var UUID         = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
+    //                             var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
+    //                             var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
+    //                             var Total        = xml['cfdi:Comprobante'].$['total'];
 
-        // self.view.expositor(res, {
-        //     error: false,
-        //     result: {success: true, res: xml }
-        // });
-    });
-}
+    //                             console.log( "=============================================" );
+    //                             console.log( UUID );
+    //                             console.log( RFC_Emisor );
+    //                             console.log( RFC_Receptor );
+    //                             console.log( Total );
+
+    //                             // 4524.25 - 4524.98
+    //                             var totalCotizacion = 4525.98;
+
+    //                             if( Total >= (totalCotizacion - 1) && Total <= (totalCotizacion + 1)){
+    //                                 console.log( 'Esta dentro del rango' );
+    //                                 self.view.expositor(res, {
+    //                                     error: false,
+    //                                     result: {success: true, res: {"return":{"codigo":1, "mensaje": "Esta dentro del rango"}} }
+    //                                 });
+    //                             }
+    //                             else{
+    //                                 console.log( 'No esta dentro del rango' );
+    //                                 self.view.expositor(res, {
+    //                                     error: false,
+    //                                     result: {success: true, res: {"return":{"codigo":0, "mensaje": "El monto de la factura no coincide con el de la cotización"}} }
+    //                                 });
+    //                             }
+    //                         }
+    //                     });                        
+    //                 }
+    //             });            
+    //     }
+
+    //     // self.view.expositor(res, {
+    //     //     error: false,
+    //     //     result: {success: true, res: 'error' }
+    //     // });
+    // });
+// }
 
 Trabajo.prototype.get_fechaRealTrabajo = function(req, res, next){
     var self = this;
@@ -97,50 +228,6 @@ Trabajo.prototype.get_fechaRealTrabajo = function(req, res, next){
         ];
     
     this.model.query('UPD_FECHA_TRABAJO_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
-    });
-}
-
-Trabajo.prototype.get_cambiarStatusOrden = function(req, res, next){
-    var self = this;
-    var params = [
-            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
-            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
-        ];
-    
-    this.model.query('UPD_ESTATUS_ORDEN_SERVICIO_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
-    });
-}
-
-Trabajo.prototype.get_validaTerminoTrabajo = function(req, res, next){
-    var self = this;
-    var params = [
-            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
-        ];
-    
-    this.model.query('SEL_VALIDA_TERMINO_TRABAJO_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
-    });
-}
-
-Trabajo.prototype.get_validaToken = function(req, res, next){
-    var self = this;
-    var params = [
-            {name: 'Token', value: req.query.Token, type: self.model.types.STRING},
-            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
-        ];
-    
-    this.model.query('SEL_VALIDA_TOKEN_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

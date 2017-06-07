@@ -15,8 +15,15 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
     var index = 0;    
     var multer = require('multer');
     Respuesta        = [];
+
+    
+
     var storage = multer.diskStorage({
         destination: function( req, file, callback ){
+            // console.log( req.files );
+            // console.log( req.body );
+
+
             var files     = req.files;
             var fieldname = files[ index ].fieldname;
             var extencion = file.originalname.split('.').pop();
@@ -29,7 +36,8 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                     success:true, 
                     msg: "Se cargo correctamente",
                     nombre: file.originalname, 
-                    Path: destino + '/' + file.originalname
+                    Path: destino + '/' + file.originalname,
+                    Param: req.body
                 });
             }
             else{
@@ -41,7 +49,8 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                         success:true, 
                         msg: "Se cargo correctamente",
                         nombre: file.originalname, 
-                        Path: destino + '/' + file.originalname
+                        Path: destino + '/' + file.originalname,
+                        Param: req.body
                     });
                 }
                 else{
@@ -63,7 +72,8 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                             success:true, 
                             msg: "Se cargo correctamente",
                             nombre: nombre, 
-                            Path: opt_dest_fields[ fieldname ].Path + '/' + nombre
+                            Path: opt_dest_fields[ fieldname ].Path + '/' + nombre,
+                            Param: req.body
                         });
                     }
                     else{
@@ -76,7 +86,8 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                                 success:true, 
                                 msg: "Se cargo correctamente",
                                 nombre: nombre, 
-                                Path: opt_dest_fields[ fieldname ].Path + '/' + nombre
+                                Path: opt_dest_fields[ fieldname ].Path + '/' + nombre,
+                                Param: req.body
                             });
                         }                        
                         else{
@@ -90,6 +101,138 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                 }
             }
 
+            index++;
+        },
+        filename: function( req, file, callback ){
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+            var nameFile  = '';
+
+            if( opt_dest_fields === undefined ){
+                nameFile = file.originalname;
+            }
+            else{
+                if( opt_dest_fields[ fieldname ] === undefined || opt_dest_fields[ fieldname ] == '' ){
+                    nameFile = file.originalname;
+                }
+                else{
+                    if( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ){
+                        nameFile = file.originalname;
+                    }
+                    else{
+                        nameFile = opt_dest_fields[ fieldname ].Name + '.' + extencion;
+                    }
+                }
+            }  
+
+            callback( null, nameFile );
+        }
+    });
+
+    // var upload = multer( { storage: storage } ).single('myFile2');
+    var upload = multer( { storage: storage } ).any();
+    var flag   = true;
+
+    upload( req, res, function( err ){
+        flag   = false;
+        if( err ){
+            miCallback( err );
+            return res.end("Error uploading file.");
+        }
+
+        miCallback( Respuesta );
+    });
+
+    setTimeout( function() {
+        if( flag ){
+            miCallback( Respuesta );
+        }
+    },5000);
+};
+
+Load_Files.prototype.facturas = function( destino, req, res, miCallback ) { // Type Options: * / img / xml / pdf / docs / xls
+    var index = 0;    
+    var multer = require('multer');
+    Respuesta        = [];
+
+    
+
+    var storage = multer.diskStorage({
+        destination: function( req, file, callback ){
+            // console.log( req.files );
+            // console.log( req.body );
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+            var ruta_padre = destino + 'factura/' + req.body.idOrden + '/'
+
+            var fs = require("fs");
+            var path = ruta_padre + '/' + req.body.cotizacionFactura;
+
+            
+            fs.mkdir(path, function (err) {
+                if (err) {
+                    console.log('failed to create directory', err);
+                } else {
+                    fs.mkdir(path + "/pdf", function (err) {});
+                    fs.mkdir(path + "/xml", function (err) {});
+                }
+            });
+
+            var ruta_padre_coti = destino + 'factura/' + req.body.idOrden + '/' + req.body.cotizacionFactura + '/';
+
+            var lista_tipos = [];
+            switch( opt_dest_fields[ fieldname ].Type ){
+                case 'img' : lista_tipos = type_images; break;
+                case 'xml' : lista_tipos = type_xml; break;
+                case 'pdf' : lista_tipos = type_pdfs; break;
+                case 'docs': lista_tipos = type_docs; break;
+                case 'xls' : lista_tipos = type_excel; break;
+            }
+
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+            console.log( ruta_padre_coti );
+
+            if( opt_dest_fields[ fieldname ].Type == '*' || opt_dest_fields[ fieldname ].Type == undefined || opt_dest_fields[ fieldname ].Type == '' ){
+                console.log( "ruta save", ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
+                callback( null, ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
+                // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
+                var nombre = ( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ) ? file.originalname : opt_dest_fields[ fieldname ].Name + '.' + extencion;
+                Respuesta.push({ 
+                    fieldname: fieldname, 
+                    success:true, 
+                    msg: "Se cargo correctamente",
+                    nombre: nombre, 
+                    Path: ruta_padre_coti + opt_dest_fields[ fieldname ].Path + '/' + nombre,
+                    Param: req.body
+                });
+            }
+            else{
+                console.log( "ruta save", ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
+                if( lista_tipos.indexOf( extencion )  != -1 ){
+                    callback( null, ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
+                    // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
+                    var nombre = ( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ) ? file.originalname : opt_dest_fields[ fieldname ].Name + '.' + extencion;
+                    Respuesta.push({ 
+                        fieldname: fieldname, 
+                        success:true, 
+                        msg: "Se cargo correctamente",
+                        nombre: nombre, 
+                        Path: ruta_padre_coti + opt_dest_fields[ fieldname ].Path + '/' + nombre,
+                        Param: req.body
+                    });
+                }                        
+                else{
+                    Respuesta.push({ 
+                        fieldname: fieldname, 
+                        success:false, 
+                        msg: file.originalname + " :: no es el tipo de archivo permitido para esta operación"
+                    });
+                }
+            }
             index++;
         },
         filename: function( req, file, callback ){
@@ -216,7 +359,7 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
             var extencion = file.originalname.split('.').pop();
             pathname  = destino + '/' + file.originalname;
 
-            if( type_xml.indexOf( extencion )  != -1 ){
+            // if( type_xml.indexOf( extencion )  != -1 ){
                 callback( null, destino );
                 Respuesta.push({ 
                     fieldname: fieldname, 
@@ -225,14 +368,14 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
                     nombre: file.originalname, 
                     Path: pathname
                 });
-            }
-            else{
-                Respuesta.push({ 
-                    fieldname: fieldname, 
-                    success:false, 
-                    msg: file.originalname + " :: no es el tipo de archivo permitido para esta operación"
-                });
-            }
+            // }
+            // else{
+            //     Respuesta.push({ 
+            //         fieldname: fieldname, 
+            //         success:false, 
+            //         msg: file.originalname + " :: no es el tipo de archivo permitido para esta operación"
+            //     });
+            // }
 
             index++;
         },
@@ -241,12 +384,13 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
             var fieldname = files[ index ].fieldname;
             var extencion = file.originalname.split('.').pop();
 
-            if( type_xml.indexOf( extencion )  != -1 ){
+            // if( type_xml.indexOf( extencion )  != -1 ){
                 callback( null, file.originalname );
-            }
+            // }
         }
     });
 
+    // var upload = multer( { storage: storage } ).single('file_1');
     var upload = multer( { storage: storage } ).any();
     var flagImg   = true;
 
@@ -257,24 +401,32 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
             return res.end("Error uploading file.");
         }
 
-        var fs = require('fs');
 
-        fs.readFile( pathname , 'utf-8', (err, data) => {
-            if(err) {
-                miCallback( { success:false, data:err } );
-            } else {
-                var parseString = require('xml2js').parseString;
-                var xml = data;
-                parseString(xml, function (err, result) {
-                    if( err ){
-                        miCallback( { success:false, data:err } );
-                    }
-                    else{
-                        miCallback( { success:true, xml: data, data:result } );                        
-                    }
-                });
-            }
-        });
+        var miExt = pathname.split('.').pop();
+
+        if( miExt == 'xml' ){
+            var fs = require('fs');
+
+            fs.readFile( pathname , 'utf-8', (err, data) => {
+                if(err) {
+                    miCallback( { success:false, data:err } );
+                } else {
+                    var parseString = require('xml2js').parseString;
+                    var xml = data;
+                    parseString(xml, function (err, result) {
+                        if( err ){
+                            miCallback( { success:false, data:err } );
+                        }
+                        else{
+                            miCallback( { success:true, xml: data, data:result } );                        
+                        }
+                    });
+                }
+            });            
+        }
+        else{
+            console.log('entro aqui ');
+        }
     });
 
     setTimeout( function() {

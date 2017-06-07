@@ -1,6 +1,8 @@
 var DetalleView = require('../views/ejemploVista'),
     DetalleModel = require('../models/dataAccess2');
 
+var Load_Files = require('../controllers/load_files');
+
 var Detalle = function (conf) {
     this.conf = conf || {};
 
@@ -16,6 +18,173 @@ var Detalle = function (conf) {
 
     this.middlewares = [
    ]
+}
+
+Detalle.prototype.get_cambiarStatusOrden = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
+            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
+        ];
+    
+    this.model.query('UPD_ESTATUS_ORDEN_SERVICIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Detalle.prototype.get_validaTerminoTrabajo = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
+        ];
+    
+    this.model.query('SEL_VALIDA_TERMINO_TRABAJO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Detalle.prototype.get_validaToken = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'Token', value: req.query.Token, type: self.model.types.STRING},
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
+        ];
+    
+    this.model.query('SEL_VALIDA_TOKEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//devuelve los trabajos con estatus iniciados
+Detalle.prototype.post_subirFactura = function(req, res, next){
+    var self = this;
+    // console.log( req );
+
+    // Subir Archivos    
+    var lf = new Load_Files();
+    lf.options({ // Type Options: * / img / xml / pdf / docs / xls
+                    "file_1": {"Name":"factura1","Path": "xml", "Type": "xml"},
+                    "file_2": {"Name":"factura1","Path": "pdf", "Type": "pdf"}
+                });
+
+    lf.facturas( "C:/ASE_Temp/", req, res, function( respuesta ){
+        // console.log( respuesta );
+        respuesta.forEach(function(element) {
+            // console.log(element.fieldname);
+            if( element.fieldname == "file_1" ){
+                // console.log( element.Param );
+
+                var fs = require('fs');
+
+                fs.readFile( element.Path , 'utf-8', (err, data) => {
+                    if(err) {
+                        console.log( { success:false, data:err } );
+                    } else {
+                        var parseString = require('xml2js').parseString;
+                        var xml = data;
+                        parseString(xml, function (err, result) {
+                            if( err ){
+                                console.log( { success:false, data:err } );
+                            }
+                            else{
+                                var soap = require('soap');
+                                var url = 'http://cfdiee.com:8080/Validadorfull/Validador?wsdl';
+                                var xml_base64 = new Buffer( data ).toString('base64');
+                                var args = {xml: xml_base64};
+
+                                soap.createClient(url, function(err, client) {
+                                    if(err){
+                                        self.view.expositor(res, {
+                                            error: false,
+                                            result: {success: false, error: err }
+                                        });
+                                    }
+                                    else{
+                                        client.ValidaAll(args, function(err, validacion) {
+                                            console.log(validacion.return.codigo);
+                                            // var codigo = validacion.return.codigo;
+                                            var codigo = 1;
+                                            if( codigo == 0 ){
+                                                self.view.expositor(res, {
+                                                    error: false,
+                                                    result: {success: true, res: validacion }
+                                                });
+                                            }
+                                            else{
+                                                var xml          = result;
+                                                var UUID         = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
+                                                var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
+                                                var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
+                                                var Total        = xml['cfdi:Comprobante'].$['total'];
+
+                                                // 4524.25 - 4524.98
+                                                console.log( "cotizacionTotal",element.Param.cotizacionTotal );
+                                                // var totalCotizacion = 4525.98;
+                                                var totalCotizacion = element.Param.cotizacionTotal;
+
+                                                console.log( Total );
+                                                console.log( (totalCotizacion - 1) );
+                                                console.log( (totalCotizacion + 1) );
+                                                if( Total >= (parseInt(totalCotizacion) - 1) && Total <= (parseInt(totalCotizacion) + 1)){
+
+                                                    var params = [
+                                                      {name: 'ruta', value: element.Path, type: self.model.types.STRING },
+                                                      {name: 'idOrden', value: element.Param.idOrden, type: self.model.types.INT },
+                                                      {name: 'idCotizacion', value: element.Param.cotizacionFactura, type: self.model.types.INT }
+                                                    ];
+                                                    console.log( "#############################" );
+                                                    self.model.query('INS_FACTURA_SP',params, function (error, result) {
+                                                        // self.view.expositor(res, {
+                                                        //     error: error,
+                                                        //     result: result
+                                                        // });
+
+                                                        console.log( "==================" );
+
+                                                        self.view.expositor(res, {
+                                                          error: false,
+                                                          result: {success: true, res: {"return":{
+                                                            "codigo":1, 
+                                                            "mensaje": "Esta dentro del rango",
+                                                            "Total cotizacion": totalCotizacion,
+                                                            "Total factura": Total
+                                                          }} }
+                                                      });
+                                                    });
+
+                                                    
+                                                }
+                                                else{
+                                                    self.view.expositor(res, {
+                                                        error: false,
+                                                        result: {success: true, res: {"return":{
+                                                          "codigo":0, 
+                                                          "mensaje": "El monto de la factura no coincide con el de la cotización",
+                                                          "Total cotizacion": totalCotizacion,
+                                                          "Total factura": Total
+                                                        }} }
+                                                    });
+                                                }
+                                            }
+                                        });                        
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }); 
+            }
+        });
+    });
 }
 
 Detalle.prototype.get_insertaNota = function(req, res, next){

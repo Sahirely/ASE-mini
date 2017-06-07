@@ -179,34 +179,47 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
     $scope.btnConfig = [
-        { idstatus: 0, btnText: "No Seleccion", cssClass: "btn btn-success", iconClass: "glyphicon glyphicon-question-sign" },
-        { idstatus: 1, btnText: "Aprovado", cssClass: "btn btn-warning", iconClass: "glyphicon glyphicon-ok" },
-        { idstatus: 2, btnText: "Rechazado", cssClass: "btn btn-danger", iconClass: "glyphicon glyphicon-remove" }
+        { idStep: 0, idStatus: 1, btnText: "No Seleccion", cssClass: "btn btn-warning", iconClass: "glyphicon glyphicon-question-sign" },
+        { idStep: 1, idStatus: 2, btnText: "Aprovado", cssClass: "btn btn-success", iconClass: "glyphicon glyphicon-ok" },
+        { idStep: 2, idStatus: 3, btnText: "Rechazado", cssClass: "btn btn-danger", iconClass: "glyphicon glyphicon-remove" }
     ];
+
+    $scope.initApproveButtons = function(item) {
+
+        if (item.Aprueba == 1 && item.idEstatusPartida == 1) {
+            item.btnDisabled = false;
+        } else {
+            item.btnDisabled = true;
+            item.btnClass = "btn btn-default";
+            item.btnStep = 0;
+            if (item.Aprueba == 0 && item.idEstatusPartida == 1) {
+                item.btnIcon = "glyphicon glyphicon-ban-circle";
+            } else {
+                item.btnIcon = $scope.btnConfig[item.idEstatusPartida - 1].iconClass;
+            }
+        }
+
+    };
 
 
     $scope.setApprove = function(item) {
 
-        if (item.Aprueba == 0) {
-            item.btnClass = "btn btn-default";
-            item.btnStatus = "0";
-            item.btnText = "?";
-            item.btnIcon = "glyphicon glyphicon-ban-circle";
-            return;
-        }
+        if (item.btnDisabled == true) return;
 
-        var index = item.btnStatus + 1;
+        var index = item.btnStep + 1;
 
         if (index >= $scope.btnConfig.length) {
             item.btnClass = $scope.btnConfig[0].cssClass;
-            item.btnStatus = $scope.btnConfig[0].idstatus;
+            item.btnStep = $scope.btnConfig[0].idStep;
             item.btnText = $scope.btnConfig[0].btnText;
             item.btnIcon = $scope.btnConfig[0].iconClass;
+            item.idStatus = $scope.btnConfig[0].idStatus;
         } else {
             item.btnClass = $scope.btnConfig[index].cssClass;
-            item.btnStatus = $scope.btnConfig[index].idstatus;
+            item.btnStep = $scope.btnConfig[index].idStep;
             item.btnText = $scope.btnConfig[index].btnText;
             item.btnIcon = $scope.btnConfig[index].iconClass;
+            item.idStatus = $scope.btnConfig[index].idStatus;
         }
 
     };
@@ -242,21 +255,23 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         $scope.cotizaciones[0].detalle.forEach(function(item) {
 
-            if (item.btnStatus != 0) {
+            if (item.btnStep != 0 && item.btnDisabled == false) {
 
-                $scope.params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
-                $scope.params.idUsuario = $scope.idUsuario;
-                $scope.params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
-                $scope.params.idPartida = item.idPartida;
-                $scope.params.idEstatusPartida = item.btnStatus + 1;
+                var params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
+                params.idUsuario = $scope.idUsuario;
+                params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
+                params.idPartida = item.idPartida;
+                params.idEstatusPartida = item.idStatus;
 
-                aprobacionRepository.getUpdateStatusPartida($scope.params).then(function(result) {
+
+                aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
                     if (result.data.length > 0) {
                         console.log("OK");
                     }
                 }, function(error) {
                     alertFactory.error('Aprobacion getUpdateStatusPartida error.');
                 });
+
             }
 
         });
@@ -275,6 +290,27 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
 
+
+    $scope.showButtonSwitch = function(usrRol) {
+
+        switch (Number(usrRol)) {
+            case 1: //cliente
+                $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                break;
+            case 2: //admin
+                $scope.hideSwitchBtn = false;
+                break;
+            case 4: //proveedor
+                $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = false;
+                break;
+            default:
+                $scope.hideSwitchBtn = true;
+
+        }
+    };
+
     $scope.hideAllButtons = function() {
         $scope.btnEditarIsEnable = true;
         $scope.btnGuardaCotizacionIsEnable = true;
@@ -287,6 +323,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.btnMoradoIsEnable = true;
 
     };
+
     $scope.showButtonsInProcess = function() {
         $scope.btnEditarCotizacionIsEnable = false;
         $scope.btnNuevaCotizacionIsEnable = false;
@@ -300,7 +337,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         aprobacionRepository.getPresupuesto(numeroOrden).then(function(result) {
             if (result.data.length > 0) {
-                $scope.detalleCliente = result.data[0];
+                $scope.saldos = result.data[0];
+                console.log($scope.saldos);
             }
         }, function(error) {
             alertFactory.error('sinsaldos');
@@ -330,14 +368,145 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.pnl_token_admin = false;
     }
 
-    $scope.OpenModalFactura = function(index, Id) {
+    $scope.OpenModalFactura = function( no, cf, ct) {
+        $scope.idOrden = no;
+        $scope.cotizacionFactura = cf;
+        $scope.cotizacionTotal = ct;
+
+        $(".alert-warning").hide();
         $("#myModal").modal();
+        $(".archivos").show();
+        $(".uploading").hide();
+        $(".btn-cerrar").removeAttr("disabled");
+        $(".btn-subir").removeAttr("disabled");
+
+        document.getElementById("frm_subir_factura").reset();
+
+        var inputs = document.querySelectorAll( '.inputfile' );
+        Array.prototype.forEach.call( inputs, function( input ){
+            var label    = input.nextElementSibling;        
+            label.querySelector( 'span' ).innerHTML = 'Seleccionar archivo';
+        });
     }
 
-    $scope.HideModalFactura = function(index, Id) {
-            $("#myModal").modal('hide');
+    $scope.HideModalFactura = function() {
+        $("#myModal").modal('hide');
+    }
+
+    $scope.errores_factura = false;
+    $scope.Cargar_Factura = function(){
+        var fxml = $(".inputfile-1").val();
+        var fpdf = $(".inputfile-2").val();
+
+        if( fxml == '' && fpdf == '' ){
+            $(".alert-danger").fadeIn();
+            $(".alert-danger span").text('Proporciona al menos uno de los archivos que se piden');
+            setTimeout( function(){
+                $(".alert-danger").fadeOut('fast');
+            },3000 );
         }
-        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+        else{
+            $(".archivos").hide();
+            $(".uploading").show();
+            $(".btn-cerrar").attr("disabled", "disabled");
+            $(".btn-subir").attr("disabled", "disabled"); 
+
+
+            detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
+                // console.log( resul}t );
+                // console.log( oReq.status );
+                // var Respuesta = JSON.parse(result);
+                var Respuesta = result.data;
+
+                $(".alert-warning").show('fast');
+                $(".errores_factura").html('');
+                
+
+                document.getElementById("frm_subir_factura").reset();
+                $(".uploading").hide();
+                console.log( Respuesta.res.return.codigo );
+                if( Respuesta.res.return.codigo == 1 ){
+                    $scope.titulo_factura = 'Factura Cargada correctamente';
+                }
+                else{
+                    $scope.titulo_factura = 'Factura no válida';
+                }
+                    // $("#myModal").modal('hide');
+                $.each( Respuesta.res.return, function( key, item){
+                    $(".errores_factura").append('<tr> <td width="20%"><strong>'+ key +'</strong></td> <td>'+ item +'</td> </tr>');
+                });
+                // }
+                // else{
+                    $(".btn-cerrar").removeAttr("disabled");
+                // }
+
+                // if (result.data.length > 0) {
+                //     $scope.HistoricoOrden = result.data;
+                // }
+            }, function(error) {
+                console.log( error );
+                // alertFactory.error('No se puede obtener el historico de la orden.');
+            });
+                    
+
+            // var form = document.forms.namedItem("frm_subir_factura");
+
+            // var oData = new FormData( form );
+            // oData.append('username', 'Chris');
+
+            // var oReq = new XMLHttpRequest();
+            // oReq.open( 'post', "api/trabajo/subirArchivo", true );
+            // oReq.onload = function( oEvent ){
+            //     console.log( oReq.status );
+            //     var Respuesta = JSON.parse(oReq.response);
+
+            //     $(".alert-warning").show('fast');
+            //     $(".errores_factura").html('');
+            //     $(".btn-cerrar").removeAttr("disabled");
+
+            //     document.getElementById("frm_subir_factura").reset();
+            //     $(".uploading").hide();
+            //     $.each( Respuesta.res.return, function( key, item){
+            //         $(".errores_factura").append('<tr> <td width="20%"><strong>'+ key +'</strong></td> <td>'+ item +'</td> </tr>');
+            //     });
+            // }
+            // oReq.send( oData );            
+        }
+    }
+
+    $scope.ValidaTerminoTrabajo = function(){
+        console.log("Hola:: ", $scope.detalleOrden.idOrden);
+        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+            if( result.data[0].RealizarOperacion ){
+                if( $scope.token_termino == '' || $scope.token_termino === undefined ){
+                    alertFactory.error('Introduce el Token de Verificación');
+                }
+                else{
+                    detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                        if( r_token.data[0].Success ){
+                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                                // Success
+                                alertFactory.success( r_token.data[0].Msg );
+                                setTimeout( function(){
+                                    location.reload();
+                                },2000 );
+                            });
+                        }
+                        else{
+                            alertFactory.error( r_token.data[0].Msg );   
+                            $scope.token_termino = '';
+                        }
+                    });
+                }
+            }
+            else{
+                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            }
+        });
+
+        // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
+    }
+    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
     $scope.subirEvidencias = function() {
         $scope.respuesta = []
