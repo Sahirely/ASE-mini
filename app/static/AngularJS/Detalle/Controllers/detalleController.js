@@ -238,8 +238,40 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
 
-    $scope.btnSaveCotizacion = function(objDetalle) {
-        console.log(objDetalle);
+    $scope.btnSaveCotizacion = function() {
+
+        $scope.cotizaciones[0].detalle.forEach(function(item) {
+
+            if (item.btnStatus != 0) {
+
+                $scope.params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
+                $scope.params.idUsuario = $scope.idUsuario;
+                $scope.params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
+                $scope.params.idPartida = item.idPartida;
+                $scope.params.idEstatusPartida = item.btnStatus + 1;
+
+                aprobacionRepository.getUpdateStatusPartida($scope.params).then(function(result) {
+                    if (result.data.length > 0) {
+                        console.log("OK");
+                    }
+                }, function(error) {
+                    alertFactory.error('Aprobacion getUpdateStatusPartida error.');
+                });
+            }
+
+        });
+
+
+        aprobacionRepository.getUpdateStatusCotizacion($scope.cotizaciones[0].idCotizacion, $scope.idUsuario).then(function(result) {
+            if (result.data.length > 0) {
+                //$scope.detalleCliente = result.data[0];
+                alertFactory.success('Finalizo XD XD');
+            }
+        }, function(error) {
+            alertFactory.error('Aprobacion getUpdateStatusCotizacion error.');
+        });
+
+
 
     };
 
@@ -256,7 +288,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
     $scope.showButtonsInProcess = function() {
-        $scope.btnEditarCotizacionIsEnable = false;        
+        $scope.btnEditarCotizacionIsEnable = false;
         $scope.btnNuevaCotizacionIsEnable = false;
         $scope.btnComprobanteRecepcionIsEnable = false;
         $scope.btnEditarCitaIsEnable = false;
@@ -268,9 +300,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         aprobacionRepository.getPresupuesto(numeroOrden).then(function(result) {
             if (result.data.length > 0) {
-                console.log("entro AQUI");
                 $scope.detalleCliente = result.data[0];
-                console.log(result.data[0]);
             }
         }, function(error) {
             alertFactory.error('sinsaldos');

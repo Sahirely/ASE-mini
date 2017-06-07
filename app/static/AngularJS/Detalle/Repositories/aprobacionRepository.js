@@ -12,21 +12,21 @@ registrationModule.factory('aprobacionRepository', function($http) {
                 }
             });
         },
-        getUpdateStatusPartida: function() {
+        getUpdateStatusPartida: function(params) {
             return $http({
                 url: aprobacionUrl + 'updateStatusPartida/',
                 method: "GET",
-                params: { idTar: idTar },
+                params: params,
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getUpdateStatusCotizacion: function() {
+        getUpdateStatusCotizacion: function(idCotizacion, idUsuario) {
             return $http({
                 url: aprobacionUrl + 'updateStatusCotizacion/',
                 method: "GET",
-                params: { idTar: idTar },
+                params: { idCotizacion: idCotizacion, idUsuario: idUsuario },
                 headers: {
                     'Content-Type': 'application/json'
                 }
