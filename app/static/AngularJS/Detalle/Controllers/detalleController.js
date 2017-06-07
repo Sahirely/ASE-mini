@@ -295,7 +295,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
                     case 4:
                         location.href = '/cotizacionconsulta';
                         break;
-                    default;
+                    default:
                     console.log("si acciómn");
                 }
 
