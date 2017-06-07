@@ -63,10 +63,10 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
-                            <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.numPartida }} </a></td>
+                            <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.noParte }} </a></td>
                             <td>{{ lstPartidaSeleccionada.cantidad }}</td>
-                            <td class="text-right" ng-show="muestraCosto">{{ lstPartidaSeleccionada.costoUnitario | currency}}</td>
-                            <td class="text-right" ng-show="muestraPrecio">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                            <td class="text-right" ng-show="muestraCosto">{{ lstPartidaSeleccionada.costo | currency}}</td>
+                            <td class="text-right" ng-show="muestraPrecio">{{ lstPartidaSeleccionada.venta | currency}}</td>
                             <td>
                                 <div class="btn-group">
                                     <button class="btn-success btn btn-xs" type="button" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar"><span class="glyphicon glyphicon-plus"></span></button>

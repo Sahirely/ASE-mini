@@ -1,4 +1,4 @@
-registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository) {
+registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository, consultaCitasRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************// 
@@ -12,6 +12,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.mostrarAccion = true;
     $scope.tipoDeCita = [];
     $scope.estadoDeUnidad = [];
+    $scope.partidas = [];
+    $scope.idServicios = '';
+    $scope.idCotizacion = undefined;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -42,8 +45,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             var mapOptions1 = {
                 zoom: 14,
                 center: new google.maps.LatLng(19.3269503, -99.2138245)
-                    // Style for Google Maps
-                    //styles: [{ "featureType": "water", "stylers": [{ "saturation": 43 }, { "lightness": -11 }, { "hue": "#0088ff" }] }, { "featureType": "road", "elementType": "geometry.fill", "stylers": [{ "hue": "#ff0000" }, { "saturation": -100 }, { "lightness": 99 }] }, { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#808080" }, { "lightness": 54 }] }, { "featureType": "landscape.man_made", "elementType": "geometry.fill", "stylers": [{ "color": "#ece2d9" }] }, { "featureType": "poi.park", "elementType": "geometry.fill", "stylers": [{ "color": "#ccdca1" }] }, { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#767676" }] }, { "featureType": "road", "elementType": "labels.text.stroke", "stylers": [{ "color": "#ffffff" }] }, { "featureType": "poi", "stylers": [{ "visibility": "off" }] }, { "featureType": "landscape.natural", "elementType": "geometry.fill", "stylers": [{ "visibility": "on" }, { "color": "#b8cb93" }] }, { "featureType": "poi.park", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.sports_complex", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.medical", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.business", "stylers": [{ "visibility": "simplified" }] }]
             };
             // Get all html elements for map
             var mapElement1 = document.getElementById('map1');
@@ -94,6 +95,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.opcionTipoCita = false;
                         $scope.opcionEstadoUnidad = false;
                         $scope.grua = $scope.detalleOrden.grua;
+                        $scope.idCotizacion = $scope.detalleOrden.idCotizacion;
                         var date = new Date($scope.detalleOrden.fechaCita);
                         console.log(date, 'Soy la fecha que viene de bd')
                         $scope.fechaCita = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
@@ -104,7 +106,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.getTipoEstadoUnidad();
                         $scope.getServicios();
                         $scope.getTallerXid($scope.detalleOrden.idTaller);
-                        $scope.getPreCotizacion($scope.detalleOrden.idCotizacion);
+                        $scope.getPreCotizacion($scope.idCotizacion);
                     } else if ($scope, detalleOrden == 0) {
                         location.href = '/unidad?economico=' + $routeParams.economico;
                     } else {
@@ -156,10 +158,11 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getModalPartidas = function() {
         $('.modal-dialog').css('width', '1050px');
-        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.resultado, '');
+        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.partidas, $scope.idCotizacion, $scope.resultado, '');
     };
     $scope.resultado = function(partidas) {
         $scope.partidas = partidas;
+        console.log($scope.partidas, 'Soy las partidas despues de agregar de la modal')
         $scope.labelItems = partidas.length;
     };
     //*****************************************************************************************************************************//
@@ -182,7 +185,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                     cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
                         $scope.idCotizacion = result.data[0].idCotizacion;
                         angular.forEach($scope.partidas, function(value, key) {
-                            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costoUnitario, value.cantidad, value.precioUnitario, value.idPartida, 1).then(function(result) {
+                            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, 1).then(function(result) {
                                 alertFactory.success('Orden de Servicio Agendada');
                                 setTimeout(function() {
                                     location.href = '/unidad?economico=' + $routeParams.economico;
@@ -279,8 +282,21 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     $scope.getPreCotizacion = function(idCotizacion) {
         console.log(idCotizacion);
+        consultaCitasRepository.getCotizacionDetalle(idCotizacion, $scope.idUsuario).then(function(result) {
+            console.log(result.data, 'Soy la cotizacion')
+            $scope.labelItems = result.data.length;
+            $scope.partidas = result.data;
+        });
     };
     $scope.actualizarCita = function() {
         console.log($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller);
+        angular.forEach($scope.partidas, function(value, key) {
+            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.estatus).then(function(result) {
+                alertFactory.success('Cotización Detalle Creada');
+                setTimeout(function() {
+                    location.href = '/unidad?economico=' + $routeParams.economico;
+                }, 1000);
+            });
+        });
     };
 });

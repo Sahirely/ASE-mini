@@ -1,11 +1,16 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, partidas, idCotizacion, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
     $scope.idTaller = idtaller;
     $scope.especialidades = especialidades;
-    $scope.lstPartidaSeleccionada = [];
+    $scope.lstPartidaSeleccionada = partidas;
+    $scope.idCotizacion = idCotizacion;
     $scope.init = function() {
-        console.log($scope.especialidades, 'Soy las especialidades')
+        console.log($scope.especialidades, 'Soy las especialidades');
+        console.log($scope.idCotizacion, 'Soy el idCotizacion')
         $scope.userData = userFactory.getUserData();
         $scope.permisosUsuario();
+        if ($scope.lstPartidaSeleccionada.length > 0) {
+            $scope.sumatoriaTotal();
+        }
         consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
@@ -53,11 +58,12 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
             $scope.lstPartidaSeleccionada.push({
                 idPartida: $scope.objeto.idPartida,
                 partida: $scope.objeto.partida,
-                numPartida: $scope.objeto.noParte,
+                noParte: $scope.objeto.noParte,
                 cantidad: 1,
                 descripcion: $scope.objeto.descripcion,
-                costoUnitario: $scope.objeto.costo,
-                precioUnitario: $scope.objeto.venta
+                costo: $scope.objeto.costo,
+                venta: $scope.objeto.venta,
+                estatus: 1
             });
         } else {
             for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
@@ -72,11 +78,12 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
                 $scope.lstPartidaSeleccionada.push({
                     idPartida: $scope.objeto.idPartida,
                     partida: $scope.objeto.partida,
-                    numPartida: $scope.objeto.noParte,
+                    noParte: $scope.objeto.noParte,
                     cantidad: 1,
                     descripcion: $scope.objeto.descripcion,
-                    costoUnitario: $scope.objeto.costo,
-                    precioUnitario: $scope.objeto.venta
+                    costo: $scope.objeto.costo,
+                    venta: $scope.objeto.venta,
+                    estatus: 1
                 });
             }
         }
@@ -90,8 +97,8 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         $scope.totalPrecio = 0;
         $scope.totalCosto = 0;
         for (var h = 0; h < $scope.lstPartidaSeleccionada.length; h++) {
-            $scope.subTotalPrecio += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].precioUnitario;
-            $scope.subTotalCosto += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].costoUnitario;
+            $scope.subTotalPrecio += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].venta;
+            $scope.subTotalCosto += $scope.lstPartidaSeleccionada[h].cantidad * $scope.lstPartidaSeleccionada[h].costo;
         }
         $scope.ivaSubTotalPrecio += $scope.subTotalPrecio * 0.16;
         $scope.ivaSubTotalCosto += $scope.subTotalCosto * 0.16;
@@ -111,8 +118,16 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
             if ($scope.lstPartidaSeleccionada[h].idPartida == obj.idPartida) {
                 $scope.posicion = h
                 if ($scope.lstPartidaSeleccionada[h].cantidad <= 1) {
-                    $scope.lstPartidaSeleccionada.splice((h), 1)
-                    $scope.sumatoriaTotal();
+                    if ($scope.idCotizacion == undefined) {
+                        $scope.lstPartidaSeleccionada.splice((h), 1)
+                        $scope.sumatoriaTotal();
+                    } else {
+                        $scope.lstPartidaSeleccionada[h].estatus = 3;
+                        $scope.lstPartidaSeleccionada[h].cantidad = 0;
+                        $scope.lstPartidaSeleccionada[h].precioUnitario = 0;
+                        $scope.lstPartidaSeleccionada[h].costoUnitario = 0;
+                        $scope.sumatoriaTotal();
+                    }
                 } else {
                     $scope.lstPartidaSeleccionada.slice(h, 1, $scope.lstPartidaSeleccionada[h].cantidad -= 1)
                     $scope.sumatoriaTotal();
