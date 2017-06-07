@@ -242,8 +242,9 @@ registrationModule.controller('detalleController', function($scope, $location, u
                 break;
             case 4: //Botones habilitados para modulo aprobación
                 $scope.hideAllButtons();
-                $scope.btnEditarIsEnable = false;
+                //$scope.btnEditarIsEnable = false;
                 $scope.btnGuardaCotizacionIsEnable = false;
+                $scope.btn_editarCotizacion= true;
                 break;
             default:
                 $scope.hideAllButtons();
@@ -325,8 +326,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
                 break;
             case 4: //proveedor
                 $scope.hideSwitchBtn = true;
-                $scope.btnSwitch.showCostoVenta = false;
-                $scope.btn_editarCotizacion= true;
+                $scope.btnSwitch.showCostoVenta = false;                
                 break;
             default:
                 $scope.hideSwitchBtn = true;
