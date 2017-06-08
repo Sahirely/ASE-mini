@@ -427,7 +427,7 @@ OrdenServicio.prototype.post_newpdf = function(req, res, next) {
     var filename = 'ComprobanteRecepcion';
     var idOrden = req.body.idOrden;
     var filePath = dirname + idOrden + '/comprobanteRecepcion/' + filename + '.pdf';
-    var fileresponse = '/orden/' + idOrden + '/' + filename + '.pdf';
+    var fileresponse = '/orden/' + idOrden + '/comprobanteRecepcion/' + filename + '.pdf';
 
     if(idOrden != undefined || idOrden != null){
         if (!fs.existsSync(dirname + idOrden))
