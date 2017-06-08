@@ -747,9 +747,9 @@ registrationModule.controller('detalleController', function($scope, $location, u
         detalleRepository.getExistsComprobanteRecepcion($scope.numeroOrden, 1).then(function(result) {
             var resultado = result.data[0];
             if (resultado[0].ID != 0) {
-                $scope.validaCertificado = resultado[0].ID;
+                $scope.validaCertificado = 1;
             }else{
-                $scope.validaCertificado = resultado[0].ID;
+                $scope.validaCertificado = 0;
             }
         }, function(error) {
             alertFactory.error('No se puede obtener el historico de la orden.');
