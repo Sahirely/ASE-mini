@@ -214,7 +214,7 @@ Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
 
         Resultado.forEach( function( item, key ){
             // var ServerPath = item.Path.replace( "\\", "/" );
-            console.log( item.PathDB );
+            // console.log( 'Se intenta guardar' );
             var ServerPath = Parametros.docServer + '/orden/' +item.PathDB ;
             var params = [
                 {name: 'ruta', value: ServerPath, type: self.model.types.STRING },
@@ -222,8 +222,10 @@ Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
                 {name: 'idCotizacion', value: Parametros.cotizacionFactura, type: self.model.types.INT }
             ];
             self.model.query('INS_FACTURA_SP',params, function (error, result) {
-                console.log( 'Guardando a base de datos' );
+                console.log( error );
+                // console.log( 'Guardando a base de datos' );
             });
+                
         });
 
         self.view.expositor(res, {

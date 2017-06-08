@@ -36,7 +36,7 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
             var path = Url_Destino;
             fs.mkdir(path, function (err) {
                 if (err) {
-                    console.log('failed to create directory', err);
+                    // console.log('failed to create directory', err);
                 } else {
                     // fs.mkdir(path + "/pdf", function (err) {});
                     // fs.mkdir(path + "/xml", function (err) {});
@@ -55,6 +55,20 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                 PathDB: req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + file.originalname,
                 Param: req.body
             });
+
+
+            // var self = this;
+            // console.log( 'Se intenta guardar' );
+            // var ServerPath = req.body.docServer + '/orden/' + req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + file.originalname ;
+            // var params = [
+            //     {name: 'ruta', value: ServerPath, type: self.model.types.STRING },
+            //     {name: 'idOrden', value: req.body.idOrden, type: self.model.types.INT },
+            //     {name: 'idCotizacion', value: req.body.cotizacionFactura, type: self.model.types.INT }
+            // ];
+            // self.model.query('INS_FACTURA_SP',params, function (error, result) {
+            //     console.log( error );
+            //     // console.log( 'Guardando a base de datos' );
+            // });
 
             // if( opt_dest_fields === undefined ){
             //     var Url_Destino_2 =  "107\\Factura\\1";
