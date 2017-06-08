@@ -438,7 +438,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
                     //console.log(JSON.stringify(jsonData));
                     resolve(jsonData);
                 }).then(function(jsonData) {
-                    detalleRepository.getGuardaReporteConformidad(jsonData).then(function(result) {
+                    detalleRepository.getGuardaReporteConformidad(jsonData, idOrden).then(function(result) {
                         /*if (result.data.length > 0) {
                             console.log(data)
                             console.log('guardo reporte conformidad')

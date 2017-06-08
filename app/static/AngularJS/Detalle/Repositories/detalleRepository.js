@@ -177,12 +177,13 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },//LQMA 07062017
-        getGuardaReporteConformidad: function(myJson) {
+        getGuardaReporteConformidad: function(myJson, idOrden) {
             return $http({
                 url: detalleUrl + 'guardaReporteConformidad/',
                 method: "GET",
                 params: {
-                    myJson: myJson
+                    myJson: myJson,
+                    idOrden: idOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

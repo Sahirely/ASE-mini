@@ -330,7 +330,7 @@ Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
         fs = require('fs');
     var filename = "Recibo_Comprobante";//guid();
     // var filePath = "C:\\89" + "\\pdf\\" + filename + ".pdf";//path.dirname(require.main.filename) + "\\pdf\\" + filename + ".pdf";
-    var filePath = "C:\\ASEv2Documentos\\public\\orden\\112\\hojaTrabajo\\"+ filename + ".pdf";
+    var filePath = "C:\\ASEv2Documentos\\public\\orden\\"+ req.query.idOrden +"\\hojaTrabajo\\"+ filename + ".pdf";
     var options = {
         "method": "POST",
         "hostname": "189.204.141.193",
