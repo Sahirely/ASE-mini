@@ -63,7 +63,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
                 descripcion: $scope.objeto.descripcion,
                 costo: $scope.objeto.costo,
                 venta: $scope.objeto.venta,
-                estatus: 1
+                idEstatusPartida: 1
             });
         } else {
             for (var i = 0; i < $scope.lstPartidaSeleccionada.length; i++) {
@@ -83,7 +83,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
                     descripcion: $scope.objeto.descripcion,
                     costo: $scope.objeto.costo,
                     venta: $scope.objeto.venta,
-                    estatus: 1
+                    idEstatusPartida: 1
                 });
             }
         }
@@ -122,7 +122,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
                         $scope.lstPartidaSeleccionada.splice((h), 1)
                         $scope.sumatoriaTotal();
                     } else {
-                        $scope.lstPartidaSeleccionada[h].estatus = 3;
+                        $scope.lstPartidaSeleccionada[h].idEstatusPartida = 3;
                         $scope.lstPartidaSeleccionada[h].cantidad = 0;
                         $scope.lstPartidaSeleccionada[h].precioUnitario = 0;
                         $scope.lstPartidaSeleccionada[h].costoUnitario = 0;

@@ -99,7 +99,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         var date = new Date($scope.detalleOrden.fechaCita);
                         console.log(date, 'Soy la fecha que viene de bd')
                         $scope.fechaCita = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
-                        $scope.horaCita = date.getUTCHours() + ":" + date.getUTCMinutes();
+                        var hora = date.getUTCMinutes();
+                        if (hora <= 9) { hora = '0' + hora }
+                        $scope.horaCita = date.getUTCHours() + ":" + hora;
                         $scope.comentarios = $scope.detalleOrden.comenatario;
                         console.log($scope.detalleOrden.zonas, 'Son las zonas')
                         $scope.getTipoOrdenesServicio();
@@ -289,10 +291,13 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         });
     };
     $scope.actualizarCita = function() {
+        if ($scope.grua == true) {
+            $scope.grua = 1;
+        } else { $scope.grua = 0 }
         citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
             console.log(result, 'Soy lo que regresa despues de actualizar la Orden de Servicio')
             angular.forEach($scope.partidas, function(value, key) {
-                cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.estatus).then(function(result) {
+                cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
                     alertFactory.success('Cotización Detalle Creada');
                     setTimeout(function() {
                         location.href = '/unidad?economico=' + $routeParams.economico;
