@@ -434,7 +434,7 @@
 
                             <button ng-hide="btnNuevaCotizacionIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>
                             <button ng-hide="btnEditarCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>
-                            <button  ng-hide="btnComprobanteRecepcionIsEnable" class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">Comprobante de Recepción</button>
+                            <button  ng-hide="btnComprobanteRecepcionIsEnable" ng-disabled="validaCertificado != 0" class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">Comprobante de Recepción</button>
                             <button ng-hide="btnEditarCitaIsEnable"  class="btn btn-warning pull-right  btn-movil" type="submit">Editar Cita</button>
                             <button ng-hide="btnCancelarCitaIsEnable" class="btn btn-rojo pull-right  btn-movil" type="submit">Cancelar Cita</button>
                             <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right  btn-movil" type="submit">Negro</button>

@@ -163,6 +163,19 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getExistsComprobanteRecepcion: function(numeroOrden, idCatalogoDocumento) {
+            return $http({
+                url: detalleUrl + 'existComprobanteRecepcion/',
+                method: "GET",
+                params: {
+                    numeroOrden: numeroOrden,
+                    idCatalogoDocumento: idCatalogoDocumento
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

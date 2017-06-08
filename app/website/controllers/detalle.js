@@ -297,4 +297,26 @@ var self = this;
       });
 }
 
+Detalle.prototype.get_existComprobanteRecepcion = function(req, res, next){
+var self = this;
+  var params = [
+      {
+        name: 'numeroOrden',
+        value: req.query.numeroOrden,
+        type: self.model.types.STRING
+      },
+      {
+        name: 'idCatalogoDocumento',
+        value: req.query.idCatalogoDocumento,
+        type: self.model.types.INT
+      }];
+      
+      this.model.queryAllRecordSet('SEL_VALIDA_DOCUMENTO_SP',params, function (error, result) {
+          self.view.expositor(res, {
+              error: error,
+              result: result
+          });
+      });
+}
+
 module.exports = Detalle;

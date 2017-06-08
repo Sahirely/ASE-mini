@@ -20,6 +20,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.btn_editarCotizacion = false;
 
     $scope.init = function() {
+        $scope.checkComprobanteRecepcion();
         $scope.HistoricoCotizaciones = [];
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
@@ -679,4 +680,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     }
 
+    $scope.checkComprobanteRecepcion = function() {
+        detalleRepository.getExistsComprobanteRecepcion($scope.numeroOrden, 1).then(function(result) {
+            var resultado = result.data[0];
+            if (resultado[0].ID != 0) {
+                $scope.validaCertificado = resultado[0].ID;
+            }else{
+                $scope.validaCertificado = resultado[0].ID;
+            }
+        }, function(error) {
+            alertFactory.error('No se puede obtener el historico de la orden.');
+        });
+    }
 });
