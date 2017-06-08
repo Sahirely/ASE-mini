@@ -15,12 +15,12 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.IdsCotizacionesPorOrden = [];
     $scope.x = 0;
     $scope.numCotz = 0;
-    $scope.HistoricoCotizaciones = [];
+    
     $scope.userData = {};
     $scope.btn_editarCotizacion = false;
 
     $scope.init = function() {
-        console.log("##### Mi estatus ", $scope.estatus);
+        $scope.HistoricoCotizaciones = [];
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.getHistoricos();
@@ -619,6 +619,30 @@ registrationModule.controller('detalleController', function($scope, $location, u
             } else {
                 alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
             }
+        });
+    }
+
+    $scope.RechazarTrabajo = function(){
+        // swal( "hola mundo" );
+        swal({
+            title: "¿Estas seguro?",
+            text: "Al rechazar el trabajo éste se cambiara a estatus 'Proceso'",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD083F",
+            confirmButtonText: "Rechazar trabajo",
+            cancelButtonText: "Cerrar",
+            cancelButtonColor: "#DD083F",
+            closeOnConfirm: false
+        },
+        function(){
+            detalleRepository.rechazaTrabajo($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(Rechazado) {
+                // Success
+                console.log( Rechazado );
+                $("html, body").animate({ scrollTop: 0 }, 1000);
+                $scope.init();
+                swal("", "Se ha rechazado el trabajo", "success");
+            });
         });
     }
     //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//

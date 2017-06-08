@@ -165,7 +165,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden: 7 }" ng-dblclick="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden: 7 }" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                                     <td>{{orden.nombreCliente}}</td>
                                                     <td>{{orden.idOrden}}</td>
                                                     <td>{{orden.numeroOrden}}</td>
