@@ -555,6 +555,8 @@
                             <input type="hidden" value="{{idOrden}}" name="idOrden">
                             <input type="hidden" value="{{cotizacionFactura}}" name="cotizacionFactura">
                             <input type="hidden" value="{{cotizacionTotal}}" name="cotizacionTotal">
+                            <input type="hidden" value="{{docServer}}" name="docServer">
+                            <!-- $rootScope.docServer -->
 
                             <label>XML</label><br>
                             <input type="file" name="file_1" id="file_1" class="inputfile inputfile-1" accept="text/xml" />
@@ -580,8 +582,8 @@
                         </div>
                         <div class="col-sm-12">
                             <br>
-                            <div class="alert alert-warning" style="display: none;">
-                                <strong>¡{{titulo_factura}}!</strong>
+                            <div class="alert alert-warning alert_respuesta">
+                                <strong>¡Factura cargada correctamente!</strong>
                                 <br><br>
                                 <table class="table borderless errores_factura"> </table>
                             </div>
@@ -594,7 +596,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-cerrar" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary btn-subir" ng-click="Cargar_Factura();">Subir Factura</button>
+                    <button type="submit" class="btn btn-primary btn-subir" ng-click="Cargar_Factura_Tmp();">Subir Factura</button>
                 </div>
             </form>
         </div>

@@ -3,6 +3,8 @@ var DetalleView = require('../views/ejemploVista'),
 
 var Load_Files = require('../controllers/load_files');
 
+var _PathDocuments = "C:\\ASEv2Documentos\\public\\orden\\"
+
 var Detalle = function (conf) {
     this.conf = conf || {};
 
@@ -204,15 +206,30 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
 
 Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
     var self = this;
-    // Subir Archivos    
     var lf = new Load_Files();
 
-    lf.upload( "C:\\ASEv2Documentos\\public\\orden\\107\\Factura\\1", req, res, function( respuesta ){
-        console.log( respuesta );
+    lf.upload( _PathDocuments, req, res, function( respuesta ){
+        var Resultado = respuesta;
+        var Parametros = respuesta[0].Param;
+
+        Resultado.forEach( function( item, key ){
+            // var ServerPath = item.Path.replace( "\\", "/" );
+            console.log( item.PathDB );
+            var ServerPath = Parametros.docServer + '/orden/' +item.PathDB ;
+            var params = [
+                {name: 'ruta', value: ServerPath, type: self.model.types.STRING },
+                {name: 'idOrden', value: Parametros.idOrden, type: self.model.types.INT },
+                {name: 'idCotizacion', value: Parametros.cotizacionFactura, type: self.model.types.INT }
+            ];
+            self.model.query('INS_FACTURA_SP',params, function (error, result) {
+                console.log( 'Guardando a base de datos' );
+            });
+        });
+
         self.view.expositor(res, {
             error: false,
-            result: respuesta
-        });
+            result: {Success: true, Msg: 'Factura cargada correctamente'}
+      });
     });
 }
 
@@ -344,7 +361,7 @@ Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
         fs = require('fs');
     var filename = "Recibo_Comprobante";//guid();
     // var filePath = "C:\\89" + "\\pdf\\" + filename + ".pdf";//path.dirname(require.main.filename) + "\\pdf\\" + filename + ".pdf";
-    var filePath = "C:\\ASEv2Documentos\\public\\orden\\"+ req.query.idOrden +"\\hojaTrabajo\\"+ filename + ".pdf";
+    var filePath = _PathDocuments + req.query.idOrden +"\\hojaTrabajo\\"+ filename + ".pdf";
     var options = {
         "method": "POST",
         "hostname": "189.204.141.193",

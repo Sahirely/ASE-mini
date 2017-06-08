@@ -471,6 +471,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         $scope.idOrden = no;
         $scope.cotizacionFactura = cf;
         $scope.cotizacionTotal = ct;
+        $scope.alert_respuesta = false;
 
         $(".alert-warning").hide();
         $("#myModal").modal();
@@ -574,6 +575,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.Cargar_Factura_Tmp = function() {
         var fxml = $(".inputfile-1").val();
         var fpdf = $(".inputfile-2").val();
+        // console.log( "hola", $rootScope.docServer );
 
         if (fxml == '' && fpdf == '') {
             $(".alert-danger").fadeIn();
@@ -590,7 +592,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
             detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
                 var Respuesta = result.data;
-                alert('Subiendo Factura');
+                $scope.alert_respuesta = true;
+                $(".uploading").hide();
+                $(".alert_respuesta").fadeIn();
+
+                setTimeout( function(){
+                    $("#myModal").modal('hide');
+                    $scope.init();
+                }, 2000 );
+                console.log( Respuesta );
+                // alert('Subiendo Factura');
             }, function(error) {
                 console.log(error);
                 // alertFactory.error('No se puede obtener el historico de la orden.');
