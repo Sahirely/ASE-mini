@@ -264,7 +264,7 @@
     }
 }
 
-.cargar-factura, .tbn-cancelar{
+.cargar-factura, .tbn-cancelar, .btn-entrega{
     margin: 0 10px;
 }
 

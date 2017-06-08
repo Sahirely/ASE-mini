@@ -37,6 +37,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         console.log($scope.idEstatusOrden);
         console.log('==============================');
         $scope.getSaldos($routeParams.orden);
+
     };
 
     $scope.getHistoricos = function() {
@@ -550,35 +551,77 @@ registrationModule.controller('detalleController', function($scope, $location, u
     }
 
     $scope.ValidaTerminoTrabajo = function() {
-            console.log("Hola:: ", $scope.detalleOrden.idOrden);
-            detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
-                if (result.data[0].RealizarOperacion) {
-                    if ($scope.token_termino == '' || $scope.token_termino === undefined) {
-                        alertFactory.error('Introduce el Token de Verificación');
-                    } else {
-                        detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
-                            if (r_token.data[0].Success) {
-                                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
-                                    // Success
-                                    alertFactory.success(r_token.data[0].Msg);
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                });
-                            } else {
-                                alertFactory.error(r_token.data[0].Msg);
-                                $scope.token_termino = '';
-                            }
-                        });
-                    }
-                } else {
-                    alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
-                }
-            });
+        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+            if (result.data[0].RealizarOperacion) {
+                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                    console.log( r_token );
+                    // Success
+                    alertFactory.success( 'Se ha terminado el trabajo' );
+                    $("html, body").animate({ scrollTop: 0 }, 1000);
+                    $scope.init();
+                });
+            } else {
+                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            }
+        });
+    }
 
-            // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
-        }
-        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+    $scope.ValidaEntrega = function() {
+        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+            if (result.data[0].RealizarOperacion) {
+                if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                    alertFactory.error('Introduce el Token de Verificación');
+                } else {
+                    detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                        if (r_token.data[0].Success) {
+                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
+                                // Success
+                                console.log( c_token );
+                                alertFactory.success( 'Se ha pasado a estatus Entrega' );
+                                $("html, body").animate({ scrollTop: 0 }, 1000);
+                                $scope.init();
+                                $scope.token_termino = '';
+                            });
+                        } else {
+                            alertFactory.error(r_token.data[0].Msg);
+                            $scope.token_termino = '';
+                        }
+                    });
+                }
+            } else {
+                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            }
+        });
+    }
+
+    $scope.ValidaPorCobrar = function() {
+        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+            if (result.data[0].RealizarOperacion) {
+                if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                    alertFactory.error('Introduce el Token de Verificación');
+                } else {
+                    detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                        if (r_token.data[0].Success) {
+                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
+                                // Success
+                                console.log( c_token );
+                                alertFactory.success('Se ha pasado a Orden por Cobrar');
+                                $("html, body").animate({ scrollTop: 0 }, 1000);
+                                $scope.init();
+                                $scope.token_termino = '';
+                            });
+                        } else {
+                            alertFactory.error(r_token.data[0].Msg);
+                            $scope.token_termino = '';
+                        }
+                    });
+                }
+            } else {
+                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            }
+        });
+    }
+    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
     $scope.subirEvidencias = function() {
         $scope.respuesta = []

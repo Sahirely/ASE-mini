@@ -443,11 +443,14 @@
                         <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
                         <div ng-show="idEstatusOrden == 5 && estatus == 5" ;>
                             <div class="col-sm-12 pull-right">
-                                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ShowAutorizacionAdmin();">
+                                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaTerminoTrabajo();">
                                     Terminar Trabajo
                                 </button>
                             </div>
-                            <div class="col-sm-12 col-md-6 pull-right" ng-show="pnl_token_admin">
+                        </div>
+
+                        <div ng-show="idEstatusOrden == 6 && estatus == 5">
+                            <div class="col-sm-12 col-md-6 pull-right">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         Token de Autorización Administrador
@@ -465,12 +468,12 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <br>
-                                            <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaTerminoTrabajo();">
+                                            <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega();">
                                                 Aceptar
                                             </button>
-                                            <button class="btn btn-default tbn-cancelar pull-right btn-movil" type="button" ng-click="HideAutorizacionAdmin();">
+                                            <!-- <button class="btn btn-default tbn-cancelar pull-right btn-movil" type="button" ng-click="HideAutorizacionAdmin();">
                                                 Cancelar
-                                            </button>
+                                            </button> -->
                                         </div>
                                         <br>
                                         <br>
@@ -481,10 +484,14 @@
                             </div>
                         </div>
 
-                        <div ng-show="idEstatusOrden == 6" ;>
+                        <div ng-show="idEstatusOrden == 7">
                             <div class="col-sm-12 pull-right">
-                                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ShowAutorizacionAdmin();">
+                                <button class="btn btn-primary btn-entrega pull-right" type="button" ng-click="ShowAutorizacionAdmin();">
                                     Entrega Trabajo
+                                </button>
+
+                                <button class="btn btn-danger pull-right" type="button" ng-click="ShowAutorizacionAdmin();">
+                                    Rechazar Trabajo
                                 </button>
                             </div>
                             <div class="col-sm-12 col-md-6 pull-right" ng-show="pnl_token_admin">
@@ -505,7 +512,7 @@
                                         </div>
                                         <div class="col-sm-12">
                                             <br>
-                                            <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaTerminoTrabajo();">
+                                            <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaPorCobrar();">
                                                 Aceptar
                                             </button>
                                             <button class="btn btn-default tbn-cancelar pull-right btn-movil" type="button" ng-click="HideAutorizacionAdmin();">
@@ -545,9 +552,9 @@
                             </center>
                         </div>
                         <div class="col-sm-12 archivos">
-                            <input type="text" value="{{idOrden}}" name="idOrden">
-                            <input type="text" value="{{cotizacionFactura}}" name="cotizacionFactura">
-                            <input type="text" value="{{cotizacionTotal}}" name="cotizacionTotal">
+                            <input type="hidden" value="{{idOrden}}" name="idOrden">
+                            <input type="hidden" value="{{cotizacionFactura}}" name="cotizacionFactura">
+                            <input type="hidden" value="{{cotizacionTotal}}" name="cotizacionTotal">
 
                             <label>XML</label><br>
                             <input type="file" name="file_1" id="file_1" class="inputfile inputfile-1" accept="text/xml" />
