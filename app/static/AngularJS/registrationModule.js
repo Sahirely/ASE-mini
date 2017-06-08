@@ -5,7 +5,7 @@
 // -- Modificó:
 // -- Fecha:
 // -- =============================================
-var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule",
+var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
         "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch","thatisuday.dropzone","nsPopover"])
     .config(function ($routeProvider, $locationProvider) {
 

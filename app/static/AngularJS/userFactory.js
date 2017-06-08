@@ -42,7 +42,7 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       localStorageService.clearAll();
     },
     ValidaSesion: function(){
-      debugger;
+
       var userData = localStorageService.get('userData');
 
       if (userData == null || userData == undefined){
