@@ -769,4 +769,9 @@ registrationModule.controller('detalleController', function($scope, $location, u
         var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/comprobanteRecepcion/ComprobanteRecepcion.pdf';
         window.open(url);
     }
+
+    $scope.OpenTrabajo = function(){
+        var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf';
+        window.open(url);
+    }
 });
