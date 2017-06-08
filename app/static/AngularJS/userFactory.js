@@ -6,7 +6,6 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
     saveUserData: function(userData){
       localStorageService.set('userData',userData);
       loginRepository.iniciaSesionHistorial(userData.idUsuario).then(function (result){
-        debugger;
       });
 
       return (localStorageService.get('userData'));
@@ -42,7 +41,6 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       localStorageService.clearAll();
     },
     ValidaSesion: function(){
-      debugger;
       var userData = localStorageService.get('userData');
 
       if (userData == null || userData == undefined){
