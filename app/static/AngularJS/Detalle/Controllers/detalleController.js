@@ -84,7 +84,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
-
+                $scope.idOrdenURL = $scope.detalleOrden.idOrden;
                 var statusCotizacion = 0;
                 if ($scope.estatus == 1 || $scope.estatus == 2 || $scope.estatus == 3) {
                     statusCotizacion = '1';
@@ -722,6 +722,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
                 var ruta = $scope.respuesta.res[0].Path
                 var rutaCorrecta = ruta.substring(11)
                 console.log(rutaCorrecta)
+                var urlevidencia = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/evidencia/' + $scope.respuesta.res[0].nombre;
                 consultaCitasRepository.agregarEvidencias($scope.respuesta.res[0].nombre, '', rutaCorrecta, $scope.numeroOrden).then(function(result) {
                     if (result.data[0].length > 0) {} else {
                         location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
@@ -751,5 +752,11 @@ registrationModule.controller('detalleController', function($scope, $location, u
         }, function(error) {
             alertFactory.error('No se puede obtener el historico de la orden.');
         });
+    }
+
+    $scope.archivoEvidencia = function(dato){
+       if(dato == 1)
+        var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/comprobanteRecepcion/ComprobanteRecepcion.pdf';
+        window.open(url);
     }
 });
