@@ -571,6 +571,33 @@ registrationModule.controller('detalleController', function($scope, $location, u
         }
     }
 
+    $scope.Cargar_Factura_Tmp = function() {
+        var fxml = $(".inputfile-1").val();
+        var fpdf = $(".inputfile-2").val();
+
+        if (fxml == '' && fpdf == '') {
+            $(".alert-danger").fadeIn();
+            $(".alert-danger span").text('Proporciona al menos uno de los archivos que se piden');
+            setTimeout(function() {
+                $(".alert-danger").fadeOut('fast');
+            }, 3000);
+        } else {
+            $(".archivos").hide();
+            $(".uploading").show();
+            $(".btn-cerrar").attr("disabled", "disabled");
+            $(".btn-subir").attr("disabled", "disabled");
+
+
+            detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
+                var Respuesta = result.data;
+                alert('Subiendo Factura');
+            }, function(error) {
+                console.log(error);
+                // alertFactory.error('No se puede obtener el historico de la orden.');
+            });       
+        }
+    }
+
     $scope.ValidaTerminoTrabajo = function() {
         detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
             if (result.data[0].RealizarOperacion) {

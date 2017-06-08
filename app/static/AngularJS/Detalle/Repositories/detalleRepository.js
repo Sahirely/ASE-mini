@@ -142,7 +142,8 @@ registrationModule.factory('detalleRepository', function($http) {
 
             var oData = new FormData( form );
             return $http({
-                url: detalleUrl + 'subirFactura/',
+                // url: detalleUrl + 'subirFactura/',
+                url: detalleUrl + 'subirFacturaTmp/',
                 method: "POST",
                 // params: oData,
                 data: oData,

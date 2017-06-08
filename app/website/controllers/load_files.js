@@ -194,10 +194,10 @@ Load_Files.prototype.facturas = function( destino, req, res, miCallback ) { // T
             var files     = req.files;
             var fieldname = files[ index ].fieldname;
             var extencion = file.originalname.split('.').pop();
-            console.log( ruta_padre_coti );
+            // console.log( ruta_padre_coti );
 
             if( opt_dest_fields[ fieldname ].Type == '*' || opt_dest_fields[ fieldname ].Type == undefined || opt_dest_fields[ fieldname ].Type == '' ){
-                console.log( "ruta save", ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
+                // console.log( "ruta save", ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
                 callback( null, ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
                 // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
                 var nombre = ( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ) ? file.originalname : opt_dest_fields[ fieldname ].Name + '.' + extencion;
@@ -211,7 +211,7 @@ Load_Files.prototype.facturas = function( destino, req, res, miCallback ) { // T
                 });
             }
             else{
-                console.log( "ruta save", ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
+                // console.log( "ruta save", ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
                 if( lista_tipos.indexOf( extencion )  != -1 ){
                     callback( null, ruta_padre_coti + opt_dest_fields[ fieldname ].Path );
                     // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
@@ -338,7 +338,7 @@ Load_Files.prototype.img = function( destino, req, res, miCallback ) { // Type O
     });
 
     setTimeout( function() {
-        console.log( Respuesta );
+        // console.log( Respuesta );
         if( flagImg ){
             miCallback( Respuesta );
         }
@@ -425,7 +425,7 @@ Load_Files.prototype.read_xml = function( req, res, miCallback ) { // Type Optio
             });            
         }
         else{
-            console.log('entro aqui ');
+            // console.log('entro aqui ');
         }
     });
 

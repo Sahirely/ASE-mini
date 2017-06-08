@@ -202,6 +202,20 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
     });
 }
 
+Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
+    var self = this;
+    // Subir Archivos    
+    var lf = new Load_Files();
+
+    lf.upload( "C:\\ASEv2Documentos\\public\\orden\\107\\Factura\\1", req, res, function( respuesta ){
+        console.log( respuesta );
+        self.view.expositor(res, {
+            error: false,
+            result: respuesta
+        });
+    });
+}
+
 Detalle.prototype.get_insertaNota = function(req, res, next){
   var self = this;
   var params = [
