@@ -15,6 +15,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.IdsCotizacionesPorOrden = [];
     $scope.x = 0;
     $scope.numCotz = 0;
+    $scope.TieneSaldo = true;
+
 
     $scope.userData = {};
     $scope.btn_editarCotizacion = false;
@@ -267,6 +269,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     };
 
+
     $scope.checkBalance = function() {
 
 
@@ -278,10 +281,15 @@ registrationModule.controller('detalleController', function($scope, $location, u
             }
         });
 
-        if (sumOperacion > ($scope.saldos.presupuesto - $scope.saldos.saldoReal))
+        if (sumOperacion > ($scope.saldos.presupuesto - $scope.saldos.saldoReal)){
+            $scope.TieneSaldo = false;
             return false;
-        else
+        }
+        else{
+            $scope.TieneSaldo = true;
             return true;
+        }
+
     };
 
     $scope.UpdatePartidaStatus = function() {
@@ -351,7 +359,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         };
 
-        
+
     $scope.showButtonSwitch = function(usrRol) {
 
         switch (Number(usrRol)) {
