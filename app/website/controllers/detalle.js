@@ -319,4 +319,48 @@ var self = this;
       });
 }
 
+//LQMA 07062017
+Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
+    console.log('desde get_guardaReporteConformidad: ')
+    //console.log(req.query.myJson)
+    console.log(JSON.stringify(req.query.myJson));
+    //result: 'regresa respuesta desde get_guardaReporteConformidad'
+    
+    var http = require('http'),
+        fs = require('fs');
+    var filename = "Recibo_Comprobante";//guid();
+    // var filePath = "C:\\89" + "\\pdf\\" + filename + ".pdf";//path.dirname(require.main.filename) + "\\pdf\\" + filename + ".pdf";
+    var filePath = "C:\\ASEv2Documentos\\public\\orden\\"+ req.query.idOrden +"\\hojaTrabajo\\"+ filename + ".pdf";
+    var options = {
+        "method": "POST",
+        "hostname": "189.204.141.193",
+        "port": "5488",
+        "path": "/api/report",
+        "headers": {
+            "content-type": "application/json"
+        }
+    };
+    var request = http.request(options, function(response) {
+        var chunks = [];
+        response.on("data", function(chunk) {
+            chunks.push(chunk);
+        });
+        response.on("end", function() {
+            var body = Buffer.concat(chunks);
+            fs.writeFile(filePath, body, function(err) {
+                if (err) return console.log(err);
+                console.log('Archivo creado');
+            });
+        });
+    });
+    request.write(req.query.myJson);
+    request.end();
+    var self = this;
+    self.view.expositor(res, {
+        error: null,
+        result: filename
+    });
+    
+}
+
 module.exports = Detalle;
