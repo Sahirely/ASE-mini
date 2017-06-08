@@ -86,11 +86,11 @@
                                         <h3 ng-show="estatus==4">Presupuesto</h3>
                                         <p ng-show="estatus==4">
                                             <label>Saldo Disponible: </label>
-                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{saldos.presupuesto-saldos.saldoDisponible| currency:"$": 2}}</span>
+                                            <span ng-class="{sinPresupuesto : TieneSaldo == false}">{{saldos.presupuesto-saldos.saldoDisponible| currency:"$": 2}}</span>
                                         </p>
                                         <p ng-show="estatus==4">
                                             <label>Saldo Real: </label>
-                                            <span ng-class="{sinPresupuesto : SaldoReal < GranTotal}">{{saldos.presupuesto-saldos.saldoReal| currency:"$": 2}}</span>
+                                            <span ng-class="{sinPresupuesto : TieneSaldo == false}">{{saldos.presupuesto-saldos.saldoReal| currency:"$": 2}}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -240,23 +240,23 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="btn-group pull-right" ng-hide="hideSwitchBtn">
-                                                    <button type="button" ng-init="btnSwitch.classCosto='btn btn-success'; btnSwitch.showCostoVenta=true" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true; 
+                                                    <button type="button" ng-init="btnSwitch.classCosto='btn btn-success'; btnSwitch.showCostoVenta=true" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
                                                     btnSwitch.classVenta='btn btn-default';
                                                     btnSwitch.classCosto='btn btn-success'">Costo</button>
-                                                    <button type="button" ng-init="btnSwitch.classVenta='btn btn-default'" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false; 
+                                                    <button type="button" ng-init="btnSwitch.classVenta='btn btn-default'" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
                                                     btnSwitch.classVenta='btn btn-success';
                                                     btnSwitch.classCosto='btn btn-default' ">Venta</button>
                                                 </div>
-                                                <button 
-                                                    class="btn btn-primary pull-right cargar-factura" 
-                                                    ng-show="estatus == 5 && cotizacion.factura == 0" 
+                                                <button
+                                                    class="btn btn-primary pull-right cargar-factura"
+                                                    ng-show="estatus == 5 && cotizacion.factura == 0"
                                                     ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto );">
                                                     Cargar Factura {{  }}
                                                 </button>
 
-                                                <button 
-                                                    class="btn btn-success pull-right cargar-factura" 
-                                                    ng-show="estatus == 5 && cotizacion.factura != 0" 
+                                                <button
+                                                    class="btn btn-success pull-right cargar-factura"
+                                                    ng-show="estatus == 5 && cotizacion.factura != 0"
                                                     >
                                                     Factura Cargada
                                                 </button>
@@ -304,10 +304,10 @@
                                                                     <button ng-init="partida.btnClass='btn btn-warning';
                                                                         partida.btnDisabled=true;
                                                                         partida.btnStep=0;
-                                                                        partida.idStatus=0;                                                      partida.btnText='*'; 
+                                                                        partida.idStatus=0;                                                      partida.btnText='*';
                                                                         partida.btnIcon='glyphicon glyphicon-question-sign';
-                                                                        initApproveButtons(partida)" 
-                                                                        ng-class="partida.btnClass" 
+                                                                        initApproveButtons(partida)"
+                                                                        ng-class="partida.btnClass"
                                                                         ng-click="setApprove(partida)"
                                                                         ng-disabled="partida.btnEnable">
                                                                         <span ng-class="partida.btnIcon"></span>
@@ -335,7 +335,7 @@
                                                         </tbody>
                                                     </table>
                                                     <div ng-show="btn_editarCotizacion">
-                                                         <button  class="btn btn-primary pull-right btn-movil" type="submit" 
+                                                         <button  class="btn btn-primary pull-right btn-movil" type="submit"
                                                           ng-click= "editarCotizacion(cotizacion)">Editar Cotización</button>
                                                     </div>
                                                 </div>
@@ -434,7 +434,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
 
-                            <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" 
+                            <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil"
                             ng-click="btnSaveCotizacion()"> Guarda Cotizacion</button>
 
                             <button ng-hide="btnNuevaCotizacionIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>

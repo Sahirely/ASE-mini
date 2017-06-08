@@ -13,3 +13,7 @@
 .fondoBlanco{
     background: white !important;
 }
+
+.sweet-alert button.cancel {
+    background-color: rgb(251, 0, 0) !important;
+}
