@@ -15,7 +15,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.ZonasSeleccionadas = [];
     $scope.NivelesZona = [];
     $scope.Zonas = [];
-    
+
     $scope.cotizaciones = [];
 
     // $scope.userData = localStorageService.get('userData');
@@ -228,6 +228,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#65BD10",
+                    cancelButtonColor: "#ee184c !important",
                     confirmButtonText: "Si",
                     cancelButtonText: "No",
                     closeOnConfirm: false,
