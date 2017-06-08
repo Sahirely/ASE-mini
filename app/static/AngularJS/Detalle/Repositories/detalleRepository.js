@@ -176,6 +176,18 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },//LQMA 07062017
+        getGuardaReporteConformidad: function(myJson) {
+            return $http({
+                url: detalleUrl + 'guardaReporteConformidad/',
+                method: "GET",
+                params: {
+                    myJson: myJson
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

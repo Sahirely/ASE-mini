@@ -413,20 +413,40 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     }
 
-    $scope.getReporteConformidad = function() {
-        detalleRepository.getReporteConformidad(12).then(function(result) {
+    //LQMA 07062017
+    $scope.getReporteConformidad = function( idOrden ) {
+        detalleRepository.getReporteConformidad( idOrden ).then(function(result) {
             if (result.data.length > 0) {
-
-                //console.log(result.data)
-                var rptReporteConformidad = {};
-                rptReporteConformidad.encabezado = result.data[0];
-                rptReporteConformidad.partidas = result.data[1];
-                rptReporteConformidad.total = result.data[2];
-                var jsonData = {
-                    "template": { "name": "reporteConformidad_rpt" },
-                    "data": rptReporteConformidad
-                }
-                console.log(jsonData);
+                var rptReporteConformidadData = []
+                rptReporteConformidadData.encabezado = result.data[0][0];
+                rptReporteConformidadData.partidas = result.data[1];
+                rptReporteConformidadData.total = result.data[2][0];
+                new Promise(function(resolve, reject) {
+                    var rptReporteConformidad = {
+                        "encabezado": [
+                            rptReporteConformidadData.encabezado 
+                        ],
+                        "partidas": 
+                            rptReporteConformidadData.partidas
+                            ,
+                        "total": rptReporteConformidadData.total.total
+                    }
+                    var jsonData = {
+                        "template": { "name": "reporteConformidad_rpt" },
+                        "data": rptReporteConformidad //                    
+                    }
+                    //console.log(JSON.stringify(jsonData));
+                    resolve(jsonData);
+                }).then(function(jsonData) {
+                    detalleRepository.getGuardaReporteConformidad(jsonData).then(function(result) {
+                        /*if (result.data.length > 0) {
+                            console.log(data)
+                            console.log('guardo reporte conformidad')
+                        }*/
+                    });
+                });
+                //console.log(JSON.stringify(jsonData));    
+                //console.log(jsonData);
             }
         }, function(error) {
             alertFactory.error('Error al obtener Reporte Conformidad');
@@ -582,6 +602,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
                                 $("html, body").animate({ scrollTop: 0 }, 1000);
                                 $scope.init();
                                 $scope.token_termino = '';
+
+                                $scope.getReporteConformidad( $scope.detalleOrden.idOrden );
                             });
                         } else {
                             alertFactory.error(r_token.data[0].Msg);
