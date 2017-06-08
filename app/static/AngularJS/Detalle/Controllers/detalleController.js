@@ -15,7 +15,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.IdsCotizacionesPorOrden = [];
     $scope.x = 0;
     $scope.numCotz = 0;
-    
+
     $scope.userData = {};
     $scope.btn_editarCotizacion = false;
 
@@ -286,70 +286,72 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
     $scope.UpdatePartidaStatus = function() {
 
-        $scope.cotizaciones[0].detalle.forEach(function(item) {
+            $scope.cotizaciones[0].detalle.forEach(function(item) {
 
-            if (item.btnStep != 0 && item.btnDisabled == false) {
+                if (item.btnStep != 0 && item.btnDisabled == false) {
 
-                var params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
-                params.idUsuario = $scope.idUsuario;
-                params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
-                params.idPartida = item.idPartida;
-                params.idEstatusPartida = item.idStatus;
-
-
-                aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
-                    if (result.data.length > 0) {
-                        console.log("OK");
-                    }
-                }, function(error) {
-                    alertFactory.error('Aprobación getUpdateStatusPartida error.');
-                });
-
-            }
-
-        });
-
-        $scope.UpdateCotizacionStatus($scope.cotizaciones[0].idCotizacion, $scope.idUsuario);
-
-    };
+                    var params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
+                    params.idUsuario = $scope.idUsuario;
+                    params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
+                    params.idPartida = item.idPartida;
+                    params.idEstatusPartida = item.idStatus;
 
 
-    $scope.UpdateCotizacionStatus = function(idCotizacion, idUsuario) {
+                    aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
+                        if (result.data.length > 0) {
+                            console.log("OK");
+                        }
+                    }, function(error) {
+                        alertFactory.error('Aprobación getUpdateStatusPartida error.');
+                    });
 
-        aprobacionRepository.getUpdateStatusCotizacion(idCotizacion, idUsuario).then(function(result) {
-            if (result.data.length > 0) {
-
-                alertFactory.success('Finalizó.');
-
-                var valor = result.data[0].idEstatusCotizacion;
-                console.log("valor de resultado:", valor);
-
-                switch (Number(valor)) {
-                    case 2: //cliente
-                        console.log("entro  al caso 2");
-                        alertFactory.success('Faltan partidas por aprobar.');
-                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=' + $routeParams.estatus;
-                        break
-                    case 3:
-                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
-                        break;
-                    case 4:
-                        location.href = '/cotizacionconsulta';
-                        break;
-                    default:
-                        console.log("sin acción");
                 }
 
-            } else {
-                alertFactory.success('Finalizó sin respuesta.');
-            }
-        }, function(error) {
-            alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
-        });
-
-    };
+            });
+              setTimeout(function() {
+                          $scope.UpdateCotizacionStatus($scope.cotizaciones[0].idCotizacion, $scope.idUsuario);
+                           }, 1000);
 
 
+        };
+
+
+        $scope.UpdateCotizacionStatus = function(idCotizacion, idUsuario) {
+
+            aprobacionRepository.getUpdateStatusCotizacion(idCotizacion, idUsuario).then(function(result) {
+                if (result.data.length > 0) {
+
+                    var valor = result.data[0].idEstatusCotizacion;
+                    console.log("valor de resultado:", valor);
+
+                    switch (Number(valor)) {
+                        case 2: //cliente
+                            console.log("entro  al caso 2");
+                            alertFactory.success('Faltan partidas por aprobar.');
+                            $scope.init ();
+                            //location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=' + $routeParams.estatus;
+                            break;
+                        case 3:
+                            location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
+                            break;
+                        case 4:
+                            location.href = '/cotizacionconsulta';
+                            break;
+                        default:
+                          alertFactory.info('Debe seleccionar partidas para aprobar.');
+                          console.log("sin acción");
+                    }
+
+                } else {
+                    alertFactory.success('Finalizó sin respuesta.');
+                }
+            }, function(error) {
+                alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
+            });
+
+        };
+
+        
     $scope.showButtonSwitch = function(usrRol) {
 
         switch (Number(usrRol)) {
@@ -424,16 +426,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
                 new Promise(function(resolve, reject) {
                     var rptReporteConformidad = {
                         "encabezado": [
-                            rptReporteConformidadData.encabezado 
+                            rptReporteConformidadData.encabezado
                         ],
-                        "partidas": 
+                        "partidas":
                             rptReporteConformidadData.partidas
                             ,
                         "total": rptReporteConformidadData.total.total
                     }
                     var jsonData = {
                         "template": { "name": "reporteConformidad_rpt" },
-                        "data": rptReporteConformidad //                    
+                        "data": rptReporteConformidad //
                     }
                     //console.log(JSON.stringify(jsonData));
                     resolve(jsonData);
@@ -445,7 +447,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
                         }*/
                     });
                 });
-                //console.log(JSON.stringify(jsonData));    
+                //console.log(JSON.stringify(jsonData));
                 //console.log(jsonData);
             }
         }, function(error) {
@@ -568,7 +570,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
             //         $(".errores_factura").append('<tr> <td width="20%"><strong>'+ key +'</strong></td> <td>'+ item +'</td> </tr>');
             //     });
             // }
-            // oReq.send( oData );            
+            // oReq.send( oData );
         }
     }
 
@@ -605,7 +607,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
             }, function(error) {
                 console.log(error);
                 // alertFactory.error('No se puede obtener el historico de la orden.');
-            });       
+            });
         }
     }
 
