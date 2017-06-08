@@ -289,14 +289,18 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         });
     };
     $scope.actualizarCita = function() {
-        console.log($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller);
-        angular.forEach($scope.partidas, function(value, key) {
-            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.estatus).then(function(result) {
-                alertFactory.success('Cotización Detalle Creada');
-                setTimeout(function() {
-                    location.href = '/unidad?economico=' + $routeParams.economico;
-                }, 1000);
+        citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
+            console.log(result, 'Soy lo que regresa despues de actualizar la Orden de Servicio')
+            angular.forEach($scope.partidas, function(value, key) {
+                cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.estatus).then(function(result) {
+                    alertFactory.success('Cotización Detalle Creada');
+                    setTimeout(function() {
+                        location.href = '/unidad?economico=' + $routeParams.economico;
+                    }, 1000);
+                });
             });
         });
+        console.log($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller);
+
     };
 });
