@@ -2,7 +2,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
-    $scope.idOperacion           = 3;//$scope.userData.idOperacion;
+    $scope.idOperacion           = $scope.userData.idOperacion;
 
     $scope.init = function() {
       $scope.fecha_actual = new Date();

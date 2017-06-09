@@ -79,16 +79,16 @@
             <thead>
                 <tr>
                     <th>Recordatorio</th>
-                    <th>Plan</th>
                     <th>Fecha</th>
+                    <th>Usuario</th>
                     <th>Tiempo vencido</th>
                 </tr>
             </thead>
             <tbody>
                 <tr title="Doble click para ver detalles" ng-repeat="recordatorio in recordatorios " >
-                    <td>{{recordatorio.nombreAccion}}</td>
-                    <td>{{recordatorio.nombrePlan}}</td>
-                    <td>{{recordatorio.fechaAccion | date:"MM/dd/yyyy hh:mm"}}</td>
+                    <td>{{recordatorio.texto}}</td>
+                    <td>{{recordatorio.fecha | date:"MM/dd/yyyy hh:mm"}}</td>
+                    <td>{{recordatorio.nombreCompleto}}</td>
                     <td>{{recordatorio.tiempo}}</td>
 
                 </tr>
@@ -121,14 +121,14 @@
                     <tr ng-repeat="ordenescall in ordencall" ng-click="seleccionarOrden(ordenescall)">>
                         <td>{{ordenescall.consecutivoOrden}}</td>
                         <td>{{ordenescall.numeroOrden}}</td>
-                        <td>{{ordenescall.zona}}</td>
+                        <td>{{ordenescall.nombre}}</td>
                         <td>{{ordenescall.costo}}</td>
                         <td>{{ordenescall.venta}}</td>
-                        <td>{{ordenescall.nombreAccion}}</td>
-                        <td>{{ordenescall.nombreEstatusAccion}}</td>
+                        <td>{{ordenescall.comentarioOrden}}</td>
+                        <td>{{ordenescall.nombreEstatusOrden}}</td>
                         <td>{{ordenescall.tiempo}}</td>
-                        <td>{{ordenescall.nombrePlan}}</td>
-                        <td>{{ordenescall.fechaAccion | date:"MM/dd/yyyy"}}</td>
+                        <td>{{ordenescall.texto}}</td>
+                        <td>{{ordenescall.fecha | date:"MM/dd/yyyy"}}</td>
                         <!-- <td ng-class="{'rowVerde': garantias.horasRetraso <= 49, 'rowAmarillo': garantias.horasRetraso >= 50 && garantias.horasRetraso  <=100, 'rowRojo': garantias.horasRetraso >= 101}">{{garantias.horasRetraso}}</td> -->
                     </tr>
                 </tbody>
