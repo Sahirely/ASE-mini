@@ -5,14 +5,13 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
     },
     saveUserData: function(userData){
       localStorageService.set('userData',userData);
-      loginRepository.iniciaSesionHistorial(userData.idUsuario).then(function (result){
-        debugger;
-      });
-
       return (localStorageService.get('userData'));
     },
     updateSelectedOperation: function(data){
       var userData = localStorageService.get('userData');
+
+      loginRepository.iniciaSesionHistorial(userData.idUsuario).then(function (result){
+      });
 
       for (var i = 0; i < userData.Operaciones.length; i++) {
         if(userData.Operaciones[i].idContratoOperacion == data){
@@ -31,6 +30,13 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       userData.Modulos = ObjetoOperacionSelected.modulos;
       userData.idRol = ObjetoOperacionSelected.idRol;
       userData.Rol = ObjetoOperacionSelected.nombreRol;
+      userData.formaPago = ObjetoOperacionSelected.formaPago;
+      userData.idLicitacion = ObjetoOperacionSelected.idLicitacion;
+      userData.nombreLicitacion = ObjetoOperacionSelected.nombreLicitacion;
+      userData.idContrato = ObjetoOperacionSelected.idContrato;
+      userData.razonSocial = ObjetoOperacionSelected.razonSocial;
+      userData.fechaInicio = ObjetoOperacionSelected.fechaInicio;
+      userData.fechafin = ObjetoOperacionSelected.fechafin;
 
       localStorageService.set('userData', userData);
       return (localStorageService.get('userData'));
@@ -42,7 +48,6 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       localStorageService.clearAll();
     },
     ValidaSesion: function(){
-
       var userData = localStorageService.get('userData');
 
       if (userData == null || userData == undefined){

@@ -91,79 +91,101 @@ Login.prototype.get_validaCredenciales = function(req, res, next) {
     }];
 
     self.model.query('SEL_VALIDA_LOGIN_SP', params, function(error, result) {
+        if (result.length > 0){
+        var Usuarios = result;
 
-        var OperacionesUsuarios = result;
-        var totalOp = OperacionesUsuarios.length;
+        if (Usuarios[0].HasSession == 'False'){
+            var idUser = Usuarios[0].idUsuario;
 
-        if (totalOp > 0) {
-            if (OperacionesUsuarios[0].HasSession == 'False'){
-                OperacionesUsuarios.forEach(function(item, key) {
-                    var idOp = item.idOperacion;
+            var paramOp = [{
+                    name: 'idUsuario',
+                    value: idUser,
+                    type: self.model.types.INT
+            }];
 
-                    var params2 = [{
-                        name: 'idOperacion',
-                        value: idOp,
-                        type: self.model.types.INT
-                    }];
+            self.model.query('SEL_OPERACIONES_USUARIO_LOGIN_SP', paramOp, function(errores, resultado) {
+              Usuarios[0].Operaciones = resultado;
+              var totalOp = Usuarios[0].Operaciones.length;
 
-                    self.model.query('SEL_MODULOS_OPERACION', params2, function(err, respuesta) {
-                        item.modulos = respuesta;
-                        totalModulos = item.modulos.length;
+              if (totalOp > 0) {
+                          Usuarios[0].Operaciones.forEach(function(item, key) {
+                          var idOp = item.idOperacion;
 
-    										if(totalModulos > 0){
-    	                    	item.modulos.forEach(function(elemento, llave) {
-    	                        var params3 = [{
-    	                            name: 'idModulo',
-    	                            value: elemento.idModulo,
-    	                            type: self.model.types.INT
-    	                        }, {
-    	                            name: 'idOperacion',
-    	                            value: idOp,
-    	                            type: self.model.types.INT
-    	                        }];
+                          var params2 = [{
+                              name: 'idOperacion',
+                              value: idOp,
+                              type: self.model.types.INT
+                          }];
 
-    	                        self.model.query('SEL_DETALLE_MODULO_OPERACION', params3, function(e, r) {
-    	                            elemento.detalle = r;
+                          self.model.query('SEL_MODULOS_OPERACION', params2, function(err, respuesta) {
+                              item.modulos = respuesta;
+                              totalModulos = item.modulos.length;
 
-    	                            if ((key >= (totalOp - 1)) && (llave >= (totalModulos - 1))) {
-    	                                self.view.expositor(res, {
-    	                                    error: error,
-    	                                    result: {
-    	                                        success: true,
-    	                                        data: OperacionesUsuarios
-    	                                    }
-    	                                });
-    	                            }
-    	                        });
-    	                    });
-    										}else{
-    											self.view.expositor(res, {
-    													error: error,
-    													result: {
-    															success: true,
-    															data: OperacionesUsuarios,
-                                  msg: 'La operación no cuenta con módulos configurados.'
-    													}
-    											});
-    										}
-                    });
-                });
-            }else{
-                object.result = {
-                    success: true,
-                    data: result,
-                    msg: 'No puede iniciar sesión por que ya tiene una sesión activa.'
-                };
-                self.view.expositor(res, object);
-            }
+                              if(totalModulos > 0){
+                                  item.modulos.forEach(function(elemento, llave) {
+                                    var params3 = [{
+                                        name: 'idModulo',
+                                        value: elemento.idModulo,
+                                        type: self.model.types.INT
+                                    }, {
+                                        name: 'idOperacion',
+                                        value: idOp,
+                                        type: self.model.types.INT
+                                    }];
+
+                                    self.model.query('SEL_DETALLE_MODULO_OPERACION', params3, function(e, r) {
+                                        elemento.detalle = r;
+
+                                        if ((key >= (totalOp - 1)) && (llave >= (totalModulos - 1))) {
+                                            self.view.expositor(res, {
+                                                error: error,
+                                                result: {
+                                                    success: true,
+                                                    data: Usuarios
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                              }else{
+                                self.view.expositor(res, {
+                                    error: error,
+                                    result: {
+                                        success: true,
+                                        data: Usuarios,
+                                        msg: 'La operación no cuenta con módulos configurados.'
+                                    }
+                                });
+                              }
+                          });
+                      });
+                  }else{
+                      object.result = {
+                          success: true,
+                          data: result,
+                          msg: 'El usuario no cuenta con operaciones configuradas.'
+                      };
+                      self.view.expositor(res, object);
+                  }
+            });
+
+
         } else {
             object.result = {
-                success: false,
-                data: result,
-                msg: 'No se encontraron resultados.'
+                success: true,
+                data: Usuarios,
+                msg: 'Existe el usuario, pero no puede iniciar sesión por que ya tiene una sesión activa.'
             };
             self.view.expositor(res, object);
         }
+      }else{
+          object.result = {
+              success: false,
+              data: result,
+              msg: 'No se encontraron resultados.'
+          };
+          self.view.expositor(res, object);
+      }
     });
 }
 
