@@ -70,7 +70,7 @@ function modal_respuesta_busqueda($scope, $modal, tipobusqueda, respuesta, callb
     });
 };
 
-function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCotizacion, callback, error) {
+function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/partidas.html',
         controller: 'partidas_controller',
@@ -88,6 +88,9 @@ function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCo
             },
             idCotizacion: function() {
                 return idCotizacion
+            },
+            infoBusqueda: function() {
+                return infoBusqueda
             },
             callback: function() {
                 return callback;

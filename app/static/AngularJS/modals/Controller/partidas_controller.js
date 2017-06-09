@@ -1,11 +1,17 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, partidas, idCotizacion, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
     $scope.idTaller = idtaller;
     $scope.especialidades = especialidades;
     $scope.lstPartidaSeleccionada = partidas;
     $scope.idCotizacion = idCotizacion;
+    $scope.btnSwitch = {};
+    $scope.btnSwitch.classCosto = 'btn btn-success';
+    $scope.btnSwitch.showCostoVenta = true;
+    $scope.btnSwitch.classVenta = 'btn btn-default';
+    $scope.detalleBusqueda = infoBusqueda;
     $scope.init = function() {
         console.log($scope.especialidades, 'Soy las especialidades');
         console.log($scope.idCotizacion, 'Soy el idCotizacion')
+        console.log($scope.detalleBusqueda, 'detalle de la busqueda ')
         $scope.userData = userFactory.getUserData();
         $scope.permisosUsuario();
         if ($scope.lstPartidaSeleccionada.length > 0) {
@@ -14,9 +20,13 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
-                console.log($scope.partidasTaller, 'Somos las partidas de los tallesres')
+                console.log($scope.partidasTaller, 'Somos las partidas de los talleres')
                 globalFactory.filtrosTabla("partidas", "Partidas Talleres", 100);
-
+                setTimeout(function() {
+                    $('[data-toggle="popover"]').popover({
+                        html: true
+                    });
+                }, 100);
             }
         }, function(error) {
             alertFactory.error('No se puenen obtener las órdenes');
@@ -28,20 +38,20 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
     $scope.permisosUsuario = function() {
         switch ($scope.userData.idRol) {
             case 1:
-                $scope.muestraCosto = false;
-                $scope.muestraPrecio = true;
+                $scope.btnSwitch.showCostoVenta = false;
+                $scope.muestraSwitch = false;
                 break;
             case 2:
-                $scope.muestraCosto = true;
-                $scope.muestraPrecio = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.muestraSwitch = true;
                 break;
             case 3:
-                $scope.muestraCosto = true;
-                $scope.muestraPrecio = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.muestraSwitch = true;
                 break;
             case 4:
-                $scope.muestraCosto = true;
-                $scope.muestraPrecio = false;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.muestraSwitch = false;
                 break;
 
         }
@@ -88,6 +98,11 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
             }
         }
         $scope.sumatoriaTotal();
+        setTimeout(function() {
+            $('[data-toggle="popover"]').popover({
+                html: true
+            });
+        }, 100);
     };
     $scope.sumatoriaTotal = function() {
         $scope.subTotalPrecio = 0;

@@ -30,6 +30,10 @@ registrationModule.factory('alertFactory', function () {
 
             toastr.options = { "positionClass": "toast-top-right", "closeButton": true}
             toastr.warning(text, 'Atención');
+        },
+        warning: function (text) {
+            toastr.options = { "positionClass": "toast-top-right", "closeButton": true}
+            toastr.success(text, 'Precaución!');
         }
     };
 });

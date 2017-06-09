@@ -7,14 +7,21 @@
 </div>
 <div class="modal-body">
     <div class="row">
-        <!-- <div class="col-xs-12 col-sm-12 m-b-lg">
-            <div class="col-sm-5">
-                <input type="text" placeholder="Búsqueda: Servicio/Paquete/Refacción" ng-model="pieza" class="form-control" ng-enter="getPieza(pieza)">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <p><strong>Tipo de Unidad:</strong> {{detalleBusqueda[0].nombreTipoUnidad}}</p>
+            <p><strong>{{detalleBusqueda[0].etiquetaZona}}:</strong> {{detalleBusqueda[0].nombreZona}}</p>
+            <p><strong>Servicios:</strong> {{detalleBusqueda[0].nombreServicios.slice(0, -1)}}</p>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraSwitch">
+            <div class="btn-group pull-right">
+                <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+                                                    btnSwitch.classVenta='btn btn-default';
+                                                    btnSwitch.classCosto='btn btn-success'">Costo</button>
+                <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+                                                    btnSwitch.classVenta='btn btn-success';
+                                                    btnSwitch.classCosto='btn btn-default' ">Venta</button>
             </div>
-            <div class="col-sm-1">
-                <button id="btnBuscarPieza" busy="Buscando.." type="button" class="btn btn-primary glyphicon glyphicon-search" ng-click="getPieza(pieza)"></button>
-            </div>
-        </div> -->
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
             <div class="m-t-lg">
                 <h3 class="subTitleP">Lista de Partidas</h3>
@@ -24,18 +31,18 @@
                     <thead>
                         <th>Partida</th>
                         <th>No. Parte</th>
-                        <th>Descripción</th>
-                        <th ng-show="muestraCosto">Costo</th>
-                        <th ng-show="muestraPrecio">Precio</th>
+                        <th>Especialidad</th>
+                        <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                        <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                         <th>Agregar</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="partidasTaller in partidasTaller">
+                        <tr ng-repeat="partidasTaller in partidasTaller" title='Descripción' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='{{partidasTaller.descripcion}}'>
                             <td>{{ partidasTaller.partida }}</td>
                             <td>{{ partidasTaller.noParte }}</td>
-                            <td>{{ partidasTaller.descripcion }}</td>
-                            <td class="text-right" ng-show="muestraCosto">{{ partidasTaller.costo | currency}}</td>
-                            <td class="text-right" ng-show="muestraPrecio">{{partidasTaller.venta | currency}}</td>
+                            <td>{{ partidasTaller.especialidad }}</td>
+                            <td class="text-right" ng-show="btnSwitch.showCostoVenta">{{ partidasTaller.costo | currency}}</td>
+                            <td class="text-right" ng-hide="btnSwitch.showCostoVenta">{{partidasTaller.venta | currency}}</td>
                             <td class="text-center">
                                 <button class="btn btn-success btn-sm" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                     <span class="glyphicon glyphicon-plus"></span>
@@ -56,28 +63,23 @@
                         <tr>
                             <th>No. Partida</th>
                             <th>Cantidad</th>
-                            <th ng-show="muestraCosto">Costo Unitario</th>
-                            <th ng-show="muestraPrecio">Precio Unitario</th>
+                            <th ng-show="btnSwitch.showCostoVenta">Costo Unitario</th>
+                            <th ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                             <th class="ancho text-center">Acción</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
-                            <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.noParte }} </a></td>
+                        <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada" title='Descripción' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='{{lstPartidaSeleccionada.descripcion}}'>
+                            <td>{{ lstPartidaSeleccionada.noParte }} </a>
+                            </td>
                             <td>{{ lstPartidaSeleccionada.cantidad }}</td>
-                            <td class="text-right" ng-show="muestraCosto">{{ lstPartidaSeleccionada.costo | currency}}</td>
-                            <td class="text-right" ng-show="muestraPrecio">{{ lstPartidaSeleccionada.venta | currency}}</td>
+                            <td class="text-right" ng-show="btnSwitch.showCostoVenta">{{ lstPartidaSeleccionada.costo | currency}}</td>
+                            <td class="text-right" ng-hide="btnSwitch.showCostoVenta">{{ lstPartidaSeleccionada.venta | currency}}</td>
                             <td>
                                 <div class="btn-group">
                                     <button class="btn-success btn btn-xs" type="button" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar"><span class="glyphicon glyphicon-plus"></span></button>
                                     <button class="btn-danger btn btn-xs" ng-click="quitarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar"><span class="glyphicon glyphicon-minus"></span></button>
                                 </div>
-                                <!--  <button class="btn btn-success btn-xs" type="button" id="btnCotizar" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button>
-                                <button class="btn btn-danger btn-xs" type="button" id="btnCotizar" ng-click="quitarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar">
-                                    <span class="glyphicon glyphicon-minus"></span>
-                                </button> -->
                             </td>
                         </tr>
                     </tbody>
@@ -86,24 +88,24 @@
                             <td colspan="2">
                                 <strong>SUBTOTAL :</strong>
                             </td>
-                            <td ng-show="muestraCosto">{{ subTotalCosto | currency}}</td>
-                            <td ng-show="muestraPrecio">{{ subTotalPrecio | currency}}</td>
+                            <td ng-show="btnSwitch.showCostoVenta">{{ subTotalCosto | currency}}</td>
+                            <td ng-hide="btnSwitch.showCostoVenta">{{ subTotalPrecio | currency}}</td>
                             <td> </td>
                         </tr>
                         <tr class="text-right">
                             <td colspan="2">
                                 <strong>I.V.A :</strong>
                             </td>
-                            <td ng-show="muestraCosto">{{ ivaSubTotalCosto | currency}}</td>
-                            <td ng-show="muestraPrecio">{{ ivaSubTotalPrecio | currency}}</td>
+                            <td ng-show="btnSwitch.showCostoVenta">{{ ivaSubTotalCosto | currency}}</td>
+                            <td ng-hide="btnSwitch.showCostoVenta">{{ ivaSubTotalPrecio | currency}}</td>
                             <td> </td>
                         </tr>
                         <tr class="text-right">
                             <td colspan="2">
                                 <strong>TOTAL :</strong>
                             </td>
-                            <td ng-show="muestraCosto">{{ totalCosto | currency}}</td>
-                            <td ng-show="muestraPrecio">{{ totalPrecio | currency}}</td>
+                            <td ng-show="btnSwitch.showCostoVenta">{{ totalCosto | currency}}</td>
+                            <td ng-hide="btnSwitch.showCostoVenta">{{ totalPrecio | currency}}</td>
                             <td> </td>
                         </tr>
                     </tfoot>

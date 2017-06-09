@@ -4,6 +4,10 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     //*****************************************************************************************************************//
     $scope.muestraCosto = false;
     $scope.muestraPrecio = true;
+    $scope.btnSwitch = {};
+    $scope.btnSwitch.classCosto = 'btn btn-success';
+    $scope.btnSwitch.showCostoVenta = true;
+    $scope.btnSwitch.classVenta = 'btn btn-default';
     //Inicializa la pagina
     $scope.init = function() {
         $scope.userData = userFactory.getUserData();
@@ -57,20 +61,20 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.permisosUsuario = function() {
         switch ($scope.userData.idRol) {
             case 1:
-                $scope.muestraCosto = false;
-                $scope.muestraPrecio = true;
+                $scope.btnSwitch.showCostoVenta = false;
+                $scope.muestraSwitch = false;
                 break;
             case 2:
-                $scope.muestraCosto = true;
-                $scope.muestraPrecio = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.muestraSwitch = true;
                 break;
             case 3:
-                $scope.muestraCosto = true;
-                $scope.muestraPrecio = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.muestraSwitch = true;
                 break;
             case 4:
-                $scope.muestraCosto = true;
-                $scope.muestraPrecio = false;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.muestraSwitch = false;
                 break;
 
         }
@@ -112,6 +116,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getHistoricoOrdenes = function() {
         busquedaUnidadRepository.getHistoricoOrdenes($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.historialOrdenes = result.data;
+            console.log($scope.historialOrdenes,'Soy el historial de las ordenes ')
             globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 100);
 
 
@@ -125,6 +130,6 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         });
     };
     $scope.detalleOrden = function(orden) {
-        location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus='+ orden.idEstatusOrden;
+        location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus=' + orden.idEstatusOrden;
     };
 });

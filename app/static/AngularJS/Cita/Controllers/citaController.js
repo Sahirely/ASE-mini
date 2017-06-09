@@ -15,6 +15,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.partidas = [];
     $scope.idServicios = '';
     $scope.idCotizacion = undefined;
+    $scope.infoBusqueda = [];
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -159,8 +160,16 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     // Se manda a llamar la modal para mostrar las partidas y seleccionar las paritdas necesarias para la unidad
     //*****************************************************************************************************************************//
     $scope.getModalPartidas = function() {
+        $scope.infoBusqueda = [{
+            idTipoUnidad: $scope.detalleUnidad.idTipoUnidad,
+            nombreTipoUnidad: $scope.detalleUnidad.nombreTipoUnidad,
+            nombreServicios: $scope.nombreServicios,
+            nombreZona: $scope.nombreZona,
+            etiquetaZona: $scope.etiquetaZona
+        }]
+        console.log($scope.infoBusqueda, 'Soy lo que enviare en la modal')
         $('.modal-dialog').css('width', '1050px');
-        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.partidas, $scope.idCotizacion, $scope.resultado, '');
+        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.partidas, $scope.idCotizacion, $scope.infoBusqueda, $scope.resultado, '');
     };
     $scope.resultado = function(partidas) {
         $scope.partidas = partidas;
@@ -246,6 +255,14 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
+        //Obtengo la zona seleccionada 
+        angular.forEach(zona.data, function(value, key) {
+            if (value.idZona == $scope.zonaSelected) {
+                $scope.nombreZona = value.nombre;
+                $scope.etiquetaZona = value.etiqueta;
+            }
+        });
+
         //se limpian los combos siguientes.
         for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
             $scope.ZonasSeleccionadas[$scope.x] = "0";
@@ -256,18 +273,27 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.buscarTaller = function() {
         $scope.mostrarAccion = true;
-        $scope.idServicios = ''
+        $scope.idServicios = '';
+        $scope.nombreServicios = '';
         angular.forEach($scope.servicios, function(value, key) {
             if (value.seleccionado == true) {
                 $scope.idServicios = value.idServicio + ',' + $scope.idServicios;
+                $scope.nombreServicios = value.nombreServicio + ', ' + $scope.nombreServicios
             }
 
         });
-        tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
-            $scope.mostrarTabla = true;
-            $scope.talleres = result.data;
-            globalFactory.filtrosTabla("talleres", "Talleres", 100);
-        });
+        if ($scope.idServicios == '') {
+
+            alertFactory.warning("Seleccione minimo un servicio como criterio de búsqueda.");
+        } else if ($scope.zonaSelected == 0) {
+            alertFactory.warning("Seleccione minimo una zona como criterio de búsqueda.");
+        } else {
+            tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
+                $scope.mostrarTabla = true;
+                $scope.talleres = result.data;
+                globalFactory.filtrosTabla("talleres", "Talleres", 100);
+            });
+        }
     };
     $scope.sendIdTaller = function(idTaller) {
         $scope.idTaller = idTaller;

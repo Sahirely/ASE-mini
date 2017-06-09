@@ -113,6 +113,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraSwitch">
+                            <div class="btn-group pull-right">
+                                <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+                                                    btnSwitch.classVenta='btn btn-default';
+                                                    btnSwitch.classCosto='btn btn-success'">Costo</button>
+                                <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+                                                    btnSwitch.classVenta='btn btn-success';
+                                                    btnSwitch.classCosto='btn btn-default' ">Venta</button>
+                            </div>
+                        </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <h3>Orden de Servicio Actual</h3>
                         </div>
@@ -121,13 +131,14 @@
                                 <table class="table table-bordered table-hover ordenActual">
                                     <thead>
                                         <tr>
+                                            <th>Número de Orden</th>
+                                            <th>Tipo de Orden</th>
                                             <th>Fecha</th>
                                             <th>Taller</th>
-                                            <th>Dirección</th>
                                             <th ng-show="mostrarComentarios">Comentarios</th>
                                             <th>Agendó</th>
-                                            <th ng-show="muestraCosto">Costo</th>
-                                            <th ng-show="muestraPrecio">Venta</th>
+                                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                             <th>Fecha última modificación</th>
                                             <th>Estatus</th>
                                             <!-- <th>Ver Orden</th> -->
@@ -135,13 +146,14 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="orden in ordendesActual" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                            <td>{{ orden.numeroOrden}}</td>
+                                            <td>{{orden.tipoOrden}}</td>
                                             <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
                                             <td>{{ orden.razonSocial}}</td>
-                                            <td>{{ orden.direccion}}</td>
                                             <td ng-show="mostrarComentarios">{{orden.descripcion}}</td>
                                             <td>{{orden.nombreCompleto}}</td>
-                                            <td ng-show="muestraCosto">{{orden.costo | currency}}</td>
-                                            <td ng-show="muestraPrecio">{{orden.precio | currency}}</td>
+                                            <td ng-show="btnSwitch.showCostoVenta">{{orden.costo | currency}}</td>
+                                            <td ng-hide="btnSwitch.showCostoVenta">{{orden.precio | currency}}</td>
                                             <td>{{orden.ultimaModificacion | date : "dd/MM/y"}}</td>
                                             <td ng-class="{'rowGris': orden.idEstatusOrden == 1, 'rowAmarillo' : orden.idEstatusOrden >= 2 && orden.idEstatusOrden < 8 , 'rowVerde' : orden.idEstatusOrden == 8 }">{{orden.estatusOrden}}</td>
                                             <!-- <td class="text-center">
@@ -167,13 +179,14 @@
                                 <table class="table table-bordered table-hover historialUnidad">
                                     <thead>
                                         <tr>
+                                            <th>Número de Orden</th>
+                                            <th>Tipo de Orden</th>
                                             <th>Fecha</th>
                                             <th>Taller</th>
-                                            <th>Dirección</th>
                                             <th ng-show="mostrarComentarios">Comentarios</th>
                                             <th>Agendó</th>
-                                            <th ng-show="muestraCosto">Costo</th>
-                                            <th ng-show="muestraPrecio">Venta</th>
+                                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                             <th>Fecha última modificación</th>
                                             <th>Estatus</th>
                                             <!-- <th>Ver Orden</th> -->
@@ -181,13 +194,14 @@
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="historialOrden in historialOrdenes" ng-click="detalleOrden(historialOrden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                            <td>{{ historialOrden.numeroOrden }}</td>
+                                            <td>{{ historialOrden.tipoOrden}}</td>
                                             <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
                                             <td>{{ historialOrden.razonSocial}}</td>
-                                            <td>{{ historialOrden.direccion}}</td>
                                             <td ng-show="mostrarComentarios">{{historialOrden.descripcion}}</td>
                                             <td>{{historialOrden.nombreCompleto}}</td>
-                                            <td ng-show="muestraCosto">{{historialOrden.costo | currency}}</td>
-                                            <td>{{historialOrden.precio | currency}}</td>
+                                            <td ng-show="btnSwitch.showCostoVenta">{{historialOrden.costo | currency}}</td>
+                                            <td ng-hide="btnSwitch.showCostoVenta">{{historialOrden.precio | currency}}</td>
                                             <td>{{historialOrden.ultimaModificacion | date : "dd/MM/y"}}</td>
                                             <td ng-class="{'rowRojo' : historialOrden.idEstatusOrden == 10, 'rowAzul' : historialOrden.idEstatusOrden == 9 }">{{historialOrden.estatusOrden}}</td>
                                             <!-- <td class="text-center">
