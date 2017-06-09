@@ -609,30 +609,41 @@ registrationModule.controller('detalleController', function($scope, $location, u
         var fpdf = $(".inputfile-2").val();
         // console.log( "hola", $rootScope.docServer );
 
-        if (fxml == '' && fpdf == '') {
-            $(".alert-danger").fadeIn();
-            $(".alert-danger span").text('Proporciona al menos uno de los archivos que se piden');
+        alert('subiendo');
+        if (fxml == '' || fpdf == '') {
+            $(".alert-info").fadeIn();
+            $(".alert-info span").text('Debes proporcionar el XML y el PDF de la factura que vas a cargar.');
             setTimeout(function() {
-                $(".alert-danger").fadeOut('fast');
-            }, 3000);
+                $(".alert-info").fadeOut('fast');
+            }, 4000);
         } else {
             $(".archivos").hide();
             $(".uploading").show();
             $(".btn-cerrar").attr("disabled", "disabled");
             $(".btn-subir").attr("disabled", "disabled");
 
-
+            alert('subiendo 2');
             detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
                 var Respuesta = result.data;
+                console.log( Respuesta );
                 $scope.alert_respuesta = true;
                 $(".uploading").hide();
                 $(".alert_respuesta").fadeIn();
+
+                alert('subiendo 3');
+                Respuesta.data.forEach( function( item, key ){
+                    var ServerPath = item.Param.docServer + '/orden/' + item.PathDB ;
+
+                    detalleRepository.getGuardarFactura(ServerPath, item.Param.idOrden, item.Param.cotizacionFactura).then(function(result) {
+                        console.log( result );
+                    });
+                });
 
                 setTimeout( function(){
                     $("#myModal").modal('hide');
                     $scope.init();
                 }, 2000 );
-                console.log( Respuesta );
+                // console.log( Respuesta );
                 // alert('Subiendo Factura');
             }, function(error) {
                 console.log(error);

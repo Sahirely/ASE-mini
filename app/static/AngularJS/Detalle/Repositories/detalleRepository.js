@@ -139,7 +139,7 @@ registrationModule.factory('detalleRepository', function($http) {
         },
         postSubirFacturas: function(numOrden) {
             var form = document.forms.namedItem("frm_subir_factura");
-
+            alert('subiendo 4');
             var oData = new FormData( form );
             return $http({
                 // url: detalleUrl + 'subirFactura/',
@@ -149,6 +149,20 @@ registrationModule.factory('detalleRepository', function($http) {
                 data: oData,
                 headers: {
                     'Content-Type': undefined
+                }
+            });
+        },
+        getGuardarFactura: function(ruta, idOrden, idCotizacion) {
+            return $http({
+                url: detalleUrl + 'guardarDocumento/',
+                method: "GET",
+                params: {
+                    ruta: ruta,
+                    idOrden: idOrden,
+                    idCotizacion: idCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
                 }
             });
         },

@@ -205,6 +205,8 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
 }
 
 Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
+
+    // console.log('se quiere subir facturas');
     var self = this;
     var lf = new Load_Files();
 
@@ -212,28 +214,38 @@ Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
         var Resultado = respuesta;
         var Parametros = respuesta[0].Param;
 
-        Resultado.forEach( function( item, key ){
-            // var ServerPath = item.Path.replace( "\\", "/" );
-            // console.log( 'Se intenta guardar' );
-            var ServerPath = Parametros.docServer + '/orden/' +item.PathDB ;
-            var params = [
-                {name: 'ruta', value: ServerPath, type: self.model.types.STRING },
-                {name: 'idOrden', value: Parametros.idOrden, type: self.model.types.INT },
-                {name: 'idCotizacion', value: Parametros.cotizacionFactura, type: self.model.types.INT }
-            ];
-            self.model.query('INS_FACTURA_SP',params, function (error, result) {
-                console.log( error );
-                // console.log( 'Guardando a base de datos' );
-            });
+        // Resultado.forEach( function( item, key ){
+        //     var ServerPath = Parametros.docServer + '/orden/' +item.PathDB ;
+        //     var params = [
+        //         {name: 'ruta', value: ServerPath, type: self.model.types.STRING },
+        //         {name: 'idOrden', value: Parametros.idOrden, type: self.model.types.INT },
+        //         {name: 'idCotizacion', value: Parametros.cotizacionFactura, type: self.model.types.INT }
+        //     ];
+        //     self.model.query('INS_FACTURA_SP',params, function (error, result) {
+        //         console.log( error );
+        //     });
                 
-        });
-
+        // });
+        console.log( 'se suben los archivos' );
         self.view.expositor(res, {
             error: false,
-            result: {Success: true, Msg: 'Factura cargada correctamente'}
+            result: {Success: true, Msg: 'Factura cargada correctamente', data: Resultado}
       });
     });
 }
+
+Detalle.prototype.get_guardarDocumento = function(req, res, next){
+    var self = this;
+    var params = [
+        {name: 'ruta', value: req.query.ruta, type: self.model.types.STRING },
+        {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT },
+        {name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT }
+    ];
+    self.model.query('INS_FACTURA_SP',params, function (error, result) {
+        console.log( error );
+    });
+};
+
 
 Detalle.prototype.get_insertaNota = function(req, res, next){
   var self = this;

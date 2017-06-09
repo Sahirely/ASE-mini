@@ -330,3 +330,31 @@
     font-weight:normal;
     font-family: sans-serif;
 }
+
+.btn_archivo_yep i{
+    color:#c00;
+}
+
+.btn_archivo_yep{
+    border-color: #a00;
+}
+
+.btn_archivo_yep:hover,
+.btn_archivo_yep:focus,
+.btn_archivo_yep:active,
+.btn_archivo_yep.active,
+.open .dropdown-toggle.btn_archivo_yep,
+.btn_archivo_yep:active:focus,
+.btn_archivo_yep:active:hover,
+.btn_archivo_yep.active:hover,
+.btn_archivo_yep.active:focus {
+    background-color: #c00;
+    border-color: #a00;
+    color: #FFFFFF !important;
+}
+
+.btn_archivo_yep:focus i,
+.btn_archivo_yep:active i,
+.btn_archivo_yep:hover i{
+    color:#fff;
+}

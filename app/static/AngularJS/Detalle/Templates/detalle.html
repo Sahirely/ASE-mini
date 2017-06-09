@@ -133,6 +133,28 @@
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Recepción</label>
                                     <br>
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" 
+                                            type="button" 
+                                            ng-click="archivoEvidencia(1);" 
+                                            ng-disabled="validaCertificado == 0"
+                                            ng-class="{btn_archivo_yep: validaCertificado != 0}">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </button>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
+                                    <label>Hoja de Trabajo</label>
+                                    <br>
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" 
+                                            type="button" 
+                                            ng-click="OpenTrabajo();" 
+                                            ng-disabled="idEstatusOrden < 7"
+                                            ng-class="{btn_archivo_yep: idEstatusOrden >= 7}">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </button>
+                                </div> 
+                                <!-- <div class="col-sm-3 col-md-3 col-lg-3 text-center">
+                                    <label>Recepción</label>
+                                    <br>
                                     <button ng-show="validaCertificado == 0" class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
                                     <div ng-show="validaCertificado != 0" class="btn btn-archivo btn-outline m-t-md" ng-click="archivoEvidencia(1)">
                                         <span>
@@ -144,7 +166,7 @@
                                     <label>Hoja de Trabajo</label>
                                     <br>
                                     <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="idEstatusOrden != 7"><i class="fa fa-file-pdf-o"></i></button>
-                                </div>
+                                </div> -->
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Factura</label>
                                     <br>
@@ -551,68 +573,68 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade " id="myModal " role="dialog ">
-    <div class="modal-dialog ">
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
         <!-- Modal content-->
-        <div class="modal-content ">
-            <form id="frm_subir_factura " name="frm_subir_factura " method="post ">
-                <div class="modal-header ">
-                    <button type="button " class="close " data-dismiss="modal ">&times;</button>
-                    <h4 class="modal-title ">Carga de Factura</h4>
+        <div class="modal-content">
+            <form id="frm_subir_factura" name="frm_subir_factura" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Carga de Factura</h4>
                 </div>
-                <div class="modal-body ">
-                    <div class="row ">
-                        <div class="uploading " style="width: 100%; display: none; ">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="uploading" style="width: 100%; display: none;">
                             <center>
-                                <img src="image/loading2.gif " width="250 ">
+                                <img src="image/loading2.gif" width="250">
                             </center>
                         </div>
-                        <div class="col-sm-12 archivos ">
-                            <input type="hidden " value="{{idOrden}} " name="idOrden ">
-                            <input type="hidden " value="{{cotizacionFactura}} " name="cotizacionFactura ">
-                            <input type="hidden " value="{{cotizacionTotal}} " name="cotizacionTotal ">
-                            <input type="hidden " value="{{docServer}} " name="docServer ">
+                        <div class="col-sm-12 archivos">
+                            <input type="hidden" value="{{idOrden}}" name="idOrden">
+                            <input type="hidden" value="{{cotizacionFactura}}" name="cotizacionFactura">
+                            <input type="hidden" value="{{cotizacionTotal}}" name="cotizacionTotal">
+                            <input type="hidden" value="{{docServer}}" name="docServer">
                             <!-- $rootScope.docServer -->
 
                             <label>XML</label><br>
-                            <input type="file " name="file_1 " id="file_1 " class="inputfile inputfile-1 " accept="text/xml " />
-                            <label for="file_1 ">
-                            <svg xmlns="http://www.w3.org/2000/svg " class="iborrainputfile " width="30 " height="27 " viewBox="0 0 20 17 "><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z "></path></svg>
-                            <span class="iborrainputfile ">Seleccionar archivo</span>
+                            <input type="file" name="file_1" id="file_1" class="inputfile inputfile-1" accept="text/xml" />
+                            <label for="file_1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="30" height="27" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                            <span class="iborrainputfile">Seleccionar archivo</span>
                             </label>
 
                             <br><br>
 
                             <label>PDF</label><br>
-                            <input type="file " name="file_2 " id="file_2 " class="inputfile inputfile-2 " accept="application/pdf " />
-                            <label for="file_2 ">
-                            <svg xmlns="http://www.w3.org/2000/svg " class="iborrainputfile " width="30 " height="27 " viewBox="0 0 20 17 "><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z "></path></svg>
-                            <span class="iborrainputfile ">Seleccionar archivo</span>
+                            <input type="file" name="file_2" id="file_2" class="inputfile inputfile-2" accept="application/pdf" />
+                            <label for="file_2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="30" height="27" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                            <span class="iborrainputfile">Seleccionar archivo</span>
                             </label>
 
 
-                            <!-- <label>XML</label> <input type="file " accept="text/xml " name="myFile1 " id="myFile1 "> -->
+                            <!-- <label>XML</label> <input type="file" accept="text/xml" name="myFile1" id="myFile1"> -->
                             <!-- <br> -->
-                            <!-- <label>PDF</label> <input type="file " name="myFile2 " id="myFile2 "> -->
+                            <!-- <label>PDF</label> <input type="file" name="myFile2" id="myFile2"> -->
                         <br>
                         </div>
-                        <div class="col-sm-12 ">
+                        <div class="col-sm-12">
                             <br>
-                            <div class="alert alert-warning alert_respuesta ">
+                            <div class="alert alert-warning alert_respuesta">
                                 <strong>¡Factura cargada correctamente!</strong>
                                 <br><br>
-                                <table class="table borderless errores_factura "> </table>
+                                <table class="table borderless errores_factura"> </table>
                             </div>
 
-                            <div class="alert alert-danger " style="display: none; ">
-                                <strong>¡Hay algo mal!</strong> <span></span>
+                            <div class="alert alert-info" style="display: none;">
+                                <strong>¡Nota!</strong> <span></span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer ">
-                    <button type="button " class="btn btn-default btn-cerrar " data-dismiss="modal ">Cerrar</button>
-                    <button type="submit " class="btn btn-primary btn-subir " ng-click="Cargar_Factura_Tmp(); ">Subir Factura</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-cerrar" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary btn-subir" ng-click="Cargar_Factura_Tmp();">Subir Factura</button>
                 </div>
             </form>
         </div>
