@@ -123,7 +123,9 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.totalOrdenes               = 0;
             $scope.totalHorasOrdenesServicio  = 0;
 
+            console.log('=================');
             console.log( Resultados );
+            console.log('=================');
             Resultados.forEach(function(item, key) {
                 $scope.totalOrdenes              = $scope.totalOrdenes + parseInt( item.total );
                 $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt( item.promedio );
@@ -141,8 +143,8 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                     element: 'morris-donut-ordenes',
                     data: [
                         {label: Resultados[0].estatus, value: Resultados[0].total, id: Resultados[0].id },
-                        {label: Resultados[1].estatus, value: Resultados[1].total, id: Resultados[0].id }, 
-                        {label: Resultados[2].estatus, value: Resultados[2].total, id: Resultados[0].id }
+                        {label: Resultados[1].estatus, value: Resultados[1].total, id: Resultados[1].id }, 
+                        {label: Resultados[2].estatus, value: Resultados[2].total, id: Resultados[2].id }
                     ],
                     resize: true,
                     colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
