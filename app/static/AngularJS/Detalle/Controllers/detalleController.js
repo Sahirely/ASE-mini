@@ -44,7 +44,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         console.log($scope.idEstatusOrden);
         console.log('==============================');
         $scope.getSaldos($routeParams.orden);
-
+        $('.horaAsignada').clockpicker();
 
     };
 
@@ -795,5 +795,42 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.OpenTrabajo = function(){
         var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf';
         window.open(url);
+    }
+
+    $scope.acciones = function(){
+        if (($scope.comentaAccion != undefined && $scope.comentaAccion != "") && ($scope.fechaAccion != undefined && $scope.fechaAccion != "")) {
+            detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaAccion, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
+                if (result.data.length > 0) {
+                     alertFactory.success('Se inserto correctamente la Acción');
+                     $scope.comentaAccion = "";
+                     $scope.fechaAccion = "";
+                }
+            }, function(error) {
+                alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
+            });
+        }else{
+            alertFactory.info('Porfavor llene todos los campos');
+        }
+    }
+    $scope.recordatorio = function(){
+        if (($scope.comentaRecordatorio != undefined && $scope.comentaRecordatorio != "") && 
+            ($scope.fechaRecordatorio != undefined && $scope.fechaRecordatorio != "") &&
+            ($scope.horaRecordatorio != undefined && $scope.horaRecordatorio != "")) {
+
+            $scope.fechaCompleta = $scope.fechaRecordatorio + ' ' + $scope.horaRecordatorio;
+            detalleRepository.postRecordatorio($scope.comentaRecordatorio, $scope.fechaCompleta, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
+                if (result.data.length > 0) {
+                    alertFactory.success('Se inserto correctamente el Recordatorio');
+                     $scope.comentaRecordatorio = "";
+                     $scope.fechaRecordatorio = "";
+                     $scope.horaRecordatorio = "";
+                     $scope.fechaCompleta = "";
+                }
+            }, function(error) {
+                alertFactory.error('No se puede guardar recordatorio, intente mas tarde o comuniquese con el administrador');
+            });
+        }else{
+            alertFactory.info('Porfavor llene todos los campos');
+        }
     }
 });

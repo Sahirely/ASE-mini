@@ -24,6 +24,10 @@
     height: 307px !important;
 }
 
+.planAccionOrden{
+    height: 547px !important;
+}
+
 .sinPresupuesto {
     color: red;
 }

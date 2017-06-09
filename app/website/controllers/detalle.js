@@ -396,4 +396,69 @@ Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
     
 }
 
+//Inserta nueva Accion
+Detalle.prototype.post_accion = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'texto',
+        value: req.query.texto,
+        type: self.model.types.STRING
+    }, {
+        name: 'fecha',
+        value: req.query.fecha,
+        type: self.model.types.STRING
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.query('INS_PLAN_ACCION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//Inserta nueva Recordatorio
+Detalle.prototype.post_recordatorio = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'texto',
+        value: req.query.texto,
+        type: self.model.types.STRING
+    }, {
+        name: 'fecha',
+        value: req.query.fecha,
+        type: self.model.types.STRING
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.query('INS_RECORDATORIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 module.exports = Detalle;

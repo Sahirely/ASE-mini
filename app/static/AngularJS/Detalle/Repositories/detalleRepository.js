@@ -190,6 +190,36 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        postAcciones: function(texto, fecha, idUsuario, idOrden){
+          return $http({
+              url: detalleUrl + 'accion/',
+              method: "POST",
+              params: {
+                  texto: texto,
+                  fecha: fecha,
+                  idUsuario: idUsuario,
+                  idOrden: idOrden
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
+        },
+        postRecordatorio: function(texto, fecha, idUsuario, idOrden){
+          return $http({
+              url: detalleUrl + 'recordatorio/',
+              method: "POST",
+              params: {
+                  texto: texto,
+                  fecha: fecha,
+                  idUsuario: idUsuario,
+                  idOrden: idOrden
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
         }
     };
 });
