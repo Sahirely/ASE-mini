@@ -170,44 +170,22 @@
                             <div class="hr-line-dashed"></div>
                         </div>
                         <!--Costos totales de las  cotizaciones-->
-                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6" ng-show="orden.IdTipoOrden = 2">
-                            <div class="text-right">Costo</div>
+                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" ng-show="orden.IdTipoOrden = 2">
+                            
                             <table class="table invoice-total">
                                 <tbody>
-                                    <tr>
-                                        <td><strong>SUBTOTAL :</strong></td>
-                                        <td>{{ detalleOrden.CostoTotal | currency}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>I.V.A :</strong></td>
-                                        <td>{{ detalleOrden.CostoTotal * 0.16 | currency}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>TOTAL :</strong></td>
-                                        <td>{{ detalleOrden.CostoTotal * 1.16 | currency}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--Costos totales de las  cotizaciones-->
-                        <div class="col-xs-6 col-md-6 col-sm-6 col-lg-6" ng-show="orden.IdTipoOrden = 2">
-                            <div class="text-right">
-                                Venta
-                            </div>
-                            <table class="table invoice-total">
-                                <tbody>
-                                    <tr>
-                                        <td><strong>SUBTOTAL :</strong></td>
-                                        <td>{{ detalleOrden.VentaTotal | currency}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>I.V.A :</strong></td>
-                                        <td>{{ detalleOrden.VentaTotal * 0.16 | currency}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>TOTAL :</strong></td>
-                                        <td>{{ detalleOrden.VentaTotal * 1.16 | currency}}</td>
-                                    </tr>
+                                  <tr>
+                                      <td><strong>SUBTOTAL :</strong></td>
+                                      <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto : totalSumaVenta | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                      <td><strong>I.V.A :</strong></td>
+                                      <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 0.16 : totalSumaVenta * 0.16 | currency}}</td>
+                                  </tr>
+                                  <tr>
+                                      <td><strong>TOTAL :</strong></td>
+                                      <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 1.16 : totalSumaVenta * 1.16 | currency}}</td>
+                                  </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -240,10 +218,10 @@
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="btn-group pull-right" ng-hide="hideSwitchBtn">
-                                                    <button type="button" ng-init="btnSwitch.classCosto='btn btn-success'; btnSwitch.showCostoVenta=true" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+                                                    <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
                                                     btnSwitch.classVenta='btn btn-default';
                                                     btnSwitch.classCosto='btn btn-success'">Costo</button>
-                                                    <button type="button" ng-init="btnSwitch.classVenta='btn btn-default'" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+                                                    <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
                                                     btnSwitch.classVenta='btn btn-success';
                                                     btnSwitch.classCosto='btn btn-default' ">Venta</button>
                                                 </div>

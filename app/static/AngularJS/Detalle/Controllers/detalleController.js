@@ -16,12 +16,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
     $scope.x = 0;
     $scope.numCotz = 0;
     $scope.TieneSaldo = true;
-
-
+    $scope.totalSumaCosto = 0;
+    $scope.totalSumaVenta = 0;
+    $scope.btnSwitch ={};
     $scope.userData = {};
     $scope.btn_editarCotizacion = false;
 
     $scope.init = function() {
+        $scope.btnSwitch.classCosto='btn btn-success';
+        $scope.btnSwitch.showCostoVenta=true;
+        $scope.btnSwitch.classVenta='btn btn-default';
         $scope.checkComprobanteRecepcion();
         $scope.HistoricoCotizaciones = [];
         userFactory.ValidaSesion();
@@ -40,6 +44,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         console.log($scope.idEstatusOrden);
         console.log('==============================');
         $scope.getSaldos($routeParams.orden);
+
 
     };
 
@@ -151,6 +156,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
             console.log(result.data)
             if (result.data.success == true) {
                 $scope.cotizaciones = result.data.data;
+
+                $scope.getTotales();
                 console.log($scope.cotizaciones)
                 console.log($scope.cotizaciones[0].detalle)
 
@@ -160,6 +167,21 @@ registrationModule.controller('detalleController', function($scope, $location, u
         }, function(error) {
             alertFactory.error(result.msg);
         });
+    }
+
+    $scope.getTotales = function(){
+      $scope.totalSumaCosto = 0;
+      $scope.totalSumaVenta = 0;
+      if ($scope.cotizaciones != null || $scope.cotizaciones != undefined){
+        $scope.cotizaciones.forEach(function(item) {
+            item.detalle.forEach(function(itemDetail){
+              $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costo;
+              $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.venta;
+            });
+        });
+        console.log($scope.totalSumaCosto);
+        console.log($scope.totalSumaVenta);
+      }
     }
 
     $scope.nuevaCotizacion = function() {

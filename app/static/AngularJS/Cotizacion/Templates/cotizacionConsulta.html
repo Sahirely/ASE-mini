@@ -21,7 +21,7 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
                         <label class="font-noraml">Ejecutivo</label>
                         <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected"
                         ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
@@ -80,8 +80,62 @@
                 </div>
               </div>
           </div>
-
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="cotizaciones.length > 0">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="cotizaciones.length > 0 && userData.presupuesto == 0">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover ordenesPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                    <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Consecutivo</th>
+                            <th>Número de la Orden</th>
+                            <th>Número Económico</th>
+                            <th>Zona</th>
+                            <th>Taller</th>
+                            <th>Tipo Orden</th>
+                            <th>Fecha</th>
+                            <th>No. de Aprobación</th>
+                            <th>Marca - Modelo</th>
+                            <th>Estatus</th>
+                            <th>Cotizó</th>
+                            <th>Porcentaje de Aprobación</th>
+                            <th>Estadistica P/A/R/T</th>
+                            <th hidden="hidden">Estatus Filtro</th>
+                            <th>Tiempo en Espera / Tiempo Transcurrido</th>
+                            <th>Abrir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}">
+                            <td>{{cotizacion.nombreCliente}}</td>
+                            <td>{{cotizacion.consecutivoOrden}}</td>
+                            <td>{{cotizacion.numeroOrden}}</td>
+                            <td>{{cotizacion.numeroEconomico}}</td>
+                            <td>{{cotizacion.nombreZona}}</td>
+                            <td>{{cotizacion.nombreTaller}}</td>
+                            <td>{{cotizacion.nombreTipoORden}}</td>
+                            <td>{{cotizacion.fechaEstatusActual | date:'dd-MM-yyyy HH:mm'}}</td>
+                            <td>{{cotizacion.numeroCotizacion}}</td>
+                            <td>{{cotizacion.marcaUnidad}}</td>
+                            <td>{{cotizacion.nombreEstatusCotizacion}}</td>
+                            <td>{{cotizacion.nombreUsuario}}</td>
+                            <td>{{cotizacion.porcentaje}} %</td>
+                            <td>{{cotizacion.estadistica}}</td>
+                            <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
+                            <td>{{cotizacion.TiempoEspera}}</td>
+                            <td class='center'>
+                                <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
+                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
+                                </button>
+                                <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
+                                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="cotizaciones.length > 0 && userData.presupuesto == 1">
               <br/>
               <tabset>
                   <tab heading="Con Presupuesto" index="0">
