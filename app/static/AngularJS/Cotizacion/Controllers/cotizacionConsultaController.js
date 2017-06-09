@@ -7,7 +7,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.filtroEstatus = '';
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
-    $scope.userData = userFactory.getUserData();
+    $scope.userData = {};
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -18,16 +18,10 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.cotizaciones = [];
 
-    // $scope.userData = localStorageService.get('userData');
-    // $scope.userData.idTipoUsuario != 4 ? $scope.vistaPrecio = 1 : $scope.vistaPrecio = 2;
-    $scope.datosCita = {
-            idCita: ''
-        }
-
-
     $scope.init = function () {
         //para obtener las zonas promero se inicializa la primer zona padre.
         userFactory.ValidaSesion();
+        $scope.userData = userFactory.getUserData();
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
@@ -228,7 +222,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                     type: "warning",
                     showCancelButton: true,
                     confirmButtonColor: "#65BD10",
-                    cancelButtonColor: "#ee184c !important",
                     confirmButtonText: "Si",
                     cancelButtonText: "No",
                     closeOnConfirm: false,

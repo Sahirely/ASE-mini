@@ -176,7 +176,7 @@
                         </div>
                         <!--Costos totales de las  cotizaciones-->
                         <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                            <div ng-show="estatus==4">
+                            <div ng-show="estatus==4  && userData.presupuesto == 1">
                                 <h3>Presupuesto</h3>
                                 <p>
                                     <label>Presupuesto: </label>
@@ -238,7 +238,7 @@
                                                 <address>
                                                     <strong>Taller: </strong><span>{{cotizacion.razonSocial}}</span>
                                                     <br><strong>Dirección: </strong> <span>{{cotizacion.direccion}}</span>
-                                                    <br><strong>Zona: </strong> <span>{{cotizacion.nombreZona}}</span>
+
                                                 </address>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

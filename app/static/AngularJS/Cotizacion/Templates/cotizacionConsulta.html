@@ -164,7 +164,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}">
+                                <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1}">
                                     <td>{{cotizacion.nombreCliente}}</td>
                                     <td>{{cotizacion.consecutivoOrden}}</td>
                                     <td>{{cotizacion.numeroOrden}}</td>
@@ -220,7 +220,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus}"> <!-- -->
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 0}"> <!-- -->
                                   <td>{{cotizacion.nombreCliente}}</td>
                                   <td>{{cotizacion.consecutivoOrden}}</td>
                                   <td>{{cotizacion.numeroOrden}}</td>
@@ -238,12 +238,12 @@
                                   <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
                                   <td>{{cotizacion.TiempoEspera}}</td>
                                   <td>
-                                      <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.idOrden)">
-                                          <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
-                                      </button>
-                                        <button ng-hide="userData.idTipoUsuario == 4 || userData.idTipoUsuario == 3" class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
-                                            <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
-                                        </button>
+                                    <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
+                                        <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
+                                    </button>
+                                    <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
+                                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
+                                    </button>
                                     </td>
                                 </tr>
                             </tbody>
