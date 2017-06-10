@@ -205,51 +205,18 @@ registrationModule.controller('detalleController', function($scope, $location, u
         location.href = '/comprobanteRecepcion?orden=' + $routeParams.orden;
     };
 
-    $scope.btnConfig = [
-        { idStep: 0, idStatus: 1, btnText: "No Seleccion", cssClass: "btn btn-warning", iconClass: "glyphicon glyphicon-question-sign" },
-        { idStep: 1, idStatus: 2, btnText: "Aprovado", cssClass: "btn btn-success", iconClass: "glyphicon glyphicon-ok" },
-        { idStep: 2, idStatus: 3, btnText: "Rechazado", cssClass: "btn btn-danger", iconClass: "glyphicon glyphicon-remove" }
-    ];
-
     $scope.initApproveButtons = function(item) {
 
         if (item.Aprueba == 1 && item.idEstatusPartida == 1) {
             item.btnDisabled = false;
+            item.selOption = item.idEstatusPartida;
         } else {
             item.btnDisabled = true;
-            item.btnClass = "btn btn-default";
-            item.btnStep = 0;
-            if (item.Aprueba == 0 && item.idEstatusPartida == 1) {
-                item.btnIcon = "glyphicon glyphicon-ban-circle";
-            } else {
-                item.btnIcon = $scope.btnConfig[item.idEstatusPartida - 1].iconClass;
-            }
+            item.selOption = item.idEstatusPartida;
         }
 
     };
 
-
-    $scope.setApprove = function(item) {
-
-        if (item.btnDisabled == true) return;
-
-        var index = item.btnStep + 1;
-
-        if (index >= $scope.btnConfig.length) {
-            item.btnClass = $scope.btnConfig[0].cssClass;
-            item.btnStep = $scope.btnConfig[0].idStep;
-            item.btnText = $scope.btnConfig[0].btnText;
-            item.btnIcon = $scope.btnConfig[0].iconClass;
-            item.idStatus = $scope.btnConfig[0].idStatus;
-        } else {
-            item.btnClass = $scope.btnConfig[index].cssClass;
-            item.btnStep = $scope.btnConfig[index].idStep;
-            item.btnText = $scope.btnConfig[index].btnText;
-            item.btnIcon = $scope.btnConfig[index].iconClass;
-            item.idStatus = $scope.btnConfig[index].idStatus;
-        }
-
-    };
 
     $scope.setActiveButtons = function(idstatus) {
 
@@ -315,16 +282,16 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
     $scope.UpdatePartidaStatus = function() {
-
+    
         $scope.cotizaciones[0].detalle.forEach(function(item) {
 
-            if (item.btnStep != 0 && item.btnDisabled == false) {
+            if (item.btnDisabled == false && item.selOption > 1) {
 
                 var params = { idUsuario: '', idCotizacion: '', idPartida: '', idEstatusPartida: 0 };
                 params.idUsuario = $scope.idUsuario;
                 params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
                 params.idPartida = item.idPartida;
-                params.idEstatusPartida = item.idStatus;
+                params.idEstatusPartida = item.idEstatusPartida;
 
 
                 aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
@@ -343,7 +310,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         }, 1000);
 
 
-    };
+    };      
 
 
     $scope.UpdateCotizacionStatus = function(idCotizacion, idUsuario) {

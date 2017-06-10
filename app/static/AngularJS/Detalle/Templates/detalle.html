@@ -238,7 +238,6 @@
                                                 <address>
                                                     <strong>Taller: </strong><span>{{cotizacion.razonSocial}}</span>
                                                     <br><strong>Dirección: </strong> <span>{{cotizacion.direccion}}</span>
-
                                                 </address>
                                             </div>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -296,15 +295,30 @@
                                                                 <td>{{partida.instructivo}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
-                                                                <td ng-show="estatus == 4">
-                                                                    <button ng-init="partida.btnClass='btn btn-warning';
-                                                                        partida.btnDisabled=true;
-                                                                        partida.btnStep=0;
-                                                                        partida.idStatus=0;                                                      partida.btnText='*';
-                                                                        partida.btnIcon='glyphicon glyphicon-question-sign';
-                                                                        initApproveButtons(partida)" ng-class="partida.btnClass" ng-click="setApprove(partida)" ng-disabled="partida.btnEnable">
-                                                                        <span ng-class="partida.btnIcon"></span>
-                                                                    </button>
+                                                                <td ng-show="estatus == 4" style="width:100px;">
+                                                                    
+                                                                    <br>
+                                                                    <input type="radio" 
+                                                                    ng-init="partida.btnDisabled=true;
+                                                                             partida.selOption=1;
+                                                                             initApproveButtons(partida);" 
+                                                                    ng-disabled="partida.btnDisabled"
+                                                                    ng-model="partida.selOption" 
+                                                                    value="2" > Aprovado
+                                                                    <br>
+
+                                                                    <input type="radio" 
+                                                                    ng-model="partida.selOption"
+                                                                    ng-disabled="partida.btnDisabled" 
+                                                                    value="3" > Rechazado
+
+                                                                    <br>
+                                                                    <input type="radio" 
+                                                                    ng-model="partida.selOption" 
+                                                                    ng-disabled="partida.btnDisabled"          
+                                                                    value="1"
+                                                                    ng-hide="true"> 
+                                                                    
                                                                 </td>
                                                             </tr>
                                                         </tbody>
