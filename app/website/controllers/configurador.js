@@ -63,31 +63,7 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
     var params = {};
     var self = this;
 
-    var params = [{
-        name: 'nombreOperacion',
-        value: req.body.nombreOperacion,
-        type: self.model.types.STRING
-    }, {
-        name: 'nombreContacto',
-        value: req.body.nombreContacto,
-        type: self.model.types.STRING
-    }, {
-        name: 'correoContacto',
-        value: req.body.correoContacto,
-        type: self.model.types.STRING
-    }, {
-        name: 'telefonoContacto',
-        value: req.body.telefonoContacto,
-        type: self.model.types.STRING
-    }, {
-        name: 'fechaInicio',
-        value: req.body.fechaInicio,
-        type: self.model.types.STRING
-    }, {
-        name: 'fechaFin',
-        value: req.body.fechaFin,
-        type: self.model.types.STRING
-    }, {
+    var params = [{ 
         name: 'idCatalogoTipoOperacion',
         value: req.body.idCatalogoTipoOperacion,
         type: self.model.types.INT
@@ -112,9 +88,9 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         value: req.body.estatusOperacion,
         type: self.model.types.INT
     }, {
-        name: 'idCatalogoFormaPago',
-        value: req.body.idCatalogoFormaPago,
-        type: self.model.types.INT
+        name: 'formaPago',
+        value: req.body.formaPago,
+        type: self.model.types.STRING
     }, {
         name: 'presupuesto',
         value: req.body.presupuesto,

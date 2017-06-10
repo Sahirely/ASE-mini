@@ -495,7 +495,7 @@ OrdenServicio.prototype.get_getCitizacionDetalle = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_DETALLE_COTIZACION_SP', params, function(error, result) {
+    this.model.query('SEL_PARTIDAS_APROBACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

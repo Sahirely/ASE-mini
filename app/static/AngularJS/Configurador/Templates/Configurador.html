@@ -21,9 +21,10 @@
                                     <thead>
                                         <tr>
                                             <th>Cliente</th>
+                                            <th>Consecutivo</th>
                                             <th>Operación</th>
-                                            <th>Nombre Operación</th>
-                                            <th>Encargado</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Fin</th>
                                             <th>Estatus</th>
                                             <th>GPS</th>
                                         </tr>
@@ -31,9 +32,10 @@
                                     <tbody>
                                         <tr ng-repeat="operacion in operaciones" ng-click="lookUpOperacion(operacion)" tooltip="Detalle">
                                             <td>{{operacion.razonSocial}}</td>
-                                            <td>{{operacion.idOperacion}}</td>
-                                            <td>{{operacion.nombreOperacion}}</td>
-                                            <td>{{operacion.nombreContacto}}</td>
+                                            <td>{{operacion.idOperacion}}</td>  
+                                            <td>{{operacion.descripcion}}</td>
+                                            <td>{{operacion.fechaInicio | date:'dd-MM-yy HH:mm'}}</td>
+                                            <td>{{operacion.fechaFin | date:'dd-MM-yy HH:mm'}}</td>
                                             <td ng-if="operacion.idEstatusOperacion==1" >Activa</td>
                                             <td ng-if="operacion.idEstatusOperacion==0" >Inactiva</td>
                                             <td class="center">
@@ -68,7 +70,7 @@
                                                         <i class="glyphicon glyphicon-link"></i>
                                                     </button>
                                                 </div> 
-                                                <div class="center menu">Licitaciones</div>
+                                                <div class="center menu">Contratos</div>
                                             </a>
                                         </li>
 
@@ -105,7 +107,7 @@
                                     <!--OPERACIONES-->
                                     <div id="operacionFormulario" ng-model="operacionFormulario" class="section_configurador col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_operacion">
 
-                                        <form class="form-horizontal">
+                                        <!--form class="form-horizontal">
                                             <div class="form-group">
                                                 <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Nombre Operación</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
@@ -158,7 +160,7 @@
                                                      </div>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </form-->
                                         <form class="form-horizontal">
                                             <div class="form-group">
                                                 <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Tipo De Operación</label>
@@ -172,7 +174,7 @@
                                         </form>
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Manejo De Utilidad</label>
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Manejo De Utilidad</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                                     <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                         <input type="radio" id="utilidad1" value="1" name="utilidad1" checked="" ng-model="utilidad" ng-change="show_porcentajaUtilidad=true" ng-disabled="!operacioActiva">
@@ -187,7 +189,7 @@
                                         </form>
                                         <form class="form-horizontal" ng-show="show_porcentajaUtilidad">
                                             <div class="form-group">
-                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Porcentaje de Utilidad</label>
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Porcentaje de Utilidad</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                                     <div class="input-group date">
                                                          <input type="text" class="form-control" value="" id="porcentajeUtilidad" ng-model="porcentajeUtilidad" placeholder="5" ng-disabled="!operacioActiva">
@@ -198,17 +200,18 @@
                                         </form>
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Forma De Pago</label>
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Forma De Pago</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                                    <select class="form-control" id="formaDePago" ng-model="formaDePago" ng-options="forma.idFormaPago as forma.nombreFormaPago  for forma in formaDePagos" ng-disabled="!operacioActiva">
+                                                    <input type="text" class="form-control" value="" id="formaDePago" ng-model="formaDePago"  ng-disabled="!operacioActiva">
+                                                    <!--select class="form-control" id="formaDePago" ng-model="formaDePago" ng-options="forma.idFormaPago as forma.nombreFormaPago  for forma in formaDePagos" ng-disabled="!operacioActiva">
                                                          <option value=''>Selecionar Forma de Pago</option>
-                                                    </select>
+                                                    </select-->
                                                 </div>
                                             </div>
                                         </form>
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Tiempo Asignado</label>
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Tiempo Asignado</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                                     <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                         <input type="radio" id="asignado1" value="1" name="asignado1" checked="" ng-model="asignado" ng-disabled="!operacioActiva">
@@ -223,7 +226,7 @@
                                         </form>
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Geolocalización</label>
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Geolocalización</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                                     <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                         <input type="radio" id="gsp1" value="1" name="gsp1" checked="" ng-model="gsp" ng-disabled="!operacioActiva">
@@ -238,7 +241,7 @@
                                         </form>
                                         <form class="form-horizontal">
                                             <div class="form-group">
-                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">Manejo De Presupuesto</label>
+                                                <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Manejo De Presupuesto</label>
                                                 <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                                      <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
                                                         <input type="radio" id="presupuesto1" value="1" name="presupuesto1" checked="" ng-model="presupuesto" ng-change="presupuestos()" ng-disabled="!operacioActiva">
@@ -287,18 +290,20 @@
                                             <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1"></div>
                                            <table class="table table-bordered table-hover dataTableLicitaciones">
                                                 <thead>
-                                                    <th>Licitación</th>
-                                                    <th>Nombre</th>
-                                                    <th>Fecha</th>
-                                                    <th>Descripción</th>
+                                                    <th>Cliente</th>
+                                                    <th>Consecutivo</th>
+                                                    <th>Contrato</th>
+                                                    <th>Fecha Inicio</th>
+                                                    <th>Fecha Fin</th>
                                                     <th>Seleccionar</th>
                                                 </thead>
                                                <tbody>
                                                     <tr ng-repeat="licitacion in licitaciones">
+                                                        <td>{{licitacion.razonSocial}}</td>
                                                         <td>{{licitacion.idLicitacion}}</td>
-                                                        <td>{{licitacion.nombre}}</td>
-                                                        <td>{{licitacion.fechaInicio | date:'dd-MM-yy HH:mm'}}</td>
                                                         <td>{{licitacion.descripcion}}</td>
+                                                        <td>{{licitacion.fechaInicio | date:'dd-MM-yy HH:mm'}}</td>
+                                                        <td>{{licitacion.fechaFin | date:'dd-MM-yy HH:mm'}}</td>
                                                         <td class="center">
                                                              <button ng-show="licitacion.idOperacion != null" class="btn btn-success" type="button" data-toggle="tooltip" tooltip="Contrato Activo" id="btnCotizar" tooltip-placement="top" ng-click="selectLicitacion(licitacion)">
                                                             <span class="glyphicon glyphicon-ok"></span>
@@ -471,11 +476,11 @@
                                         </form>
 
                                         <form class="form-horizontal" ng-repeat="default in modulosDefault">
-                                            <div class="checkbox checkbox-warning" ng-if="default.idCatalogoModulos==1 || default.idCatalogoModulos==2">
+                                            <div class="checkbox checkbox-warning" ng-if="default.idCatalogoModulos==1 || default.idCatalogoModulos==2 || default.idCatalogoModulos==8">
                                                 <input id="checkbox1" type="checkbox" checked="checked" disabled="disabled" >
                                                 <label tooltip="{{default.nombreModulos}}">{{default.nombreModulos}}</label>
                                             </div>
-                                            <div class="checkbox checkbox-warning" ng-if="default.idCatalogoModulos >2">
+                                            <div class="checkbox checkbox-warning" ng-if="default.idCatalogoModulos >2 && default.idCatalogoModulos!=8">
                                                 <input id="checkbox1" type="checkbox" checked="checked" disabled="disabled">
                                                 <label></label>
                                                 <a href="#"  ng-click="detalleModulo(default)">{{default.nombreModulos}}</a>

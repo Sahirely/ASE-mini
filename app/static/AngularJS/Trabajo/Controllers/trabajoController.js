@@ -1,4 +1,4 @@
-registrationModule.controller('trabajoController', function($scope, $modal, userFactory, $rootScope, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository) {
+registrationModule.controller('trabajoController', function($scope, $modal, userFactory, $rootScope,$routeParams, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository) {
     $rootScope.modulo = 'ordenServicio'; // <<-- Para activar en que opción del menú se encuentra
     
     // $scope.idOperacion           = 2;
@@ -28,8 +28,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.idOrden_Temp  = 0;
 
     $scope.Init = function() {
-        console.log( $scope.idOperacion + ' :: ' + $scope.idUsuario + ' :: ' + $scope.idContratoOperacion );
-
         $scope.muestraTabla = false;
 
         //para obtener las zonas promero se inicializa la primer zona padre.
@@ -49,6 +47,15 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         //                                  3 pantalla Órdenes de Servicio
         //-----------------------------------------------------------------//
         //$scope.getOrdenesServicio(3);
+
+        // $scope.estatusValidador = 5;
+        if( $routeParams.e === undefined ){
+            // No se carga nada automatico
+        }
+        else{
+            $scope.getOrdenesServicio(3);
+            $scope.estatusValidador = $routeParams.e;
+        }
     };
 
     $scope.indiceOrdenes = -1;
@@ -166,6 +173,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     };
 
     $scope.getOrdenesServicio = function(tipoConsulta) {
+        $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
 
         $scope.numeroTrabajo = '';

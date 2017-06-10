@@ -34,22 +34,16 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        postOperaciones: function(nombreOperacion, nombreContacto, correoContacto, telefonoContacto, fechaInicio, fechaFin, idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, idCatalogoFormaPago, presupuesto, centros, idOperacion) {
+        postOperaciones: function(idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, formaPago, presupuesto, centros, idOperacion) {
           
            var msgObj = {
-                nombreOperacion: nombreOperacion,
-                nombreContacto: nombreContacto,
-                correoContacto: correoContacto,
-                telefonoContacto: telefonoContacto,
-                fechaInicio: fechaInicio,
-                fechaFin: fechaFin,
                 idCatalogoTipoOperacion: idCatalogoTipoOperacion,
                 manejoUtilidad: manejoUtilidad,
                 porcentajeUtilidad: porcentajeUtilidad,
                 geolocalizacion: geolocalizacion,
                 tiempoAsignado: tiempoAsignado,
                 estatusOperacion: estatusOperacion,
-                idCatalogoFormaPago: idCatalogoFormaPago,
+                formaPago: formaPago,
                 presupuesto: presupuesto,
                 centros: centros,
                 idOperacion:idOperacion

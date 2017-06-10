@@ -111,7 +111,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                 }
             });    
             setTimeout(function () {
-              location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+1;
+              location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+3;
              }, 10000); 
         });
     }

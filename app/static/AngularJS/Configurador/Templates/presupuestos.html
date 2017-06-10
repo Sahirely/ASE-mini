@@ -9,7 +9,7 @@
     <div id="content_popDrag">
        <div class="modal-body">
 
-            <form class="form-horizontal" ng-repeat="model in models" ng-hide="modalPlus == 1">
+            <!--form class="form-horizontal" ng-repeat="model in models" ng-hide="modalPlus == 1">
                 <div class="form-group">
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                         <input type="text" class="form-control" value="" id="nomCentro" ng-model="nomCentro" capitalize ng-change="dataCentro(model.ID, nomCentro)">
@@ -18,8 +18,12 @@
                        <button class="btn btn-primary" tooltip="Nuevo Centro de Trabajo" type="button" ng-click="plusCentro()"><span class="glyphicon glyphicon-plus"></span></button>
                     </div>
                 </div>
-            </form>
-            <div class="table-responsive row">
+            </form-->
+            <!--div class="table-responsive row"-->
+                <div>
+                    <button class="btn btn-primary pull-right" tooltip="Nuevo Centro de Trabajo" type="button" ng-click="plusCentro()"><span class="glyphicon glyphicon-plus"></span>Nuevo Centro de Trabajo</button>
+                </div>  
+                </br>         
                 <table class="table table-bordered table-hover dataTableCentros" >
                     <thead>
                         <tr>
@@ -28,18 +32,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="centro in centrosDeTrabajo"  tooltip="Detalle">
-                            <td>{{centro.idCentroTrabajo}}</td>
-                            <td>{{centro.nombreCentroTrabajo}}</td>
+                        <tr  ng-repeat="model in models">
+                            <td>{{model.num}}</td>
+                            <td>
+                                <div class="checkbox checkbox-warning">
+                                    <input type="numeric" class="form-control" value="" id="nivel" ng-model="model.nomCentro" capitalize>
+                                </div>
+                            </td>
+
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
+        <!--/div-->
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-success" ng-click="guardarCentros()">Guardar</button>
+    <button type="button" class="btn btn-primary" ng-click="guardarCentros()">Guardar</button>
 </div>
 
       

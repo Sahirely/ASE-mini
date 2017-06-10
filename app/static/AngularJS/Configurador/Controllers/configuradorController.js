@@ -21,13 +21,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.getOperaciones();
 	}
 
-	$scope.limpiarDatos = function () {
-		$scope.nomOperacion = ''; 
-		$scope.nomContacto = '';  
-		$scope.correoContacto = '';  
-		$scope.telContacto = '';  
-		$scope.fechaIni = '';  
-		$scope.fechaFin = '';  
+	$scope.limpiarDatos = function () { 
 		$scope.tipoOperacion = '';  
 		$scope.utilidad = '';  
 		$scope.porcentajeUtilidad = 0; 
@@ -71,7 +65,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.menu('operacion'); 
         $scope.btn_operacion = 'Guardar';
 		$scope.getTipoOperacion();
-		$scope.getFormaPago();
+		//$scope.getFormaPago();
 
 	}
 
@@ -83,18 +77,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
             if (result.data.length > 0) {
                 $scope.nuevaOperacion();
             	$scope.datosOperacion= result.data;
-            	$scope.nomOperacion = result.data[0].nombreOperacion;
-            	$scope.nomContacto = result.data[0].nombreContacto;
-            	$scope.correoContacto = result.data[0].correoContacto;
-            	$scope.telContacto = result.data[0].telefonoContacto;
-            	$scope.fechaIni = result.data[0].fechaInicio;
-            	$scope.fechaFin = result.data[0].fechaFin;
             	$scope.utilidad = result.data[0].manejoUtilidad;
             	$scope.porcentajeUtilidad = result.data[0].porcentajeUtilidad;
             	$scope.presupuesto = result.data[0].presupuesto;
             	$scope.gsp = result.data[0].geolocalizacion;
                 $scope.asignado = result.data[0].tiempoAsignado; 
             	$scope.estatus = result.data[0].idEstatusOperacion;
+                $scope.formaDePago = result.data[0].formaDePago;
                 $scope.btn_operacion = 'Siguiente';
             	if ($scope.estatus == 1) {
             		$scope.operacioActiva=false;
@@ -120,7 +109,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.promise = configuradorRepository.getOperaciones().then(function (result) {
             if (result.data.length > 0) {
                 $scope.operaciones = result.data;
-                 globalFactory.filtrosTabla("dataTableOperacion", "Operaciones", 5);
+                 globalFactory.filtrosTabla("dataTableOperacion", "Operaciones", 100);
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener las Operaciones');
@@ -146,7 +135,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         });
     }
 
-     $scope.getFormaPago = function(){
+     /*$scope.getFormaPago = function(){
         $scope.promise = configuradorRepository.getFormaDePago().then(function (result) {
             if (result.data.length > 0) {
                 $scope.formaDePagos = result.data;
@@ -161,7 +150,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         }, function (error) {
             alertFactory.error('No se puenen obtener las Formas de Pago');
         });
-    }
+    }*/
 
     $scope.presupuestos = function (modalUnidad) {
         modalUnidad != 1 ? modalUnidad = 2 : modalUnidad;
@@ -169,6 +158,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
     $scope.centrosDeTrabajo = function (data) {
+        debugger;
     	$scope.centros ='';
     	for (var i = 0 ; i < data.length; i++) {
           if (data[i].valor!= undefined) {
@@ -179,35 +169,24 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
    
 	$scope.guardarOperacion = function () {
-        if (validate_fecha ($scope.fechaIni, $scope.fechaFin )) {
-    		var fecha= $scope.fechaIni.split('/');
-            var fechaIni = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-            var fecha2 = $scope.fechaFin.split('/');
-            var fechaFin = fecha2[2] + '/' + fecha2[1] + '/' + fecha2[0]
-
-    		if ( $scope.validarCorreo($scope.correoContacto)) {
-                localStorageService.set('timeAsigna', $scope.asignado);
-    			$scope.promise = configuradorRepository.postOperaciones($scope.nomOperacion, $scope.nomContacto, $scope.correoContacto, $scope.telContacto, fechaIni, fechaFin, $scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
-    	            if (result.data[0].idOperacion != undefined) {
-    	            
-    	            	$scope.idOperacion=result.data[0].idOperacion;
-    	                $scope.show_operacion=false;
-    					$scope.show_licitacion=true;
-    					$scope.menu('licitacion');
-    					$scope.getLicitaciones();
-    	            }
-    	        }, function (error) {
-    	            alertFactory.error('No se puenen guardar la Operación');
-    	        });
-    		}else{
-    			alertFactory.error('El formato del Correo es incorrecto');
-    		}
-        }else{
-            alertFactory.error('La fecha fin debe ser mayor a la inicial');
-        }
+        localStorageService.set('timeAsigna', $scope.asignado);
+        debugger;
+		$scope.promise = configuradorRepository.postOperaciones($scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
+            
+            if (result.data[0].idOperacion != undefined) {
+            
+            	$scope.idOperacion=result.data[0].idOperacion;
+                $scope.show_operacion=false;
+				$scope.show_licitacion=true;
+				$scope.menu('licitacion');
+				$scope.getLicitaciones();
+            }
+        }, function (error) {
+            alertFactory.error('No se puenen guardar la Operación');
+        });
 	}
 
-	$scope.validarCorreo = function(correos) {
+	/*$scope.validarCorreo = function(correos) {
         if ($.trim(correos) == '') {
             return false;
         } else if (!isValidEmailAddress($.trim(correos))) {
@@ -215,7 +194,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         } else {
             return true;
         }
-    }
+    }*/
 
 
 	$scope.disabledOperacion = function () {
@@ -223,7 +202,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		if ($scope.estatus == 1) {
 			return true;
 		}else{
-			if ($scope.nomOperacion !=='' && $scope.nomContacto !=='' && $scope.correoContacto !=='' && $scope.telContacto !=='' && $scope.fechaIni !=='' && $scope.fechaFin !=='' && $scope.tipoOperacion !=='' && $scope.utilidad !=='' && $scope.gsp !=='' && $scope.asignado !== '' && $scope.estatus !=='' &&  $scope.formaDePago !=='' &&  $scope.presupuesto !=='' ) {
+			if ($scope.tipoOperacion !=='' && $scope.utilidad !=='' && $scope.gsp !=='' && $scope.asignado !== '' && $scope.estatus !=='' &&  $scope.formaDePago !=='' &&  $scope.presupuesto !=='' ) {
 
 				if ($scope.utilidad == 1) {
 					if ($scope.porcentajeUtilidad !=='') {
@@ -286,7 +265,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             		};
             	}
                 
-                 globalFactory.filtrosTabla("dataTableLicitaciones", "Operaciones", 5);
+                 globalFactory.filtrosTabla("dataTableLicitaciones", "Operaciones", 100);
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener las Operaciones');
