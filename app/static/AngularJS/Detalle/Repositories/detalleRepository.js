@@ -4,7 +4,7 @@ var trabajoUrl = global_settings.urlCORS + 'api/trabajo/'
 
 registrationModule.factory('detalleRepository', function($http) {
     return {
-        validaCotizacionesRevisadas: function( idOrden ) { 
+        validaCotizacionesRevisadas: function( idOrden ) {
             // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
             return $http({
                 url: detalleUrl + 'validaTerminoTrabajo/',
@@ -17,7 +17,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        validaToken: function( idOrden, Token ) { 
+        validaToken: function( idOrden, Token ) {
             // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
             return $http({
                 url: detalleUrl + 'validaToken/',
@@ -31,7 +31,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        CambiaStatusOrden: function( idOrden, idUsuario ) { 
+        CambiaStatusOrden: function( idOrden, idUsuario ) {
             // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
             return $http({
                 url: detalleUrl + 'cambiarStatusOrden/',
@@ -45,7 +45,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        rechazaTrabajo: function( idOrden, idUsuario ) { 
+        rechazaTrabajo: function( idOrden, idUsuario ) {
             // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
             return $http({
                 url: detalleUrl + 'rechazaTrabajo/',
@@ -74,14 +74,15 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        insNota: function(nota, numOrden, idUsuario) {
+        insNota: function(nota, numOrden, idUsuario, idEstatusOrden) {
             return $http({
                 url: detalleUrl + 'insertaNota/',
                 method: "GET",
                 params: {
                     nota: nota,
                     numOrden: numOrden,
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    idEstatusOrden: idEstatusOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

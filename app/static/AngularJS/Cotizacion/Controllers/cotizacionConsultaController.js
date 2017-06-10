@@ -1,4 +1,4 @@
-registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, userFactory, alertFactory, globalFactory, cotizacionConsultaRepository) {
+registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, $routeParams, userFactory, alertFactory, globalFactory, cotizacionConsultaRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -15,6 +15,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.ZonasSeleccionadas = [];
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+    $scope.estatusDashboard = 0;
 
     $scope.cotizaciones = [];
 
@@ -22,6 +23,11 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         //para obtener las zonas promero se inicializa la primer zona padre.
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
+        $scope.estatusDashboard = $routeParams.e;
+        if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
+          $scope.filtroEstatus = $scope.estatusDashboard;
+          $scope.consultaCotizacionesFiltros();
+        }
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.

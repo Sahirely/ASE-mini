@@ -28,7 +28,7 @@ Detalle.prototype.get_cambiarStatusOrden = function(req, res, next){
             {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
             {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
         ];
-    
+
     this.model.query('UPD_ESTATUS_ORDEN_SERVICIO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -42,7 +42,7 @@ Detalle.prototype.get_validaTerminoTrabajo = function(req, res, next){
     var params = [
             {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
         ];
-    
+
     this.model.query('SEL_VALIDA_TERMINO_TRABAJO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -57,7 +57,7 @@ Detalle.prototype.get_validaToken = function(req, res, next){
             {name: 'Token', value: req.query.Token, type: self.model.types.STRING},
             {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
         ];
-    
+
     this.model.query('SEL_VALIDA_TOKEN_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -72,7 +72,7 @@ Detalle.prototype.get_rechazaTrabajo = function(req, res, next){
             {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
             {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
         ];
-    
+
     this.model.query('UPD_RECHAZA_TRABAJO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -86,7 +86,7 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
     var self = this;
     // console.log( req );
 
-    // Subir Archivos    
+    // Subir Archivos
     var lf = new Load_Files();
     lf.options({ // Type Options: * / img / xml / pdf / docs / xls
                     "file_1": {"Name":"factura1","Path": "xml", "Type": "xml"},
@@ -170,7 +170,7 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                                                         self.view.expositor(res, {
                                                           error: false,
                                                           result: {success: true, res: {"return":{
-                                                            "codigo":1, 
+                                                            "codigo":1,
                                                             "mensaje": "Esta dentro del rango",
                                                             "Total cotizacion": totalCotizacion,
                                                             "Total factura": Total
@@ -178,13 +178,13 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                                                       });
                                                     });
 
-                                                    
+
                                                 }
                                                 else{
                                                     self.view.expositor(res, {
                                                         error: false,
                                                         result: {success: true, res: {"return":{
-                                                          "codigo":0, 
+                                                          "codigo":0,
                                                           "mensaje": "El monto de la factura no coincide con el de la cotización",
                                                           "Total cotizacion": totalCotizacion,
                                                           "Total factura": Total
@@ -192,13 +192,13 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                                                     });
                                                 }
                                             }
-                                        });                        
+                                        });
                                     }
                                 });
                             }
                         });
                     }
-                }); 
+                });
             }
         });
     });
@@ -224,7 +224,7 @@ Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
         //     self.model.query('INS_FACTURA_SP',params, function (error, result) {
         //         console.log( error );
         //     });
-                
+
         // });
         console.log( 'se suben los archivos' );
         self.view.expositor(res, {
@@ -261,6 +261,10 @@ Detalle.prototype.get_insertaNota = function(req, res, next){
       },{
         name: 'idUsuario',
         value: req.query.idUsuario,
+        type: self.model.types.INT
+      },{
+        name: 'idEstatusOrden',
+        value: req.query.idEstatusOrden,
         type: self.model.types.INT
       }];
 
@@ -355,7 +359,7 @@ var self = this;
         value: req.query.idCatalogoDocumento,
         type: self.model.types.INT
       }];
-      
+
       this.model.queryAllRecordSet('SEL_VALIDA_DOCUMENTO_SP',params, function (error, result) {
           self.view.expositor(res, {
               error: error,
@@ -370,7 +374,7 @@ Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
     //console.log(req.query.myJson)
     console.log(JSON.stringify(req.query.myJson));
     //result: 'regresa respuesta desde get_guardaReporteConformidad'
-    
+
     var http = require('http'),
         fs = require('fs');
     var filename = "Recibo_Comprobante";//guid();
@@ -405,7 +409,7 @@ Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
         error: null,
         result: filename
     });
-    
+
 }
 
 //Inserta nueva Accion

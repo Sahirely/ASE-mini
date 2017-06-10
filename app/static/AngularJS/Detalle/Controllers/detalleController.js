@@ -191,7 +191,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.enviaNota = function() {
         $scope.notaTrabajo = [];
         var Nota = $scope.textoNota == '' ? null : $scope.textoNota;
-        detalleRepository.insNota(Nota, $scope.numeroOrden, $scope.userData.idUsuario).then(function(result) {
+        detalleRepository.insNota(Nota, $scope.numeroOrden, $scope.userData.idUsuario, $scope.idEstatusOrden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.notaTrabajo = result.data;
             }
