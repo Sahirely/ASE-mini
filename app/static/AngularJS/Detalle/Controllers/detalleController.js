@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -175,8 +175,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
         if ($scope.cotizaciones != null || $scope.cotizaciones != undefined) {
             $scope.cotizaciones.forEach(function(item) {
                 item.detalle.forEach(function(itemDetail) {
-                    $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costo;
-                    $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.venta;
+                    $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costoTotal;
+                    $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.ventaTotal;
                 });
             });
             console.log($scope.totalSumaCosto);
@@ -254,7 +254,8 @@ registrationModule.controller('detalleController', function($scope, $location, u
         if (haveBalance == true) {
             $scope.UpdatePartidaStatus();
         } else {
-            alertFactory.error('Saldo insuficiente');
+            $('.modal-dialog').css('width', '1050px');
+            modal_saldos($scope, $modal, $scope.saldos, '', '');
         }
 
     };
@@ -267,7 +268,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
 
         $scope.cotizaciones[0].detalle.forEach(function(item) {
             if (item.btnStep != 0 && item.btnDisabled == false) {
-                sumOperacion += item.venta;
+                  sumOperacion += item.ventaTotal;
             }
         });
 
@@ -282,7 +283,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
     };
 
     $scope.UpdatePartidaStatus = function() {
-    
+
         $scope.cotizaciones[0].detalle.forEach(function(item) {
 
             if (item.btnDisabled == false && item.selOption > 1) {
@@ -310,7 +311,7 @@ registrationModule.controller('detalleController', function($scope, $location, u
         }, 1000);
 
 
-    };      
+    };
 
 
     $scope.UpdateCotizacionStatus = function(idCotizacion, idUsuario) {

@@ -293,32 +293,32 @@
                                                                 <td>{{partida.descripcion}}</td>
                                                                 <td>{{partida.foto}}</td>
                                                                 <td>{{partida.instructivo}}</td>
-                                                                <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
-                                                                <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
+                                                                <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
+                                                                <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
                                                                 <td ng-show="estatus == 4" style="width:100px;">
-                                                                    
+
                                                                     <br>
-                                                                    <input type="radio" 
+                                                                    <input type="radio"
                                                                     ng-init="partida.btnDisabled=true;
                                                                              partida.selOption=1;
-                                                                             initApproveButtons(partida);" 
+                                                                             initApproveButtons(partida);"
                                                                     ng-disabled="partida.btnDisabled"
-                                                                    ng-model="partida.selOption" 
+                                                                    ng-model="partida.selOption"
                                                                     value="2" > Aprovado
                                                                     <br>
 
-                                                                    <input type="radio" 
+                                                                    <input type="radio"
                                                                     ng-model="partida.selOption"
-                                                                    ng-disabled="partida.btnDisabled" 
+                                                                    ng-disabled="partida.btnDisabled"
                                                                     value="3" > Rechazado
 
                                                                     <br>
-                                                                    <input type="radio" 
-                                                                    ng-model="partida.selOption" 
-                                                                    ng-disabled="partida.btnDisabled"          
+                                                                    <input type="radio"
+                                                                    ng-model="partida.selOption"
+                                                                    ng-disabled="partida.btnDisabled"
                                                                     value="1"
-                                                                    ng-hide="true"> 
-                                                                    
+                                                                    ng-hide="true">
+
                                                                 </td>
                                                             </tr>
                                                         </tbody>

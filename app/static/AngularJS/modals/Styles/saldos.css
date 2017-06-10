@@ -1,0 +1,49 @@
+.modal-title {
+    text-align: center;
+}
+
+.modal-icon {
+    font-size: 83px;
+    color: #e04848;
+}
+
+.btn{
+   background-color: #e04848;
+   color: #fdfdfd;
+}
+
+.text-label{
+  font-size: 20px;
+  color: #676a6c;
+  font-weight: bold;
+}
+
+.text-info{
+  font-size: 20px;
+  color: #e04848;
+  /*font-weight: bold;*/
+}
+
+.modal-header {
+    background-color: #e04848;
+}
+
+.modal-title {
+    color: #fdfdfd;
+    font-size: 20px;
+}
+
+.close {
+    opacity: 1;
+    color: #e2e3e3;
+}
+
+.modal-body {
+    padding: 5px 30px 10px 30px;
+}
+
+.modal-header .close {
+    margin-top: -20px;
+    margin-right: -10px;
+    font-size: 30px;
+}

@@ -21,6 +21,7 @@ function modal_tiket($scope, $modal, idAprobacionUtilidad, origen, callback, err
     });
 }
 
+
 function modal_detalle_cotizacion($scope, $modal, idTrabajo, origen, utilidad, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/cotizacionDetalle.html',
@@ -69,6 +70,28 @@ function modal_respuesta_busqueda($scope, $modal, tipobusqueda, respuesta, callb
         }
     });
 };
+
+function modal_saldos($scope, $modal, saldos, callback, error){
+  var modalInstance = $modal.open({
+    templateUrl: '../AngularJS/modals/Template/saldos.html',
+    controller: 'saldos_controller',
+    backdrop: 'static',
+    size: 500,
+    resolve: {
+        saldos: function(){
+          return saldos
+        },
+        callback: function() {
+            return callback;
+        },
+        error: function() {
+            return error;
+        }
+    }
+  });
+
+};
+
 
 function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error) {
     var modalInstance = $modal.open({

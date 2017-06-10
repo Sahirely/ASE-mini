@@ -1,0 +1,28 @@
+<link rel="stylesheet" href="AngularJS/modals/Styles/saldos.css">
+<div class="modal-header barra_popup" ng-init="init()">
+    <div class="modal-title">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
+        <h4 class="modal-title">Saldo insuficiente.</h4>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="text-center  m-b-lg m-t-sm">
+            <i class="fa fa-warning modal-icon"></i>
+        </div>
+        <form role="form">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <label class="text-label">Presupuesto: <span class="text-info">{{presupuesto | currency}}</span></label>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <label class="text-label">Saldo Disponible: <span class="text-info">{{saldoDisponible | currency}}</span></label>
+            </div>
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <label class="text-label">Saldo Real: <span class="text-info">{{saldoReal | currency}}</span></label>
+            </div>
+            <div class="form group col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
+              <button type="button" class="btn" data-dismiss="modal" ng-click="close()">Aceptar</button>
+            </div>
+        </form>
+    </div>
+</div>
