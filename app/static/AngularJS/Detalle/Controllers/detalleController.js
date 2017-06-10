@@ -780,6 +780,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaAccion, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
                 if (result.data.length > 0) {
                     alertFactory.success('Se inserto correctamente la Acción');
+                    $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
                     $scope.comentaAccion = "";
                     $scope.fechaAccion = "";
                 }
