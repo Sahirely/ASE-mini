@@ -34,7 +34,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        postOperaciones: function(idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, formaPago, presupuesto, centros, idOperacion) {
+        postOperaciones: function(idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, formaPago, presupuesto, centros, idOperacion, idcentros) {
           
            var msgObj = {
                 idCatalogoTipoOperacion: idCatalogoTipoOperacion,
@@ -46,7 +46,8 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 formaPago: formaPago,
                 presupuesto: presupuesto,
                 centros: centros,
-                idOperacion:idOperacion
+                idOperacion:idOperacion,
+                idcentros:idcentros
             };
             return $http({
                 url: onfiguradorUrl + 'nuevaOperacion/',
@@ -85,7 +86,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo, placas) {
+        postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo, placas, idZona) {
           
            var msgObj = {
                 numeroEconomico: numeroEconomico,
@@ -95,7 +96,8 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 sustituto: sustituto,
                 idOperacion: idOperacion,
                 idCentroTrabajo: idCentroTrabajo,
-                placas: placas
+                placas: placas,
+                idZona: idZona
             };
             return $http({
                 url: onfiguradorUrl + 'nuevaUnidad/',
@@ -205,12 +207,26 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        postnumeroUnidades: function(idOperacion, unidades, numUnidades) {
+         getZonas: function(idContratoOperacion) {
+            var msgObj = {
+                idContratoOperacion: idContratoOperacion
+            };
+
+            return $http({
+                url: onfiguradorUrl + 'zonas/',
+                method: "GET",
+                params: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        postnumeroUnidades: function(idOperacion, idTipoUnidad, cantidad) {
           
            var msgObj = {
                 idOperacion: idOperacion,
-                unidades: unidades,
-                numUnidades: numUnidades
+                idTipoUnidad: idTipoUnidad,
+                cantidad: cantidad
             };
             return $http({
                 url: onfiguradorUrl + 'numeroUnidades/',

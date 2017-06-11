@@ -64,6 +64,19 @@
                 </div>
             </form>
             <form class="form-horizontal">
+                <div class="form-group" ng-repeat="zona in Zonas | orderBy:'orden'">
+                    <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">{{zona.etiqueta}}:</label>
+                    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                        <select class="form-control" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden, zona, ZonasSeleccionadas)">
+                            <option value='0'>Selecionar Zona</option>
+                            <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden -1]" value="{{z.idZona}}">
+                                {{z.nombre}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+            <form class="form-horizontal">
                 <div class="form-group">
                     <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Sustituto</label>
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">

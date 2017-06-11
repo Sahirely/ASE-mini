@@ -105,6 +105,10 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         type: self.model.types.INT
 
 
+    }, {
+        name: 'idcentros',
+        value: req.body.idcentros,
+        type: self.model.types.STRING
     }];
 
 
@@ -198,6 +202,10 @@ Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
         name: 'placas',
         value: req.body.placas,
         type: self.model.types.STRING
+    }, {
+        name: 'idZona',
+        value: req.body.idZona,
+        type: self.model.types.INT
     }];
 
 
@@ -349,6 +357,23 @@ Configurador.prototype.get_datosOperacion = function(req, res, next) {
     });
 }
 
+//zonas
+Configurador.prototype.get_zonas = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_ZONAS_OPERACIONES_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Configurador.prototype.post_numeroUnidades= function(req, res, next) {
     var object = {};
     var params = {};
@@ -359,13 +384,13 @@ Configurador.prototype.post_numeroUnidades= function(req, res, next) {
         value: req.body.idOperacion,
         type: self.model.types.INT
     }, {
-        name: 'unidades',
-        value: req.body.unidades,
-        type: self.model.types.STRING
+        name: 'idTipoUnidad',
+        value: req.body.idTipoUnidad,
+        type: self.model.types.INT
     }, {
-        name: 'numUnidades',
-        value: req.body.numUnidades,
-        type: self.model.types.STRING
+        name: 'cantidad',
+        value: req.body.cantidad,
+        type: self.model.types.INT
     }];
 
 
@@ -448,6 +473,10 @@ Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
                             name: 'placas',
                             value: worksheet['G' + row].v,
                             type: self.model.types.STRING
+                        }, {
+                            name: 'idZona',
+                            value: worksheet['H' + row].v,
+                            type: self.model.types.INT
                         }];
                       
 
@@ -534,6 +563,7 @@ Configurador.prototype.post_moduloporFechas = function(req, res, next) {
         });
      });
 }
+
 
 //devuelve los trabajos con estatus iniciados
 Configurador.prototype.post_subirArchivo = function(req, res, next){

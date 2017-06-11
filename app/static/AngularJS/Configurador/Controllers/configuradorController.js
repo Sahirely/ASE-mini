@@ -1,7 +1,6 @@
 registrationModule.controller('configuradorController', function ($scope, $route, $modal, $rootScope, userFactory, globalFactory, configuradorRepository, localStorageService, alertFactory, $window) {
 
-	
-	$scope.show_cargaUnidades=false;
+
 	$scope.contadorModulo=0;
 	$scope.contador=0;
 	$scope.adicionaleModulos=[];
@@ -158,11 +157,12 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
     $scope.centrosDeTrabajo = function (data) {
-        debugger;
-    	$scope.centros ='';
+        $scope.centros ='';
+        $scope.idCentroTrabajo ='';
     	for (var i = 0 ; i < data.length; i++) {
           if (data[i].valor!= undefined) {
           		$scope.centros+=data[i].valor+',';
+                $scope.idCentroTrabajo+=data[i].idCentroTrabajo+',';
           };
         }
     }
@@ -170,8 +170,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
    
 	$scope.guardarOperacion = function () {
         localStorageService.set('timeAsigna', $scope.asignado);
-        debugger;
-		$scope.promise = configuradorRepository.postOperaciones($scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion).then(function (result) {
+		$scope.promise = configuradorRepository.postOperaciones($scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion, $scope.idCentroTrabajo).then(function (result) {
             
             if (result.data[0].idOperacion != undefined) {
             
@@ -320,18 +319,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********UNIDAD*************/	
 
 	$scope.getTipoUnidad = function(){
-        debugger;
+        $('.dataTableLicitaciones').DataTable().destroy();
+        $scope.tiposUnidades=[];
+
         $scope.promise = configuradorRepository.getTipoUnidades($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
-                debugger;
                 $scope.tiposUnidades = result.data;
-                
-                for (var i = 0 ; i < result.data.length; i++) {
-	                if (result.data[i].cantidad !== null) {
-	                	$scope.show_cargaUnidades=true;
-	                	$scope.numeroUnidades();
-	                };
-	            };
+                 globalFactory.filtrosTabla("dataTableUnidades", "Unidades", 100);
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener los Centros de Trabajo');
@@ -339,15 +333,12 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
 	$scope.guardarUnidad = function (){
-        if ($scope.show_cargaUnidades) {
     		$scope.show_unidad=false;
     		$scope.show_modulos=true;
     		$scope.menu('modulos');
     		$scope.catalogoDeModulos('Default');
     		$scope.catalogoDeModulos('Adicional');
-        }else{
-            alertFactory.error('No cuenta con  unidades la licitación');   
-        }
+        
 	}
 
 	$scope.openLicitacion = function (){
@@ -357,14 +348,19 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	}
 
 	$scope.nuevaUnidad = function () {
-    	modal_nuevaUnidad($scope, $modal, $scope.idOperacion, $scope.presupuesto, $scope.gsp, $scope.numeroUnidades, '');
+    	modal_nuevaUnidad($scope, $modal, $scope.idOperacion, $scope.presupuesto, $scope.gsp, $scope.getTipoUnidad , $scope.idContratoOperacion);
     }
 
     $scope.verTipoUnidades = function () {
     	modal_tipoUnidad($scope, $modal, $scope.numUnidades);
     }
 
-    $scope.changeTipo = function (tipo, valor) {
+    $scope.verZonas = function () {
+        modal_zonas($scope, $modal, $scope.idContratoOperacion)
+    }
+    
+
+    /*$scope.changeTipo = function (tipo, valor) {
         debugger;
         var bandera = false;
         var indice = 0
@@ -393,22 +389,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		        $scope.unidades.push(obj);
                 $scope.contador += 1;
         }
-    }
+    }*/
 
-    $scope.guardarTipoUnidades = function () {
-        debugger;
-    	var unidades = '';
-    	var numUnidades = '';
-        for (var i = 0 ; i < $scope.unidades.length; i++) {
-            unidades += $scope.unidades[i].ID +',';
-           	numUnidades += $scope.unidades[i].valor +',';
-        };
+    $scope.guardarTipoUnidades = function (data) {
 
-        	$scope.promise = configuradorRepository.postnumeroUnidades($scope.idOperacion, unidades, numUnidades).then(function (result) {
+        	$scope.promise = configuradorRepository.postnumeroUnidades($scope.idOperacion, data.idTipoUnidad, data.cantidad).then(function (result) {
                 if (result.data.length > 0) {
-                    
-                    $scope.show_cargaUnidades=true;
-        			$scope.numeroUnidades();
+                    $scope.getTipoUnidad ();
                 }
             }, function (error) {
                 alertFactory.error('No se guardaron las unidades');
@@ -417,7 +404,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
 
-    $scope.numeroUnidades = function () {
+    /*$scope.numeroUnidades = function () {
     	$scope.promise = configuradorRepository.getunidadOperacion($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
                 
@@ -427,7 +414,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             alertFactory.error('No se guardaron las unidades');
         });
     	
-    }
+    }*/
 
     $scope.descarga_formatoExcelDeUnidades= function () {
         var url = $rootScope.vIpServer + '/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx'
@@ -608,7 +595,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
         setTimeout(function () {
         $scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
             if (result.data.length > 0) {
-                $scope.numeroUnidades();   
+               // $scope.numeroUnidades();  
+               $scope.getTipoUnidad (); 
             }
         }, function (error) {
             alertFactory.error('No se pueden obtener los Modulos');

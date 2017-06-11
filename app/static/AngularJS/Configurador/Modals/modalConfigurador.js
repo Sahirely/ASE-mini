@@ -20,7 +20,7 @@ function modal_presupuestos($scope, $modal, idOperacion, modalUnidad, callback, 
         }
     });
 }
-function modal_nuevaUnidad($scope, $modal, idOperacion, presupuesto, gps, callback, error) {
+function modal_nuevaUnidad($scope, $modal, idOperacion, presupuesto, gps, callback, idContratoOperacion) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/Configurador/Templates/nuevaUnidad.html',
         controller: 'nuevaUnidadController',
@@ -39,8 +39,8 @@ function modal_nuevaUnidad($scope, $modal, idOperacion, presupuesto, gps, callba
             callback: function() {
                 return callback;
             },
-            error: function() {
-                return error;
+            idContratoOperacion: function() {
+                return idContratoOperacion;
             }
         }
     });
@@ -78,6 +78,20 @@ function modal_tipoUnidad($scope, $modal, data) {
         resolve: {
             data: function() {
                 return data;
+            }
+        }
+    });
+}
+
+function modal_zonas($scope, $modal, idContratoOperacion) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/Configurador/Templates/zonas.html',
+        controller: 'zonasController',
+        backdrop: 'static',
+        size: 300,
+        resolve: {
+            idContratoOperacion: function() {
+                return idContratoOperacion;
             }
         }
     });

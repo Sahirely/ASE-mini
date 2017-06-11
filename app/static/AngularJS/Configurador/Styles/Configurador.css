@@ -41,14 +41,14 @@
 	cursor:pointer;
 }
 
-#licitaciones .dataTables_wrapper, #licitaciones .dataTables_length label{
+#licitaciones .dataTables_wrapper, #licitaciones .dataTables_length label, #unidades .dataTables_wrapper, #unidades .dataTables_length label{
 	margin-left: 50px !important;
 }
 
-#licitaciones .html5buttons, #licitaciones .dataTables_filter{
+#licitaciones .html5buttons, #licitaciones .dataTables_filter, #unidades .html5buttons, #unidades .dataTables_filter{
 	margin-right: 50px !important;
 }
 
-#licitaciones .pagination{
+#licitaciones .pagination, #unidades .pagination{
 	width: 250px!important;
 }

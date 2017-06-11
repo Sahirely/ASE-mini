@@ -341,56 +341,42 @@
                                     </div>
 
                                     <!--UNIDAD-->
-                                    <div id="clienteFormulario" ng-model="clienteFormulario" class="section_configurador col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_unidad">
+                                    <div id="unidades" ng-model="unidades" class="section_configurador col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_unidad">
+                                       
 
-                                         
-                                        <form class="form-horizontal">
-                                            <div class="form-group">
-                                                <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label titleBlue">Tipo de Unidades</strong>
-                                                
-                                            </div>
-                                        </form>
+                                        <table class="table table-striped table-bordered table-hover dataTableUnidades" >
+                                            <thead>
+                                                <th>Unidad</th>
+                                                <th>Marca</th>
+                                                <th>SubMarca</th>
+                                                <th>Año</th>
+                                                <th>Version</th>
+                                                <th>Cantidad</th>
+                                                <th>Registros</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="tipos in tiposUnidades">
+                                                    <td>{{tipos.tipo}}</td>
+                                                    <td>{{tipos.marca}}</td>
+                                                    <td>{{tipos.subMarca}}</td>
+                                                    <td>{{tipos.anio}}</td>
+                                                    <td>{{tipos.version}}</td>
+                                                    <td>
+                                                        <input type="numeric" class="form-control" value="'tres'" ng-model="tipos.cantidad" ng-change="guardarTipoUnidades(tipos)">
+                                                    </td>
+                                                    <td>{{tipos.registros}}</td>
 
-                                        <form class="form-horizontal" ng-repeat="tipos in tiposUnidades">
-                                            <div class="form-group">
-                                                <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">{{tipos.unidad}}</label>
-                                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                                    <input type="text" class="form-control" value="'tres'" ng-model="tipos.cantidad" ng-change="changeTipo(tipos, tipos.cantidad)" ng-disabled="!operacioActiva"><!-- {{tipos.cantidad}} -->
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <div class="space"></div>
-
-                                         <div class="footer_btn row col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                                            <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarTipoUnidades()">
-                                                <strong> Guardar</strong>
-                                            </button>  
-                                            <!--<button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="actualizarTipoUnidades()" ng-show="show_cargaUnidades">
-                                                <strong> Actulizar</strong>
-                                            </button>  -->
-                                        </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                         <div class="space"></div>
                                         <div class="space"></div>
                                         </br>
-                                        </br> 
-                                        <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        </br>
+                                        
+                                         <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
                                             <form class="form-horizontal">
-                                                <div class="form-group">
-                                                    <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleBlue">Unidades Cargadas</strong>
-                                                    
-                                                </div>
-                                            </form>
-
-                                            <form class="form-horizontal" ng-repeat="unidades in numUnidades" ng-show="show_cargaUnidades">
-                                                <div class="form-group">
-                                                    <strong for="checkbo1" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">{{unidades.unidad}} : </strong>
-                                                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2">{{unidades.registros}} / {{unidades.cantidad}}</label>
-                                                </div>
-                                            </form> 
-                                            <div class="space"></div>
-
-                                            <form class="form-horizontal" ng-repeat="unidades in numUnidades" ng-show="show_cargaUnidades">
                                                 <div class="form-group">
                                                     <div  ng-show="show_linkPresupuesto==true" class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                                         <a href="#"  ng-click="presupuestos(1)">  Ver Centros de Trabajo</a>
@@ -398,18 +384,18 @@
                                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
                                                         <a href="#"  ng-click="verTipoUnidades()"> Ver Tipo Unidades </a>
                                                     </div>
+
+                                                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                                        <a href="#"  ng-click="verZonas()"> Ver Zonas </a>
+                                                    </div>
                                                 </div>
                                             </form> 
-                                            <div class="space"></div>
-                                            <div class="space"></div>
-                                            </br>
-                                            </br>
+                                            
                                         </div>
+                                        <div class="space"></div>
+                                        <div class="space"></div> 
                                         
-
-                                          
-                                        
-                                        <div class="footer_btn row col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_cargaUnidades" >
+                                        <div class="footer_btn row col-xs-12 col-sm-12 col-md-12 col-lg-12" >
                                             <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
                                                 <button type="button" class="btn btn-success  m-t-n-xs" ng-click="nuevaUnidad()">
                                                     <span class="glyphicon glyphicon-plus"></span>
@@ -422,37 +408,13 @@
                                                     <strong> Formato Excel de Unidades</strong>
                                                 </button>
                                             </div>
-                                       <!-- <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                                <button type="button" class="btn btn-info m-t-n-xs"  ng-click="carga_formatoExcelDeUnidades()">
-                                                    <span class="glyphicon glyphicon-open"></span>
-                                                    <strong> Carga Excel de Unidades</strong>
-                                                </button>
-                                            </div> -->
-                                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                                    <!-- <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">     
-                                                        <label>Cargar Archivo de Unidades Excel </label> <input type="file" name="myFile2" id="myFile2">
-                                                        <br>
-                                                        <button id="myButton" busy="Buscando.." type="submit" class="btn btn-warning" name="submit" ng-click="uploadExcelUnidades()"><span>Cargar Archivo</span></button>
-                                                    </form> -->
-                                                    <button class="btn btn-info btn-block" ng-click="adjuntarEvidencia()">Cargar Archivo Excel</button>
-<!--                                                     <script type="text/javascript">
-                                                        var form = document.forms.namedItem("myForm");
-                                                        form.addEventListener('submit', function( ev ){
-                                                            var oData = new FormData( form );
-                                                            var oReq = new XMLHttpRequest();
-                                                            oReq.open( 'post', "api/configurador/subirArchivo", true );
-                                                            oReq.onload = function( oEvent ){
-                                                                //console.log( oReq.status );
-                                                            }
-                                                            oReq.send( oData );
-                                                            ev.preventDefault();
-                                                        }, false);
-                                                    </script> -->
-                                                </div>
-                                                <div class="space"></div>
-                                                <div class="space"></div>
-                                                </br>
-                                                </br>
+                                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                                <button class="btn btn-info btn-block" ng-click="adjuntarEvidencia()">Cargar Archivo Excel</button>
+                                            </div>
+                                            <div class="space"></div>
+                                            <div class="space"></div>
+                                            </br>
+                                            </br>
                                         </div>
                                         <div class="footer_btn ">
                                             <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarUnidad()">

@@ -1,7 +1,7 @@
 <div class="modal-header barra_popup" ng-init="init()">
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
-        <h4 class="modal-title">Tipo Unidades</h4>
+        <h4 class="modal-title">Zonas</h4>
         
     </div>
 </div>
@@ -11,13 +11,13 @@
 
             <table class="table table-striped table-bordered table-hover">
                 <thead>
-                    <th>Tipo Unidad</th>
+                    <th>Zona</th>
                     <th>Descripción</th>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="tipo in tipoUnidades">
-                        <td>{{tipo.idTipoUnidad}}</td>
-                        <td>{{tipo.tipo}} {{tipo.marca}} {{tipo.subMarca}} {{tipo.anio}} {{tipo.version}} </td>
+                    <tr ng-repeat="zona in zonas">
+                        <td>{{zona.idTipoUnidad}}</td>
+                        <td>{{zona.unidad}}</td>
 
                     </tr>
                 </tbody>

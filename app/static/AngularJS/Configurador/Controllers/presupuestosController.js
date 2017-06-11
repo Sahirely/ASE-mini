@@ -5,7 +5,7 @@ registrationModule.controller('presupuestosController', function ($scope, $modal
 	$scope.modalPlus = modalUnidad;
 
 	$scope.init = function (){
-		 $scope.plusCentro ();
+		 
 		 $scope.recuperaCentros();
 	};
 
@@ -15,10 +15,10 @@ registrationModule.controller('presupuestosController', function ($scope, $modal
 
     $scope.plusCentro = function (){
       	var obj=new Object();
-        obj=new Object();
         obj.ID= $scope.numCentros;
         obj.num= $scope.numCentros + 1;
         obj.valor='';
+        obj.idCentroTrabajo='';
         $scope.models.push(obj);
 
         $scope.numCentros += 1;
@@ -29,7 +29,19 @@ registrationModule.controller('presupuestosController', function ($scope, $modal
         $scope.promise = configuradorRepository.getCentrosDeTrabajo(idOperacion).then(function (result) {
         	debugger;
             if (result.data.length > 0) {
-                $scope.centrosDeTrabajo = result.data;
+            	for (var i = 0 ; i < result.data.length; i++) {
+            		var obj=new Object();
+				        obj.ID= $scope.numCentros;
+				        obj.num= $scope.numCentros + 1;
+				        obj.valor=result.data[i].nombreCentroTrabajo;
+				        obj.idCentroTrabajo=result.data[i].idCentroTrabajo;
+				        $scope.models.push(obj);
+
+				        $scope.numCentros += 1;
+            	};
+                //$scope.centrosDeTrabajo = result.data;
+            }else{
+            	$scope.plusCentro ();
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener los Centros de Trabajo');
