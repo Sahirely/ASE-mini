@@ -10,6 +10,8 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
 
     $scope.idOperacion           = $scope.userData.idOperacion;
     $scope.idUsuario             = $scope.userData.idUsuario;
+    $scope.idRol                 = $scope.userData.idRol;
+    // $scope.idRol                 = 4;
     $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
 
     // $scope.idOperacion           = 2;
@@ -25,6 +27,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.Zonas                 = [];
 
     $scope.init = function() {
+        console.log( "=======[" + $scope.userData.idRol + "]=======" );
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
@@ -43,13 +46,16 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.totalCitas       = 0;
         $scope.totalHorasCitas  = 0;
         $scope.totalMontoCitas  = 0;
+        $scope.totalCostoCitas  = 0;
 
         dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected ).then(function(datos) {
-            var Resultados = datos.data;
+            var Resultados = datos.data;           
+
             Resultados.forEach(function(item, key) {
                 $scope.totalCitas       = $scope.totalCitas + parseInt( item.total );
                 $scope.totalHorasCitas  = $scope.totalHorasCitas + parseInt( item.promedio );
                 $scope.totalMontoCitas  = $scope.totalMontoCitas + parseInt( item.Monto );
+                $scope.totalCostoCitas  = $scope.totalCostoCitas + parseInt( item.MontoCosto );
             });
 
             $scope.citas = Resultados;
@@ -60,12 +66,23 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 // console.log( 'Los datos de la grafica estan en 0' );
             }   
             else{
+                if( $scope.idRol == 4 ){
+                    var v1 = $scope.addCommas(Resultados[0].MontoCosto);
+                    var v2 = $scope.addCommas(Resultados[1].MontoCosto);
+                    var v3 = $scope.addCommas(Resultados[2].MontoCosto);
+                }
+                else{
+                    var v1 = $scope.addCommas(Resultados[0].Monto);
+                    var v2 = $scope.addCommas(Resultados[1].Monto);
+                    var v3 = $scope.addCommas(Resultados[2].Monto);
+                }
+
                 Morris.Donut({
                     element: 'morris-donut-citas',
                     data: [
-                        {label: Resultados[0].estatus + " \n $" + $scope.addCommas(Resultados[0].Monto), value: Resultados[0].total },
-                        {label: Resultados[1].estatus + " \n $" + $scope.addCommas(Resultados[1].Monto), value: Resultados[1].total }, 
-                        {label: Resultados[2].estatus + " \n $" + $scope.addCommas(Resultados[2].Monto), value: Resultados[2].total }
+                        {label: Resultados[0].estatus + " \n $" + v1, value: Resultados[0].total },
+                        {label: Resultados[1].estatus + " \n $" + v2, value: Resultados[1].total }, 
+                        {label: Resultados[2].estatus + " \n $" + v3, value: Resultados[2].total }
                     ],
                     resize: true,
                     colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
@@ -89,14 +106,20 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.totalCotizaciones        = 0;
             $scope.totalHorasCotizaciones   = 0;
             $scope.totalMontoCotizaciones   = 0;
+            $scope.totalCostoCotizaciones   = 0;
 
             $scope.cotizaciones.forEach( function( item, key ){
-                valuesDonut.push( { label: item.estatus + "\n$" + $scope.addCommas(item.Monto), value: item.total, idEstatus: item.idEstatus } );
+                item.Monto = ( item.Monto === null ) ? 0 : item.Monto;
+
+                var v = ( $scope.idRol == 4 ) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
+
+                valuesDonut.push( { label: item.estatus + "\n$" + v, value: item.total, idEstatus: item.idEstatus } );
                 colores.push( item.color );
 
                 $scope.totalCotizaciones       = $scope.totalCotizaciones + parseInt( item.total );
                 $scope.totalHorasCotizaciones  = $scope.totalHorasCotizaciones + parseInt( item.promedio );
                 $scope.totalMontoCotizaciones  = $scope.totalMontoCotizaciones + parseInt( item.Monto );
+                $scope.totalCostoCotizaciones  = $scope.totalCostoCotizaciones + parseInt( item.MontoCosto );
             });
 
             $('#morris-donut-cotizaciones').empty();
@@ -126,12 +149,13 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.totalOrdenes               = 0;
             $scope.totalHorasOrdenesServicio  = 0;
             $scope.totalMontoOrdenesServicio  = 0;
-
+            $scope.totalCostoOrdenesServicio  = 0;
             
             Resultados.forEach(function(item, key) {
                 $scope.totalOrdenes              = $scope.totalOrdenes + parseInt( item.total );
                 $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt( item.promedio );
                 $scope.totalMontoOrdenesServicio = $scope.totalMontoOrdenesServicio + parseInt( item.Monto );
+                $scope.totalCostoOrdenesServicio = $scope.totalCostoOrdenesServicio + parseInt( item.MontoCosto );
             });
 
             $scope.ordenesServicio = Resultados;
@@ -142,12 +166,23 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 // console.log( 'Los datos de la grafica estan en 0' );
             }   
             else{
+                if( $scope.idRol == 4 ){
+                    var v1 = $scope.addCommas(Resultados[0].MontoCosto);
+                    var v2 = $scope.addCommas(Resultados[1].MontoCosto);
+                    var v3 = $scope.addCommas(Resultados[2].MontoCosto);
+                }
+                else{
+                    var v1 = $scope.addCommas(Resultados[0].Monto);
+                    var v2 = $scope.addCommas(Resultados[1].Monto);
+                    var v3 = $scope.addCommas(Resultados[2].Monto);
+                }
+
                 Morris.Donut({
                     element: 'morris-donut-ordenes',
                     data: [
-                        {label: Resultados[0].estatus + "\n$" + $scope.addCommas(Resultados[0].Monto), value: Resultados[0].total, id: Resultados[0].id },
-                        {label: Resultados[1].estatus + "\n$" + $scope.addCommas(Resultados[1].Monto), value: Resultados[1].total, id: Resultados[1].id }, 
-                        {label: Resultados[2].estatus + "\n$" + $scope.addCommas(Resultados[2].Monto), value: Resultados[2].total, id: Resultados[2].id }
+                        {label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
+                        {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id }, 
+                        {label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
                     ],
                     resize: true,
                     colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
@@ -171,14 +206,17 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.totalOrdenesPorCobrar      = 0;
             $scope.totalHorasOrdenesCobrar    = 0;
             $scope.totalMontoOrdenesCobrar    = 0;
+            $scope.totalCostoOrdenesCobrar    = 0;
 
             Resultados.forEach(function(item, key) {
-                valuesDonut.push( { label: item.estatus + "\n$" + $scope.addCommas(item.Monto), value: item.total } );
+                var v = ( $scope.idRol == 4 ) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
+                valuesDonut.push( { label: item.estatus + "\n$" + v, value: item.total } );
                 colores.push( item.color );
 
                 $scope.totalOrdenesPorCobrar    = $scope.totalOrdenesPorCobrar + parseInt( item.total );
                 $scope.totalHorasOrdenesCobrar  = $scope.totalHorasOrdenesCobrar + parseInt( item.promedio );
                 $scope.totalMontoOrdenesCobrar  = $scope.totalMontoOrdenesCobrar + parseInt( item.Monto );
+                $scope.totalCostoOrdenesCobrar  = $scope.totalCostoOrdenesCobrar + parseInt( item.MontoCosto );
             });
 
             $scope.ordenesCobrar = Resultados;
