@@ -738,7 +738,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 var rutaCorrecta = ruta.substring(11)
                 console.log(rutaCorrecta)
                 var urlevidencia = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/evidencia/' + $scope.respuesta.res[0].nombre;
-                consultaCitasRepository.agregarEvidencias($scope.respuesta.res[0].nombre, '', rutaCorrecta, $scope.numeroOrden).then(function(result) {
+                consultaCitasRepository.agregarEvidencias($scope.respuesta.res[0].nombre, '', urlevidencia, $scope.numeroOrden).then(function(result) {
                     if (result.data[0].length > 0) {} else {
                         location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
                         alertFactory.success('Se guardo con exito evidencia');
