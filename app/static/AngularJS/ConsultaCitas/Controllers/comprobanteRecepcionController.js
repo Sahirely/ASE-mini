@@ -1,8 +1,10 @@
-registrationModule.controller('comprobanteRecepcionController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
+registrationModule.controller('comprobanteRecepcionController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository, userFactory) {
     $scope.numeroOrden = $routeParams.orden;
     $scope.validateAprobacion = true;
 
     $scope.init = function() {
+        userFactory.ValidaSesion();
+        $scope.userData = userFactory.getUserData();
         $scope.getdatosComprobante(1)
         $scope.getOrdenDetalle(1, $scope.numeroOrden)
     };
@@ -92,7 +94,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         $scope.numeroComprobanteRecepcion = 0;
         $scope.class_buttonRecepcion = 'fa fa-spinner fa-spin';
         angular.forEach(obj, function(value, key) {
-            consultaCitasRepository.agregarModuloComprobante(value.idCatalogoModuloComprobante, $scope.numeroOrden).then(function(result) {
+            consultaCitasRepository.agregarModuloComprobante(value.idCatalogoModuloComprobante, $scope.numeroOrden, $scope.userData.idUsuario).then(function(result) {
                 $scope.moduloComprobante = result.data[0].idModuloComprobante;
                 if (result.data[0].idModuloComprobante > 0) {
                     $scope.idModuloComprobante = result.data[0].idModuloComprobante;
@@ -101,18 +103,29 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         consultaCitasRepository.agregarDetalleModuloComprobante(value2.select, value2.idCatalogoDetalleModuloComprobante, $scope.idModuloComprobante, value2.selectTxt).then(function(result) {
                             $scope.numeroComprobanteRecepcion = $scope.numeroComprobanteRecepcion + 1;
                                 if($scope.numeroComprobanteRecepcion == 1){
-                                  $scope.comprobanteRecepcion();  
-                                }    
+                                  $scope.comprobanteRecepcion();
+                                  $scope.estatusRecepcion($scope.userData.idUsuario, $scope.idOrdenMaestro);
+                                }
                             if (result.data[0].idDetalleModuloComprobante > 0) {
 
                             }
                         });
                     });
                 }
-            });    
+            });
             setTimeout(function () {
               location.href = '/detalle?orden=' + $scope.numeroOrden +'&estatus='+3;
-             }, 10000); 
+             }, 10000);
+        });
+    }
+
+    $scope.estatusRecepcion = function(idUsuario, idOrden) {
+        consultaCitasRepository.estatusOrdenRecepcion(idUsuario, idOrden).then(function(result) {
+            if (result.data.length > 0) {
+
+            }
+        }, function(error) {
+            alertFactory.error('No se puede obtener los detalles de la orden');
         });
     }
 
@@ -157,7 +170,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         if(result.data[i].id == 35) var ubi_ParteIzquierdaDesc = result.data[i].descripcion;
                     }
                 var data = {
-                    "DatosUnidad": 
+                    "DatosUnidad":
                         {
                         "ext_Claxon": ext_Claxon,
                         "ext_TaponGasolina": ext_TaponGasolina,
@@ -195,25 +208,25 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         "ubi_TraseraDesc": ubi_TraseraDesc,
                         "ubi_ParteIzquierdaDesc": ubi_ParteIzquierdaDesc
                         }
-                    }   
-                }   
+                    }
+                }
                     var jsonData = {
                         "template": {
-                            "name": "ASEUnidad_rpt" 
+                            "name": "ASEUnidad_rpt"
                         },
                         "data": data
                     }
-                consultaCitasRepository.callExternalPdf(jsonData, $scope.idOrdenMaestro).then(function (result) {               
+                consultaCitasRepository.callExternalPdf(jsonData, $scope.idOrdenMaestro).then(function (result) {
                     setTimeout(function () {
                           var url = $rootScope.docServer + result.data;
                           var a = document.createElement('a');
                           a.href = url;
                           a.download = 'ComprobanteRecepcion';
                           a.click();
-                          $scope.$apply( function () { 
+                          $scope.$apply( function () {
                                 $scope.class_buttonRecepcion = 'glyphicon glyphicon-ok';
                           });
-                     }, 5000);                          
+                     }, 5000);
                 });
             });
         }

@@ -201,6 +201,10 @@ OrdenServicio.prototype.post_agregarModuloComprobante = function(req, res, next)
         name: 'numeroOrden',
         value: req.body.numeroOrden,
         type: self.model.types.STRING
+    },{
+        name: 'idUsuario',
+        value: req.body.idUsuario,
+        type: self.model.types.INT
     }];
 
     this.model.post('INS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
@@ -500,6 +504,30 @@ OrdenServicio.prototype.get_getCitizacionDetalle = function(req, res, next) {
             error: error,
             result: result
         });
+    });
+}
+
+OrdenServicio.prototype.post_estatusRecepcion = function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    var self = this;
+
+    var params = [{
+        name: 'idUsuario',
+        value: req.body.idUsuario,
+        type: self.model.types.INT
+    },{
+        name: 'idOrden',
+        value: req.body.idOrden,
+        type: self.model.types.INT
+    }];
+
+    this.model.post('UPD_ESTATUS_RECEPCION_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
     });
 }
 

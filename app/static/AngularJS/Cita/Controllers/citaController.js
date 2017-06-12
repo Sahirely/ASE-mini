@@ -1,7 +1,7 @@
 registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository, consultaCitasRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
-    //*****************************************************************************************************************// 
+    //*****************************************************************************************************************//
     $scope.mostrarTabla = false;
     $scope.muestraBtnPreOrden = false;
     $scope.idTaller = 0;
@@ -24,6 +24,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.NivelesZona = [];
     $scope.Zonas = [];
     $scope.init = function() {
+        userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
@@ -74,7 +75,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
 
     //*****************************************************************************************************************************//
     // Obtiene el detalle de la unidad como marca, modelo, etc
-    // Cuando $scope.detalleUnidad.situacionOrden = 1 <-- Significa que la unidad tiene una Orden de Servicio en proceso    
+    // Cuando $scope.detalleUnidad.situacionOrden = 1 <-- Significa que la unidad tiene una Orden de Servicio en proceso
     //                                                    por lo tanto no se puede crear una nueva cita sin embargo si podrá
     //                                                    modificar los datos de la Orden de Servicio
     //        $scope.detalleUnidad.situacionOrden = 0 <-- Significa que la unidad no tiene una Orden de Servicio en proceso
@@ -177,7 +178,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         $scope.labelItems = partidas.length;
     };
     //*****************************************************************************************************************************//
-    // Se inserta la orden de servicio en la base de datos 
+    // Se inserta la orden de servicio en la base de datos
     //*****************************************************************************************************************************//
     $scope.agendarCita = function() {
         console.log($scope.tipoDeCita.idTipoCita,
@@ -255,7 +256,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
-        //Obtengo la zona seleccionada 
+        //Obtengo la zona seleccionada
         angular.forEach(zona.data, function(value, key) {
             if (value.idZona == $scope.zonaSelected) {
                 $scope.nombreZona = value.nombre;

@@ -141,10 +141,11 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        agregarModuloComprobante: function(idCatalogoModuloCOmprobante, numeroOrden) {
+        agregarModuloComprobante: function(idCatalogoModuloCOmprobante, numeroOrden, idUsuario) {
             var msgObj = {
                 idCatalogoModuloCOmprobante: idCatalogoModuloCOmprobante,
-                numeroOrden: numeroOrden
+                numeroOrden: numeroOrden,
+                idUsuario: idUsuario
             }
             return $http({
                 url: consultaCitaUrl + 'agregarModuloComprobante',
@@ -222,6 +223,19 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 method: "POST",
                 data: {
                     values: jsonData,
+                    idOrden: idOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        estatusOrdenRecepcion: function (idUsuario, idOrden) {
+            return $http({
+                url: consultaCitaUrl + 'estatusRecepcion/',
+                method: "POST",
+                data: {
+                    idUsuario: idUsuario,
                     idOrden: idOrden
                 },
                 headers: {
