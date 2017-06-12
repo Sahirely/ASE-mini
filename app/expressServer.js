@@ -57,6 +57,15 @@ var upload = multer({ storage: storage })*/
       this.expressServer = express();
 
     // middlewares
+    this.expressServer.use( function( req, res, next ){
+        // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5302');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+        res.setHeader('Access-Control-Allow-Headers', 'application/javascript,X-Requested-With,application/json,');
+        res.setHeader('Access-Control-Allow-Credentials', true);
+        next();
+    });
+
     this.expressServer.use(bodyParser.urlencoded({extended: true}))
     this.expressServer.use(bodyParser.json());
     for (var middleware in middlewares){
