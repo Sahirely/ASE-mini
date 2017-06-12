@@ -1,8 +1,11 @@
-registrationModule.controller('consultaCitasController', function($scope, $route, userFactory, $modal, $rootScope, cotizacionConsultaRepository, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
+registrationModule.controller('consultaCitasController', function($scope, $route, $routeParams, userFactory, $modal, $rootScope, cotizacionConsultaRepository, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
     $scope.citas = [];
+    $scope.filtroEstatus = '';
+    $scope.ConTallerActive = true;
+    $scope.SinTallerActive = false;
     $scope.userData = userFactory.getUserData();
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -26,6 +29,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {
+
         console.log($scope.idContratoOperacion)
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
@@ -38,7 +42,28 @@ registrationModule.controller('consultaCitasController', function($scope, $route
             autoclose: true,
             todayHighlight: true
         });
+        $scope.estatusDashboard = $routeParams.e;
+        debugger;
+        if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
+          $scope.filtroEstatus = $scope.estatusDashboard;
+          $scope.cambioFiltro();
+          $scope.consultaCotizacionesFiltros();
+        }
     };
+
+    $scope.cambioFiltro = function(){
+        if ($scope.filtroEstatus == ''){
+          $scope.ConTallerActive = true;
+          $scope.SinTallerActive = false;
+        } else if ($scope.filtroEstatus == 2){
+          $scope.ConTallerActive = true;
+          $scope.SinTallerActive = false;
+        } else if ($scope.filtroEstatus == 1){
+          $scope.ConTallerActive = false;
+          $scope.SinTallerActive = true;
+        }
+
+    }
 
     $scope.seleccionarTodo = function(obj) {
             console.log(obj)
@@ -60,11 +85,17 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         console.log(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta)
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
+          debugger;
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
                 globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
                 globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
                 //globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes");
+            }else {
+                $scope.totalOrdenes = [];
+                globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
+                globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
+                alertFactory.info('No se Encontraron Citas.');
             }
             // globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 10);
             // globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 10);

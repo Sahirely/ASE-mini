@@ -147,16 +147,16 @@
                 </div>
                 <div class="col-xs-12 col-sm-7 col-md-6 col-lg-7 radio radio-info">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                        <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus">
+                        <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
                         <label for="rdTodas"> Todos </label>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <input type="radio" value="2" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus">
-                        <label for="rdPendientes"> Nuevas Con Taller </label>
+                        <input type="radio" value="2" id="rdConTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                        <label for="rdConTaller"> Nuevas Con Taller </label>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <input type="radio" value="1" id="rdEnProceso" name="opcionEstatus" ng-model="filtroEstatus">
-                        <label for="rdEnProceso"> Nuevas Sin Taller </label>
+                        <input type="radio" value="1" id="rdSinTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                        <label for="rdSinTaller"> Nuevas Sin Taller </label>
                     </div>
                 </div>
             </div>
@@ -166,9 +166,8 @@
         <div class="row">
             <div class="panel-body">
                 <tabset>
-                    <tab heading="Citas" index="0">
+                    <tab heading="Citas" index="0" active="ConTallerActive">
                         <div class="table-responsive">
-                            <br/>
                             <br/>
                             <table class="table table-bordered table-hover dataTableOrdenes" cg-busy="{promise:promise,message:message}">
                                 <thead>
@@ -208,9 +207,8 @@
                             </table>
                         </div>
                     </tab>
-                    <tab heading="Citas Sin Taller" index="1">
+                    <tab heading="Citas Sin Taller" index="1" active="SinTallerActive">
                         <div class="table-responsive">
-                            <br/>
                             <br/>
                             <table class="table table-bordered table-hover dataTableOrdenesSinDatos">
                                 <thead>
