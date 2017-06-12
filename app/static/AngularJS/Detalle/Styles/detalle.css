@@ -358,3 +358,18 @@
 .btn_archivo_yep:hover i{
     color:#fff;
 }
+
+/*carouse*/
+.imgCarouse{
+    width: 100px;
+    height: 100px;
+}
+
+#carousel1, .itamCarousel{
+    height: 350px;
+    width: 750px;
+}
+
+.iconCarousel{
+     font-size: 70px !important;
+}
