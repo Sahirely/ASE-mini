@@ -1,4 +1,4 @@
-registrationModule.factory('globalFactory', function() {
+registrationModule.factory('globalFactory', function(commonFunctionRepository) { //LQMA 09062017
     return {
         waitDrawDocument: function(dataTable, title) {
             setTimeout(function() {
@@ -131,6 +131,15 @@ registrationModule.factory('globalFactory', function() {
                     }]
                 })
             }, 500)
+        }, //LQMA 09062017
+        sendMail: function(correoDe,correoPara,asunto,texto,bodyhtml,archivoRuta, nombreArchivo) {
+            console.log('entro a sendMail');
+            console.log('correo: ' + correoDe);
+            commonFunctionRepository.sendMail(correoDe,correoPara,asunto, texto, bodyhtml, archivoRuta, nombreArchivo).then(function(result) {
+                
+                console.log(result);
+            });
+
         }
     }
 })
