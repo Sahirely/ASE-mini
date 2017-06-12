@@ -17,6 +17,22 @@
     height: 2em;
 }
 
+#btnBuscar{
+    margin-top: 5px;
+}
+
+.fondoBlanco{
+    background: white !important;
+}
+
+.espacioInferior{
+    padding-bottom: 15px;
+}
+
+.espacioSuperior{
+    padding-top: 40px;
+}
+
 .panel {
 	border-color: #DCDCDC !important;
 }

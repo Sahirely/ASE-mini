@@ -145,18 +145,18 @@
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
                 </div>
-                <div class="col-xs-12 col-sm-7 col-md-6 col-lg-7 radio radio-warning">
+                <div class="col-xs-12 col-sm-7 col-md-6 col-lg-7 radio radio-info">
                     <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                         <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus">
                         <label for="rdTodas"> Todos </label>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <input type="radio" value="1" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus">
-                        <label for="rdPendientes"> Pendientes </label>
+                        <input type="radio" value="2" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus">
+                        <label for="rdPendientes"> Nuevas Con Taller </label>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <input type="radio" value="2" id="rdEnProceso" name="opcionEstatus" ng-model="filtroEstatus">
-                        <label for="rdEnProceso"> En Proceso </label>
+                        <input type="radio" value="1" id="rdEnProceso" name="opcionEstatus" ng-model="filtroEstatus">
+                        <label for="rdEnProceso"> Nuevas Sin Taller </label>
                     </div>
                 </div>
             </div>
@@ -188,7 +188,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '!1'} " ng-click="seleccionarOrden(ordenesTaller)">
+                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '2'} " ng-click="seleccionarOrden(ordenesTaller)">
                                         <td>{{ordenesTaller.nombreCliente}}</td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>

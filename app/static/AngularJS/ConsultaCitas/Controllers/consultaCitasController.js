@@ -141,7 +141,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
         var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-        $scope.getTotalOrdenes($scope.idContratoOperacion, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
+        debugger;
+        $scope.getTotalOrdenes($scope.idContratoOperacion, Zona, $scope.userData.idUsuario, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
     };
 
     //obtiene los usuarios ejecutivos
