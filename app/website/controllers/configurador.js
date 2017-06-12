@@ -858,6 +858,10 @@ Configurador.prototype.post_nivelMonto = function(req, res, next) {
         value: req.body.montoA,
         type: self.model.types.DECIMAL
     },{
+        name: 'montoMax',
+        value: req.body.montoMax,
+        type: self.model.types.DECIMAL
+    },{
         name: 'nivel',
         value: req.body.nivel,
         type: self.model.types.DECIMAL

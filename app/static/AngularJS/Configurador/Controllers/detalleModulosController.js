@@ -8,6 +8,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         $scope.contadorPartida = 0;
         $scope.detallesPorModulo = [];
         $scope.show_nivelesAprobacion=false;
+        $scope.disabledTipoNivel = false;
         $scope.nivelPartida = [];
 
 
@@ -51,6 +52,12 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                                                             $scope.entrega=result.data[i].tiempoEnEspera;
                                                             if(result.data[i].idEstatusOrden == 8)
                                                                 $scope.porcobrar=result.data[i].tiempoEnEspera;
+                                                                    if(result.data[i].idEstatusOrden == 11)
+                                                                         $scope.generada=result.data[i].tiempoEnEspera;
+                                                                            if(result.data[i].idEstatusOrden == 12)
+                                                                                 $scope.enviadas=result.data[i].tiempoEnEspera;
+                                                                                    if(result.data[i].idEstatusOrden == 13)
+                                                                                         $scope.abonadas=result.data[i].tiempoEnEspera;
 
                         }
                     }
@@ -89,11 +96,9 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.selAprobaciones = function(){
         //monto
-        $scope.disabledTipoNivel = false;
        $scope.promise = configuradorRepository.getInfoNivelMonto(idContratoOperacion).then(function (result) {
            
             if (result.data.length > 0) {
-               
                    $scope.niveles = [];
                    $scope.show_nivelMonto = true;
                    $scope.tipoNivel = 1;
@@ -104,6 +109,8 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     obj.numNiveles=result.data[i].nivel;
                     obj.cantidadDe=result.data[i].montoDe;
                     obj.cantidadA=result.data[i].montoA;
+                    obj.cantidadMax=result.data[i].montoMax;
+                    
                     obj.valor='';
                     
                     $scope.niveles.push(obj);
@@ -113,7 +120,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                  }   
             }else{
                 //partidas
-                    $scope.disabledTipoNivel = true;
+                    //$scope.disabledTipoNivel = true;
                     $scope.getPartidasUnidad ();
                     $scope.show_nivelPartida = true;
                     $scope.tipoNivel = 2;
@@ -162,8 +169,8 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     };
 
-     $scope.guardarNivelMonto = function (data,montoDe, montoA){
-        $scope.promise = configuradorRepository.postNivelMonto(idContratoOperacion, montoDe, montoA, data.numNiveles).then(function (result) {
+     $scope.guardarNivelMonto = function (data,montoDe, montoA, montoMax){
+        $scope.promise = configuradorRepository.postNivelMonto(idContratoOperacion, montoDe, montoA, montoMax, data.numNiveles).then(function (result) {
              
             if (result.data.length > 0) {
                 swal({
@@ -210,7 +217,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         $scope.show_nivelMonto = false;
         $scope.show_nivelPartida = false;
         $scope.numNiveles = 0;
-        $scope.disabledTipoNivel = false;
+        //$scope.disabledTipoNivel = false;
 
         if ($scope.tipoNivel == 1) {
             $scope.show_nivelMonto = true;
@@ -393,6 +400,30 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
         if($scope.banderaModulo == 7){
             if(($scope.porcobrar != undefined && $scope.porcobrar != "")){
                     $scope.promise = configuradorRepository.postFechas(idOperacion, 8, $scope.porcobrar).then(function (result) {
+                        if (result.data.length > 0) {
+
+                        }
+                    }, function (error) {
+                        alertFactory.error('No se puede guardar la fecha');
+                    });
+
+                    $scope.promise = configuradorRepository.postFechas(idOperacion, 11, $scope.generada).then(function (result) {
+                        if (result.data.length > 0) {
+
+                        }
+                    }, function (error) {
+                        alertFactory.error('No se puede guardar la fecha');
+                    });
+
+                    $scope.promise = configuradorRepository.postFechas(idOperacion, 12, $scope.enviadas).then(function (result) {
+                        if (result.data.length > 0) {
+
+                        }
+                    }, function (error) {
+                        alertFactory.error('No se puede guardar la fecha');
+                    });
+
+                    $scope.promise = configuradorRepository.postFechas(idOperacion, 13, $scope.abonadas).then(function (result) {
                         if (result.data.length > 0) {
 
                         }

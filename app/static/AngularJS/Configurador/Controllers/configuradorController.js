@@ -82,7 +82,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.gsp = result.data[0].geolocalizacion;
                 $scope.asignado = result.data[0].tiempoAsignado; 
             	$scope.estatus = result.data[0].idEstatusOperacion;
-                $scope.formaDePago = result.data[0].formaDePago;
+                $scope.formaDePago = result.data[0].formaPago;
                 $scope.btn_operacion = 'Siguiente';
             	if ($scope.estatus == 1) {
             		$scope.operacioActiva=false;
@@ -352,7 +352,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
     $scope.verTipoUnidades = function () {
-    	modal_tipoUnidad($scope, $modal, $scope.numUnidades);
+    	modal_tipoUnidad($scope, $modal, $scope.tiposUnidades);
     }
 
     $scope.verZonas = function () {

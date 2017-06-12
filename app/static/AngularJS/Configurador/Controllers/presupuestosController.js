@@ -27,7 +27,7 @@ registrationModule.controller('presupuestosController', function ($scope, $modal
 
 	$scope.recuperaCentros= function (){
         $scope.promise = configuradorRepository.getCentrosDeTrabajo(idOperacion).then(function (result) {
-        	debugger;
+        
             if (result.data.length > 0) {
             	for (var i = 0 ; i < result.data.length; i++) {
             		var obj=new Object();

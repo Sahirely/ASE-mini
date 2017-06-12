@@ -359,12 +359,13 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        postNivelMonto: function(idOperacionContrato, montoDe, montoA, nivel) {
+        postNivelMonto: function(idOperacionContrato, montoDe, montoA, montoMax, nivel) {
           
            var msgObj = {
                 idOperacionContrato: idOperacionContrato,
                 montoDe: montoDe,
                 montoA: montoA,
+                montoMax:montoMax,
                 nivel: nivel
             };
             return $http({
