@@ -1765,7 +1765,7 @@ Licensed under the BSD-2-Clause License.
         transform: "S" + text1scale + "," + text1scale + "," + (text1bbox.x + text1bbox.width / 2) + "," + (text1bbox.y + text1bbox.height)
       });
       this.text2.attr({
-        text: label2,
+        text: "\n" + label2,
         transform: ''
       });
       text2bbox = this.text2.getBBox();
