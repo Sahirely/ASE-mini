@@ -32,7 +32,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
 
-        $scope.LoadData();        
+        $scope.LoadData();
     };
 
     $scope.LoadData = function(){
@@ -49,7 +49,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.totalCostoCitas  = 0;
 
         dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected ).then(function(datos) {
-            var Resultados = datos.data;           
+            var Resultados = datos.data;
 
             Resultados.forEach(function(item, key) {
                 $scope.totalCitas       = $scope.totalCitas + parseInt( item.total );
@@ -64,7 +64,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $('#morris-donut-citas').empty();
             if( $scope.totalCitas == 0 ){
                 // console.log( 'Los datos de la grafica estan en 0' );
-            }   
+            }
             else{
                 if( $scope.idRol == 4 ){
                     var v1 = $scope.addCommas(Resultados[0].MontoCosto);
@@ -80,20 +80,21 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 Morris.Donut({
                     element: 'morris-donut-citas',
                     data: [
-                        {label: Resultados[0].estatus + " \n $" + v1, value: Resultados[0].total },
-                        {label: Resultados[1].estatus + " \n $" + v2, value: Resultados[1].total }, 
-                        {label: Resultados[2].estatus + " \n $" + v3, value: Resultados[2].total }
+                        {label: Resultados[0].estatus + " \n $" + v1, value: Resultados[0].total, idEstatus: Resultados[0].idEstatus },
+                        {label: Resultados[1].estatus + " \n $" + v2, value: Resultados[1].total, idEstatus: Resultados[1].idEstatus },
+                        {label: Resultados[2].estatus + " \n $" + v3, value: Resultados[2].total, idEstatus: Resultados[2].idEstatus }
                     ],
                     resize: true,
                     colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
                 }).on('click', function(i, row) {
-                    location.href = '/consultaCitas';
+                    if ( row.idEstatus == 1 || row.idEstatus == 2 )
+                      location.href = '/consultaCitas?e='+ row.idEstatus;
                 });
             }
 
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las citas');
-        });        
+        });
     };
 
     $scope.sumatoriaCotizaciones = function() {
@@ -125,7 +126,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $('#morris-donut-cotizaciones').empty();
             if( $scope.totalCotizaciones == 0 ){
                 // console.log( 'Los datos de la grafica estan en 0' );
-            }   
+            }
             else{
                 Morris.Donut({
                     element: 'morris-donut-cotizaciones',
@@ -136,7 +137,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                     if( row.idEstatus == 1 || row.idEstatus == 2 )
                         location.href = '/cotizacionconsulta?e=' + row.idEstatus;
                 });
-                
+
             }
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las cotizaciones');
@@ -150,7 +151,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $scope.totalHorasOrdenesServicio  = 0;
             $scope.totalMontoOrdenesServicio  = 0;
             $scope.totalCostoOrdenesServicio  = 0;
-            
+
             Resultados.forEach(function(item, key) {
                 $scope.totalOrdenes              = $scope.totalOrdenes + parseInt( item.total );
                 $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt( item.promedio );
@@ -164,7 +165,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $('#morris-donut-ordenes').empty();
             if( $scope.totalOrdenes == 0 ){
                 // console.log( 'Los datos de la grafica estan en 0' );
-            }   
+            }
             else{
                 if( $scope.idRol == 4 ){
                     var v1 = $scope.addCommas(Resultados[0].MontoCosto);
@@ -181,7 +182,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                     element: 'morris-donut-ordenes',
                     data: [
                         {label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
-                        {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id }, 
+                        {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
                         {label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
                     ],
                     resize: true,
@@ -191,7 +192,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                     location.href = '/trabajo?e=' + row.id;
                 });
             }
-            
+
         }, function(error) {
             alertFactory.error('No se pudo recuperar información de las ordenes');
         });
@@ -224,7 +225,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
             $('#morris-donut-cobrar').empty();
             if( $scope.totalOrdenesPorCobrar == 0 ){
                 // console.log( 'Los datos de la grafica estan en 0' );
-            }   
+            }
             else{
                 Morris.Donut({
                     element: 'morris-donut-cobrar',
@@ -296,5 +297,5 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
             $scope.ZonasSeleccionadas[$scope.x] = "0";
         }
-    };  
+    };
 });
