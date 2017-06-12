@@ -27,22 +27,25 @@
                         <div class="row contenedor">
                             <div class="col-sm-6 divTabla">
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Estatus</div>
                                     <div class="col-sm-2">Totales</div>
-                                    <div class="col-sm-4">Promedio hrs</div>
+                                    <div class="col-sm-2">Prom. hrs.</div>
+                                    <div class="col-sm-2">Monto</div>
                                 </div>
                                 <div class="row rowBody" ng-repeat="x in citas" style="border-bottom: solid 1px #f4f4f4;">
-                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
-                                    <div class="col-sm-4">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.Monto | number}}</div>
                                 </div>
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Total</div>
                                     <div class="col-sm-2">{{totalCitas | number}}</div>
-                                    <div class="col-sm-4">{{totalHorasCitas | number}}</div>
+                                    <div class="col-sm-2">{{totalHorasCitas | number}}</div>
+                                    <div class="col-sm-2">{{totalMontoCitas | number}}</div>
                                 </div>
                             </div>
                             <div class="donutContainer">
@@ -64,22 +67,25 @@
                         <div class="row contenedor">
                             <div class="col-sm-6 divTabla">
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Estatus</div>
                                     <div class="col-sm-2">Totales</div>
-                                    <div class="col-sm-4">Promedio hrs</div>
+                                    <div class="col-sm-2">Prom. hrs.</div>
+                                    <div class="col-sm-2">Monto</div>
                                 </div>
                                 <div class="row rowBody" ng-repeat="x in cotizaciones" style="border-bottom: solid 1px #f4f4f4;">
-                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
-                                    <div class="col-sm-4">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.Monto | number}}</div>
                                 </div>
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Total</div>
                                     <div class="col-sm-2">{{totalCotizaciones | number}}</div>
-                                    <div class="col-sm-4">{{totalHorasCotizaciones | number}}</div>
+                                    <div class="col-sm-2">{{totalHorasCotizaciones | number}}</div>
+                                    <div class="col-sm-2">{{totalMontoCotizaciones | number}}</div>
                                 </div>
                             </div>
                             <div class="donutContainer">
@@ -102,22 +108,25 @@
                         <div class="row contenedor">
                             <div class="col-sm-6 divTabla">
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Estatus</div>
                                     <div class="col-sm-2">Totales</div>
-                                    <div class="col-sm-4">Promedio hrs</div>
+                                    <div class="col-sm-2">Prom. hrs.</div>
+                                    <div class="col-sm-2">Monto</div>
                                 </div>
                                 <div class="row rowBody" ng-repeat="x in ordenesServicio" style="border-bottom: solid 1px #f4f4f4;">
-                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
-                                    <div class="col-sm-4">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.Monto | number}}</div>
                                 </div>
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Total</div>
                                     <div class="col-sm-2">{{totalOrdenes | number}}</div>
-                                    <div class="col-sm-4">{{totalHorasOrdenesServicio | number}}</div>
+                                    <div class="col-sm-2">{{totalHorasOrdenesServicio | number}}</div>
+                                    <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div>
                                 </div>
                             </div>
                             <div class="donutContainer">
@@ -140,22 +149,25 @@
                         <div class="row contenedor">
                             <div class="col-sm-6 divTabla">
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Estatus</div>
                                     <div class="col-sm-2">Totales</div>
-                                    <div class="col-sm-4">Promedio hrs</div>
+                                    <div class="col-sm-2">Prom. hrs.</div>
+                                    <div class="col-sm-2">Monto</div>
                                 </div>
                                 <div class="row rowBody" ng-repeat="x in ordenesCobrar" style="border-bottom: solid 1px #f4f4f4;">
-                                    <div class="col-sm-2" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
                                     <div class="col-sm-4">{{x.estatus}}</div>
                                     <div class="col-sm-2">{{x.total}}</div>
-                                    <div class="col-sm-4">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                    <div class="col-sm-2">{{x.Monto | number}}</div>
                                 </div>
                                 <div class="row rowHead">
-                                    <div class="col-sm-2"></div>
+                                    <div class="col-sm-1"></div>
                                     <div class="col-sm-4">Total</div>
                                     <div class="col-sm-2">{{totalOrdenesPorCobrar | number}}</div>
-                                    <div class="col-sm-4">{{totalHorasOrdenesCobrar | number}}</div>
+                                    <div class="col-sm-2">{{totalHorasOrdenesCobrar | number}}</div>
+                                    <div class="col-sm-2">{{totalMontoOrdenesCobrar | number}}</div>
                                 </div>
                             </div>
                             <div class="donutContainer">
