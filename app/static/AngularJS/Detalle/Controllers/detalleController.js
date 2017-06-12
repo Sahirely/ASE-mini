@@ -423,19 +423,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 rptReporteConformidadData.encabezado = result.data[0][0];
                 rptReporteConformidadData.partidas = result.data[1];
                 rptReporteConformidadData.total = result.data[2][0];
+                rptReporteConformidadData.firma = result.data[3];
                 new Promise(function(resolve, reject) {
                     var rptReporteConformidad = {
                         "encabezado": [
                             rptReporteConformidadData.encabezado
                         ],
                         "partidas": rptReporteConformidadData.partidas,
-                        "total": rptReporteConformidadData.total.total
+                        "total": rptReporteConformidadData.total.total,
+                        "firma": rptReporteConformidadData.firma
                     }
                     var jsonData = {
                             "template": { "name": "reporteConformidad_rpt" },
                             "data": rptReporteConformidad //
                         }
-                        //console.log(JSON.stringify(jsonData));
+                        console.log(JSON.stringify(jsonData));
                     resolve(jsonData);
                 }).then(function(jsonData) {
                     detalleRepository.getGuardaReporteConformidad(jsonData, idOrden).then(function(result) {
@@ -681,6 +683,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 $("html, body").animate({ scrollTop: 0 }, 1000);
                                 $scope.init();
                                 $scope.token_termino = '';
+
+                                $scope.getReporteConformidad($scope.detalleOrden.idOrden);
                             });
                         } else {
                             alertFactory.error(r_token.data[0].Msg);
