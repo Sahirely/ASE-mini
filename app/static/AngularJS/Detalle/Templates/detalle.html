@@ -222,7 +222,7 @@
                         <!--Ordenes en Aprobación-->
                         <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont scroll_content panelCotizaciones">
                             <!--Cotizaciones Grua-->
-                            <div class="row" ng-show="orden.idTipoOrden = 1" ng-show="cotizacion.success" ng-repeat="cotizacion in cotizaciones">
+                            <div class="row" ng-show="cotizacion.success && (orden.IdTipoOrden = 2 || orden.IdTipoOrden = 1)" ng-repeat="cotizacion in cotizaciones">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="panel panel-default">
                                         <div class="panel-body">

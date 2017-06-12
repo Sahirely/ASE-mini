@@ -5,7 +5,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     //$rootScope.modulo = 'reporteHistorial';
     //Inicializa la pagina
 
-    $scope.idUsuario = 2;
+    $scope.idUsuario = 0;
     $scope.numeroOrden = $routeParams.orden;
     $scope.idEstatusOrden = 0;
     $scope.estatus = $routeParams.estatus;
@@ -30,6 +30,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.HistoricoCotizaciones = [];
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
+        $scope.idUsuario = $scope.userData.idUsuario;
         $scope.getHistoricos();
         $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
