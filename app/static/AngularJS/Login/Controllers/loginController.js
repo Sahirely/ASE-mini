@@ -23,6 +23,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
 
     $scope.login = function (username, password) {
       loginRepository.login(username,password).then(function (result){
+        debugger;
           if (result.data.data.length > 0) {
               if (result.data.data[0].HasSession == 'False'){
                 $scope.userData = userFactory.saveUserData(result.data.data[0]);
@@ -31,8 +32,17 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                   alertFactory.info('Seleccione una operación para ingresar.');
                 } else {
                   var contOpe = $scope.userData.Operaciones[0].idContratoOperacion;
-                  $scope.userData = userFactory.updateSelectedOperation(contOpe);
-                  $scope.Home();
+                  var rolUser = $scope.userData.Operaciones[0].idRol;
+                  if (contOpe == 0 && rolUser == 5){
+                    $scope.userData = userFactory.updateSelectedOperation(contOpe);
+                    $scope.Home();
+                  }else if (contOpe != 0){
+                    $scope.userData = userFactory.updateSelectedOperation(contOpe);
+                    $scope.Home();
+                  } else {
+                    alertFactory.info('El usuario no tiene una operación asignada.')
+                  }
+
                 }
               }else{
                   alertFactory.error('No puede iniciar sesión por que ya tiene una sesión activa.');
