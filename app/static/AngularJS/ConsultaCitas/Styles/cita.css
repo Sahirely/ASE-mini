@@ -14,11 +14,19 @@
 
 #comprobanteRecepcion input[type=checkbox]{
 	width: 8%;
-    height: 2em;
+  height: 2em;
 }
 
 #btnBuscar{
     margin-top: 5px;
+}
+
+.espacioTopText{
+	padding-top: 15px;
+}
+
+.espacioTopSelect{
+	padding-top: 20px;
 }
 
 .fondoBlanco{

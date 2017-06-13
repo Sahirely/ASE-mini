@@ -23,14 +23,14 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.btn_editarCotizacion = false;
 
     $scope.init = function() {
-        $scope.btnSwitch.classCosto = 'btn btn-success';
-        $scope.btnSwitch.showCostoVenta = true;
-        $scope.btnSwitch.classVenta = 'btn btn-default';
-        $scope.checkComprobanteRecepcion();
-        $scope.HistoricoCotizaciones = [];
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
+        $scope.btnSwitch.classCosto = 'btn btn-success';
+        $scope.btnSwitch.showCostoVenta = true;
+        $scope.btnSwitch.classVenta = 'btn btn-default'
+        $scope.checkComprobanteRecepcion();
+        $scope.HistoricoCotizaciones = [];
         $scope.getHistoricos();
         $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);

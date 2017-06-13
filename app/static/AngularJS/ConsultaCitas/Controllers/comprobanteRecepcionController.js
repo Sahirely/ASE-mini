@@ -72,20 +72,34 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
     }
 
     $scope.addComprobanteRecepcion = function(obj) {
+
         var contador = 0;
         var contadorTotal = 0;
-        angular.forEach(obj, function(value, key) {
-            contadorTotal += value.detalle.length
-            angular.forEach(value.detalle, function(value2, key) {
-                if (value2.select == 0 || value2.select == 1)
-                    contador++
-            });
+
+        angular.forEach(obj,function(valor,key){
+            if(valor.indexComprobante <= 5){
+                angular.forEach(valor.detalle, function(valor2, key) {
+                    contadorTotal += 1;
+                });
+            }
         });
-        if ((contadorTotal) - 7 == contador) {
+        angular.forEach(obj, function(value, key) {
+            if(value.indexComprobante <= 5){
+                angular.forEach(value.detalle, function(value2, key) {
+                    if (value2.select == 0 || value2.select == 1)
+                        contador++;
+
+                    if (value2.selectTxt != undefined && value2.selectTxt != "")
+                        contador++;
+                });
+            }
+        });
+        if (contadorTotal == contador) {
             //console.log('todo validado' + contador + ' total ' + contadorTotal)
             $scope.validateAprobacion = false;
 
         } else {
+            $scope.validateAprobacion = true;
             //console.log('faltan campos' + contador + ' total ' + contadorTotal)
         }
     }

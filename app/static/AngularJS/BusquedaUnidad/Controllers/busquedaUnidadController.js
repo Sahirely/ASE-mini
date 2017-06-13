@@ -10,6 +10,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.btnSwitch.classVenta = 'btn btn-default';
     //Inicializa la pagina
     $scope.init = function() {
+        userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         console.log($scope.userData)

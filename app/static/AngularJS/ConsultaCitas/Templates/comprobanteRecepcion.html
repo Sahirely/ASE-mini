@@ -10,7 +10,8 @@
             </div>
         </div>
     </div>
-    <div class="wrapper wrapper-content col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="wrapper wrapper-content animated fadeInRight">
+      <div class="row">
         <div class="ibox-content p-xl col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -73,13 +74,19 @@
                                         <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled="ubi_ParteDerecha==false"></textarea>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 2">
+                                      <div class="col-xs-12 col-sm-5 col-md-7 col-lg-5">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
-                                        <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled=""></textarea>
-                                    </div> 
-                                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 1">
+                                      </div>
+                                      <div class="col-xs-8 col-sm-7 col-md-5 col-lg-7 espacioTopText">
+                                        <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-change="addComprobanteRecepcion(modulosComprobante)" ng-model="detalle.selectTxt" ng-disabled=""></textarea>
+                                      </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 1">
+                                      <div class="col-xs-12 col-sm-5 col-md-7 col-lg-5">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
-                                        <br/>
-                                        <select class="form-control" name="tab_Descripcion" ng-model="detalle.selectTxt">
+                                      </div>
+                                      <div class="col-xs-10 col-sm-7 col-md-5 col-lg-7 espacioTopSelect">
+                                        <select class="form-control" name="tab_Descripcion" ng-model="detalle.selectTxt" ng-change="addComprobanteRecepcion(modulosComprobante)">
                                             <option value="">Seleccione Combustible</option>
                                             <option value="Lleno">Lleno</option>
                                             <option value="Tres Cuartos">Tres Cuartos</option>
@@ -87,6 +94,7 @@
                                             <option value="Un Cuarto">Un Cuarto</option>
                                             <option value="Reserva">Reserva</option>
                                         </select>
+                                      </div>
                                     </div>
                                 </div>
                             </div>
@@ -97,17 +105,21 @@
             <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                 <br/>
                 <br/>
-                <div class="radio radio-inline col-xs-12 col-sm-12 col-md-6 col-lg-6">
-<!--                     <h4 for="acepta"> 
-                        <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">  
+                <!-- <div class="radio radio-inline col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                     <h4 for="acepta">
+                        <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">
                            Acepto las condiciones en la que se entrega la unidad.
-                    </h4> -->
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                    </h4>
+                </div> -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div class="pull-right">
                         <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="nuevoComprobanteRecepcion(modulosComprobante)" ng-disabled="validateAprobacion"><span class="{{class_buttonRecepcion}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
                     </div>
                 </div>
+            </div>
+        </div>
+      </div>
+    </div>
                 <!--  <div class="row">
             <div class="col-lg-12">
                 <tabset>
@@ -125,7 +137,7 @@
                     </tab>
                     <tab heading="Unidad" index="6" ng-click="menu(6)">
                     </tab>
-                </tabset>    
+                </tabset>
 
 
 
@@ -244,9 +256,9 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
-                            
+
                         </div>
                     </div>
                     <div ng-show="show_interiores">
@@ -393,9 +405,9 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
-                            
+
                         </div>
                     </div>
                     <div ng-show="show_accesorios">
@@ -482,14 +494,14 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
-                            
+
                         </div>
 
                     </div>
-                    <div ng-show="show_componentes">    
-                    
+                    <div ng-show="show_componentes">
+
                         <div class="space"></div>
                         <div class="space"></div>
                         <div class="row col-md-3">
@@ -573,13 +585,13 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
-                            
+
                         </div>
                     </div>
                     <div ng-show="show_documentos">
-                    
+
                         <div class="space"></div>
                         <div class="space"></div>
                         <div class="row col-md-3">
@@ -618,9 +630,9 @@
                                     </td>
                                 </tr>
                             </tbody>
-                            
+
                         </table>
-                            
+
                         </div>
                     </div>
                     <div ng-show="show_tablero">
@@ -631,7 +643,7 @@
                             <div class="col-md-6">
                                 <div class="col-md-4">
                                     <img  src="image/comprobanteRecepcion/MEDIDOR.jpg"></img>
-                                 </div>   
+                                 </div>
                                 <div class="col-md-5">
                                     <select class="form-control" name="tab_Descripcion" ng-model="tab_Descripcion">
                                         <option value="">Seleccione Combustible</option>
@@ -642,21 +654,21 @@
                                         <option value="Reserva">Reserva</option>
                                     </select>
                                 </div>
-                                
+
                             </div>
                             <div class="col-md-6">
                                 <div class="col-md-3">
                                     <img  src="image/comprobanteRecepcion/ODOMETRO.jpg"></img>
                                 </div>
                                 <div class="col-md-3">
-                                  <input type="numeric" placeholder="Kilometraje" ng-model="tab_Odometro" class="form-control" onlynumber>  
+                                  <input type="numeric" placeholder="Kilometraje" ng-model="tab_Odometro" class="form-control" onlynumber>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="row space"></div>
                         <div class="row space"></div>
-                    
+
                     </div>
                     <div ng-show="show_unidad">
 
@@ -695,7 +707,7 @@
                                 <textarea class="descTxt" placeholder="Descripción Lateral Izquierda" ng-model="ubi_ParteIzquierdaDesc" ng-disabled="ubi_ParteIzquierda==false"></textarea>
                             </div>
                         </div>
-            
+
             </div>
             <div class="space"></div>
             <div class="space"></div>
@@ -704,21 +716,19 @@
 
             <div class="row col-md-12 ">
                 <div class="radio radio-inline col-md-6">
-                    
-                    <h4 for="acepta"> 
-                        <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">  
+
+                    <h4 for="acepta">
+                        <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">
                            Acepto las condiciones en la que se entrega la unidad.
                     </h4>
                 </div>
                 <div class="col-md-6">
                     <div class="pull-right">
-                       <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="addComprobanteRecepcion()" ng-disabled="validateAprobacion()==false" ><span class="{{class_buttonCeritficado}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button> 
+                       <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="addComprobanteRecepcion()" ng-disabled="validateAprobacion()==false" ><span class="{{class_buttonCeritficado}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
 
                     </div>
                 </div>
-                
+
             </div>
-            
+
             </div> -->
-            </div>
-        </div>
