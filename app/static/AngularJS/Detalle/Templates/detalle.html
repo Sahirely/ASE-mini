@@ -132,44 +132,47 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Documentación de la Orden</h3>
                             <div class="m-t-xl">
-                                <div class="col-sm-4 col-md-4 col-lg-3 text-center">
+                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Recepción</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="archivoEvidencia(1);" ng-disabled="validaCertificado == 0" ng-class="{btn_archivo_yep: validaCertificado != 0}">
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" 
+                                            type="button" 
+                                            ng-click="archivoEvidencia(1);" 
+                                            ng-disabled="validaCertificado == 0" 
+                                            ng-class="{btn_archivo_yep: validaCertificado != 0}">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
-                                </div>
-                                <div class="col-sm-4 col-md-4 col-lg-3 text-center">
-                                    <label>Hoja de Trabajo</label>
-                                    <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="idEstatusOrden < 7" ng-class="{btn_archivo_yep: idEstatusOrden >= 7}">
-                                        <i class="fa fa-file-pdf-o"></i>
-                                    </button>
-                                </div>
-                                <!-- <div class="col-sm-3 col-md-3 col-lg-3 text-center">
-                                    <label>Recepción</label>
-                                    <br>
-                                    <button ng-show="validaCertificado == 0" class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
-                                    <div ng-show="validaCertificado != 0" class="btn btn-archivo btn-outline m-t-md" ng-click="archivoEvidencia(1)">
-                                        <span>
-                                            <img alt="image" src="image/imgPDF.png" />
-                                        </span>
-                                    </div>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Hoja de Trabajo</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="idEstatusOrden != 7"><i class="fa fa-file-pdf-o"></i></button>
-                                </div> -->
-                                <div class="col-sm-4 col-md-4 col-lg-3 text-center">
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" 
+                                            type="button" 
+                                            ng-click="OpenTrabajo();" 
+                                            ng-disabled="idEstatusOrden < 7" 
+                                            ng-class="{btn_archivo_yep: idEstatusOrden >= 7}">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </button>
+                                </div>
+                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Factura</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" 
+                                            type="button"
+                                            ng-disabled="totalfacturas == 0"
+                                            ng-class="{btn_archivo_yep: totalfacturas != 0}"
+                                            ng-click="OpenModalShowFactura()" >
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </button>
                                 </div>
-                                <div class="col-sm-4 col-md-4 col-lg-3 text-center">
+                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Orden de Pago</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><i class="fa fa-file-pdf-o"></i></button>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" 
+                                            type="button" 
+                                            ng-disabled="true">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -254,9 +257,15 @@
                                                 <button class="btn btn-primary pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura == 0" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto );">
                                                     Cargar Factura {{ }}
                                                 </button>
-                                                <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
+                                                <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
-                                                </button>
+                                                </button> -->
+                                                <span 
+                                                    class="label label-primary pull-right cargar-factura"
+                                                    ng-show="estatus == 5 && cotizacion.factura != 0"
+                                                    style="padding: 10px 13px">
+                                                    FACTURA CARGADA
+                                                </span>
                                             </div>
                                             <br>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -574,6 +583,73 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Mostrar -->
+<div class="modal fade" id="ModalShowFactura" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Facturas cargadas</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-show="facturas_empty">
+                    <center> 
+                        <h1>Aún no se han cargado facturas</h1> 
+                    </center>
+                </div>
+
+                <div ng-show="!facturas_empty">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Cotización</th>
+                                <th>PDF</th>
+                                <th>XML</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="Fac in Facturas.data">
+                                <td><b>{{Fac.numeroCotizacion}}</b></td>
+                                <td>
+                                    <a  ng-show="Fac.facturas[0].tipo == 'pdf'" 
+                                        href="{{Fac.facturas[0].rutaDocumento}}" 
+                                        target="_blanc">
+                                        <i class="fa fa-file-pdf-o fac_pdf"></i>
+                                    </a>
+                                    <a  ng-show="Fac.facturas[1].tipo == 'pdf'"
+                                        href="{{Fac.facturas[1].rutaDocumento}}" 
+                                        target="_blanc">
+                                        <i class="fa fa-file-pdf-o fac_pdf"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a  ng-show="Fac.facturas[0].tipo == 'xml'" 
+                                        href="{{Fac.facturas[0].rutaDocumento}}" 
+                                        target="_blanc"
+                                        download="Reporte2Mayo2010">
+                                        <i class="fa fa-file-code-o fac_xml"></i>
+                                    </a>
+                                    <a  ng-show="Fac.facturas[1].tipo == 'xml'"
+                                        href="{{Fac.facturas[1].rutaDocumento}}" 
+                                        target="_blanc"
+                                        download="Reporte2Mayo2010">
+                                        <i class="fa fa-file-code-o fac_xml"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
 <!-- Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">

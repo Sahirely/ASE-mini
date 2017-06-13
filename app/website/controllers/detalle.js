@@ -37,6 +37,46 @@ Detalle.prototype.get_cambiarStatusOrden = function(req, res, next){
     });
 }
 
+Detalle.prototype.get_facturasPorOrden = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING},
+            {name: 'estatus', value: req.query.estatus, type: self.model.types.INT}
+        ];
+    var respuesta = [];
+
+    self.model.query('SEL_COTIZACIONES_ORDEN_SP', params, function(error, result) {
+        var tamanio = result.length;
+        result.forEach( function( item, key ){
+            var params_factura = [
+                {name: 'idOrden', value: item.idOrden, type: self.model.types.INT},
+                {name: 'idCotizacion', value: item.consecutivoCotizacion, type: self.model.types.INT}
+            ];
+
+            self.model.query('SEL_FACTURAS_SP', params_factura, function(fac_error, fac_result) {
+                var facturillas = [];
+                fac_result.forEach( function( element, k ){
+                    element.tipo = element.rutaDocumento.split('.').pop();;
+                    facturillas.push( element );
+                });
+
+                respuesta.push({numeroCotizacion: item.numeroCotizacion, facturas:facturillas });
+
+                if( key >= ( tamanio - 1 ) ){
+                    self.view.expositor(res, {
+                        error: error,
+                        result: {
+                            success: true,
+                            msg: 'Se encontraron ' + respuesta.length + ' registros.',
+                            data: respuesta
+                        }
+                    });   
+                }
+            });
+        });
+    });
+}
+
 Detalle.prototype.get_validaTerminoTrabajo = function(req, res, next){
     var self = this;
     var params = [
@@ -84,7 +124,6 @@ Detalle.prototype.get_rechazaTrabajo = function(req, res, next){
 //devuelve los trabajos con estatus iniciados
 Detalle.prototype.post_subirFactura = function(req, res, next){
     var self = this;
-    // console.log( req );
 
     // Subir Archivos
     var lf = new Load_Files();

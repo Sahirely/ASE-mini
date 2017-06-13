@@ -373,3 +373,38 @@
 .iconCarousel{
      font-size: 70px !important;
 }
+
+#ModalShowFactura .modal-body {
+    padding: 0px !important; 
+}
+
+.fac_pdf{
+    font-size: 18px;
+    cursor: pointer;
+    background-color: white;
+    border:solid 1px white;
+    border-radius: 3px;
+    padding: 3px 5px;
+}
+
+
+.fac_pdf:hover{
+    border:solid 1px #55B4F0;
+    background-color: #55B4F0;
+    color: white;
+}
+
+.fac_xml{
+    font-size: 18px;
+    cursor: pointer;
+    background-color: white;
+    border:solid 1px white;
+    border-radius: 3px;
+    padding: 3px 5px;
+}
+
+.fac_xml:hover{
+    border:solid 1px #55B4F0;
+    background-color: #55B4F0;
+    color: white;
+}

@@ -17,6 +17,19 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        getFacturas: function( numeroOrden ) {
+            return $http({
+                url: detalleUrl + 'facturasPorOrden/',
+                method: "GET",
+                params: {
+                    numeroOrden: numeroOrden,
+                    estatus: 3
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         validaToken: function( idOrden, Token ) {
             // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
             return $http({
@@ -140,7 +153,6 @@ registrationModule.factory('detalleRepository', function($http) {
         },
         postSubirFacturas: function(numOrden) {
             var form = document.forms.namedItem("frm_subir_factura");
-            alert('subiendo 4');
             var oData = new FormData( form );
             return $http({
                 // url: detalleUrl + 'subirFactura/',
