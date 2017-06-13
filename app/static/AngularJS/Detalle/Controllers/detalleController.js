@@ -205,10 +205,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
             case 2:
                 $scope.hideAllButtons();
                 $scope.showButtonsInProcess();
+                $scope.btn_editarCotizacion = true;
                 break;
             case 3:
                 $scope.hideAllButtons();
                 $scope.showButtonsInProcess();
+                $scope.btn_editarCotizacion = true;
                 $scope.btnMoradoIsEnable = false;
                 break;
             case 4: //Botones habilitados para modulo aprobación
@@ -741,7 +743,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.editarCita = function() {
         location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico;
     };
-    
+
     $scope.estatusAprobacion = function() {
         detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
             $scope.init();
