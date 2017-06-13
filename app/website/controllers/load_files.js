@@ -16,14 +16,8 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
     var multer = require('multer');
     Respuesta        = [];
 
-    
-
     var storage = multer.diskStorage({
         destination: function( req, file, callback ){
-            // console.log( req.files );
-            // console.log( req.body );
-
-
             var files     = req.files;
             var fieldname = files[ index ].fieldname;
             var extencion = file.originalname.split('.').pop();
@@ -34,18 +28,9 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
 
             var fs = require("fs");
             var path = Url_Destino;
-            fs.mkdir(path, function (err) {
-                if (err) {
-                    // console.log('failed to create directory', err);
-                } else {
-                    // fs.mkdir(path + "/pdf", function (err) {});
-                    // fs.mkdir(path + "/xml", function (err) {});
-                }
-            });
+            fs.mkdir(path, function (err) {});
             
-
             callback( null, Url_Destino );
-            // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
             Respuesta.push({ 
                 fieldname: fieldname, 
                 success:true, 
@@ -55,98 +40,6 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                 PathDB: req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + file.originalname,
                 Param: req.body
             });
-
-
-            // var self = this;
-            // console.log( 'Se intenta guardar' );
-            // var ServerPath = req.body.docServer + '/orden/' + req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + file.originalname ;
-            // var params = [
-            //     {name: 'ruta', value: ServerPath, type: self.model.types.STRING },
-            //     {name: 'idOrden', value: req.body.idOrden, type: self.model.types.INT },
-            //     {name: 'idCotizacion', value: req.body.cotizacionFactura, type: self.model.types.INT }
-            // ];
-            // self.model.query('INS_FACTURA_SP',params, function (error, result) {
-            //     console.log( error );
-            //     // console.log( 'Guardando a base de datos' );
-            // });
-
-            // if( opt_dest_fields === undefined ){
-            //     var Url_Destino_2 =  "107\\Factura\\1";
-            //     var Url_Destino = destino + req.body.idOrden + "\\Factura\\" + req.body.cotizacionFactura
-            //     console.log( Url_Destino ); 
-
-            //     callback( null, Url_Destino );
-            //     // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
-            //     Respuesta.push({ 
-            //         fieldname: fieldname, 
-            //         success:true, 
-            //         msg: "Se cargo correctamente",
-            //         nombre: file.originalname, 
-            //         Path: destino + '/' + file.originalname,
-            //         PathDB: req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + file.originalname,
-            //         Param: req.body
-            //     });
-            // }
-            // else{
-            //     if( opt_dest_fields[ fieldname ] === undefined || opt_dest_fields[ fieldname ] == '' ){
-            //         callback( null, destino );
-            //         // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
-            //         Respuesta.push({ 
-            //             fieldname: fieldname, 
-            //             success:true, 
-            //             msg: "Se cargo correctamente",
-            //             nombre: file.originalname, 
-            //             Path: destino + '/' + file.originalname,
-            //             Param: req.body
-            //         });
-            //     }
-            //     else{
-            //         var lista_tipos = [];
-            //         switch( opt_dest_fields[ fieldname ].Type ){
-            //             case 'img' : lista_tipos = type_images; break;
-            //             case 'xml' : lista_tipos = type_xml; break;
-            //             case 'pdf' : lista_tipos = type_pdfs; break;
-            //             case 'docs': lista_tipos = type_docs; break;
-            //             case 'xls' : lista_tipos = type_excel; break;
-            //         }
-                    
-            //         if( opt_dest_fields[ fieldname ].Type == '*' || opt_dest_fields[ fieldname ].Type == undefined || opt_dest_fields[ fieldname ].Type == '' ){
-            //             callback( null, opt_dest_fields[ fieldname ].Path );
-            //             // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
-            //             var nombre = ( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ) ? file.originalname : opt_dest_fields[ fieldname ].Name + '.' + extencion;
-            //             Respuesta.push({ 
-            //                 fieldname: fieldname, 
-            //                 success:true, 
-            //                 msg: "Se cargo correctamente",
-            //                 nombre: nombre, 
-            //                 Path: opt_dest_fields[ fieldname ].Path + '/' + nombre,
-            //                 Param: req.body
-            //             });
-            //         }
-            //         else{
-            //             if( lista_tipos.indexOf( extencion )  != -1 ){
-            //                 callback( null, opt_dest_fields[ fieldname ].Path );
-            //                 // Respuesta.push( { fieldname: fieldname, success:true, msg: "Se cargo correctamente"} );
-            //                 var nombre = ( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ) ? file.originalname : opt_dest_fields[ fieldname ].Name + '.' + extencion;
-            //                 Respuesta.push({ 
-            //                     fieldname: fieldname, 
-            //                     success:true, 
-            //                     msg: "Se cargo correctamente",
-            //                     nombre: nombre, 
-            //                     Path: opt_dest_fields[ fieldname ].Path + '/' + nombre,
-            //                     Param: req.body
-            //                 });
-            //             }                        
-            //             else{
-            //                 Respuesta.push({ 
-            //                     fieldname: fieldname, 
-            //                     success:false, 
-            //                     msg: file.originalname + " :: no es el tipo de archivo permitido para esta operación"
-            //                 });
-            //             }
-            //         }
-            //     }
-            // }
 
             index++;
         },
@@ -177,7 +70,85 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
         }
     });
 
-    // var upload = multer( { storage: storage } ).single('myFile2');
+    var upload = multer( { storage: storage } ).any();
+    var flag   = true;
+
+    upload( req, res, function( err ){
+        flag   = false;
+        if( err ){
+            miCallback( err );
+            return res.end("Error uploading file.");
+        }
+
+        miCallback( Respuesta );
+    });
+
+    setTimeout( function() {
+        if( flag ){
+            miCallback( Respuesta );
+        }
+    },5000);
+};
+
+Load_Files.prototype.evidencia = function( destino, req, res, miCallback ) { // Type Options: * / img / xml / pdf / docs / xls
+    var index = 0;    
+    var multer = require('multer');
+    Respuesta        = [];
+
+    var storage = multer.diskStorage({
+        destination: function( req, file, callback ){
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+
+            // var Url_Destino_2 =  "107\\Factura\\1";
+            var Url_Destino = destino + req.body.idOrden + "\\evidencia"
+            console.log( Url_Destino ); 
+
+            var fs = require("fs");
+            var path = Url_Destino;
+            fs.mkdir(path, function (err) {});
+            
+            callback( null, Url_Destino );
+            Respuesta.push({ 
+                fieldname: fieldname, 
+                success:true, 
+                msg: "Se cargo correctamente",
+                nombre: file.originalname, 
+                Path: Url_Destino + '/' + file.originalname,
+                PathDB: req.body.idOrden + "/evidencia/" + file.originalname,
+                Param: req.body
+            });
+
+            index++;
+        },
+        filename: function( req, file, callback ){
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+            var nameFile  = '';
+
+            if( opt_dest_fields === undefined ){
+                nameFile = file.originalname;
+            }
+            else{
+                if( opt_dest_fields[ fieldname ] === undefined || opt_dest_fields[ fieldname ] == '' ){
+                    nameFile = file.originalname;
+                }
+                else{
+                    if( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ){
+                        nameFile = file.originalname;
+                    }
+                    else{
+                        nameFile = opt_dest_fields[ fieldname ].Name + '.' + extencion;
+                    }
+                }
+            }  
+
+            callback( null, nameFile );
+        }
+    });
+
     var upload = multer( { storage: storage } ).any();
     var flag   = true;
 
