@@ -15,7 +15,7 @@
                     <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
                         <label class="font-noraml">{{zona.etiqueta}}</label>
                         <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
-                            <option value="0">Seleccione una Zona</option>
+                            <option value="0">Seleccione</option>
                             <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
                               {{z.nombre}}
                             </option>
