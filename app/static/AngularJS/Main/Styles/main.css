@@ -131,6 +131,10 @@ body {
   float: right !important;
 }
 
+#rol{
+    padding-top: 11px !important;
+}
+
 .title {
     font-size: 25px;
     color: #55b2d8;
@@ -194,8 +198,8 @@ body {
     margin-right: 20px;
     margin-left: 20px;
     /*transform: skew(-10deg);*/
-    padding-top: 19px;
-    padding-bottom: 25px;
+    /*padding-top: 19px;
+    padding-bottom: 25px;*/
     text-align: center;
     font-size: 14px;
     font-weight: 600;

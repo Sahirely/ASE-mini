@@ -43,7 +43,7 @@
     <nav class="navbar-default navbar-static-side" role="navigation" ng-hide="sesion == 0">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
+                <!--li class="nav-header">
                     <div class="dropdown profile-element">
                         <span ng-hide="userData.idRol == 5">
                             <img alt="image"  src="image/profile/logoTotalParts.png" />
@@ -54,7 +54,7 @@
                             </span>
                         </a>
                     </div>
-                </li>
+                </li-->
                 <li ng-class="{'active': modulo=='Configurador'}" ng-show="userData.idRol == 5">
                     <a href="configurador"><i class="glyphicon glyphicon-cog" data-toggle="tooltip" tooltip="Configurador" tooltip-placement="right"></i> <span class="nav-label">Configurador</span></a>
                 </li>
@@ -108,11 +108,11 @@
                     <div>
                         <div data-toggle="tooltip" title="Cerrar Sesión" class="singOut col-xs-1 col-sm-1 col-md-1 col-lg-1">
                             <a href="/" ng-click="logOut()"> Cerrar Sesión
-                            <i class="fa fa-sign-out" style="font-size: 22px;" id="Close"></i>
-                        </a>
+                                <i class="fa fa-sign-out" style="font-size: 22px;" id="Close"></i>
+                            </a>
                         </div>
-                        <div class="dropdown DropOperaciones col-xs-2 col-sm-2 col-md-2 col-lg-2" ng-hide="{{userData.idRol == 5}}">
-                            <span>Operación: </span>
+                        <div class="dropdown DropOperaciones" ng-hide="{{userData.idRol == 5}}" class="singOut col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                            <!--span>Operación: </span-->
                             <span id="NombreOperacion" ng-show="{{userData.Operaciones.length == 1}}">{{userData.nombreOperacion}}</span>
                             <button ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button" data-toggle="dropdown">{{userData.nombreOperacion}}
                                 <span class="caret"></span></button>
@@ -120,23 +120,38 @@
                                 <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
                             </ul>
                         </div>
+                        <div class="singOut col-xs-2 col-sm-2 col-md-2 col-lg-2" id="rol">
+                            <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                                <span>  Rol - {{userData.Rol}}</span>
+                            </div>
+                            <div >
+                                <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
+                            </div>
+                        </div>
+                        
                     </div>
-                    <ul class="nav navbar-top-links navbar-right-mod scrollmenu col-xs-9 col-sm-9 col-md-9 col-lg-9" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
+                    <ul class="nav navbar-top-links navbar-left-mod scrollmenu col-xs-5 col-sm-5 col-md-5 col-lg-5" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
                         <li ng-hide="userData.idRol == 5">
-                            <div class="form-group">
                                 <!--button class="btn btn-primary" ng-click="botonBusqueda(busqueda)">{{busqueda == 1 ? 'Buscar Orden': 'Buscar Unidad'}}</button-->
+                                <!--div class="singOut" id="rol"-->
+                                    <label class="radio radio-info radio-inline ">
+                                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                                        <label for="utilidad1"> Orden </label>
+                                    </label>
+                                    <label class="radio radio-info radio-inline ">
+                                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)" >
+                                        <label for="utilidad2"> Unidad </label>
+                                    </label>
+                                <!--/div-->
 
-                                <div class="radio radio-info radio-inline ">
+                                <!--div class="radio radio-info radio-inline ">
                                     <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
                                     <label for="utilidad1"> Orden </label>
                                 </div>
                                 <div class="radio radio-info radio-inline ">
                                     <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)" >
                                     <label for="utilidad2"> Unidad </label>
-                                </div>
-
-
-                            </div>
+                                </div-->
                         </li>
                         <li ng-hide="userData.idRol == 5">
                             <div class="form-group" ng-show="busqueda == 1">
@@ -150,17 +165,6 @@
                         </li>
                         <li ng-hide="userData.idRol == 5">
                             <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-                        </li>
-                        <li ng-hide="userData.idRol == 5">
-                            <span class="m-r-md text-muted title" style="font-size: 19px; padding-left: 25px;">TOTAL PARTS</span>
-                        </li>
-                        <li>
-                            <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                                <span>  Rol - {{userData.Rol}}</span>
-                            </div>
-                        </li>
-                        <li>
-                            <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
                         </li>
                     </ul>
                 </div>
