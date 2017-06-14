@@ -756,8 +756,27 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.estatusAprobacion = function() {
-        detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
-            $scope.init();
+    swal({
+            title: "¿Está seguro que desea aprobar la Orden?",
+            text: "Se cambiará el estatus a 'Orden Aprobada'",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            cancelButtonColor: "#DD083F",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
+                    $scope.init();
+                });
+                swal("Orden Aprobada!", "success");
+            } else {
+                swal("La Orden no fue Aprobada!", "", "error");
+            }
         });
     };
 });
