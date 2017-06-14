@@ -94,7 +94,7 @@
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">{{etiquetaHora}}:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <div class="input-group clockpicker" data-autoclose="true">
-                                    <input type="text" class="form-control" value="" ng-model="horaCita" ng-change="validaHoraCita()">
+                                    <input type="text" class="form-control" value="" ng-model="horaCita" ng-change="NoHoraAntigua(horaCita)">
                                     <span class="input-group-addon">
                                                 <span class="fa fa-clock-o"></span>
                                     </span>
