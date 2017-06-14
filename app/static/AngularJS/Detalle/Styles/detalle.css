@@ -408,3 +408,54 @@
     background-color: #55B4F0;
     color: white;
 }
+
+.gal-ico{
+    margin-top: 100px;
+    margin-left: calc( 50% - 150px );
+    width: 300px;
+    text-align: center;
+}
+
+.gal-ico i{
+    font-size: 80px;
+}
+
+
+.item-no-img{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.gal-ico-thums{
+    text-align: center;
+    /*background-color: red;*/
+    height: 100px;
+    width: 100px;
+    margin: 10px;
+    padding: 10px;
+    /*float: left;*/
+
+}
+
+.gal-ico-thums i{
+    font-size: 70px;
+    margin: 20px 10px 10px 10px;
+}
+
+.gal-ico-thums p{
+    font-weight: normal !important;
+}
+
+a.documentos{
+    color: #333;
+}
+
+a.documentos:hover{
+    color: #C00;
+}
+
+.carousel-control {
+  padding-top:10%;
+  width:5%;
+}
