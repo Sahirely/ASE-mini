@@ -16,18 +16,16 @@
                             </h2>
                             </div>
                             <div>
-                                <!-- <strong>{{'nombre'}}</strong> -->
                                 <address>
                                     <h3>
-                           <!--  <strong>Zona:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>TAR:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>No. TAR:</strong> {{detalleUnidad.pendiente}}<br><br> -->
-                            <strong>Unidad:</strong> {{detalleUnidad.marca}} - {{detalleUnidad.modelo}}<br><br>
-                            <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
-                            <strong>No. Inventario:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>Ubicación:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <!-- <strong>Autotanque:</strong> {{detalleUnidad.pendiente}}<br><br> -->
-                            </h3></address>
+                                      <strong>Unidad:</strong> {{detalleUnidad.marca}}<br><br>
+                                      <strong>Sub Marca:</strong> {{detalleUnidad.subMarca}}<br><br>
+                                      <strong>Modelo:</strong> {{detalleUnidad.modelo}}<br><br>
+                                      <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
+                                      <strong>VIN:</strong> {{detalleUnidad.vin}}<br><br>
+                                      <p ng-show="userData.geolocalizacion == 1"><strong>Ubicación:</strong> {{detalleUnidad.gps}}</p><br><br>
+                                    </h3>
+                                </address>
                             </div>
                         </div>
                     </div>
