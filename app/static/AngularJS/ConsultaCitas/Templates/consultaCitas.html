@@ -189,7 +189,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '2'} " ng-click="seleccionarOrden(ordenesTaller)">
+                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '2'} "  ng-click="(userData.idRol == 1 ? '' :seleccionarOrden(ordenesTaller))">
                                         <td>{{ordenesTaller.nombreCliente}}</td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>
@@ -209,7 +209,7 @@
                             </table>
                         </div>
                     </tab>
-                    <tab heading="Citas Sin Taller" index="1" active="SinTallerActive">
+                    <tab heading="Citas Sin Taller" index="1" active="SinTallerActive" ng-hide="userData.idRol == 4">
                         <div class="table-responsive">
                             <br/>
                             <table class="table table-bordered table-hover dataTableOrdenesSinDatos">
@@ -226,7 +226,7 @@
                                         <th>Estatus</th>
                                         <th>Agendó</th>
                                         <th>Tiempo Transcurrido Tiempo Asignado</th>
-                                        <th>Acción</th>
+                                        <th ng-hide="userData.idRol == 1">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -242,8 +242,8 @@
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
                                         <td>{{ordenesSinTaller.tiempoEspera}}</td>
-                                        <td>
-                                            <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)"><i class="glyphicon glyphicon-refresh"></i></button>
+                                        <td ng-hide="userData.idRol == 1">
+                                            <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)" ><i class="glyphicon glyphicon-refresh"></i></button>
                                             <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
                                         </td>
                                     </tr>
