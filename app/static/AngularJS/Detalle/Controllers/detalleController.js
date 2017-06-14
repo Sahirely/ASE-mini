@@ -27,6 +27,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.Facturas         = [];
     $scope.totalfacturas    = 0;
     $scope.errores_factura  = false;
+    $scope.idOrden          = 0;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -86,6 +87,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
+            $scope.idOrden = result.data[0].idOrden;
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
@@ -491,6 +493,64 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }
     }
 
+    $scope.subirEvidencias = function() {
+        var evidencia_file = $(".inputfile-3").val();
+        if( evidencia_file == '' ){
+            alertFactory.warning("Selecciona un archivo.");
+            swal();
+        }
+        else{
+            detalleRepository.postSubirEvidencia().then(function(result) {
+                var Respuesta = result;
+                document.getElementById("frm_evidencia").reset();
+                $(".lbl_evidencia").text('Seleccionar archivo');
+                
+                var _nombre = Respuesta.data.data[0].nombre;
+                var _descri = '';
+                var _ruta   = Respuesta.data.data[0].PathDB;
+                var _orden  = Respuesta.data.data[0].Param.idOrden;
+
+                console.log( Respuesta );
+                console.log( "Nombre: " + _nombre );
+                console.log( "Ruta: " + _ruta );
+                console.log( "Ruta: " + _orden );
+
+                consultaCitasRepository.agregarEvidencias( _nombre, _descri, _ruta, _orden ).then(function(result) {
+                    console.log( '=====================' );
+                    console.log( result );
+                    $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
+                    console.log( '=====================' );
+                });
+            }, function(error) {
+                console.log(error);
+            });
+        }
+        // $scope.respuesta = []
+        // var form = document.forms.namedItem("myForm");
+        // form.addEventListener('submit', function(ev) {
+        //     var oData = new FormData(form);
+        //     var oReq = new XMLHttpRequest();
+        //     oReq.open('post', "api/trabajo/subirArchivoImg", true);
+        //     oReq.onload = function(oEvent) {
+        //         $scope.respuesta = JSON.parse(oReq.response)
+        //         var ruta = $scope.respuesta.res[0].Path
+        //         var rutaCorrecta = ruta.substring(11)
+        //         var urlevidencia = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/evidencia/' + $scope.respuesta.res[0].nombre;
+        //         consultaCitasRepository.agregarEvidencias($scope.respuesta.res[0].nombre, '', urlevidencia, $scope.numeroOrden).then(function(result) {
+        //             if (result.data[0].length > 0) {} else {
+        //                 location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
+        //                 alertFactory.success('Se guardo con exito evidencia');
+        //                 var ruta = ''
+        //                 var rutaCorrecta = ''
+        //                 $scope.respuesta = []
+        //             }
+        //         });
+        //     }
+        //     oReq.send(oData);
+        //     ev.preventDefault();
+        // }, false);
+    }
+
     $scope.Cargar_Factura_Tmp = function() {
         var fxml = $(".inputfile-1").val();
         var fpdf = $(".inputfile-2").val();
@@ -650,33 +710,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
         });
     }
     //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
-
-    $scope.subirEvidencias = function() {
-        $scope.respuesta = []
-        var form = document.forms.namedItem("myForm");
-        form.addEventListener('submit', function(ev) {
-            var oData = new FormData(form);
-            var oReq = new XMLHttpRequest();
-            oReq.open('post', "api/trabajo/subirArchivoImg", true);
-            oReq.onload = function(oEvent) {
-                $scope.respuesta = JSON.parse(oReq.response)
-                var ruta = $scope.respuesta.res[0].Path
-                var rutaCorrecta = ruta.substring(11)
-                var urlevidencia = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/evidencia/' + $scope.respuesta.res[0].nombre;
-                consultaCitasRepository.agregarEvidencias($scope.respuesta.res[0].nombre, '', urlevidencia, $scope.numeroOrden).then(function(result) {
-                    if (result.data[0].length > 0) {} else {
-                        location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
-                        alertFactory.success('Se guardo con exito evidencia');
-                        var ruta = ''
-                        var rutaCorrecta = ''
-                        $scope.respuesta = []
-                    }
-                });
-            }
-            oReq.send(oData);
-            ev.preventDefault();
-        }, false);
-    }
 
     $scope.checkComprobanteRecepcion = function() {
         detalleRepository.getExistsComprobanteRecepcion($scope.numeroOrden, 1).then(function(result) {
