@@ -272,7 +272,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 params.idUsuario = $scope.idUsuario;
                 params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
                 params.idPartida = item.idPartida;
-                params.idEstatusPartida = item.idEstatusPartida;
+                params.idEstatusPartida = item.selOption;
 
 
                 aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
