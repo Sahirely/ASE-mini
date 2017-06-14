@@ -5,29 +5,31 @@ registrationModule.controller('detalleController', function($scope, $location, $
     //$rootScope.modulo = 'reporteHistorial';
     //Inicializa la pagina
 
-    $scope.IdsCotizacionesPorOrden  = [];
-    $scope.btn_editarCotizacion     = false;
-    $scope.idUsuario        = 0;
-    $scope.numeroOrden      = $routeParams.orden;
-    $scope.idEstatusOrden   = 0;
-    $scope.estatus          = $routeParams.estatus;
-    $scope.textoNota        = null;
-    $scope.notaTrabajo      = [];
-    $scope.HistoricoOrden   = [];
-    $scope.x                = 0;
-    $scope.numCotz          = 0;
-    $scope.TieneSaldo       = true;
-    $scope.totalSumaCosto   = 0;
-    $scope.totalSumaVenta   = 0;
-    $scope.btnSwitch        = {};
-    $scope.userData         = {};
+    $scope.IdsCotizacionesPorOrden = [];
+    $scope.btn_editarCotizacion = false;
+    $scope.idUsuario = 0;
+    $scope.numeroOrden = $routeParams.orden;
+    $scope.idEstatusOrden = 0;
+    $scope.estatus = $routeParams.estatus;
+    $scope.textoNota = null;
+    $scope.notaTrabajo = [];
+    $scope.HistoricoOrden = [];
+    $scope.x = 0;
+    $scope.numCotz = 0;
+    $scope.TieneSaldo = true;
+    $scope.totalSumaCosto = 0;
+    $scope.totalSumaVenta = 0;
+    $scope.btnSwitch = {};
+    $scope.userData = {};
+    $scope.centroTrabajo = '';
 
-    $scope.facturas_empty   = true;
-    $scope.facturas_empty   = true;
-    $scope.Facturas         = [];
-    $scope.totalfacturas    = 0;
-    $scope.errores_factura  = false;
-    $scope.idOrden          = 0;
+
+    $scope.facturas_empty = true;
+    $scope.facturas_empty = true;
+    $scope.Facturas = [];
+    $scope.totalfacturas = 0;
+    $scope.errores_factura = false;
+    $scope.idOrden = 0;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -54,6 +56,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         detalleRepository.getHistoricoOrden($scope.numeroOrden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.HistoricoOrden = result.data;
+
             }
         }, function(error) {
             alertFactory.error('No se puede obtener el historico de la orden.');
@@ -63,6 +66,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             $scope.numCotz = result.data.length;
             if (result.data.length > 0) {
                 $scope.IdsCotizacionesPorOrden = result.data;
+
             }
             $scope.getHistoricosCotz();
         }, function(error) {
@@ -77,6 +81,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     var valueToPush = {};
                     valueToPush.consecutivo = result.data[0].consecutivo;
                     valueToPush.data = result.data;
+
                     $scope.HistoricoCotizaciones.push(valueToPush);
                 }
             }, function(error) {
@@ -90,6 +95,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             $scope.idOrden = result.data[0].idOrden;
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
+
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
                 $scope.idOrdenURL = $scope.detalleOrden.idOrden;
                 var statusCotizacion = 0;
@@ -143,6 +149,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
             if (result.data.success == true) {
                 $scope.cotizaciones = result.data.data;
                 $scope.getTotales();
+                $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
+                console.log($scope.cotizaciones);
             } else {
                 alertFactory.error('No se puede obtener los documentos de la orden');
             }
@@ -316,6 +324,29 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }, function(error) {
             alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
         });
+    };
+
+    $scope.setRowColor = function(obj) {
+    
+        switch (Number(obj.nivel)) {
+            case 1:
+                obj.rowColor = 'info';
+                break;
+            case 2:
+                obj.rowColor = 'success';
+                break;
+            case 3:
+                obj.rowColor = 'warning';
+                break;
+            case 4:
+                obj.rowColor = 'danger';
+                break;
+            case 5:
+                obj.rowColor = 'active';
+                break;
+            default:
+                obj.rowColor = 'info';
+        }
     };
 
     $scope.showButtonSwitch = function(usrRol) {
@@ -496,31 +527,30 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.subirEvidencias = function() {
         var evidencia_file = $(".inputfile-3").val();
-        if( evidencia_file == '' ){
+        if (evidencia_file == '') {
             alertFactory.warning("Selecciona un archivo.");
             swal();
-        }
-        else{
+        } else {
             detalleRepository.postSubirEvidencia().then(function(result) {
                 var Respuesta = result;
                 document.getElementById("frm_evidencia").reset();
                 $(".lbl_evidencia").text('Seleccionar archivo');
-                
+
                 var _nombre = Respuesta.data.data[0].nombre;
                 var _descri = '';
-                var _ruta   = Respuesta.data.data[0].PathDB;
-                var _orden  = Respuesta.data.data[0].Param.idOrden;
+                var _ruta = Respuesta.data.data[0].PathDB;
+                var _orden = Respuesta.data.data[0].Param.idOrden;
 
-                console.log( Respuesta );
-                console.log( "Nombre: " + _nombre );
-                console.log( "Ruta: " + _ruta );
-                console.log( "Ruta: " + _orden );
+                console.log(Respuesta);
+                console.log("Nombre: " + _nombre);
+                console.log("Ruta: " + _ruta);
+                console.log("Ruta: " + _orden);
 
-                consultaCitasRepository.agregarEvidencias( _nombre, _descri, _ruta, _orden ).then(function(result) {
-                    console.log( '=====================' );
-                    console.log( result );
+                consultaCitasRepository.agregarEvidencias(_nombre, _descri, _ruta, _orden).then(function(result) {
+                    console.log('=====================');
+                    console.log(result);
                     $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
-                    console.log( '=====================' );
+                    console.log('=====================');
                 });
             }, function(error) {
                 console.log(error);
@@ -696,21 +726,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.ShowFacturas = function() {
-        detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
-            $scope.Facturas = respuesta.data;
-            if ($scope.Facturas.success) {
-                $scope.facturas_empty = false;
-                $scope.Facturas.data.forEach(function(item, key) {
-                    item.facturas.forEach(function(element, k) {
-                        $scope.totalfacturas++;
+            detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
+                $scope.Facturas = respuesta.data;
+                if ($scope.Facturas.success) {
+                    $scope.facturas_empty = false;
+                    $scope.Facturas.data.forEach(function(item, key) {
+                        item.facturas.forEach(function(element, k) {
+                            $scope.totalfacturas++;
+                        });
                     });
-                });
-            } else {
-                $scope.facturas_empty = true;
-            }
-        });
-    }
-    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+                } else {
+                    $scope.facturas_empty = true;
+                }
+            });
+        }
+        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
     $scope.checkComprobanteRecepcion = function() {
         detalleRepository.getExistsComprobanteRecepcion($scope.numeroOrden, 1).then(function(result) {

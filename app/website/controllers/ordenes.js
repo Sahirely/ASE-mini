@@ -1607,11 +1607,9 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                 {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING },
                 {name: 'estatus', value: req.query.estatus, type: self.model.types.STRING }            
             ];
-            console.log(req.query.numeroOrden)
-            console.log(req.query.estatus)
+            
             self.model.query('SEL_COTIZACIONES_ORDEN_SP', params, function (error, result) {
-                var cotizaciones = result;
-                console.log(cotizaciones);
+                var cotizaciones = result;                
                 var tamanio = cotizaciones.length;
                 var contador = 0;
                 var i = 0;
@@ -1622,7 +1620,7 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                             {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING}, 
                             {name: 'usuario', value: req.query.usuario , type: self.model.types.STRING}                        
                         ];
-
+                        
                          self.model.query('SEL_PARTIDAS_APROBACION_SP', params, function (err, datos) {
                         //self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
 
