@@ -206,6 +206,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.horaCita,
             $scope.comentarios
         );
+        debugger;
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
