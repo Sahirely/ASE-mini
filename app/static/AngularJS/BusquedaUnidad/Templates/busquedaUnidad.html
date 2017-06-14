@@ -84,7 +84,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="ibox-footer">
+                                <div class="ibox-footer" ng-show="muestraOrdenActual">
                                     <div class="row">
                                         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                             <p>
@@ -123,7 +123,7 @@
                                                     btnSwitch.classCosto='btn btn-default' ">Venta</button>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraOrdenActual">
                             <h3>Orden de Servicio Actual</h3>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -170,7 +170,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-12 scol-lg-12">
+                        <div class="col-sm-12 col-md-12 scol-lg-12" ng-show="muestraOrdenActual">
                             <h3>Histórico de Órdenes</h3>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
