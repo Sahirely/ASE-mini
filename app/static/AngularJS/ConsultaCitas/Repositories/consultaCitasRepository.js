@@ -172,12 +172,12 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        agregarEvidencias: function(nombreEvidencia, descripcionEvidencia, rutaEvidencia, numeroOrden) {
+        agregarEvidencias: function(nombreEvidencia, descripcionEvidencia, rutaEvidencia, idOrden) {
             var msgObj = {
                 nombreEvidencia: nombreEvidencia,
                 descripcionEvidencia: descripcionEvidencia,
                 rutaEvidencia: rutaEvidencia,
-                numeroOrden: numeroOrden
+                idOrden: idOrden
             }
             return $http({
                 url: consultaCitaUrl + 'agregarEvidencias',

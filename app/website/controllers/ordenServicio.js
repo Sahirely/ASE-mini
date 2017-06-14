@@ -358,8 +358,8 @@ OrdenServicio.prototype.post_agregarEvidencias = function(req, res, next) {
         value: req.body.rutaEvidencia,
         type: self.model.types.STRING
     }, {
-        name: 'numeroOrden',
-        value: req.body.numeroOrden,
+        name: 'idOrden',
+        value: req.body.idOrden,
         type: self.model.types.STRING
     }];
 

@@ -273,6 +273,22 @@ Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
     });
 }
 
+Detalle.prototype.post_subirEvidencia = function(req, res, next){
+
+    // console.log('se quiere subir facturas');
+    var self = this;
+    var lf = new Load_Files();
+
+    lf.evidencia( _PathDocuments, req, res, function( respuesta ){
+        var Resultado = respuesta;
+        // var Parametros = respuesta[0].Param;
+        self.view.expositor(res, {
+            error: false,
+            result: {Success: true, Msg: 'Factura cargada correctamente', data: Resultado}
+      });
+    });
+}
+
 Detalle.prototype.get_guardarDocumento = function(req, res, next){
     var self = this;
     var params = [

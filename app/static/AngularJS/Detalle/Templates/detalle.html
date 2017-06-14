@@ -101,7 +101,7 @@
                             <div class="carousel slide" id="carousel1">
                                 <div class="carousel-inner">
                                     <div class="item itamCarousel"  ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
-                                        <img alt="image" class="img-responsive" src="{{evidencia.rutaEvidencia}}">
+                                        <img alt="image" class="img-responsive" src="http://localhost:5301/orden/{{evidencia.rutaEvidencia}}">
                                     </div>
                                 </div>
                                 <a data-slide="prev" href="#carousel1" class="left carousel-control iconCarousel">
@@ -114,16 +114,29 @@
                             <br/>
                             <div class="item" ng-class="{active:!$index}" >
                                 <label ng-repeat="evidencia in detalleEvidencias" class="imgCarouse">
-                                    <img alt="image" class="img-responsive" src="{{evidencia.rutaEvidencia}}">
+                                    <a href="http://localhost:5301/orden/{{evidencia.rutaEvidencia}}" download="">
+                                        <img alt="image" class="img-responsive" src="http://localhost:5301/orden/{{evidencia.rutaEvidencia}}">
+                                    </a>
                                 </label>
                             </div>
+
                             <div class="wrapper wrapper-content">
                                 <br/>
-                                <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">
+                                <form id="frm_evidencia" name="frm_evidencia" enctype="multipart/form-data" method="post">
                                     <label>Carga Evidencia</label>
-                                    <input type="file" name="myFile1" id="myFile1">
                                     <br>
-                                    <!-- <label>PDF</label> <input type="file" name="myFile2" id="myFile2"> -->
+                                    <input type="hidden" value="{{idOrden}}" name="idOrden">
+                                    <input type="hidden" value="{{docServer}}" name="docServer">
+                                    <!-- <input type="file" name="myFile1" id="myFile1" accept="image/*"> -->
+
+                                    <input type="file" name="myFile1" id="myFile1" class="inputfile inputfile-3" accept="*/*"/>
+                                    <label for="myFile1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="30" height="27" viewBox="0 0 20 17">
+                                            <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path>
+                                        </svg>
+                                        <span class="iborrainputfile lbl_evidencia">Seleccionar archivo</span>
+                                    </label>
+                                    <br>
                                     <input class="btn btn-warning" type="submit" name="submit" id="myButton" ng-click="subirEvidencias()">
                                 </form>
                             </div>

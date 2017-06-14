@@ -192,6 +192,18 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        postSubirEvidencia: function() {
+            var form = document.forms.namedItem("frm_evidencia");
+            var oData = new FormData( form );
+            return $http({
+                url: detalleUrl + 'subirEvidencia/',
+                method: "POST",
+                data: oData,
+                headers: {
+                    'Content-Type': undefined
+                }
+            });
+        },
         getExistsComprobanteRecepcion: function(numeroOrden, idCatalogoDocumento) {
             return $http({
                 url: detalleUrl + 'existComprobanteRecepcion/',
