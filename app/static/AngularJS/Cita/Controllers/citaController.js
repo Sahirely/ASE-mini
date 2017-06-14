@@ -16,6 +16,8 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.idServicios = '';
     $scope.idCotizacion = undefined;
     $scope.infoBusqueda = [];
+    $scope.etiquetaFecha = 'Fecha';
+    $scope.etiquetaHora = 'Hora';
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -206,7 +208,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.horaCita,
             $scope.comentarios
         );
-        debugger;
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
@@ -252,6 +253,18 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
             });
     };
+
+    $scope.changeTipoCita = function (data) {
+        $scope.opcionTipoCita = true;
+        if (data.tipoCita == 'Refacciones') {
+            $scope.etiquetaFecha = 'Fecha de Entrega';
+            $scope.etiquetaHora = 'Hora de Entrega';
+        }else{
+            $scope.etiquetaFecha = 'Fecha';
+            $scope.etiquetaHora = 'Hora';
+        }
+       
+    }
 
     //obtiene las zonas por cada nivel con que cuenta el usuario
     $scope.devuelveZonas = function() {
