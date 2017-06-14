@@ -203,6 +203,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             case 1:
                 $scope.hideAllButtons();
                 $scope.showButtonsInProcess();
+                $scope.btn_editarCotizacion = true;
                 break;
             case 2:
                 $scope.hideAllButtons();
