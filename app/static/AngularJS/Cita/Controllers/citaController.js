@@ -18,6 +18,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.infoBusqueda = [];
     $scope.etiquetaFecha = 'Fecha';
     $scope.etiquetaHora = 'Hora';
+    $scope.SeleccionoDiaActual = false;
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -25,7 +26,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
     $scope.Zonas = [];
-    
+
     $scope.init = function() {
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
@@ -153,14 +154,47 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         var anio = CurrentDate.getFullYear();
         var mes = CurrentDate.getMonth() + 1;
         var dia = CurrentDate.getDate();
-        var diaActual  = new Date(anio+'/'+mes+'/'+dia);        
+        var diaActual  = new Date(anio+'/'+mes+'/'+dia);
         var fechaSeleccionada = new Date(fecha);
 
         if (fechaSeleccionada < diaActual){
             $scope.fechaCita = '';
+            $scope.horaCita = '';
+            $scope.SeleccionoDiaActual = false;
             alertFactory.info('No puede seleccionar una fecha pasada.');
         }
+
+        if(!(fechaSeleccionada < diaActual) && !(fechaSeleccionada > diaActual)){
+            $scope.SeleccionoDiaActual = true;
+            if($scope.horaCita != undefined && $scope.horaCita != '' && $scope.horaCita != null){
+                $scope.NoHoraAntigua($scope.horaCita);
+            }
+        }
+
+        if(fechaSeleccionada > diaActual){
+          $scope.SeleccionoDiaActual = false;
+        }
     };
+
+    $scope.NoHoraAntigua = function(hora){
+      if($scope.fechaCita != undefined && $scope.fechaCita != '' && $scope.fechaCita != null){
+          if($scope.SeleccionoDiaActual == true){
+              var HoraActual = new Date();
+              var anio = HoraActual.getFullYear();
+              var mes = HoraActual.getMonth() + 1;
+              var dia = HoraActual.getDate();
+              var HoraSeleccionada  = new Date(anio+'/'+mes+'/'+dia+' '+hora+ ':00.000');
+
+              if (!(HoraSeleccionada > HoraActual)){
+                $scope.horaCita = '';
+                alertFactory.info('No puede seleccionar una hora pasada.');
+              }
+          }
+      }else{
+            $scope.horaCita = '';
+            alertFactory.info('Seleccione antes la fecha de la cita.');
+      }
+    }
     //*****************************************************************************************************************************//
     // Obtiene los servicios(especialidades) que se le pueden ofrecer dependiendo de la operación y el contrato
     //*****************************************************************************************************************************//
@@ -263,7 +297,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.etiquetaFecha = 'Fecha';
             $scope.etiquetaHora = 'Hora';
         }
-       
+
     }
 
     //obtiene las zonas por cada nivel con que cuenta el usuario
