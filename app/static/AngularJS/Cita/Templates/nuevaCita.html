@@ -16,18 +16,16 @@
                             </h2>
                             </div>
                             <div>
-                                <!-- <strong>{{'nombre'}}</strong> -->
                                 <address>
                                     <h3>
-                           <!--  <strong>Zona:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>TAR:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>No. TAR:</strong> {{detalleUnidad.pendiente}}<br><br> -->
-                            <strong>Unidad:</strong> {{detalleUnidad.marca}} - {{detalleUnidad.modelo}}<br><br>
-                            <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
-                            <strong>No. Inventario:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <strong>Ubicación:</strong> {{detalleUnidad.pendiente}}<br><br>
-                            <!-- <strong>Autotanque:</strong> {{detalleUnidad.pendiente}}<br><br> -->
-                            </h3></address>
+                                      <strong>Unidad:</strong> {{detalleUnidad.marca}}<br><br>
+                                      <strong>Sub Marca:</strong> {{detalleUnidad.subMarca}}<br><br>
+                                      <strong>Modelo:</strong> {{detalleUnidad.modelo}}<br><br>
+                                      <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
+                                      <strong>VIN:</strong> {{detalleUnidad.vin}}<br><br>
+                                      <p ng-show="userData.geolocalizacion == 1"><strong>Ubicación:</strong> {{detalleUnidad.gps}}</p><br><br>
+                                    </h3>
+                                </address>
                             </div>
                         </div>
                     </div>
@@ -119,7 +117,7 @@
                     </div>
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Servicio:</label>
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Especialidad:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-hide="mensajeServicios">
                                 <div class="checkbox checkbox-info" ng-repeat="servicio in servicios">
                                     <input id="{{servicio.idServicio}}" type="checkbox" ng-model="servicio.seleccionado" ng-checked="{{servicio.seleccionado}}">
