@@ -420,6 +420,8 @@
                                                 <address>
                                                     <strong>Estatus: </strong>
                                                     <span class="label label-success mayusculas">{{cotizacion.nombreEstatusCotizacion}} </span>
+                                                    <br/> <br/><strong>Usuario Creador: </strong> <span>{{cotizacion.nombreCompleto}}</span>
+                                                    <br><strong>Fecha de Creación: </strong> <span>{{cotizacion.fechaCotizacion | date:"dd/MM/yyyy"}}</span>
                                                 </address>
                                             </div>
                                             <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
@@ -458,7 +460,6 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th>ID Partida</th>
                                                                 <th ng-hide="true">idEspecialidad</th>
                                                                 <th>Especialidad</th>
                                                                 <th ng-hide="true">idPartidaClasificacion</th>
@@ -470,6 +471,8 @@
                                                                 <th>Descripción</th>
                                                                 <th>Foto</th>
                                                                 <th>Instructivo</th>
+                                                                <th>Cantidad</th>
+                                                                <th ng-show="btnSwitch.showCostoVenta">Costo Unitario</th>
                                                                 <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                                                 <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                                                 <th ng-show="estatus == 4">Aprobar</th>
@@ -479,7 +482,6 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr ng-repeat="partida in cotizacion.detalle">
-                                                                <td>{{partida.idPartida}}</td>
                                                                 <td ng-hide="true">{{partida.idEspecialidad}}</td>
                                                                 <td>{{partida.especialidad}}</td>
                                                                 <td ng-hide="true">{{partida.idPartidaClasificacion}}</td>
@@ -489,8 +491,14 @@
                                                                 <td>{{partida.partida}}</td>
                                                                 <td>{{partida.noParte}}</td>
                                                                 <td>{{partida.descripcion}}</td>
-                                                                <td>{{partida.foto}}</td>
-                                                                <td>{{partida.instructivo}}</td>
+                                                                <td class="center"><!--{{partida.foto}}-->
+                                                                    <span class="label label-warning"><i class="glyphicon glyphicon-camera" data-toggle="tooltip" tooltip="Foto" id="cursorPoint"></i></span>
+                                                                </td>
+                                                                <td class="center"><!--{{partida.instructivo}}-->
+                                                                    <span class="label label-success"><i class="glyphicon glyphicon-file" data-toggle="tooltip" tooltip="Instructivo" id="cursorPoint"></i></span>
+                                                                </td>
+                                                                <td>{{partida.cantidad}}</td>
+                                                                <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
                                                                 <td ng-show="estatus == 4" >
