@@ -203,7 +203,7 @@
                                         <td>{{ordenesTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
-                                        <td></td>
+                                        <td>{{ordenesTaller.tiempoEspera}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -241,7 +241,7 @@
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
-                                        <td></td>
+                                        <td>{{ordenesSinTaller.tiempoEspera}}</td>
                                         <td>
                                             <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)"><i class="glyphicon glyphicon-refresh"></i></button>
                                             <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
