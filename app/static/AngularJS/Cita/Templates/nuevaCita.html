@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Tipo de Cita:</label>
                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                                    <select class="form-control" ng-model="tipoDeCita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita" ng-click="opcionTipoCita = true">
+                                    <select class="form-control" ng-model="tipoDeCita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita" ng-change="changeTipoCita(tipoDeCita)">
                                         <option value=''>{{ opcionTipoCita == false ? detalleOrden.nombreTipoCita : 'Selecionar Tipo de Cita'}} </option>
                                     </select>
                                 </div>
@@ -60,7 +60,7 @@
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Estado de la Unidad:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <select class="form-control" ng-model="estadoDeUnidad" ng-options="estadoUnidad.descripcion for estadoUnidad in estadoUnidad track by estadoUnidad.descripcion" ng-click="opcionEstadoUnidad = true">
-                                    <option value=''>{{ opcionEstadoUnidad == false ? detalleOrden.nombreEstadoUnidad : 'Selecionar Tipo de Cita'}}</option>
+                                    <option value=''>{{ opcionEstadoUnidad == false ? detalleOrden.nombreEstadoUnidad : 'Selecionar Estado de la Unidad'}}</option>
                                 </select>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                     </form>
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Fecha:</label>
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">{{etiquetaFecha}}:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <div class="input-group date">
                                     <input type="text" class="form-control fondoBlanco" value="" ng-model="fechaCita" ng-change="NoFechaAntigua(fechaCita)" readonly="readonly" calendar>
@@ -93,7 +93,7 @@
                     </form>
                     <form class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Hora:</label>
+                            <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">{{etiquetaHora}}:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <div class="input-group clockpicker" data-autoclose="true">
                                     <input type="text" class="form-control" value="" ng-model="horaCita" ng-change="validaHoraCita()">
