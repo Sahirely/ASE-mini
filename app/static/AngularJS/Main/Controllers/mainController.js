@@ -16,9 +16,12 @@
     $scope.comentario = '';
 
     $scope.init = function() {
+         $rootScope.busqueda = 1;
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
         $scope.userData = userFactory.getUserData(); //localStorageService.get('userData');
+        $scope.getNumeroEconomico ();
+        $scope.getNumeroOrdenes ();
         if ($scope.userData != null){
           $scope.idUsuario = $scope.userData.idUsuario;
         }
@@ -123,6 +126,18 @@
         });
 
     };
+
+
+    $scope.getNumeroEconomico = function() {
+        $scope.numEconomicos = [];
+        busquedaUnidadRepository.getNumerosEconomicos($scope.userData.contratoOperacionSeleccionada).then(function(result) {
+            angular.forEach(result.data, function(value, key) {
+                $scope.numEconomicos.push(value.numeroEconomico);
+            });
+        });
+
+    };
+
     //*****************************************************************************************************************************//
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
@@ -136,6 +151,16 @@
                 location.href = '/detalle?orden=' + orden;
             }
         });
+    };
+
+    $scope.getNumeroOrdenes= function(orden) {
+        $scope.numOrdenes = [];
+        consultaCitasRepository.getNumerosOrdenes($scope.userData.contratoOperacionSeleccionada).then(function(result) {
+            angular.forEach(result.data, function(value, key) {
+                $scope.numOrdenes.push(value.numeroOrden);
+            });
+         });
+
     };
 
 });

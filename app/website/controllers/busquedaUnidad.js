@@ -57,6 +57,24 @@ busquedaUnidad.prototype.get_existeUnidad = function(req, res, next) {
     });
 };
 
+//Obtiene los núemeros economicos de la operación
+busquedaUnidad.prototype.get_numerosEconomicos = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_NUM_ECONOMICO_OPERACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+};
+
+
 //Obtiene la o las Ordenes de Servicio Actual 
 busquedaUnidad.prototype.get_ordenActual = function(req, res, next) {
     var self = this;

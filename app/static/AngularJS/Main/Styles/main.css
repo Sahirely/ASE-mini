@@ -135,6 +135,10 @@ body {
     padding-top: 11px !important;
 }
 
+.btnBusqueda{
+   padding-top: 22px !important; 
+}
+
 .title {
     font-size: 25px;
     color: #55b2d8;
@@ -200,6 +204,7 @@ body {
     /*transform: skew(-10deg);*/
     /*padding-top: 19px;
     padding-bottom: 25px;*/
+    rol
     text-align: center;
     font-size: 14px;
     font-weight: 600;
@@ -235,6 +240,15 @@ body {
   padding-right: 0px !important;
   padding-left: 0px !important;
   float: right !important;
+  position: relative !important;
+}
+
+.singLeft{
+  font-family: "Source Sans Pro", sans-serif;
+  padding-top: 22px;
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+  float: left !important;
   position: relative !important;
 }
 
@@ -318,4 +332,15 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+#busquedas{
+    padding-left: 150px !important;
+}
+
+.colorDetalle{
+    color: #0E4579;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
 }

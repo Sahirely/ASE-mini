@@ -50,6 +50,24 @@ OrdenServicio.prototype.get_getOrdenExistente = function(req, res, next) {
     });
 }
 
+//Verifica si existe la orden de servicio
+OrdenServicio.prototype.get_numerosOrdenes = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_NUM_ORDEN_OPERACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+
 // Obtiene las acciones existentes por Orden
 OrdenServicio.prototype.get_getOrdenAcciones = function(req, res, next) {
     var self = this;

@@ -28,6 +28,18 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
+        getNumerosOrdenes: function(idContratoOperacion) {
+            return $http({
+                url: consultaCitaUrl + 'numerosOrdenes/',
+                method: "GET",
+                params: {
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getOrdenAcciones: function(idUsuario, numeroOrden) {
             return $http({
                 url: consultaCitaUrl + 'getOrdenAcciones/',

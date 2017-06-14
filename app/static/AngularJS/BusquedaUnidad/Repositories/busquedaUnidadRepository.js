@@ -36,6 +36,18 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                 }
             });
         },
+        getNumerosEconomicos: function(idContratoOperacion) {
+            return $http({
+                url: busquedaUnidadUrl + 'numerosEconomicos/',
+                method: "GET",
+                params: {
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getOrdenActual: function(idUsuario, economico) {
             return $http({
                 url: busquedaUnidadUrl + 'ordenActual/',
