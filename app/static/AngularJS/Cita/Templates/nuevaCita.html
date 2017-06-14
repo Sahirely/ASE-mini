@@ -169,13 +169,17 @@
                         <table class="table table-striped table-bordered table-hover talleres" cg-busy="{promise:promise,message:message}">
                             <thead>
                                 <th>Taller</th>
+                                <th>Nombre Comercial</th>
                                 <th>Dirección</th>
+                                <th>Especialidad</th>
                                 <th ng-show="mostrarAccion">Seleccionar</th>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="taller in talleres">
                                     <td>{{taller.razonSocial}}</td>
+                                    <td>{{taller.nombreComercial}}</td>
                                     <td>{{taller.direccion}}</td>
+                                    <td>{{taller.especialidad}}</td>
                                     <td class="text-center" ng-show="mostrarAccion">
                                         <div class="radio radio-info">
                                             <input type="radio" value="" name="opcionEstatus" ng-model="taller.seleccionado" ng-click="sendIdTaller(taller.idProveedor)">
