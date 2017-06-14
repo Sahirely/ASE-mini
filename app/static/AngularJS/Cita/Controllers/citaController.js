@@ -23,6 +23,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+    
     $scope.init = function() {
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
