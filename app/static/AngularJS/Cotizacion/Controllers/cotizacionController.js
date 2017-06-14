@@ -52,9 +52,9 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
             if (result.data.length > 0) {
                
-                if ($scope.idCotizacion != undefined ) {
+                 if ($scope.idCotizacion != undefined ) {
                     for (var i = 0 ; i < result.data.length; i++) {
-                         if (result.data[i].idTaller == $scope.idTaller) {
+                         if (result.data[i].idProveedor == $scope.idTaller) { //LQMA cambio de result.data[i].idTaller a idProveedor
                             $scope.datosTaller = result.data[i];
                          };
                     };

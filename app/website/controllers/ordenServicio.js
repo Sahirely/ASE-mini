@@ -176,8 +176,8 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
 OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
     var self = this;
     var params = [];
-
-    this.model.query('SEL_TALLER_PRUEBA_SP', params, function(error, result) {
+    //LQMA 14062017 se cambio SEL_TALLER_PRUEBA_SP por SEL_TALLERES_SP
+    this.model.query('SEL_TALLERES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
