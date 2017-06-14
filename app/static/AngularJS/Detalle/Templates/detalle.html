@@ -96,9 +96,13 @@
                             <div class="hr-line-dashed"></div>
                         </div>
                         <!-- Eidencias por orden -->
+                        <!-- <div class="col-sm-12 col-md-6 col-lg-6" ng-hide="validaCertificado != 0"> -->
+                            <!-- <h2>Evidencias</h2> -->
+                        <!-- </div> -->
+
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <div class="carousel slide" id="carousel1">
+                            <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
                                 <div class="carousel-inner">                                    
                                     <div class="item itamCarousel"  ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
                                         <img
@@ -294,7 +298,7 @@
                                 </table>                                
                             </div>
 
-                            <div class="wrapper wrapper-content">
+                            <div class="wrapper wrapper-content" ng-hide="validaCertificado == 0">
                                 <br/>
                                 <form id="frm_evidencia" name="frm_evidencia" enctype="multipart/form-data" method="post">
                                     <label>Carga Evidencia</label>
