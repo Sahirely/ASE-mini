@@ -1,8 +1,8 @@
 <link rel="stylesheet" type="text/css" href="AngularJS/Login/Styles/login.css">
 <div id="container" ng-init="init()" ng-hide="sesion == 1" style="border-color: #0E4579; border-style: solid; border-width: 2px;">
-    <div id="logo">
-        <img id="logoImg" src="image/profile/logoTotalParts.png" class="logoTP"></img>
-    </div>
+    <!--div id="logo"-->
+        <!--img id="logoImg" src="image/profile/logoTotalParts.png" class="logoTP"></img-->
+    <!--/div-->
     <div id="datos">
         <div ng-show="!UserIsValid">
           <div id="usuario">
@@ -12,7 +12,7 @@
           </div>
           <div id="contrasena" >
               <label for="password">Contraseña</label>
-                  <input type="password" ng-model="password" name="password" id="password" class="form-control" ng-model="vm.password" required ng-enter="login(user, password)"/>
+                  <input type="password" ng-model="password" name="password" id="password" class="form-control " ng-model="vm.password" required ng-enter="login(user, password)"/>
                   <span ng-show="password.$dirty && password.$error.required" class="help-block">Password is required</span>
           </div>
       </div>

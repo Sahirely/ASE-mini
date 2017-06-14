@@ -133,11 +133,11 @@
                       
 
                         <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4" ng-hide="userData.idRol == 5" >
-                            <div class="singOut right colorDetalle" ng-hide="busqueda == 2" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(busquedaNumOrden))">
+                            <div class="singOut right colorDetalle" ng-hide="busqueda == 2" >
                                 <span class="fa fa-car"></span>
-                                <span >Unidad : {{busquedaNumEco}}</span>
+                                <span ng-click="getDetalle(1)" >Unidad : {{busquedaNumEco}}</span>
                             </div>
-                            <div class="singOut right colorDetalle" ng-hide="busqueda == 1" ng-click="(busqueda == 1 ? getDetalleUnidad(busquedaNumEco) : getDetalleOrden(busquedaNumOrden))">
+                            <div class="singOut right colorDetalle" ng-hide="busqueda == 1" ng-click="getDetalle(2)">
                                 <span class="fa fa-edit"></span>
                                 <span >Orden : {{busquedaNumOrden}}</span>
                             </div>

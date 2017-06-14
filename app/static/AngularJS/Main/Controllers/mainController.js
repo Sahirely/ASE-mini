@@ -7,8 +7,8 @@
     //*****************************************************************************************************************************//
     // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
-    $rootScope.busqueda = 1;
-    $scope.numeroEconomico = '';
+    
+    
     var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');
@@ -16,7 +16,23 @@
     $scope.comentario = '';
 
     $scope.init = function() {
-         $rootScope.busqueda = 1;
+        if (localStorageService.get('economico') != '') {
+            $scope.busquedaNumEco = localStorageService.get('economico');
+            $rootScope.busqueda = 1;
+            $scope.numeroEconomico = '';
+        }else if (localStorageService.get('orden') != '') {
+            $scope.busquedaNumOrden =  localStorageService.get('orden');
+            $rootScope.busqueda = 1;
+            $scope.numeroOrden = '';
+        }else{
+            $rootScope.busqueda = 1;
+            $scope.numeroEconomico = '';
+            $rootScope.busqueda = 1;
+            $scope.busquedaNumEco = '';
+            $scope.busquedaNumOrden = '';
+        }
+        
+
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();
         $scope.userData = userFactory.getUserData(); //localStorageService.get('userData');
@@ -110,6 +126,8 @@
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function(economico) {
+       
+        localStorageService.set('economico', economico);
         busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
@@ -127,6 +145,14 @@
 
     };
 
+    $scope.getDetalle = function (data){
+        if (data == 1) {
+            $scope.getDetalleUnidad ($scope.busquedaNumEco);
+        }else{
+            $scope.getDetalleOrden ($scope.busquedaNumOrden);
+        }
+    }
+
 
     $scope.getNumeroEconomico = function() {
         $scope.numEconomicos = [];
@@ -142,6 +168,8 @@
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
     $scope.getDetalleOrden = function(orden) {
+        
+        localStorageService.set('orden', orden);
         consultaCitasRepository.getExisteOrden($scope.idUsuario, orden).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
