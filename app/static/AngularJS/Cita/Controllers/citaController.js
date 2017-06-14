@@ -142,6 +142,23 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.estadoUnidad = result.data;
         });
     };
+
+    //*****************************************************************************************************************************//
+    // Valida que la fecha ingresada no sea antigua.
+    //*****************************************************************************************************************************//
+    $scope.NoFechaAntigua = function(fecha){
+        var CurrentDate = new Date();
+        var anio = CurrentDate.getFullYear();
+        var mes = CurrentDate.getMonth() + 1;
+        var dia = CurrentDate.getDate();
+        var diaActual  = new Date(anio+'/'+mes+'/'+dia);        
+        var fechaSeleccionada = new Date(fecha);
+
+        if (fechaSeleccionada < diaActual){
+            $scope.fechaCita = '';
+            alertFactory.info('No puede seleccionar una fecha pasada.');
+        }
+    };
     //*****************************************************************************************************************************//
     // Obtiene los servicios(especialidades) que se le pueden ofrecer dependiendo de la operación y el contrato
     //*****************************************************************************************************************************//

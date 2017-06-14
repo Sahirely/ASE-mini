@@ -85,7 +85,7 @@
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Fecha:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <div class="input-group date">
-                                    <input type="text" class="form-control" value="" ng-model="fechaCita" calendar>
+                                    <input type="text" class="form-control fondoBlanco" value="" ng-model="fechaCita" ng-change="NoFechaAntigua(fechaCita)" readonly="readonly" calendar>
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                 </div>
                             </div>
