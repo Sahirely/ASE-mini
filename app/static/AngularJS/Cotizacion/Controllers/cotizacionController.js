@@ -80,8 +80,13 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             consultaCitasRepository.getCotizacionDetalle($scope.idCotizacion, $scope.userData.idUsuario).then(function(result) {
                
                 if (result.data.length > 0) {
-                    $scope.getPartidasTaller(result.data[0].idProveedor)
-                    $scope.idTaller=result.data[0].idProveedor;
+                    console.log(result.data[0]) //LQMA 14062017 comentado
+                    //$scope.getPartidasTaller(result.data[0].idProveedor)
+                    //$scope.idTaller=result.data[0].idProveedor;
+                    //LQMA add 14062017 
+                    $scope.getPartidasTaller(result.data[0].idTaller)
+                    $scope.idTaller=result.data[0].idTaller;
+                    //////////////////////////////
                     $scope.mostrarTalleres = false;
                     $scope.mostrarPartida = true;
                     $scope.lstPartidaSeleccionada=[];
