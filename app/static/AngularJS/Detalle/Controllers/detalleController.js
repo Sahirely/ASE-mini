@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -657,6 +657,26 @@ registrationModule.controller('detalleController', function($scope, $location, $
             if (result.data[0].RealizarOperacion) {
                 detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
                     alertFactory.success('Se ha terminado el trabajo');
+                                        /*
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                            if (resp.data.length > 0) {
+                                var correoDe = resp.data[0].correoDe;
+                                var correoPara = resp.data[0].correoPara;
+                                var asunto = resp.data[0].asunto;
+                                var texto = resp.data[0].texto;
+                                var bodyhtml = resp.data[0].bodyhtml;
+                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                    if (result.data.length > 0) {
+                                        console.log('envia correo desde front')
+                                    }
+                                }, function(error) {
+                                    alertFactory.error('No se puede enviar el correo');
+                                });
+                            }
+                        }, function (error) {
+                            alertFactory.error("Error al obtener información para el mail");
+                        });
+                    */
                     $("html, body").animate({
                         scrollTop: 0
                     }, 1000);
@@ -678,6 +698,26 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         if (r_token.data[0].Success) {
                             detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
                                 alertFactory.success('Se ha pasado a estatus Entrega');
+                                  /*
+                                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                                            if (resp.data.length > 0) {
+                                                var correoDe = resp.data[0].correoDe;
+                                                var correoPara = resp.data[0].correoPara;
+                                                var asunto = resp.data[0].asunto;
+                                                var texto = resp.data[0].texto;
+                                                var bodyhtml = resp.data[0].bodyhtml;
+                                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                                    if (result.data.length > 0) {
+                                                        console.log('envia correo desde front')
+                                                    }
+                                                }, function(error) {
+                                                    alertFactory.error('No se puede enviar el correo');
+                                                });
+                                            }
+                                        }, function (error) {
+                                            alertFactory.error("Error al obtener información para el mail");
+                                        });
+                                    */
                                 $("html, body").animate({
                                     scrollTop: 0
                                 }, 1000);
