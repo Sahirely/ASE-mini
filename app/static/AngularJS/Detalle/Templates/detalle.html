@@ -9,11 +9,16 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
                         <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4">
-                            <h3>Orden: <span class="text-orden">{{numeroOrden}} </span></h3>
+                            <h3>Orden: <span class="text-orden"> {{numeroOrden}} </span></h3>
                             <h3>Tipo de Orden: <span class="text-orden">{{detalleOrden.nombreTipoOrden}} </span></h3>
                         </div>
                         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
                             <h3><span class="label label-primary mayusculas">{{detalleOrden.nombreEstatusOrden}} </span></h3>
+                            <button class="btn btn-primary pull-right" 
+                                    ng-show="estatus == 5"
+                                    ng-click="getReporteConformidad(detalleOrden.idOrden)">
+                                Test :: Generar Hoja de trabajo :: Orden ( {{detalleOrden.idOrden}} )
+                            </button>
                         </div>
                         <div class="col-xs-12 col-sm-12">
                             <div class="hr-line-dashed"></div>
@@ -231,12 +236,17 @@
                                 <table width="100%" border="0" cellspacing="40" cellpadding="40">
                                     <tr>
                                         <td style="width: 200px;" align="center" ng-repeat="evidencia in detalleEvidencias">
-                                            <a href="http://localhost:5301/orden/{{evidencia.rutaEvidencia}}" class="documentos" download="">
+                                            <a href="{{evidencia.ruta}}" class="documentos" download="">
                                                 <div class="gal-ico-thums" ng-show="evidencia.tipo == 'jpg' 
-                                                            || evidencia.tipo == 'jpeg'
-                                                            || evidencia.tipo == 'png'
-                                                            || evidencia.tipo == 'gif'
-                                                            || evidencia.tipo == 'bmp'">
+                                                                                    || evidencia.tipo == 'JPG'
+                                                                                    || evidencia.tipo == 'jpeg'
+                                                                                    || evidencia.tipo == 'JPEG'
+                                                                                    || evidencia.tipo == 'png'
+                                                                                    || evidencia.tipo == 'PNG'
+                                                                                    || evidencia.tipo == 'gif'
+                                                                                    || evidencia.tipo == 'GIG'
+                                                                                    || evidencia.tipo == 'bmp'
+                                                                                    || evidencia.tipo == 'BMP'">
                                                     <img alt="image"
                                                          class=""
                                                          width="100" 
