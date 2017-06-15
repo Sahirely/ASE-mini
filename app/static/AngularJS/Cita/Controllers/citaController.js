@@ -247,6 +247,27 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
+                $scope.idOrden = result.data[0].idOrden;
+
+                    /*globalFactory.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                            if (resp.data.length > 0) {
+                                var correoDe = resp.data[0].correoDe;
+                                var correoPara = resp.data[0].correoPara;
+                                var asunto = resp.data[0].asunto;
+                                var texto = resp.data[0].texto;
+                                var bodyhtml = resp.data[0].bodyhtml;
+                                 globalFactory.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                    if (result.data.length > 0) {
+                                        console.log('envia correo desde front')
+                                    }
+                                }, function(error) {
+                                    alertFactory.error('No se puede enviar el correo');
+                                });
+                            }
+                        }, function (error) {
+                            alertFactory.error("Error al obtener información para el mail");
+                        });*/
+
                 if ($scope.labelItems > 0) {
                     cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
                         $scope.idCotizacion = result.data[0].idCotizacion;
@@ -351,7 +372,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         });
         if ($scope.idServicios == '') {
 
-            alertFactory.warning("Seleccione minimo un servicio como criterio de búsqueda.");
+            alertFactory.warning("Seleccione minimo un especialidad como criterio de búsqueda.");
         } else if ($scope.zonaSelected == 0) {
             alertFactory.warning("Seleccione minimo una zona como criterio de búsqueda.");
         } else {

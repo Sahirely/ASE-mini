@@ -81,4 +81,26 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
      
 };
 
+//tipo de unidad
+CommonFunctions.prototype.get_dataMail = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    },
+    {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_CORREO_RECORDATORIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = CommonFunctions;

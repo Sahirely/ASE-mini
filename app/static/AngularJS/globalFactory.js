@@ -140,6 +140,12 @@ registrationModule.factory('globalFactory', function(commonFunctionRepository) {
                 console.log(result);
             });
 
+        },
+        dataMail: function(idOrden,idUsuario) {
+            commonFunctionRepository.dataMail(idOrden,idUsuario).then(function(result) {
+                console.log(result);
+            });
+
         }
     }
 })
