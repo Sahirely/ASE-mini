@@ -1,4 +1,4 @@
-registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository, consultaCitasRepository) {
+registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository, consultaCitasRepository, commonFunctionRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
@@ -248,15 +248,15 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
                 $scope.idOrden = result.data[0].idOrden;
-
-                    /*globalFactory.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+/*
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
                             if (resp.data.length > 0) {
                                 var correoDe = resp.data[0].correoDe;
                                 var correoPara = resp.data[0].correoPara;
                                 var asunto = resp.data[0].asunto;
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
-                                 globalFactory.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
                                     if (result.data.length > 0) {
                                         console.log('envia correo desde front')
                                     }
@@ -266,8 +266,8 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             }
                         }, function (error) {
                             alertFactory.error("Error al obtener información para el mail");
-                        });*/
-
+                        });
+*/
                 if ($scope.labelItems > 0) {
                     cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
                         $scope.idCotizacion = result.data[0].idCotizacion;
