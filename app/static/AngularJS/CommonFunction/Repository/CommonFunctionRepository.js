@@ -19,6 +19,19 @@ registrationModule.factory('commonFunctionRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
-        }        
+        },
+        dataMail: function(idOrden,idUsuario){
+            return $http({
+                url: commonFunctionUrl + 'dataMail/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idUsuario: idUsuario
+                  },
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+        }         
     };
 });

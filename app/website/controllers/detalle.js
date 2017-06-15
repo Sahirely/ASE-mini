@@ -22,6 +22,22 @@ var Detalle = function (conf) {
    ]
 }
 
+Detalle.prototype.get_tiempoTranscurrido = function(req, res, next){
+    var self = this;
+    var params = [{
+        name: 'numOrden',
+        value: req.query.numOrden,
+        type: self.model.types.STRING
+    }];
+
+    self.model.query('SEL_TIEMPO_TRANCURRIDO_ORDEN_SP', params, function(error, result){
+        self.view.expositor(res, {
+          error: error,
+          result: result
+        });
+    });
+}
+
 Detalle.prototype.get_cambiarStatusOrden = function(req, res, next){
     var self = this;
     var params = [
@@ -70,7 +86,7 @@ Detalle.prototype.get_facturasPorOrden = function(req, res, next){
                             msg: 'Se encontraron ' + respuesta.length + ' registros.',
                             data: respuesta
                         }
-                    });   
+                    });
                 }
             });
         });

@@ -14,6 +14,27 @@
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
 
+.reloj{
+    width: 50px;
+    font-size: 60px;
+    transform: scaleX(-1);
+    -moz-transform: scaleX(-1);
+}
+
+.conTiempo{
+    color: #5bc0de;
+}
+
+.sinTiempo{
+    color: red;
+}
+
+.TiempoTranscurrido{
+  padding-top: 18px;
+  text-align: right;
+  font-size: 20px;
+}
+
 .Inactivo {
     pointer-events: none;
     background-color: #ffce88;
@@ -326,7 +347,7 @@
 }
 
 .iborrainputfile {
-    font-size:14px; 
+    font-size:14px;
     font-weight:normal;
     font-family: sans-serif;
 }
@@ -375,7 +396,7 @@
 }
 
 #ModalShowFactura .modal-body {
-    padding: 0px !important; 
+    padding: 0px !important;
 }
 
 .fac_pdf{
