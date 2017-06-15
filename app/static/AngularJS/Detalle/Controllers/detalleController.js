@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, $modal, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -31,6 +31,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.errores_factura = false;
     $scope.idOrden = 0;
 
+    $scope.sinTiempoDisponible = 1;
+    $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
+
     $scope.init = function() {
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
@@ -50,7 +53,34 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.getSaldos($routeParams.orden);
         $('.horaAsignada').clockpicker();
         $scope.ShowFacturas();
+        if($scope.userData.tiempoAsignado == 1){
+          //inicia reloj
+          $scope.iniTime();
+        }else{
+          $scope.sinTiempoDisponible = 0;
+          $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
+        }
     };
+
+    //funcion reloj recursiva cada minuto
+    $scope.iniTime = function(){
+        detalleRepository.getTiempoTranscurrido($scope.numeroOrden).then(function(result){
+          if (result.data.length > 0){
+            $scope.sinTiempoDisponible = result.data[0].sinTiempoDisponible;
+            $scope.tiempoTranscurridoDisplay = result.data[0].tiempoTranscurridoDisplay;
+
+            $timeout(function(){
+                $scope.iniTime();
+            },60000);
+          }
+        }, function(error){
+            alertFactory.error('No se pudo obtener el tiempo transcurrido.');
+            $scope.sinTiempoDisponible = 0;
+            $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
+        });
+      };
+
+
 
     $scope.getHistoricos = function() {
         detalleRepository.getHistoricoOrden($scope.numeroOrden).then(function(result) {
@@ -142,7 +172,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 console.log( Math.round(resEvidnecias.length / 4) );
                 resEvidnecias.forEach( function( item, key ){
                     resEvidnecias[key].tipo = item.rutaEvidencia.split('.').pop().toString();
-                    resEvidnecias[key].ruta = $rootScope.docServer + '/orden/' + item.rutaEvidencia;                    
+                    resEvidnecias[key].ruta = $rootScope.docServer + '/orden/' + item.rutaEvidencia;
                 });
 
                 $scope.detalleEvidencias = resEvidnecias;
@@ -335,7 +365,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.setRowColor = function(obj) {
-    
+
         switch (Number(obj.nivel)) {
             case 1:
                 obj.rowColor = 'info';

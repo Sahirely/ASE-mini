@@ -102,6 +102,18 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        getTiempoTranscurrido: function(numOrden) {
+          return $http({
+              url: detalleUrl + 'tiempoTranscurrido/',
+              method: "GET",
+              params: {
+                  numOrden: numOrden
+              },
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
+        },
         getHistoricoOrden: function(numOrden) {
             return $http({
                 url: detalleUrl + 'obtenerHistoricoOrden/',
