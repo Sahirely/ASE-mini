@@ -840,8 +840,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.estatusAprobacion = function() {
     swal({
-            title: "¿Está seguro que desea aprobar la Orden?",
-            text: "Se cambiará el estatus a 'Orden Aprobada'",
+            title: "¿Está seguro que desea enviar la Orden a aprobación?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#65BD10",
@@ -856,9 +855,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
                     $scope.init();
                 });
-                swal("Orden Aprobada!", "success");
+                swal("Orden en aprobación!");
             } else {
-                swal("La Orden no fue Aprobada!", "", "error");
+                swal("La Orden no se envió a aprobación!");
             }
         });
     };
