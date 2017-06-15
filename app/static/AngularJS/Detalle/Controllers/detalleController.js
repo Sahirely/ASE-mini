@@ -129,11 +129,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
                 $scope.idOrdenURL = $scope.detalleOrden.idOrden;
                 var statusCotizacion = 0;
-                if ($scope.estatus == 1 || $scope.estatus == 2 || $scope.estatus == 3) {
+                if ($scope.idEstatusOrden == 1 || $scope.idEstatusOrden == 2 || $scope.idEstatusOrden == 3) {
                     statusCotizacion = '1';
-                } else if ($scope.estatus == 4) {
+                } else if ($scope.idEstatusOrden == 4) {
                     statusCotizacion = '1,2';
-                } else if ($scope.estatus == 5 || $scope.estatus == 6 || $scope.estatus == 7) {
+                } else if ($scope.idEstatusOrden == 5 || $scope.idEstatusOrden == 6 || $scope.idEstatusOrden == 7) {
                     statusCotizacion = '3';
                 }
 
