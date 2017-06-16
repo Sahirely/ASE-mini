@@ -527,6 +527,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 rptReporteConformidadData.partidas = result.data[1];
                 rptReporteConformidadData.total = result.data[2][0];
                 rptReporteConformidadData.firma = result.data[3];
+                rptReporteConformidadData.zona = result.data[4];
                 new Promise(function(resolve, reject) {
                     var rptReporteConformidad = {
                         "encabezado": [
@@ -534,7 +535,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         ],
                         "partidas": rptReporteConformidadData.partidas,
                         "total": rptReporteConformidadData.total.total,
-                        "firma": rptReporteConformidadData.firma
+                        "firma": rptReporteConformidadData.firma,
+                        "zona": rptReporteConformidadData.zona
                     }
                     var jsonData = {
                         "template": {
