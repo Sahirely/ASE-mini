@@ -93,7 +93,18 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
       $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( 3, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
           if (result.data.length > 0){
-              $scope.cotizaciones = result.data;
+              debugger;
+              result.data.forEach(function(item) {
+                  var existe = false;
+                  $scope.cotizaciones.forEach(function(value){
+                      if (value.idOrden == item.idOrden){
+                          existe = true;
+                      }
+                  });
+                  if (!existe){
+                      $scope.cotizaciones.push(item);
+                  }
+              });
               globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
               globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
           } else {
