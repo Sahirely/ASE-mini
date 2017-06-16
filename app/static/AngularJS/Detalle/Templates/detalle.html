@@ -69,12 +69,32 @@
                                             <span>{{detalleOrden.numeroEconomico}}</span>
                                         </p>
                                         <p>
+                                            <label>Placas:</label>
+                                            <span>{{detalleOrden.placas}}</span>
+                                        </p>
+                                        <p>
+                                            <label>VIN:</label>
+                                            <span>{{detalleOrden.vin}}</span>
+                                        </p>
+                                        <p>
                                             <label>Marca-Modelo: </label>
-                                            <span>{{detalleOrden.marca}}</span>
+                                            <span>{{detalleOrden.marca}}  {{detalleOrden.submarca}} - {{detalleOrden.modelo}}</span>
+                                        </p>
+                                        <p>
+                                            <label>Versión:</label>
+                                            <span>{{detalleOrden.version}}</span>
+                                        </p>
+                                        <p>
+                                            <label>Tipo de Unidad:</label>
+                                            <span>{{detalleOrden.tipoUnidad}}</span>
+                                        </p>
+                                        <p ng-show="userData.geolocalizacion == 1">
+                                            <label>Ubicación:</label>
+                                            <span>{{detalleOrden.gps}}</span>
                                         </p>
                                         <p>
                                             <label>Zona:</label>
-                                            <span>Centro</span>
+                                            <span>{{detalleOrden.nombreZona}}</span>
                                         </p>
                                         <p>
                                             <label>Plan de Acción:</label>
@@ -568,11 +588,11 @@
                                                             <tr>
                                                                 <td colspan="10">&nbsp;</td>
                                                                 <td colspan="3" align="right">
-                                                                    <a href="#" 
+                                                                    <a href="#"
                                                                        class="btn btn-success btn-xs"
                                                                        ng-show="estatus == 4"
                                                                        ng-click="modal_aprobacion( cotizacion.idCotizacion, cotizacion.idEstatusCotizacion )">
-                                                                        <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token 
+                                                                        <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token
                                                                     </a>
                                                                 </td>
                                                             </tr>
