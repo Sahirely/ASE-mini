@@ -231,10 +231,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
         location.href = '/comprobanteRecepcion?orden=' + $routeParams.orden;
     };
 
+    $scope.partidasportokentotal = 0;
     $scope.initApproveButtons = function(item) {
         if (item.Aprueba == 1 && item.idEstatusPartida == 1) {
             item.btnDisabled = false;
             if( $scope.portoken ){
+                $scope.partidasportokentotal++;
                 item.selOption = 2;
             }
             else{
@@ -258,14 +260,18 @@ registrationModule.controller('detalleController', function($scope, $location, $
         else{
             // idOrden, Token, idCotizacion
             detalleRepository.validaTokenAprobacion( $scope.detalleOrden.idOrden, $scope.token_aprobacion, $scope.idCotizacionActive ).then(function(result) {
-                console.log( result );
-                console.log( result.data[0].Success );
                 if( result.data[0].Success == 1 ){
                     $("#ModalShowToken").modal('hide');
-                    $scope.aprobacionPorToken($scope.numeroOrden, 2, result.data[0].idUsuario );
-                    $scope.btnSaveCotizacion();
-                    // consulta
-                    // confirmacion
+                    $scope.aprobacionPorToken($scope.numeroOrden, $scope.idEstatusCotizacionActive, result.data[0].idUsuario );
+                    setTimeout( function(){
+
+                        if( $scope.partidasportokentotal == 0 ){
+                            alertFactory.warning('El token proporcionado no cuenta con el nivel de autorización necesario para esta operación.');
+                        }
+                        else{
+                            $scope.btnSaveCotizacion( result.data[0].idUsuario );
+                        }
+                    },500 );
                 }
                 else{
                     $(".err_aprobacion").fadeIn();
@@ -279,6 +285,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 // alertFactory.error('');
             });
         }
+
+        $scope.token_aprobacion = '';
     }
 
     $scope.portoken = false;
@@ -289,9 +297,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.idCotizacionActive = 0
-    $scope.modal_aprobacion = function( id ){
+    $scope.modal_aprobacion = function( id, estatus ){
         $("#ModalShowToken").modal();
         $scope.idCotizacionActive = id;
+        $scope.idEstatusCotizacionActive = estatus;
     }
 
     $scope.setActiveButtons = function(idstatus) {
@@ -325,12 +334,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     };
 
-    $scope.btnSaveCotizacion = function() {
-
+    $scope.btnSaveCotizacion = function( idUsuario ) {
+        console.log( 'idUsuario', idUsuario );
         var haveBalance = $scope.checkBalance();
 
         if (haveBalance == true) {
-            $scope.UpdatePartidaStatus();
+            $scope.UpdatePartidaStatus( idUsuario );
         } else {
             $('.modal-dialog').css('width', '1050px');
             modal_saldos($scope, $modal, $scope.saldos, '', '');
@@ -356,18 +365,16 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }
     };
 
-    $scope.UpdatePartidaStatus = function() {
+    $scope.UpdatePartidaStatus = function( idUsuario ) {
         $scope.cotizaciones[0].detalle.forEach(function(item) {
-
             if (item.btnDisabled == false && item.selOption > 1) {
-
                 var params = {
                     idUsuario: '',
                     idCotizacion: '',
                     idPartida: '',
                     idEstatusPartida: 0
                 };
-                params.idUsuario = $scope.idUsuario;
+                params.idUsuario = idUsuario;
                 params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
                 params.idPartida = item.idPartida;
                 params.idEstatusPartida = item.selOption;
@@ -398,10 +405,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         });
                 */
             }
-
         });
+
         setTimeout(function() {
-            $scope.UpdateCotizacionStatus($scope.cotizaciones[0].idCotizacion, $scope.idUsuario);
+            $scope.UpdateCotizacionStatus($scope.cotizaciones[0].idCotizacion, idUsuario);
         }, 1000);
     };
 

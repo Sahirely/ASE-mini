@@ -61,20 +61,32 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
           idUsuario
         ){
           return $http({
-              url: searchUrl + 'ConsultaOrdenes/',
+              url: searchUrl + 'ObtenerOrdenesTipoConsulta/',
               method: "GET",
               params: {
-                tipoConsulta: tipoConsulta,
-                idContratoOperacion: idContratoOperacion,
-                idZona: idZona,
-                fechaInicial: fechaInicial,
-                fechaFin: fechaFin,
-                fecha: fecha,
-                fechaMes: fechaMes,
-                numeroTrabajo: numeroTrabajo,
-                NivelZona: NivelZona,
-                idUsuario: idUsuario
+                fechaEspecifico: fecha,  //tipoConsulta: tipoConsulta,
+                fechaFin: fechaFin,         //idContratoOperacion: idContratoOperacion,
+                fechaInicial: fechaInicial,     //idZona: idZona,
+                fechaMes: fechaMes,         //fechaInicial: fechaInicial,
+                idContratoOperacion: idContratoOperacion,//fechaFin: fechaFin,
+                idUsuario: idUsuario,        //fecha: fecha,
+                idZona: idZona,           //fechaMes: fechaMes,
+                nivelZona: NivelZona,        //numeroTrabajo: numeroTrabajo,
+                numeroOrden: numeroTrabajo,      //NivelZona: NivelZona,
+                tipoConsulta: tipoConsulta      //idUsuario: idUsuario
               },
+              // params: {
+              //   tipoConsulta: tipoConsulta,
+              //   idContratoOperacion: idContratoOperacion,
+              //   idZona: idZona,
+              //   fechaInicial: fechaInicial,
+              //   fechaFin: fechaFin,
+              //   fecha: fecha,
+              //   fechaMes: fechaMes,
+              //   numeroTrabajo: numeroTrabajo,
+              //   NivelZona: NivelZona,
+              //   idUsuario: idUsuario
+              // },
               headers: {
               'Content-Type': 'application/json'
               }

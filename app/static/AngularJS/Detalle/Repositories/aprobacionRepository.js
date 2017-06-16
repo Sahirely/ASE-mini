@@ -13,6 +13,7 @@ registrationModule.factory('aprobacionRepository', function($http) {
             });
         },
         getUpdateStatusPartida: function(params) {
+            console.log( params );
             return $http({
                 url: aprobacionUrl + 'updateStatusPartida/',
                 method: "GET",
