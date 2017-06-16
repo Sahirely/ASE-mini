@@ -107,6 +107,22 @@ Detalle.prototype.get_validaTerminoTrabajo = function(req, res, next){
     });
 }
 
+Detalle.prototype.get_validaTokenAprobacion = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'Token', value: req.query.Token, type: self.model.types.STRING},
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
+            {name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT}
+        ];
+
+    this.model.query('SEL_VALIDA_TOKEN_APROBACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_validaToken = function(req, res, next){
     var self = this;
     var params = [

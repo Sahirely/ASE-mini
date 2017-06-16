@@ -564,6 +564,18 @@
                                                                 </td>
                                                             </tr>
                                                         </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="10">&nbsp;</td>
+                                                                <td colspan="3" align="right">
+                                                                    <a href="#" 
+                                                                       class="btn btn-success btn-xs"
+                                                                       ng-click="modal_aprobacion( cotizacion.idCotizacion )">
+                                                                        <i class="fa fa-key" aria-hidden="true"></i> Aprobacion por Token 
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
                                                     </table>
                                                 </div>
                                                 <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
@@ -810,6 +822,35 @@
                         <!-- /Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Mostrar -->
+<div class="modal fade" id="ModalShowToken" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Token Aprobaciones</h4>
+            </div>
+            <div class="modal-body">
+                <p>Introduzca el token proporcionado por el usuario quien autoriza.</p>
+                <br>
+                <label>Token</label>
+                <input type="text" ng-model="token_aprobacion" class="token_admin form-control">
+
+                <br>
+                <div class="alert alert-warning err_aprobacion" style="display: none;">
+                    <strong>¡Atención!</strong> {{ err_apronacion }}
+                </div>
+            </div>
+            <div class="modal-footer consulta">
+                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="VerificaTokenAprobacion();">
+                    Aceptar
+                </button>
             </div>
         </div>
     </div>

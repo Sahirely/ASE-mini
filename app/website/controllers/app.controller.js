@@ -53,10 +53,12 @@ Mobile.prototype.get_buscarOrden = function (req, res, next) {
     var self = this;
 
     var params = [
-                    {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING}
+                    {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING},
+                    {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT},
+                    {name: 'consecutivoCotizacion', value: req.query.consecutivoCotizacion, type: self.model.types.INT}
                 ];
 
-    this.model.query('APP_BUSCAR_ORDEN',params, function (error, result) {
+    this.model.query('APP_BUSCAR_ORDEN_APRO',params, function (error, result) {
         object.error = error;
         object.result = result;
 
@@ -77,7 +79,8 @@ Mobile.prototype.get_insertToken = function (req, res, next) {
                     {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING},
                     {name: 'idOrdenServicio', value: req.query.idOrdenServicio, type: self.model.types.STRING},
                     {name: 'origenToken', value: req.query.origenToken, type: self.model.types.STRING},
-                    {name: 'idEstatusOrden', value: req.query.idEstatusOrden, type: self.model.types.STRING}
+                    {name: 'idEstatusOrden', value: req.query.idEstatusOrden, type: self.model.types.STRING},
+                    {name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT}
                 ]; 
 
     this.model.post('APP_GUARDAR_TOKEN', params, function (error, result) {

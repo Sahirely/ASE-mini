@@ -30,6 +30,22 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        validaTokenAprobacion: function( idOrden, Token, idCotizacion ) {
+            // Token, idOrden, idCotizacion
+            // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
+            return $http({
+                url: detalleUrl + 'validaTokenAprobacion/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    Token:Token,
+                    idCotizacion: idCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         validaToken: function( idOrden, Token ) {
             // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
             return $http({
