@@ -26,7 +26,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
 
     $scope.traeOrdenesAtrasadas = function() {
 
-            dashboardCallCenterRepository.getOrdenAtraso($scope.idOperacion, $scope.userData.idUsuario)
+            dashboardCallCenterRepository.getOrdenAtraso($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
                 .then(function successCallback(response) {
                     $scope.ordenesAtrasadas = response.data[0].NUM;
                   }, function errorCallback(response) {
@@ -36,7 +36,8 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         };
 
     $scope.traeOrdenesParaHoy = function() {
-            dashboardCallCenterRepository.getOrdenParaHoy($scope.idOperacion, $scope.userData.idUsuario)
+      
+            dashboardCallCenterRepository.getOrdenParaHoy($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
                 .then(function successCallback(response) {
                     $scope.ordenesParaHoy = response.data[0].NUM;
                 }, function errorCallback(response) {
@@ -45,7 +46,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         };
 
     $scope.traeOrdenesSinObjetivo = function() {
-            dashboardCallCenterRepository.getOrdenSinObjetivo($scope.idOperacion, $scope.userData.idUsuario)
+            dashboardCallCenterRepository.getOrdenSinObjetivo($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
                 .then(function successCallback(response) {
                     $scope.ordenesSinObjetivo = response.data[0].NUM;
                 }, function errorCallback(response) {
@@ -57,7 +58,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
      $scope.traeRecordatorios = function(){
          $('.dataTableRecordatorios').DataTable().destroy();
          $scope.operaciones=[];
-        $scope.promise = dashboardCallCenterRepository.getRecordatorios($scope.idOperacion, $scope.userData.idUsuario).then(function (result) {
+        $scope.promise = dashboardCallCenterRepository.getRecordatorios($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function (result) {
             if (result.data.length > 0) {
                 $scope.recordatorios = result.data;
                  globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 5);
@@ -70,7 +71,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     $scope.traeOrdenCallCenter = function(){
          $('.dataTableOrdenCallCenter').DataTable().destroy();
          $scope.operaciones=[];
-        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.idOperacion, $scope.userData.idUsuario).then(function (result) {
+        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
                  globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 100);
