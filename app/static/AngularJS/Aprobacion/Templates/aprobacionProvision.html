@@ -28,7 +28,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="provision in aprobacionProvision | filter:searchText " title="Ver detalles" ng-click="seleccionarOrden(provision)">
+                                    <tr ng-repeat="provision in aprobacionProvision | filter:searchText " title="Ver detalles" ng-dblclick="seleccionarOrden(provision)">
                                         <td>{{provision.nombreCliente}}</td>
                                         <td>{{provision.idOrden}}</td>
                                         <td>{{provision.numeroOrden}}</td>
