@@ -232,16 +232,67 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.initApproveButtons = function(item) {
-
         if (item.Aprueba == 1 && item.idEstatusPartida == 1) {
             item.btnDisabled = false;
-            item.selOption = item.idEstatusPartida;
+            if( $scope.portoken ){
+                item.selOption = 2;
+            }
+            else{
+                item.selOption = item.idEstatusPartida;
+            }
         } else {
             item.btnDisabled = true;
             item.selOption = item.idEstatusPartida;
         }
-
     };
+
+    $scope.err_aprobacion_show = false;
+    $scope.VerificaTokenAprobacion = function(){
+        if( $scope.token_aprobacion == '' || $scope.token_aprobacion === undefined ){
+            $(".err_aprobacion").fadeIn();
+            $scope.err_apronacion = 'Es necesario el token para hacer esta operación';
+            setTimeout( function(){
+                $(".err_aprobacion").fadeOut();
+            }, 3000);
+        }
+        else{
+            // idOrden, Token, idCotizacion
+            detalleRepository.validaTokenAprobacion( $scope.detalleOrden.idOrden, $scope.token_aprobacion, $scope.idCotizacionActive ).then(function(result) {
+                console.log( result );
+                console.log( result.data[0].Success );
+                if( result.data[0].Success == 1 ){
+                    $("#ModalShowToken").modal('hide');
+                    $scope.aprobacionPorToken($scope.numeroOrden, 2, result.data[0].idUsuario );
+                    $scope.btnSaveCotizacion();
+                    // consulta
+                    // confirmacion
+                }
+                else{
+                    $(".err_aprobacion").fadeIn();
+                    $scope.err_apronacion = result.data[0].Msg;
+                    $scope.token_aprobacion = '';
+                    setTimeout( function(){
+                        $(".err_aprobacion").fadeOut();
+                    }, 3000);
+                }
+            }, function(error) {
+                // alertFactory.error('');
+            });
+        }
+    }
+
+    $scope.portoken = false;
+    $scope.aprobacionPorToken = function(numeroOrden, estatus, usuario){
+        console.log('Aprobacion por Token');
+        $scope.portoken = true;
+        $scope.getMostrarCotizaciones(numeroOrden, estatus, usuario);
+    }
+
+    $scope.idCotizacionActive = 0
+    $scope.modal_aprobacion = function( id ){
+        $("#ModalShowToken").modal();
+        $scope.idCotizacionActive = id;
+    }
 
     $scope.setActiveButtons = function(idstatus) {
 
@@ -748,6 +799,26 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         if (r_token.data[0].Success) {
                             detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
                                 alertFactory.success('Se ha pasado a Orden por Cobrar');
+                                        /*
+                                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                                                if (resp.data.length > 0) {
+                                                    var correoDe = resp.data[0].correoDe;
+                                                    var correoPara = resp.data[0].correoPara;
+                                                    var asunto = resp.data[0].asunto;
+                                                    var texto = resp.data[0].texto;
+                                                    var bodyhtml = resp.data[0].bodyhtml;
+                                                     commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                                        if (result.data.length > 0) {
+                                                            console.log('envia correo desde front')
+                                                        }
+                                                    }, function(error) {
+                                                        alertFactory.error('No se puede enviar el correo');
+                                                    });
+                                                }
+                                            }, function (error) {
+                                                alertFactory.error("Error al obtener información para el mail");
+                                            });
+                                        */
                                 $("html, body").animate({
                                     scrollTop: 0
                                 }, 1000);
@@ -782,6 +853,26 @@ registrationModule.controller('detalleController', function($scope, $location, $
             },
             function() {
                 detalleRepository.rechazaTrabajo($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(Rechazado) {
+                    /*
+                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                                if (resp.data.length > 0) {
+                                    var correoDe = resp.data[0].correoDe;
+                                    var correoPara = resp.data[0].correoPara;
+                                    var asunto = resp.data[0].asunto;
+                                    var texto = resp.data[0].texto;
+                                    var bodyhtml = resp.data[0].bodyhtml;
+                                     commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                        if (result.data.length > 0) {
+                                            console.log('envia correo desde front')
+                                        }
+                                    }, function(error) {
+                                        alertFactory.error('No se puede enviar el correo');
+                                    });
+                                }
+                            }, function (error) {
+                                alertFactory.error("Error al obtener información para el mail");
+                            });
+                        */
                     $("html, body").animate({
                         scrollTop: 0
                     }, 1000);
