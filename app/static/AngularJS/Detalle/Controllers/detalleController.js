@@ -10,7 +10,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.idUsuario = 0;
     $scope.numeroOrden = $routeParams.orden;
     $scope.idEstatusOrden = 0;
-    $scope.estatus = $routeParams.estatus;
+    $scope.estatus = 0;
     $scope.textoNota = null;
     $scope.notaTrabajo = [];
     $scope.HistoricoOrden = [];
@@ -48,7 +48,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.setActiveButtons($scope.estatus);
         $scope.enviaNota();
         $scope.getSaldos($routeParams.orden);
         $('.horaAsignada').clockpicker();
@@ -122,20 +121,26 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
-            $scope.idOrden = result.data[0].idOrden;
             if (result.data.length > 0) {
+                $scope.idOrden = result.data[0].idOrden;
                 $scope.detalleOrden = result.data[0];
+                $scope.estatus = $routeParams.estatus;
+
+                if ($scope.estatus == undefined)
+                  $scope.estatus = $scope.detalleOrden.idEstatusOrden;
 
                 $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden;
                 $scope.idOrdenURL = $scope.detalleOrden.idOrden;
                 var statusCotizacion = 0;
-                if ($scope.idEstatusOrden == 1 || $scope.idEstatusOrden == 2 || $scope.idEstatusOrden == 3) {
+                if ($scope.estatus == 1 || $scope.estatus == 2 || $scope.estatus == 3) {
                     statusCotizacion = '1';
-                } else if ($scope.idEstatusOrden == 4) {
+                } else if ($scope.estatus == 4) {
                     statusCotizacion = '1,2';
-                } else if ($scope.idEstatusOrden == 5 || $scope.idEstatusOrden == 6 || $scope.idEstatusOrden == 7) {
+                } else if ($scope.estatus == 5 || $scope.estatus == 6 || $scope.estatus == 7) {
                     statusCotizacion = '3';
                 }
+
+                $scope.setActiveButtons($scope.estatus);
 
                 $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
             }
