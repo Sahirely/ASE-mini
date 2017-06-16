@@ -248,7 +248,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
                 $scope.idOrden = result.data[0].idOrden;
-/*
+
                     commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
                             if (resp.data.length > 0) {
                                 var correoDe = resp.data[0].correoDe;
@@ -267,7 +267,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         }, function (error) {
                             alertFactory.error("Error al obtener información para el mail");
                         });
-*/
+
                 if ($scope.labelItems > 0) {
                     cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
                         $scope.idCotizacion = result.data[0].idCotizacion;

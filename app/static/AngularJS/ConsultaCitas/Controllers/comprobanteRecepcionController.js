@@ -141,7 +141,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         }, function(error) {
             alertFactory.error('No se puede obtener los detalles de la orden');
         });
-/*
+
         commonFunctionRepository.dataMail(idOrden, idUsuario).then(function (resp) {
         if (resp.data.length > 0) {
             var correoDe = resp.data[0].correoDe;
@@ -160,7 +160,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
     }, function (error) {
         alertFactory.error("Error al obtener información para el mail");
     });
-*/
+
 }
 
     $scope.comprobanteRecepcion = function() {
