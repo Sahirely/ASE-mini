@@ -14,11 +14,11 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <h3><span class="label label-primary mayusculas">{{detalleOrden.nombreEstatusOrden}} </span></h3>
-                            <button class="btn btn-primary pull-right"
+                            <!-- <button class="btn btn-primary pull-right"
                                     ng-show="estatus == 5"
                                     ng-click="getReporteConformidad(detalleOrden.idOrden)">
                                 Test :: Generar Hoja de trabajo :: Orden ( {{detalleOrden.idOrden}} )
-                            </button>
+                            </button> -->
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-class="{conTiempo: sinTiempoDisponible == 0, sinTiempo: sinTiempoDisponible == 1}" ng-show="userData.tiempoAsignado == 1">
                           <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 TiempoTranscurrido">
@@ -494,7 +494,7 @@
                                                     btnSwitch.classVenta='btn btn-success';
                                                     btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura == 0" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto );">
+                                                <button class="btn btn-primary pull-right cargar-factura"  ng-show="estatus == 5 && cotizacion.factura == 0" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto );">
                                                     Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
@@ -527,6 +527,7 @@
                                                                 <th>Cantidad</th>
                                                                 <th ng-show="btnSwitch.showCostoVenta">Costo Unitario</th>
                                                                 <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                                                <th ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                                                                 <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                                                 <th ng-show="estatus == 4">Aprobar</th>
                                                                 <th ng-show="estatus == 4">Rechazar</th>
@@ -555,6 +556,7 @@
                                                                 <td>{{partida.cantidad}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
+                                                                <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
                                                                 <td ng-show="estatus == 4" >
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
@@ -617,7 +619,10 @@
                                                         </tbody>
                                                     </table>
                                                     <div ng-show="btn_editarCotizacion">
-                                                        <button class="btn btn-primary pull-right btn-movil" type="submit" ng-click="editarCotizacion(cotizacion)">Editar Cotización</button>
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)">
+                                                          <span class="{{class_buttonEditarCotizacion}}"></span>
+                                                          Editar Cotización
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -747,19 +752,34 @@
                         <!-- Botones -->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
-                            <button ng-hide="btnGuardaCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" ng-click="btnSaveCotizacion( idUsuario )"> Guarda Cotizacion</button>
-                            <button ng-hide="btnNuevaCotizacionIsEnable" class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">Nueva Cotización</button>
-                            <!--<button ng-hide="btnEditarCotizacionIsEnable" class="btn btn-primary pull-right btn-movil" type="submit">Editar Cotización</button>-->
-                            <button ng-hide="btnComprobanteRecepcionIsEnable" ng-disabled="validaCertificado !=0" class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">Comprobante de Recepción</button>
-                            <button ng-hide="btnEditarCitaIsEnable" ng-disabled="validaCertificado !=0" class="btn btn-warning pull-right btn-movil" type="submit" ng-click="editarCita()">Editar Cita</button>
+                            <button ng-hide="btnGuardaCotizacionIsEnable" data-loading-text="Loading..."class="btn btn-primary pull-right btn-movil" ng-click="btnSaveCotizacion( idUsuario )">
+                              <span class="{{class_buttonGuardaCotizacion}}"></span>
+                              Guarda Cotizacion
+                            </button>
+                            <button ng-hide="btnNuevaCotizacionIsEnable" data-loading-text="Loading..." class="btn btn-success pull-right btn-movil" type="submit" ng-click="nuevaCotizacion()">
+                              <span class="{{class_buttonNuevaCotizacion}}"></span>
+                              Nueva Cotización
+                            </button>
+                            <button ng-hide="btnComprobanteRecepcionIsEnable" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" class="btn btn-info pull-right btn-movil" type="submit" ng-click="comprobante()">
+                              <span class="{{class_buttonComprobanteRecepcion}}"></span>
+                              Comprobante de Recepción
+                            </button>
+                            <button ng-hide="btnEditarCitaIsEnable" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" class="btn btn-warning pull-right btn-movil" type="submit" ng-click="editarCita()">
+                              <span class="{{class_buttonEditarCita}}"></span>
+                              Editar Cita
+                            </button>
                             <button ng-hide="btnCancelarCitaIsEnable" class="btn btn-rojo pull-right btn-movil" type="submit">Cancelar Cita</button>
                             <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right btn-movil" type="submit">Negro</button>
-                            <button ng-hide="btnMoradoIsEnable" class="btn btn-morado pull-right btn-movil" type="submit" ng-click="estatusAprobacion()">Enviar a Aprobación</button>
+                            <button ng-hide="btnMoradoIsEnable" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" class="btn btn-morado pull-right btn-movil" type="submit" ng-click="estatusAprobacion()">
+                              <span class="{{class_buttonEnviaAprobacion}}"></span>
+                              Enviar a Aprobación
+                            </button>
                         </div>
                         <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
                         <div ng-show="idEstatusOrden==5 && estatus==5" ;>
                             <div class="col-sm-12 pull-right">
-                                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaTerminoTrabajo();">
+                                <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
+                                    <span class="{{class_buttonTerminaTrabajo}}"></span>
                                     Terminar Trabajo
                                 </button>
                             </div>
@@ -1007,7 +1027,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-cerrar" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary btn-subir" ng-click="Cargar_Factura_Tmp();">Subir Factura</button>
+                    <button type="submit" class="btn btn-primary btn-subir" ng-click="Cargar_Factura_Tmp();">
+                      <span class="{{class_buttonCargaFactura}}"></span>
+                      Subir Factura
+                    </button>
                 </div>
             </form>
         </div>

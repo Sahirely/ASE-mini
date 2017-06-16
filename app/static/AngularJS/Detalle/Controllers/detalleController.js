@@ -39,8 +39,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.btnSwitch.classCosto = 'btn btn-success';
-        $scope.btnSwitch.showCostoVenta = true;
-        $scope.btnSwitch.classVenta = 'btn btn-default'
+        $scope.btnSwitch.classVenta = 'btn btn-default';
+        $scope.showButtonSwitch($scope.userData.idRol);
         $scope.checkComprobanteRecepcion();
         $scope.HistoricoCotizaciones = [];
         $scope.getHistoricos();
@@ -216,6 +216,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.nuevaCotizacion = function() {
+        $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
         location.href = '/cotizacionnueva?orden=' + $routeParams.orden;
     }
 
@@ -233,6 +234,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.comprobante = function() {
+        $scope.class_buttonComprobanteRecepcion = 'fa fa-spinner fa-spin';
         location.href = '/comprobanteRecepcion?orden=' + $routeParams.orden;
     };
 
@@ -314,24 +316,20 @@ registrationModule.controller('detalleController', function($scope, $location, $
             case 1:
                 $scope.hideAllButtons();
                 $scope.showButtonsInProcess();
-                $scope.btn_editarCotizacion = true;
                 break;
             case 2:
                 $scope.hideAllButtons();
                 $scope.showButtonsInProcess();
-                $scope.btn_editarCotizacion = true;
                 break;
             case 3:
                 $scope.hideAllButtons();
                 $scope.showButtonsInProcess();
-                $scope.btn_editarCotizacion = true;
                 $scope.btnMoradoIsEnable = false;
                 break;
             case 4: //Botones habilitados para modulo aprobación
                 $scope.hideAllButtons();
                 //$scope.btnEditarIsEnable = false;
                 $scope.btnGuardaCotizacionIsEnable = false;
-                $scope.btn_editarCotizacion = true;
                 break;
             default:
                 $scope.hideAllButtons();
@@ -340,6 +338,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.btnSaveCotizacion = function( idUsuario ) {
+        $scope.buttonGuardaCotizacion = 'fa fa-spinner fa-spin';
         console.log( 'idUsuario', idUsuario );
         var haveBalance = $scope.checkBalance();
 
@@ -348,6 +347,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         } else {
             $('.modal-dialog').css('width', '1050px');
             modal_saldos($scope, $modal, $scope.saldos, '', '');
+            $scope.buttonGuardaCotizacion = '';
         }
 
     };
@@ -425,6 +425,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 switch (Number(valor)) {
                     case 2: //cliente
                         alertFactory.success('Faltan partidas por aprobar.');
+                        $scope.buttonGuardaCotizacion = '';
                         $scope.init();
                         break;
                     case 3:
@@ -436,29 +437,35 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
                                  commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                    
+
                                         console.log('envia correo desde front')
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
-                                    
+
                                 }, function(error) {
+                                    $scope.buttonGuardaCotizacion = '';
                                     alertFactory.error('No se puede enviar el correo');
                                 });
                             }
+                            $scope.buttonGuardaCotizacion = '';
                         }, function (error) {
                             alertFactory.error("Error al obtener información para el mail");
+                            $scope.buttonGuardaCotizacion = '';
                         });
                         break;
                     case 4:
                         location.href = '/cotizacionconsulta';
                         break;
                     default:
+                        $scope.buttonGuardaCotizacion = '';
                         alertFactory.info('Debe seleccionar partidas para aprobar.');
                 }
 
             } else {
+                $scope.buttonGuardaCotizacion = '';
                 alertFactory.success('Finalizó sin respuesta.');
             }
         }, function(error) {
+            $scope.buttonGuardaCotizacion = '';
             alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
         });
     };
@@ -491,14 +498,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
             case 1: //cliente
                 $scope.hideSwitchBtn = true;
                 $scope.btnSwitch.showCostoVenta = true;
-                $scope.btn_editarCotizacion = true;
+                $scope.btn_editarCotizacion = false;
                 break;
             case 2: //admin
                 $scope.hideSwitchBtn = false;
+                $scope.btnSwitch.showCostoVenta = true;
                 $scope.btn_editarCotizacion = true;
                 break;
+            case 3: //callcenter
+                    $scope.hideSwitchBtn = false;
+                    $scope.btnSwitch.showCostoVenta = true;
+                    $scope.btn_editarCotizacion = true;
+                    break;
             case 4: //proveedor
                 $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = false;
                 $scope.btnSwitch.showCostoVenta = false;
                 break;
             default:
@@ -536,6 +550,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.editarCotizacion = function(data) {
+        $scope.class_buttonEditarCotizacion = 'fa fa-spinner fa-spin';
         var orden = $scope.numeroOrden;
         var idCotizacion = String(data.idCotizacion);
         location.href = '/cotizacionnueva?orden=' + orden + '&idCotizacion=' + idCotizacion;
@@ -696,12 +711,14 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.Cargar_Factura_Tmp = function() {
+        $scope.class_buttonCargaFactura = 'fa fa-spinner fa-spin';
         var fxml = $(".inputfile-1").val();
         var fpdf = $(".inputfile-2").val();
 
         if (fxml == '' || fpdf == '') {
             $(".alert-info").fadeIn();
             $(".alert-info span").text('Debes proporcionar el XML y el PDF de la factura que vas a cargar.');
+            $scope.class_buttonCargaFactura = '';
             setTimeout(function() {
                 $(".alert-info").fadeOut('fast');
             }, 4000);
@@ -736,9 +753,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.ValidaTerminoTrabajo = function() {
+        $scope.class_buttonTerminaTrabajo = 'fa fa-spinner fa-spin';
         detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
             if (result.data[0].RealizarOperacion) {
                 detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                    $scope.class_buttonTerminaTrabajo = '';
                     alertFactory.success('Se ha terminado el trabajo');
                                         /*
                     commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
@@ -766,6 +785,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     $scope.init();
                 });
             } else {
+                $scope.class_buttonTerminaTrabajo = '';
                 alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
             }
         });
@@ -802,7 +822,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             }
                                         }, function (error) {
                                             alertFactory.error("Error al obtener información para el mail");
-                                        });   
+                                        });
                             });
                         } else {
                             alertFactory.error(r_token.data[0].Msg);
@@ -842,7 +862,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
                                                             $scope.getReporteConformidad($scope.detalleOrden.idOrden);
                                                             console.log('envia correo desde front')
-                                                        
+
                                                     }, function(error) {
                                                         alertFactory.error('No se puede enviar el correo');
                                                     });
@@ -897,7 +917,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             }
                         }, function (error) {
                             alertFactory.error("Error al obtener información para el mail");
-                        }); 
+                        });
                 });
             });
     }
@@ -986,6 +1006,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.editarCita = function() {
+        $scope.class_buttonEditarCita = 'fa fa-spinner fa-spin';
         location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico;
     };
 
@@ -1011,7 +1032,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var asunto = resp.data[0].asunto;
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
-                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) { 
+                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
                                         console.log('envia correo desde front')
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                                         //$scope.init();
