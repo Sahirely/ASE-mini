@@ -11,29 +11,41 @@
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="payment-card">
                                 <p>
-                                    <label>Unidad:</label>
+                                    <label>No. Ecónomico:</label>
+                                    <span>{{detalleUnidad.numeroEconomico}}</span>
+                                </p>
+                                <p>
+                                    <label>Placas:</label>
+                                    <span>{{detalleUnidad.placas}}</span>
+                                </p>
+                                <p>
+                                    <label>VIN:</label>
+                                    <span>{{detalleUnidad.vin}}</span>
+                                </p>
+                                <p>
+                                    <label>Marca:</label>
                                     <span>{{detalleUnidad.marca}}</span>
+                                </p>
+                                <p>
+                                    <label>Sub Marca:</label>
+                                    <span>{{detalleUnidad.subMarca}}</span>
+                                </p>
+                                <p>
+                                    <label>Versión:</label>
+                                    <span>{{detalleUnidad.version}}</span>
                                 </p>
                                 <p>
                                     <label>Modelo:</label>
                                     <span>{{detalleUnidad.modelo}}</span>
                                 </p>
                                 <p>
-                                    <label>No. Ecónomico:</label>
-                                    <span>{{detalleUnidad.numeroEconomico}}</span>
+                                    <label>Tipo de Unidad:</label>
+                                    <span>{{detalleUnidad.nombreTipoUnidad}}</span>
                                 </p>
-                                <p>
-                                    <label>No. Inventario:</label>
-                                    <span>{{detalleUnidad.pendiente}}</span>
-                                </p>
-                                <!-- <p>
+                                <p ng-show="userData.geolocalizacion == 1">
                                     <label>Ubicación:</label>
-                                    <span>{{detalleUnidad.pendiente}}</span>
+                                    <span>{{detalleUnidad.gps}}</span>
                                 </p>
-                                <p>
-                                    <label>Zona:</label>
-                                    <span>{{detalleUnidad.pendiente}}</span>
-                                </p>-->
                             </div>
                             <p ng-show="mostrarMapa">
                                 <label>Localización:</label>

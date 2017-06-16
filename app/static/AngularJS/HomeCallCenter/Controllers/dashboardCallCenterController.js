@@ -60,7 +60,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         $scope.promise = dashboardCallCenterRepository.getRecordatorios($scope.idOperacion, $scope.userData.idUsuario).then(function (result) {
             if (result.data.length > 0) {
                 $scope.recordatorios = result.data;
-                 globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 3);
+                 globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 5);
             }
         }, function (error) {
             alertFactory.error('El usuario no tiene recordatorios');
@@ -73,7 +73,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.idOperacion, $scope.userData.idUsuario).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
-                 globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 10);
+                 globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 100);
             }
         }, function (error) {
             alertFactory.error('El usuario no tiene recordatorios');
