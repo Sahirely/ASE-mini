@@ -29,7 +29,6 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
     }
 
     $scope.seleccionarOrden = function(obj) {
-        debugger;
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden;
     }
 
