@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <span class="title">Trabajo Pendiente</span>
+                        <span class="title">Orden del Día</span>
                         <br>
                         <br>
                         <br>
@@ -65,7 +65,7 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-primary pull-right"><i class="glyphicon glyphicon-open-file"></i></span>
-                <h4>Ordenes Sin Objetivo</h4>
+                <h4>Ordenes Sin Plan de Acción</h4>
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins">{{ordenesSinObjetivo}}</h1>
@@ -122,8 +122,8 @@
                         <td>{{ordenescall.consecutivoOrden}}</td>
                         <td>{{ordenescall.numeroOrden}}</td>
                         <td>{{ordenescall.nombre}}</td>
-                        <td>{{ordenescall.costo}}</td>
-                        <td>{{ordenescall.venta}}</td>
+                        <td>{{ordenescall.costo |  currency: "$"}}</td>
+                        <td>{{ordenescall.venta |  currency: "$"}}</td>
                         <td>{{ordenescall.comentarioOrden}}</td>
                         <td>{{ordenescall.nombreEstatusOrden}}</td>
                         <td>{{ordenescall.tiempo}}</td>
