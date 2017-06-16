@@ -135,6 +135,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       //      function (error) {
       //          alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.');
       //      });
+      console.log($scope.cotizaciones);
     };
 
     //obtiene los usuarios ejecutivos
