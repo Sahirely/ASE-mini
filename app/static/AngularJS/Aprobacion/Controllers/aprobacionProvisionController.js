@@ -1,10 +1,11 @@
-registrationModule.controller('aprobacionProvisionController', function ($scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, commonService, ordenAnticipoRepository, trabajoRepository ) {
+registrationModule.controller('aprobacionProvisionController', function ($scope, $modal, $route, $rootScope, userFactory,  $location, localStorageService, alertFactory, globalFactory, provisionesRepository, uploadRepository, ordenPorCobrarRepository, commonService, ordenAnticipoRepository, trabajoRepository ) {
   	//*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
     $rootScope.modulo = 'aprobacionProvision';
 
   	$scope.init =function(){
+        $scope.userData = userFactory.getUserData();
   		$scope.getAprobacionProvision();
   	}	
 
@@ -12,11 +13,12 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
 
         $scope.aprobacionProvision =[];
         $('.dataTableAprobacionProvision').DataTable().destroy();
-        ordenServicioRepository.getAprobacionProvision().then(function (res) {
         
-            if (res.data.length > 0) {
-               $scope.aprobacionProvision=res.data;
-               globalFactory.waitDrawDocument("dataTableAprobacionProvision", "Provisión");
+        provisionesRepository.getAprobacionProvision($scope.userData.contratoOperacionSeleccionada).then(function (result) {
+        
+            if (result.data.length > 0) {
+               $scope.aprobacionProvision=result.data;
+               globalFactory.filtrosTabla("dataTableAprobacionProvision", "Provisión", 100);
                
             } else {
                 alertFactory.info("No se encontrarón datos");
@@ -24,6 +26,11 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
         }, function (error) {
             alertFactory.error("Error al cargar la orden");
         });
+    }
+
+    $scope.seleccionarOrden = function(obj) {
+        debugger;
+        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden;
     }
 
 
@@ -41,9 +48,9 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
             closeOnCancel: true
         },
          function (isConfirm) {
-            if (isConfirm) {
+            /*if (isConfirm) {
 
-            	ordenServicioRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
+            	provisionesRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
         
 		            if (res.data[0].id == 1) {
 		            	 swal("Proceso Realizado!");
@@ -54,33 +61,14 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
 		        }, function (error) {
 		            alertFactory.error("Error al cargar la orden");
 		        });
-            }
+            }*/
         });
 
     	 
     }
 
-     //visualiza la orden de servicio
-    $scope.lookAt = function (trabajo, valBotonera) {
-        var objBotonera = {};
-        objBotonera.accion = valBotonera;
-        objBotonera.idCita = trabajo.idCita;
-        localStorageService.set('objTrabajo', trabajo);
-        localStorageService.set("botonera", objBotonera);
-        localStorageService.set('actualizaCosto', trabajo.numeroTrabajo)
-        location.href = '/ordenservicio?state=1';
-    }
-
-    $scope.aprobarTrabajo = function (trabajo, valBotonera) {
-        var objBotonera = {};
-        objBotonera.accion = valBotonera;
-        objBotonera.idCita = trabajo.idCita;
-        localStorageService.set('objTrabajo', trabajo);
-        localStorageService.set("botonera", objBotonera);        
-        commonService.idEstatusTrabajo = 5;  
-        commonService.idCita = trabajo.idCita;
-        $location.path ('/ordenservicio');
-    }
+   
+ 
 
 
 

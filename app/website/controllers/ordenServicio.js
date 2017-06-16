@@ -549,4 +549,20 @@ OrdenServicio.prototype.post_estatusRecepcion = function(req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_getaprobacionprovision = function (req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_APROBACION_DE_PROVISION_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = OrdenServicio;

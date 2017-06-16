@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="AngularJS/Administracion/Styles/administracionOrden.css">
 <div ng-init="init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
-        <span class="title"> Aprobación Provisión<span class="subtitle">Administrador</span></span>
+        <span class="title"> Aprobación Provisión</span>
     </div>
     <br>
     <div class="wrapper wrapper-content">
@@ -12,7 +12,7 @@
                     <div class="ibox-content">
                         <br/>
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered table-hover dataTableAprobacionProvision" cg-busy="{promise:promise,message:message}">
+                            <table class="table table-bordered table-hover dataTableAprobacionProvision" cg-busy="{promise:promise,message:message}">
                                 <thead>
                                     <tr>
                                         <th>Cliente</th>
@@ -20,44 +20,26 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>TAR</th>
-                                        <th>Taller</th>
-                                        <th>Precio Taller</th>
-                                        <th>Precio Cliente</th>
-                                        <th>Descripción de la Orden</th>
+                                        <th>Costo</th>
+                                        <th>Venta</th>
                                         <th>Estatus</th>
                                         <th>Horas en espera</th>
-                                        <th>Acción</th>
                                         <th>Aprobación</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="provision in aprobacionProvision | filter:searchText ">
-                                        <td>{{provision.cliente}}</td>
-                                        <td>{{provision.idCita}}</td>
-                                        <td>{{provision.numeroTrabajo}}</td>
-                                        <td>{{provision.numEconomico}}</td>
-                                        <td>{{provision.zona}}</td>
-                                        <td>{{provision.TAR}}</td>
-                                        <td>{{provision.razonSocial}}</td>
-                                        <td>{{provision.montoOrden |  currency: "$"}}</td>
-                                        <td>{{provision.precioOrden | currency: "$"}}</td>
-                                        <td>{{provision.trabajo}}</td>
-                                        <td>{{provision.descripcionLarga }}</td>
-                                        <td>{{provision.tiempo }}</td>
-                                        <td>
-                                           <!--  <button class="btn btn-info" type="button" ng-click="aprobarTrabajo(provision, 1)" data-toggle="tooltip" tooltip="Ver órden de servicio" tooltip-placement="up"><span class="glyphicon glyphicon-sunglasses"></span></button> -->
-                                        <div class="alerta"> 
-                                            <button class="dropdown-toggle alerta-form btn btn-info" tooltip="Ver órden de servicio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="aprobarTrabajo(provision, 1)">
-                                            <i class="glyphicon glyphicon-sunglasses"></i>  <span ng-hide="provision.numeroNotas == 0" class="letter-labal alerta-color">{{provision.numeroNotas}}</span>
-                                            </button>
-                                                <ul class="dropdown-menu dropdown-messages">
-                                                </ul>
-                                        </div> 
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-informa btn-aprobar" type="button" ng-click="aprobarProvision(provision)" data-toggle="tooltip" tooltip="Realizar aprobación" tooltip-placement="left"><span class="glyphicon glyphicon-check"></span></button>
-
+                                    <tr ng-repeat="provision in aprobacionProvision | filter:searchText " title="Ver detalles" ng-click="seleccionarOrden(provision)">
+                                        <td>{{provision.nombreCliente}}</td>
+                                        <td>{{provision.idOrden}}</td>
+                                        <td>{{provision.numeroOrden}}</td>
+                                        <td>{{provision.numeroEconomico}}</td>
+                                        <td>{{provision.nombre}}</td>
+                                        <td>{{provision.costo |  currency: "$"}}</td>
+                                        <td>{{provision.venta | currency: "$"}}</td>
+                                        <td>{{provision.nombreEstatusOrden }}</td>
+                                        <td>{{provision.tiempo }}</td>      
+                                        <td class="center">
+                                            <span class="label label-success"><i class="glyphicon glyphicon-check" data-toggle="tooltip" tooltip="Realizar Aprobación" id="cursorPoint" ng-click="aprobarProvision(provision)"></i></span>
                                         </td>
                                     </tr>
                                 </tbody>

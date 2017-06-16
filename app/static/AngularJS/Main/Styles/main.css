@@ -344,3 +344,7 @@ body {
     font-weight: 600;
     cursor: pointer;
 }
+
+.dataTableAprobacionProvision tr{
+    cursor:pointer;
+}
