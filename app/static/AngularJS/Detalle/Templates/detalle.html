@@ -14,11 +14,11 @@
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                             <h3><span class="label label-primary mayusculas">{{detalleOrden.nombreEstatusOrden}} </span></h3>
-                            <!-- <button class="btn btn-primary pull-right"
+                            <button class="btn btn-primary pull-right"
                                     ng-show="estatus == 5"
                                     ng-click="getReporteConformidad(detalleOrden.idOrden)">
                                 Test :: Generar Hoja de trabajo :: Orden ( {{detalleOrden.idOrden}} )
-                            </button> -->
+                            </button>
                         </div>
                         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" ng-class="{conTiempo: sinTiempoDisponible == 0, sinTiempo: sinTiempoDisponible == 1}" ng-show="userData.tiempoAsignado == 1">
                           <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 TiempoTranscurrido">
