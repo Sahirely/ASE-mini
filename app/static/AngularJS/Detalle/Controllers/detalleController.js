@@ -497,7 +497,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         switch (Number(usrRol)) {
             case 1: //cliente
                 $scope.hideSwitchBtn = true;
-                $scope.btnSwitch.showCostoVenta = true;
+                $scope.btnSwitch.showCostoVenta = false;
                 $scope.btn_editarCotizacion = false;
                 break;
             case 2: //admin
@@ -512,8 +512,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     break;
             case 4: //proveedor
                 $scope.hideSwitchBtn = true;
-                $scope.btnSwitch.showCostoVenta = false;
-                $scope.btnSwitch.showCostoVenta = false;
+                $scope.btnSwitch.showCostoVenta = true;
                 break;
             default:
                 $scope.hideSwitchBtn = true;
