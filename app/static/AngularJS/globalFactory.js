@@ -75,7 +75,7 @@ registrationModule.factory('globalFactory', function(commonFunctionRepository) {
             setTimeout(function() {
                 var table = $('.' + dataTable).DataTable({
                     dom: '<"html5buttons"B>lTfgitp',
-                    'iDisplayLength': displayLength,
+                    'iDisplayLength': 100,
                     buttons: [{
                         extend: 'excel',
                         exportOptions: {
