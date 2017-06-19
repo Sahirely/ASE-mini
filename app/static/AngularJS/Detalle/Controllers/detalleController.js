@@ -1009,6 +1009,43 @@ registrationModule.controller('detalleController', function($scope, $location, $
         location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico;
     };
 
+
+    //utilidad
+    $scope.enviaAprobacion = function (data) {
+         var validaUtilidad= false;
+        $scope.cita=cita;
+        var uitilidad = (data.precio - data.venta)/data.precio ;
+        $scope.margen = ((data.precio -data.venta)*100)/ data.precio;
+       // var uitilidad = 100;
+        var UtilidadNeta = $scope.userData.porcentajeUtilidad;
+
+         if (UtilidadNeta >uitilidad) {      
+         
+            swal({
+            title: "La utilidad es menor a lo esperado",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            cancelButtonColor: "#DD083F",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+               
+            }
+        });
+
+        }else{
+            $scope.estatusAprobacion(); 
+        }
+                              
+            
+    }
+
+
     $scope.estatusAprobacion = function() {
     swal({
             title: "¿Está seguro que desea enviar la Orden a aprobación?",
