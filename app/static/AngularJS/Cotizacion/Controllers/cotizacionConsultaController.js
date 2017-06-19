@@ -15,12 +15,13 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.ZonasSeleccionadas = [];
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+
     $scope.estatusDashboard = 0;
 
     $scope.cotizaciones = [];
 
     $scope.init = function () {
-        //para obtener las zonas promero se inicializa la primer zona padre.
+        
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.estatusDashboard = $routeParams.e;
@@ -28,6 +29,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           $scope.filtroEstatus = $scope.estatusDashboard;
           $scope.consultaCotizacionesFiltros();
         }
+        //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
