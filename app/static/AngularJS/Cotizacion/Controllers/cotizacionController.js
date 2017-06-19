@@ -5,7 +5,7 @@
 // -- Modificó: Mario Mejía
 // -- Fecha: 
 // -- =============================================
-registrationModule.controller('cotizacionController', function($scope, $route, tallerRepository,$rootScope, userFactory, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, cotizacionConsultaRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
+registrationModule.controller('cotizacionController', function($scope, $route, tallerRepository,$rootScope, userFactory, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
     $scope.idTaller = '';
     //$scope.idCatalogoTipoOrdenServicio = 0;
@@ -17,17 +17,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.userData = userFactory.getUserData();
     $scope.show_nuevaCotizacion = true;
 
-    //VARIABLES PARA ZONAS DINAMICAS
-    $scope.x = 0;
-    $scope.totalNiveles = 0;
-    $scope.zonaSelected = "0";
-    $scope.ZonasSeleccionadas = [];
-    $scope.NivelesZona = [];
-    $scope.Zonas = [];
-
     $scope.init = function() {
 
-        userFactory.ValidaSesion();
         $scope.idCotizacion = $routeParams.idCotizacion;
         $scope.numeroOrden = $routeParams.orden;
 
@@ -39,53 +30,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             $scope.getOrdenDetalle();
             $scope.show_nuevaCotizacion = false;
         };
-        //para obtener las zonas promero se inicializa la primer zona padre.
-        $scope.ZonasSeleccionadas[0] = "0";
-        $scope.obtieneNivelZona();
-        //termina el cargado de las Zonas del usuario.
         
-    }
-
-    //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
-    $scope.obtieneNivelZona = function(){
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function (result) {
-            $scope.totalNiveles = result.data.length;
-            if(result.data.length > 0){
-              $scope.NivelesZona = result.data;
-              $scope.devuelveZonas();
-            }
-         },
-         function (error) {
-             alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
-         });
-    }
-
-    //obtiene las zonas por cada nivel con que cuenta el usuario
-    $scope.devuelveZonas = function() {
-      for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x ++){
-        cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
-          if (result.data.length > 0){
-            var valueToPush = {};
-                valueToPush.orden = result.data[0].orden;
-                valueToPush.etiqueta = result.data[0].etiqueta;
-                valueToPush.data = result.data;
-            $scope.Zonas.push(valueToPush);
-            //se establece por default cada zona seleccionada en 0
-            $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
-          }
-        }, function(error) {
-            alertFactory.error('No se pudo recuperar información de las zonas');
-        });
-      }
-    };
-
-    $scope.cambioZona = function(id, orden){
-      //al cambiar de zona se establece como zona seleccionada.
-      $scope.zonaSelected = id;
-      //se limpian los combos siguientes.
-      for($scope.x = orden+1; $scope.x <= $scope.totalNiveles; $scope.x ++){
-        $scope.ZonasSeleccionadas[$scope.x] = "0";
-      }
     }
 
     $scope.getTipoOrdenesServicio = function() {
@@ -104,8 +49,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.getTalleres = function() {
         $('#loadModal').modal('show');
         $('.dataTableTalleres').DataTable().destroy();
-        tallerRepository.getTalleres($scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.zonaSelected, $scope.findTaller == undefined || $scope.findTaller == null ? '' : $scope.findTaller , '').then(function(result) {
-            debugger;
+        $scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
             if (result.data.length > 0) {
                
                  if ($scope.idCotizacion != undefined ) {
@@ -118,11 +62,6 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                     $scope.totalOrdenes = result.data;
                     globalFactory.minMinDrawDocument("dataTableTalleres", "Talleres");
                 }
-            }else{
-                $scope.datosTaller = [];
-                $scope.totalOrdenes = [];
-                globalFactory.minMinDrawDocument("dataTableTalleres", "Talleres");
-                alertFactory.info('No se encontraron talleres.');
             }
             $('#loadModal').modal('hide');
         }, function(error) {
