@@ -2,12 +2,13 @@ var trabajoUrl      = global_settings.urlCORS + '/api/trabajo/';
 var cotizacionUrl   = global_settings.urlCORS + '/api/cotizacion/';
 var ordenUrl        = global_settings.urlCORS + '/api/orden/';
 var reporteDummyUrl = global_settings.urlCORS + '/api/reporte/';
+var detalleUrl      = global_settings.urlCORS + '/api/detalle/';
 
 registrationModule.factory('trabajoRepository', function ($http) {
     return {
         saveFechaTrabajo: function(idOrden, fechaInicio){
           return $http({
-              url: trabajoUrl + 'fechaRealTrabajo',
+              url: detalleUrl + 'fechaRealTrabajo',
               method: "GET",
               params: {
                   idOrden: idOrden,

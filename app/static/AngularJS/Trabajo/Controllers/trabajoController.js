@@ -94,12 +94,9 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             }
             else{
                 var fechaTrabajo = $scope.fecha_inicio + ' ' + $scope.hora_inicio;
-                $scope.ordenes[ $scope.indiceOrdenes ].fechaInicioTrabajo = fechaTrabajo;
+                
                 trabajoRepository.saveFechaTrabajo($scope.idOrden_Temp, fechaTrabajo).then(function( registros ){
-                    console.log( registros );
-                    // if(ejecutivos.data.length > 0){
-                        // $scope.listaEjecutivos = ejecutivos.data;
-                    // }
+                    $scope.ordenes[ $scope.indiceOrdenes ].fechaInicioTrabajo = fechaTrabajo;   
                 }, function(error){
                     alertFactory.error('No se pudo recuperar la respuesta');
                 });
