@@ -15,32 +15,20 @@
                     <span>{{detalleOrden.numeroEconomico}}</span>
                 </p>
                 <p>
-                    <label>Placas: </label>
-                    <span>{{detalleOrden.placas}}</span>
-                </p>
-                <p>
-                    <label>VIN: </label>
-                    <span>{{detalleOrden.vin}}</span>
-                </p>
-                <p>
                     <label>Marca-Modelo: </label>
-                    <span>{{detalleOrden.marca}} {{detalleOrden.submarca}}</span>
+                    <span>{{detalleOrden.marca}}</span>
+                </p>
+                <p>
+                    <label>Submarca: </label>
+                    <span>{{detalleOrden.modelo}}</span>
                 </p>
                 <p>
                     <label>Año: </label>
-                    <span>{{detalleOrden.modelo}}</span>
+                    <span>{{detalleOrden.anio}}</span>
                 </p>
                 <p>
                     <label>Versión: </label>
                     <span>{{detalleOrden.version}}</span>
-                </p>
-                <p>
-                    <label>Tipo de Unidad: </label>
-                    <span>{{detalleOrden.tipoUnidad}}</span>
-                </p>
-                <p ng-show="userData.geolocalizacion == 1">
-                    <label>Ubicación:</label>
-                    <span>{{detalleOrden.gps}}</span>
                 </p>
             </div>
         </div>
@@ -50,19 +38,8 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-show="show_nuevaCotizacion">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
                             <br/>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  id="divZonas">
-                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-repeat="zona in Zonas | orderBy:'orden'">
-                                    <label class="font-noraml">{{zona.etiqueta}}</label>
-                                    <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
-                                        <option value="0">Seleccione</option>
-                                        <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
-                                          {{z.nombre}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>                            
                             <br/>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="show_nuevaCotizacion">
                                 <select class="form-control" ng-model="tipoDeCita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita">
@@ -71,7 +48,7 @@
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="show_nuevaCotizacion">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Buscar taller" ng-model="findTaller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" ng-click="seleccionarTipoCotizacion(tipoDeCita)"><i class="fa fa-search"></i>
+                                    <input type="text" class="form-control" placeholder="Buscar taller"> <span class="input-group-btn"> <button type="button" class="btn btn-primary" ng-click="seleccionarTipoCotizacion(tipoDeCita)"><i class="fa fa-search"></i>
                                         </button> </span>
                                 </div>
                             </div>
@@ -85,7 +62,8 @@
                                 <label>Dirección: </label>
                                 <span>{{datosTaller.direccion}}</span>
                                 <br/>
-                                
+                                <label>Zona: </label>
+                                <span>{{modeloMarca}}</span>
                             </div>
                             <br/>
                             <br/>
