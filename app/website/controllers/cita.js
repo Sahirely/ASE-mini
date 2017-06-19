@@ -110,6 +110,24 @@ Cita.prototype.get_servicios = function(req, res, next) {
         });
     });
 }
+
+Cita.prototype.get_ZonasCita = function(req, res, next){
+    var self = this;
+
+    var params = [{
+        name: 'idZona',
+        value: req.query.idZona,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_ZONAS_CITA_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Cita.prototype.put_actualizarCita = function(req, res, next) {
     var self = this;
     console.log(req.query.fechaCita)

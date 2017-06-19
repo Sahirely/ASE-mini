@@ -115,7 +115,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.getServicios();
                         $scope.getTallerXid($scope.detalleOrden.idTaller);
                         $scope.getPreCotizacion($scope.idCotizacion);
-                    } else if ($scope, detalleOrden == 0) {
+
+                        $scope.getZonasCita($scope.zonaSelected);
+
+                    } else if ($scope.detalleOrden == 0) {
                         location.href = '/unidad?economico=' + $routeParams.economico;
                     } else {
                         error();
@@ -129,6 +132,25 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
         });
     };
+    //*****************************************************************************************************************************//
+    // Obtiene la zona y sus zonas padre correspondientes a la cita.
+    //*****************************************************************************************************************************//
+    $scope.getZonasCita = function(idZona){
+      citaRepository.getZonasCita(idZona).then(function(result){
+          var zonasArray = result.data;
+          if (zonasArray.length > 0){
+            zonasArray.forEach(function(item) {
+                debugger;
+                $scope.ZonasSeleccionadas[item.nivel] = '' +item.idZona +'';
+            });
+
+          }else{
+            alertFactory.info('No se encontraron las zonas de la cita.')
+          }
+
+      });
+    }
+
     //*****************************************************************************************************************************//
     // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
     //*****************************************************************************************************************************//
