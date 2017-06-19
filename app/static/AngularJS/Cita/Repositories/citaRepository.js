@@ -25,6 +25,18 @@ registrationModule.factory('citaRepository', function($http, $q) {
                 }
             })
         },
+        getZonasCita: function(idZona) {
+            return $http({
+                url: citaUrl + 'ZonasCita/',
+                method: "GET",
+                params: {
+                  idZona: idZona
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
         putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller) {
             return $http({
                 url: citaUrl + 'agendarCita/',

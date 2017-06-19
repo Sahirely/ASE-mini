@@ -75,7 +75,7 @@ busquedaUnidad.prototype.get_numerosEconomicos = function(req, res, next) {
 };
 
 
-//Obtiene la o las Ordenes de Servicio Actual 
+//Obtiene la o las Ordenes de Servicio Actual
 busquedaUnidad.prototype.get_ordenActual = function(req, res, next) {
     var self = this;
     var params = [{
@@ -115,7 +115,7 @@ busquedaUnidad.prototype.get_historicoOrdenes = function(req, res, next) {
         });
     });
 };
-//Obtiene el detalle de la orden de servicio para editarlo 
+//Obtiene el detalle de la orden de servicio para editarlo
 busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
     var self = this;
     var params = [ {
@@ -125,10 +125,10 @@ busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
     }];
 
     this.model.query('SEL_DETALLE_ORDEN_X_UNIDAD_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
+          self.view.expositor(res, {
+              error: error,
+              result: result
+          });    
     });
 };
 
