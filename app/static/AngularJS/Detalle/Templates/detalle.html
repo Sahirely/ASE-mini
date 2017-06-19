@@ -205,8 +205,34 @@
                                             </a>
                                         </div>
 
-                                        <div ng-show="evidencia.tipo != 'doc'
-                                                      && evidencia.tipo != 'docx'"
+                                        <div ng-show="evidencia.tipo != 'jpg'
+                                                       && evidencia.tipo != 'JPG'
+                                                       && evidencia.tipo != 'jpeg'
+                                                       && evidencia.tipo != 'JPEG'
+                                                       && evidencia.tipo != 'png'
+                                                       && evidencia.tipo != 'PNG'
+                                                       && evidencia.tipo != 'gif'
+                                                       && evidencia.tipo != 'GIF'
+                                                       && evidencia.tipo != 'bmp'
+                                                       && evidencia.tipo != 'BMP'
+                                                       && evidencia.tipo != 'xml'
+                                                       && evidencia.tipo != 'XML'
+                                                       && evidencia.tipo != 'pdf'
+                                                       && evidencia.tipo != 'PDF'
+                                                       && evidencia.tipo != 'xls'
+                                                       && evidencia.tipo != 'XLS'
+                                                       && evidencia.tipo != 'xlsx'
+                                                       && evidencia.tipo != 'XLSX'
+                                                       && evidencia.tipo != 'txt'
+                                                       && evidencia.tipo != 'TXT'
+                                                       && evidencia.tipo != 'zip'
+                                                       && evidencia.tipo != 'ZIP'
+                                                       && evidencia.tipo != 'rar'
+                                                       && evidencia.tipo != 'RAR'
+                                                       && evidencia.tipo != 'doc'
+                                                       && evidencia.tipo != 'DOC'
+                                                       && evidencia.tipo != 'docx'
+                                                       && evidencia.tipo != 'DOCX'"
                                                       class="item-no-img">
                                             <a href="{{evidencia.ruta}}" class="documentos" download="">
                                                 <div class="gal-ico">
@@ -263,7 +289,7 @@
                             <div class="contenedor" style="width: 100%; height: 150px;">
                                 <table width="100%" border="0" cellspacing="40" cellpadding="40">
                                     <tr>
-                                        <td style="width: 200px;" align="center" ng-repeat="evidencia in detalleEvidencias">
+                                        <td style="width: 200px;" align="center" ng-repeat="evidencia in detalleEvidencias" valign="top">
                                             <a href="{{evidencia.ruta}}" class="documentos" download="">
                                                 <div class="gal-ico-thums" ng-show="evidencia.tipo == 'jpg'
                                                                                     || evidencia.tipo == 'JPG'
@@ -317,20 +343,35 @@
                                                 </div>
 
                                                 <div class="gal-ico-thums"
-                                                     ng-show="evidencia.tipo != 'jpg'
+                                                     ng-show="
+                                                           evidencia.tipo != 'jpg'
+                                                           && evidencia.tipo != 'JPG'
                                                            && evidencia.tipo != 'jpeg'
+                                                           && evidencia.tipo != 'JPEG'
                                                            && evidencia.tipo != 'png'
+                                                           && evidencia.tipo != 'PNG'
                                                            && evidencia.tipo != 'gif'
+                                                           && evidencia.tipo != 'GIF'
                                                            && evidencia.tipo != 'bmp'
+                                                           && evidencia.tipo != 'BMP'
                                                            && evidencia.tipo != 'xml'
+                                                           && evidencia.tipo != 'XML'
                                                            && evidencia.tipo != 'pdf'
+                                                           && evidencia.tipo != 'PDF'
                                                            && evidencia.tipo != 'xls'
+                                                           && evidencia.tipo != 'XLS'
                                                            && evidencia.tipo != 'xlsx'
+                                                           && evidencia.tipo != 'XLSX'
                                                            && evidencia.tipo != 'txt'
+                                                           && evidencia.tipo != 'TXT'
                                                            && evidencia.tipo != 'zip'
+                                                           && evidencia.tipo != 'ZIP'
                                                            && evidencia.tipo != 'rar'
+                                                           && evidencia.tipo != 'RAR'
                                                            && evidencia.tipo != 'doc'
+                                                           && evidencia.tipo != 'DOC'
                                                            && evidencia.tipo != 'docx'
+                                                           && evidencia.tipo != 'DOCX'
                                                            ">
                                                     <i class="fa fa-file-o" aria-hidden="true"></i>
                                                     <p>{{evidencia.nombreEvidencia}}</p>
