@@ -15,20 +15,28 @@
                     <span>{{detalleOrden.numeroEconomico}}</span>
                 </p>
                 <p>
+                    <label>Placas:</label>
+                    <span>{{detalleOrden.placas}}</span>
+                </p>
+                <p>
+                    <label>VIN:</label>
+                    <span>{{detalleOrden.vin}}</span>
+                </p>
+                <p>
                     <label>Marca-Modelo: </label>
-                    <span>{{detalleOrden.marca}}</span>
-                </p>
-                <p>
-                    <label>Submarca: </label>
-                    <span>{{detalleOrden.modelo}}</span>
-                </p>
-                <p>
-                    <label>Año: </label>
-                    <span>{{detalleOrden.anio}}</span>
+                    <span>{{detalleOrden.marca}} {{detalleOrden.submarca}} - {{detalleOrden.modelo}}</span>
                 </p>
                 <p>
                     <label>Versión: </label>
                     <span>{{detalleOrden.version}}</span>
+                </p>
+                <p>
+                    <label>Tipo de Unidad:</label>
+                    <span>{{detalleOrden.tipoUnidad}}</span>
+                </p>
+                <p ng-show="userData.geolocalizacion == 1">
+                    <label>Ubicación:</label>
+                    <span>{{detalleOrden.gps}}</span>
                 </p>
             </div>
         </div>

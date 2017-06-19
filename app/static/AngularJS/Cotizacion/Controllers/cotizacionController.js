@@ -3,7 +3,7 @@
 // -- Create date: 28/03/2016
 // -- Description: Cotizacion Controller
 // -- Modificó: Mario Mejía
-// -- Fecha: 
+// -- Fecha:
 // -- =============================================
 registrationModule.controller('cotizacionController', function($scope, $route, tallerRepository,$rootScope, userFactory, alertFactory, $routeParams, globalFactory, uploadRepository, localStorageService, cotizacionRepository, cotizacionMailRepository, exampleRepo, uploadRepository, consultaCitasRepository, citaRepository, commonService) {
 
@@ -21,6 +21,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
         $scope.idCotizacion = $routeParams.idCotizacion;
         $scope.numeroOrden = $routeParams.orden;
+        $scope.estatus = $routeParams.estatus;
 
         $scope.getTipoOrdenesServicio()
         $scope.mostrarTalleres = true;
@@ -30,7 +31,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             $scope.getOrdenDetalle();
             $scope.show_nuevaCotizacion = false;
         };
-        
+
     }
 
     $scope.getTipoOrdenesServicio = function() {
@@ -51,7 +52,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $('.dataTableTalleres').DataTable().destroy();
         $scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
             if (result.data.length > 0) {
-               
+
                  if ($scope.idCotizacion != undefined ) {
                     for (var i = 0 ; i < result.data.length; i++) {
                          if (result.data[i].idProveedor == $scope.idTaller) { //LQMA cambio de result.data[i].idTaller a idProveedor
@@ -76,14 +77,14 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         // });
     }
         $scope.getCotizacionDetalle = function() {
-            
+
             consultaCitasRepository.getCotizacionDetalle($scope.idCotizacion, $scope.userData.idUsuario).then(function(result) {
-               
+
                 if (result.data.length > 0) {
                     console.log(result.data[0]) //LQMA 14062017 comentado
                     //$scope.getPartidasTaller(result.data[0].idProveedor)
                     //$scope.idTaller=result.data[0].idProveedor;
-                    //LQMA add 14062017 
+                    //LQMA add 14062017
                     $scope.getPartidasTaller(result.data[0].idTaller)
                     $scope.idTaller=result.data[0].idTaller;
                     //////////////////////////////
@@ -101,7 +102,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                             precioUnitario: result.data[i].venta,
                             estatus: 1
                         });
-                    } 
+                    }
                     $scope.sumatoriaTotal();
                     $scope.getTalleres();
                 }
@@ -239,15 +240,15 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     }
 
     $scope.actulizacionDetalle = function (){
-    
+
         $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
             cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
-              
+
                 if (nuevos.data[0].idCotizacionDetalle > 0) {
                     alertFactory.success('Se  actulizó la cotización');
                     $scope.limpiarParametros();
                     $('#loadModal').modal('hide');
-                    location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
+                    location.href = '/detalle?orden=' + $scope.numeroOrden+ '&estatus=' + $scope.estatus;
                 } else {
                     console.log('Error al Actulizar')
                 }
@@ -255,11 +256,11 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                 alertFactory.error('No se pudo actulizar la cotización');
             });
         });
-        
+
     }
 
     $scope.partidaSeleccionada = function(obj) {
-    
+
         $scope.objeto = obj
         var existe = 0;
         var noExiste = 0;
@@ -346,8 +347,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             if ($scope.lstPartidaSeleccionada[h].idPartida == obj.idPartida) {
                 $scope.posicion = h
                 if ($scope.lstPartidaSeleccionada[h].cantidad <= 1) {
-                      
-                    if ($scope.idCotizacion == undefined) {             
+
+                    if ($scope.idCotizacion == undefined) {
                         $scope.lstPartidaSeleccionada.splice((h), 1)
                         $scope.sumatoriaTotal();
                     }else{
