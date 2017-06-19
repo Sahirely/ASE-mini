@@ -811,7 +811,7 @@
                             </button>
                             <button ng-hide="btnCancelarCitaIsEnable" class="btn btn-rojo pull-right btn-movil" type="submit">Cancelar Cita</button>
                             <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right btn-movil" type="submit">Negro</button>
-                            <button ng-hide="btnMoradoIsEnable" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" class="btn btn-morado pull-right btn-movil" type="submit" ng-click="estatusAprobacion()">
+                            <button ng-hide="btnMoradoIsEnable" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" class="btn btn-morado pull-right btn-movil" type="submit" ng-click="validateEstatusAprobacion()">
                               <span class="{{class_buttonEnviaAprobacion}}"></span>
                               Enviar a Aprobación
                             </button>

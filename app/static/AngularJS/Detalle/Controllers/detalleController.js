@@ -1009,20 +1009,29 @@ registrationModule.controller('detalleController', function($scope, $location, $
         location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico;
     };
 
+    $scope.validateEstatusAprobacion = function (){
+        if ($scope.userData.manejoUtilidad == 1) {
+            $scope.enviaAprobacion();
+
+        }else{
+            $scope.estatusAprobacion(); 
+        }
+
+    }
 
     //utilidad
-    $scope.enviaAprobacion = function (data) {
-         var validaUtilidad= false;
-        $scope.cita=cita;
-        var uitilidad = (data.precio - data.venta)/data.precio ;
-        $scope.margen = ((data.precio -data.venta)*100)/ data.precio;
-       // var uitilidad = 100;
-        var UtilidadNeta = $scope.userData.porcentajeUtilidad;
+    $scope.enviaAprobacion = function () {
+
+        var uitilidad = ( $scope.cotizaciones[0].sumaVenta - $scope.cotizaciones[0].sumaCosto )/$scope.cotizaciones[0].sumaVenta ;
+        var margen = (($scope.cotizaciones[0].sumaVenta -$scope.cotizaciones[0].sumaCosto)*100)/ $scope.cotizaciones[0].sumaVenta;
+       
+        var UtilidadNeta = ($scope.userData.porcentajeUtilidad * .01);
 
          if (UtilidadNeta >uitilidad) {      
          
             swal({
             title: "La utilidad es menor a lo esperado",
+            text: "¿Desea continuar con el margen de "+margen +"%?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#65BD10",
@@ -1034,7 +1043,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         },
         function (isConfirm) {
             if (isConfirm) {
-               
+               $scope.estatusAprobacion(); 
             }
         });
 
