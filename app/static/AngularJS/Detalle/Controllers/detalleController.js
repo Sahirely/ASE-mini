@@ -552,7 +552,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.class_buttonEditarCotizacion = 'fa fa-spinner fa-spin';
         var orden = $scope.numeroOrden;
         var idCotizacion = String(data.idCotizacion);
-        location.href = '/cotizacionnueva?orden=' + orden + '&idCotizacion=' + idCotizacion;
+        location.href = '/cotizacionnueva?orden=' + orden + '&idCotizacion=' + idCotizacion + '&estatus=' + $scope.estatus;
     }
 
     //LQMA 07062017
@@ -1014,7 +1014,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             $scope.enviaAprobacion();
 
         }else{
-            $scope.estatusAprobacion(); 
+            $scope.estatusAprobacion();
         }
 
     }
@@ -1024,11 +1024,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
         var uitilidad = ( $scope.cotizaciones[0].sumaVenta - $scope.cotizaciones[0].sumaCosto )/$scope.cotizaciones[0].sumaVenta ;
         var margen = (($scope.cotizaciones[0].sumaVenta -$scope.cotizaciones[0].sumaCosto)*100)/ $scope.cotizaciones[0].sumaVenta;
-       
+
         var UtilidadNeta = ($scope.userData.porcentajeUtilidad * .01);
 
-         if (UtilidadNeta >uitilidad) {      
-         
+         if (UtilidadNeta >uitilidad) {
+
             swal({
             title: "La utilidad es menor a lo esperado",
             text: "¿Desea continuar con el margen de "+margen +"%?",
@@ -1049,10 +1049,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
         });
 
         }else{
-            $scope.estatusAprobacion(); 
+            $scope.estatusAprobacion();
         }
-                              
-            
+
+
     }
 
 
@@ -1115,7 +1115,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             /*if (isConfirm) {
 
                 provisionesRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
-        
+
                     if (res.data[0].id == 1) {
                          swal("Proceso Realizado!");
                         $scope.getAprobacionProvision();
@@ -1128,6 +1128,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }*/
         });
 
-         
+
     };
 });
