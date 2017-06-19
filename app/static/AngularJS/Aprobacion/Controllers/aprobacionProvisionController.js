@@ -32,43 +32,4 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden;
     }
 
-
-    $scope.aprobarProvision = function (provision){
-
-    	swal({
-            title: "Advertencia",
-            text: "¿Está seguro de aprobar la provisión de la orden?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#67BF11",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-            closeOnConfirm: false,
-            closeOnCancel: true
-        },
-         function (isConfirm) {
-            /*if (isConfirm) {
-
-            	provisionesRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
-        
-		            if (res.data[0].id == 1) {
-		            	 swal("Proceso Realizado!");
-		            	$scope.getAprobacionProvision();
-		            }else if (res.data[0].id  == 2) {
-		            	 swal("Ya se encuentra procesada");
-		            }
-		        }, function (error) {
-		            alertFactory.error("Error al cargar la orden");
-		        });
-            }*/
-        });
-
-    	 
-    }
-
-   
- 
-
-
-
   });

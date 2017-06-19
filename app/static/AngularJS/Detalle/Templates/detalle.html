@@ -823,6 +823,9 @@
                                     <span class="{{class_buttonTerminaTrabajo}}"></span>
                                     Terminar Trabajo
                                 </button>
+                                <!--VALIDAR USUARIO PARA PROVISIONES-->
+                                <button class="btn btn-success pull-right btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >  Aprobación Provisión
+                                </button>
                             </div>
                         </div>
                         <div ng-show="idEstatusOrden==6 && estatus==5">
@@ -857,6 +860,9 @@
                                         <br>
                                     </div>
                                 </div>
+                                <!--VALIDAR USUARIO PARA PROVISIONES-->
+                                <button class="btn btn-success pull-right btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >  Aprobación Provisión
+                                </button>
                             </div>
                         </div>
                         <div ng-show="idEstatusOrden==7">
@@ -866,6 +872,9 @@
                                 </button>
                                 <button class="btn btn-danger pull-right" type="button" ng-click="RechazarTrabajo();">
                                     Rechazar Trabajo
+                                </button>
+                                <!--VALIDAR USUARIO PARA PROVISIONES-->
+                                <button class="btn btn-success pull-right btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >  Aprobación Provisión
                                 </button>
                             </div>
                             <div class="col-sm-12 col-md-6 pull-right" ng-show="pnl_token_admin">

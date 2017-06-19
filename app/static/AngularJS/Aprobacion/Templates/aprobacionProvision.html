@@ -24,7 +24,6 @@
                                         <th>Venta</th>
                                         <th>Estatus</th>
                                         <th>Horas en espera</th>
-                                        <th>Aprobación</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -38,9 +37,7 @@
                                         <td>{{provision.venta | currency: "$"}}</td>
                                         <td>{{provision.nombreEstatusOrden }}</td>
                                         <td>{{provision.tiempo }}</td>      
-                                        <td class="center">
-                                            <span class="label label-success"><i class="glyphicon glyphicon-check" data-toggle="tooltip" tooltip="Realizar Aprobación" id="cursorPoint" ng-click="aprobarProvision(provision)"></i></span>
-                                        </td>
+                                        
                                     </tr>
                                 </tbody>
                             </table>
