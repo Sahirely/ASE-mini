@@ -40,7 +40,7 @@
                                 </div>
                                 <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'">
                                     <div class='subProgress'>
-                                        <p>{{cotz.data[0].numeroCotizacion}}</p>
+                                        <p class="padding">{{cotz.data[0].numeroCotizacion}}</p>
                                         <div ng-class="{'subProgressBarra':cot.idEstatusCotizacion!= 4, 'subProgressBarraCancelada': cot.idEstatusCotizacion==4}" ng-repeat="cot in cotz.data" style="width: {{cot.Porcentaje}}%;">
                                             <a href="#" title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{cot.nombreCompleto}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='<p>Fecha: {{cot.fecha | date:"dd/MM/yyyy" }}</p> <p>Hora: {{cot.fecha | date:"hh:mm:ss a" }}</p> '>
                                             {{cot.nombreEstatusCotizacion}}

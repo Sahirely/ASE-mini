@@ -96,6 +96,7 @@
     height: 30px;
     background-color: #4f89b9;
     float: left;
+    padding: 5px;
 }
 
 .progressBarra a,
@@ -124,6 +125,11 @@
     height: 30px;
     background-color: #96ab18;
     float: left;
+    padding: 5px;
+}
+
+.padding{
+    padding: 5px 5px 0px 5px;
 }
 
 /*TERMINA Estilos para los progress bar*/
