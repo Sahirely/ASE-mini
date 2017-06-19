@@ -9,18 +9,19 @@
                         <br>
                         <br>
                         <br>
-                        <span class="col-md-3 pull-left"> 
+                        <div class="col-md-3 pull-left"> 
 							<div class="col-lg-12">
 								<div class="pointer" ng-click="cotizacionPendiente()">
 									<div class="ibox float-e-margins">
 										<div class="ibox-title">
-							    <span class="label label-success pull-right"><i class="glyphicon glyphicon-user"></i></span>
-                        <h5>{{userData.nombreCompleto}}</h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </span>
+							                 <span class="label label-success pull-right"><i class="glyphicon glyphicon-user"></i></span>
+                                            <h5>{{userData.nombreCompleto}}</h5>
+                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
         <span class="col-md-3 pull-right"> 
 							<div class="col-lg-12">
 								<div class="pointer" ng-click="cotizacionPendiente()">
@@ -33,46 +34,28 @@
 </div>
 </div>
 </span>
-<span class="col-lg-12 pull-right">  
-<div class="col-lg-2">
-<div class="pointer">
-<div class="ibox float-e-margins">
-<div class="ibox-title">
-<span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
-<h4>Ordenes Con Atraso</h4>
+<br>
+<br>
+<br>
+<div class="col-lg-12 pull-right">  
+    
 </div>
-<div class="ibox-content">
-    <h1 class="no-margins">{{ordenesAtrasadas}}</h1>
-</div>
-</div>
-</div>
-</div>
-<div class="col-lg-2">
-    <div class="pointer" >
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <span class="label alerta-color pull-right"><i class="glyphicon glyphicon-ok"></i></span>
-                <h4>Ordenes Para Hoy</h4>
-            </div>
-            <div class="ibox-content">
-                <h1 class="no-margins">{{ordenesParaHoy}}</h1>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-lg-2">
-    <div class="pointer">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <span class="label label-primary pull-right"><i class="glyphicon glyphicon-open-file"></i></span>
-                <h4>Ordenes Sin Plan de Acción</h4>
-            </div>
-            <div class="ibox-content">
-                <h1 class="no-margins">{{ordenesSinObjetivo}}</h1>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="span"></div>
+<br>
+<br>
+<br>
+<span class="col-lg-12 pull-right"> 
+<div class="col-lg-6">
+    <table class="table table-bordered table-hover">
+        <tbody>
+            <tr ng-repeat="zona in zonas" >
+                <td>{{zona.etiqueta}}</td>
+                <td>{{zona.nombre}}</td>
+            </tr>    
+        </tbody>        
+    </table>
+    
+</div> 
 <div class="col-lg-6">
     <div class="table-responsive">
         <table class="table table-bordered table-hover dataTableRecordatorios" cg-busy="{promise:promise,message:message}">
@@ -96,6 +79,51 @@
         </table>
     </div>
 </div>
+<div class="col-lg-2">
+    <div class="pointer" ng-click = "traeOrdenCallCenter(1)">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" >
+                <span class="label label-danger pull-right"><i class="glyphicon glyphicon-remove"></i></span>
+                <h4>Ordenes Con Atraso</h4>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{ordenesAtrasadas}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="pointer" ng-click = "traeOrdenCallCenter(2)">
+        <div class="ibox float-e-margins" >
+            <div class="ibox-title">
+                <span class="label alerta-color pull-right"><i class="glyphicon glyphicon-ok"></i></span>
+                <h4>Ordenes Para Hoy</h4>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{ordenesParaHoy}}</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-lg-2">
+    <div class="pointer" ng-click = "traeOrdenCallCenter(3)">
+        <div class="ibox float-e-margins" >
+            <div class="ibox-title">
+                <span class="label label-primary pull-right"><i class="glyphicon glyphicon-open-file"></i></span>
+                <h4>Ordenes Sin Plan de Acción</h4>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{ordenesSinObjetivo}}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <button class="btn btn-primary ng-binding pull-right" tooltip="Todos" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="traeOrdenCallCenter(0)"> Todos </button>
+    </div>
+    <div class="space"></div>
+</div>
+
+
 </span>
 <br>
 <div class="ibox-content">

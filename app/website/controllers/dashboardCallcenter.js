@@ -90,7 +90,8 @@ DashBoardCallCenter.prototype.get_ordenesCallCenter = function (req, res, next) 
     //Obtención de valores de los parámetros del request
     var params = [
         { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }, 
+        { name: 'tipo', value: req.query.tipo, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_ORDENES_CALLCENTER_SP', params, function (error, result) {
@@ -100,5 +101,28 @@ DashBoardCallCenter.prototype.get_ordenesCallCenter = function (req, res, next) 
         });
     });
 }
+
+DashBoardCallCenter.prototype.get_zonasCallCenter = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    },
+    {
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_ZONAS_EJECUTIVO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+
 
 module.exports = DashBoardCallCenter;

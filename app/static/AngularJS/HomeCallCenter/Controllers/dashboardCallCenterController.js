@@ -10,7 +10,8 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
       $scope.traeOrdenesParaHoy();
       $scope.traeOrdenesSinObjetivo();
       $scope.traeRecordatorios();
-      $scope.traeOrdenCallCenter();
+      $scope.traeOrdenCallCenter(0);
+      $scope.zonasCallCenter();
     };
 
     //funcion reloj recursiva cada minuto
@@ -36,7 +37,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         };
 
     $scope.traeOrdenesParaHoy = function() {
-      
+
             dashboardCallCenterRepository.getOrdenParaHoy($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
                 .then(function successCallback(response) {
                     $scope.ordenesParaHoy = response.data[0].NUM;
@@ -68,10 +69,11 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         });
     };
 
-    $scope.traeOrdenCallCenter = function(){
+    $scope.traeOrdenCallCenter = function(tipo){
+        $scope.ordencall=[];
          $('.dataTableOrdenCallCenter').DataTable().destroy();
-         $scope.operaciones=[];
-        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function (result) {
+       
+        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, tipo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
                  globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 100);
@@ -80,6 +82,20 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
             alertFactory.error('El usuario no tiene recordatorios');
         });
     };
+
+    $scope.zonasCallCenter = function(tipo){
+        $scope.zonas=[];
+       
+        $scope.promise = dashboardCallCenterRepository.getZonasCallCenter($scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada,).then(function (result) {
+            
+            if (result.data.length > 0) {
+                $scope.zonas = result.data;
+            }
+        }, function (error) {
+            alertFactory.error('El usuario no tiene recordatorios');
+        });
+    };
+
 
      $scope.seleccionarOrden = function(obj) {
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;

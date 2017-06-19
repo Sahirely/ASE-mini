@@ -58,9 +58,24 @@ registrationModule.factory('dashboardCallCenterRepository', function ($http) {
             });
         },
 
-        getOrdenCallCenter: function (idContratoOperacion,idUsuario) {
+        getOrdenCallCenter: function (idContratoOperacion,idUsuario, tipo) {
             return $http({
                 url: dashboardCallcenterUrl + 'ordenesCallCenter/',
+                method: "GET",
+                params: {
+                    idUsuario:idUsuario,
+                    idContratoOperacion:idContratoOperacion,
+                    tipo:tipo
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        getZonasCallCenter: function (idUsuario, idContratoOperacion) {
+            return $http({
+                url: dashboardCallcenterUrl + 'zonasCallCenter/',
                 method: "GET",
                 params: {
                     idUsuario:idUsuario,
