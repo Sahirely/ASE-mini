@@ -22,6 +22,21 @@ var Detalle = function (conf) {
    ]
 }
 
+Detalle.prototype.get_fechaRealTrabajo = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
+            {name: 'fechaInicio', value: req.query.fechaInicio, type: self.model.types.STRING}
+        ];
+    
+    this.model.query('UPD_FECHA_TRABAJO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_tiempoTranscurrido = function(req, res, next){
     var self = this;
     var params = [{
