@@ -1043,6 +1043,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         },
         function (isConfirm) {
             if (isConfirm) {
+                // correo
                $scope.estatusAprobacion(); 
             }
         });
