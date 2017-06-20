@@ -1038,8 +1038,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
             confirmButtonText: "Si",
             cancelButtonText: "No",
             cancelButtonColor: "#DD083F",
-            closeOnConfirm: true,
-            closeOnCancel: true
+            closeOnConfirm: false,
+            closeOnCancel: false
         },
         function (isConfirm) {
             if (isConfirm) {
@@ -1057,6 +1057,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
 
     $scope.estatusAprobacion = function() {
+        debugger;
     swal({
             title: "¿Está seguro que desea enviar la Orden a aprobación?",
             type: "warning",
