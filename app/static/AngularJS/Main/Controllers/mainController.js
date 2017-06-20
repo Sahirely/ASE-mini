@@ -16,13 +16,13 @@
     $scope.comentario = '';
 
     $scope.init = function() {
-        if (localStorageService.get('economico') != '') {
+        if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
             $scope.busquedaNumEco = localStorageService.get('economico');
             $rootScope.busqueda = 1;
             $scope.numeroEconomico = '';
-        }else if (localStorageService.get('orden') != '') {
+        }else if (localStorageService.get('orden') != null && localStorageService.get('orden') != '') {
             $scope.busquedaNumOrden =  localStorageService.get('orden');
-            $rootScope.busqueda = 1;
+            $rootScope.busqueda = 2;
             $scope.numeroOrden = '';
         }else{
             $rootScope.busqueda = 1;
@@ -126,8 +126,8 @@
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function(economico) {
-       
         localStorageService.set('economico', economico);
+        localStorageService.set('orden', '');
         busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
@@ -170,6 +170,7 @@
     $scope.getDetalleOrden = function(orden) {
         
         localStorageService.set('orden', orden);
+        localStorageService.set('economico', '');
         consultaCitasRepository.getExisteOrden($scope.idUsuario, orden).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {

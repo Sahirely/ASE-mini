@@ -118,12 +118,12 @@
                     </div>
                     <div ng-hide="userData.idRol == 5 || busqueda == 2" class="col-xs-5 col-sm-5 col-md-4 col-lg-5 singLeft" >
                         <div class="form-group ">
-                            <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
+                            <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue" ng-enter=" getDetalleUnidad(numeroEconomico)">
                         </div>
                     </div>
                     <div ng-hide="userData.idRol == 5 || busqueda == 1" class="col-xs-5 col-sm-5 col-md-4 col-lg-5 singLeft" >
                         <div class="form-group ">
-                            <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue" ng-enter="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))">
+                            <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue" ng-enter="getDetalleOrden(numeroOrden)">
                         </div>
                     </div>
                     <div ng-hide="userData.idRol == 5" class="col-xs-1 col-sm-1 col-md-1 col-lg-1 singLeft">
