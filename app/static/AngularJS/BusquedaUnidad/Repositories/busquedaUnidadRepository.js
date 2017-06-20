@@ -85,6 +85,19 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getDetalleOrdenEspecialidad: function(idOrden) {
+            return $http({
+                url: busquedaUnidadUrl + 'detalleOrdenEspecialidad/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
+
     };
 });

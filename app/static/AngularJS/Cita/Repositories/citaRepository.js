@@ -37,7 +37,7 @@ registrationModule.factory('citaRepository', function($http, $q) {
                 }
             })
         },
-        putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller) {
+        putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller, especialidades ) {
             return $http({
                 url: citaUrl + 'agendarCita/',
                 method: "PUT",
@@ -50,7 +50,8 @@ registrationModule.factory('citaRepository', function($http, $q) {
                     fechaCita: fechaCita,
                     comentario: comentario,
                     idZona: idZona,
-                    taller: taller
+                    taller: taller,
+                    especialidades:especialidades
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,7 +71,7 @@ registrationModule.factory('citaRepository', function($http, $q) {
                 }
             });
         },
-        putActualizarCita: function(idOrden,idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller) {
+        putActualizarCita: function(idOrden,idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller, especialidades) {
             return $http({
                 url: citaUrl + 'actualizarCita/',
                 method: "PUT",
@@ -84,7 +85,22 @@ registrationModule.factory('citaRepository', function($http, $q) {
                     fechaCita: fechaCita,
                     comentario: comentario,
                     idZona: idZona,
-                    taller: taller
+                    taller: taller,
+                    especialidades: especialidades
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        putEspecialidadOrden: function(idOrden,especialidades, estatus) {
+            return $http({
+                url: citaUrl + 'especialidadOrden/',
+                method: "PUT",
+                params: {
+                    idOrden: idOrden,
+                    especialidades: especialidades,
+                    estatus: estatus
                 },
                 headers: {
                     'Content-Type': 'application/json'

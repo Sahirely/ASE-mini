@@ -132,4 +132,21 @@ busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
     });
 };
 
+//Obtiene el detalle de la orden de servicio para editarlo
+busquedaUnidad.prototype.get_detalleOrdenEspecialidad = function(req, res, next) {
+    var self = this;
+    var params = [ {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_ESPECIALIDAD_ORDEN_SP', params, function(error, result) {
+          self.view.expositor(res, {
+              error: error,
+              result: result
+          });    
+    });
+};
+
 module.exports = busquedaUnidad;

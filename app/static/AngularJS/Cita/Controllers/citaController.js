@@ -89,7 +89,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
             if ($scope.detalleUnidad.situacionOrden == 1) {
-                debugger;
+               
                 $scope.muestraAgendarCita = false;
                 busquedaUnidadRepository.getDetalleOrden($routeParams.economico).then(function(result) {
                     $scope.detalleOrden = result.data[0];
@@ -103,6 +103,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.opcionEstadoUnidad = false;
                         $scope.grua = $scope.detalleOrden.grua;
                         $scope.idCotizacion = $scope.detalleOrden.idCotizacion;
+                        $scope.idOrden = $scope.detalleOrden.idOrden;
                         var date = new Date($scope.detalleOrden.fechaCita);
                         console.log(date, 'Soy la fecha que viene de bd')
                         $scope.fechaCita = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
@@ -118,6 +119,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.getPreCotizacion($scope.idCotizacion);
 
                         $scope.getZonasCita($scope.zonaSelected);
+                        $scope.getDetalleOrdenEspecialidad();
 
                     } else if ($scope.detalleOrden == 0) {
                         location.href = '/unidad?economico=' + $routeParams.economico;
@@ -133,6 +135,28 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
         });
     };
+
+      //*****************************************************************************************************************************//
+    // Obtiene las especialidades de la cita
+    //*****************************************************************************************************************************//
+    $scope.getDetalleOrdenEspecialidad = function(){
+        
+      busquedaUnidadRepository.getDetalleOrdenEspecialidad($scope.idOrden).then(function(result){
+        
+        if (result.data.length > 0){
+            for (var i = 0 ; i < result.data.length; i++) {
+                 angular.forEach($scope.servicios, function(value, key) {
+                    if (value.idServicio  == result.data[i].idEspecialidad) {
+                        value.seleccionado = true;
+                    }
+
+                 });
+            };
+        }
+
+      });
+    }
+
     //*****************************************************************************************************************************//
     // Obtiene la zona y sus zonas padre correspondientes a la cita.
     //*****************************************************************************************************************************//
@@ -141,7 +165,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
           var zonasArray = result.data;
           if (zonasArray.length > 0){
             zonasArray.forEach(function(item) {
-                debugger;
                 $scope.ZonasSeleccionadas[item.nivel] = '' +item.idZona +'';
             });
 
@@ -223,7 +246,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getServicios = function() {
         citaRepository.getServicios($scope.idUsuario, $routeParams.economico).then(function(result) {
-            debugger;
             $scope.servicios = result.data;
             if ($scope.servicios[0].respuesta == 1) {
                 $scope.mensajeServicios = false;
@@ -268,7 +290,8 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         );
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
+        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller, $scope.idServicios).then(function(result) {
+           
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
                 $scope.idOrden = result.data[0].idOrden;
@@ -428,22 +451,40 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.partidas = result.data;
         });
     };
+
     $scope.actualizarCita = function() {
         if ($scope.grua == true) {
             $scope.grua = 1;
         } else { $scope.grua = 0 }
+
+        $scope.idServicios = '';
+        $scope.serviciosEstatus = '';
+        angular.forEach($scope.servicios, function(value, key) {
+           
+            $scope.idServicios = value.idServicio + ',' + $scope.idServicios;
+
+             if (value.seleccionado == true) {
+               $scope.serviciosEstatus ='1,' + $scope.serviciosEstatus; 
+            }else{
+                $scope.serviciosEstatus ='0,' + $scope.serviciosEstatus; 
+            }
+
+        });
+
         citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
             console.log(result, 'Soy lo que regresa despues de actualizar la Orden de Servicio')
             angular.forEach($scope.partidas, function(value, key) {
+                
                 cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
                     alertFactory.success('Cotización Detalle Creada');
-                    setTimeout(function() {
-                        location.href = '/unidad?economico=' + $routeParams.economico;
-                    }, 1000);
+                    citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
+                        setTimeout(function() {
+                            location.href = '/unidad?economico=' + $routeParams.economico;
+                        }, 1000);
+                    });
                 });
             });
         });
         console.log($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller);
-
     };
 });

@@ -50,7 +50,7 @@
                                 <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Tipo de Cita:</label>
                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                     <select class="form-control" ng-model="tipoDeCita" ng-options="tipoCita.tipoCita for tipoCita in tipoCita track by tipoCita.tipoCita" ng-change="changeTipoCita(tipoDeCita)">
-                                        <option value=''>{{ opcionTipoCita == false ? detalleOrden.nombreTipoCita : 'Selecionar Tipo de Cita'}} </option>
+                                        <option value=''>{{ opcionTipoCita == false ? detalleOrden.nombreTipoCita : 'Seleccionar Tipo de Cita'}} </option>
                                     </select>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Estado de la Unidad:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <select class="form-control" ng-model="estadoDeUnidad" ng-options="estadoUnidad.descripcion for estadoUnidad in estadoUnidad track by estadoUnidad.descripcion" ng-click="opcionEstadoUnidad = true">
-                                    <option value=''>{{ opcionEstadoUnidad == false ? detalleOrden.nombreEstadoUnidad : 'Selecionar Estado de la Unidad'}}</option>
+                                    <option value=''>{{ opcionEstadoUnidad == false ? detalleOrden.nombreEstadoUnidad : 'Seleccionar Estado de la Unidad'}}</option>
                                 </select>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">{{zona.etiqueta}}:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
                                 <select class="form-control" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden, zona, ZonasSeleccionadas)">
-                                    <option value='0'>Selecionar</option>
+                                    <option value='0'>Seleccionar</option>
                                     <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden -1]" value="{{z.idZona}}">
                                         {{z.nombre}}
                                     </option>
@@ -156,8 +156,9 @@
                     <form class="form-horizontal">
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                <button type="button" class="btn btn-primary pull-right" ng-click="buscarTaller()"><i class="fa fa-search"><strong> Buscar </strong></i>
-                                </button>
+                                <!--button type="button" class="btn btn-primary pull-right" ng-click="buscarTaller()"><i class="fa fa-search"><strong> Buscar </strong></i>
+                                </button-->
+                                <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="buscarTaller()"><span class="fa fa-search"></span><strong> Buscar</strong></button>
                             </div>
                         </div>
                     </form>

@@ -79,6 +79,10 @@ Cita.prototype.put_agendarCita = function(req, res, next) {
         name: 'taller',
         value: req.query.taller,
         type: self.model.types.INT
+    }, {
+        name: 'especialidades',
+        value: req.query.especialidades,
+        type: self.model.types.STRING
     }];
 
     this.model.query('INS_ORDEN_SERVICIO_SP', params, function(error, result) {
@@ -174,6 +178,33 @@ Cita.prototype.put_actualizarCita = function(req, res, next) {
     }];
 
     this.model.query('UPD_ORDEN_DERVICIO_SP', params, function(error, result) {
+        console.log(result)
+        console.log(error)
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Cita.prototype.put_especialidadOrden = function(req, res, next) {
+    var self = this;
+    console.log(req.query.fechaCita)
+    var params = [{
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'especialidades',
+        value: req.query.especialidades,
+        type: self.model.types.STRING
+    }, {
+        name: 'estatus',
+        value: req.query.estatus,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('UPD_ESPECIALIDAD_ORDEN_SP', params, function(error, result) {
         console.log(result)
         console.log(error)
         self.view.expositor(res, {
