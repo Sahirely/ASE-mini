@@ -32,6 +32,20 @@ registrationModule.factory('commonFunctionRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
-        }         
+        },
+        dataMailUtilidad: function(idOrden,idUsuario,idCotizacion){
+            return $http({
+                url: commonFunctionUrl + 'dataMailUtilidad/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idUsuario: idUsuario,
+                    idCotizacion: idCotizacion
+                  },
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+        }            
     };
 });

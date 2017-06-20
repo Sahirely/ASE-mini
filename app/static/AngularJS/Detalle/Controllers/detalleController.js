@@ -1044,7 +1044,23 @@ registrationModule.controller('detalleController', function($scope, $location, $
         function (isConfirm) {
             if (isConfirm) {
                 // correo
-               $scope.estatusAprobacion(); 
+                commonFunctionRepository.dataMailUtilidad($scope.idOrden, $scope.userData.idUsuario, $scope.cotizaciones[0].idCotizacion).then(function (resp) {
+                    if (resp.data.length > 0) {
+                        var correoDe = resp.data[0].correoDe;
+                        var correoPara = resp.data[0].correoPara;
+                        var asunto = resp.data[0].asunto;
+                        var texto = resp.data[0].texto;
+                        var bodyhtml = resp.data[0].bodyhtml;
+                         commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                $scope.estatusAprobacion(); 
+                        }, function(error) {
+                            alertFactory.error('No se puede enviar el correo');
+                        });
+                    }
+                }, function (error) {
+                    alertFactory.error("Error al obtener información para el mail");
+                });
+               
             }
         });
 
