@@ -1057,7 +1057,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
 
     $scope.estatusAprobacion = function() {
-        debugger;
     swal({
             title: "¿Está seguro que desea enviar la Orden a aprobación?",
             type: "warning",
@@ -1113,9 +1112,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
             closeOnCancel: true
         },
          function (isConfirm) {
-            /*if (isConfirm) {
+            if (isConfirm) {
 
-                provisionesRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
+                swal("Proceso Realizado!");
+
+               /* provisionesRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
 
                     if (res.data[0].id == 1) {
                          swal("Proceso Realizado!");
@@ -1125,8 +1126,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     }
                 }, function (error) {
                     alertFactory.error("Error al cargar la orden");
-                });
-            }*/
+                });*/
+            }
         });
 
 
