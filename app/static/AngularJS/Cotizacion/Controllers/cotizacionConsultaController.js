@@ -93,7 +93,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
       $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( 3, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
           if (result.data.length > 0){
-              debugger;
               result.data.forEach(function(item) {
                   var existe = false;
                   $scope.cotizaciones.forEach(function(value){

@@ -85,7 +85,7 @@ registrationModule.controller('reporteParqueVehicularController', function ($sco
       var filtro = $scope.tipoUnidadSelected == '' || $scope.tipoUnidadSelected == undefined ? null :  $scope.tipoUnidadSelected;
       var idZona = $scope.zonaSelected == undefined || $scope.zonaSelected == '' ? null : $scope.zonaSelected;
       reporteRepository.reporteParqueVehicular(3, filtro, idZona).then(function(result){
-        debugger;
+        
           if(result.data.length > 0){
               $scope.Unidades = result.data;
               globalFactory.filtrosTabla("parqueVehicular","Parque Vehicular",5);
@@ -100,7 +100,7 @@ registrationModule.controller('reporteParqueVehicularController', function ($sco
     }
 
     $scope.irDetalle = function(numEco){
-      debugger;
+     
       location.href = '/unidad?economico='+numEco;
     }
 });

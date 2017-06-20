@@ -361,7 +361,6 @@ registrationModule.controller('configuradorController', function ($scope, $route
     
 
     /*$scope.changeTipo = function (tipo, valor) {
-        debugger;
         var bandera = false;
         var indice = 0
 

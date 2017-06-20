@@ -43,7 +43,6 @@ registrationModule.controller('consultaCitasController', function($scope, $route
             todayHighlight: true
         });
         $scope.estatusDashboard = $routeParams.e;
-        debugger;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
           $scope.filtroEstatus = $scope.estatusDashboard;
           $scope.cambioFiltro();
@@ -85,7 +84,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         console.log(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta)
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
-          debugger;
+          
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
                 globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
@@ -172,7 +171,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
         var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-        debugger;
+       
         $scope.getTotalOrdenes($scope.idContratoOperacion, Zona, $scope.userData.idUsuario, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
     };
 

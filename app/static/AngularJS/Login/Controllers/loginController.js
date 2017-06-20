@@ -23,7 +23,7 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
 
     $scope.login = function (username, password) {
       loginRepository.login(username,password).then(function (result){
-        debugger;
+        
           if (result.data.data.length > 0) {
               if (result.data.data[0].HasSession == 'False'){
                 $scope.userData = userFactory.saveUserData(result.data.data[0]);
