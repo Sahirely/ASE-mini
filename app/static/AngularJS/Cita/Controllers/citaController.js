@@ -89,6 +89,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
             if ($scope.detalleUnidad.situacionOrden == 1) {
+                debugger;
                 $scope.muestraAgendarCita = false;
                 busquedaUnidadRepository.getDetalleOrden($routeParams.economico).then(function(result) {
                     $scope.detalleOrden = result.data[0];
@@ -222,6 +223,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getServicios = function() {
         citaRepository.getServicios($scope.idUsuario, $routeParams.economico).then(function(result) {
+            debugger;
             $scope.servicios = result.data;
             if ($scope.servicios[0].respuesta == 1) {
                 $scope.mensajeServicios = false;

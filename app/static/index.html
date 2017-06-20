@@ -109,11 +109,11 @@
                 </div>
                  <div class="col-xs-4 col-sm-4 col-md-5 col-lg-4" id="busquedas">
                     <div class="radio radio-info radio-inline singLeft col-xs-2 col-sm-3 col-md-2 col-lg-2">
-                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" >
+                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)" >
                         <label for="utilidad1"> Orden </label>
                     </div>
                     <div class="radio radio-info radio-inline singLeft col-xs-2 col-sm-2 col-md-3 col-lg-2">
-                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda"  >
+                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda"  ng-click="botonBusqueda(busqueda)" >
                         <label for="utilidad2"> Unidad </label>
                     </div>
                     <div ng-hide="userData.idRol == 5 || busqueda == 2" class="col-xs-5 col-sm-5 col-md-4 col-lg-5 singLeft" >
@@ -130,23 +130,23 @@
                         <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
-                <div class="col-xs-8 col-sm-8 col-md-7 col-lg-8" id="opcionesMenuSuperior">
+                <div class="col-xs-8 col-sm-8 col-md-6 col-lg-7" id="opcionesMenuSuperior">
                     
-                    <ul class="nav navbar-top-links navbar-left-mod scrollmenu col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                    <ul class="nav navbar-top-links navbar-left-mod scrollmenu col-xs-8 col-sm-8 col-md-7 col-lg-7">
                       
 
-                        <li class="col-xs-6 col-sm-6 col-md-6 col-lg-5" ng-hide="userData.idRol == 5" >
-                            <div class="singOut right colorDetalle" ng-hide="busqueda == 2" >
-                                <span class="fa fa-car"></span>
-                                <span ng-click="getDetalle(1)" >Unidad : {{busquedaNumEco}}</span>
+                        <li class="col-xs-4 col-sm-4 col-md-6 col-lg-5" ng-hide="userData.idRol == 5" >
+                            <div class="singOut right colorDetalle" ng-hide="busqueda == 2" ng-click="getDetalle(1)" >
+                                <div class="fa fa-car"> Unidad :</div>
+                                <div >{{busquedaNumEco}}</div>
                             </div>
                             <div class="singOut right colorDetalle" ng-hide="busqueda == 1" ng-click="getDetalle(2)">
-                                <span class="fa fa-edit"></span>
-                                <span >Orden : {{busquedaNumOrden}}</span>
+                                <div class="fa fa-edit"> Orden :</div>
+                                <div> {{busquedaNumOrden}}</div>
                             </div>
                         </li>    
                         
-                        <li class="col-xs-6 col-sm-6 col-md-6 col-lg-5">
+                        <li class="col-xs-4 col-sm-4 col-md-6 col-lg-5">
                             <div class="singOut right" >
                                 <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
                                     <span>  Rol - {{userData.Rol}}</span>
