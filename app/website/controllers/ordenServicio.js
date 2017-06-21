@@ -573,7 +573,7 @@ OrdenServicio.prototype.get_validacionAprobacion = function (req, res, next) {
         type: self.model.types.INT
         }];
 
-    this.model.query('SELECT_VALIDA_UTILIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_VALIDA_UTILIDAD_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

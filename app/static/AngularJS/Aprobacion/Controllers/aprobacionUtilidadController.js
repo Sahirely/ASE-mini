@@ -1,4 +1,4 @@
-registrationModule.controller('aprobacionutilidadController', function ($scope, $modal, $route, $rootScope, localStorageService, alertFactory, globalFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository ) {
+registrationModule.controller('aprobacionutilidadController', function ($scope, $modal, $route, $rootScope, localStorageService, alertFactory, globalFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository, userFactory ) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -7,15 +7,8 @@ registrationModule.controller('aprobacionutilidadController', function ($scope, 
         $scope.ideTaller=0;
     //init del controller
     $scope.init = function () {
-
-        if ($scope.userData.idUsuario == 190) {
-            $scope.titulo="Aprobaciones";
-        }else if ($scope.userData.idUsuario == 213) {
-            $scope.titulo="Aprobación de Salida de Unidades";
-        }
-
+        $scope.userData = userFactory.getUserData();
         $scope.getAprobacionUtilidad();
-
     }
 
     $scope.getAprobacionUtilidad = function () {
@@ -23,23 +16,13 @@ registrationModule.controller('aprobacionutilidadController', function ($scope, 
         $scope.aprobacionUtilidades =[];
          $scope.aprobacionTrabajos =[];
         $('.dataTableAprobacionUtilidad').DataTable().destroy();
-        $('.dataTableSalidaTrabajo').DataTable().destroy();
 
-        ordenServicioRepository.getAprobacionUtilidad().then(function (aprobacionUtilidad) {
+        ordenServicioRepository.getAprobacionUtilidad().then(function (result) {
      
-            if (aprobacionUtilidad.data.length > 0) {
-               // alertFactory.success("Orden encontrada");
-               for (var i = 0; i < aprobacionUtilidad.data.length; i++) {
-                   if (aprobacionUtilidad.data[i].tipoAprobacion == 1) {
-                        //$scope.aprobacionUtilidades += aprobacionUtilidad.data[i];
-                        $scope.aprobacionUtilidades.push(aprobacionUtilidad.data[i]);
-                   }else{
-                        $scope.aprobacionTrabajos.push(aprobacionUtilidad.data[i]);
-                   }
-               };
-                
-               globalFactory.waitDrawDocument("dataTableAprobacionUtilidad", "Utilidad");
-               globalFactory.waitDrawDocument("dataTableSalidaTrabajo", "SalidaTrabajo");
+            if (result.data.length > 0) {
+                $scope.aprobacionUtilidades = result.data;     
+                globalFactory.filtrosTabla("dataTableAprobacionUtilidad", "Utilidad", 100); 
+            };
                
             } else {
                 alertFactory.info("No se encontrarón datos");
@@ -49,36 +32,8 @@ registrationModule.controller('aprobacionutilidadController', function ($scope, 
         });
     }
 
-     //visualiza la orden de servicio
-    $scope.lookAt = function (trabajo, valBotonera) {
-        var objBotonera = {};
-        objBotonera.accion = valBotonera;
-        objBotonera.idCita = trabajo.idCita;
-        localStorageService.set('objTrabajo', trabajo);
-        localStorageService.set("botonera", objBotonera);
-        localStorageService.set('actualizaCosto', trabajo.numeroTrabajo)
-        location.href = '/ordenservicio?state=1';
-    }
-
-     $scope.aprobar = function (utilidad) {
-       $scope.idAprobacionUtilidad=utilidad.idAprobacionUtilidad; 
-
-       if (utilidad.intentos>1) {
-            modal_detalle_cotizacion($scope, $modal, utilidad.idTrabajo, 'Orden', utilidad.margenAnterior, $scope.aprobarUtilidad, '');  
-       }else{
-            modal_detalle_cotizacion($scope, $modal, utilidad.idTrabajo, 'Aprobacion', '', $scope.aprobarUtilidad, '');  
-       }
-        
-    }
-
-    $scope.aprobarUtilidad = function (){
-         $('.modal-dialog').css('width','600px'); 
-         modal_tiket($scope, $modal, $scope.idAprobacionUtilidad, 'Aprobacion', $scope.getAprobacionUtilidad, '');         
-    }
-
-    $scope.aprobarTrabajo = function (trabajo){
-        
-         modal_tiket($scope, $modal, trabajo.idAprobacionUtilidad, 'Aprobacion', $scope.getAprobacionUtilidad, '');    
+     $scope.seleccionarOrden = function(obj) {
+        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden;
     }
 
 });

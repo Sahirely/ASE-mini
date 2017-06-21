@@ -5,7 +5,7 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
     $rootScope.modulo = 'aprobacionProvision';
 
   	$scope.init =function(){
-        $scope.userData = userFactory.getUserData();
+      $scope.userData = userFactory.getUserData();
   		$scope.getAprobacionProvision();
   	}	
 
