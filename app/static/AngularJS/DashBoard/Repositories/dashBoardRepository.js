@@ -65,6 +65,19 @@ registrationModule.factory('dashBoardRepository', function ($http) {
                 }
             });
         },
+        getTotalProceso: function ( idOperacion, idZona ) {
+            return $http({
+                url: tableroUrl + 'sumatoriaProceso',
+                method: "GET",
+                params: {
+                    idOperacion: idOperacion,
+                    idZona:idZona
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getTotalOrdenesPorCobrar: function ( idOperacion, idZona, idUsuario ) {
             return $http({
                 url: tableroUrl + 'sumatoriaOrdenesPorCobrar',

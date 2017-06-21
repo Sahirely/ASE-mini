@@ -5,6 +5,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.totalCitas            = 0;
     $scope.totalCotizaciones     = 0;
     $scope.totalOrdenes          = 0;
+    $scope.totalProceso          = 0;
     $scope.totalOrdenesPorCobrar = 0;
     $scope.userData              = userFactory.getUserData();
 
@@ -40,6 +41,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.sumatoriaCotizaciones();
         $scope.sumatoriaOrdenes();
         $scope.sumatoriaOrdenesPorCobrar();
+        $scope.sumatoriaProceso();
     }
 
     $scope.sumatoriaCitas = function() {
@@ -144,6 +146,60 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         });
     };
 
+    $scope.sumatoriaProceso = function() {
+        dashBoardRepository.getTotalProceso( $scope.idOperacion, $scope.zonaSelected ).then(function(proceso) {
+            var Resultados                    = proceso.data;
+            $scope.totalProceso               = 0;
+            $scope.totalHorasOrdenesProceso  = 0;
+            $scope.totalMontoOrdenesProceso  = 0;
+            $scope.totalCostoOrdenesProceso  = 0;
+
+            Resultados.forEach(function(item, key) {
+                $scope.totalProceso             = $scope.totalProceso + parseInt( item.total );
+                $scope.totalHorasOrdenesProceso = $scope.totalHorasOrdenesProceso + parseInt( item.promedio );
+                $scope.totalMontoOrdenesProceso = $scope.totalMontoOrdenesProceso + parseInt( item.Monto );
+                $scope.totalCostoOrdenesProceso = $scope.totalCostoOrdenesProceso + parseInt( item.MontoCosto );
+            });
+
+            $scope.ordenesProceso = Resultados;
+
+            // Grafica
+            $('#morris-donut-proceso').empty();
+            if( $scope.totalProceso == 0 ){
+                // console.log( 'Los datos de la grafica estan en 0' );
+            }
+            else{
+                if( $scope.idRol == 4 ){
+                    var v1 = $scope.addCommas(Resultados[0].MontoCosto);
+                    var v2 = $scope.addCommas(Resultados[1].MontoCosto);
+                    //var v3 = $scope.addCommas(Resultados[2].MontoCosto);
+                }
+                else{
+                    var v1 = $scope.addCommas(Resultados[0].Monto);
+                    var v2 = $scope.addCommas(Resultados[1].Monto);
+                    //var v3 = $scope.addCommas(Resultados[2].Monto);
+                }
+
+                Morris.Donut({
+                    element: 'morris-donut-proceso',
+                    data: [
+                        {label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
+                        {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
+                        //{label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
+                    ],
+                    resize: true,
+                    colors: [ Resultados[0].color, Resultados[1].color/*, Resultados[2].color*/],
+                }).on('click', function(i, row) {
+                    // console.log( row );
+                    location.href = '/trabajo?e=' + row.id;
+                });
+            }
+
+        }, function(error) {
+            alertFactory.error('No se pudo recuperar información de las ordenes');
+        });
+    };
+
     $scope.sumatoriaOrdenes = function() {
         dashBoardRepository.getTotalOrdenes( $scope.idOperacion, $scope.zonaSelected ).then(function(ordenes) {
             var Resultados                    = ordenes.data;
@@ -170,12 +226,12 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 if( $scope.idRol == 4 ){
                     var v1 = $scope.addCommas(Resultados[0].MontoCosto);
                     var v2 = $scope.addCommas(Resultados[1].MontoCosto);
-                    var v3 = $scope.addCommas(Resultados[2].MontoCosto);
+                    //var v3 = $scope.addCommas(Resultados[2].MontoCosto);
                 }
                 else{
                     var v1 = $scope.addCommas(Resultados[0].Monto);
                     var v2 = $scope.addCommas(Resultados[1].Monto);
-                    var v3 = $scope.addCommas(Resultados[2].Monto);
+                    //var v3 = $scope.addCommas(Resultados[2].Monto);
                 }
 
                 Morris.Donut({
@@ -183,10 +239,10 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                     data: [
                         {label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
                         {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
-                        {label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
+                        //{label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
                     ],
                     resize: true,
-                    colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
+                    colors: [ Resultados[0].color , Resultados[1].color/*, Resultados[2].color*/],
                 }).on('click', function(i, row) {
                     // console.log( row );
                     location.href = '/trabajo?e=' + row.id;

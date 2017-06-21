@@ -69,6 +69,23 @@ DashBoard.prototype.get_sumatoriaOrdenes = function (req, res, next) {
     });
 }
 
+//Obtiene la sumatoria de las ordenes
+DashBoard.prototype.get_sumatoriaProceso = function (req, res, next) {
+    //Referencia a la clase para callback
+    var self = this;
+    //Obtención de valores de los parámetros del request
+    var params = [
+        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
+    ];
+
+    this.model.query('SEL_DASHBOARD_ORDENES_PROCESO_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 //Obtiene la sumatoria de las ordenes por cobrar
 DashBoard.prototype.get_sumatoriaOrdenesPorCobrar = function (req, res, next) {
     //Referencia a la clase para callback
