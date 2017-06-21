@@ -565,4 +565,48 @@ OrdenServicio.prototype.get_getaprobacionprovision = function (req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_validacionAprobacion = function (req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+        }];
+
+    this.model.query('SELECT_VALIDA_UTILIDAD_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+OrdenServicio.prototype.post_utilidad = function(req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    var self = this;
+
+    var params = [{
+        name: 'idOrden',
+        value: req.body.idOrden,
+        type: self.model.types.INT
+    },{
+        name: 'idUsuario',
+        value: req.body.idUsuario,
+        type: self.model.types.INT
+    },{
+        name: 'margenAprobacion',
+        value: req.body.margenAprobacion,
+        type: self.model.types.DECIMAL
+    }];
+
+    this.model.post('INS_UTILIDAD_SP', params, function(error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 module.exports = OrdenServicio;

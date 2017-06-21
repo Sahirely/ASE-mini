@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -30,6 +30,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.totalfacturas = 0;
     $scope.errores_factura = false;
     $scope.idOrden = 0;
+    $scope.show_tokenMargen=false;
 
     $scope.sinTiempoDisponible = 1;
     $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
@@ -59,6 +60,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
           $scope.sinTiempoDisponible = 0;
           $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
         }
+ 
     };
 
     //funcion reloj recursiva cada minuto
@@ -125,6 +127,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.idOrden = result.data[0].idOrden;
                 $scope.detalleOrden = result.data[0];
                 $scope.estatus = $routeParams.estatus;
+                $scope.estatusUtilidad();
 
                 if ($scope.estatus == undefined)
                   $scope.estatus = $scope.detalleOrden.idEstatusOrden;
@@ -1021,48 +1024,64 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     //utilidad
     $scope.enviaAprobacion = function () {
+        var uitilidad = ( $scope.totalSumaVenta - $scope.totalSumaCosto)/$scope.totalSumaVenta;
+        var margen = (($scope.totalSumaVenta -$scope.totalSumaCosto)*100)/ $scope.totalSumaVenta;
 
-        var uitilidad = ( $scope.cotizaciones[0].sumaVenta - $scope.cotizaciones[0].sumaCosto )/$scope.cotizaciones[0].sumaVenta ;
-        var margen = (($scope.cotizaciones[0].sumaVenta -$scope.cotizaciones[0].sumaCosto)*100)/ $scope.cotizaciones[0].sumaVenta;
 
         var UtilidadNeta = ($scope.userData.porcentajeUtilidad * .01);
 
          if (UtilidadNeta >uitilidad) {
 
-            swal({
-            title: "La utilidad es menor a lo esperado",
-            text: "¿Desea continuar con el margen de "+margen +"%?",
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#65BD10",
-            confirmButtonText: "Si",
-            cancelButtonText: "No",
-            cancelButtonColor: "#DD083F",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        },
-        function (isConfirm) {
-            if (isConfirm) {
-                // correo
-                commonFunctionRepository.dataMailUtilidad($scope.idOrden, $scope.userData.idUsuario, $scope.cotizaciones[0].idCotizacion).then(function (resp) {
-                    if (resp.data.length > 0) {
-                        var correoDe = resp.data[0].correoDe;
-                        var correoPara = resp.data[0].correoPara;
-                        var asunto = resp.data[0].asunto;
-                        var texto = resp.data[0].texto;
-                        var bodyhtml = resp.data[0].bodyhtml;
-                         commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                $scope.estatusAprobacion(); 
-                        }, function(error) {
-                            alertFactory.error('No se puede enviar el correo');
-                        });
-                    }
-                }, function (error) {
-                    alertFactory.error("Error al obtener información para el mail");
-                });
-               
-            }
-        });
+                swal({
+                title: "La utilidad es menor a lo esperado",
+                text: "¿Desea continuar con el margen de "+margen.toFixed(2) +"%?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#65BD10",
+                confirmButtonText: "Si",
+                cancelButtonText: "No",
+                cancelButtonColor: "#DD083F",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            },
+            function (isConfirm) {
+                if (isConfirm) {
+                   utilidadesRepository.putUtilidad($scope.idOrden, $scope.userData.idUsuario, margen.toFixed(2)).then(function(result) {
+                        if (result.data.length > 0) {
+                            if (result.data[0].idAprobacionUtilidad >0 ) {
+                                swal('La orden se encuentra en espera de Aprobación de Utilidad');
+                                $scope.margen = margen;
+                                $scope.show_tokenMargen=true;
+
+                                 commonFunctionRepository.dataMailUtilidad($scope.idOrden, $scope.userData.idUsuario, $scope.cotizaciones[0].idCotizacion).then(function (resp) {
+                                    if (resp.data.length > 0) {
+                                        var correoDe = resp.data[0].correoDe;
+                                        var correoPara = resp.data[0].correoPara;
+                                        var asunto = resp.data[0].asunto;
+                                        var texto = resp.data[0].texto;
+                                        var bodyhtml = resp.data[0].bodyhtml;
+                                         commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                                //$scope.estatusAprobacion(); 
+                                            alertFactory.info('Se notifico por correo la utilidad');
+                                                
+                                        }, function(error) {
+                                            alertFactory.error('No se puede enviar el correo');
+                                        });
+                                    }
+                                }, function (error) {
+                                    alertFactory.error("Error al obtener información para el mail");
+                                });
+                            }else{
+                                swal('La orden se encuentra en espera de Aprobación de Utilidad');
+                            }
+                            
+                        }
+                    }, function(error) {
+                        alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
+                    });
+                   
+                }
+            });
 
         }else{
             $scope.estatusAprobacion();
@@ -1070,6 +1089,27 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
 
     }
+
+    $scope.estatusUtilidad = function() {
+        utilidadesRepository.getValidacionAprobacion($scope.idOrden).then(function(result) {
+            if (result.data.length > 0) {
+                if (result.data[0].idAprobacionUtilidad>0) {
+                    if (result.data[0].estatusAprobacion == 1) {
+                         $scope.show_tokenMargen=true;
+                    }else{
+                        $scope.show_tokenMargen=false;
+                    }
+
+                }else{
+                    $scope.show_tokenMargen=false;
+                }
+            }
+        }, function(error) {
+            alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
+        });
+              
+    };
+
 
 
     $scope.estatusAprobacion = function() {

@@ -811,10 +811,42 @@
                             </button>
                             <button ng-hide="btnCancelarCitaIsEnable" class="btn btn-rojo pull-right btn-movil" type="submit">Cancelar Cita</button>
                             <button ng-hide="btnNegroIsEnable" class="btn btn-negro pull-right btn-movil" type="submit">Negro</button>
-                            <button ng-hide="btnMoradoIsEnable" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" class="btn btn-morado pull-right btn-movil" type="submit" ng-click="validateEstatusAprobacion()">
+                            <button ng-hide="btnMoradoIsEnable" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" class="btn btn-morado pull-right btn-movil" type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
                               <span class="{{class_buttonEnviaAprobacion}}"></span>
                               Enviar a Aprobación
                             </button>
+
+                            
+                            <div class="col-sm-12 col-md-6 pull-right" ng-show="show_tokenMargen">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Token de Autorización de Utilidad
+                                    </div>
+                                    <div class="panel-body">
+                                        <p> La orden se encuentra en espera de autorización, para Aprobación de Utilidad con un margen de {{margen | currency: "%"}}</p>
+                                        <p>Introduzca el token proporcionado por el administrador.</p>
+                                        <br>
+                                        <br>
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <label>Token</label>
+                                        </div>
+                                        <div class="col-sm-9 col-md-9 col-lg-9">
+                                            <input type="text" ng-model="token_utilidad" class="token_admin form-control">
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <br>
+                                            <button class="btn btn-primary pull-right btn-movil" type="button" >
+                                                Aceptar
+                                            </button>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                    </div>
+                                </div>
+                                
+                            </div>
                         </div>
                         <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
                         <div ng-show="idEstatusOrden==5 && estatus==5" ;>
