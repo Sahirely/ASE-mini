@@ -579,4 +579,19 @@ Detalle.prototype.post_recordatorio = function(req, res, next) {
         });
     });
 }
+
+Detalle.prototype.get_tokenEstatus = function(req, res, next){
+    var self = this;
+    var params = [
+            {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}
+        ];
+        
+    this.model.query('UPD_ESTATUS_UTILIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;

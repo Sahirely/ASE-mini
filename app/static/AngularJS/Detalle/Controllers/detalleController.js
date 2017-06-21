@@ -885,6 +885,42 @@ registrationModule.controller('detalleController', function($scope, $location, $
         });
     }
 
+    $scope.ValidaUtilidad = function() {
+        if ($scope.token_utilidad == '' || $scope.token_utilidad === undefined) {
+            alertFactory.error('Introduce el Token de Verificación');
+        } else {
+            detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_utilidad).then(function(r_token) {
+                if (r_token.data[0].Success) {
+                        $scope.token_utilidad = '';
+                            detalleRepository.tokenEstatus($scope.detalleOrden.idOrden).then(function(resp) {});
+                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
+                                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                                        if (resp.data.length > 0) {
+                                            var correoDe = resp.data[0].correoDe;
+                                            var correoPara = resp.data[0].correoPara;
+                                            var asunto = resp.data[0].asunto;
+                                            var texto = resp.data[0].texto;
+                                            var bodyhtml = resp.data[0].bodyhtml;
+                                             commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                                    console.log('envia correo desde front')
+                                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                                                    //$scope.init();
+                                            }, function(error) {
+                                                alertFactory.error('No se puede enviar el correo');
+                                            });
+                                        }
+                                    }, function (error) {
+                                        alertFactory.error("Error al obtener información para el mail");
+                                    });
+                            });
+                } else {
+                    alertFactory.error(r_token.data[0].Msg);
+                    $scope.token_termino = '';
+                }
+            });
+        }
+    }
+
     $scope.RechazarTrabajo = function() {
         swal({
                 title: "¿Estas seguro?",
