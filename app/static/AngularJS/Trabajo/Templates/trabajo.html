@@ -110,7 +110,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : estatusValidador }" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : estatusValidador, idGarantia: estadoGarantia }" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                                     <td ng-click="detalleOrden(orden)">{{orden.nombreCliente}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.idOrden}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.numeroOrden}}</td>

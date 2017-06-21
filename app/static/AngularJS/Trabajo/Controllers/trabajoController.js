@@ -54,7 +54,17 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         }
         else{
             $scope.getOrdenesServicio(3);
-            $scope.estatusValidador = $routeParams.e;
+            if($routeParams.e == 0){
+                $scope.estatusValidador = 5;
+                $scope.estadoGarantia = 1;
+            } else if($routeParams.e == 5){
+                $scope.estatusValidador = $routeParams.e;
+                $scope.estadoGarantia = 0;
+            } else {
+                $scope.estatusValidador = $routeParams.e;
+                $scope.estadoGarantia = '';
+            }
+            
         }
     };
 
