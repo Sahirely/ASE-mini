@@ -1,4 +1,4 @@
-registrationModule.controller('aprobacionutilidadController', function ($scope, $modal, $route, $rootScope, localStorageService, alertFactory, globalFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository, userFactory ) {
+registrationModule.controller('aprobacionutilidadController', function ($scope, $modal, $route, $rootScope, localStorageService, alertFactory, globalFactory, uploadRepository, utilidadesRepository, userFactory ) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -12,19 +12,12 @@ registrationModule.controller('aprobacionutilidadController', function ($scope, 
     }
 
     $scope.getAprobacionUtilidad = function () {
-
-        $scope.aprobacionUtilidades =[];
-         $scope.aprobacionTrabajos =[];
         $('.dataTableAprobacionUtilidad').DataTable().destroy();
-
-        ordenServicioRepository.getAprobacionUtilidad().then(function (result) {
-     
+        utilidadesRepository.getAprobacionUtilidad().then(function (result) {
             if (result.data.length > 0) {
                 $scope.aprobacionUtilidades = result.data;     
                 globalFactory.filtrosTabla("dataTableAprobacionUtilidad", "Utilidad", 100); 
-            };
-               
-            } else {
+            }else {
                 alertFactory.info("No se encontrarón datos");
             }
         }, function (error) {

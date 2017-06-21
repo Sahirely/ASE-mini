@@ -20,12 +20,10 @@
                             <table class="table table-bordered table-hover dataTableAprobacionUtilidad" cg-busy="{promise:promise,message:message}">
                                 <thead>
                                     <tr>
-                                        <th>Cliente</th>
                                         <th>Consecutivo</th>
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>TAR</th>
                                         <th>Taller</th>
                                         <th>Precio Taller</th>
                                         <th>Precio Cliente</th>
@@ -33,30 +31,24 @@
                                         <th>Margen</th>
                                         <th>Descripción de la Orden</th>
                                         <th>Estatus</th>
-                                        <th>Horas en espera</th>
-                                        <th>No. Intentos</th>
                                         <th>Aprobación</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="utilidad in aprobacionUtilidades | filter:searchText ">
-                                        <td>{{utilidad.cliente}}</td>
-                                        <td>{{utilidad.idCita}}</td>
-                                        <td>{{utilidad.numeroTrabajo}}</td>
-                                        <td>{{utilidad.numEconomico}}</td>
-                                        <td>{{utilidad.zona}}</td>
-                                        <td>{{utilidad.TAR}}</td>
-                                        <td>{{utilidad.razonSocial}}</td>
+                                        <td>{{utilidad.idOrden}}</td>
+                                        <td>{{utilidad.numeroOrden}}</td>
+                                        <td>{{utilidad.numeroEconomico}}</td>
+                                        <td>Norte</td>
+                                        <td>{{utilidad.nombreComercial}}</td>
                                         <td>{{utilidad.montoOrden |  currency: "$"}}</td>
                                         <td>{{utilidad.precioOrden | currency: "$"}}</td>
                                         <td>{{utilidad.perdida | currency: "$"}}</td>
                                         <td>{{utilidad.margen | number : 2}}%</td>
-                                        <td>{{utilidad.trabajo}}</td>
-                                        <td>{{utilidad.descripcionLarga }}</td>
-                                        <td>{{utilidad.tiempo }}</td>
-                                        <td>{{utilidad.intentos }}</td>
+                                        <td>{{utilidad.ComentarioOrden}}</td>
+                                        <td>{{utilidad.nombreEstatusOrden }}</td>
                                         <td>
-                                            <button class="btn btn-informa btn-aprobar" type="button" ng-click="aprobar(utilidad)" data-toggle="tooltip" tooltip="Realizar aprobación" tooltip-placement="left"><span class="glyphicon glyphicon-check"></span></button>
+                                            <button class="btn btn-informa btn-aprobar" type="button" ng-click="seleccionarOrden(utilidad)" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="left"><span class="glyphicon glyphicon-check"></span></button>
 
                                         </td>
                                     </tr>

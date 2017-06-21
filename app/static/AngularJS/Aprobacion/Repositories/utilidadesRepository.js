@@ -4,7 +4,6 @@ var ordenUrl = global_settings.urlCORS + '/api/OrdenServicio/';
 registrationModule.factory('utilidadesRepository', function ($http) {
     return {
 		getValidacionAprobacion: function (idOrden) {
-			
 			   return $http({
                 url: ordenUrl + 'validacionAprobacion/',
                 method: "GET",
@@ -15,11 +14,8 @@ registrationModule.factory('utilidadesRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
-        
         },
-
-        putUtilidad: function (idOrden,idUsuario, margenAprobacion) {
-                       
+        putUtilidad: function (idOrden,idUsuario, margenAprobacion) {     
             return $http({        
                 url: ordenUrl + 'utilidad',
                         method: "POST",
@@ -28,11 +24,19 @@ registrationModule.factory('utilidadesRepository', function ($http) {
                            idUsuario: idUsuario,
                            margenAprobacion: margenAprobacion
                         },
-
                         headers: {          
                     'Content-Type': 'application/json'        
                 }      
             });    
+        },
+        getAprobacionUtilidad: function () { 
+               return $http({
+                url: ordenUrl + 'getAprobacionUtilidad/',
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

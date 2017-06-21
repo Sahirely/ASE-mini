@@ -609,4 +609,16 @@ OrdenServicio.prototype.post_utilidad = function(req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_getAprobacionUtilidad = function (req, res, next) {
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_APROBACION_DE_UTILIDAD_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = OrdenServicio;
