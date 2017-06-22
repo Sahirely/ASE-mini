@@ -29,7 +29,6 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {
-
         console.log($scope.idContratoOperacion)
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
@@ -42,12 +41,16 @@ registrationModule.controller('consultaCitasController', function($scope, $route
             autoclose: true,
             todayHighlight: true
         });
+
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
           $scope.filtroEstatus = $scope.estatusDashboard;
-          $scope.cambioFiltro();
-          $scope.consultaCotizacionesFiltros();
+        }else{
+          $scope.filtroEstatus = '';
         }
+
+        $scope.cambioFiltro();
+        $scope.consultaCotizacionesFiltros();
     };
 
     $scope.cambioFiltro = function(){

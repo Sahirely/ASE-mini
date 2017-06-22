@@ -25,9 +25,13 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.userData = userFactory.getUserData();
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
-          $scope.filtroEstatus = $scope.estatusDashboard;
-          $scope.consultaCotizacionesFiltros();
+          $scope.filtroEstatus = $scope.estatusDashboard; 
+        }else{
+          $scope.filtroEstatus = '';
         }
+
+        $scope.consultaCotizacionesFiltros();
+
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.

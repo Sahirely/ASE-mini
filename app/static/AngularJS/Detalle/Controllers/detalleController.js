@@ -1049,13 +1049,28 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.validateEstatusAprobacion = function (){
-        if ($scope.userData.manejoUtilidad == 1) {
-            $scope.enviaAprobacion();
+        var bandera = true;
+
+        $scope.cotizaciones.forEach(function(item) {
+            item.detalle.forEach(function(itemDetail) {
+                if (itemDetail.costo== 0 ) {
+                    bandera = false;
+                };
+            });
+        });
+
+        if (bandera) {
+            if ($scope.userData.manejoUtilidad == 1) {
+                $scope.enviaAprobacion();
+
+            }else{
+                $scope.estatusAprobacion();
+            }
 
         }else{
-            $scope.estatusAprobacion();
+            swal('No se puede enviar a aprobación ya que cuenta con partidas sin precio asignado.');
         }
-
+        
     }
 
     //utilidad
