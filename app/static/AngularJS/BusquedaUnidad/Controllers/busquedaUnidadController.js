@@ -104,26 +104,29 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
                 angular.forEach($scope.ordendesActual, function(value, key) {
                     
                     if (value.idTipoOrden == 1) {
-                        contadorTipoOrden++;
+                        
                         if (value.idEstatusOrden < 8) {
+                            contadorTipoOrden++;
                             contador1++;
                         }
                     }
                     if (value.idTipoOrden == 2) {
-                        contadorTipoOrden++;
+                       
                         if (value.idEstatusOrden < 8) {
+                             contadorTipoOrden++;
                             contador3++;
                         }
                     };
                      if (value.idTipoOrden == 3) {
-                        contadorTipoOrden++;
+                        
                         if (value.idEstatusOrden < 8) {
+                            contadorTipoOrden++;
                             contador2++;
                         }
                     };
                 });
 
-                if (contadorTipoOrden==3 ) {
+                if (contadorTipoOrden=3 ) {
                     if (contador1>0 && contador2>0 && contador3>0) {
                         $scope.agendarCita = false;
                     };
@@ -139,18 +142,20 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     };
     $scope.getHistoricoOrdenes = function() {
         busquedaUnidadRepository.getHistoricoOrdenes($scope.idUsuario, $routeParams.economico).then(function(result) {
-            $scope.historialOrdenes = result.data;
-            console.log($scope.historialOrdenes,'Soy el historial de las ordenes ')
-            globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 100);
+            if (result.data.length >0) {
+                $scope.historialOrdenes = result.data;
+                console.log($scope.historialOrdenes,'Soy el historial de las ordenes ')
+                globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 100);
 
 
-            if ($scope.historialOrdenes[0].respuesta == 1) {
-                $scope.muestraHistorial = true;
-            } else if ($scope.historialOrdenes[0].respuesta == 0) {
-                $scope.muestraHistorial = false;
-            } else {
-                error();
-            }
+                if ($scope.historialOrdenes[0].respuesta == 1) {
+                    $scope.muestraHistorial = true;
+                } else if ($scope.historialOrdenes[0].respuesta == 0) {
+                    $scope.muestraHistorial = false;
+                } else {
+                    error();
+                }
+            };
         });
     };
     $scope.detalleOrden = function(orden) {

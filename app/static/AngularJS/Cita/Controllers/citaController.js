@@ -490,7 +490,8 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                     alertFactory.success('Cotización Detalle Creada');
                     citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
                         setTimeout(function() {
-                            location.href = '/unidad?economico=' + $routeParams.economico;
+                            location.href = '/detalle?orden=' + $scope.detalleOrden.idOrden + '&estatus=2';
+                            //location.href = '/unidad?economico=' + $routeParams.economico;
                         }, 1000);
                     });
                 });
