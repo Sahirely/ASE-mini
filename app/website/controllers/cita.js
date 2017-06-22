@@ -28,6 +28,22 @@ Cita.prototype.get_tiposOrdenesServicio = function(req, res, next) {
     });
 }
 
+Cita.prototype.get_tiposOrdenesServicioUnidad = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idUnidad',
+        value: req.query.idUnidad,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_TIPOS_ORDENES_SERVICIO_UNIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Cita.prototype.get_tipoEstadoUnidad = function(req, res, next) {
     var self = this;
     var params = [];

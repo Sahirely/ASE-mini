@@ -15,6 +15,18 @@ registrationModule.factory('citaRepository', function($http, $q) {
                 }
             })
         },
+        getTipoOrdenesServicioUnidad: function(idUnidad) {
+            return $http({
+                url: citaUrl + 'tiposOrdenesServicioUnidad/',
+                method: "GET",
+                params: {
+                    idUnidad:idUnidad
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
         getTipoEstadoUnidad: function() {
             return $http({
                 url: citaUrl + 'tipoEstadoUnidad/',

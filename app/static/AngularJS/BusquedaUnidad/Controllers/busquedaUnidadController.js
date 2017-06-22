@@ -97,14 +97,37 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
             if ($scope.ordendesActual[0].respuesta == 1) {
                 $scope.muestraOrdenActual = true;
                 $scope.agendarCita = true;
-                var contador = 0;
+                var contador1 = 0;
+                var contador2 = 0;
+                var contador3 = 0;
+                var contadorTipoOrden = 0;
                 angular.forEach($scope.ordendesActual, function(value, key) {
-                    if (value.idEstatusOrden < 8) {
-                        contador++;
+                    
+                    if (value.idTipoOrden == 1) {
+                        contadorTipoOrden++;
+                        if (value.idEstatusOrden < 8) {
+                            contador1++;
+                        }
                     }
+                    if (value.idTipoOrden == 2) {
+                        contadorTipoOrden++;
+                        if (value.idEstatusOrden < 8) {
+                            contador3++;
+                        }
+                    };
+                     if (value.idTipoOrden == 3) {
+                        contadorTipoOrden++;
+                        if (value.idEstatusOrden < 8) {
+                            contador2++;
+                        }
+                    };
                 });
-                if (contador > 0) {
-                    $scope.agendarCita = false;
+
+                if (contadorTipoOrden==3 ) {
+                    if (contador1>0 && contador2>0 && contador3>0) {
+                        $scope.agendarCita = false;
+                    };
+                    
                 }
             } else if ($scope.ordendesActual[0].respuesta == 0) {
                 $scope.muestraOrdenActual = false;
