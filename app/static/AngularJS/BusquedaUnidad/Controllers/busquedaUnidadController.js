@@ -87,7 +87,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         });
     };
     $scope.btnAgendarCita = function() {
-        location.href = '/nuevacita?economico=' + $routeParams.economico;
+        location.href = '/nuevacita?economico=' + $routeParams.economico+'&tipo=nueva';
     };
     $scope.getOrdenActual = function() {
         busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico).then(function(result) {

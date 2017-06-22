@@ -88,14 +88,14 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
-            debugger;
+           
             if ($scope.detalleUnidad.situacionOrden == 1) {
                
                 $scope.muestraAgendarCita = false;
                 busquedaUnidadRepository.getDetalleOrden($routeParams.economico).then(function(result) {
                     $scope.detalleOrden = result.data[0];
                     debugger;
-                    if ($scope.detalleOrden.respuesta == 1) {
+                    if ($scope.detalleOrden.respuesta == 1 && $routeParams.tipo != 'nueva') {
                         console.log($scope.detalleOrden, 'Soy el detalle de la orden')
                         $scope.tipoDeCita.idTipoCita = $scope.detalleOrden.idTipoCita;
                         $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
@@ -123,7 +123,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.getZonasCita($scope.zonaSelected);
                         $scope.getDetalleOrdenEspecialidad();
 
-                    } else if ($scope.detalleOrden.respuesta == 0) {
+                    } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
                        // location.href = '/unidad?economico=' + $routeParams.economico;
                        $scope.getTipoOrdenesServicio();
                         $scope.getTipoEstadoUnidad();
@@ -185,10 +185,8 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
     //*****************************************************************************************************************************//
     $scope.getTipoOrdenesServicio = function() {
-        debugger;
         $scope.tipoCita = [];
         citaRepository.getTipoOrdenesServicioUnidad($scope.detalleUnidad.idUnidad).then(function(result) {
-            debugger;
             for (var i = 0 ; i < result.data.length; i++) {
                 if (result.data[i].orden  == 0) {
                     $scope.tipoCita.push(result.data[i]);
