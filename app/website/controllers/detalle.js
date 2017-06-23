@@ -190,13 +190,13 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
 
                 fs.readFile( element.Path , 'utf-8', (err, data) => {
                     if(err) {
-                        console.log( { success:false, data:err } );
+                       // console.log( { success:false, data:err } );
                     } else {
                         var parseString = require('xml2js').parseString;
                         var xml = data;
                         parseString(xml, function (err, result) {
                             if( err ){
-                                console.log( { success:false, data:err } );
+                               // console.log( { success:false, data:err } );
                             }
                             else{
                                 var soap = require('soap');
@@ -213,7 +213,7 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                                     }
                                     else{
                                         client.ValidaAll(args, function(err, validacion) {
-                                            console.log(validacion.return.codigo);
+                                         
                                             // var codigo = validacion.return.codigo;
                                             var codigo = 1;
                                             if( codigo == 0 ){
@@ -230,13 +230,13 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                                                 var Total        = xml['cfdi:Comprobante'].$['total'];
 
                                                 // 4524.25 - 4524.98
-                                                console.log( "cotizacionTotal",element.Param.cotizacionTotal );
+                                                
                                                 // var totalCotizacion = 4525.98;
                                                 var totalCotizacion = element.Param.cotizacionTotal;
 
-                                                console.log( Total );
-                                                console.log( (totalCotizacion - 1) );
-                                                console.log( (totalCotizacion + 1) );
+                                                //console.log( Total );
+                                               // console.log( (totalCotizacion - 1) );
+                                               // console.log( (totalCotizacion + 1) );
                                                 if( Total >= (parseInt(totalCotizacion) - 1) && Total <= (parseInt(totalCotizacion) + 1)){
 
                                                     var params = [
@@ -244,14 +244,14 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                                                       {name: 'idOrden', value: element.Param.idOrden, type: self.model.types.INT },
                                                       {name: 'idCotizacion', value: element.Param.cotizacionFactura, type: self.model.types.INT }
                                                     ];
-                                                    console.log( "#############################" );
+                                                    
                                                     self.model.query('INS_FACTURA_SP',params, function (error, result) {
                                                         // self.view.expositor(res, {
                                                         //     error: error,
                                                         //     result: result
                                                         // });
 
-                                                        console.log( "==================" );
+                                                       
 
                                                         self.view.expositor(res, {
                                                           error: false,
@@ -312,7 +312,7 @@ Detalle.prototype.post_subirFacturaTmp = function(req, res, next){
         //     });
 
         // });
-        console.log( 'se suben los archivos' );
+        
         self.view.expositor(res, {
             error: false,
             result: {Success: true, Msg: 'Factura cargada correctamente', data: Resultado}
@@ -474,7 +474,6 @@ var self = this;
 Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
     console.log('desde get_guardaReporteConformidad: ')
     //console.log(req.query.myJson)
-    console.log(JSON.stringify(req.query.myJson));
     //result: 'regresa respuesta desde get_guardaReporteConformidad'
 
     var http = require('http'),

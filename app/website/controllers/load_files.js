@@ -24,7 +24,7 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
 
             var Url_Destino_2 =  "107\\Factura\\1";
             var Url_Destino = destino + req.body.idOrden + "\\Factura\\" + req.body.cotizacionFactura
-            console.log( Url_Destino ); 
+            
 
             var fs = require("fs");
             var path = Url_Destino;
@@ -103,7 +103,7 @@ Load_Files.prototype.evidencia = function( destino, req, res, miCallback ) { // 
 
             // var Url_Destino_2 =  "107\\Factura\\1";
             var Url_Destino = destino + req.body.idOrden + "\\evidencia"
-            console.log( Url_Destino ); 
+            
 
             var fs = require("fs");
             var path = Url_Destino;

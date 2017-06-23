@@ -1042,13 +1042,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.validateEstatusAprobacion = function (){
         var bandera = true;
 
-        $scope.cotizaciones.forEach(function(item) {
+        /*$scope.cotizaciones.forEach(function(item) {
             item.detalle.forEach(function(itemDetail) {
                 if (itemDetail.costo== 0 ) {
                     bandera = false;
                 };
             });
-        });
+        });*/
 
         if (bandera) {
             if ($scope.userData.manejoUtilidad == 1) {

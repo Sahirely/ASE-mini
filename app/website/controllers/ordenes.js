@@ -139,11 +139,6 @@ Orden.prototype.get_generaTxtFactura = function (req, res, next) {
                                     totalFactura = result['cfdi:Comprobante'].$['total'];
                                     var nombreXml = file;
 
-                                    console.log('Fecha: ' + fecha);
-                                    console.log('Factura: ' + numFactura);
-                                    console.log('UUID: ' + uuid);
-                                    console.log('Nombre Xml: ' + nombreXml);
-                                    console.log('=========================')
 
                                     var paramsSER = [{
                                             name: 'idTrabajo',
@@ -185,7 +180,7 @@ Orden.prototype.get_generaTxtFactura = function (req, res, next) {
             } else {
                 res.end('');
             }
-            console.log(result[0].tipoOrdenServicio);
+           // console.log(result[0].tipoOrdenServicio);
             /*            } else if (result[0].tipoOrdenServicio == 'REF') {
                             getDatosFactura(res, self, 'SEL_FACTURA_TXT_SP', paramsTipoOrden);
                             console.log(result[0].tipoOrdenServicio);
@@ -217,7 +212,7 @@ function getDatosFactura(res, self, stored, params) {
                         wstream.write(lineToInsert + carrito);
                     }
                     wstream.end(function () {
-                        console.log('done');
+                       // console.log('done');
                     });
                 }
                 self.view.expositor(res, object);
@@ -296,7 +291,7 @@ Orden.prototype.post_generaDatosCopade = function (req, res, next) {  //Objeto 
                     try {
                         numeroEstimacion = lector['PreFactura']['cfdi:Addenda'][0]['pm:Addenda_Pemex'][0]['pm:N_ESTIMACION'][0]; 
                     } catch (error) {
-                        console.log('No hay número de estimación');
+                        //console.log('No hay número de estimación');
                         console.log(error)
                         numeroEstimacion = '';
                     }
@@ -1053,10 +1048,6 @@ Orden.prototype.get_generaFactura = function (req, res, next) {
                                 xmlFactura = data;
                                 //var xmlFactura = file;
 
-                                console.log('Fecha: ' + fechaFactura);
-                                console.log('Factura: ' + numFactura);
-                                console.log('UUID: ' + uuid);
-                                console.log('=========================')
 
                                 paramsFactura = [{
                                         name: 'idCotizacion',

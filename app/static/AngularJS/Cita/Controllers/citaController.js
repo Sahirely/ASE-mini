@@ -94,9 +94,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 $scope.muestraAgendarCita = false;
                 busquedaUnidadRepository.getDetalleOrden($routeParams.economico).then(function(result) {
                     $scope.detalleOrden = result.data[0];
-                    debugger;
                     if ($scope.detalleOrden.respuesta == 1 && $routeParams.tipo != 'nueva') {
-                        console.log($scope.detalleOrden, 'Soy el detalle de la orden')
                         $scope.tipoDeCita.idTipoCita = $scope.detalleOrden.idTipoCita;
                         $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
                         $scope.idTaller = $scope.detalleOrden.idTaller;
@@ -107,13 +105,11 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                         $scope.idCotizacion = $scope.detalleOrden.idCotizacion;
                         $scope.idOrden = $scope.detalleOrden.idOrden;
                         var date = new Date($scope.detalleOrden.fechaCita);
-                        console.log(date, 'Soy la fecha que viene de bd')
                         $scope.fechaCita = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
                         var hora = date.getUTCMinutes();
                         if (hora <= 9) { hora = '0' + hora }
                         $scope.horaCita = date.getUTCHours() + ":" + hora;
                         $scope.comentarios = $scope.detalleOrden.comenatario;
-                        console.log($scope.detalleOrden.zonas, 'Son las zonas')
                         $scope.getTipoOrdenesServicio();
                         $scope.getTipoEstadoUnidad();
                         $scope.getServicios();
@@ -188,8 +184,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         $scope.tipoCita = [];
         citaRepository.getTipoOrdenesServicioUnidad($scope.detalleUnidad.idUnidad).then(function(result) {
             for (var i = 0 ; i < result.data.length; i++) {
-                if (result.data[i].orden  == 0) {
-                    $scope.tipoCita.push(result.data[i]);
+                if ( $routeParams.tipo == 'nueva') {
+                    if (result.data[i].orden  == 0) {
+                         $scope.tipoCita.push(result.data[i]);
+                    };
+                }else{
+                    $scope.tipoCita=result.data;
                 }
             };
         });
@@ -262,7 +262,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 $scope.mensajeServicios = false;
             } else if ($scope.servicios[0].respuesta == 0) {
                 $scope.mensajeServicios = true;
-                console.log('No se encontraros registros')
             } else {
                 error();
             }
@@ -279,26 +278,17 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             nombreZona: $scope.nombreZona,
             etiquetaZona: $scope.etiquetaZona
         }]
-        console.log($scope.infoBusqueda, 'Soy lo que enviare en la modal')
         $('.modal-dialog').css('width', '1050px');
         modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.partidas, $scope.idCotizacion, $scope.infoBusqueda, $scope.resultado, '');
     };
     $scope.resultado = function(partidas) {
         $scope.partidas = partidas;
-        console.log($scope.partidas, 'Soy las partidas despues de agregar de la modal')
         $scope.labelItems = partidas.length;
     };
     //*****************************************************************************************************************************//
     // Se inserta la orden de servicio en la base de datos
     //*****************************************************************************************************************************//
     $scope.agendarCita = function() {
-        console.log($scope.tipoDeCita.idTipoCita,
-            $scope.estadoDeUnidad.idEstadoUnidad,
-            $scope.grua,
-            $scope.fechaCita,
-            $scope.horaCita,
-            $scope.comentarios
-        );
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
         citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller, $scope.idServicios).then(function(result) {
@@ -316,7 +306,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                                 var bodyhtml = resp.data[0].bodyhtml;
                                  commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
                                     if (result.data.length > 0) {
-                                        console.log('envia correo desde front')
                                     }
                                 }, function(error) {
                                     alertFactory.error('No se puede enviar el correo');
@@ -355,7 +344,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
         $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
-                console.log(result, 'Soy las zonas ')
+                
                 $scope.totalNiveles = result.data.length;
                 if (result.data.length > 0) {
                     $scope.NivelesZona = result.data;
@@ -447,7 +436,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     $scope.getTallerXid = function(idTaller) {
         tallerRepository.getTallerXid(idTaller).then(function(result) {
-            console.log(result.data[0], 'Soy el taller')
             $scope.mostrarTabla = true;
             $scope.mostrarAccion = false;
             $scope.muestraBtnPreOrden = true;
@@ -455,9 +443,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         });
     };
     $scope.getPreCotizacion = function(idCotizacion) {
-        console.log(idCotizacion);
         consultaCitasRepository.getCotizacionDetalle(idCotizacion, $scope.idUsuario).then(function(result) {
-            console.log(result.data, 'Soy la cotizacion')
             $scope.labelItems = result.data.length;
             $scope.partidas = result.data;
         });
@@ -483,7 +469,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         });
 
         citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
-            console.log(result, 'Soy lo que regresa despues de actualizar la Orden de Servicio')
+            
             angular.forEach($scope.partidas, function(value, key) {
                 
                 cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
@@ -497,6 +483,5 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 });
             });
         });
-        console.log($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller);
     };
 });

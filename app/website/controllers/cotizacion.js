@@ -303,7 +303,7 @@ Cotizacion.prototype.get_ObtenerOrdenesTipoConsulta = function(req, res, next) {
     }];
 
     this.model.query('SEL_TOTAL_ORDENES_SERVICIO_SP', params, function(error, result) {
-        console.log(result)
+       
         self.view.expositor(res, {
             error: error,
             result: result
