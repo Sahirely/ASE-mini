@@ -154,7 +154,7 @@
                                                     <td ng-click="detalleOrden(orden)">{{orden.comentarioOrden}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.nombreEstatusOrden}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{'BPRO'}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{'10' | currency}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.venta | currency}}</td>
                                                     <td ng-click="detalleOrden(orden)"> {{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}} </td>
                                                     <td>
                                                         <button class="btn btn-primary"
@@ -235,7 +235,7 @@
                                                     <td>{{orden.comentarioOrden}}</td>
                                                     <td>{{orden.nombreEstatusOrden}}</td>
                                                     <td>{{'BPRO'}}</td>
-                                                    <td>{{'10' | currency}}</td>
+                                                    <td>{{orden.venta | currency}}</td>
                                                     <td>{{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}}</td>
                                                     <td>{{orden.fechaInicioTrabajo}}
                                                         <!-- <button ng-if="trabajo.estatus == 'Iniciado' || trabajo.estatus == 'OrdenGarantia'" ng-hide="userData.idTipoUsuario == 4" class="btn btn-success" type="button" ng-click="cargaFecha(trabajo.idTrabajo)" data-toggle="tooltip" tooltip="Fecha Inicio real de trabajos" tooltip-placement="up"><span class="glyphicon glyphicon-calendar"></span></button> -->
