@@ -28,10 +28,14 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.idOrden_Temp  = 0;
     $scope.filtroEstatus = '';
 
+    $scope.sumatoria_entrega=0;
+    $scope.sumatoria_proceso=0;
+
     $scope.Init = function() {
         $scope.show_proceso=true;
         $scope.show_entrega=false;
         $scope.muestraTabla = false;
+        $scope.show_sumatorias = false;
 
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
@@ -67,6 +71,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         }else{
             $scope.getOrdenesServicio(3);
         }
+
+        if ($scope.userData.idRol == 2) {
+            $scope.show_sumatorias = true;
+        };
+
     };
 
     $scope.cambioFiltro = function(){
@@ -274,6 +283,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     };
 
     $scope.getOrdenesServicioInit = function(tipoConsulta) {
+        debugger;
         $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
 
@@ -292,12 +302,24 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             0) // $scope.idUsuario
         .then(function(result) {
             $scope.ordenes = result.data;
+
+            $scope.ordenes.forEach(function(item) {
+
+                if (item.idEstatusOrden==5 || item.idEstatusOrden==6) {
+                    $scope.sumatoria_proceso += item.venta;
+                }else if (item.idEstatusOrden==7) {
+                    $scope.sumatoria_entrega += item.venta;
+                }
+               
+            });
+
             $scope.muestraTabla = true;
-            globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
+            globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
         });
     };
 
     $scope.getOrdenesByNumero = function(tipoConsulta) {
+        debugger;
         $('.clockpicker').clockpicker();
 
         if( $scope.numeroTrabajo == '' ){
@@ -319,8 +341,9 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 0) // $scope.idUsuario
             .then(function(result) {
                 $scope.ordenes = result.data;
+
                 $scope.muestraTabla = true;
-                globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
+                globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
             });            
         }
     };

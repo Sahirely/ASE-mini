@@ -110,10 +110,10 @@
                                             </div>
                                         </div>
                                         <br><br><br><br>
-                                        <div class="row sumatorias">
+                                        <div class="row sumatorias" ng-show="show_sumatorias">
                                             <div class="col-xs-3 pull-right">
                                                 <div>
-                                                    <h2 class="no-margins">$ </h2>
+                                                    <h2 class="no-margins">{{sumatoria_proceso |  currency: "$"}} </h2>
                                                     <small>precio venta s/iva</small>
                                                 </div>
                                             </div>
@@ -190,10 +190,10 @@
                                             </div>
                                         </div>
                                         <br><br><br><br>
-                                        <div class="row sumatorias">
+                                        <div class="row sumatorias" ng-show="show_sumatorias">
                                             <div class="col-xs-3 pull-right">
                                                 <div>
-                                                    <h2 class="no-margins">$ </h2>
+                                                    <h2 class="no-margins">{{sumatoria_entrega |  currency: "$"}} </h2>
                                                     <small>precio venta s/iva</small>
                                                 </div>
                                             </div>

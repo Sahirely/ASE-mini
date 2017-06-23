@@ -730,11 +730,11 @@ Configurador.prototype.post_uploadfiles = function (req, res, next) {
 
     upload(req, res, function (err) {
         if (err) {
-            console.log(err);
+            //console.log(err);
             return res.end("Error al subir el archivo.");
         } else {
             req.files.forEach(function (f) {
-                console.log(f.originalname);
+                //console.log(f.originalname);
                 // and move file to final destination...
             });
             res.end("Archivo subido");

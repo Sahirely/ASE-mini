@@ -13,6 +13,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+    $scope.sumatoria_conTaller= 0;
+    $scope.sumatoria_sinTaller= 0;
     // var Zona = 0 //$scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
     // var idEjecutivo = 0 //$scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
     // var fechaMes = '' //this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
@@ -29,6 +31,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {
+        $scope.show_sumatorias = false;
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
         $scope.ZonasSeleccionadas[0] = "0";
@@ -50,6 +53,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
         $scope.cambioFiltro();
         $scope.consultaCotizacionesFiltros();
+
+        if ($scope.userData.idRol == 2) {
+            $scope.show_sumatorias = true;
+        };
     };
 
     $scope.cambioFiltro = function(){
@@ -85,9 +92,20 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $('.dataTableOrdenes').DataTable().destroy();
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
-          
+             debugger;
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
+
+                $scope.totalOrdenes.forEach(function(item) {
+
+                    if (item.idEstatusOrden==2) {
+                        $scope.sumatoria_conTaller += item.venta;
+                    }else if (item.idEstatusOrden==1) {
+                        $scope.sumatoria_sinTaller += item.venta;
+                    }
+                   
+                });
+
                 globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
                 globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
                 //globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes");

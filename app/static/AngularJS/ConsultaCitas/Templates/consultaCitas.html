@@ -134,7 +134,7 @@
                     </button>
                 </div>
             </div>
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior espacioSuperior">
+            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior espacioSuperior" ng-show="false">
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                     <label class="font-noraml">Número de Orden</label>
                     <input type="text" placeholder="Buscar Orden" class="form-control" id="numeroTrabajo" ng-model="numeroTrabajo" ng-enter="">
@@ -169,6 +169,15 @@
             <div class="panel-body">
                 <tabset>
                     <tab heading="Citas" index="0" active="ConTallerActive">
+                         <br/>
+                        <div class="row sumatorias" ng-show="show_sumatorias">
+                            <div class="col-xs-3 pull-right">
+                                <div>
+                                    <h2 class="no-margins">{{sumatoria_conTaller |  currency: "$"}}</h2>
+                                    <small>precio venta s/iva</small>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <br/>
                             <table class="table table-bordered table-hover dataTableOrdenes" cg-busy="{promise:promise,message:message}">
@@ -210,6 +219,15 @@
                         </div>
                     </tab>
                     <tab heading="Citas Sin Taller" index="1" active="SinTallerActive" ng-hide="userData.idRol == 4">
+                        <br/>
+                        <div class="row sumatorias" ng-show="show_sumatorias">
+                            <div class="col-xs-3 pull-right">
+                                <div>
+                                    <h2 class="no-margins">{{sumatoria_sinTaller |  currency: "$"}}</h2>
+                                    <small>precio venta s/iva</small>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <br/>
                             <table class="table table-bordered table-hover dataTableOrdenesSinDatos">
