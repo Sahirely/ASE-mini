@@ -133,17 +133,17 @@ registrationModule.factory('globalFactory', function(commonFunctionRepository) {
             }, 500)
         }, //LQMA 09062017
         sendMail: function(correoDe,correoPara,asunto,texto,bodyhtml,archivoRuta, nombreArchivo) {
-            console.log('entro a sendMail');
-            console.log('correo: ' + correoDe);
+           // console.log('entro a sendMail');
+            //console.log('correo: ' + correoDe);
             commonFunctionRepository.sendMail(correoDe,correoPara,asunto, texto, bodyhtml, archivoRuta, nombreArchivo).then(function(result) {
                 
-                console.log(result);
+                //console.log(result);
             });
 
         },
         dataMail: function(idOrden,idUsuario) {
             commonFunctionRepository.dataMail(idOrden,idUsuario).then(function(result) {
-                console.log(result);
+                //console.log(result);
             });
 
         }

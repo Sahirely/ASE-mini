@@ -176,8 +176,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
         consultaCitasRepository.getOrdenEvidencias(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 var resEvidnecias = result.data;
-                console.log( "Cantidad de evidencias: " + resEvidnecias.length );
-                console.log( Math.round(resEvidnecias.length / 4) );
                 resEvidnecias.forEach( function( item, key ){
                     resEvidnecias[key].tipo = item.rutaEvidencia.split('.').pop().toString();
                     resEvidnecias[key].ruta = $rootScope.docServer + '/orden/' + item.rutaEvidencia;
@@ -196,7 +194,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.cotizaciones = result.data.data;
                 $scope.getTotales();
                 $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
-                console.log($scope.cotizaciones);
             } else {
                 alertFactory.error('No se puede obtener los documentos de la orden');
             }
@@ -301,7 +298,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.portoken = false;
     $scope.aprobacionPorToken = function(numeroOrden, estatus, usuario){
-        console.log('Aprobacion por Token');
         $scope.portoken = true;
         $scope.getMostrarCotizaciones(numeroOrden, estatus, usuario);
     }
@@ -342,7 +338,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.btnSaveCotizacion = function( idUsuario ) {
         $scope.buttonGuardaCotizacion = 'fa fa-spinner fa-spin';
-        console.log( 'idUsuario', idUsuario );
         var haveBalance = $scope.checkBalance();
 
         if (haveBalance == true) {
@@ -441,7 +436,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var bodyhtml = resp.data[0].bodyhtml;
                                  commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
 
-                                        console.log('envia correo desde front')
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
 
                                 }, function(error) {
@@ -676,7 +670,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
                 $(".btn-cerrar").removeAttr("disabled");
             }, function(error) {
-                console.log(error);
             });
         }
     }
@@ -707,7 +700,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
                 });
             }, function(error) {
-                console.log(error);
             });
         }
     }
@@ -749,7 +741,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     $scope.init();
                 }, 2000);
             }, function(error) {
-                console.log(error);
+                //console.log(error);
             });
         }
     }
@@ -817,7 +809,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                         $scope.init();
                                                         $scope.token_termino = '';
                                                         $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                        console.log('envia correo desde front')
+                                                        
                                                 }, function(error) {
                                                     alertFactory.error('No se puede enviar el correo');
                                                 });
@@ -863,7 +855,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                             $scope.token_termino = '';
 
                                                             $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                            console.log('envia correo desde front')
 
                                                     }, function(error) {
                                                         alertFactory.error('No se puede enviar el correo');
@@ -902,7 +893,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             var texto = resp.data[0].texto;
                                             var bodyhtml = resp.data[0].bodyhtml;
                                              commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                                    console.log('envia correo desde front')
+                                                    
                                                     location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                                                     //$scope.init();
                                             }, function(error) {
@@ -948,7 +939,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         }, 1000);
                                         $scope.init();
                                         swal("", "Se ha rechazado el trabajo", "success");
-                                        console.log('envia correo desde front')
+                                      
                                 }, function(error) {
                                     alertFactory.error('No se puede enviar el correo');
                                 });
@@ -1186,7 +1177,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
                                  commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                        console.log('envia correo desde front')
+                                       
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                                         //$scope.init();
                                 }, function(error) {

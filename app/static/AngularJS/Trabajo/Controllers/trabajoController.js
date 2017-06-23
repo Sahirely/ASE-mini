@@ -148,10 +148,9 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.fecha_error = false;
     $scope.Guardar_Fecha = function(){
         if( $scope.indiceOrdenes == -1 ){
-            console.log('Esta ocurriendo un error, por algun motivo no se esta seleccionando el indice de ragistro');
+            //console.log('Esta ocurriendo un error, por algun motivo no se esta seleccionando el indice de ragistro');
         }
         else{
-            console.log( $scope.fecha_inicio + ' ' + $scope.hora_inicio )
             if( $scope.fecha_inicio == '' || $scope.fecha_inicio === undefined ){
                 $scope.fecha_error = true;
                 $scope.msg_error = 'Debes ingresar la fecha de Inicio del Trabajo';
@@ -229,7 +228,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
         $scope.fechaMes = array[1] + '/' + mes + '/01';
 
-        console.log( $scope.fechaMes );
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
         $scope.fecha = '';
@@ -265,7 +263,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             0, // Nivel Zona
             0) // $scope.idUsuario
         .then(function(result) {
-            console.log(result.data);
             $scope.ordenes = result.data;
             $scope.muestraTabla = true;
             //if ($scope.estatusDashboard == null || $scope.estatusDashboard == undefined) {
@@ -294,7 +291,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             0, // Nivel Zona
             0) // $scope.idUsuario
         .then(function(result) {
-            console.log(result.data);
             $scope.ordenes = result.data;
             $scope.muestraTabla = true;
             globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
@@ -322,7 +318,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 0, // Nivel Zona
                 0) // $scope.idUsuario
             .then(function(result) {
-                console.log(result.data);
                 $scope.ordenes = result.data;
                 $scope.muestraTabla = true;
                 globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);

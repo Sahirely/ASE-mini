@@ -95,12 +95,10 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
             }
         });
         if (contadorTotal == contador) {
-            //console.log('todo validado' + contador + ' total ' + contadorTotal)
             $scope.validateAprobacion = false;
 
         } else {
             $scope.validateAprobacion = true;
-            //console.log('faltan campos' + contador + ' total ' + contadorTotal)
         }
     }
 
@@ -151,7 +149,6 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
             var bodyhtml = resp.data[0].bodyhtml;
              commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
                 if (result.data.length > 0) {
-                    console.log('envia correo desde front')
                 }
             }, function(error) {
                 alertFactory.error('No se puede enviar el correo');

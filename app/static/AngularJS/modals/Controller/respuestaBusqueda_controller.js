@@ -8,7 +8,6 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
 
     $scope.init = function() {
         $scope.mensaje = respuesta.mensaje;
-        console.log($scope.busqueda, 'Holis soy el tipo busqueda')
     };
     $scope.close = function() {
         $modalInstance.dismiss('cancel');

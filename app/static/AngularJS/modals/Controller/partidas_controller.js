@@ -9,9 +9,6 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
     $scope.btnSwitch.classVenta = 'btn btn-default';
     $scope.detalleBusqueda = infoBusqueda;
     $scope.init = function() {
-        console.log($scope.especialidades, 'Soy las especialidades');
-        console.log($scope.idCotizacion, 'Soy el idCotizacion')
-        console.log($scope.detalleBusqueda, 'detalle de la busqueda ')
         $scope.userData = userFactory.getUserData();
         $scope.permisosUsuario();
         if ($scope.lstPartidaSeleccionada.length > 0) {
@@ -20,7 +17,6 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
-                console.log($scope.partidasTaller, 'Somos las partidas de los talleres')
                 globalFactory.filtrosTabla("partidas", "Partidas Talleres", 100);
                 setTimeout(function() {
                     $('[data-toggle="popover"]').popover({

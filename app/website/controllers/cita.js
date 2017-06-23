@@ -58,7 +58,6 @@ Cita.prototype.get_tipoEstadoUnidad = function(req, res, next) {
 
 Cita.prototype.put_agendarCita = function(req, res, next) {
     var self = this;
-    console.log(req.query.fechaCita)
     var params = [{
         name: 'idUnidad',
         value: req.query.idUnidad,
@@ -102,8 +101,7 @@ Cita.prototype.put_agendarCita = function(req, res, next) {
     }];
 
     this.model.query('INS_ORDEN_SERVICIO_SP', params, function(error, result) {
-        console.log(result)
-        console.log(error)
+       
         self.view.expositor(res, {
             error: error,
             result: result
@@ -150,7 +148,7 @@ Cita.prototype.get_ZonasCita = function(req, res, next){
 
 Cita.prototype.put_actualizarCita = function(req, res, next) {
     var self = this;
-    console.log(req.query.fechaCita)
+
     var params = [{
         name: 'idOrden',
         value: req.query.idOrden,
@@ -194,8 +192,7 @@ Cita.prototype.put_actualizarCita = function(req, res, next) {
     }];
 
     this.model.query('UPD_ORDEN_DERVICIO_SP', params, function(error, result) {
-        console.log(result)
-        console.log(error)
+       
         self.view.expositor(res, {
             error: error,
             result: result
@@ -205,7 +202,7 @@ Cita.prototype.put_actualizarCita = function(req, res, next) {
 
 Cita.prototype.put_especialidadOrden = function(req, res, next) {
     var self = this;
-    console.log(req.query.fechaCita)
+   
     var params = [{
         name: 'idOrden',
         value: req.query.idOrden,
@@ -221,8 +218,7 @@ Cita.prototype.put_especialidadOrden = function(req, res, next) {
     }];
 
     this.model.query('UPD_ESPECIALIDAD_ORDEN_SP', params, function(error, result) {
-        console.log(result)
-        console.log(error)
+        
         self.view.expositor(res, {
             error: error,
             result: result

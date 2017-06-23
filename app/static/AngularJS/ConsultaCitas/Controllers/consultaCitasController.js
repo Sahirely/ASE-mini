@@ -29,7 +29,6 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {
-        console.log($scope.idContratoOperacion)
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
         $scope.ZonasSeleccionadas[0] = "0";
@@ -85,7 +84,6 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.getTotalOrdenes = function(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta) {
         $('.dataTableOrdenes').DataTable().destroy();
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
-        console.log(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta)
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
           
             if (result.data.length > 0) {
@@ -273,7 +271,6 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     }
 
     $scope.actualizarOrden = function(obj) {
-        console.log(obj)
         location.href = '/nuevacita?economico=' + obj.numeroEconomico + '&estatus=' + 1;
 
     }

@@ -69,7 +69,6 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
      //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
         $scope.promise = cotizacionConsultaRepository.getNivelZona(idContratoOperacion).then(function(result) {
-                console.log(result, 'Soy las zonas ')
                 $scope.totalNiveles = result.data.length;
                 if (result.data.length > 0) {
                     $scope.NivelesZona = result.data;

@@ -13,7 +13,6 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
-        console.log($scope.userData)
         $scope.permisos();
         $scope.permisosUsuario();
         $scope.getDetalleUnidad();
@@ -83,7 +82,6 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getDetalleUnidad = function() {
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
-            console.log($scope.detalleUnidad, 'Soy el detalle de la unidad')
         });
     };
     $scope.btnAgendarCita = function() {
@@ -92,8 +90,6 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     $scope.getOrdenActual = function() {
         busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.ordendesActual = result.data;
-            //globalFactory.filtrosTabla("ordenActual", "Ordenes Actuales", 5);
-            console.log($scope.ordendesActual);
             if ($scope.ordendesActual[0].respuesta == 1) {
                 $scope.muestraOrdenActual = true;
                 $scope.agendarCita = true;
@@ -144,7 +140,6 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         busquedaUnidadRepository.getHistoricoOrdenes($scope.idUsuario, $routeParams.economico).then(function(result) {
             if (result.data.length >0) {
                 $scope.historialOrdenes = result.data;
-                console.log($scope.historialOrdenes,'Soy el historial de las ordenes ')
                 globalFactory.filtrosTabla("historialUnidad", "Historial Unidades", 100);
 
 

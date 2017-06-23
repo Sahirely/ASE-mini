@@ -580,7 +580,6 @@ registrationModule.controller('administracionOrdenController', function ($scope,
                             alertFactory.info('La orden no se pudo eliminar');
                         }
                     }, function (error) {
-                        console.log('No se pudo eliminar la orden: ' + error);
                         alertFactory.error('La orden no se pudo eliminar');
                     });
                 }

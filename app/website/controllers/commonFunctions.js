@@ -22,7 +22,7 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
     var ruta = req.body.archivoRuta;
     var object = {};   //Objeto que envía los parámetros
 
-    console.log('entro a post_sendMail: ' + req.body)
+    //console.log('entro a post_sendMail: ' + req.body)
 
     var nodemailer = require('nodemailer');
     var smtpTransport = require('nodemailer-smtp-transport');
@@ -51,20 +51,17 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
         }]
 
 
-    console.log('tratando de enviar corre: ');
-    console.log(mailOptions);
-
     setTimeout(function() {
         transporter.sendMail(mailOptions, function(error, info) {
             if (error) {
                 res.send(500);
-                console.log('error envio correo 500: ');
-                console.log(error);
+                //console.log('error envio correo 500: ');
+                //console.log(error);
             } else {
                 res.send(200);
                 fs.stat(ruta, function(err, stats) {
                     if (err) {
-                        console.log('error envio correo 200: ');
+                        //console.log('error envio correo 200: ');
                         return console.error(err);
                     }
                 });
@@ -76,7 +73,7 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
     transporter.close;
     object.error = null;            
     object.result = 1; 
-    console.log(object.result)
+   
     req.body = [];    
      
 };
