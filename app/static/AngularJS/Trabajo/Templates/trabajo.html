@@ -86,7 +86,30 @@
                     <div class="ibox float-e-margins">
                         <div class="ibox-content">
                             <tabset>
-                                <tab heading="En proceso" index="0">
+                                <tab heading="En proceso" index="0" active="procesoActive" ng-click="menu(0)">
+                                </tab>
+                                <tab heading="Entrega" index="1" active="entregaActive" ng-click="menu(1)">
+                                </tab>
+                            </tabset>  
+
+                            <div ng-show="show_proceso">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info">
+                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                                <input type="radio" value="55" id="rdtproceso" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                                                <label for="rdtproceso"> Todos </label>
+                                            </div> 
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                <input type="radio" value="5" id="rdproceso" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                                                <label for="rdproceso"> En Proceso </label>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                <input type="radio" value="0" id="rdgarantia" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                                                <label for="rdgarantia"> En Garantia </label>
+                                            </div>
+                                        </div>
+                                        <br><br>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover ordenservicio" cg-busy="{promise:promise,message:message}">
                                             <thead>
@@ -140,8 +163,25 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </tab>
-                                <tab heading="Entrega" index="1">
+                                </div>
+                                <div ng-show="show_entrega">
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info">
+                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                                <input type="radio" value="67" id="rdeTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                                                <label for="rdeTodas"> Todos </label>
+                                            </div> 
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                <input type="radio" value="6" id="rdtermino" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                                                <label for="rdtermino"> Termino Trabajo </label>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                                <input type="radio" value="7" id="rdentrega" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                                                <label for="rdentrega"> Entrega </label>
+                                            </div>
+                                        </div>
+                                        <br><br>
                                     <div class="table-responsive">
                                         <table class="table table-bordered table-hover ordenservicio" cg-busy="{promise:promise,message:message}">
                                             <thead>
@@ -165,7 +205,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden: 7 }" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                            <!-- <tr ng-repeat="orden in filtered = (ordenes | filter : userFilter ({ idEstatusOrden: estatusValidador, idEstatusOrden2: estatusValidador } ))" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top"> -->
+                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden : estatusValidador }" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                                     <td>{{orden.nombreCliente}}</td>
                                                     <td>{{orden.idOrden}}</td>
                                                     <td>{{orden.numeroOrden}}</td>
@@ -188,8 +229,8 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                </tab>
-                            </tabset>
+                                </div>
+
                         </div>
                     </div>
                 </div>

@@ -26,8 +26,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.numeroTrabajo = '';
 
     $scope.idOrden_Temp  = 0;
+    $scope.filtroEstatus = '';
 
     $scope.Init = function() {
+        $scope.show_proceso=true;
+        $scope.show_entrega=false;
         $scope.muestraTabla = false;
 
         //para obtener las zonas promero se inicializa la primer zona padre.
@@ -49,24 +52,87 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         //$scope.getOrdenesServicio(3);
 
         // $scope.estatusValidador = 5;
-        if( $routeParams.e === undefined ){
-            // No se carga nada automatico
-        }
-        else{
+        $scope.estatusDashboard = $routeParams.e;
+        if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
+            $scope.filtroEstatus = $scope.estatusDashboard;
             $scope.getOrdenesServicio(3);
-            if($routeParams.e == 0){
-                $scope.estatusValidador = 5;
-                $scope.estadoGarantia = 1;
-            } else if($routeParams.e == 5){
-                $scope.estatusValidador = $routeParams.e;
-                $scope.estadoGarantia = 0;
-            } else {
-                $scope.estatusValidador = $routeParams.e;
-                $scope.estadoGarantia = '';
+            if($scope.filtroEstatus == 0 || $scope.filtroEstatus == 5){
+                $scope.show_proceso=true;
+                $scope.show_entrega=false;
+            }else{
+                $scope.show_proceso=false;
+                $scope.show_entrega=true;
             }
-            
+            $scope.cambioFiltro();
+        }else{
+            $scope.getOrdenesServicio(3);
         }
     };
+
+    $scope.cambioFiltro = function(){
+        globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
+        if ($scope.filtroEstatus == 55){
+            $scope.procesoActive = true;
+            $scope.entregaActive = false;
+                $scope.estatusValidador = 5;
+                $scope.estadoGarantia = '';
+        }
+        if ($scope.filtroEstatus == 0){
+            $scope.procesoActive = true;
+            $scope.entregaActive = false;
+                $scope.estatusValidador = 5;
+                $scope.estadoGarantia = 1;
+        }
+        if ($scope.filtroEstatus == 5){
+            $scope.procesoActive = true;
+            $scope.entregaActive = false;
+                $scope.estatusValidador = $scope.filtroEstatus;
+                $scope.estadoGarantia = 0;
+        } 
+        if ($scope.filtroEstatus == 67){
+            $scope.procesoActive = false;
+            $scope.entregaActive = true;
+             $scope.estatusValidador = 6;
+        }
+        if ($scope.filtroEstatus == 6){
+            $scope.procesoActive = false;
+            $scope.entregaActive = true;
+                $scope.estatusValidador = $scope.filtroEstatus;
+        }
+        if ($scope.filtroEstatus == 7){
+            $scope.procesoActive = false;
+            $scope.entregaActive = true;
+                $scope.estatusValidador = $scope.filtroEstatus;
+        }
+
+    }
+
+/*  $scope.userFilter = function(filter) {
+    return function(user) {
+      return user.idEstatusOrden == filter.idEstatusOrden || user.idEstatusOrden2 == filter.idEstatusOrden2;
+    };  
+  };*/
+
+    $scope.menu = function(data){
+        $scope.show_proceso=false;
+        $scope.show_entrega=false;
+        globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
+        switch(data)
+        {
+              case 0:
+                $scope.show_proceso=true;
+                $scope.estatusValidador = 5;
+                $scope.estadoGarantia = '';
+                $scope.filtroEstatus = 55;
+              break;
+
+              case 1:
+                $scope.show_entrega=true;
+                $scope.estatusValidador = 6;
+                $scope.filtroEstatus = 67;
+              break;              
+        }  
+    }
 
     $scope.indiceOrdenes = -1;
     $scope.OpenModal = function( index, Id ){
@@ -184,6 +250,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $('.clockpicker').clockpicker();
 
         $scope.numeroTrabajo = '';
+        $('.ordenservicio').DataTable().destroy();
         cotizacionConsultaRepository.consultarOrdenes(
             tipoConsulta, 
             $scope.idContratoOperacion, 
@@ -199,6 +266,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             console.log(result.data);
             $scope.ordenes = result.data;
             $scope.muestraTabla = true;
+            if ($scope.estatusDashboard == null || $scope.estatusDashboard == undefined) {
+                $scope.estatusValidador = 5;
+                $scope.estadoGarantia = '';
+                $scope.filtroEstatus = 55; 
+            }
             globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
         });
     };
@@ -211,6 +283,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             // alert('Numero de Orden vacío');
         }
         else{
+            $('.ordenservicio').DataTable().destroy();
             cotizacionConsultaRepository.consultarOrdenes(
                 tipoConsulta, 
                 $scope.idContratoOperacion, 
