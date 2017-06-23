@@ -19,6 +19,11 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.cotizaciones = [];
 
+     $scope.show_sumatorias = false;
+
+    $scope.sumatoria_conPresupuesto = 0;
+     $scope.sumatoria_sinPresupuesto = 0;
+
     $scope.init = function () {
         //para obtener las zonas promero se inicializa la primer zona padre.
         userFactory.ValidaSesion();
@@ -36,8 +41,14 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
         $scope.devuelveEjecutivos();
-        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
-        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
+        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
+        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
+
+
+        if ($scope.userData.idRol == 2) {
+            $scope.show_sumatorias = true;
+        };
+
     }
 
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
