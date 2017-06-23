@@ -206,7 +206,7 @@
                                             </thead>
                                             <tbody>
                                             <!-- <tr ng-repeat="orden in filtered = (ordenes | filter : userFilter ({ idEstatusOrden: estatusValidador, idEstatusOrden2: estatusValidador } ))" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top"> -->
-                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden : estatusValidador }" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                <tr ng-repeat="orden in ordenes | filter : { idEstatusOrden : estatusValidador, conjuntoEstatus: estadoEstatus }" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
                                                     <td>{{orden.nombreCliente}}</td>
                                                     <td>{{orden.idOrden}}</td>
                                                     <td>{{orden.numeroOrden}}</td>

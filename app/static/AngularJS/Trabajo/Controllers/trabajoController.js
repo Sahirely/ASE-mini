@@ -55,7 +55,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
             $scope.filtroEstatus = $scope.estatusDashboard;
-            $scope.getOrdenesServicio(3);
+            $scope.getOrdenesServicioInit(3);
             if($scope.filtroEstatus == 0 || $scope.filtroEstatus == 5){
                 $scope.show_proceso=true;
                 $scope.show_entrega=false;
@@ -92,7 +92,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         if ($scope.filtroEstatus == 67){
             $scope.procesoActive = false;
             $scope.entregaActive = true;
-             $scope.estatusValidador = 6;
+             $scope.estatusValidador = '';
+             $scope.estadoEstatus = 1;
         }
         if ($scope.filtroEstatus == 6){
             $scope.procesoActive = false;
@@ -128,7 +129,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
               case 1:
                 $scope.show_entrega=true;
-                $scope.estatusValidador = 6;
+                $scope.estatusValidador = '';
+                $scope.estadoEstatus = 1;
                 $scope.filtroEstatus = 67;
               break;              
         }  
@@ -266,11 +268,35 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             console.log(result.data);
             $scope.ordenes = result.data;
             $scope.muestraTabla = true;
-            if ($scope.estatusDashboard == null || $scope.estatusDashboard == undefined) {
-                $scope.estatusValidador = 5;
-                $scope.estadoGarantia = '';
-                $scope.filtroEstatus = 55; 
-            }
+            //if ($scope.estatusDashboard == null || $scope.estatusDashboard == undefined) {
+                $scope.menu(0);
+                $scope.procesoActive = true;
+            //}
+            //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
+        });
+    };
+
+    $scope.getOrdenesServicioInit = function(tipoConsulta) {
+        $scope.estatusValidador = '!7';
+        $('.clockpicker').clockpicker();
+
+        $scope.numeroTrabajo = '';
+        $('.ordenservicio').DataTable().destroy();
+        cotizacionConsultaRepository.consultarOrdenes(
+            tipoConsulta, 
+            $scope.idContratoOperacion, 
+            $scope.zonaSelected, 
+            $scope.fechaInicio, 
+            $scope.fechaFin,
+            $scope.fecha,
+            $scope.fechaMes,
+            $scope.numeroTrabajo,
+            0, // Nivel Zona
+            0) // $scope.idUsuario
+        .then(function(result) {
+            console.log(result.data);
+            $scope.ordenes = result.data;
+            $scope.muestraTabla = true;
             globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
         });
     };
