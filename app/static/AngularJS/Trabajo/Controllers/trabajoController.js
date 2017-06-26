@@ -337,7 +337,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     };
 
     $scope.getOrdenesServicioInit = function(tipoConsulta) {
-        debugger;
+    
         $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
 
@@ -353,7 +353,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             $scope.fechaMes,
             $scope.numeroTrabajo,
             0, // Nivel Zona
-            0) // $scope.idUsuario
+            $scope.userData.idUsuario) // $scope.idUsuario
         .then(function(result) {
             $scope.ordenes = result.data;
             $scope.cambioFiltro();

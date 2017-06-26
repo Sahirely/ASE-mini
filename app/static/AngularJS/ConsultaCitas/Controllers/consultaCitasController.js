@@ -59,7 +59,12 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         };
     };
 
-    $scope.cambioFiltro = function(){
+    $scope.cambioFiltro = function(data){
+
+        if (data != undefined) {
+           $scope.filtroEstatus = data; 
+        };
+
         if ($scope.filtroEstatus == ''){
           $scope.ConTallerActive = true;
           $scope.SinTallerActive = false;
@@ -91,8 +96,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.getTotalOrdenes = function(idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta) {
         $('.dataTableOrdenes').DataTable().destroy();
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
+        $scope.sumatoria_conTaller= 0;
+        $scope.sumatoria_sinTaller= 0;
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
-             debugger;
+            
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
 

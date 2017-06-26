@@ -97,6 +97,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.consultaCotizacionesFiltros = function() {
       $scope.cotizaciones = [];
       $scope.cotizacionesSinPresupuesto = [];
+      $scope.sumatoria_conPresupuesto = 0;
+      $scope.sumatoria_sinPresupuesto = 0;
       $('.ordenesPresupuesto').DataTable().destroy();
       $('.ordenesSinPresupuesto').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
@@ -106,14 +108,24 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( 3, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
+      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
           if (result.data.length > 0){
+            
               result.data.forEach(function(item) {
                   var existe = false;
+
+                    debugger;
+                       if (item.tienePresupuesto==1) {
+                          $scope.sumatoria_conPresupuesto += item.venta;
+                      }else if (item.tienePresupuesto==0) {
+                          $scope.sumatoria_sinPresupuesto += item.venta;
+                      }
+
                   $scope.cotizaciones.forEach(function(value){
                       if (value.idOrden == item.idOrden){
                           existe = true;
                       }
+                      
                   });
                   if (!existe){
                       $scope.cotizaciones.push(item);

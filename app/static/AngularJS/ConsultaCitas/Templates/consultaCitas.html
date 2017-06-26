@@ -153,15 +153,15 @@
         </div>
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" ng-show="totalOrdenes.length > 0">
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro('')">
                 <label for="rdTodas"> Todos </label>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <input type="radio" value="2" id="rdConTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                <input type="radio" value="2" id="rdConTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro(2)">
                 <label for="rdConTaller"> Nuevas Con Taller </label>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <input type="radio" value="1" id="rdSinTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
+                <input type="radio" value="1" id="rdSinTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro(1)">
                 <label for="rdSinTaller"> Nuevas Sin Taller </label>
             </div>
         </div>
@@ -193,6 +193,7 @@
                                         <th>Fecha</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
+                                        <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
                                         <th>Agendó</th>
                                         <th>Tiempo Transcurrido Tiempo Asignado</th>
                                     </tr>
@@ -210,6 +211,7 @@
                                         <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesTaller.comentarioOrden}}</td>
                                         <td>{{ordenesTaller.nombreEstatusOrden}}</td>
+                                        <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesTaller.venta | currency : "$"}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
                                         <td>{{ordenesTaller.tiempoEspera}}</td>
@@ -244,6 +246,7 @@
                                         <th>Estatus</th>
                                         <th>Agendó</th>
                                         <th>Tiempo Transcurrido Tiempo Asignado</th>
+                                        <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
                                         <th ng-hide="userData.idRol == 1">Acción</th>
                                     </tr>
                                 </thead>
@@ -260,6 +263,7 @@
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
                                         <td>{{ordenesSinTaller.tiempoEspera}}</td>
+                                        <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesSinTaller.venta | currency : "$"}}</td>
                                         <td ng-hide="userData.idRol == 1">
                                             <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)" ><i class="glyphicon glyphicon-refresh"></i></button>
                                             <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
