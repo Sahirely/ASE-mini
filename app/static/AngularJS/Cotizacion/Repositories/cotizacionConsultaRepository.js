@@ -115,17 +115,17 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
             });
         },
 
-        ObtenerOrdenesTipoConsulta: function(idContratoOperacion, idZona, nivelZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, tipoConsulta){
+        ObtenerOrdenesTipoConsulta: function(fechaInicial, fechaFin, fechaEspecifico, fechaMes, numeroOrden, idZona, idEjecutivo, idUsuario, idContratoOperacion, tipoConsulta){
           var objConsultaOrden = {
-              idContratoOperacion: idContratoOperacion,
-              idZona: idZona,
-              nivelZona:nivelZona,
-              idUsuario: idEjecutivo,
-              fechaMes: fechaMes,
               fechaInicial: fechaInicial,
               fechaFin: fechaFin,
-              fechaEspecifico: fechaEspecifico,
-              numeroOrden: NumOrden,
+              fechaEspecifico:fechaEspecifico,
+              fechaMes: fechaMes,
+              numeroOrden: numeroOrden,
+              idZona: idZona,
+              idEjecutivo: idEjecutivo,
+              idUsuario: idUsuario,
+              idContratoOperacion: idContratoOperacion,
               tipoConsulta: tipoConsulta
           };
             return $http({

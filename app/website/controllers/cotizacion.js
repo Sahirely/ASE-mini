@@ -261,41 +261,41 @@ Cotizacion.prototype.post_cotizacionDetalle = function(req, res, next) {
 Cotizacion.prototype.get_ObtenerOrdenesTipoConsulta = function(req, res, next) {
     var self = this;
     var params = [{
-        name: 'idContratoOperacion',
-        value: req.query.idContratoOperacion,
-        type: self.model.types.INT
-    }, {
+        name: 'fechaInicial',
+        value: req.query.fechaInicial,
+        type: self.model.types.STRING
+    },  {
+        name: 'fechaFin',
+        value: req.query.fechaFin,
+        type: self.model.types.STRING
+    },  {
+        name: 'fechaEspecifico',
+        value: req.query.fechaEspecifico,
+        type: self.model.types.STRING
+    },  {
+        name: 'fechaMes',
+        value: req.query.fechaMes,
+        type: self.model.types.STRING
+    },  {
+        name: 'numeroOrden',
+        value: req.query.numeroOrden,
+        type: self.model.types.STRING
+    },  {
         name: 'idZona',
         value: req.query.idZona,
         type: self.model.types.INT
-    }, {
-        name: 'nivelZona',
-        value: req.query.nivelZona,
+    },  {
+        name: 'idEjecutivo',
+        value: req.query.idEjecutivo,
         type: self.model.types.INT
     }, {
         name: 'idUsuario',
         value: req.query.idUsuario,
         type: self.model.types.INT
     }, {
-        name: 'fechaMes',
-        value: req.query.fechaMes,
-        type: self.model.types.STRING
-    }, {
-        name: 'fechaInicial',
-        value: req.query.fechaInicial,
-        type: self.model.types.STRING
-    }, {
-        name: 'fechaFin',
-        value: req.query.fechaFin,
-        type: self.model.types.STRING
-    }, {
-        name: 'fechaEspecifico',
-        value: req.query.fechaEspecifico,
-        type: self.model.types.STRING
-    }, {
-        name: 'numeroOrden',
-        value: req.query.numeroOrden,
-        type: self.model.types.STRING
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
     }, {
         name: 'tipoConsulta',
         value: req.query.tipoConsulta,

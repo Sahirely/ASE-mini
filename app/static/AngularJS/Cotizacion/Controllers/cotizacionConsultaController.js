@@ -108,24 +108,19 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
       var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta( $scope.userData.contratoOperacionSeleccionada, Zona, 0, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, 2).then(function (result){
+      $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2).then(function (result){
           if (result.data.length > 0){
-            
               result.data.forEach(function(item) {
                   var existe = false;
-
-                    debugger;
                        if (item.tienePresupuesto==1) {
                           $scope.sumatoria_conPresupuesto += item.venta;
                       }else if (item.tienePresupuesto==0) {
                           $scope.sumatoria_sinPresupuesto += item.venta;
                       }
-
                   $scope.cotizaciones.forEach(function(value){
                       if (value.idOrden == item.idOrden){
                           existe = true;
                       }
-                      
                   });
                   if (!existe){
                       $scope.cotizaciones.push(item);
