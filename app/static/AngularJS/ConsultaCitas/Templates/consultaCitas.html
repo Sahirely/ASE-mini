@@ -7,82 +7,7 @@
         <span class="title"> Consulta de Citas</span>
     </div>
     <hr>
-    <!-- <div class="panel">
-        <div class="panel-heading">
-            Filtros de búsqueda </div>
-        <div class="panel-body">
-            <div class="row  col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                    <label class="form-label text-main">Zona:</label>
-                    <select class="form-control" ng-model="zona" ng-options="empresa.emp_nombre for empresa in empresaUsuario track by empresa.emp_nombre" name="txtTipoContrato" ng-change="" ng-disabled="">
-                        <option value="">Seleccioné Zona</option>
-                    </select>
-                </div>
-                <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                    <label class="form-label text-main">Ejecutivo:</label>
-                    <select class="form-control" ng-model="zona" ng-options="empresa.emp_nombre for empresa in empresaUsuario track by empresa.emp_nombre" name="txtTipoContrato" ng-change="" ng-disabled="">
-                        <option value="">Seleccioné Ejecutivo</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3">
-                    <label for="fInicio" class="text-main">Mes:</label>
-                    <div class="form-input">
-                        <input type="text" class="form-control" ng-model="citas.mes" ng-change="">
-                    </div>
-                </div>
-                <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3" id="calendario">
-                    <label class="form-label text-main">Rango de:</label>
-                    <div class="form-group" id="calendar">
-                        <div class="input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" class="form-control" ng-model="citas.fechaInicio" ng-change="">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3" id="calendario">
-                    <label class="form-label text-main">a:</label>
-                    <div class="form-group" id="calendar">
-                        <div class="input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" class="form-control" ng-model="citas.fechaFin" ng-change="">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-xs-12 col-sm-6 col-md-3 col-lg-3" id="calendario">
-                    <label class="form-label text-main">Fecha:</label>
-                    <div class="form-group" id="calendar">
-                        <div class="input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input type="text" class="form-control" ng-model="citas.fecha" ng-change="">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button class="btn btn-primary pull-left" ng-click="seleccionarTodo(citas)" ng-disabled=""><i class="ti-search"></i> Buscar</button>
-                </div>
-                <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                        <input type="text" class="form-control" id="" placeholder="Orden de Servicio" ng-model="citas.Busqueda">
-                    </div>
-                    <div class="radio radio-info radio-inline col-xs-12 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px">
-                        <input type="radio" id="inlineRadio3" value="citas.check" name="radioInline3" checked="" ng-model="grua" ng-click="">
-                        <label for="inlineRadio3">Todos</label>
-                    </div>
-                    <div class="radio radio-info radio-inline col-xs-12 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px">
-                        <input type="radio" id="inlineRadio3" value="citas.check" name="radioInline3" checked="" ng-model="grua" ng-click="">
-                        <label for="inlineRadio3">Agendada</label>
-                    </div>
-                    <div class="radio radio-info radio-inline col-xs-12 col-sm-2 col-md-2 col-lg-2" style="margin-top: 5px">
-                        <input type="radio" id="inlineRadio3" value="citas.check" name="radioInline3" checked="" ng-model="grua" ng-click="">
-                        <label for="inlineRadio3">Comprobante</label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-    <div class="panel panel-default">
+    <!--div class="panel panel-default">
         <div class="panel-heading">
             Filtros de Búsqueda
         </div>
@@ -147,11 +72,83 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="wrapper wrapper-content animated fadeIn">
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    </div-->
+    <div class="wrapper wrapper-content  fadeIn">
+
+        <div class="row">
+            <div class="contenedorFiltros">
+                <div class="col-xs-12">
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="ibox">
+                        <!-- Filtros -->
+                        <div class="panel panel-default">
+                            <div class="ibox-title " role="tab" id="headingOne">
+                                <h5>Filtros de búsqueda</h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne"
+                                        aria-expanded="true" aria-controls="collapseOne">
+                                        <i class="fa fa-chevron-down"></i>
+                                    </a>
+                                </div>
+                            </div>
+                          <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
+                                    <label class="font-noraml">{{zona.etiqueta}}</label>
+                                    <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
+                                        <option value="0">Seleccione</option>
+                                        <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                                            {{z.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
+                                    <label class="font-noraml">Ejecutivo</label>
+                                    <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
+                                        <option value="">Seleccione un Ejecutivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row espacioInferior">
+                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
+                                    <label class="font-noraml">Mes</label>
+                                    <div class="input-group date">
+                                        <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                    <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
+                                    <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
+                                        <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
+                                        <span class="input-group-addon"> a </span>
+                                        <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
+                                    <label class="font-noraml">Fecha</label>
+                                    <div class="input-group date">
+                                        <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    <br>
+                                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" ng-show="totalOrdenes.length > 0">
+
+        <div class=" row col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        </div>
+        <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" ng-show="totalOrdenes.length > 0">
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                 <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro('')">
                 <label for="rdTodas"> Todos </label>
@@ -190,7 +187,7 @@
                                         <th>Zona</th>
                                         <th>Taller</th>
                                         <th>Tipo Servicio</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
                                         <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
@@ -241,7 +238,7 @@
                                         <th>Número Económico</th>
                                         <th>Zona</th>
                                         <th>Tipo Servicio</th>
-                                        <th>Fecha</th>
+                                        <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
                                         <th>Agendó</th>
@@ -258,7 +255,7 @@
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
                                         <td>{{ordenesSinTaller.nombreZona}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoORden}}</td>
-                                        <td>{{ordenesSinTaller.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
+                                        <td>{{ordenesSinTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>

@@ -20,8 +20,8 @@
                                 <div class="ibox-tools">
                                     <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
-                                                            <i class="fa fa-chevron-down"></i>
-                                                        </a>
+                                        <i class="fa fa-chevron-down"></i>
+                                    </a>
                                 </div>
                             </div>
                           <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
@@ -149,7 +149,7 @@
                                                     <th>Estatus</th>
                                                     <th>Estatus provisión</th>
                                                     <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
-                                                    <th>Fecha</th>
+                                                    <th>Fecha Creación Orden</th>
                                                     <th>Fecha inicio real de trabajos</th>
                                                     <th>Tiempo en Espera/ Tiempo Transcurrido</th>
                                                 </tr>
@@ -169,7 +169,7 @@
                                                     <td ng-click="detalleOrden(orden)">{{orden.nombreEstatusOrden}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{'BPRO'}}</td>
                                                     <td ng-show="userData.idRol == 2 || userData.idRol == 3" ng-click="detalleOrden(orden)">{{orden.venta | currency : "$"}}</td>
-                                                    <td ng-click="detalleOrden(orden)"> {{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}} </td>
+                                                    <td ng-click="detalleOrden(orden)"> {{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}} </td>
                                                     <td>
                                                         <button class="btn btn-primary"
                                                             ng-click="OpenModal( key, orden.idOrden );"
@@ -229,7 +229,7 @@
                                                     <th>Estatus</th>
                                                     <th>Estatus provisión</th>
                                                     <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
-                                                    <th>Fecha</th>
+                                                    <th>Fecha Creación Orden</th>
                                                     <th>Fecha inicio real de trabajos</th>
                                                     <th>Tiempo en Espera/ Tiempo Transcurrido</th>
                                                 </tr>
@@ -250,7 +250,7 @@
                                                     <td>{{orden.nombreEstatusOrden}}</td>
                                                     <td>{{'BPRO'}}</td>
                                                     <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{orden.venta | currency: "$"}}</td>
-                                                    <td>{{orden.fechaEstatusActual | date:"dd-MM-yy HH:mm"}}</td>
+                                                    <td>{{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}}</td>
                                                     <td>{{orden.fechaInicioTrabajo}}
                                                         <!-- <button ng-if="trabajo.estatus == 'Iniciado' || trabajo.estatus == 'OrdenGarantia'" ng-hide="userData.idTipoUsuario == 4" class="btn btn-success" type="button" ng-click="cargaFecha(trabajo.idTrabajo)" data-toggle="tooltip" tooltip="Fecha Inicio real de trabajos" tooltip-placement="up"><span class="glyphicon glyphicon-calendar"></span></button> -->
                                                     </td>

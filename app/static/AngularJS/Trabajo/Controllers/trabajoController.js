@@ -315,16 +315,16 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.numeroTrabajo = '';
         $('.ordenservicio').DataTable().destroy();
         cotizacionConsultaRepository.consultarOrdenes(
-            tipoConsulta, 
-            $scope.idContratoOperacion, 
-            $scope.zonaSelected, 
             $scope.fechaInicio, 
             $scope.fechaFin,
             $scope.fecha,
             $scope.fechaMes,
             $scope.numeroTrabajo,
-            0, // Nivel Zona
-            0) // $scope.idUsuario
+            $scope.zonaSelected, 
+            $scope.ejecutivoSelected,
+            $scope.userData.idUsuario,
+            $scope.idContratoOperacion, 
+            tipoConsulta) // $scope.idUsuario
         .then(function(result) {
             $scope.ordenes = result.data;
             $scope.muestraTabla = true;
@@ -344,17 +344,19 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.numeroTrabajo = '';
         $('.ordenservicio').DataTable().destroy();
         cotizacionConsultaRepository.consultarOrdenes(
-            tipoConsulta, 
-            $scope.idContratoOperacion, 
-            $scope.zonaSelected, 
             $scope.fechaInicio, 
             $scope.fechaFin,
             $scope.fecha,
             $scope.fechaMes,
             $scope.numeroTrabajo,
-            0, // Nivel Zona
-            $scope.userData.idUsuario) // $scope.idUsuario
+            $scope.zonaSelected, 
+            $scope.ejecutivoSelected,
+            $scope.userData.idUsuario,
+            $scope.idContratoOperacion, 
+            tipoConsulta) // $scope.idUsuario
         .then(function(result) {
+             //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
+            
             $scope.ordenes = result.data;
             $scope.cambioFiltro();
             $scope.muestraTabla = true;

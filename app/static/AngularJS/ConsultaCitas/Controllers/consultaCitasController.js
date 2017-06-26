@@ -98,8 +98,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         $scope.sumatoria_conTaller= 0;
         $scope.sumatoria_sinTaller= 0;
-        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta($scope.idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta).then(function(result) {
-            
+        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.idContratoOperacion, tipoConsulta).then(function(result) {
+                                                                //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
             if (result.data.length > 0) {
                 $scope.totalOrdenes = result.data;
 
