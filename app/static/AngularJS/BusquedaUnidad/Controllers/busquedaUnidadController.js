@@ -89,50 +89,57 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
     };
     $scope.getOrdenActual = function() {
         busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico).then(function(result) {
-            $scope.ordendesActual = result.data;
-            if ($scope.ordendesActual[0].respuesta == 1) {
-                $scope.muestraOrdenActual = true;
-                $scope.agendarCita = true;
-                var contador1 = 0;
-                var contador2 = 0;
-                var contador3 = 0;
-                var contadorTipoOrden = 0;
-                angular.forEach($scope.ordendesActual, function(value, key) {
-                    
-                    if (value.idTipoOrden == 1) {
+           
+            if (result.data.length>0) {
+                $scope.ordendesActual = result.data;
+                
+                if ($scope.ordendesActual[0].respuesta == 1) {
+                    $scope.muestraOrdenActual = true;
+                    $scope.agendarCita = true;
+                    var contador1 = 0;
+                    var contador2 = 0;
+                    var contador3 = 0;
+                    var contadorTipoOrden = 0;
+                    angular.forEach($scope.ordendesActual, function(value, key) {
                         
-                        if (value.idEstatusOrden < 8) {
-                            contadorTipoOrden++;
-                            contador1++;
+                        if (value.idTipoOrden == 1) {
+                            
+                            if (value.idEstatusOrden < 8) {
+                                contadorTipoOrden++;
+                                contador1++;
+                            }
                         }
-                    }
-                    if (value.idTipoOrden == 2) {
-                       
-                        if (value.idEstatusOrden < 8) {
-                             contadorTipoOrden++;
-                            contador3++;
-                        }
-                    };
-                     if (value.idTipoOrden == 3) {
-                        
-                        if (value.idEstatusOrden < 8) {
-                            contadorTipoOrden++;
-                            contador2++;
-                        }
-                    };
-                });
+                        if (value.idTipoOrden == 2) {
+                           
+                            if (value.idEstatusOrden < 8) {
+                                 contadorTipoOrden++;
+                                contador3++;
+                            }
+                        };
+                         if (value.idTipoOrden == 3) {
+                            
+                            if (value.idEstatusOrden < 8) {
+                                contadorTipoOrden++;
+                                contador2++;
+                            }
+                        };
+                    });
 
-                if (contadorTipoOrden=3 ) {
-                    if (contador1>0 && contador2>0 && contador3>0) {
-                        $scope.agendarCita = false;
-                    };
-                    
+                    if (contadorTipoOrden=3 ) {
+                        if (contador1>0 && contador2>0 && contador3>0) {
+                            $scope.agendarCita = false;
+                        };
+                        
+                    }
+                } else if ($scope.ordendesActual[0].respuesta == 0) {
+                    $scope.muestraOrdenActual = false;
+                    $scope.agendarCita = true;
+                } else {
+                    error();
                 }
-            } else if ($scope.ordendesActual[0].respuesta == 0) {
+            }else{
                 $scope.muestraOrdenActual = false;
                 $scope.agendarCita = true;
-            } else {
-                error();
             }
         });
     };

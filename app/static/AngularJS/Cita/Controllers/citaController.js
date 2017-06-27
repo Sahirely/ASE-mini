@@ -93,40 +93,47 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                
                 $scope.muestraAgendarCita = false;
                 busquedaUnidadRepository.getDetalleOrden($routeParams.economico).then(function(result) {
-                    $scope.detalleOrden = result.data[0];
-                    if ($scope.detalleOrden.respuesta == 1 && $routeParams.tipo != 'nueva') {
-                        $scope.tipoDeCita.idTipoCita = $scope.detalleOrden.idTipoCita;
-                        $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
-                        $scope.idTaller = $scope.detalleOrden.idTaller;
-                        $scope.zonaSelected = $scope.detalleOrden.idZona;
-                        $scope.opcionTipoCita = false;
-                        $scope.opcionEstadoUnidad = false;
-                        $scope.grua = $scope.detalleOrden.grua;
-                        $scope.idCotizacion = $scope.detalleOrden.idCotizacion;
-                        $scope.idOrden = $scope.detalleOrden.idOrden;
-                        var date = new Date($scope.detalleOrden.fechaCita);
-                        $scope.fechaCita = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
-                        var hora = date.getUTCMinutes();
-                        if (hora <= 9) { hora = '0' + hora }
-                        $scope.horaCita = date.getUTCHours() + ":" + hora;
-                        $scope.comentarios = $scope.detalleOrden.comenatario;
+                    if (result.data.length>0) {
+                        $scope.detalleOrden = result.data[0];
+                        if ($scope.detalleOrden.respuesta == 1 && $routeParams.tipo != 'nueva') {
+                            $scope.tipoDeCita.idTipoCita = $scope.detalleOrden.idTipoCita;
+                            $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
+                            $scope.idTaller = $scope.detalleOrden.idTaller;
+                            $scope.zonaSelected = $scope.detalleOrden.idZona;
+                            $scope.opcionTipoCita = false;
+                            $scope.opcionEstadoUnidad = false;
+                            $scope.grua = $scope.detalleOrden.grua;
+                            $scope.idCotizacion = $scope.detalleOrden.idCotizacion;
+                            $scope.idOrden = $scope.detalleOrden.idOrden;
+                            var date = new Date($scope.detalleOrden.fechaCita);
+                            $scope.fechaCita = date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate();
+                            var hora = date.getUTCMinutes();
+                            if (hora <= 9) { hora = '0' + hora }
+                            $scope.horaCita = date.getUTCHours() + ":" + hora;
+                            $scope.comentarios = $scope.detalleOrden.comenatario;
+                            $scope.getTipoOrdenesServicio();
+                            $scope.getTipoEstadoUnidad();
+                            $scope.getServicios();
+                            $scope.getTallerXid($scope.detalleOrden.idTaller);
+                            $scope.getPreCotizacion($scope.idCotizacion);
+
+                            $scope.getZonasCita($scope.zonaSelected);
+                            $scope.getDetalleOrdenEspecialidad();
+
+                        } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
+                           // location.href = '/unidad?economico=' + $routeParams.economico;
+                           $scope.getTipoOrdenesServicio();
+                            $scope.getTipoEstadoUnidad();
+                            $scope.getServicios();
+                            $scope.muestraAgendarCita = true;
+                        } else {
+                            error();
+                        }
+                    }else{
                         $scope.getTipoOrdenesServicio();
                         $scope.getTipoEstadoUnidad();
                         $scope.getServicios();
-                        $scope.getTallerXid($scope.detalleOrden.idTaller);
-                        $scope.getPreCotizacion($scope.idCotizacion);
-
-                        $scope.getZonasCita($scope.zonaSelected);
-                        $scope.getDetalleOrdenEspecialidad();
-
-                    } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
-                       // location.href = '/unidad?economico=' + $routeParams.economico;
-                       $scope.getTipoOrdenesServicio();
-                        $scope.getTipoEstadoUnidad();
-                        $scope.getServicios();
                         $scope.muestraAgendarCita = true;
-                    } else {
-                        error();
                     }
                 });
             } else if ($scope.detalleUnidad.situacionOrden == 0) {
