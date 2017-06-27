@@ -7,6 +7,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         $scope.userData = userFactory.getUserData();
         $scope.getdatosComprobante(1)
         $scope.getOrdenDetalle(1, $scope.numeroOrden)
+        $scope.show_exteriores = true;
     };
 
     $scope.getdatosComprobante = function(idTipoUnidad) {
@@ -71,19 +72,31 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
         }
     }
 
-    $scope.addComprobanteRecepcion = function(obj) {
+    $scope.todosComprobanteRecepcion = function () {
 
+        angular.forEach($scope.modulosComprobante , function(value, key) {
+            if(value.indexComprobante <= 5){
+                angular.forEach(value.detalle, function(value2, key) {
+                    value2.select = $scope.selectTodos;
+                });
+            }
+        });
+
+        $scope.addComprobanteRecepcion();
+    }
+
+    $scope.addComprobanteRecepcion = function() {
         var contador = 0;
         var contadorTotal = 0;
 
-        angular.forEach(obj,function(valor,key){
+        angular.forEach($scope.modulosComprobante,function(valor,key){
             if(valor.indexComprobante <= 5){
                 angular.forEach(valor.detalle, function(valor2, key) {
                     contadorTotal += 1;
                 });
             }
         });
-        angular.forEach(obj, function(value, key) {
+        angular.forEach($scope.modulosComprobante, function(value, key) {
             if(value.indexComprobante <= 5){
                 angular.forEach(value.detalle, function(value2, key) {
                     if (value2.select == 0 || value2.select == 1)

@@ -35,8 +35,20 @@
                 </div>
             </div>
         </div>
+       </div>
         <!-- {{modulosComprobante}} -->
-        <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
+            <div class="input-group m-b center pull-right"> 
+                <strong>Seleccionar Todos   </strong>
+                <div class="radio radio-info radio-inline">
+                    <input type="radio" id="todos1" value="1" name="todos" ng-model="selectTodos" ng-click="todosComprobanteRecepcion()">
+                    <label for="todos1"> Si </label>
+                </div>
+                <div class="radio radio-inline">
+                    <input type="radio" id="todos2" value="0" name="todos" ng-model="selectTodos" ng-click="todosComprobanteRecepcion()">
+                    <label for="todos2"> No </label>
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <tabset>
                     <tab ng-repeat="titulos in modulosComprobante" heading="{{titulos.nombreComprobanteRecepcion}}" index="{{titulos.indexComprobante}}" ng-model="titulos.indexComprobante" ng-click="menu(titulos.indexComprobante)">
@@ -52,11 +64,11 @@
                                             <td>
                                                 <div class="input-group m-b center">
                                                     <div class="radio radio-info radio-inline">
-                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}1" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select" ng-click="addComprobanteRecepcion(modulosComprobante)">
+                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}1" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select" ng-click="addComprobanteRecepcion()">
                                                         <label for="{{detalle.idCatalogoDetalleModuloComprobante}}1"> Si </label>
                                                     </div>
                                                     <div class="radio radio-inline">
-                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}2" value="0" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select" ng-click="addComprobanteRecepcion(modulosComprobante)">
+                                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}2" value="0" name="{{detalle.idCatalogoDetalleModuloComprobante}}" ng-model="detalle.select" ng-click="addComprobanteRecepcion()">
                                                         <label for="{{detalle.idCatalogoDetalleModuloComprobante}}2"> No </label>
                                                     </div>
                                                 </div>
@@ -66,7 +78,7 @@
                                 </table>
                             </div>
                             <div class="row  col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.entradaDatos}}==1">
-                                <div class="row col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="detalle in titulos.detalle">
+                                <div class=" col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-repeat="detalle in titulos.detalle">
                                     <br/>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 6">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
@@ -78,7 +90,7 @@
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
                                       </div>
                                       <div class="col-xs-8 col-sm-7 col-md-5 col-lg-7 espacioTopText">
-                                        <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-change="addComprobanteRecepcion(modulosComprobante)" ng-model="detalle.selectTxt" ng-disabled=""></textarea>
+                                        <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-change="addComprobanteRecepcion()" ng-model="detalle.selectTxt" ng-disabled=""></textarea>
                                       </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 1">
@@ -86,7 +98,7 @@
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
                                       </div>
                                       <div class="col-xs-10 col-sm-7 col-md-5 col-lg-7 espacioTopSelect">
-                                        <select class="form-control" name="tab_Descripcion" ng-model="detalle.selectTxt" ng-change="addComprobanteRecepcion(modulosComprobante)">
+                                        <select class="form-control" name="tab_Descripcion" ng-model="detalle.selectTxt" ng-change="addComprobanteRecepcion()">
                                             <option value="">Seleccione Combustible</option>
                                             <option value="Lleno">Lleno</option>
                                             <option value="Tres Cuartos">Tres Cuartos</option>
@@ -100,8 +112,8 @@
                             </div>
                     </tab>
                 </tabset>
-                </div>
             </div>
+        </div>
             <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
                 <br/>
                 <br/>
@@ -117,618 +129,5 @@
                     </div>
                 </div>
             </div>
-        </div>
-      </div>
     </div>
-                <!--  <div class="row">
-            <div class="col-lg-12">
-                <tabset>
-                    <tab heading="Exteriores" index="0" ng-click="menu(0)">
-                    </tab>
-                    <tab heading="Interiores" index="1" ng-click="menu(1)">
-                    </tab>
-                    <tab heading="Accesorios" index="2" ng-click="menu(2)">
-                    </tab>
-                    <tab heading="Componentes Mecanicos" index="3" ng-click="menu(3)">
-                    </tab>
-                    <tab heading="Documentos" index="4" ng-click="menu(4)">
-                    </tab>
-                    <tab heading="Tablero" index="5" ng-click="menu(5)">
-                    </tab>
-                    <tab heading="Unidad" index="6" ng-click="menu(6)">
-                    </tab>
-                </tabset>
-
-
-
-                    <div ng-show="show_exteriores">
-
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-3">
-                        </div>
-                        <div class="row col-md-6">
-                            <table class="table table-striped table-bordered table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>Claxon</td>
-                                    <td>
-                                        <div class="input-group m-b center">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_Claxon1" value="1" name="ext_Claxon"  ng-model="ext_Claxon">
-                                                <label for="ext_Claxon1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_Claxon2" value="0" name="ext_Claxon" ng-model="ext_Claxon">
-                                                <label for="ext_Claxon2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tapón Gasolina</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_TaponGasolina1" value="1" name="ext_TaponGasolina" checked="" ng-model="ext_TaponGasolina">
-                                                <label for="ext_TaponGasolina1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_TaponGasolina2" value="0" name="ext_TaponGasolina" ng-model="ext_TaponGasolina">
-                                                <label for="ext_TaponGasolina2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tapones de Llantas</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_TaponLlantas1" value="1" name="ext_TaponLlantas" checked="" ng-model="ext_TaponLlantas">
-                                                <label for="ext_TaponLlantas1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_TaponLlantas2" value="0" name="ext_TaponLlantas" ng-model="ext_TaponLlantas">
-                                                <label for="ext_TaponLlantas2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Faros Delanteros</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_FarosDelanteros1" value="1" name="ext_FarosDelanteros" checked="" ng-model="ext_FarosDelanteros">
-                                                <label for="ext_FarosDelanteros1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_FarosDelanteros2" value="0" name="ext_FarosDelanteros" ng-model="ext_FarosDelanteros">
-                                                <label for="ext_FarosDelanteros2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Antena</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_Antena1" value="1" name="ext_Antena" checked="" ng-model="ext_Antena">
-                                                <label for="ext_Antena1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_Antena2" value="0" name="ext_Antena" ng-model="ext_Antena">
-                                                <label for="ext_Antena2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Emblemas</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_Emblemas1" value="1" name="ext_Emblemas" checked="" ng-model="ext_Emblemas">
-                                                <label for="ext_Emblemas1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_Emblemas2" value="0" name="ext_Emblemas" ng-model="ext_Emblemas">
-                                                <label for="ext_Emblemas2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Cristales</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="ext_Cristales1" value="1" name="ext_Cristales" checked="" ng-model="ext_Cristales">
-                                                <label for="ext_Cristales1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="ext_Cristales2" value="0" name="ext_Cristales" ng-model="ext_Cristales">
-                                                <label for="ext_Cristales2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        </div>
-                    </div>
-                    <div ng-show="show_interiores">
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-3">
-                        </div>
-                        <div class="row col-md-6">
-                            <table class="table table-striped table-bordered table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>Espejo Retrovisores</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_EspejoRetrovisor1" value="1" name="int_EspejoRetrovisor" checked="" ng-model="int_EspejoRetrovisor">
-                                                <label for="int_EspejoRetrovisor1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_EspejoRetrovisor2" value="0" name="int_EspejoRetrovisor" ng-model="int_EspejoRetrovisor">
-                                                <label for="int_EspejoRetrovisor2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Radio AM/FM</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_Radio1" value="1" name="int_Radio" checked="" ng-model="int_Radio">
-                                                <label for="int_Radio"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_Radio2" value="0" name="int_Radio" ng-model="int_Radio">
-                                                <label for="int_Radio2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Cinturones de Seguridad</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_CinturonSeguridad1" value="1" name="int_CinturonSeguridad" checked="" ng-model="int_CinturonSeguridad">
-                                                <label for="int_CinturonSeguridad1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_CinturonSeguridad2" value="0" name="int_CinturonSeguridad" ng-model="int_CinturonSeguridad">
-                                                <label for="int_CinturonSeguridad2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Manijas y Seguros</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_ManijasSeguros1" value="1" name="int_ManijasSeguros" checked="" ng-model="int_ManijasSeguros">
-                                                <label for="int_ManijasSeguros1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_ManijasSeguros2" value="0" name="int_ManijasSeguros" ng-model="int_ManijasSeguros">
-                                                <label for="int_ManijasSeguros2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tapetes</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_Tapetes1" value="1" name="int_Tapetes" checked="" ng-model="int_Tapetes">
-                                                <label for="int_Tapetes1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_Tapetes2" value="0" name="int_Tapetes" ng-model="int_Tapetes">
-                                                <label for="int_Tapetes2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>A/C</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_Ac1" value="1" name="int_Ac" checked="" ng-model="int_Ac">
-                                                <label for="int_Ac1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_Ac2" value="0" name="int_Ac" ng-model="int_Ac">
-                                                <label for="int_Ac2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Bolsas de Aire Delanteras</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_BolsaAireDelantera1" value="1" name="int_BolsaAireDelantera" checked="" ng-model="int_BolsaAireDelantera">
-                                                <label for="int_BolsaAireDelantera1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_BolsaAireDelantera2" value="0" name="int_BolsaAireDelantera" ng-model="int_BolsaAireDelantera">
-                                                <label for="int_BolsaAireDelantera2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Bolsas de Aire Laterales</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_BolsaAireLateral1" value="1" name="int_BolsaAireLateral" checked="" ng-model="int_BolsaAireLateral">
-                                                <label for="int_BolsaAireLateral1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_BolsaAireLateral2" value="0" name="int_BolsaAireLateral" ng-model="int_BolsaAireLateral">
-                                                <label for="int_BolsaAireLateral2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Llaves de la Unidad</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="int_LlavesUnidad1" value="1" name="int_LlavesUnidad" checked="" ng-model="int_LlavesUnidad">
-                                                <label for="int_LlavesUnidad1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="int_LlavesUnidad2" value="0" name="int_LlavesUnidad" ng-model="int_LlavesUnidad">
-                                                <label for="int_LlavesUnidad2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        </div>
-                    </div>
-                    <div ng-show="show_accesorios">
-
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-3"></div>
-                        <div class="row col-md-6">
-                            <table class="table table-striped table-bordered table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>Reflejantes</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="acs_Reflejantes1" value="1" name="acs_Reflejantes" checked="" ng-model="acs_Reflejantes">
-                                                <label for="acs_Reflejantes1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="acs_Reflejantes2" value="0" name="acs_Reflejantes" ng-model="acs_Reflejantes">
-                                                <label for="acs_Reflejantes2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Extintor</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="acs_Extintor1" value="1" name="acs_Extintor" checked="" ng-model="acs_Extintor">
-                                                <label for="acs_Extintor1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="acs_Extintor2" value="0" name="acs_Extintor" ng-model="acs_Extintor">
-                                                <label for="acs_Extintor2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Llanta de Refacción</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="acs_LlantaRefaccion1" value="1" name="acs_LlantaRefaccion" checked="" ng-model="acs_LlantaRefaccion">
-                                                <label for="acs_LlantaRefaccion1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="acs_LlantaRefaccion2" value="0" name="acs_LlantaRefaccion" ng-model="acs_LlantaRefaccion">
-                                                <label for="acs_LlantaRefaccion2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Cables pasa Corriente</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="acs_CableCorriente1" value="1" name="acs_CableCorriente" checked="" ng-model="acs_CableCorriente">
-                                                <label for="acs_CableCorriente1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="acs_CableCorriente2" value="0" name="acs_CableCorriente" ng-model="acs_CableCorriente">
-                                                <label for="acs_CableCorriente2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Película Antiasalto</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="acs_PeliculaAntiasalto1" value="1" name="acs_PeliculaAntiasalto" checked="" ng-model="acs_PeliculaAntiasalto">
-                                                <label for="acs_PeliculaAntiasalto1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="acs_PeliculaAntiasalto2" value="0" name="acs_PeliculaAntiasalto" ng-model="acs_PeliculaAntiasalto">
-                                                <label for="acs_PeliculaAntiasalto2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        </div>
-
-                    </div>
-                    <div ng-show="show_componentes">
-
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-3">
-                        </div>
-                        <div class="row col-md-6">
-                            <table class="table table-striped table-bordered table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>Tapón Aceite</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="com_TaponAceite1" value="1" name="com_TaponAceite" checked="" ng-model="com_TaponAceite">
-                                                <label for="com_TaponAceite1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="com_TaponAceite2" value="0" name="com_TaponAceite" ng-model="com_TaponAceite">
-                                                <label for="com_TaponAceite2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tapón Radiador</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="com_TaponRadiador1" value="1" name="com_TaponRadiador" checked="" ng-model="com_TaponRadiador">
-                                                <label for="com_TaponRadiador1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="com_TaponRadiador2" value="0" name="com_TaponRadiador" ng-model="com_TaponRadiador">
-                                                <label for="com_TaponRadiador2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Varilla de Aceite</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="com_VarillaAceite1" value="1" name="com_VarillaAceite" checked="" ng-model="com_VarillaAceite">
-                                                <label for="com_VarillaAceite1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="com_VarillaAceite2" value="0" name="com_VarillaAceite" ng-model="com_VarillaAceite">
-                                                <label for="com_VarillaAceite2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Batería</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="com_Bateria1" value="1" name="com_Bateria" checked="" ng-model="com_Bateria">
-                                                <label for="com_Bateria1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="com_Bateria2" value="0" name="com_Bateria" ng-model="com_Bateria">
-                                                <label for="com_Bateria2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Tapones en Gral de Motor</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="com_TaponMotor1" value="1" name="com_TaponMotor" checked="" ng-model="com_TaponMotor">
-                                                <label for="com_TaponMotor1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="com_TaponMotor2" value="0" name="com_TaponMotor" ng-model="com_TaponMotor">
-                                                <label for="com_TaponMotor2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        </div>
-                    </div>
-                    <div ng-show="show_documentos">
-
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-3">
-                        </div>
-                        <div class="row col-md-6">
-                            <table class="table table-striped table-bordered table-hover">
-                            <tbody>
-                                <tr>
-                                    <td>Póliza Seguro</td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="doc_PolizaSeguro1" value="1" name="doc_PolizaSeguro" checked="" ng-model="doc_PolizaSeguro">
-                                                <label for="doc_PolizaSeguro1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="doc_PolizaSeguro2" value="0" name="doc_PolizaSeguro" ng-model="doc_PolizaSeguro">
-                                                <label for="doc_PolizaSeguro2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                  <tr>
-                                    <td>Tarjeta de Circulación </td>
-                                    <td>
-                                        <div class="input-group m-b">
-                                            <div class="radio radio-info radio-inline">
-                                                <input type="radio" id="doc_TarjetaCirculacion1" value="1" name="doc_TarjetaCirculacion" checked="" ng-model="doc_TarjetaCirculacion">
-                                                <label for="doc_TarjetaCirculacion1"> Si </label>
-                                            </div>
-                                            <div class="radio radio-inline">
-                                                <input type="radio" id="doc_TarjetaCirculacion2" value="0" name="doc_TarjetaCirculacion" ng-model="doc_TarjetaCirculacion">
-                                                <label for="doc_TarjetaCirculacion2"> No </label>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-
-                        </table>
-
-                        </div>
-                    </div>
-                    <div ng-show="show_tablero">
-
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-12">
-                            <div class="col-md-6">
-                                <div class="col-md-4">
-                                    <img  src="image/comprobanteRecepcion/MEDIDOR.jpg"></img>
-                                 </div>
-                                <div class="col-md-5">
-                                    <select class="form-control" name="tab_Descripcion" ng-model="tab_Descripcion">
-                                        <option value="">Seleccione Combustible</option>
-                                        <option value="Lleno">Lleno</option>
-                                        <option value="Tres Cuartos">Tres Cuartos</option>
-                                        <option value="Mitad">Mitad</option>
-                                        <option value="Un Cuarto">Un Cuarto</option>
-                                        <option value="Reserva">Reserva</option>
-                                    </select>
-                                </div>
-
-                            </div>
-                            <div class="col-md-6">
-                                <div class="col-md-3">
-                                    <img  src="image/comprobanteRecepcion/ODOMETRO.jpg"></img>
-                                </div>
-                                <div class="col-md-3">
-                                  <input type="numeric" placeholder="Kilometraje" ng-model="tab_Odometro" class="form-control" onlynumber>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="row space"></div>
-                        <div class="row space"></div>
-
-                    </div>
-                    <div ng-show="show_unidad">
-
-                        <div class="space"></div>
-                        <div class="space"></div>
-                        <div class="row col-md-12 center">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                <img  src="image/comprobanteRecepcion/PIPA-DER.png"></img>
-                                <input type="checkbox" id="ubi_ParteDerecha" value="0" name="ubi_ParteDerecha" ng-model="ubi_ParteDerecha" ng-change="changeDesc('derecha', ubi_ParteDerecha)">
-                                <textarea class="descTxt" placeholder="Descripción Lateral Derecha" ng-model="ubi_ParteDerechaDesc" ng-disabled="ubi_ParteDerecha==false"></textarea>
-                            </div>
-                        </div>
-                        <div class="row col-md-12 center">
-                            <div class="col-md-3">
-                                <img  src="image/comprobanteRecepcion/PIPA-FRENTE.png"></img>
-                                <input type="checkbox" id="ubi_Delantera" value="0" name="ubi_Delantera" ng-model="ubi_Delantera" ng-change="changeDesc('delantera', ubi_Delantera)">
-                                <textarea class="descTxt" placeholder="Descripción Frontal" ng-model="ubi_DelanteraDesc" ng-disabled="ubi_Delantera==false"></textarea>
-                            </div>
-                            <div class="col-md-6" id="pipa-arriba">
-                                <img  src="image/comprobanteRecepcion/PIPA-ARRIBA.png"></img>
-                                <input type="checkbox" id="ubi_Techo" value="0" name="ubi_Techo" ng-model="ubi_Techo" ng-change="changeDesc('techo', ubi_Techo)">
-                                <textarea class="descTxt" placeholder="Descripción de la Parte Superior" ng-model="ubi_TechoDesc" ng-disabled="ubi_Techo==false"></textarea>
-                            </div>
-                            <div class="col-md-3">
-                                <img  src="image/comprobanteRecepcion/PIPA-TRAS.png"></img>
-                                <input type="checkbox" id="ubi_Trasera" value="0" name="ubi_Trasera" ng-model="ubi_Trasera" ng-change="changeDesc('trasera', ubi_Trasera)">
-                                <textarea class="descTxt" placeholder="Descripción Trasera" ng-model="ubi_TraseraDesc" ng-disabled="ubi_Trasera==false"></textarea>
-                            </div>
-                        </div>
-                        <div class="row col-md-12 center">
-                            <div class="col-md-3"></div>
-                            <div class="col-md-6">
-                                <img src="image/comprobanteRecepcion/PIPA-IZQ.png"></img>
-                                <input type="checkbox" id="ubi_ParteIzquierda" value="0" name="ubi_ParteIzquierda" ng-model="ubi_ParteIzquierda" ng-change="changeDesc('izquierda', ubi_ParteIzquierda)">
-                                <textarea class="descTxt" placeholder="Descripción Lateral Izquierda" ng-model="ubi_ParteIzquierdaDesc" ng-disabled="ubi_ParteIzquierda==false"></textarea>
-                            </div>
-                        </div>
-
-            </div>
-            <div class="space"></div>
-            <div class="space"></div>
-
-
-
-            <div class="row col-md-12 ">
-                <div class="radio radio-inline col-md-6">
-
-                    <h4 for="acepta">
-                        <input type="checkbox" id="acepta" value="0" name="acepta" ng-model="acepta">
-                           Acepto las condiciones en la que se entrega la unidad.
-                    </h4>
-                </div>
-                <div class="col-md-6">
-                    <div class="pull-right">
-                       <button type="button" data-loading-text="Loading..." class="btn btn-success" id="aprobacion" ng-model="aprobacion" ng-click="addComprobanteRecepcion()" ng-disabled="validateAprobacion()==false" ><span class="{{class_buttonCeritficado}}"></span><strong>&nbsp;Aceptar&nbsp;</strong></button>
-
-                    </div>
-                </div>
-
-            </div>
-
-            </div> -->
+</div>
