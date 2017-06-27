@@ -70,13 +70,23 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     };
 
     $scope.traeOrdenCallCenter = function(tipo){
+        var ordenes = [];
         $scope.ordencall=[];
-         $('.dataTableOrdenCallCenter').DataTable().destroy();
+        $scope.sumatoria_ordenes = 0;
+        $('.dataTableOrdenCallCenter').DataTable().destroy();
        
         $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, tipo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
-                 globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 100);
+
+                $scope.ordencall.forEach(function(item) {
+                  if (ordenes.indexOf(item.idOrden) == -1) {
+                    ordenes.push(item.idOrden);
+                    $scope.sumatoria_ordenes += item.venta;
+                  };
+                });
+                
+                globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 100);
             }
         }, function (error) {
             alertFactory.error('El usuario no tiene recordatorios');

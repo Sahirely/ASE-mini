@@ -128,6 +128,15 @@
 <br>
 <div class="ibox-content">
     <div>
+
+        <div class="row sumatorias">
+            <div class="col-xs-3 pull-right">
+                <div>
+                    <h2 class="no-margins">{{sumatoria_ordenes |  currency: "$"}}</h2>
+                    <small>precio venta s/iva</small>
+                </div>
+            </div>
+        </div>
         
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover dataTableOrdenCallCenter" cg-busy="{promise:promise,message:message}">
@@ -136,8 +145,8 @@
                         <th>Consecutivo</th>
                         <th>Orden</th>
                         <th>Zona</th>
-                        <th>Costo</th>
-                        <th>Venta</th>
+                        <th>Precio costo sin IVA</th>
+                        <th>Precio venta sin IVA</th>
                         <th>Descripción</th>
                         <th>Estatus</th>
                         <th>Tiempo Restante</th>
