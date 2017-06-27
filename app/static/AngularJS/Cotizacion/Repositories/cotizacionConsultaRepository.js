@@ -48,7 +48,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
-        consultarOrdenes: function(
+        /*consultarOrdenes: function(
           tipoConsulta, 
           idContratoOperacion, 
           idZona, 
@@ -91,7 +91,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               'Content-Type': 'application/json'
               }
           });
-        },
+        },*/
         getOrdenes: function(idContratoOperacion, idZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, porOrden, tipoConsulta){
           var objConsultaOrden = {
               idContratoOperacion: idContratoOperacion,

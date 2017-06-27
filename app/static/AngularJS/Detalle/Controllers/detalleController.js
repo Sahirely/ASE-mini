@@ -913,7 +913,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.RechazarTrabajo = function() {
-        swal({
+       /* swal({
                 title: "¿Estas seguro?",
                 text: "Al rechazar el trabajo éste se cambiara a estatus 'Proceso'",
                 type: "warning",
@@ -925,30 +925,44 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 closeOnConfirm: false
             },
             function() {
-                detalleRepository.rechazaTrabajo($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(Rechazado) {
-                      commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                        $("html, body").animate({
-                                            scrollTop: 0
-                                        }, 1000);
-                                        $scope.init();
-                                        swal("", "Se ha rechazado el trabajo", "success");
-                                      
-                                }, function(error) {
-                                    alertFactory.error('No se puede enviar el correo');
-                                });
-                            }
-                        }, function (error) {
-                            alertFactory.error("Error al obtener información para el mail");
-                        });
-                });
+               
+            });*/
+        $("#ModalRechazoTrabajo").modal();
+        $scope.motivo_rechazoTrabajo='';
+    }
+
+    $scope.aceptarRechazoTrabajo = function () {
+
+        if ($scope.motivo_rechazoTrabajo != '') {
+            $("#ModalRechazoTrabajo").modal('hide');
+
+             detalleRepository.rechazaTrabajo($scope.detalleOrden.idOrden, $scope.idUsuario, $scope.motivo_rechazoTrabajo).then(function(Rechazado) {
+                  commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                        if (resp.data.length > 0) {
+                            var correoDe = resp.data[0].correoDe;
+                            var correoPara = resp.data[0].correoPara;
+                            var asunto = resp.data[0].asunto;
+                            var texto = resp.data[0].texto;
+                            var bodyhtml = resp.data[0].bodyhtml;
+                             commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                    $("html, body").animate({
+                                        scrollTop: 0
+                                    }, 1000);
+                                    $scope.init();
+                                    swal("", "Se ha rechazado el trabajo", "success");
+                                  
+                            }, function(error) {
+                                alertFactory.error('No se puede enviar el correo');
+                            });
+                        }
+                    }, function (error) {
+                        alertFactory.error("Error al obtener información para el mail");
+                    });
             });
+        }else{
+            alertFactory.info('Debes poner el motivo del rechazo del trabajo.');
+        }
+
     }
 
     $scope.OpenModalShowFactura = function() {

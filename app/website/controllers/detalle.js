@@ -157,7 +157,8 @@ Detalle.prototype.get_rechazaTrabajo = function(req, res, next){
     var self = this;
     var params = [
             {name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
-            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
+            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING},
+            {name: 'motivo', value: req.query.motivo, type: self.model.types.STRING}
         ];
 
     this.model.query('UPD_RECHAZA_TRABAJO_SP', params, function(error, result) {

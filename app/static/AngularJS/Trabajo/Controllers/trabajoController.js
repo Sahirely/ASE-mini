@@ -314,7 +314,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
         $scope.numeroTrabajo = '';
         $('.ordenservicio').DataTable().destroy();
-        cotizacionConsultaRepository.consultarOrdenes(
+        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
             $scope.fechaInicio, 
             $scope.fechaFin,
             $scope.fecha,
@@ -343,7 +343,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
         $scope.numeroTrabajo = '';
         $('.ordenservicio').DataTable().destroy();
-        cotizacionConsultaRepository.consultarOrdenes(
+      
+        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
             $scope.fechaInicio, 
             $scope.fechaFin,
             $scope.fecha,
@@ -355,11 +356,14 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             $scope.idContratoOperacion, 
             tipoConsulta) // $scope.idUsuario
         .then(function(result) {
-             //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
-            
-            $scope.ordenes = result.data;
-            $scope.cambioFiltro();
-            $scope.muestraTabla = true;
+         
+            if (result.data.length>0) {
+                 //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
+                
+                $scope.ordenes = result.data;
+                $scope.cambioFiltro();
+                $scope.muestraTabla = true;
+            }
             //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
         });
     };
