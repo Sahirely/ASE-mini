@@ -261,8 +261,40 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         }
     };
 
+    $scope.obtieneFechaMes = function(){
+      var result = '';
+      if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+          var fechaPartida = $scope.fechaMes.split('-');
+          if (fechaPartida[0] == 'Enero') {
+              result = fechaPartida[1] + '/01/01' ;
+          } else if (fechaPartida[0] == 'Febrero') {
+              result = fechaPartida[1] + '/02/01' ;
+          } else if (fechaPartida[0] == 'Marzo') {
+              result = fechaPartida[1] + '/03/01' ;
+          } else if (fechaPartida[0] == 'Abril') {
+              result = fechaPartida[1] + '/04/01' ;
+          } else if (fechaPartida[0] == 'Mayo') {
+              result = fechaPartida[1] + '/05/01' ;
+          } else if (fechaPartida[0] == 'Junio') {
+              result = fechaPartida[1] + '/06/01';
+          } else if (fechaPartida[0] == 'Julio') {
+              result = fechaPartida[1] + '/07/01' ;
+          } else if (fechaPartida[0] == 'Agosto') {
+              result = fechaPartida[1] + '/08/01' ;
+          } else if (fechaPartida[0] == 'Septiembre') {
+              result = fechaPartida[1] + '/09/01' ;
+          } else if (fechaPartida[0] == 'Octubre') {
+              result = fechaPartida[1] + '/10/01' ;
+          } else if (fechaPartida[0] == 'Noviembre') {
+              result = fechaPartida[1] + '/11/01' ;
+          } else if (fechaPartida[0] == 'Diciembre') {
+              result = fechaPartida[1] + '/12/01' ;
+          }
+        }
+      return result;
+    }
     //obtiene el mes en formato de fecha
-    $scope.obtieneFechaMes = function() {
+/*    $scope.obtieneFechaMes = function() {
         var result = '';
         if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
             var fechaPartida = $scope.fechaMes.split('-');
@@ -293,7 +325,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
             }
         }
         return result;
-    }
+    }*/
 
     $scope.actualizarOrden = function(obj) {
         location.href = '/nuevacita?economico=' + obj.numeroEconomico + '&estatus=' + 1;
