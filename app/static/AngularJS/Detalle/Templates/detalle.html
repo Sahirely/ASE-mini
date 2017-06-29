@@ -68,28 +68,31 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
-                                <div  class="row " style=" margin: 10px;border: solid rgba(0, 0, 255, 0.11);">
+                                <div  class="row " id="padreTimeLine">
 
-                                    <label  ng-repeat='historico in HistoricoOrden' style="border-right: solid rgba(0, 0, 255,0.11); margin-right: 10px;">
-                                                <p class="m-b-xs">
+                                    <label  ng-repeat='historico in HistoricoOrden'>
+                                                <span class="m-b-xs">
                                                     <strong>{{historico.nombreEstatusOrden}}</strong>
-                                                </p>
-                                                <p class="glyphicon glyphicon-user"> {{historico.nombreCompleto}}
-                                                </p>
-                                                <p class="text-navy">{{historico.fecha | date:"dd/MM/yyyy hh:mm"  }}</p>
-
+                                                </span>
+                                                <br>
+                                                <span class="glyphicon glyphicon-user"> {{historico.nombreCompleto}}
+                                                </span>
+                                                <br>
+                                                <span class="text-navy" ng-show="historico.idOrden>0">{{historico.fecha | date:"dd/MM/yyyy hh:mm"  }}</span>
                                     </label>
                                 </div>
-                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
-                                    <strong id= "numCotizacion">{{cotz.data[0].numeroCotizacion}}</strong>
-                                    <div style=" margin: 10px;border: solid rgba(0, 0, 255, 0.11);">
-                                        <label  ng-repeat="cot in cotz.data" style="border-right: solid rgba(0, 0, 255,0.11); margin-right: 10px;">
-                                            <p class="m-b-xs">
+                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+                                    <div id= "numCotizacion" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">{{cotz.data[0].numeroCotizacion}}</div>
+                                    <div id="subTimeLine" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <label  ng-repeat="cot in cotz.data">
+                                            <span class="m-b-xs">
                                                 <strong>{{cot.nombreEstatusCotizacion}}</strong>
-                                            </p>
-                                            <p class="glyphicon glyphicon-user"> {{cot.nombreCompleto}}
-                                            </p>
-                                            <p class="text-navy">{{cot.fecha | date:"dd/MM/yyyy hh:mm"  }}</p>
+                                            </span>
+                                            <br>
+                                            <span class="glyphicon glyphicon-user"> {{cot.nombreCompleto}}
+                                            </span>
+                                            <br>
+                                            <span class="text-navy">{{cot.fecha | date:"dd/MM/yyyy hh:mm"  }}</span>
 
                                         </label>
                                     </div>
@@ -98,7 +101,7 @@
                         </div>    
 
 
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
                                 <div id="padreTimeLine">
                                     <ul class="timeline timeline-horizontal">
@@ -145,7 +148,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                         <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
                                 <div class="progressBarraPadre">
@@ -572,8 +575,8 @@
                             <div class="hr-line-dashed"></div>
                         </div>
                         <!--Costos totales de las  cotizaciones-->
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
-                            <div ng-show="estatus==4  && userData.presupuesto == 1">
+                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="estatus==4  && userData.presupuesto == 1">
+                            <div >
                                 <h3>Presupuesto</h3>
 
                                 <p>
@@ -596,6 +599,27 @@
                             </div>
                         </div>
                         <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
+                            <div ng-show="userData.idRol == 2 || userData.idRol == 3">
+                                <!--h3>Utilidad</h3-->
+
+                                <p>
+                                    <label>Utilidad Minima de la Operación: </label>
+                                    <span >{{userData.porcentajeUtilidad | currency:"%": 2}}</span>
+                                </p>
+
+                                <p>
+                                    <label>Utilidad de la Orden: </label>
+                                    <span ng-class="((totalSumaVenta - totalSumaCosto)*100)/ totalSumaVenta < (userData.porcentajeUtilidad) ?  'sinPresupuesto' : ''">{{((totalSumaVenta - totalSumaCosto)*100)/ totalSumaVenta | currency:"%": 2}}</span>
+                                </p>
+                                <p>
+                                    <label>Monto de la Utilidad: </label>
+                                    <span>{{totalSumaVenta - totalSumaCosto | currency:"$": 2}}</span>
+                                </p>
+                            </div>
+
+
+                        </div>
+                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-hide="estatus==4  && userData.presupuesto == 1">
                         </div>
                         <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
                             <div ng-show="orden.IdTipoOrden = 2">
