@@ -2,113 +2,59 @@ var osurUrl = global_settings.urlCORS + '/api/osur/';
 
 registrationModule.factory('osurRepository', function ($http) {
     return {
-        getTars: function (idUsuario) {
-            return $http({
-                url: osurUrl + 'tars',
-                method: "GET",
-                params: {
-                    idUsuario: idUsuario
-                },
-            });
-        },
-        getDatosOsur: function (idTAR, idCliente) {
-            return $http({
-                url: osurUrl + 'datosOsur',
-                method: "GET",
-                params: {
-                    idTAR: idTAR,
-                    idCliente: idCliente
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
-        putEstatusOsurTar: function (idOsur, idTAR) {            
-            return $http({        
-                url: osurUrl + 'estatusOsurTar',
-                        method: "POST",
-                         data: {
-                           idOsur: idOsur,
-                           idTAR: idTAR
-                        },
+            getCentroTrabajo: function (idOperacion) {
+                return $http({
+                    url: osurUrl + 'centroTrabajo',
+                    method: "GET",
+                    params: {
+                        idOperacion: idOperacion
+                    },
+                });
+            },
+            getPresupuesto: function (idCentroTrabajo, idOperacion) {
+                return $http({
+                    url: osurUrl + 'presupuesto',
+                    method: "GET",
+                    params: {
+                        idCentroTrabajo: idCentroTrabajo,
+                        idOperacion: idOperacion
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            },
+            putNuevoPresupuesto: function (presupuesto,folioPresupuesto,fechaInicioPresupuesto,fechaFinalPresupuesto,idCentroTrabajo,idUsuario) {             
+                return $http({        
+                    url: osurUrl + 'nuevoPresupuesto',
+                            method: "POST",
+                             data: {
+                               presupuesto: presupuesto,
+                               folioPresupuesto: folioPresupuesto,
+                               fechaInicioPresupuesto: fechaInicioPresupuesto,
+                               fechaFinalPresupuesto: fechaFinalPresupuesto,
+                               idCentroTrabajo: idCentroTrabajo,
+                               idUsuario: idUsuario
+                            },
 
-                        headers: {          
-                    'Content-Type': 'application/json'        
-                }      
-            });    
-        },
-        putNuevaOsur: function (presupuesto,idTAR,folio,fechaInicial,fechaFinal,solpe,idCliente) {             
-            return $http({        
-                url: osurUrl + 'nuevaosur',
-                        method: "POST",
-                         data: {
-                           presupuesto: presupuesto,
-                           idTAR: idTAR,
-                           folio: folio,
-                           fechaInicial: fechaInicial,
-                           fechaFinal: fechaFinal,
-                           solpe: solpe,
-                           idCliente: idCliente
-                        },
+                            headers: {          
+                        'Content-Type': 'application/json'        
+                    }      
+                });    
+            },
+            putEstatusPresupuestoCDT: function (idPresupuesto, idCentroTrabajo) {            
+                return $http({        
+                    url: osurUrl + 'estatusPresupuestoCDT',
+                            method: "POST",
+                             data: {
+                               idPresupuesto: idPresupuesto,
+                               idCentroTrabajo: idCentroTrabajo
+                            },
 
-                        headers: {          
-                    'Content-Type': 'application/json'        
-                }      
-            });    
-        },
-        getOsurAplicacion: function (idTAR,idOsur,monto) {             
-            return $http({        
-                url: osurUrl + 'osuraplicacion',
-                        method: "POST",
-                         data: {
-                           idTAR: idTAR,
-                           idOsur: idOsur,
-                           monto: monto
-                        },
-
-                        headers: {          
-                    'Content-Type': 'application/json'        
-                }      
-            });    
-        },
-        getFondos: function (idTAR, idOsur) {
-          
-            return $http({
-                url: osurUrl + 'fondos',
-                method: "GET",
-                params: {
-                    idTAR: idTAR,
-                    idOsur: idOsur
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
-        getHistorial: function (idOsur) {
-            return $http({
-                url: osurUrl + 'historial',
-                method: "GET",
-                params: {
-                    idOsur: idOsur
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
-        getDetalle: function (idTAR) {
-            return $http({
-                url: osurUrl + 'detalle',
-                method: "GET",
-                params: {
-                    idTAR: idTAR
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        }
-    };
+                            headers: {          
+                        'Content-Type': 'application/json'        
+                    }      
+                });    
+            }
+        };
 });

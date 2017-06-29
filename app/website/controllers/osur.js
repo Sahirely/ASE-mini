@@ -13,257 +13,105 @@ var Osur = function (conf) {
         this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next);
     }
 }
-
-//Valida credenciales de usuario
-Osur.prototype.get_tars = function (req, res, next) {
-    //Objeto que almacena la respuesta
+// Obtiene los centros de trabajo por operacion
+Osur.prototype.get_centroTrabajo = function (req, res, next) {
     var object = {};
-    //Objeto que envía los parámetros
     var params = {};
-    //Referencia a la clase para callback
-    var self = this;
-
-    var params = [
-        {
-            name: 'idUsuario',
-            value: req.query.idUsuario,
-            type: self.model.types.INT
-        }
-    ];
-
-    this.model.query('SEL_TAR_SP', params, function (error, result) {
-        //Callback
-        object.error = error;
-        object.result = result;
-
-        self.view.expositor(res, object);
-    });
-}
-
-//Obtiene los datos de Osur por TAR
-Osur.prototype.get_datosOsur = function (req, res, next) {
-    //Objeto que almacena la respuesta
-    var object = {};
-    //Objeto que envía los parámetros
-    var params = {};
-    //Referencia a la clase para callback
     var self = this;
 
     var params = [{
-        name: 'idTAR',
-        value: req.query.idTAR,
+        name: 'idOperacion',
+        value: req.query.idOperacion,
         type: self.model.types.INT
-        },
-        {
-        name: 'idCliente',
-        value: req.query.idCliente,
-        type: self.model.types.INT
-        }];
+    }];
 
-    this.model.query('SEL_DATOS_OSUR_BY_TAR_SP', params, function (error, result) {
-        //Callback
+    this.model.query('SEL_CENTROS_DE_TRABAJO_SP', params, function (error, result) {
         object.error = error;
         object.result = result;
-
         self.view.expositor(res, object);
     });
 }
 
-
-//Inserta nueva Osur
-Osur.prototype.post_nuevaosur = function (req, res, next) {
-    //Objeto que almacena la respuesta
+// Obtiene los datos de los presupuestos por el centro de trabajo
+Osur.prototype.get_presupuesto = function (req, res, next) {
     var object = {};
-    //Objeto que envía los parámetros
     var params = {};
-    //Referencia a la clase para callback
     var self = this;
 
     var params = [{
-            name: 'presupuesto',
-            value: req.body.presupuesto,
-            type: self.model.types.DECIMAL
-        },
-        {
-            name: 'idTAR',
-            value: req.body.idTAR,
-            type: self.model.types.INT
-        },
-        {
-            name: 'folio',
-            value: req.body.folio,
-            type: self.model.types.STRING
-        },
-        {
-            name: 'fechaInicial',
-            value: req.body.fechaInicial,
-            type: self.model.types.STRING
-        },
-        {
-            name: 'fechaFinal',
-            value: req.body.fechaFinal,
-            type: self.model.types.STRING
-        },
-        {
-            name: 'solpe',
-            value: req.body.solpe,
-            type: self.model.types.INT
-        },
-        {
-            name: 'idCliente',
-            value: req.body.idCliente,
-            type: self.model.types.INT
-        }];
+        name: 'idCentroTrabajo',
+        value: req.query.idCentroTrabajo,
+        type: self.model.types.INT
+    },{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
 
-
-    this.model.post('INS_OSUR_SP', params, function (error, result) {
-        //Callback
+    this.model.query('SEL_PRESUPUESTO_CDT_SP', params, function (error, result) {
         object.error = error;
         object.result = result;
-
         self.view.expositor(res, object);
     });
 }
 
-Osur.prototype.post_estatusOsurTar = function (req, res, next) {
-    //Objeto que almacena la respuesta
+// Guarda un nuevo presupuesto
+Osur.prototype.post_nuevoPresupuesto = function (req, res, next) {
     var object = {};
-    //Objeto que envía los parámetros
     var params = {};
-    //Referencia a la clase para callback
     var self = this;
 
     var params = [{
-            name: 'idOsur',
-            value: req.body.idOsur,
-            type: self.model.types.INT
-        },
-        {
-            name: 'idTAR',
-            value: req.body.idTAR,
-            type: self.model.types.INT
-        }];
+        name: 'presupuesto',
+        value: req.body.presupuesto,
+        type: self.model.types.DECIMAL
+    },{
+        name: 'folioPresupuesto',
+        value: req.body.folioPresupuesto,
+        type: self.model.types.STRING
+    },{
+        name: 'fechaInicioPresupuesto',
+        value: req.body.fechaInicioPresupuesto,
+        type: self.model.types.STRING
+    },{
+        name: 'fechaFinalPresupuesto',
+        value: req.body.fechaFinalPresupuesto,
+        type: self.model.types.STRING
+    },{
+        name: 'idCentroTrabajo',
+        value: req.body.idCentroTrabajo,
+        type: self.model.types.INT
+    },{
+        name: 'idUsuario',
+        value: req.body.idUsuario,
+        type: self.model.types.INT
+    }];
 
-
-    this.model.post('UPD_ESTATUS_OSUR_TAR_SP', params, function (error, result) {
-        //Callback
+    this.model.post('INS_PRESUPUESTO_SP', params, function (error, result) {
         object.error = error;
         object.result = result;
-
         self.view.expositor(res, object);
     });
 }
-
-//Inserta nueva Osur
-Osur.prototype.post_osuraplicacion = function (req, res, next) {
-    //Objeto que almacena la respuesta
+ // Activa el presupuesto para su uso
+Osur.prototype.post_estatusPresupuestoCDT = function (req, res, next) {
     var object = {};
-    //Objeto que envía los parámetros
     var params = {};
-    //Referencia a la clase para callback
-    var self = this;
-
-    var params = [
-        {
-            name: 'idTAR',
-            value: req.body.idTAR,
-            type: self.model.types.INT
-        },
-        {
-            name: 'idOsur',
-            value: req.body.idOsur,
-            type: self.model.types.STRING 
-        },
-        {
-            name: 'monto',
-            value: req.body.monto,
-            type: self.model.types.STRING
-        }];
-
-
-    this.model.post('UPD_OSUR_APLICACION_SP', params, function (error, result) {
-        //Callback
-        object.error = error;
-        object.result = result;
-
-        self.view.expositor(res, object);
-    });
-}
-
-//Obtiene los datos de Osur por TAR
-Osur.prototype.get_fondos = function (req, res, next) {
-    //Objeto que almacena la respuesta
-    var object = {};
-    //Objeto que envía los parámetros
-    var params = {};
-    //Referencia a la clase para callback
     var self = this;
 
     var params = [{
-        name: 'idTAR',
-        value: req.query.idTAR,
-        type: self.model.types.INT
-        },
-        {
-        name: 'idOsur',
-        value: req.query.idOsur,
-        type: self.model.types.INT
+            name: 'idPresupuesto',
+            value: req.body.idPresupuesto,
+            type: self.model.types.INT
+        },{
+            name: 'idCentroTrabajo',
+            value: req.body.idCentroTrabajo,
+            type: self.model.types.INT
         }];
 
-    this.model.query('SEL_OSUR_APLICACION_SP', params, function (error, result) {
-        //Callback
+    this.model.post('UPD_PRESUPUESTO_CDT_SP', params, function (error, result) {
         object.error = error;
         object.result = result;
-
-        self.view.expositor(res, object);
-    });
-}
-
-//Obtiene los datos de Osur por TAR
-Osur.prototype.get_historial = function (req, res, next) {
-    //Objeto que almacena la respuesta
-    var object = {};
-    //Objeto que envía los parámetros
-    var params = {};
-    //Referencia a la clase para callback
-    var self = this;
-
-    var params = [
-        {
-        name: 'idOsur',
-        value: req.query.idOsur,
-        type: self.model.types.INT
-        }];
-
-    this.model.query('SEL_HISTORIAL_CERTIFICADO_CONFORMIDAD_SP', params, function (error, result) {
-        //Callback
-        object.error = error;
-        object.result = result;
-
-        self.view.expositor(res, object);
-    });
-}
-
-//Obtiene los datos de Osur por TAR
-Osur.prototype.get_detalle = function (req, res, next) {
-    //Objeto que almacena la respuesta
-    var object = {};
-    //Objeto que envía los parámetros
-    var params = {};
-    //Referencia a la clase para callback
-    var self = this;
-
-    var params = [{
-        name: 'idTAR',
-        value: req.query.idTAR,
-        type: self.model.types.INT
-        }];
-
-    this.model.query('SEL_ORDEN_PENDIENTE_CERTIFICADO_SP', params, function (error, result) {
-        //Callback
-        object.error = error;
-        object.result = result;
-
         self.view.expositor(res, object);
     });
 }
