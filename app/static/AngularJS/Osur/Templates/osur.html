@@ -1,165 +1,171 @@
-<link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
+<link href="../../css/inspinia/sweetalert/sweetalert.css" rel="stylesheet">
 <div ng-init="init()" class="animated bounceInRight">
-    <div class="headTitleTallerCita">
-        <span class="title">Administración de Ordenes de Surtimiento<span class="subtitle"></span></span>
-    </div>
-    <div class="wrapper wrapper-content">
-
-         <div class="row col-cm-12">
-
-            <div class="col-md-5">
-                <form method="get" class="form-horizontal">
-                    <div >
-                        <label class="col-sm-2 control-label">Cliente </label>
-                        <div class="col-sm-10">
-                             <select class="form-control" name="cliente" ng-model="selectedCliente" ng-options="cliente.nombre for cliente in clientes" ng-change="changeCliente()">
-                                        <option value=''>Selecionar cliente</option><!--default option -->
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>   
-
-            <div class="col-md-5">
-                <form method="get" class="form-horizontal">
-                    <div >
-                        <label class="col-sm-2 control-label">TAR</label>
-                        <div class="col-sm-10">
-                            <select class="form-control m-b" name="tar" ng-model="selectedTar" ng-options="tar.nombreTar for tar in tars" ng-change="GetMonto()"   ng-disabled="validateCliente()==false">
-                                <option value="">Seleccione una TAR</option>
-                            </select>
-                        </div>
-                    </div>
-                </form>
-            </div>    
-
-            <div class="col-md-2 control-label">
-                <!--div class="form-group"-->
-                    <div class="col-sm-2">
-                        <button class="btn btn-primary" ng-click="nuevaOsur()" ng-disabled="validateTAR()==false"><i class="fa fa-check" >
-                                </i> Nueva OSUR</button>
-                    </div>
-                <!--/div-->
-            </div>
-        </div>
-       
-         
-
-        <div class="row col-md-12">
-            <div class="col-lg-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-success pull-right">Inicial</span>
-                        <h5>Presupuesto</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins ng-binding">{{presupuestoTotal | currency: "$"}}</h1>
-                        <div class="stat-percent font-bold text-success">100% <i class="fa fa-bolt"></i></div>
-                        <small></small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-danger pull-right">Cotizaciones</span>
-                        <h5>Utilizado</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins ng-binding">{{utilizadoTotal | currency: "$"}}</h1>
-                        <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
-                        <small></small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-info pull-right">Actual</span>
-                        <h5>Saldo</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins ng-binding">{{saldoTotal | currency: "$"}}</h1>
-                        <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                        <small></small>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-        <!--ibox-content-->
-       
-        
-            <div class="row col-md-12 table-responsive">
-                <table class="table table-bordered table-striped table-hover dataTableOsur">
-                    <thead>
-                        <tr>
-                            <th ng-show="validateCliente()==true">TAR</th>
-                            <th>No. OSUR</th>
-                             <th>Solpe</th>
-                            <th>Fecha Inicial</th>
-                            <th>Fecha Final</th>
-                            <th>Presupuesto</th>
-                            <th>Utilizado</th>
-                            <th ng-show="validateCliente()==true">+ Fondos</th>
-                            <th>Estatus</th>
-                            <th>Saldo</th>
-                            <th>Orden</th>
-                            <th>Activar</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="info in datosOsur">
-                            <td ng-show="validateCliente()==true">{{info.TAR}}</td>
-                            <td>{{info.folio}}</td>
-                            <td>{{info.solpe}}</td>
-                            <td>{{info.fechaInicial | date:'dd-MM-yyyy HH:mm'}} </td>
-                            <td>{{info.fechaFinal | date:'dd-MM-yyyy HH:mm'}} </td>
-                            <td>{{info.presupuesto | currency: "$"}}</td>
-                            <td>{{info.utilizado | currency: "$"}}</td>
-                            <td ng-show="validateCliente()==true">
-                                <button class="btn btn-info" type="button" ng-click="verAplicacion(info)" ><span class="glyphicon glyphicon-eye-open"></span></button>
-                            </td>
-                            <td>{{info.estatus}}</td>
-                            <td>{{info.saldo | currency: "$"}}</td>
-                            <td>{{info.orden}}</td>
-                            <td>
-                                <button ng-show="info.estatus == 'Utilizado' || info.estatus == 'Pendiente' " class="btn btn-informa" type="button" ng-click="activarOsur(info)" ><span class="glyphicon glyphicon-refresh" ></span></button>
-                            </td>
-                            
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-    
-    </div>
+<div class="headTitleTallerCita">
+    <span class="title">Administración de Presupuestos<span class="subtitle"></span></span>
 </div>
-    <div class="modal inmodal lg" id="newOsurModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content animated flipInY">
-                <div class="modal-header">
-                    <h4 class="modal-title">Nueva OSUR</h4>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                   <div class="row col-lg-12">
+                        <div class="col-md-4">
+                            <form method="get" class="form-horizontal">
+                                <div >
+                                    <label class="col-sm-2 control-label">Cliente </label>
+                                    <div class="col-sm-10">
+                                       <select class="form-control" name="cliente" ng-model="selectedCliente" ng-options="cliente.nombre for cliente in clientes" ng-change="changeCliente()">
+                                        <option value=''>Selecionar cliente</option><!--default option -->
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>   
+                        <div class="col-md-5">
+                            <form method="get" class="form-horizontal">
+                                <div >
+                                    <label class="col-sm-4 control-label">Centro de Trabajo</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control m-b" name="tar" ng-model="selectedTar" ng-options="tar.nombreTar for tar in tars" ng-disabled="validateCliente()==false">
+                                            <option value="">Seleccione un Centro de Trabajo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div> 
+                        <div class="col-md-1">
+                                <button tooltip="Buscar OSUR" id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="GetMonto()" ng-disabled="selectedCliente.idCliente != 1"><span class="glyphicon glyphicon-search"></span></button>
+                        </div>
+                        <div class="col-md-2 control-label">
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" ng-click="nuevaOsur()" ng-disabled="verificaDatosOsur == ''" ng-hide="selectedTar.idTAR == null && selectedCliente.idCliente != 4"><i class="fa fa-check" >
+                                </i>Nuevo Presupuesto</button>
+                            </div>
+                        </div>                 
+                    <!-- <div class="col-md-2 control-label">        validateTAR() == false && 
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary" ng-click="nuevaOsur()" ng-disabled="validateTAR()==false"><i class="fa fa-check" >
+                                </i> Nueva OSUR</button>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="col-lg-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-success pull-right">Inicial</span>
+                                    <h5>Presupuesto</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins ng-binding">{{presupuestoTotal | currency: "$"}}</h1>
+                                    <div class="stat-percent font-bold text-success">100% <i class="fa fa-bolt"></i></div>
+                                    <small></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-danger pull-right">Cotizaciones</span>
+                                    <h5>Utilizado</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins ng-binding">{{utilizadoTotal | currency: "$"}}</h1>
+                                    <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
+                                    <small></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <span class="label label-info pull-right">Actual</span>
+                                    <h5>Saldo</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <h1 class="no-margins ng-binding">{{saldoTotal | currency: "$"}}</h1>
+                                    <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                                    <small></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                    <div class="row col-md-12 table-responsive">
+                        <table class="table table-bordered table-striped table-hover dataTableOsur">
+                            <thead>
+                                <tr>
+                                    <th ng-show="validateCliente()==true">TAR</th>
+                                    <th>No. OSUR</th>
+                                    <th>Solpe</th>
+                                    <th>Fecha Inicial</th>
+                                    <th>Fecha Final</th>
+                                    <th>Presupuesto</th>
+                                    <th>Utilizado</th>
+                                    <th ng-show="validateCliente()==true">+ Fondos</th>
+                                    <th>Estatus</th>
+                                    <th>Saldo</th>
+                                    <th ng-show="validateCliente()==true">Orden Pendientes</th>
+                                    <th>Orden</th>
+                                    <th>Activar</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="info in datosOsur">
+                                    <td ng-show="validateCliente()==true">{{info.TAR}}</td>
+                                    <td>{{info.folio}}</td>
+                                    <td>{{info.solpe}}</td>
+                                    <td>{{info.fechaInicial | date:'dd-MM-yyyy HH:mm'}} </td>
+                                    <td>{{info.fechaFinal | date:'dd-MM-yyyy HH:mm'}} </td>
+                                    <td>{{info.presupuesto | currency: "$"}}</td>
+                                    <td>
+                                        <button tooltip="Ver Certificados Generados" class="btn btn-primary" type="button" ng-click="verHistorial(info.idOsur, info.saldo, info.folio, info.TAR)" ><span class="glyphicon glyphicon-duplicate"></span></button>
+                                        {{info.utilizado | currency: "$"}}
+                                    </td>
+                                    <td ng-show="validateCliente()==true">
+                                        <button tooltip="Ver Fondos" class="btn btn-success" type="button" ng-click="verAplicacion(info)" ><span class="glyphicon glyphicon-eye-open"></span></button>
+                                    </td>
+                                    <td>{{info.estatus}}</td>
+                                    <td>{{info.saldo | currency: "$"}}</td>
+                                    <td ng-show="validateCliente()==true"> 
+                                        <button tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(info.idTAR, info.saldo, info.folio, info.TAR)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
+                                        {{info.ordPendiente}}
+                                    </td>
+
+                                    <td>{{info.orden}}</td>
+                                    <td>
+                                        <button ng-show="info.estatus == 'Utilizado' || info.estatus == 'Pendiente' " class="btn btn-informa" type="button" ng-click="activarOsur(info)" ><span class="glyphicon glyphicon-refresh" ></span></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <br>
+            </div>
+        </div>
+    </div>   
+</div>
+<div class="modal inmodal lg" id="newOsurModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <h4 class="modal-title">Nueva OSUR</h4>
+            </div>
+            <br>
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 control-label">Cliente</label>
                         <div class="col-sm-7">
-                             <input type="text" class="form-control"  ng-model="cliente" disabled="disabled">  
-                        </div>
-                    </div>
-                    <div class="form-group row" ng-show="validateCliente()==true">
+                           <input type="text" class="form-control"  ng-model="cliente" disabled="disabled">  
+                       </div>
+                   </div>
+                   <div class="form-group row" ng-show="validateCliente()==true">
                         <label class="col-sm-2 control-label">TAR</label>
                         <div class="col-sm-7">
-                             <input type="text" class="form-control" type="number" ng-model="tarNuevo" disabled="disabled">  
-                        </div>
+                           <input type="text" class="form-control" type="number" ng-model="tarNuevo" disabled="disabled">  
+                       </div>
                     </div>
-                    <div class="form-group row">
+                   <div class="form-group row">
                         <label class="col-sm-2 control-label">No. OSUR</label>
                         <div class="col-sm-7">
                             <div class="m-b">
@@ -201,85 +207,198 @@
                             </div>
                         </div>
                     </div>
+                    <table class="table table-bordered table-striped table-hover dataTablePresupuestos" ng-show="sumaOsur.length>0">
+                        <thead>
+                            <tr>
+                                <th>No. OSUR</th>
+                                <th>Saldo</th>
+                                <th>Estatus</th>
+                                <th>Operación</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="suma in sumaOsur">
+                                <td>{{suma.folio}}</td>
+                                <td>{{suma.saldo | currency: "$"}}</td>
+                                <td>{{suma.estatus}}</td>
+                                <td>
+                                    <button class="btn btn-info" type="button" ng-click="sumaPresupuesto(suma.indice)" ><span class="{{suma.class_suma}}"></span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <footer style="float: right;"  ng-show="sumaOsur.length>0">
+                            <div>
+                                <label>Presupuesto: {{presupuesto | currency: "$"}} </label>
 
-                    <!--div class="row col-md-12 table-responsive"-->
-                        <table class="table table-bordered table-striped table-hover dataSumaOsur" ng-show="sumaOsur.length>0">
-                            <thead>
-                                <tr>
-                                    <th>No. OSUR</th>
-                                    <th>Saldo</th>
-                                    <th>Estatus</th>
-                                    <th>Operación</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="suma in sumaOsur">
-                                    <td>{{suma.folio}}</td>
-                                    <td>{{suma.saldo | currency: "$"}}</td>
-                                    <td>{{suma.estatus}}</td>
-                                    <td>
-                                        <button class="btn btn-info" type="button" ng-click="sumaPresupuesto(suma.indice)" ><span class="{{suma.class_suma}}"></span></button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <footer style="float: right;"  ng-show="sumaOsur.length>0">
-                                <div>
-                                    <label>Presupuesto: {{presupuesto | currency: "$"}} </label>
-                                       
-                                </div>
-                                <div>
-                                    <label>Presupuesto adicional: {{presupuestoSuma | currency: "$"}} </label>
-                                       
-                                </div>
-                                <div>
-                                    <label>Presupuesto total: {{presupuestoSumaTotal | currency: "$"}} </label>
-                                       
-                                </div>
-                            </footer>        
-                        </table>
-                    <!--/div-->
+                            </div>
+                            <div>
+                                <label>Presupuesto adicional: {{presupuestoSuma | currency: "$"}} </label>
+
+                            </div>
+                            <div>
+                                <label>Presupuesto total: {{presupuestoSumaTotal | currency: "$"}} </label>
+
+                            </div>
+                        </footer>        
+                    </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-white" data-dismiss="modal" ng-click="cancelaAltaOsur()">Cancelar</button>
                     <button type="button" class="btn btn-success" ng-click="saveOsur()">Guardar</button>
                 </div>
-            </div>
         </div>
     </div>
+</div>
 
-
-    <div class="modal inmodal lg" id="fondosOsurModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content animated flipInY">
-                <div class="modal-header">
-                    <h4 class="modal-title">Fondos de OSUR</h4>
+<div class="modal inmodal" id="fondosOsurModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Fondos de OSUR</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover dataTableFondos" >
+                        <thead>
+                            <tr>
+                                <th>Folio Origen</th>
+                                <th>Folio Destino</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="fondo in fondos">
+                                <td>{{fondo.folio}}</td>
+                                <td>{{fondo.folioAplica}}</td>
+                                <td>{{fondo.presupuestoAplicacion | currency: "$"}}</td>
+                            </tr>
+                        </tbody>        
+                    </table>
                 </div>
-                <br>
-                <div class="modal-body col-md-12">
-                    
-
-                    <!--div class="row col-md-12 table-responsive"-->
-                        <table class="table table-bordered table-striped table-hover" >
-                            <thead>
-                                <tr>
-                                    <th>No. OSUR</th>
-                                    <th>Folio</th>
-                                    <th>Saldo</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="fondo in fondos">
-                                    <td>{{fondo.idAplicacion}}</td>
-                                    <td>{{fondo.folio | currency: "$"}}</td>
-                                    <td>{{fondo.presupuestoAplicacion}}</td>
-                                </tr>
-                            </tbody>        
-                        </table>
-                    <!--/div-->
             </div>
             <div class="modal-footer">
-                <button  type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Salir</button>
             </div>
         </div>
     </div>
-    
+</div>
+
+<div class="modal inmodal" id="certificadosModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content animated">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="osurTitulo">Certificados Generados para la OSUR {{numeroOsur}}</h4><BR>
+                    <h4 class="osurSaldo subtitle">Saldo OSUR {{numeroOsur}} <span class="osurSaldoPrecio"> {{ SaldoOsur | currency: "$"}} </span></h4><BR>
+                    <h4 class="osurTotal">Total Ordenes: <span class="osurTotalPrecio"> {{ precioOrdenHistorial | currency: "$"}}</span></h4><BR>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover dataTableCertificados" >
+                        <thead>
+                            <tr>
+                                <!-- <th>Cliente</th> -->
+                                <th>Consecutivo</th>
+                                <th>Número de la Orden</th>
+                                <th>Número Económico</th>
+                                <th>Zona</th>
+                                <th>TAR</th>
+                                <th>Taller</th>
+                                <th>Folio de Certificado</th>
+                                <!-- <th>Precio compra sin IVA</th> -->
+                                <th>Precio venta sin IVA</th>
+                                <th>Fecha de Emisión</th>
+                                <th>OSUR</th>
+                                <th>Solpe</th> 
+                                <th>Estatus de la Orden</th>
+                                <th>Copade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="certificado in certificados">
+                                <!-- <td>{{certificado.cliente}}</td> -->
+                                <td>{{certificado.idCita}}</td>
+                                <td>{{certificado.numeroTrabajo}}</td>
+                                <td>{{certificado.numEconomico}}</td>
+                                <td>{{certificado.zona}}</td>
+                                <td>{{certificado.TAR}}</td>
+                                <td>{{certificado.razonSocial}}</td>
+                                <td>{{certificado.folioCertificado}}</td>
+                                <!-- <td>{{certificado.montoOrden | currency: "$"}}</td> -->
+                                <td>{{certificado.precioOrden | currency: "$"}}</td>
+                                <td>{{certificado.fechaGeneracion | date:'dd-MM-yyyy HH:mm'}}</td>
+                                <td>{{certificado.numeroOsur}}</td>
+                                <td>{{certificado.solpe}}</td> 
+                                <td>{{certificado.descripcionLarga}}</td>
+                                <td>{{certificado.Copade}}</td>
+                            </tr>
+                        </tbody>        
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="ordenesModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" style="width:80%;">
+        <div class="modal-content animated">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="osurTitulo">Ordenes Pendientes de Certificado TAR {{nombreTAR}}</h4><BR>
+                <h4 class="osurSaldo subtitle">Saldo OSUR {{numeroOsur}} <span class="osurSaldoPrecio"> {{ SaldoOsur | currency: "$"}}</span></h4><BR>
+                <h4 class="osurTotal">Total Ordenes:  <span class="osurTotalPrecio"> {{ precioOrdenDetalle | currency: "$"}}<span></h4><BR>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <table class="table table-bordered table-striped table-hover dataTablePendientes" >
+                        <thead>
+                            <tr>
+                                <!-- <th>Cliente</th> -->
+                                <th>Consecutivo</th>
+                                <th>Número de la Orden</th>
+                                <th>Número Económico</th>
+                                <th>Zona</th>
+                                <th>TAR</th>
+                                <th>Taller</th>
+                                <th>Tipo Orden</th>
+                                <!-- <th>Precio compra sin IVA</th> -->
+                                <th>Precio venta sin IVA</th>
+                                <th>Fecha</th>
+                                <th>Estatus de la Orden</th> 
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="pendiente in pendientes">
+                                <!-- <td>{{pendiente.cliente}}</td> -->
+                                <td>{{pendiente.idCita}}</td>
+                                <td>{{pendiente.numeroTrabajo}}</td>
+                                <td>{{pendiente.numEconomico}}</td>
+                                <td>{{pendiente.zona}}</td>
+                                <td>{{pendiente.TAR}}</td>
+                                <td>{{pendiente.razonSocial}}</td>
+                                <td>{{pendiente.idTipoCita == 4 ? "Refacciones" : "Servicio"}}</td>
+                                <!-- <td>{{pendiente.montoOrden | currency: "$"}}</td> -->
+                                <td>{{pendiente.precioOrden | currency: "$"}}</td>
+                                <td>{{pendiente.fecha | date:'dd-MM-yyyy HH:mm'}}</td>
+                                <td>{{pendiente.descripcionLarga}}</td> 
+                                <td>
+                                    <button class="dropdown-toggle alerta-form btn btn-info" tooltip="Ver órden de servicio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="aprobarTrabajo(pendiente, 1)"><i class="glyphicon glyphicon-sunglasses"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>        
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -85,6 +85,30 @@ registrationModule.factory('osurRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getHistorial: function (idOsur) {
+            return $http({
+                url: osurUrl + 'historial',
+                method: "GET",
+                params: {
+                    idOsur: idOsur
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getDetalle: function (idTAR) {
+            return $http({
+                url: osurUrl + 'detalle',
+                method: "GET",
+                params: {
+                    idTAR: idTAR
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

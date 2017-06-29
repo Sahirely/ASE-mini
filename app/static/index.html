@@ -76,6 +76,12 @@
                 <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="{{userData.idRol != 5}}">
                     <a href="ordenesporcobrar" ng-click="showChat = 0" ng-hide="userData.idTipoUsuario == 3"><i class="fa fa-credit-card" data-toggle="tooltip" tooltip="Cobranza" tooltip-placement="right"></i> <span class="nav-label">Cobranza</span><span class="label label-warning pull-right"></span></a>
                 </li>
+                <li ng-show="userData.idRol == 2">
+                    <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Administración</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="/osur">Presupuestos</a></li>
+                    </ul>
+                </li>
                 <li ng-hide="true" ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">

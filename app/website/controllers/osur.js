@@ -207,10 +207,59 @@ Osur.prototype.get_fondos = function (req, res, next) {
         {
         name: 'idOsur',
         value: req.query.idOsur,
-        type: self.model.types.STRING
+        type: self.model.types.INT
         }];
 
     this.model.query('SEL_OSUR_APLICACION_SP', params, function (error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+//Obtiene los datos de Osur por TAR
+Osur.prototype.get_historial = function (req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+
+    var params = [
+        {
+        name: 'idOsur',
+        value: req.query.idOsur,
+        type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_HISTORIAL_CERTIFICADO_CONFORMIDAD_SP', params, function (error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
+//Obtiene los datos de Osur por TAR
+Osur.prototype.get_detalle = function (req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+
+    var params = [{
+        name: 'idTAR',
+        value: req.query.idTAR,
+        type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_ORDEN_PENDIENTE_CERTIFICADO_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
