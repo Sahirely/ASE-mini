@@ -2,6 +2,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
+    $rootScope.modulo = 'consultaCitas'; // <<-- Para activar en que opción del menú se encuentra
     $scope.citas = [];
     $scope.filtroEstatus = '';
     $scope.ConTallerActive = true;

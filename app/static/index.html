@@ -79,7 +79,7 @@
                 <li ng-show="userData.idRol == 2">
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Administración</span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="/osur">Presupuestos</a></li>
+                        <li ng-class="{'active': modulo=='osur'}"><a href="/osur">Presupuestos</a></li>
                     </ul>
                 </li>
                 <li ng-hide="true" ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
