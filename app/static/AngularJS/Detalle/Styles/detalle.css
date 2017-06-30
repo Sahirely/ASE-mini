@@ -3,16 +3,7 @@
 }
 /*INICIA Estilos para los progress bar*/
 
-.progressPrincipal {
-    /*height: 80px;*/
-    margin-top: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    background-color: rgba(245, 245, 245, 0.2);
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
-}
+
 
 .reloj{
     width: 50px;
@@ -489,39 +480,54 @@ a.documentos:hover{
 
 /***************************/
 
-
-#subTimeLine{
-    border: 2px solid rgba(0, 0, 255, 0.11);
+.progressPrincipal {
+    /*height: 80px;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 20px;
+    overflow: hidden;
+    background-color: rgba(245, 245, 245, 0.2);
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
 }
 
-#subTimeLine label {
-    border-right: 2px solid rgba(0, 0, 255,0.11); 
-    margin-right: 10px;  
-    margin-right: 10px; 
-    width: 31.3%; 
+#subTimeLine{
+   border: 2px solid rgba(0, 0, 255, 0.11);
+    width: 100%;
+}
+
+#subTimeLine tr td {
+    border: 1px solid rgba(0, 0, 255,0.11); 
     font-size: 10px;
 }
 
 
 #padreTimeLine{
-     margin: 10px;
-     border: 2px solid rgba(0, 0, 255, 0.11);
+    margin-bottom: 10px;
+    border: 2px solid rgba(0, 0, 255, 0.11);
+    width: 100%;
 }
 
-#padreTimeLine label {
-    border-right: 2px solid rgba(0, 0, 255,0.11); 
-    margin-right: 10px; 
-    width: 8.2%; 
+#padreTimeLine tr td {
+    border: 1px solid rgba(0, 0, 255, 0.11);
     font-size: 10px;
 }
 
 #numCotizacion{
     color:#0E4579 !important;
+    margin-top: 10px;
 }
 
-/*#padreTimeLine{
-    border: solid rgba(50, 49, 51, 0.19);
-    height: 50px;
-    margin: 10px;
+.activeSubTimeLine{
+    background-color: #81F781;
 }
-*/
+
+.activeTimeLine{
+    background-color: rgba(19, 218, 69, 0.8);
+}
+
+.fechaTimeLine{
+    color:#0E4579 !important;
+}
+

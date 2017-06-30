@@ -68,37 +68,54 @@
 
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
-                                <div  class="row " id="padreTimeLine">
+                                <table  id="padreTimeLine">
+                                    <tr>
 
-                                    <label  ng-repeat='historico in HistoricoOrden'>
-                                                <span class="m-b-xs">
-                                                    <strong>{{historico.nombreEstatusOrden}}</strong>
-                                                </span>
-                                                <br>
-                                                <span class="glyphicon glyphicon-user"> {{historico.nombreCompleto}}
-                                                </span>
-                                                <br>
-                                                <span class="text-navy" ng-show="historico.idOrden>0">{{historico.fecha | date:"dd/MM/yyyy hh:mm"  }}</span>
-                                    </label>
-                                </div>
+                                        <td  ng-repeat='historico in HistoricoOrden' class="center" style="width: {{100 / HistoricoOrden.length}}%;" ng-class="{'activeTimeLine':historico.idOrden>0, '':''}" >
+                                                    <span class="m-b-xs">
+                                                        <strong>{{historico.nombreEstatusOrden}}</strong>
+                                                    </span>
+                                                    <br>
+                                                    <span class="glyphicon glyphicon-user" ng-show="historico.idOrden>0"> {{historico.nombreCompleto}}
+                                                    </span>
+                                                    <br>
+                                                    <span class="fechaTimeLine" ng-show="historico.idOrden>0">
+                                                        <strong>{{historico.fecha | date:"dd/MM/yyyy hh:mm"  }}</strong>
+                                                    </span>
+                                        </td>
+                                    </tr>
+                                </table>
+
                                 <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                                    <div id= "numCotizacion" class="col-xs-3 col-sm-3 col-md-3 col-lg-3">{{cotz.data[0].numeroCotizacion}}</div>
-                                    <div id="subTimeLine" class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
-                                        <label  ng-repeat="cot in cotz.data">
-                                            <span class="m-b-xs">
-                                                <strong>{{cot.nombreEstatusCotizacion}}</strong>
-                                            </span>
-                                            <br>
-                                            <span class="glyphicon glyphicon-user"> {{cot.nombreCompleto}}
-                                            </span>
-                                            <br>
-                                            <span class="text-navy">{{cot.fecha | date:"dd/MM/yyyy hh:mm"  }}</span>
+                                    <div id= "numCotizacion" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 center">{{cotz.data[0].numeroCotizacion}}</div>
+                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                        <table id="subTimeLine">
+                                            <tr>
+                                                <td  ng-repeat="cot in cotz.data" class="center" style="width: {{100 / cotz.data.length}}%;" ng-class="{'activeSubTimeLine':cot.idCotizacion>0, '':''}" >
+                                                    <span class="m-b-xs">
+                                                        <strong>{{cot.nombreEstatusCotizacion}}</strong>
+                                                    </span>
+                                                    <br>
+                                                    <span class="glyphicon glyphicon-user" ng-show="cot.idCotizacion>0"> {{cot.nombreCompleto}}
+                                                    </span>
+                                                    <br>
+                                                    <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
+                                                        <strong>{{cot.fecha | date:"dd/MM/yyyy hh:mm"  }}</strong>
+                                                    </span>
 
-                                        </label>
+                                                </td>
+                                            </tr>
+                                            
+                                        </table>
+                                        
                                     </div>
+                                    
                                 </div>
+
+
                             </div>
-                        </div>    
+                        </div>  
+
 
 
                         <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
