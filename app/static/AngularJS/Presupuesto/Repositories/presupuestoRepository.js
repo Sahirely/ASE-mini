@@ -1,10 +1,10 @@
-var osurUrl = global_settings.urlCORS + '/api/osur/';
+var presupuestoUrl = global_settings.urlCORS + '/api/presupuesto/';
 
-registrationModule.factory('osurRepository', function ($http) {
+registrationModule.factory('presupuestoRepository', function ($http) {
     return {
             getCentroTrabajo: function (idOperacion) {
                 return $http({
-                    url: osurUrl + 'centroTrabajo',
+                    url: presupuestoUrl + 'centroTrabajo',
                     method: "GET",
                     params: {
                         idOperacion: idOperacion
@@ -13,7 +13,7 @@ registrationModule.factory('osurRepository', function ($http) {
             },
             getPresupuesto: function (idCentroTrabajo, idOperacion) {
                 return $http({
-                    url: osurUrl + 'presupuesto',
+                    url: presupuestoUrl + 'presupuesto',
                     method: "GET",
                     params: {
                         idCentroTrabajo: idCentroTrabajo,
@@ -26,7 +26,7 @@ registrationModule.factory('osurRepository', function ($http) {
             },
             putNuevoPresupuesto: function (presupuesto,folioPresupuesto,fechaInicioPresupuesto,fechaFinalPresupuesto,idCentroTrabajo,idUsuario) {             
                 return $http({        
-                    url: osurUrl + 'nuevoPresupuesto',
+                    url: presupuestoUrl + 'nuevoPresupuesto',
                             method: "POST",
                              data: {
                                presupuesto: presupuesto,
@@ -44,7 +44,7 @@ registrationModule.factory('osurRepository', function ($http) {
             },
             putEstatusPresupuestoCDT: function (idPresupuesto, idCentroTrabajo) {            
                 return $http({        
-                    url: osurUrl + 'estatusPresupuestoCDT',
+                    url: presupuestoUrl + 'estatusPresupuestoCDT',
                             method: "POST",
                              data: {
                                idPresupuesto: idPresupuesto,

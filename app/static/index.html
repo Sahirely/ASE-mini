@@ -76,10 +76,10 @@
                 <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="{{userData.idRol != 5}}">
                     <a href="ordenesporcobrar" ng-click="showChat = 0" ng-hide="userData.idTipoUsuario == 3"><i class="fa fa-credit-card" data-toggle="tooltip" tooltip="Cobranza" tooltip-placement="right"></i> <span class="nav-label">Cobranza</span><span class="label label-warning pull-right"></span></a>
                 </li>
-                <li ng-hide="true" ng-class="{'active': modulo=='osur'}" ng-show="userData.idRol == 2 && userData.presupuesto == 1">
+                <li ng-hide="true" ng-class="{'active': modulo=='presupuesto'}" ng-show="userData.idRol == 2 && userData.presupuesto == 1">
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Administración</span></a>
                     <ul class="nav nav-second-level">
-                        <li ng-class="{'active': modulo=='osur'}"><a href="/osur">Presupuestos</a></li>
+                        <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
                     </ul>
                 </li>
                 <li ng-hide="true" ng-class="{'active': (modulo=='reporteReclamacion' || modulo=='reporteAntiguedad' || modulo=='reporteCitas' || modulo=='reporteOrdenes' || modulo=='reporteCotizaciones' || modulo=='reporteOxC' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
@@ -337,8 +337,8 @@
     <script src="AngularJS/PorCobrar/Controllers/ordenPorCobrarController.js"></script>
     <script src="AngularJS/Reporte/Repositories/reporteRepository.js"></script>
     <script src="AngularJS/Reporte/Controllers/reporteController.js"></script>
-    <script src="AngularJS/Osur/Repositories/osurRepository.js"></script>
-    <script src="AngularJS/Osur/Controllers/osurController.js"></script>
+    <script src="AngularJS/Presupuesto/Repositories/presupuestoRepository.js"></script>
+    <script src="AngularJS/Presupuesto/Controllers/presupuestoController.js"></script>
     <script src="AngularJS/UploadFiles/Repositories/uploadRepository.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionOrdenController.js"></script>
     <script src="AngularJS/Talleres/Repositories/tallerRepository.js"></script>

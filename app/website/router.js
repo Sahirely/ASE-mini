@@ -7,7 +7,7 @@ module.exports = {
   login: require('./controllers/login'),
   example: require('./controllers/example'),
   reporte: require('./controllers/reporte'),
-  osur: require('./controllers/osur'),
+  presupuesto: require('./controllers/presupuesto'),
   taller: require('./controllers/taller'),
   ordenAnticipo: require('./controllers/ordenAnticipo'),
   dashboard: require('./controllers/dashboard'),

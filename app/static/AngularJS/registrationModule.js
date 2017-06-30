@@ -85,9 +85,9 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'reporteController'
         });
 
-        $routeProvider.when('/osur', {
-            templateUrl: 'AngularJS/Osur/Templates/osur.html',
-            controller: 'osurController'
+        $routeProvider.when('/presupuesto', {
+            templateUrl: 'AngularJS/Presupuesto/Templates/presupuesto.html',
+            controller: 'presupuestoController'
         });
 
         $routeProvider.when('/administracionordenes', {

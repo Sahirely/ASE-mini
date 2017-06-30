@@ -1,8 +1,8 @@
-registrationModule.controller('osurController', function ($scope, $route, $routeParams, userFactory, $modal, $rootScope, osurRepository, localStorageService, alertFactory, globalFactory) {
+registrationModule.controller('presupuestoController', function ($scope, $route, $routeParams, userFactory, $modal, $rootScope, presupuestoRepository, localStorageService, alertFactory, globalFactory) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
-    $rootScope.modulo = 'osur'; // <<-- Para activar en que opción del menú se encuentra
+    $rootScope.modulo = 'presupuesto'; // <<-- Para activar en que opción del menú se encuentra
     $scope.presupuestoTotal = 0.00;
     $scope.utilizadoTotal = 0.00;
     $scope.saldoTotal = 0.00;
@@ -16,7 +16,7 @@ registrationModule.controller('osurController', function ($scope, $route, $route
     }
     // Obtiene los centros de trabajo por operacion
     $scope.obtieneCentroTrabajo = function () {
-        osurRepository.getCentroTrabajo($scope.userData.idOperacion).then(function (result) {
+        presupuestoRepository.getCentroTrabajo($scope.userData.idOperacion).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ctrabajos = result.data;
             } else {
@@ -42,7 +42,7 @@ registrationModule.controller('osurController', function ($scope, $route, $route
     $scope.datosPresupuesto= function () {
         $scope.dataPresupuestos = [];
         $('.dataTableCentroTrabajo').DataTable().destroy();
-        osurRepository.getPresupuesto($scope.selectedcTrabajo.idCentroTrabajo, $scope.userData.idOperacion).then(function (result) {
+        presupuestoRepository.getPresupuesto($scope.selectedcTrabajo.idCentroTrabajo, $scope.userData.idOperacion).then(function (result) {
             if (result.data.length > 0) {
                 $scope.dataPresupuestos = result.data;
                 for(var i=0; i<result.data.length; i++){
@@ -99,7 +99,7 @@ registrationModule.controller('osurController', function ($scope, $route, $route
             var valoresFinal = $scope.fechaFinalPresupuesto.split('/');
             var dateStringFinal = valoresFinal[2] + '-' + valoresFinal[1] + '-' + valoresFinal[0];
             $scope.aplicacion=[];
-                osurRepository.putNuevoPresupuesto($scope.presupuesto, $scope.folioPresupuesto, dateStringInicial, dateStringFinal, $scope.selectedcTrabajo.idCentroTrabajo,  $scope.userData.idUsuario).then(function (result) {
+                presupuestoRepository.putNuevoPresupuesto($scope.presupuesto, $scope.folioPresupuesto, dateStringInicial, dateStringFinal, $scope.selectedcTrabajo.idCentroTrabajo,  $scope.userData.idUsuario).then(function (result) {
                     if (result.data.length>0) {
                         alertFactory.success("Se guardo correctamente el Presupuesto");
                         $('#newPresupuestoModal').modal('hide');
@@ -132,7 +132,7 @@ registrationModule.controller('osurController', function ($scope, $route, $route
         },
         function (isConfirm) {
             if (isConfirm) {
-                osurRepository.putEstatusPresupuestoCDT(dataPresupuesto.idPresupuesto, dataPresupuesto.idCentroTrabajo).then(function (result) {;
+                presupuestoRepository.putEstatusPresupuestoCDT(dataPresupuesto.idPresupuesto, dataPresupuesto.idCentroTrabajo).then(function (result) {;
                     if (result.data.length > 0) {
                         alertFactory.success("Se actualizo el estatus correctamente");
                         $scope.obtienePresupuesto();

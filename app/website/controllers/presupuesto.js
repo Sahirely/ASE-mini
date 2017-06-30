@@ -1,11 +1,11 @@
-var OsurView = require('../views/ejemploVista'),
-    OsurModel = require('../models/dataAccess2');
+var PresupuestoView = require('../views/ejemploVista'),
+    PresupuestoModel = require('../models/dataAccess2');
 
-var Osur = function (conf) {
+var Presupuesto = function (conf) {
     this.conf = conf || {};
 
-    this.view = new OsurView();
-    this.model = new OsurModel({
+    this.view = new PresupuestoView();
+    this.model = new PresupuestoModel({
         parameters: this.conf.parameters
     });
 
@@ -14,7 +14,7 @@ var Osur = function (conf) {
     }
 }
 // Obtiene los centros de trabajo por operacion
-Osur.prototype.get_centroTrabajo = function (req, res, next) {
+Presupuesto.prototype.get_centroTrabajo = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -33,7 +33,7 @@ Osur.prototype.get_centroTrabajo = function (req, res, next) {
 }
 
 // Obtiene los datos de los presupuestos por el centro de trabajo
-Osur.prototype.get_presupuesto = function (req, res, next) {
+Presupuesto.prototype.get_presupuesto = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -56,7 +56,7 @@ Osur.prototype.get_presupuesto = function (req, res, next) {
 }
 
 // Guarda un nuevo presupuesto
-Osur.prototype.post_nuevoPresupuesto = function (req, res, next) {
+Presupuesto.prototype.post_nuevoPresupuesto = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -94,7 +94,7 @@ Osur.prototype.post_nuevoPresupuesto = function (req, res, next) {
     });
 }
  // Activa el presupuesto para su uso
-Osur.prototype.post_estatusPresupuestoCDT = function (req, res, next) {
+Presupuesto.prototype.post_estatusPresupuestoCDT = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -115,4 +115,4 @@ Osur.prototype.post_estatusPresupuestoCDT = function (req, res, next) {
         self.view.expositor(res, object);
     });
 }
-module.exports = Osur;
+module.exports = Presupuesto;
