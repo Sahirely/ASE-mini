@@ -114,8 +114,10 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                   var existe = false;
                        if (item.tienePresupuesto==1) {
                           $scope.sumatoria_conPresupuesto += item.venta;
-                      }else if (item.tienePresupuesto==0) {
+                      }else if (item.tienePresupuesto==2) {
                           $scope.sumatoria_sinPresupuesto += item.venta;
+                      }else if (item.tienePresupuesto==0) {
+                          $scope.sumatoria_conPresupuesto += item.venta;
                       }
                   $scope.cotizaciones.forEach(function(value){
                       if (value.idOrden == item.idOrden){
