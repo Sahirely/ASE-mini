@@ -56,23 +56,35 @@
                                 </table>
                             
                             </div> 
-                            <div class="col-lg-6">
+                            <div class="col-lg-6 ">
+                                <div class="row col-sm-12 col-md-12 col-lg-12" >
+                                    <button class="btn btn-primary ng-binding pull-right" tooltip="Nuevo Recordatorio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="recoradatorios()"> Nuevo Recordatorio </button>
+                                </div>
+                                <br>
+                                <br>
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover dataTableRecordatorios" cg-busy="{promise:promise,message:message}">
                                         <thead>
                                             <tr>
                                                 <th>Recordatorio</th>
                                                 <th>Fecha</th>
-                                                <th>Usuario</th>
                                                 <th>Tiempo vencido</th>
+                                                <th>Editar</th>
+                                                <th>Finalizar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr title="Doble click para ver detalles" ng-repeat="recordatorio in recordatorios " >
                                                 <td>{{recordatorio.texto}}</td>
                                                 <td>{{recordatorio.fecha | date:"MM/dd/yyyy hh:mm"}}</td>
-                                                <td>{{recordatorio.nombreCompleto}}</td>
                                                 <td>{{recordatorio.tiempo}}</td>
+                                                <td class="center">
+                                                    <button class="btn btn-info btn-xs" title="Editar" ng-click="recoradatorios()" ><i class="glyphicon glyphicon-refresh"></i></button>
+
+                                                </td>
+                                                <td class="center">
+                                                    <button class="btn btn-success btn-xs" title="Finalizar"><i class="glyphicon glyphicon-ok"></i></button>
+                                                </td>                                           
 
                                             </tr>
                                         </tbody>

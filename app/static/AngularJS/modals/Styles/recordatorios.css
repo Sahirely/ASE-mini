@@ -1,0 +1,29 @@
+
+.modal-icon {
+    font-size: 83px;
+    color: #ea8c25;
+}
+
+.modal-header {
+    background-color: #55B4F0;
+}
+
+.modal-title {
+    color: #ffffff;
+    font-size: 20px;
+}
+
+.close {
+    opacity: 1;
+    color: #ffffff;
+}
+
+.modal-header .close {
+    margin-top: -20px;
+    margin-right: -10px;
+    font-size: 30px;
+}
+
+.modal-title {
+    text-align: center;
+}

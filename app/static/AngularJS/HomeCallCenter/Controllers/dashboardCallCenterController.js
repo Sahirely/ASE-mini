@@ -1,4 +1,4 @@
-registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory) {
+registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory,$modal, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory) {
     
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
@@ -109,6 +109,10 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
 
      $scope.seleccionarOrden = function(obj) {
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;
+    }
+
+    $scope.recoradatorios = function () {
+        modal_recordatorios($scope, $modal, $scope.userData.contratoOperacionSeleccionada, $scope.traeRecordatorios, '');
     }
 
 

@@ -124,3 +124,40 @@ function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCo
         }
     });
 };
+
+function modal_recordatorios($scope, $modal, idContratoOperacion, callback, error) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/modals/Template/recordatorios.html',
+        controller: 'recordatorios_controller',
+        backdrop: 'static',
+        size: 300,
+        resolve: {
+            idContratoOperacion: function() {
+                return idContratoOperacion;
+            },
+            callback: function() {
+                return callback;
+            },
+            error: function() {
+                return error;
+            }
+        }
+    });
+};
+
+function modal_planDeAccion($scope, $modal, callback, error) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/modals/Template/planDeAccion.html',
+        controller: 'planDeAccion_controller',
+        backdrop: 'static',
+        size: 300,
+        resolve: {
+            callback: function() {
+                return callback;
+            },
+            error: function() {
+                return error;
+            }
+        }
+    });
+};

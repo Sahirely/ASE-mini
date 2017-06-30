@@ -566,8 +566,8 @@ Detalle.prototype.post_recordatorio = function(req, res, next) {
         value: req.query.idUsuario,
         type: self.model.types.INT
     }, {
-        name: 'idOrden',
-        value: req.query.idOrden,
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
         type: self.model.types.INT
     }];
 

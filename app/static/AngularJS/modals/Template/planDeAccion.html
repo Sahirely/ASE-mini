@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="AngularJS/modals/Styles/recordatorios.css">
+<div class="modal-header barra_popup" ng-init="init()">
+    <div class="modal-title">
+        <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
+        <h4 class="modal-title">Plan de Acción</h4>
+    </div>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-sm-3 col-md-3 col-lg-3">
+            <label>Plan</label>
+        </div>
+        <div class="col-sm-9 col-md-9 col-lg-9">
+            <textarea name="message" placeholder="Escriba su plan de acción" ng-model="comentaAccion" style="width: 352px; height: 82px;"></textarea>
+            <!-- <input type="text" class="form-control"> -->
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+            <label>Fecha</label>
+        </div>
+        <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+            <div class="input-group date">
+                <input type="text" class="form-control" value="" ng-model="fechaAccion" calendar>
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+            </div>
+        </div>
+       
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="agregar()">Agregar</button>
+</div>
