@@ -12,14 +12,14 @@
             <label>Recordatorio</label>
         </div>
         <div class="col-sm-9 col-md-9 col-lg-9">
-            <textarea name="message" placeholder="Escriba su recordatorio" style="width: 352px; height: 82px;" ng-model="comentaRecordatorio"></textarea>
+            <textarea name="message" placeholder="Escriba su recordatorio" style="width: 352px; height: 82px;" ng-model="comentaRecordatorio" capitalize></textarea>
         </div>
         <div class="col-sm-3 col-md-3 col-lg-3 m-t">
             <label>Fecha</label>
         </div>
         <div class="col-sm-5 col-md-5 col-lg-5 m-t">
             <div class="input-group date">
-                <input type="text" class="form-control" value="" ng-model="fechaRecordatorio" calendar>
+                <input type="text" class="form-control" value="" ng-model="fechaRecordatorio" ng-change="NoFechaAntigua(fechaRecordatorio)" calendar> 
                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
             </div>
         </div>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-sm-5 col-md-5 col-lg-5 m-t">
                     <div class="input-group horaAsignada" data-autoclose="true">
-                        <input type="text" class="form-control" value="" ng-model="horaRecordatorio">
+                        <input type="text" class="form-control" value="" ng-model="horaRecordatorio" ng-change="NoHoraAntigua(horaRecordatorio)"> 
                         <span class="input-group-addon">
                             <span class="fa fa-clock-o"></span>
                         </span>
@@ -43,5 +43,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="recordatorio()">Agregar</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="recordatorio()">{{btn_recordatorios}}</button>
 </div>

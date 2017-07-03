@@ -274,7 +274,7 @@ registrationModule.factory('detalleRepository', function($http) {
               }
           });
         },
-        postRecordatorio: function(texto, fecha, idUsuario, idContratoOperacion){
+        postRecordatorio: function(texto, fecha, idUsuario, idContratoOperacion, idRecordatorio){
           return $http({
               url: detalleUrl + 'recordatorio/',
               method: "POST",
@@ -282,7 +282,20 @@ registrationModule.factory('detalleRepository', function($http) {
                   texto: texto,
                   fecha: fecha,
                   idUsuario: idUsuario,
-                  idContratoOperacion: idContratoOperacion
+                  idContratoOperacion: idContratoOperacion,
+                  idRecordatorio : idRecordatorio
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
+        },
+        postEstatusRecordatorio: function(idRecordatorio){
+          return $http({
+              url: detalleUrl + 'estatusRecordatorio/',
+              method: "POST",
+              params: {
+                  idRecordatorio : idRecordatorio
                 },
               headers: {
               'Content-Type': 'application/json'

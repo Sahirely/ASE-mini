@@ -1,4 +1,4 @@
-registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory,$modal, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory) {
+registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory,$modal, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory, detalleRepository) {
     
     $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
@@ -100,6 +100,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
             
             if (result.data.length > 0) {
                 $scope.zonas = result.data;
+
             }
         }, function (error) {
             alertFactory.error('El usuario no tiene recordatorios');
@@ -111,8 +112,41 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;
     }
 
-    $scope.recoradatorios = function () {
-        modal_recordatorios($scope, $modal, $scope.userData.contratoOperacionSeleccionada, $scope.traeRecordatorios, '');
+    $scope.recoradatorios = function (data) {
+
+        modal_recordatorios($scope, $modal, $scope.userData.contratoOperacionSeleccionada, data, $scope.traeRecordatorios, '');
+    }
+
+    $scope.finalizarRecordatorio = function (data) {
+
+        swal({
+            title: "Recoradatorio",
+            text: "¿Desea finalizar el Recoradatorio?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            cancelButtonColor: "#81F781",
+            closeOnConfirm: false,
+            closeOnCancel: true
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+               detalleRepository.postEstatusRecordatorio(data.idRecordatorio).then(function(result) {
+                    if (result.data.length > 0) {
+                        $scope.traeRecordatorios();
+                        swal('El Recordatorio fue Finalizado.');
+                        
+                        
+                    }
+                }, function(error) {
+                    alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
+                });
+               
+            }
+        });
+
     }
 
 

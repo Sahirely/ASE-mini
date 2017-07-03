@@ -46,7 +46,12 @@
                         <br>
                         <div class="col-lg-12 pull-right"> 
                             <div class="col-lg-6">
-                                <table class="table table-bordered table-hover">
+                                <br>
+                                <br>
+                                <br>
+                                <table class="table table-bordered table-hover dataTableZonas">
+                                    <thead>
+                                    </thead>
                                     <tbody>
                                         <tr ng-repeat="zona in zonas" >
                                             <td>{{zona.etiqueta}}</td>
@@ -58,7 +63,7 @@
                             </div> 
                             <div class="col-lg-6 ">
                                 <div class="row col-sm-12 col-md-12 col-lg-12" >
-                                    <button class="btn btn-primary ng-binding pull-right" tooltip="Nuevo Recordatorio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="recoradatorios()"> Nuevo Recordatorio </button>
+                                    <button class="btn btn-primary ng-binding pull-right" tooltip="Nuevo Recordatorio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="recoradatorios('')"> Nuevo Recordatorio </button>
                                 </div>
                                 <br>
                                 <br>
@@ -76,14 +81,14 @@
                                         <tbody>
                                             <tr title="Doble click para ver detalles" ng-repeat="recordatorio in recordatorios " >
                                                 <td>{{recordatorio.texto}}</td>
-                                                <td>{{recordatorio.fecha | date:"MM/dd/yyyy hh:mm"}}</td>
+                                                <td>{{recordatorio.fechaRecordatorio}} {{recordatorio.horaRecordatorio}} </td>
                                                 <td>{{recordatorio.tiempo}}</td>
                                                 <td class="center">
-                                                    <button class="btn btn-info btn-xs" title="Editar" ng-click="recoradatorios()" ><i class="glyphicon glyphicon-refresh"></i></button>
+                                                    <button class="btn btn-info btn-xs" title="Editar" ng-click="recoradatorios(recordatorio)" ><i class="glyphicon glyphicon-refresh"></i></button>
 
                                                 </td>
                                                 <td class="center">
-                                                    <button class="btn btn-success btn-xs" title="Finalizar"><i class="glyphicon glyphicon-ok"></i></button>
+                                                    <button class="btn btn-success btn-xs" title="Finalizar" ng-click="finalizarRecordatorio(recordatorio)" ><i class="glyphicon glyphicon-ok"></i></button>
                                                 </td>                                           
 
                                             </tr>
@@ -91,7 +96,11 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
+                        </div>
+
+                        <div class="row col-sm-12 col-md-12 col-lg-12" >
+
+                            <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="pointer" ng-click = "traeOrdenCallCenter(1)">
                                     <div class="ibox float-e-margins">
                                         <div class="ibox-title" >
@@ -104,7 +113,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="pointer" ng-click = "traeOrdenCallCenter(2)">
                                     <div class="ibox float-e-margins" >
                                         <div class="ibox-title">
@@ -117,7 +126,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-sm-4 col-md-4 col-lg-4">
                                 <div class="pointer" ng-click = "traeOrdenCallCenter(3)">
                                     <div class="ibox float-e-margins" >
                                         <div class="ibox-title">
@@ -138,7 +147,7 @@
 
                         </div>
         <br>
-<div class="ibox-content">
+<div class="ibox-content row col-sm-12 col-md-12 col-lg-12">
     <div>
 
         <div class="row sumatorias">

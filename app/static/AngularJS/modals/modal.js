@@ -128,7 +128,7 @@ function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCo
     });
 };
 
-function modal_recordatorios($scope, $modal, idContratoOperacion, callback, error) {
+function modal_recordatorios($scope, $modal, idContratoOperacion, data, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/recordatorios.html',
         controller: 'recordatorios_controller',
@@ -137,6 +137,9 @@ function modal_recordatorios($scope, $modal, idContratoOperacion, callback, erro
         resolve: {
             idContratoOperacion: function() {
                 return idContratoOperacion;
+            },
+            data: function() {
+                return data;
             },
             callback: function() {
                 return callback;

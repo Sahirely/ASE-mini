@@ -547,7 +547,7 @@ Detalle.prototype.post_accion = function(req, res, next) {
     });
 }
 
-//Inserta nueva Recordatorio
+//Inserta y actualiza Recordatorio
 Detalle.prototype.post_recordatorio = function(req, res, next) {
     var object = {};
     var params = {};
@@ -569,10 +569,35 @@ Detalle.prototype.post_recordatorio = function(req, res, next) {
         name: 'idContratoOperacion',
         value: req.query.idContratoOperacion,
         type: self.model.types.INT
+    }, {
+        name: 'idRecordatorio',
+        value: req.query.idRecordatorio,
+        type: self.model.types.INT
     }];
 
 
     this.model.query('INS_RECORDATORIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+//Finaliza un Recordatorio
+Detalle.prototype.post_estatusRecordatorio = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idRecordatorio',
+        value: req.query.idRecordatorio,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.query('UPD_ESTATUS_RECORDATORIO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
