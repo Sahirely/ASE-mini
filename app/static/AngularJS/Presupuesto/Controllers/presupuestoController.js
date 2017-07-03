@@ -158,46 +158,11 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
         presupuestoRepository.getHistorial(idPresupuesto).then(function (result) {
             if (result.data.length > 0) {
                 $scope.hojas = result.data;
-            /*  for (var i = 0; i < $scope.certificados.length; i++) {
-                    $scope.precioOrdenHistorial += $scope.certificados[i].precioOrden;
-                };*/
-                globalFactory.waitDrawDocument("dataTableHojas", "Certificados");
-                $('#certificadosModal').appendTo('body').modal('show');
-            } else {
-                swal({
-                    title: "Información",
-                    text: "No se encuentra información asociada.",
-                    type: "warning",
-                    showCancelButton: false,
-                    confirmButtonColor: "#67BF11",
-                    confirmButtonText: "Aceptar",
-                    closeOnConfirm: true
-                });;
-            }
-        },
-        function (error) {
-            alertFactory.error("Error al obtener la información");
-        });
-    }
-
-});
-/*   
-    $scope.verHistorial = function (idOsur, saldo, numeroOsur, TAR){
-        $scope.SaldoOsur = saldo;
-        $scope.numeroOsur = numeroOsur;
-        $scope.nombreTAR = TAR;
-        $scope.precioOrdenHistorial = 0;
-        $('.dataTableCertificados').DataTable().destroy();
-        osurRepository.getHistorial(idOsur).then(function (result) {
-            if (result.data.length > 0) {
-
-                $scope.certificados = result.data;
-                for (var i = 0; i < $scope.certificados.length; i++) {
-                    $scope.precioOrdenHistorial += $scope.certificados[i].precioOrden;
+                for (var i = 0; i < $scope.hojas.length; i++) {
+                    $scope.precioOrdenHistorial += $scope.hojas[i].venta;
                 };
-                globalFactory.waitDrawDocument("dataTableCertificados", "Certificados");
+                globalFactory.filtrosTabla("dataTableHojas", "Hojas de Trabajo");
                 $('#certificadosModal').appendTo('body').modal('show');
-
             } else {
                 swal({
                     title: "Información",
@@ -214,21 +179,20 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
             alertFactory.error("Error al obtener la información");
         });
     }
-
-    $scope.verDetalle = function (idTAR, saldo, numeroOsur, TAR){
-        $scope.SaldoOsur = saldo;
-        $scope.numeroOsur = numeroOsur;
-        $scope.nombreTAR = TAR;
+    // Detalle de las ordenes que estan en proceso y que esta por autorizar
+    $scope.verDetalle = function (idCentroTrabajo, saldo, folioPresupuesto, nombreCentroTrabajo){
+        $scope.saldoPresupuesto = saldo;
+        $scope.folioPresupuesto = folioPresupuesto;
+        $scope.nombreCentroTrabajo = nombreCentroTrabajo;
         $scope.precioOrdenDetalle = 0;  
         $('.dataTablePendientes').DataTable().destroy();
-        osurRepository.getDetalle(idTAR).then(function (result) {
+        presupuestoRepository.getDetalle(idCentroTrabajo).then(function (result) {
             if (result.data.length > 0) {
-
                 $scope.pendientes=result.data;
                 for (var i = 0; i < $scope.pendientes.length; i++) {
-                    $scope.precioOrdenDetalle += $scope.pendientes[i].precioOrden;
+                    $scope.precioOrdenDetalle += $scope.pendientes[i].venta;
                 };
-                globalFactory.waitDrawDocument("dataTablePendientes", "Pendientes");
+                globalFactory.filtrosTabla("dataTablePendientes", "Ordenes Pendientes");
                 $('#ordenesModal').appendTo('body').modal('show');  
 
             } else {
@@ -248,7 +212,8 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
         }); 
     }
 
-
+});
+/*   
     $scope.aprobarTrabajo = function (trabajo, valBotonera) {
         var objBotonera = {};
         objBotonera.accion = valBotonera;
