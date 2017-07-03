@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="ibox-content">
                                     <h1 class="no-margins ng-binding">{{utilizadoTotal | currency: "$"}}</h1>
-                                    <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
+                                    <div class="stat-percent font-bold text-danger">{{ margenUtilizado | number : 3 }}% <i class="fa fa-level-up"></i></div>
                                     <small></small>
                                 </div>
                             </div>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="ibox-content">
                                     <h1 class="no-margins ng-binding">{{saldoTotal | currency: "$"}}</h1>
-                                    <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
+                                    <div class="stat-percent font-bold text-info">{{ margenTotal | number : 3}}% <i class="fa fa-level-down"></i></div>
                                     <small></small>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                     <th>Presupuesto</th>
                                     <th>Utilizado</th>
                                     <th>Saldo</th>
-                                    <th ng-show="validateCliente()==true">Orden Pendientes</th>
+                                    <th>Orden Pendientes</th>
                                     <th>Estatus</th>
                                     <th>Orden</th>
                                     <th>Activar</th>
@@ -100,12 +100,12 @@
                                     <td>{{presupuestos.fechaFinalPresupuesto | date:'dd-MM-yyyy HH:mm'}} </td>
                                     <td>{{presupuestos.presupuesto | currency: "$"}}</td>
                                     <td>
-                                        <button tooltip="Ver Certificados Generados" class="btn btn-primary" type="button" ng-click="verHistorial(info.idOsur, info.saldo, info.folio, info.TAR)" ><span class="glyphicon glyphicon-duplicate"></span></button>
+                                        <button tooltip="Ver Hojas de Trabajo Generadas" class="btn btn-primary" type="button" ng-click="verHistorial(presupuestos.idPresupuesto, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-duplicate"></span></button>
                                         {{presupuestos.utilizado | currency: "$"}}
                                     </td>                       
                                     <td>{{presupuestos.saldo | currency: "$"}}</td>
-                                    <td ng-show="validateCliente()==true"> 
-                                        <button tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(info.idTAR, info.saldo, info.folio, info.TAR)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
+                                    <td> 
+                                        <button tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(presupuestos.idCentroTrabajo, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
                                         {{presupuestos.ordPendiente}}
                                     </td>
                                     <td>{{presupuestos.nombreEstatusPresupuesto}}</td>
@@ -252,45 +252,35 @@
         <div class="modal-content animated">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="osurTitulo">Certificados Generados para la OSUR {{numeroOsur}}</h4><BR>
-                    <h4 class="osurSaldo subtitle">Saldo OSUR {{numeroOsur}} <span class="osurSaldoPrecio"> {{ SaldoOsur | currency: "$"}} </span></h4><BR>
+                    <h4 class="osurTitulo">Hojas de Trabajo Generadas para el Presupuesto {{folioPresupuesto}}</h4><BR>
+                    <h4 class="osurSaldo subtitle">Saldo Presupuesto {{folioPresupuesto}} <span class="osurSaldoPrecio"> {{ saldoPresupuesto | currency: "$"}} </span></h4><BR>
                     <h4 class="osurTotal">Total Ordenes: <span class="osurTotalPrecio"> {{ precioOrdenHistorial | currency: "$"}}</span></h4><BR>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                    <table class="table table-bordered table-striped table-hover dataTableCertificados" >
+                    <table class="table table-bordered table-striped table-hover dataTableHojas" >
                         <thead>
                             <tr>
                                 <th>Consecutivo</th>
                                 <th>Número de la Orden</th>
                                 <th>Número Económico</th>
                                 <th>Zona</th>
-                                <th>TAR</th>
-                                <th>Taller</th>
-                                <th>Folio de Certificado</th>
                                 <th>Precio venta sin IVA</th>
                                 <th>Fecha de Emisión</th>
-                                <th>OSUR</th>
-                                <th>Solpe</th> 
+                                <th>Presupuesto</th>
                                 <th>Estatus de la Orden</th>
-                                <th>Copade</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="certificado in certificados">
-                                <td>{{certificado.idCita}}</td>
-                                <td>{{certificado.numeroTrabajo}}</td>
-                                <td>{{certificado.numEconomico}}</td>
-                                <td>{{certificado.zona}}</td>
-                                <td>{{certificado.TAR}}</td>
-                                <td>{{certificado.razonSocial}}</td>
-                                <td>{{certificado.folioCertificado}}</td>
-                                <td>{{certificado.precioOrden | currency: "$"}}</td>
-                                <td>{{certificado.fechaGeneracion | date:'dd-MM-yyyy HH:mm'}}</td>
-                                <td>{{certificado.numeroOsur}}</td>
-                                <td>{{certificado.solpe}}</td> 
-                                <td>{{certificado.descripcionLarga}}</td>
-                                <td>{{certificado.Copade}}</td>
+                            <tr ng-repeat="hoja in hojas">
+                                <td>{{hoja.idOrden}}</td>
+                                <td>{{hoja.numeroOrden}}</td>
+                                <td>{{hoja.numeroEconomico}}</td>
+                                <td>{{hoja.nombreZona}}</td>
+                                <td>{{hoja.venta | currency: "$"}}</td>
+                                <td>{{hoja.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
+                                <td>{{hoja.folioPresupuesto}}</td> 
+                                <td>{{hoja.nombreEstatusOrden}}</td>
                             </tr>
                         </tbody>        
                     </table>
@@ -308,8 +298,8 @@
         <div class="modal-content animated">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="osurTitulo">Ordenes Pendientes de Certificado TAR {{nombreTAR}}</h4><BR>
-                <h4 class="osurSaldo subtitle">Saldo OSUR {{numeroOsur}} <span class="osurSaldoPrecio"> {{ SaldoOsur | currency: "$"}}</span></h4><BR>
+                <h4 class="osurTitulo">Ordenes Pendientes de Certificado TAR {{nombreCentroTrabajo}}</h4><BR>
+                <h4 class="osurSaldo subtitle">Saldo OSUR {{folioPresupuesto}} <span class="osurSaldoPrecio"> {{ saldoPresupuesto | currency: "$"}}</span></h4><BR>
                 <h4 class="osurTotal">Total Ordenes:  <span class="osurTotalPrecio"> {{ precioOrdenDetalle | currency: "$"}}<span></h4><BR>
             </div>
             <div class="modal-body">
@@ -321,31 +311,20 @@
                                 <th>Número de la Orden</th>
                                 <th>Número Económico</th>
                                 <th>Zona</th>
-                                <th>TAR</th>
-                                <th>Taller</th>
-                                <th>Tipo Orden</th>
                                 <th>Precio venta sin IVA</th>
                                 <th>Fecha</th>
                                 <th>Estatus de la Orden</th> 
-                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="pendiente in pendientes">
-                                <td>{{pendiente.idCita}}</td>
-                                <td>{{pendiente.numeroTrabajo}}</td>
-                                <td>{{pendiente.numEconomico}}</td>
-                                <td>{{pendiente.zona}}</td>
-                                <td>{{pendiente.TAR}}</td>
-                                <td>{{pendiente.razonSocial}}</td>
-                                <td>{{pendiente.idTipoCita == 4 ? "Refacciones" : "Servicio"}}</td>
-                                <td>{{pendiente.precioOrden | currency: "$"}}</td>
-                                <td>{{pendiente.fecha | date:'dd-MM-yyyy HH:mm'}}</td>
-                                <td>{{pendiente.descripcionLarga}}</td> 
-                                <td>
-                                    <button class="dropdown-toggle alerta-form btn btn-info" tooltip="Ver órden de servicio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="aprobarTrabajo(pendiente, 1)"><i class="glyphicon glyphicon-sunglasses"></i>
-                                    </button>
-                                </td>
+                                <td>{{pendiente.idOrden}}</td>
+                                <td>{{pendiente.numeroOrden}}</td>
+                                <td>{{pendiente.numeroEconomico}}</td>
+                                <td>{{pendiente.nombreZona}}</td>
+                                <td>{{pendiente.venta | currency: "$"}}</td>
+                                <td>{{pendiente.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
+                                <td>{{pendiente.nombreEstatusOrden}}</td> 
                             </tr>
                         </tbody>        
                     </table>

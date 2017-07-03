@@ -115,4 +115,40 @@ Presupuesto.prototype.post_estatusPresupuestoCDT = function (req, res, next) {
         self.view.expositor(res, object);
     });
 }
+//Obtiene la totalidad de las hojas de trabajo generadas en la historia
+Presupuesto.prototype.get_presupuestoHistoria = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idPresupuesto',
+        value: req.query.idPresupuesto,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_PRESUPUESTO_DETALLE_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+// Detalle de las ordenes que estan en proceso y que esta por autorizar
+Presupuesto.prototype.get_presupuestoDetalle = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idCentroTrabajo',
+        value: req.query.idCentroTrabajo,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_ORDEN_PENDIENTE_HOJA_TRABAJO_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
 module.exports = Presupuesto;

@@ -6,6 +6,8 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
     $scope.presupuestoTotal = 0.00;
     $scope.utilizadoTotal = 0.00;
     $scope.saldoTotal = 0.00;
+    $scope.margenUtilizado = 0.00;
+    $scope.margenTotal = 0.00;
     $scope.userData = userFactory.getUserData();
     $scope.numeroOrden = $routeParams.orden;
 
@@ -50,6 +52,8 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
                     $scope.utilizadoTotal += parseFloat(result.data[i].utilizado);
                     $scope.saldoTotal += parseFloat(result.data[i].saldo);
                 };
+                $scope.margenUtilizado = (($scope.presupuestoTotal - $scope.utilizadoTotal)*100)/ $scope.presupuestoTotal;
+                $scope.margenTotal = (($scope.presupuestoTotal - $scope.saldoTotal)*100)/ $scope.presupuestoTotal;
                 globalFactory.filtrosTabla("dataTableCentroTrabajo", "CentroTrabajo");
             } else {
                 alertFactory.info("No existe información con los criterios de búsqueda");
@@ -144,25 +148,21 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
             }
         });
     }
-
-});
-/*   
-    $scope.verHistorial = function (idOsur, saldo, numeroOsur, TAR){
-        $scope.SaldoOsur = saldo;
-        $scope.numeroOsur = numeroOsur;
-        $scope.nombreTAR = TAR;
+    //Obtiene la totalidad de las hojas de trabajo generadas en la historia
+    $scope.verHistorial = function (idPresupuesto, saldo, folioPresupuesto, nombreCentroTrabajo){
+        $scope.saldoPresupuesto = saldo;
+        $scope.folioPresupuesto = folioPresupuesto;
+        $scope.nombreCentroTrabajo = nombreCentroTrabajo;
         $scope.precioOrdenHistorial = 0;
-        $('.dataTableCertificados').DataTable().destroy();
-        osurRepository.getHistorial(idOsur).then(function (result) {
+        $('.dataTableHojas').DataTable().destroy();
+        presupuestoRepository.getHistorial(idPresupuesto).then(function (result) {
             if (result.data.length > 0) {
-
-                $scope.certificados = result.data;
-                for (var i = 0; i < $scope.certificados.length; i++) {
-                    $scope.precioOrdenHistorial += $scope.certificados[i].precioOrden;
+                $scope.hojas = result.data;
+                for (var i = 0; i < $scope.hojas.length; i++) {
+                    $scope.precioOrdenHistorial += $scope.hojas[i].venta;
                 };
-                globalFactory.waitDrawDocument("dataTableCertificados", "Certificados");
+                globalFactory.filtrosTabla("dataTableHojas", "Hojas de Trabajo");
                 $('#certificadosModal').appendTo('body').modal('show');
-
             } else {
                 swal({
                     title: "Información",
@@ -179,21 +179,20 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
             alertFactory.error("Error al obtener la información");
         });
     }
-
-    $scope.verDetalle = function (idTAR, saldo, numeroOsur, TAR){
-        $scope.SaldoOsur = saldo;
-        $scope.numeroOsur = numeroOsur;
-        $scope.nombreTAR = TAR;
+    // Detalle de las ordenes que estan en proceso y que esta por autorizar
+    $scope.verDetalle = function (idCentroTrabajo, saldo, folioPresupuesto, nombreCentroTrabajo){
+        $scope.saldoPresupuesto = saldo;
+        $scope.folioPresupuesto = folioPresupuesto;
+        $scope.nombreCentroTrabajo = nombreCentroTrabajo;
         $scope.precioOrdenDetalle = 0;  
         $('.dataTablePendientes').DataTable().destroy();
-        osurRepository.getDetalle(idTAR).then(function (result) {
+        presupuestoRepository.getDetalle(idCentroTrabajo).then(function (result) {
             if (result.data.length > 0) {
-
                 $scope.pendientes=result.data;
                 for (var i = 0; i < $scope.pendientes.length; i++) {
-                    $scope.precioOrdenDetalle += $scope.pendientes[i].precioOrden;
+                    $scope.precioOrdenDetalle += $scope.pendientes[i].venta;
                 };
-                globalFactory.waitDrawDocument("dataTablePendientes", "Pendientes");
+                globalFactory.filtrosTabla("dataTablePendientes", "Ordenes Pendientes");
                 $('#ordenesModal').appendTo('body').modal('show');  
 
             } else {
@@ -213,7 +212,8 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
         }); 
     }
 
-
+});
+/*   
     $scope.aprobarTrabajo = function (trabajo, valBotonera) {
         var objBotonera = {};
         objBotonera.accion = valBotonera;

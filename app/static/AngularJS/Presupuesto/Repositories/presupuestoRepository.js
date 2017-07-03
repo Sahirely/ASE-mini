@@ -55,6 +55,30 @@ registrationModule.factory('presupuestoRepository', function ($http) {
                         'Content-Type': 'application/json'        
                     }      
                 });    
+            },
+            getHistorial: function (idPresupuesto) {
+                return $http({
+                    url: presupuestoUrl + 'presupuestoHistoria',
+                    method: "GET",
+                    params: {
+                        idPresupuesto: idPresupuesto
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+            },
+            getDetalle: function (idCentroTrabajo) {
+                return $http({
+                    url: presupuestoUrl + 'presupuestoDetalle',
+                    method: "GET",
+                    params: {
+                        idCentroTrabajo: idCentroTrabajo
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
             }
         };
 });
