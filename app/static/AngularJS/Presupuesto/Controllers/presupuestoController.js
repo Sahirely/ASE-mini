@@ -6,6 +6,8 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
     $scope.presupuestoTotal = 0.00;
     $scope.utilizadoTotal = 0.00;
     $scope.saldoTotal = 0.00;
+    $scope.margenUtilizado = 0.00;
+    $scope.margenTotal = 0.00;
     $scope.userData = userFactory.getUserData();
     $scope.numeroOrden = $routeParams.orden;
 
@@ -50,6 +52,8 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
                     $scope.utilizadoTotal += parseFloat(result.data[i].utilizado);
                     $scope.saldoTotal += parseFloat(result.data[i].saldo);
                 };
+                $scope.margenUtilizado = (($scope.presupuestoTotal - $scope.utilizadoTotal)*100)/ $scope.presupuestoTotal;
+                $scope.margenTotal = (($scope.presupuestoTotal - $scope.saldoTotal)*100)/ $scope.presupuestoTotal;
                 globalFactory.filtrosTabla("dataTableCentroTrabajo", "CentroTrabajo");
             } else {
                 alertFactory.info("No existe información con los criterios de búsqueda");
@@ -142,6 +146,37 @@ registrationModule.controller('presupuestoController', function ($scope, $route,
                     alertFactory.error("Error al procesar la información");
                 });
             }
+        });
+    }
+    //Obtiene la totalidad de las hojas de trabajo generadas en la historia
+    $scope.verHistorial = function (idPresupuesto, saldo, folioPresupuesto, nombreCentroTrabajo){
+        $scope.saldoPresupuesto = saldo;
+        $scope.folioPresupuesto = folioPresupuesto;
+        $scope.nombreCentroTrabajo = nombreCentroTrabajo;
+        $scope.precioOrdenHistorial = 0;
+        $('.dataTableHojas').DataTable().destroy();
+        presupuestoRepository.getHistorial(idPresupuesto).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.hojas = result.data;
+            /*  for (var i = 0; i < $scope.certificados.length; i++) {
+                    $scope.precioOrdenHistorial += $scope.certificados[i].precioOrden;
+                };*/
+                globalFactory.waitDrawDocument("dataTableHojas", "Certificados");
+                $('#certificadosModal').appendTo('body').modal('show');
+            } else {
+                swal({
+                    title: "Información",
+                    text: "No se encuentra información asociada.",
+                    type: "warning",
+                    showCancelButton: false,
+                    confirmButtonColor: "#67BF11",
+                    confirmButtonText: "Aceptar",
+                    closeOnConfirm: true
+                });;
+            }
+        },
+        function (error) {
+            alertFactory.error("Error al obtener la información");
         });
     }
 

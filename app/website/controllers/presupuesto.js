@@ -115,4 +115,22 @@ Presupuesto.prototype.post_estatusPresupuestoCDT = function (req, res, next) {
         self.view.expositor(res, object);
     });
 }
+//Obtiene la totalidad de las hojas de trabajo generadas en la historia
+Presupuesto.prototype.get_presupuestoHistoria = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idPresupuesto',
+        value: req.query.idPresupuesto,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_PRESUPUESTO_DETALLE_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
 module.exports = Presupuesto;
