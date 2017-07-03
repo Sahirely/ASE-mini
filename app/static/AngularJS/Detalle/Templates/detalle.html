@@ -659,7 +659,7 @@
                             </div>
                         </div>
                         <!--Ordenes en Aprobación-->
-                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont scroll_content panelCotizaciones">
+                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont panelCotizaciones">
                             <!--Cotizaciones Grua-->
                             <div class="row" ng-show="(orden.IdTipoOrden == 2 || orden.IdTipoOrden == 1)" ng-repeat="cotizacion in cotizaciones">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -864,7 +864,7 @@
                                             <div class="col-sm-4 col-md-4 col-lg-4 m-t" style="padding-bottom: 15px;">
                                                 <button class="btn btn-sm btn-primary pull-right" ng-click="acciones()">Agregar Acción</button>
                                             </div>
-                                            <div class="headTitleAdmonTaller">
+                                            <!--div class="headTitleAdmonTaller">
                                                 <span class="title">Recordatorios</span>
                                             </div>
                                             <br>
@@ -900,14 +900,14 @@
                                                         <button class="btn btn-sm btn-primary pull-right" ng-click="recordatorio()">Agregar Recordatorio</button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div-->
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- Notas -->
-                        <div class="col-sm-12 col-md-6 col-lg-6">
+                        <div class="col-sm-12 col-md-6 col-lg-6 pull-right">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     Notas
@@ -951,7 +951,7 @@
                             </div>
                         </div>
                         <!-- Botones -->
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="footerDetalle">
                             <button ng-hide="btnEditarIsEnable" class="btn btn-success pull-right btn-movil" type="submit"> Editar</button>
                             <button ng-hide="btnGuardaCotizacionIsEnable" data-loading-text="Loading..."class="btn btn-primary pull-right btn-movil" ng-click="btnSaveCotizacion( idUsuario )">
                               <span class="{{class_buttonGuardaCotizacion}}"></span>
@@ -1309,7 +1309,7 @@
 <script>
 $(document).ready(function() {
     $('.scroll_content').slimscroll({
-        height: '580px',
+        //height: '580px',
         width: '100%'
     })
     setTimeout(function() {
