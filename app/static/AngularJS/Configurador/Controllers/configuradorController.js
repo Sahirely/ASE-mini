@@ -421,7 +421,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             a.href = url;
             a.download = 'FormatoUnidad';
             a.click();
-        //window.open('C:/Produccion/ASE/ASEv2/app/static/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx', 'FormatoUnidad');
+        //window.open('E:/Produccion/ASE/ASEv2/app/static/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx', 'FormatoUnidad');
     }
 
     $scope.carga_formatoExcelDeUnidades = function () {

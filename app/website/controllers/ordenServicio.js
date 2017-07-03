@@ -1,6 +1,6 @@
 var OrdenServicioView = require('../views/ejemploVista'),
     OrdenServicioModel = require('../models/dataAccess2');
-var dirname = 'C:/ASEv2Documentos/public/orden/';
+var dirname = 'E:/ASEv2Documentos/public/orden/';
 
 var OrdenServicio = function(conf) {
     this.conf = conf || {};

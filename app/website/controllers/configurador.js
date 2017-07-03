@@ -3,7 +3,7 @@ var ConfiguradorView = require('../views/ejemploVista'),
 var XLSX = require('xlsx');
 var path = require('path');
 var Load_Files = require('../controllers/load_files');
-var dirname = 'C:/ASE_Temp/';
+var dirname = 'E:/ASE_Temp/';
 var fs = require('fs');
 
 var Configurador = function(conf) {
@@ -570,7 +570,7 @@ Configurador.prototype.post_subirArchivo = function(req, res, next){
     var self = this;    
     var Subir = new Load_Files();
      Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
-                     "myFile2": {"Name":"Unidad","Path": "C:/ASE_Temp", "Type": "*"}
+                     "myFile2": {"Name":"Unidad","Path": "E:/ASE_Temp", "Type": "*"}
                  });
 
     Subir.upload( function( respuesta ){
@@ -578,7 +578,7 @@ Configurador.prototype.post_subirArchivo = function(req, res, next){
             error: false,
             result: {success: true, respuesta: respuesta }
         });
-    },"C:/ASE_Temp", req, res );
+    },"E:/ASE_Temp", req, res );
     // setTimeout( function(){},3000 );
 }
 

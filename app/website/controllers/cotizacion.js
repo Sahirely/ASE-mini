@@ -3,18 +3,6 @@ var CotizacionView = require('../views/ejemploVista'),
 var mkdirp = require('mkdirp');
 multer = require('multer');
 var fs = require('fs');
-// var idTipoArchivo;
-// var nameFile;
-// var totalFiles = 0;
-// var dirname = 'C:/Produccion/Talleres/talleres-v2-pemex/app/static/uploads/files/';
-// var direclamacion = 'C:/Produccion/Talleres/talleres-v2-pemex/app/static/uploads/reclamacion/';
-// var dirCopades = 'C:/Produccion/Talleres/talleres-v2-pemex/app/static/uploads/copades/';
-// var nameFile = '';
-// var idTrabajo = 0;
-// var idNombreEspecial = 0;
-// var consecutivoArchivo = 0;
-// var carpetaCotizacion = 0;
-// var nombreFacturaCotizacion = '';
 
 var Cotizacion = function(conf) {
     this.conf = conf || {};

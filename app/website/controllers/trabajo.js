@@ -29,11 +29,11 @@ var Trabajo = function(conf){
 //     // Subir Archivos    
 //     var lf = new Load_Files();
 //     lf.options({ // Type Options: * / img / xml / pdf / docs / xls
-//                     "file_1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
-//                     "file_2": {"Name":"facturapdf001","Path": "C:/ASE_Temp/factura/pdf", "Type": "pdf"}
+//                     "file_1": {"Name":"factura001","Path": "E:/ASE_Temp/factura/xml", "Type": "xml"},
+//                     "file_2": {"Name":"facturapdf001","Path": "E:/ASE_Temp/factura/pdf", "Type": "pdf"}
 //                 });
 
-//     lf.upload( "C:/ASE_Temp", req, res, function( respuesta ){
+//     lf.upload( "E:/ASE_Temp", req, res, function( respuesta ){
 //         console.log( respuesta );
 //         respuesta.forEach(function(element) {
 //             // console.log(element.fieldname);
@@ -133,7 +133,7 @@ var Trabajo = function(conf){
 
     // Subir imagenes
     // var lf = new Load_Files();
-    // lf.img('C:/ASE_Temp', req, res, function( respuesta ){
+    // lf.img('E:/ASE_Temp', req, res, function( respuesta ){
     //     self.view.expositor(res, {
     //         error: false,
     //         result: {success: true, res: respuesta }

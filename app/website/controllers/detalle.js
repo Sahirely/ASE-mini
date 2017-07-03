@@ -3,7 +3,7 @@ var DetalleView = require('../views/ejemploVista'),
 
 var Load_Files = require('../controllers/load_files');
 
-var _PathDocuments = "C:\\ASEv2Documentos\\public\\orden\\"
+var _PathDocuments = "E:\\ASEv2Documentos\\public\\orden\\"
 
 var Detalle = function (conf) {
     this.conf = conf || {};
@@ -180,7 +180,7 @@ Detalle.prototype.post_subirFactura = function(req, res, next){
                     "file_2": {"Name":"factura1","Path": "pdf", "Type": "pdf"}
                 });
 
-    lf.facturas( "C:/ASE_Temp/", req, res, function( respuesta ){
+    lf.facturas( "E:/ASE_Temp/", req, res, function( respuesta ){
         // console.log( respuesta );
         respuesta.forEach(function(element) {
             // console.log(element.fieldname);
@@ -480,7 +480,6 @@ Detalle.prototype.get_guardaReporteConformidad = function(req, res, next) {
     var http = require('http'),
         fs = require('fs');
     var filename = "Recibo_Comprobante";//guid();
-    // var filePath = "C:\\89" + "\\pdf\\" + filename + ".pdf";//path.dirname(require.main.filename) + "\\pdf\\" + filename + ".pdf";
     var filePath = _PathDocuments + req.query.idOrden +"\\hojaTrabajo\\"+ filename + ".pdf";
     var options = {
         "method": "POST",

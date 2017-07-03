@@ -494,8 +494,8 @@ Modulo.prototype.post_subirArchivo = function(req, res, next){
 
     var Subir = new Load_Files();
     Subir.options({ 
-                    "myFile1": {"Name":"factura001","Path": "C:/ASE_Temp/factura/xml", "Type": "xml"},
-                    "myFile2": {"Name":"","Path": "C:/ASE_Temp/factura/pdf", "Type": "*"}
+                    "myFile1": {"Name":"factura001","Path": "E:/ASE_Temp/factura/xml", "Type": "xml"},
+                    "myFile2": {"Name":"","Path": "E:/ASE_Temp/factura/pdf", "Type": "*"}
                 });
 
     Subir.upload( function( respuesta ){
@@ -503,7 +503,7 @@ Modulo.prototype.post_subirArchivo = function(req, res, next){
             error: false,
             result: {success: true, respuesta: respuesta }
         });
-    },"C:/ASE_Temp", req, res 
+    },"E:/ASE_Temp", req, res 
 
 }
 */
