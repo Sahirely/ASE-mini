@@ -172,7 +172,7 @@
 
             <div class=" row col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="cotizaciones.length > 0 && userData.presupuesto == 0">
               <div class="table-responsive">
-                <table class="table table-bordered table-hover ordenesPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                <table class="table table-bordered table-hover ordenesPresupuesto1" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
                     <thead>
                         <tr>
                             <th>Cliente</th>
@@ -254,7 +254,6 @@
                                     <th>No. de Aprobación</th>
                                     <th>Marca - Modelo</th>
                                     <th>Estatus</th>
-                                    <th>Motivo</th>
                                     <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
                                     <th>Cotizó</th>
                                     <th>Porcentaje de Aprobación</th>
@@ -277,7 +276,6 @@
                                     <td>{{cotizacion.numeroCotizacion}}</td>
                                     <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td>
                                     <td>{{cotizacion.nombreEstatusCotizacion}}</td>
-                                    <td>{{cotizacion.motivoPresupuesto}}</td>
                                     <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{cotizacion.venta | currency : "$"}}</td>
                                     <td>{{cotizacion.nombreUsuario}}</td>
                                     <td>{{cotizacion.porcentaje}} %</td>

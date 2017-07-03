@@ -99,6 +99,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       $scope.cotizacionesSinPresupuesto = [];
       $scope.sumatoria_conPresupuesto = 0;
       $scope.sumatoria_sinPresupuesto = 0;
+      $('.ordenesPresupuesto1').DataTable().destroy();
       $('.ordenesPresupuesto').DataTable().destroy();
       $('.ordenesSinPresupuesto').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
@@ -128,8 +129,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                       $scope.cotizaciones.push(item);
                   }
               });
-              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
-              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
+              globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes Con Presupuesto", 100);
+              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
+              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
           } else {
               $scope.cotizaciones = [];
               globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);

@@ -300,6 +300,20 @@ registrationModule.factory('detalleRepository', function($http) {
               'Content-Type': 'application/json'
               }
           });
+        },
+        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario){
+          return $http({
+              url: detalleUrl + 'presupuestoOrden/',
+              method: "POST",
+              params: {
+                  idPresupuesto: idPresupuesto,
+                  idOrden: idOrden,
+                  idUsuario: idUsuario
+                },
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
         }
     };
 });

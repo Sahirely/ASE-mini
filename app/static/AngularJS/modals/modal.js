@@ -71,7 +71,7 @@ function modal_respuesta_busqueda($scope, $modal, tipobusqueda, respuesta, callb
     });
 };
 
-function modal_saldos($scope, $modal, saldos, callback, error){
+function modal_saldos($scope, $modal, saldos, nombreCentroTrabajo, callback, error){
   var modalInstance = $modal.open({
     templateUrl: '../AngularJS/modals/Template/saldos.html',
     controller: 'saldos_controller',
@@ -80,6 +80,9 @@ function modal_saldos($scope, $modal, saldos, callback, error){
     resolve: {
         saldos: function(){
           return saldos
+        },
+        nombreCentroTrabajo: function(){
+          return nombreCentroTrabajo
         },
         callback: function() {
             return callback;

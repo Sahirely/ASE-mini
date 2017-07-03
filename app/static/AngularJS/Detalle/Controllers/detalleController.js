@@ -50,7 +50,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.enviaNota();
-        $scope.getSaldos($routeParams.orden);
+        if($scope.userData.presupuesto == 1){
+           $scope.getSaldos($routeParams.orden); 
+        }
         $('.horaAsignada').clockpicker();
         $scope.ShowFacturas();
         if($scope.userData.tiempoAsignado == 1){
@@ -125,6 +127,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.idOrden = result.data[0].idOrden;
+                $scope.nombreCentroTrabajo = result.data[0].nombreCentroTrabajo;
                 $scope.detalleOrden = result.data[0];
                 $scope.estatus = $routeParams.estatus;
                 $scope.estatusUtilidad();
@@ -276,7 +279,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             alertFactory.warning('El token proporcionado no cuenta con el nivel de autorización necesario para esta operación.');
                         }
                         else{
-                            $scope.btnSaveCotizacion( result.data[0].idUsuario );
+                            $scope.btnSaveCotizacion(result.data[0].idUsuario);
                         }
                     },500 );
                 }
@@ -337,34 +340,39 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.btnSaveCotizacion = function( idUsuario ) {
-        $scope.buttonGuardaCotizacion = 'fa fa-spinner fa-spin';
-        var haveBalance = $scope.checkBalance();
-
-        if (haveBalance == true) {
-            $scope.UpdatePartidaStatus( idUsuario );
-        } else {
-            $('.modal-dialog').css('width', '1050px');
-            modal_saldos($scope, $modal, $scope.saldos, '', '');
-            $scope.buttonGuardaCotizacion = '';
+        $scope.class_buttonGuardaCotizacion = 'fa fa-spinner fa-spin';
+        if($scope.userData.presupuesto == 1){
+            var haveBalance = $scope.checkBalance();
+            if (haveBalance == true) {
+                $scope.UpdatePartidaStatus(idUsuario);
+            } else {
+                $('.modal-dialog').css('width', '1050px');
+                modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '');
+                $scope.class_buttonGuardaCotizacion = '';
+            }
+        }else{
+            $scope.UpdatePartidaStatus(idUsuario);
         }
-
     };
 
     $scope.checkBalance = function() {
         var sumOperacion = 0;
-
         $scope.cotizaciones[0].detalle.forEach(function(item) {
             if (item.btnStep != 0 && item.btnDisabled == false) {
                 sumOperacion += item.ventaTotal;
             }
         });
-
-        if (sumOperacion > ($scope.saldos.presupuesto - $scope.saldos.saldoReal)) {
+        if($scope.saldos != undefined){
+            if (sumOperacion <= ($scope.saldos.presupuesto - $scope.saldos.utilizado)) {
+                $scope.TieneSaldo = true;
+                return true;
+            } else {
+                $scope.TieneSaldo = false;
+                return false;
+            } 
+        }else{
             $scope.TieneSaldo = false;
             return false;
-        } else {
-            $scope.TieneSaldo = true;
-            return true;
         }
     };
 
@@ -383,30 +391,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 params.idEstatusPartida = item.selOption;
 
                 aprobacionRepository.getUpdateStatusPartida(params).then(function(result) {
-                    if (result.data.length > 0) {}
+                    if (result.data.length > 0) {
+                    }
                 }, function(error) {
                     alertFactory.error('Aprobación getUpdateStatusPartida error.');
                 });
-                /*
-                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                    if (result.data.length > 0) {
-                                        console.log('envia correo desde front')
-                                    }
-                                }, function(error) {
-                                    alertFactory.error('No se puede enviar el correo');
-                                });
-                            }
-                        }, function (error) {
-                            alertFactory.error("Error al obtener información para el mail");
-                        });
-                */
             }
         });
 
@@ -748,41 +737,63 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.ValidaTerminoTrabajo = function() {
         $scope.class_buttonTerminaTrabajo = 'fa fa-spinner fa-spin';
-        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
-            if (result.data[0].RealizarOperacion) {
-                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
-                    $scope.class_buttonTerminaTrabajo = '';
-                    alertFactory.success('Se ha terminado el trabajo');
-                                        /*
-                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                    if (result.data.length > 0) {
-                                        console.log('envia correo desde front')
-                                    }
-                                }, function(error) {
-                                    alertFactory.error('No se puede enviar el correo');
-                                });
+            if($scope.userData.presupuesto == 1){
+                detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+                    if (result.data[0].RealizarOperacion) {
+
+                        aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function(result) {
+                            if (result.data.length > 0) {
+                                $scope.saldosTermino = result.data[0];
+                                if(result.data[0].presupuestoVenta > 0){
+                                    $scope.idPresupuesto = result.data[0].idPresupuesto;
+                                    detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                                        if (result.data.length > 0) {
+
+                                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                                                $scope.class_buttonTerminaTrabajo = '';
+                                                alertFactory.success('Se ha terminado el trabajo');
+                                                $("html, body").animate({
+                                                    scrollTop: 0
+                                                }, 1000);
+                                                $scope.init();
+                                            });
+                                        }
+                                    });
+
+                                }else{
+                                    $('.modal-dialog').css('width', '1050px');
+                                     modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '');
+                                    $scope.class_buttonTerminaTrabajo = '';
+                                }
+                            } else {
+                                $('.modal-dialog').css('width', '1050px');
+                                 modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '');
+                                $scope.class_buttonTerminaTrabajo = '';
                             }
-                        }, function (error) {
-                            alertFactory.error("Error al obtener información para el mail");
                         });
-                    */
-                    $("html, body").animate({
-                        scrollTop: 0
-                    }, 1000);
-                    $scope.init();
+
+                    } else {
+                        $scope.class_buttonTerminaTrabajo = '';
+                        alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+                    }
                 });
-            } else {
-                $scope.class_buttonTerminaTrabajo = '';
-                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            }else{
+                detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+                    if (result.data[0].RealizarOperacion) {
+                        detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
+                            $scope.class_buttonTerminaTrabajo = '';
+                            alertFactory.success('Se ha terminado el trabajo');
+                            $("html, body").animate({
+                                scrollTop: 0
+                            }, 1000);
+                            $scope.init();
+                        });
+                    } else {
+                        $scope.class_buttonTerminaTrabajo = '';
+                        alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+                    }
+                });
             }
-        });
     }
 
     $scope.ValidaEntrega = function() {

@@ -10,19 +10,27 @@
         <div class="text-center  m-b-lg m-t-sm">
             <i class="fa fa-warning modal-icon"></i>
         </div>
-        <form role="form">
+        <form role="form" ng-show="presupuesto != 0">
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <label class="text-label">Presupuesto: <span class="text-info">{{presupuesto | currency}}</span></label>
             </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <label class="text-label">Saldo Disponible: <span class="text-info">{{saldoDisponible | currency}}</span></label>
+              <label class="text-label">Saldo Utilizado: <span class="text-info">{{utilizado | currency}}</span></label>
             </div>
             <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
-              <label class="text-label">Saldo Real: <span class="text-info">{{saldoReal | currency}}</span></label>
+              <label class="text-label">Saldo Real: <span class="text-info">{{saldo | currency}}</span></label>
             </div>
-            <div class="form group col-xs-12 col-sm-12 col-md-12 col-lg-12 center">
-              <button type="button" class="btn" data-dismiss="modal" ng-click="close()">Aceptar</button>
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+              <label class="text-label">Monto de la Orden: <span class="text-info">{{venta | currency}}</span></label>
+            </div>
+        </form>
+        <form role="form" ng-show="presupuesto == 0">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <label class="text-label">No se encuentra ningun presupuesto dado de alta para el centro de trabajo {{ nombreCentroTrabajo }}<span class="text-info"></span></label>
             </div>
         </form>
     </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="close()">Aceptar</button>
 </div>

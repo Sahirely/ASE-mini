@@ -594,4 +594,31 @@ Detalle.prototype.get_tokenEstatus = function(req, res, next){
     });
 }
 
+Detalle.prototype.post_presupuestoOrden = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idPresupuesto',
+        value: req.query.idPresupuesto,
+        type: self.model.types.INT
+    }, {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }];
+
+
+    this.model.query('INS_PRESUPUESTO_ORDEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 module.exports = Detalle;
