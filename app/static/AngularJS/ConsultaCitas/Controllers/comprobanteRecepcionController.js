@@ -86,13 +86,16 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
     }
 
     $scope.addComprobanteRecepcion = function() {
+     
         var contador = 0;
         var contadorTotal = 0;
 
-        angular.forEach($scope.modulosComprobante,function(valor,key){
-            if(valor.indexComprobante <= 5){
-                angular.forEach(valor.detalle, function(valor2, key) {
-                    contadorTotal += 1;
+       
+         angular.forEach($scope.modulosComprobante, function(value, key) {
+            if(value.indexComprobante <= 5){
+                angular.forEach(value.detalle, function(value2, key) {
+                    contadorTotal++;
+
                 });
             }
         });
@@ -107,7 +110,9 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                 });
             }
         });
-        if (contadorTotal == contador) {
+
+        contadorTotal += 2;
+        if (contadorTotal == contador ) {
             $scope.validateAprobacion = false;
 
         } else {
