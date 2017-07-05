@@ -86,13 +86,16 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //                                                    por lo tanto puede crear una nueva ORden de Servicio para la unidad
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function() {
+        debugger;
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
            
             if ($scope.detalleUnidad.situacionOrden == 1) {
                
                 $scope.muestraAgendarCita = false;
-                busquedaUnidadRepository.getDetalleOrden($routeParams.economico).then(function(result) {
+                debugger;
+                busquedaUnidadRepository.getDetalleOrden($routeParams.orden).then(function(result) {
+                    debugger;
                     if (result.data.length>0) {
                         $scope.detalleOrden = result.data[0];
                         if ($scope.detalleOrden.respuesta == 1 && $routeParams.tipo != 'nueva') {
@@ -111,7 +114,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             if (hora <= 9) { hora = '0' + hora }
                             $scope.horaCita = date.getUTCHours() + ":" + hora;
                             $scope.comentarios = $scope.detalleOrden.comenatario;
-                            $scope.getTipoOrdenesServicio();
+                            $scope.getTipoOrdenesServicioActulizar();
                             $scope.getTipoEstadoUnidad();
                             $scope.getServicios();
                             $scope.getTallerXid($scope.detalleOrden.idTaller);
@@ -187,10 +190,24 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
     //*****************************************************************************************************************************//
+    $scope.getTipoOrdenesServicioActulizar = function() {
+        debugger;
+        $scope.tipoCita = [];
+        citaRepository.getTipoOrdenesServicio().then(function(result) {
+                debugger;
+                $scope.tipoCita=result.data;
+        });
+    };
+
+    //*****************************************************************************************************************************//
+    // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
+    //*****************************************************************************************************************************//
     $scope.getTipoOrdenesServicio = function() {
+        debugger;
         $scope.tipoCita = [];
         citaRepository.getTipoOrdenesServicioUnidad($scope.detalleUnidad.idUnidad).then(function(result) {
             for (var i = 0 ; i < result.data.length; i++) {
+                debugger;
                 if ( $routeParams.tipo == 'nueva') {
                     if (result.data[i].orden  == 0) {
                          $scope.tipoCita.push(result.data[i]);
@@ -483,7 +500,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                     alertFactory.success('Cotización Detalle Creada');
                     citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
                         setTimeout(function() {
-                            location.href = '/detalle?orden=' + $scope.detalleOrden.idOrden + '&estatus=2';
+                            location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2';
                             //location.href = '/unidad?economico=' + $routeParams.economico;
                         }, 1000);
                     });
