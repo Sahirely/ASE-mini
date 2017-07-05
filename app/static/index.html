@@ -79,7 +79,7 @@
                 <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="{{userData.idRol != 5}}">
                     <a href="ordenesporcobrar" ng-click="showChat = 0" ng-hide="userData.idTipoUsuario == 3"><i class="fa fa-credit-card" data-toggle="tooltip" tooltip="Cobranza" tooltip-placement="right"></i> <span class="nav-label">Cobranza</span><span class="label label-warning pull-right"></span></a>
                 </li>
-                <li ng-hide="true" ng-class="{'active': modulo=='presupuesto'}" ng-show="userData.idRol == 2 && userData.presupuesto == 1">
+                <li ng-class="{'active': modulo=='presupuesto'}" ng-show="userData.idRol == 2 && userData.presupuesto == 1">
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">Administración</span></a>
                     <ul class="nav nav-second-level">
                         <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
@@ -108,6 +108,12 @@
                 </li>
                 <li ng-show="userData.idRol == 2">
                     <a href="aprobacionutilidad" ng-click="showChat = 0"><i class="glyphicon glyphicon-usd"></i> <span class="nav-label">Aprobación de Utilidades </span></a>
+                </li>
+                <li  ng-show="userData.idRol == 2 ">
+                    <a href="#"><i class="fa fa-group"></i> <span class="nav-label">Call Center</span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-class="{'active': modulo=='callcenter'}"><a href="/dashboardCallCenter">Orden del día</a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

@@ -1,17 +1,27 @@
 registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory,$modal, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory, detalleRepository) {
     
-    $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
+    // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
     $scope.idOperacion           = $scope.userData.idOperacion;
+    $scope.idUsuario = '';
 
     $scope.init = function() {
       $scope.fecha_actual = new Date();
-      $scope.traeOrdenesAtrasadas();
-      $scope.traeOrdenesParaHoy();
-      $scope.traeOrdenesSinObjetivo();
-      $scope.traeRecordatorios();
-      $scope.traeOrdenCallCenter(0);
-      $scope.zonasCallCenter();
+      if ($scope.userData.idRol == 3) {
+        $scope.idUsuario = $scope.userData.idUsuario;
+        $scope.traeOrdenesAtrasadas();
+        $scope.traeOrdenesParaHoy();
+        $scope.traeOrdenesSinObjetivo();
+        $scope.traeRecordatorios();
+        $scope.traeOrdenCallCenter(0);
+        $scope.zonasCallCenter();
+        $rootScope.modulo            = 'home'; 
+
+      }else{
+        $scope.traeEjecutivos ();
+        $rootScope.modulo            = 'callcenter'; 
+      }
+      
     };
 
     //funcion reloj recursiva cada minuto
@@ -25,41 +35,64 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     //inicia reloj 
       $scope.iniClock();
 
+    $scope.traeEjecutivos = function() {
+
+        dashboardCallCenterRepository.getEjecutivos($scope.userData.contratoOperacionSeleccionada)
+            .then(function successCallback(response) {
+                $scope.ejecutivos = response.data;
+              }, function errorCallback(response) {
+                $scope.ordenesAtrasadas = 0;
+            });
+
+    };
+
+    $scope.changeEjecutivo = function (data) {
+        $scope.idUsuario = data;
+        $scope.traeOrdenesAtrasadas();
+        $scope.traeOrdenesParaHoy();
+        $scope.traeOrdenesSinObjetivo();
+        $scope.traeRecordatorios();
+        $scope.traeOrdenCallCenter(0);
+        $scope.zonasCallCenter();
+
+
+    }
+
     $scope.traeOrdenesAtrasadas = function() {
 
-            dashboardCallCenterRepository.getOrdenAtraso($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
-                .then(function successCallback(response) {
-                    $scope.ordenesAtrasadas = response.data[0].NUM;
-                  }, function errorCallback(response) {
-                    $scope.ordenesAtrasadas = 0;
-                });
+        dashboardCallCenterRepository.getOrdenAtraso($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario)
+            .then(function successCallback(response) {
+                $scope.ordenesAtrasadas = response.data[0].NUM;
+              }, function errorCallback(response) {
+                $scope.ordenesAtrasadas = 0;
+            });
 
-        };
+    };
 
     $scope.traeOrdenesParaHoy = function() {
 
-            dashboardCallCenterRepository.getOrdenParaHoy($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
-                .then(function successCallback(response) {
-                    $scope.ordenesParaHoy = response.data[0].NUM;
-                }, function errorCallback(response) {
-                    $scope.ordenesParaHoy = 0;
-                });
-        };
+        dashboardCallCenterRepository.getOrdenParaHoy($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario)
+            .then(function successCallback(response) {
+                $scope.ordenesParaHoy = response.data[0].NUM;
+            }, function errorCallback(response) {
+                $scope.ordenesParaHoy = 0;
+            });
+    };
 
     $scope.traeOrdenesSinObjetivo = function() {
-            dashboardCallCenterRepository.getOrdenSinObjetivo($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario)
-                .then(function successCallback(response) {
-                    $scope.ordenesSinObjetivo = response.data[0].NUM;
-                }, function errorCallback(response) {
-                    $scope.ordenesSinObjetivo = 0;
-                });
-        };
+        dashboardCallCenterRepository.getOrdenSinObjetivo($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario)
+            .then(function successCallback(response) {
+                $scope.ordenesSinObjetivo = response.data[0].NUM;
+            }, function errorCallback(response) {
+                $scope.ordenesSinObjetivo = 0;
+            });
+    };
 
 
      $scope.traeRecordatorios = function(){
          $('.dataTableRecordatorios').DataTable().destroy();
          $scope.operaciones=[];
-        $scope.promise = dashboardCallCenterRepository.getRecordatorios($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function (result) {
+        $scope.promise = dashboardCallCenterRepository.getRecordatorios($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario).then(function (result) {
             if (result.data.length > 0) {
                 $scope.recordatorios = result.data;
                  globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 5);
@@ -75,7 +108,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         $scope.sumatoria_ordenes = 0;
         $('.dataTableOrdenCallCenter').DataTable().destroy();
        
-        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, tipo).then(function (result) {
+        $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario, tipo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
 
@@ -96,7 +129,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     $scope.zonasCallCenter = function(tipo){
         $scope.zonas=[];
        
-        $scope.promise = dashboardCallCenterRepository.getZonasCallCenter($scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada,).then(function (result) {
+        $scope.promise = dashboardCallCenterRepository.getZonasCallCenter($scope.idUsuario, $scope.userData.contratoOperacionSeleccionada,).then(function (result) {
             
             if (result.data.length > 0) {
                 $scope.zonas = result.data;

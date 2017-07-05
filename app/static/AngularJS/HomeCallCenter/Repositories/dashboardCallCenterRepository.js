@@ -85,6 +85,19 @@ registrationModule.factory('dashboardCallCenterRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+
+        getEjecutivos: function (idContratoOperacion) {
+            return $http({
+                url: dashboardCallcenterUrl + 'ejecutivos/',
+                method: "GET",
+                params: {
+                    idContratoOperacion:idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
 
     };
