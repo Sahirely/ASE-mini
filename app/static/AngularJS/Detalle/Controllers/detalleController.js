@@ -198,7 +198,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.getTotales();
                 $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
             } else {
-                alertFactory.error('No se puede obtener los documentos de la orden');
+               // alertFactory.error('No se puede obtener los documentos de la orden');
             }
         }, function(error) {
             alertFactory.error(result.msg);

@@ -86,7 +86,11 @@ busquedaUnidad.prototype.get_ordenActual = function(req, res, next) {
         name: 'economico',
         value: req.query.economico,
         type: self.model.types.STRING
-    }];
+    }, {
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.STRING
+     }];
 
     this.model.query('SEL_ORDENES_ACTUAL_SP', params, function(error, result) {
         self.view.expositor(res, {
