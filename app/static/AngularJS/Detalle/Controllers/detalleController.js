@@ -1065,7 +1065,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.editarCita = function() {
         $scope.class_buttonEditarCita = 'fa fa-spinner fa-spin';
-        location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico;
+        location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico+'&orden=' + $scope.detalleOrden.idOrden;
     };
 
     $scope.validateEstatusAprobacion = function (){

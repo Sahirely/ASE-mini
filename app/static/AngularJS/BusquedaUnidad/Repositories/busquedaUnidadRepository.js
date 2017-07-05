@@ -74,12 +74,12 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                 }
             });
         },
-        getDetalleOrden: function(economico) {
+        getDetalleOrden: function(idOrden) {
             return $http({
                 url: busquedaUnidadUrl + 'detalleOrden/',
                 method: "GET",
                 params: {
-                    numeroEconomico: economico
+                    idOrden: idOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

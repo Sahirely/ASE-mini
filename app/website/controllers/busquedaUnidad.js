@@ -119,9 +119,9 @@ busquedaUnidad.prototype.get_historicoOrdenes = function(req, res, next) {
 busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
     var self = this;
     var params = [ {
-        name: 'numeroEconomico',
-        value: req.query.numeroEconomico,
-        type: self.model.types.STRING
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_DETALLE_ORDEN_X_UNIDAD_SP', params, function(error, result) {
