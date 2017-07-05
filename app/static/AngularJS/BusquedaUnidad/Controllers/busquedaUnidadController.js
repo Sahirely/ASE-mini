@@ -88,7 +88,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         location.href = '/nuevacita?economico=' + $routeParams.economico+'&tipo=nueva';
     };
     $scope.getOrdenActual = function() {
-        busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico).then(function(result) {
+        busquedaUnidadRepository.getOrdenActual($scope.idUsuario, $routeParams.economico, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
            
             if (result.data.length>0) {
                 $scope.ordendesActual = result.data;

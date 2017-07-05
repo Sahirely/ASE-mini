@@ -198,7 +198,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.getTotales();
                 $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
             } else {
-                alertFactory.error('No se puede obtener los documentos de la orden');
+               // alertFactory.error('No se puede obtener los documentos de la orden');
             }
         }, function(error) {
             alertFactory.error(result.msg);
@@ -1066,7 +1066,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.editarCita = function() {
         $scope.class_buttonEditarCita = 'fa fa-spinner fa-spin';
-        location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico;
+        location.href = '/nuevacita?economico=' + $scope.detalleOrden.numeroEconomico+'&orden=' + $scope.detalleOrden.idOrden;
     };
 
     $scope.validateEstatusAprobacion = function (){

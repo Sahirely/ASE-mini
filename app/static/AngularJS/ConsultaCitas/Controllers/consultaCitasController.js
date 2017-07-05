@@ -139,8 +139,12 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $("#borderTop").slideUp(3000);
     };
 
-    $scope.seleccionarOrden = function(obj) {
+    $scope.seleccionarOrden1 = function(obj) {
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;
+    }
+
+    $scope.seleccionarOrden2 = function(obj) {
+        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 2;
     }
 
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.

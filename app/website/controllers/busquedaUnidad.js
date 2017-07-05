@@ -86,7 +86,11 @@ busquedaUnidad.prototype.get_ordenActual = function(req, res, next) {
         name: 'economico',
         value: req.query.economico,
         type: self.model.types.STRING
-    }];
+    }, {
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.STRING
+     }];
 
     this.model.query('SEL_ORDENES_ACTUAL_SP', params, function(error, result) {
         self.view.expositor(res, {
@@ -119,9 +123,9 @@ busquedaUnidad.prototype.get_historicoOrdenes = function(req, res, next) {
 busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
     var self = this;
     var params = [ {
-        name: 'numeroEconomico',
-        value: req.query.numeroEconomico,
-        type: self.model.types.STRING
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_DETALLE_ORDEN_X_UNIDAD_SP', params, function(error, result) {

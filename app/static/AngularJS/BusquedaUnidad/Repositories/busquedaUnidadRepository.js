@@ -48,13 +48,14 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                 }
             });
         },
-        getOrdenActual: function(idUsuario, economico) {
+        getOrdenActual: function(idUsuario, economico, idContratoOperacion) {
             return $http({
                 url: busquedaUnidadUrl + 'ordenActual/',
                 method: "GET",
                 params: {
                     idUsuario: idUsuario,
-                    economico: economico
+                    economico: economico,
+                    idContratoOperacion: idContratoOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -74,12 +75,12 @@ registrationModule.factory('busquedaUnidadRepository', function($http) {
                 }
             });
         },
-        getDetalleOrden: function(economico) {
+        getDetalleOrden: function(idOrden) {
             return $http({
                 url: busquedaUnidadUrl + 'detalleOrden/',
                 method: "GET",
                 params: {
-                    numeroEconomico: economico
+                    idOrden: idOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

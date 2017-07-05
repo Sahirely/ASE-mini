@@ -196,7 +196,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '2'} "  ng-click="(userData.idRol == 1 ? '' :seleccionarOrden(ordenesTaller))">
+                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '2'} "  ng-click="(userData.idRol == 1 ? '' :seleccionarOrden2(ordenesTaller))">
                                         <td>{{ordenesTaller.nombreCliente}}</td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>
@@ -237,18 +237,34 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
+                                        <th>Taller</th>
                                         <th>Tipo Servicio</th>
                                         <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
+                                        <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
                                         <th>Agendó</th>
                                         <th>Tiempo Transcurrido Tiempo Asignado</th>
-                                        <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
-                                        <th ng-hide="userData.idRol == 1">Acción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} ">
+                                    <tr title="Ver detalles" ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} "  ng-click="(userData.idRol == 1 ? '' :seleccionarOrden1(ordenesSinTaller))">
+                                        <td>{{ordenesSinTaller.nombreCliente}}</td>
+                                        <td>{{ordenesSinTaller.consecutivoOrden}}</td>
+                                        <td>{{ordenesSinTaller.numeroOrden}}</td>
+                                        <td>{{ordenesSinTaller.numeroEconomico}}</td>
+                                        <td>{{ordenesSinTaller.nombreZona}}</td>
+                                        <td>{{ordenesSinTaller.nombreTaller}}</td>
+                                        <td ng-if="ordenesSinTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
+                                        <td ng-if="ordenesSinTaller.idTipoOrden == 2">{{ordenesSinTaller.nombreTipoORden}}</td>
+                                        <td>{{ordenesSinTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
+                                        <td>{{ordenesSinTaller.comentarioOrden}}</td>
+                                        <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
+                                        <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesSinTaller.venta | currency : "$"}}</td>
+                                        <td>{{ordenesSinTaller.nombreUsuario}}</td>
+                                        <td>{{ordenesSinTaller.tiempoEspera}}</td>
+                                    </tr>
+                                        <!--<tr ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} ">
                                         <td>{{ordenesSinTaller.nombreCliente}}</td>
                                         <td>{{ordenesSinTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroOrden}}</td>
@@ -265,7 +281,7 @@
                                             <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)" ><i class="glyphicon glyphicon-refresh"></i></button>
                                             <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
