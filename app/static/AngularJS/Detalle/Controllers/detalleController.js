@@ -980,6 +980,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $("#ModalShowFactura").modal();
     }
 
+    $scope.OpenModalPlanAccion = function() {
+        $("#ModalPlanAccion").modal();
+    }
+
     $scope.ShowFacturas = function() {
             detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
                 $scope.Facturas = respuesta.data;
