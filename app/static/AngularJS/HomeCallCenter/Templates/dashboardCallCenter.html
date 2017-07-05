@@ -9,13 +9,17 @@
                         <br>
                         <br>
                         <br>
-                        <div class="col-md-3 pull-left"> 
-							<div class="col-lg-12">
+                        <div class="col-sm-3 col-md-3 col-lg-3 pull-left"> 
+							<div class="col-sm-12 col-md-12 col-lg-12">
 								<div class="pointer" ng-click="cotizacionPendiente()">
 									<div class="ibox float-e-margins">
 										<div class="ibox-title">
-							                 <span class="label label-success pull-right"><i class="glyphicon glyphicon-user"></i></span>
-                                            <h5>{{userData.nombreCompleto}}</h5>
+							                
+                                             <h5 ng-show="userData.idRol == 3">{{userData.nombreCompleto}}</h5>
+                                             <select ng-show="userData.idRol == 2" class="form-control col-sm-10 col-md-10 col-lg-10" ng-model="ejecutivo" ng-options="ejecutivo.idUsuario as ejecutivo.nombreCompleto  for ejecutivo in ejecutivos"style=" width: 80%;" ng-change="changeEjecutivo(ejecutivo)">
+                                                <option value=''>Seleccionar Ejecutivo</option>
+                                            </select>
+                                            <span class="label label-success pull-right"><i class="glyphicon glyphicon-user"></i></span>
                                          </div>
                                     </div>
                                 </div>
@@ -62,7 +66,7 @@
                             
                             </div> 
                             <div class="col-lg-6 ">
-                                <div class="row col-sm-12 col-md-12 col-lg-12" >
+                                <div class="row col-sm-12 col-md-12 col-lg-12" ng-show="userData.idRol == 3">
                                     <button class="btn btn-primary ng-binding pull-right" tooltip="Nuevo Recordatorio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="recoradatorios('')"> Nuevo Recordatorio </button>
                                 </div>
                                 <br>
@@ -74,8 +78,8 @@
                                                 <th>Recordatorio</th>
                                                 <th>Fecha</th>
                                                 <th>Tiempo vencido</th>
-                                                <th>Editar</th>
-                                                <th>Finalizar</th>
+                                                <th ng-show="userData.idRol == 3">Editar</th>
+                                                <th ng-show="userData.idRol == 3">Finalizar</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -83,11 +87,11 @@
                                                 <td>{{recordatorio.texto}}</td>
                                                 <td>{{recordatorio.fechaRecordatorio}} {{recordatorio.horaRecordatorio}} </td>
                                                 <td>{{recordatorio.tiempo}}</td>
-                                                <td class="center">
+                                                <td class="center" ng-show="userData.idRol == 3">
                                                     <button class="btn btn-info btn-xs" title="Editar" ng-click="recoradatorios(recordatorio)" ><i class="glyphicon glyphicon-refresh"></i></button>
 
                                                 </td>
-                                                <td class="center">
+                                                <td class="center" ng-show="userData.idRol == 3">
                                                     <button class="btn btn-success btn-xs" title="Finalizar" ng-click="finalizarRecordatorio(recordatorio)" ><i class="glyphicon glyphicon-ok"></i></button>
                                                 </td>                                           
 

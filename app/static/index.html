@@ -109,6 +109,12 @@
                 <li ng-show="userData.idRol == 2">
                     <a href="aprobacionutilidad" ng-click="showChat = 0"><i class="glyphicon glyphicon-usd"></i> <span class="nav-label">Aprobación de Utilidades </span></a>
                 </li>
+                <li  ng-show="userData.idRol == 2 ">
+                    <a href="#"><i class="fa fa-group"></i> <span class="nav-label">Call Center</span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-class="{'active': modulo=='callcenter'}"><a href="/dashboardCallCenter">Orden del día</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </nav>

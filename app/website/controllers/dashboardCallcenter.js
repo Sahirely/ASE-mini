@@ -123,6 +123,22 @@ DashBoardCallCenter.prototype.get_zonasCallCenter = function(req, res, next) {
     });
 }
 
+DashBoardCallCenter.prototype.get_ejecutivos = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_EJECUTIVOS_OPERACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 
 
 module.exports = DashBoardCallCenter;
