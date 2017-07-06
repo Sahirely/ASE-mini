@@ -262,7 +262,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
     //obtiene los usuarios ejecutivos
     $scope.devuelveEjecutivos = function(){
-        cotizacionConsultaRepository.obtieneEjecutivos($scope.idUsuario).then(function(ejecutivos){
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.idContratoOperacion).then(function(ejecutivos){
             if(ejecutivos.data.length > 0){
                 $scope.listaEjecutivos = ejecutivos.data;
             }
