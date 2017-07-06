@@ -824,7 +824,7 @@
 <div class="controles-fixed">
     <div class="contenedor">
         <div class="col-xs-5">
-            <table class="table tbl-accion">
+            <table class="table tbl-accion" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (idEstatusOrden != 13)">
                 <tr>
                     <td class="header" width="120">
                         <label>Plan de Acción:</label><br>
@@ -1125,17 +1125,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
 
 <!-- Modal Mostrar -->
 <div class="modal fade" id="ModalPlanAccion" role="dialog">

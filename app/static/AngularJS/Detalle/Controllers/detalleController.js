@@ -1278,19 +1278,18 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 closeOnCancel: false
             },
             function (isConfirm) {
-                if (isConfirm) {
-                   
+                if (isConfirm) {  
                     $scope.cancelarOrden();
                 } else {
-                    swal("Cotizacion no cancelada");
+                    swal("Cita no cancelada");
                 }
             });
     };
 
     $scope.cancelarOrden = function() {
         detalleRepository.postCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
-            
-               swal("Trabajo terminado!", "La cotización se ha cancelado");
+               swal("Trabajo terminado!", "La cita se ha cancelado");
+               location.href = '/consultaCitas';
          },
          function (error) {
              alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
