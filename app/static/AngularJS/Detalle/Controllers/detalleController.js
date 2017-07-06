@@ -1033,7 +1033,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
                     $scope.comentaAccion = "";
                     $scope.fechaAccion = "";
-                    $("#ModalPlanAccion").modal('hide');
                 }
             }, function(error) {
                 alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
@@ -1264,4 +1263,38 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
 
     };
+
+
+         //Abre la modal para confirmar la cancelación de la orden
+    $scope.CancelarCita = function () {
+        swal({
+                title: "¿Esta seguro que desea cancelar la Cita?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#65BD10",
+                confirmButtonText: "Si",
+                cancelButtonText: "No",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            },
+            function (isConfirm) {
+                if (isConfirm) {  
+                    $scope.cancelarOrden();
+                } else {
+                    swal("Cita no cancelada");
+                }
+            });
+    };
+
+    $scope.cancelarOrden = function() {
+        detalleRepository.postCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
+               swal("Trabajo terminado!", "La cita se ha cancelado");
+               location.href = '/consultaCitas';
+         },
+         function (error) {
+             alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
+         });
+    };
+
+
 });
