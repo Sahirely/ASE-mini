@@ -645,4 +645,25 @@ Detalle.prototype.post_presupuestoOrden = function(req, res, next) {
         });
     });
 }
+
+Detalle.prototype.post_cancelaOrden = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idusuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('UPD_CANCELA_ORDEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;

@@ -327,6 +327,18 @@ registrationModule.factory('detalleRepository', function($http) {
               'Content-Type': 'application/json'
               }
           });
+        },
+        postCancelaOrden: function(idUsuario, idOrden){
+            debugger;
+          return $http({
+              url: detalleUrl + 'cancelaOrden',
+              method: "POST",
+              params: {
+                  idUsuario: idUsuario,
+                  idOrden: idOrden
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
         }
     };
 });
