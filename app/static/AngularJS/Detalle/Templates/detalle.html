@@ -844,7 +844,7 @@
                 </div>
 
                 <div class="btn-group pull-right botoneses3" role="group" style="margin-right: 10px; ">
-                    <button ng-hide="btnMoradoIsEnable" data-loading-text="Loading..." 
+                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." 
                         ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil" 
                         type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
                     <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
