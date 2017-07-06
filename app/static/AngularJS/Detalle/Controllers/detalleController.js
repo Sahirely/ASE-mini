@@ -1033,6 +1033,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
                     $scope.comentaAccion = "";
                     $scope.fechaAccion = "";
+                    $("#ModalPlanAccion").modal('hide');
                 }
             }, function(error) {
                 alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
