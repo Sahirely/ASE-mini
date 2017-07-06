@@ -98,6 +98,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                     debugger;
                     if (result.data.length>0) {
                         $scope.detalleOrden = result.data[0];
+                        console.log( $scope.detalleOrden );
                         if ($scope.detalleOrden.respuesta == 1 && $routeParams.tipo != 'nueva') {
                             $scope.tipoDeCita.idTipoCita = $scope.detalleOrden.idTipoCita;
                             $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
@@ -489,23 +490,43 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }else{
                 $scope.serviciosEstatus ='0,' + $scope.serviciosEstatus; 
             }
-
         });
 
         citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
-            
-            angular.forEach($scope.partidas, function(value, key) {
-                
-                cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
-                    alertFactory.success('Cotización Detalle Creada');
-                    citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
-                        setTimeout(function() {
-                            location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2';
-                            //location.href = '/unidad?economico=' + $routeParams.economico;
-                        }, 1000);
-                    });
+            if( $scope.idCotizacion == 0 ){
+                cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
+                    $scope.idCotizacion = result.data[0].idCotizacion;
+                    angular.forEach($scope.partidas, function(value, key) {
+                        cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
+                            alertFactory.success('Cotización Detalle Creada');
+                            // citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
+                            //     setTimeout(function() {
+                            //         // location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
+                            //         //location.href = '/unidad?economico=' + $routeParams.economico;
+                            //     }, 1000);
+                            // });
+                        });
+                    }); 
                 });
-            });
+            }
+            else{
+                angular.forEach($scope.partidas, function(value, key) {
+                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
+                        alertFactory.success('Cotización Detalle Creada');
+                        // citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
+                        //     setTimeout(function() {
+                        //         // location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
+                        //         //location.href = '/unidad?economico=' + $routeParams.economico;
+                        //     }, 1000);
+                        // });
+                    });
+                });    
+            }  
+
+            setTimeout(function() {
+                location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
+                //location.href = '/unidad?economico=' + $routeParams.economico;
+            }, 1000);          
         });
     };
 });
