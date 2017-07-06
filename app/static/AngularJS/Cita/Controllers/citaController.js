@@ -86,16 +86,16 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //                                                    por lo tanto puede crear una nueva ORden de Servicio para la unidad
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function() {
-        debugger;
+        // debugger;
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
            
             if ($scope.detalleUnidad.situacionOrden == 1) {
                
                 $scope.muestraAgendarCita = false;
-                debugger;
+                // debugger;
                 busquedaUnidadRepository.getDetalleOrden($routeParams.orden).then(function(result) {
-                    debugger;
+                    // debugger;
                     if (result.data.length>0) {
                         $scope.detalleOrden = result.data[0];
                         console.log( $scope.detalleOrden );
@@ -192,10 +192,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
     //*****************************************************************************************************************************//
     $scope.getTipoOrdenesServicioActulizar = function() {
-        debugger;
+        // debugger;
         $scope.tipoCita = [];
         citaRepository.getTipoOrdenesServicio().then(function(result) {
-                debugger;
+                // debugger;
                 $scope.tipoCita=result.data;
         });
     };
@@ -204,11 +204,11 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
     //*****************************************************************************************************************************//
     $scope.getTipoOrdenesServicio = function() {
-        debugger;
+        // debugger;
         $scope.tipoCita = [];
         citaRepository.getTipoOrdenesServicioUnidad($scope.detalleUnidad.idUnidad).then(function(result) {
             for (var i = 0 ; i < result.data.length; i++) {
-                debugger;
+                // debugger;
                 if ( $routeParams.tipo == 'nueva') {
                     if (result.data[i].orden  == 0) {
                          $scope.tipoCita.push(result.data[i]);
@@ -524,7 +524,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }  
 
             setTimeout(function() {
-                location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
+                // location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
                 //location.href = '/unidad?economico=' + $routeParams.economico;
             }, 1000);          
         });
