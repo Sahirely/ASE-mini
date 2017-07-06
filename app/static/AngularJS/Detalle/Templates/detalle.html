@@ -862,7 +862,7 @@
                         ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
                     <span class="{{class_buttonComprobanteRecepcion}}"></span> Comprobante de Recepción
                     </button>
-                    <button ng-hide="btnNuevaCotizacionIsEnable || estatus == 1" data-loading-text="Loading..." 
+                    <button ng-hide="userData.idRol == 1 || btnComprobanteRecepcionIsEnable || estatus == 1 " data-loading-text="Loading..." 
                         class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                     <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
@@ -879,11 +879,16 @@
             <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
             <div class="col-sm-12" ng-show="idEstatusOrden==5 && estatus==5" ;>
                 <div class="btn-group pull-right" role="group" aria-label="...">
+
                     <!--VALIDAR USUARIO PARA PROVISIONES-->
-                    <button class="btn btn-success btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
+                    <button class="btn btn-inf btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
                     Aprobación Provisión
                     </button>
-                    <button class="btn btn-primary btn-movil" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
+                    <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." 
+                        class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
+                    <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
+                    </button>
+                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
                     <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
                     </button>
                 </div>
