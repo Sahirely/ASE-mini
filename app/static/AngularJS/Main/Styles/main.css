@@ -120,6 +120,7 @@ body {
 
 #NombreOperacion{
     font-weight: 900;
+    margin-left: -130px !important;
 }
 
 #MenuButton{

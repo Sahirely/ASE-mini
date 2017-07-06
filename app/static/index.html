@@ -177,9 +177,9 @@
                         </li>
                     </ul>
                     <div class="col-xs-4 col-sm-4 col-md-4 col-lg-3 right">
-                        <div data-toggle="tooltip" title="Cerrar Sesión" class="singOut col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                            <a href="/" ng-click="logOut()"> Cerrar Sesión
-                                <i class="fa fa-sign-out" style="font-size: 22px;" id="Close"></i>
+                        <div data-toggle="tooltip" ng-click="logOut()" id="Close" title="Cerrar Sesión" class="singOut col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                            <a href="/"> Cerrar Sesión
+                                <i class="fa fa-sign-out" style="font-size: 22px;" ></i>
                             </a>
                         </div>
                         <div class="dropdown DropOperaciones" ng-hide="{{userData.idRol == 5}}" class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
