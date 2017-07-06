@@ -40,12 +40,12 @@ registrationModule.factory('trabajoRepository', function ($http) {
                 }
             });
         },
-        obtieneEjecutivos: function(idUsuario){
+        obtieneEjecutivos: function(idContratoOperacion){
             return $http({
                 url: cotizacionUrl + 'ejecutivos/',
                 method: "GET",
                 params: {
-                    idUsuario: idUsuario
+                    idContratoOperacion: idContratoOperacion
                 },
                 headers: {
                 'Content-Type': 'application/json'
