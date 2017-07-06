@@ -155,7 +155,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getDetalleOrdenEspecialidad = function(){
         
       busquedaUnidadRepository.getDetalleOrdenEspecialidad($scope.idOrden).then(function(result){
-        
+        console.log( result.data )
         if (result.data.length > 0){
             for (var i = 0 ; i < result.data.length; i++) {
                  angular.forEach($scope.servicios, function(value, key) {
@@ -283,6 +283,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.getServicios = function() {
         citaRepository.getServicios($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.servicios = result.data;
+
+            console.log( $scope.servicios );
+
             if ($scope.servicios[0].respuesta == 1) {
                 $scope.mensajeServicios = false;
             } else if ($scope.servicios[0].respuesta == 0) {
@@ -492,19 +495,13 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
         });
 
-        citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller).then(function(result) {
+        citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller, $scope.idServicios).then(function(result) {
             if( $scope.idCotizacion == 0 ){
                 cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
                     $scope.idCotizacion = result.data[0].idCotizacion;
                     angular.forEach($scope.partidas, function(value, key) {
                         cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
                             alertFactory.success('Cotización Detalle Creada');
-                            // citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
-                            //     setTimeout(function() {
-                            //         // location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
-                            //         //location.href = '/unidad?economico=' + $routeParams.economico;
-                            //     }, 1000);
-                            // });
                         });
                     }); 
                 });
@@ -513,18 +510,16 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 angular.forEach($scope.partidas, function(value, key) {
                     cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
                         alertFactory.success('Cotización Detalle Creada');
-                        // citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.idServicios, ).then(function(result) {
-                        //     setTimeout(function() {
-                        //         // location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
-                        //         //location.href = '/unidad?economico=' + $routeParams.economico;
-                        //     }, 1000);
-                        // });
                     });
                 });    
-            }  
+            }
+
+            citaRepository.putEspecialidadOrden($scope.detalleOrden.idOrden, $scope.idServicios, $scope.serviciosEstatus).then(function(result) {
+                alertFactory.success('Especialidades guardadas');
+            });
 
             setTimeout(function() {
-                // location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
+                location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
                 //location.href = '/unidad?economico=' + $routeParams.economico;
             }, 1000);          
         });
