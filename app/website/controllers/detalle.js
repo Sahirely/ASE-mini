@@ -57,7 +57,7 @@ Detalle.prototype.get_validaFactura = function(req, res, next){
                     console.log( "client.ValidaAll" );
                     console.log( err );
                 }
-                var codigo = validacion.return.codigo;   // 0 => Inválido; 1 => Válido
+                // var codigo = validacion.return.codigo;   // 0 => Inválido; 1 => Válido
 
                 self.view.expositor(res, {
                     error: false,
