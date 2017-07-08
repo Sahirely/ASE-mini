@@ -198,7 +198,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas()" ng-show="muestraBtnPreOrden"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
                     <!-- <button type="button" class="btn btn-danger pull-right btn-movil m-t-xs space">{{labelItems}} Items</button> -->
-                    <button type="button" class="btn btn-success pull-right btn-movil m-t-xs space" ng-click="agendarCita()" ng-show="muestraAgendarCita" ng-disabled="tipoDeCita == '' || tipoDeCita == undefined || estadoDeUnidad == '' || estadoDeUnidad == undefined || fechaCita == '' || fechaCita == undefined || horaCita == '' || horaCita == undefined"><span class="glyphicon glyphicon-calendar "></span><strong> Agendar cita</strong></button>
+                    <button type="button" class="btn btn-success pull-right btn-movil m-t-xs space" ng-click="agendarCita()" ng-show="muestraAgendarCita" ng-disabled="tipoDeCita == '' || tipoDeCita == undefined || estadoDeUnidad == '' || estadoDeUnidad == undefined || fechaCita == '' || fechaCita == undefined || horaCita == '' || horaCita == undefined || labelItems == '' || labelItems == undefined" ><span class="glyphicon glyphicon-calendar "></span><strong> Agendar cita</strong></button>
                     <button type="button " class="btn btn-success pull-right btn-movil m-t-xs space " ng-hide="muestraAgendarCita "  ng-click="actualizarCita() "><span class="glyphicon glyphicon-calendar "></span><strong> Actualizar cita</strong></button>
                 </div>
             </div>
