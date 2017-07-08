@@ -50,6 +50,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
         $scope.enviaNota();
+
         if($scope.userData.presupuesto == 1){
            $scope.getSaldos($routeParams.orden); 
         }
@@ -62,6 +63,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
           $scope.sinTiempoDisponible = 0;
           $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
         }
+
  
     };
 
@@ -147,6 +149,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 }
 
                 $scope.setActiveButtons($scope.estatus);
+                $scope.validaFacturaCotizacionBoton();
 
                 $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
             }
@@ -1442,21 +1445,34 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.validaFacturaCotizacion = function() {
-            detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-                if (result.data[0].success = 1) {
-                    detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-                        if (result.data.length > 0) {
-                            alertFactory.info('Se ha provisionado correctamente');
-                        }
-                    }, function(error) {
-                        alertFactory.error('No se pudo insertar en BPRO');
-                    });
-                }else{
-                    alertFactory.info('Faltan cargar facturas');
-                }
-            }, function(error) {
-                alertFactory.error('No se pudo revisar estatus de facturas');
-            });
+        detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+            if (result.data[0].success == 1) {
+                detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                    if (result.data.length > 0) {
+                        alertFactory.info('Se ha provisionado correctamente');
+                    }
+                }, function(error) {
+                    alertFactory.error('No se pudo insertar en BPRO');
+                });
+            }else{
+                alertFactory.info('Faltan cargar facturas');
+            }
+        }, function(error) {
+            alertFactory.error('No se pudo revisar estatus de facturas');
+        });
+    }
+
+    $scope.validaFacturaCotizacionBoton = function() {
+        detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+            console.log( result );
+            if (result.data[0].success == 1) {
+                $scope.botonProcesarCompra = true;
+            }else{
+                $scope.botonProcesarCompra = false;
+            }
+        }, function(error) {
+            alertFactory.error('No se pudo revisar estatus de facturas');
+        });
     }
 
 });
