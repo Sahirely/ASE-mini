@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="AngularJS/Detalle/Styles/detalle.css">
 <div ng-init="init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
-        <span class="title title-xs"> Consulta Unidad</span>
+        <span class="title title-xs"> Consulta de Orden</span>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
@@ -260,7 +260,7 @@
                         <!-- </div> -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
+                            <div class="carousel slide" id="carousel1" >
                                 <div class="carousel-inner">
                                     <div class="item itamCarousel"  ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
                                         <img
