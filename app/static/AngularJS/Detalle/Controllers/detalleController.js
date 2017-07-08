@@ -1441,5 +1441,22 @@ registrationModule.controller('detalleController', function($scope, $location, $
          });
     };
 
+    $scope.validaFacturaCotizacion = function() {
+            detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                if (result.data[0].success = 1) {
+                    detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                        if (result.data.length > 0) {
+                            alertFactory.info('Se ha provisionado correctamente');
+                        }
+                    }, function(error) {
+                        alertFactory.error('No se pudo insertar en BPRO');
+                    });
+                }else{
+                    alertFactory.info('Faltan cargar facturas');
+                }
+            }, function(error) {
+                alertFactory.error('No se pudo revisar estatus de facturas');
+            });
+    }
 
 });

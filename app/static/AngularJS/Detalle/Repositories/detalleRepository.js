@@ -385,6 +385,31 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getfacturaCotizacion: function(idOrden, idUsuario) {
+            return $http({
+                url: detalleUrl + 'facturaCotizacion/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idUsuario: idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        insertaBPRO: function(idOrden, idUsuario){
+            debugger;
+          return $http({
+              url: detalleUrl + 'insertBPRO',
+              method: "POST",
+              params: {
+                  idOrden: idOrden,
+                  idUsuario: idUsuario
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
         }
     };
 });
