@@ -195,7 +195,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}">
+                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                             <td>{{cotizacion.nombreCliente}}</td>
                             <td>{{cotizacion.consecutivoOrden}}</td>
                             <td>{{cotizacion.numeroOrden}}</td>
@@ -212,14 +212,14 @@
                             <td>{{cotizacion.estadistica}}</td>
                             <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}</td>
                             <td>{{cotizacion.tiempoEspera}}</td>
-                            <td class='center'>
+                            <!--td class='center'>
                                 <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
                                 </button>
                                 <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
                                     <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
                                 </button>
-                            </td>
+                            </td-->
                         </tr>
                     </tbody>
                 </table>
@@ -260,11 +260,11 @@
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
                                     <th>Tiempo en Espera / Tiempo Transcurrido</th>
-                                    <th>Abrir</th>
+                                    <!--th>Abrir</th-->
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1}">
+                                <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1}" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">
                                     <td>{{cotizacion.nombreCliente}}</td>
                                     <td>{{cotizacion.consecutivoOrden}}</td>
                                     <td>{{cotizacion.numeroOrden}}</td>
@@ -282,14 +282,14 @@
                                     <td>{{cotizacion.estadistica}}</td>
                                     <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
                                     <td>{{cotizacion.tiempoEspera}}</td>
-                                    <td class='center'>
+                                    <!--td class='center'>
                                         <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
                                         </button>
                                         <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
                                             <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
                                         </button>
-                                    </td>
+                                    </td-->
                                 </tr>
                             </tbody>
                         </table>
@@ -309,7 +309,7 @@
                       <br>
 
                       <div class="table-responsive">
-                        <table class="table table-bordered table-hover ordenesSinPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                        <table class="table table-bordered table-hover ordenesSinPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}" title="Ver detalles">
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
@@ -330,11 +330,11 @@
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
                                     <th>Tiempo en Espera / Tiempo Transcurrido</th>
-                                    <th>Abrir</th>
+                                    <!--th>Abrir</th-->
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}"> <!-- -->
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles"> <!-- -->
                                   <td>{{cotizacion.nombreCliente}}</td>
                                   <td>{{cotizacion.consecutivoOrden}}</td>
                                   <td>{{cotizacion.numeroOrden}}</td>
@@ -353,14 +353,14 @@
                                   <td>{{cotizacion.estadistica}}</td>
                                   <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
                                   <td>{{cotizacion.tiempoEspera}}</td>
-                                  <td>
+                                  <!--td>
                                     <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                         <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
                                     </button>
                                     <button class="btn btn-danger btnTerminarTrabajo" type="button" tooltip="Cancelar Aprobación" ng-click="cancelarAprobacion(cotizacion.idCotizacion)">
                                         <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
                                     </button>
-                                    </td>
+                                    </td-->
                                 </tr>
                             </tbody>
                         </table>

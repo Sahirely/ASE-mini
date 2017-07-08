@@ -625,7 +625,7 @@
                                                         btnSwitch.classVenta='btn btn-success';
                                                         btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura"  ng-show="estatus == 5 && cotizacion.factura == 0" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
+                                                <button class="btn btn-primary pull-right cargar-factura"  ng-show="estatus == 5 && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
                                                 Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
@@ -866,7 +866,7 @@
                         class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                     <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
-                    <button ng-hide="btnGuardaCotizacionIsEnable" data-loading-text="Loading..." 
+                    <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." 
                         class="btn btn-primary btn-movil" ng-click="btnSaveCotizacion( idUsuario )">
                     <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotizacion
                     </button>

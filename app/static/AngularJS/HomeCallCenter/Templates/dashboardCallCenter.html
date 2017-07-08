@@ -175,6 +175,7 @@
                         <th>Descripción</th>
                         <th>Estatus</th>
                         <th>Tiempo Restante</th>
+                        <th>Tiempo Retraso</th>
                         <th>Plan de Acción</th>
                         <th>Fecha Limite</th>
                     </tr>
@@ -188,7 +189,8 @@
                         <td>{{ordenescall.venta |  currency: "$"}}</td>
                         <td>{{ordenescall.comentarioOrden}}</td>
                         <td>{{ordenescall.nombreEstatusOrden}}</td>
-                        <td>{{ordenescall.tiempo}}</td>
+                        <td ng-show="ordenescall.horasRetraso < 0" ng-class="{'semaforoVerde': ordenescall.horasRetraso < 0}">{{ordenescall.retraso}}</td>
+                        <td ng-class="{'semaforoRojo': ordenescall.horasRetraso > 0}">{{ordenescall.retraso}}</td>
                         <td>{{ordenescall.texto}}</td>
                         <td>{{ordenescall.fecha | date:"MM/dd/yyyy"}}</td>
                         <!-- <td ng-class="{'rowVerde': garantias.horasRetraso <= 49, 'rowAmarillo': garantias.horasRetraso >= 50 && garantias.horasRetraso  <=100, 'rowRojo': garantias.horasRetraso >= 101}">{{garantias.horasRetraso}}</td> -->

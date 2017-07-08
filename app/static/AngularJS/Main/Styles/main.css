@@ -350,3 +350,15 @@ body {
 .dataTableAprobacionProvision tr{
     cursor:pointer;
 }
+
+.semaforoRojo{
+    background-color: #F7A8A8;
+}
+
+.semaforoVerde{
+    background-color: #BCF0CE;
+}
+
+.semaforoAmarillo{
+    background-color: #F3FBB5;
+}

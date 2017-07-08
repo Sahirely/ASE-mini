@@ -23,3 +23,13 @@
 .btnNueva { position: absolute; bottom: 0; right: 0; }
 
 .datosUnidad { position: absolute; right: 0; margin-right: 36px; z-index: 1; top: 0; margin-top: 146px; text-align: right; }
+
+
+table thead tr {
+  background-color: #F5F5F6;
+}
+
+table tbody tr:hover {
+
+  cursor: pointer;
+}
