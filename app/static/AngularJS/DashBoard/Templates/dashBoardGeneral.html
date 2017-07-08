@@ -24,7 +24,7 @@
                                 <div class="ibox-title">
                                     <h5>Citas</h5>
                                     <div class="ibox-tools">
-                                        <span class="label label-success pull-right">Total: {{totalCitas | number}}</span>
+                                        <span class="label label-success pull-right">Total: {{totalCitas |  number}}</span>
                                     </div>
                                 </div>
                                 <div class="ibox-content ">
@@ -42,16 +42,16 @@
                                                 <div class="col-sm-4">{{x.estatus}}</div>
                                                 <div class="col-sm-2">{{x.total}}</div>
                                                 <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
                                             </div>
                                             <div class="row rowHead">
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-4">Total</div>
                                                 <div class="col-sm-2">{{totalCitas | number}}</div>
                                                 <div class="col-sm-2">{{totalHorasCitas | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCitas | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCitas | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCitas | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCitas | currency : "$"}}</div>
                                             </div>
                                         </div>
                                         <div class="donutContainer">
@@ -84,16 +84,16 @@
                                                 <div class="col-sm-4">{{x.estatus}}</div>
                                                 <div class="col-sm-2">{{x.total}}</div>
                                                 <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
                                             </div>
                                             <div class="row rowHead">
                                                 <div class="col-sm-1"></div>
                                                 <div class="col-sm-4">Total</div>
                                                 <div class="col-sm-2">{{totalCotizaciones | number}}</div>
                                                 <div class="col-sm-2">{{totalHorasCotizaciones | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCotizaciones | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCotizaciones | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCotizaciones | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCotizaciones | currency : "$"}}</div>
                                             </div>
                                         </div>
                                         <div class="donutContainer">
@@ -127,8 +127,8 @@
                                                 <div class="col-sm-4">{{x.estatus}}</div>
                                                 <div class="col-sm-2">{{x.total}}</div>
                                                 <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
                                             </div>
                                             <div class="row rowHead">
                                                 <div class="col-sm-1"></div>
@@ -136,8 +136,8 @@
                                                 <div class="col-sm-2">{{totalProceso | number}}</div>
                                                 <div class="col-sm-2">{{totalHorasOrdenesProceso | number}}</div>
                                                 <!-- <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div> -->
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesProceso | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesProceso | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesProceso | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesProceso | currency : "$"}}</div>
                                             </div>
                                         </div>
                                         <div class="donutContainer">
@@ -172,8 +172,8 @@
                                                 <div class="col-sm-4">{{x.estatus}}</div>
                                                 <div class="col-sm-2">{{x.total}}</div>
                                                 <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
                                             </div>
                                             <div class="row rowHead">
                                                 <div class="col-sm-1"></div>
@@ -181,8 +181,8 @@
                                                 <div class="col-sm-2">{{totalOrdenes | number}}</div>
                                                 <div class="col-sm-2">{{totalHorasOrdenesServicio | number}}</div>
                                                 <!-- <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div> -->
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesServicio | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesServicio | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesServicio | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesServicio | currency : "$"}}</div>
                                             </div>
                                         </div>
                                         <div class="donutContainer">
@@ -216,8 +216,8 @@
                                                 <div class="col-sm-4">{{x.estatus}}</div>
                                                 <div class="col-sm-2">{{x.total}}</div>
                                                 <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
                                             </div>
                                             <div class="row rowHead">
                                                 <div class="col-sm-1"></div>
@@ -225,8 +225,8 @@
                                                 <div class="col-sm-2">{{totalOrdenesPorCobrar | number}}</div>
                                                 <div class="col-sm-2">{{totalHorasOrdenesCobrar | number}}</div>
                                                 <!-- <div class="col-sm-2">{{totalMontoOrdenesCobrar | number}}</div> -->
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesCobrar | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesCobrar | number}}</div>
+                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesCobrar | currency : "$"}}</div>
+                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesCobrar | currency : "$"}}</div>
                                             </div>
                                         </div>
                                         <div class="donutContainer">
