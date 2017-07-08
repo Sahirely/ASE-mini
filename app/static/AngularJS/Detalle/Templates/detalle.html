@@ -625,7 +625,7 @@
                                                         btnSwitch.classVenta='btn btn-success';
                                                         btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura"  ng-show="estatus == 5 && cotizacion.factura == 0" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto );">
+                                                <button class="btn btn-primary pull-right cargar-factura"  ng-show="estatus == 5 && cotizacion.factura == 0" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
                                                 Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
@@ -1078,6 +1078,7 @@
                             <input type="hidden" value="{{idOrden}}" name="idOrden">
                             <input type="hidden" value="{{cotizacionFactura}}" name="cotizacionFactura">
                             <input type="hidden" value="{{cotizacionTotal}}" name="cotizacionTotal">
+                            <input type="hidden" value="{{numeroCotizacion}}" name="numeroCotizacion">
                             <input type="hidden" value="{{docServer}}" name="docServer">
                             <!-- $rootScope.docServer -->
                             <label>XML</label>
@@ -1108,7 +1109,7 @@
                         <div class="col-sm-12">
                             <br>
                             <div class="alert alert-warning alert_respuesta">
-                                <strong>¡Factura cargada correctamente!</strong>
+                                <h3 id="mensaje"></h3>
                                 <br>
                                 <br>
                                 <table class="table borderless errores_factura"> </table>

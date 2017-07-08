@@ -596,11 +596,14 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.pnl_token_admin = false;
     }
 
-    $scope.OpenModalFactura = function(no, cf, ct) {
+    $scope.OpenModalFactura = function(no, cf, ct, nc) {
         $scope.idOrden = no;
         $scope.cotizacionFactura = cf;
+        $scope.numeroCotizacion = nc;
         $scope.cotizacionTotal = ct;
         $scope.alert_respuesta = false;
+
+        console.log( "numeroCotizacion", $scope.numeroCotizacion );
 
         $(".alert-warning").hide();
         $("#myModal").modal();
@@ -713,26 +716,167 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
             detalleRepository.postSubirFacturas($scope.numeroOrden).then(function(result) {
                 var Respuesta = result.data;
-                $scope.alert_respuesta = true;
-                $(".uploading").hide();
-                $(".alert_respuesta").fadeIn();
 
                 Respuesta.data.forEach(function(item, key) {
                     var ServerPath = item.Param.docServer + '/orden/' + item.PathDB;
+                    var Extension = item.PathDB.split('.').pop().toLowerCase();
+                    
+                    if( Extension == 'xml' ){
+                        
+                        detalleRepository.validaFactura( item.PathDB ).then(function(result) {                            
+                            if( parseInt(result.data.return.codigo) == 0 ){
+                                $scope.FacturaLista();
+                                $("#mensaje").text('¡Factura no válida!');
+                                $.each(result.data.return, function(key, registro) {
+                                    if( key != 'codigo' )
+                                        $(".errores_factura").append('<tr> <td width="20%"><strong>' + key + '</strong></td> <td>' + registro + '</td> </tr>');
+                                });
+                            }
+                            else if( parseInt(result.data.return.codigo) == 2 ){
+                                $scope.FacturaLista();
+                                $("#mensaje").text('¡No se ha podivo verificar!');
+                                $.each(result.data.return, function(key, registro) {
+                                    if( key != 'codigo' )
+                                        $(".errores_factura").append('<tr> <td width="20%"><strong>' + key + '</strong></td> <td>' + registro + '</td> </tr>');
+                                });
+                            }
+                            else{
+                                $("#mensaje").text('¡Factura cargada correctamente!');
+                                var xml = result.data.xml_objet;
+                                var sxml = result.data.xml;
 
-                    detalleRepository.getGuardarFactura(ServerPath, item.Param.idOrden, item.Param.cotizacionFactura).then(function(result) {
-                        // Resultado
-                    });
+                                var UUID         = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
+                                var RFC_Emisor   = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
+                                var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
+                                var subTotal     = xml['cfdi:Comprobante'].$['subTotal'];
+                                var Total        = xml['cfdi:Comprobante'].$['total'];
+                                var Fecha        = xml['cfdi:Comprobante'].$['fecha'];
+                                var Folio        = xml['cfdi:Comprobante'].$['folio'];
+
+                                if( Folio === undefined || Folio === null || Folio == "" ){
+                                    var aux = UUID.split("-");
+                                    Folio = aux[0];
+                                }
+
+                                
+                                detalleRepository.getRFCFactura($scope.numeroCotizacion).then(function(result) {
+                                    if( result.data.length != 0 ){
+                                        var rfc          = result.data[0];
+
+                                        // Esta sección se debera quitar para producción
+                                        // Esta sección se debera quitar para producción
+                                        // Esta sección se debera quitar para producción
+                                        var RFC_Receptor = rfc.RFCCliente;
+                                        var RFC_Emisor   = rfc.RFCTaller;
+                                        var subTotal     = $scope.cotizacionTotal;
+                                        // Esta sección se debera quitar para producción
+                                        // Esta sección se debera quitar para producción
+                                        // Esta sección se debera quitar para producción
+
+                                        if( RFC_Receptor != rfc.RFCCliente ){
+                                            $scope.FacturaLista();
+                                            $("#mensaje").text('¡Factura no válida!');
+                                            $(".errores_factura").append('<tr> <td width="20%"><strong>RFC Receptor</strong></td> <td>El RFC Receptor no coincide con el de la cotización.</td> </tr>');
+                                            detalleRepository.eliminaFactura( item.PathDB );
+                                        }
+                                        else if( RFC_Emisor != rfc.RFCTaller ){
+                                            $scope.FacturaLista();
+                                            $("#mensaje").text('¡Factura no válida!');
+                                            $(".errores_factura").append('<tr> <td width="20%"><strong>RFC Emisor</strong></td> <td>El RFC Emisor no coincide con el de la cotización.</td> </tr>');
+                                            detalleRepository.eliminaFactura( item.PathDB );
+                                        }
+                                        else{
+                                            if( $scope.cotizacionTotal >= ( parseInt(subTotal) - 1 ) && $scope.cotizacionTotal <= ( parseInt(subTotal) + 1 ) ){
+                                                console.log("Todas las validaciones son correctas");
+                                                var parametros = {
+                                                    idCotizacion:   rfc.idCotizacion,
+                                                    numFactura:     Folio,
+                                                    uuid:           UUID,
+                                                    fechaFactura:   Fecha,
+                                                    subTotal:       subTotal,
+                                                    iva:            subTotal * 0.16,
+                                                    total:          Total,
+                                                    idUsuario:      $scope.idUsuario,
+                                                    xml:            sxml,
+                                                    rfcEmisor:      RFC_Emisor,
+                                                    rfcReceptor:    RFC_Receptor
+                                                }
+
+                                                detalleRepository.insertarFactura( parametros ).then(function(result) {
+                                                    console.log( result.data );
+                                                    if( result.data.length != 0 ){
+                                                        Respuesta.data.forEach(function(archivo, key) {
+                                                            var ServerPath = archivo.Param.docServer + '/orden/' + archivo.PathDB;
+                                                            detalleRepository.getGuardarFactura(ServerPath, archivo.Param.idOrden, archivo.Param.cotizacionFactura).then(function(result) {
+                                                                console.log( result );
+                                                            });
+                                                        });
+
+                                                        setTimeout(function() {
+                                                            $("#myModal").modal('hide');
+                                                            $scope.init();
+                                                        }, 2500);
+                                                        $scope.FacturaLista();
+                                                        $("#mensaje").text('¡Factura guardada!');
+                                                        $(".errores_factura").append('<tr> <td width="20%"><strong>Info</strong></td> <td>Factura guardada correctamente.</td> </tr>');
+                                                        detalleRepository.eliminaFactura( item.PathDB );
+                                                    }
+                                                    else{
+                                                        $scope.FacturaLista();
+                                                        $("#mensaje").text('¡Factura no guardada!');
+                                                        $(".errores_factura").append('<tr> <td width="20%"><strong>Info</strong></td> <td>La factura no pudo ser guardada, intente nuevamente.</td> </tr>');
+                                                        detalleRepository.eliminaFactura( item.PathDB );
+                                                    }
+                                                }, function(error) {
+                                                    $scope.FacturaLista();
+                                                    $("#mensaje").text('¡Factura no guardada!');
+                                                    $(".errores_factura").append('<tr> <td width="20%"><strong>Info</strong></td> <td>La factura no pudo ser guardada, intente nuevamente.</td> </tr>');
+                                                    detalleRepository.eliminaFactura( item.PathDB );
+                                                });
+                                            }
+                                            else{
+                                                $scope.FacturaLista();
+                                                $("#mensaje").text('¡Factura no válida!');
+                                                $(".errores_factura").append('<tr> <td width="20%"><strong>Totales</strong></td> <td>El Total no coincide con el de la cotización.</td> </tr>');
+                                                detalleRepository.eliminaFactura( item.PathDB );
+                                            }
+                                        }
+
+                                        // console.log("Valida RFC Receptor", rfc.RFCCliente, RFC_Receptor);
+                                        // console.log("Valida RFC Emisor", rfc.RFCTaller, RFC_Emisor);
+                                        // console.log("SubTotal", subTotal, $scope.cotizacionTotal);
+                                    }
+                                    else{
+                                        $scope.FacturaLista();
+                                    }
+
+                                }, function(error) {
+                                    //console.log(error);
+                                });
+                            }
+                        }, function(error) {
+                            console.log(error);
+                        });
+                    }
+                    // detalleRepository.getGuardarFactura(ServerPath, item.Param.idOrden, item.Param.cotizacionFactura).then(function(result) {
+                        
+                    // });
                 });
 
-                setTimeout(function() {
-                    $("#myModal").modal('hide');
-                    $scope.init();
-                }, 2000);
+                
             }, function(error) {
                 //console.log(error);
             });
         }
+    }
+
+    $scope.FacturaLista = function(){
+        $scope.alert_respuesta = true;
+        $(".uploading").hide();
+        $(".alert_respuesta").fadeIn();
+        $(".errores_factura").html('');
+        $scope.class_buttonCargaFactura = '';
+        $(".btn-cerrar").removeAttr("disabled");
     }
 
     $scope.ValidaTerminoTrabajo = function() {

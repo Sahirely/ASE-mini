@@ -339,6 +339,52 @@ registrationModule.factory('detalleRepository', function($http) {
               },
               headers:{ 'Content-Type': 'application/json' }
           });
+        },
+        validaFactura: function( path ) {
+            return $http({
+                url: detalleUrl + 'validaFactura/',
+                method: "GET",
+                params: {
+                  path: path
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getRFCFactura: function( numeroCotizacion ) {
+            return $http({
+                url: detalleUrl + 'getRFCFactura/',
+                method: "GET",
+                params: {
+                  numeroCotizacion: numeroCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        eliminaFactura: function( path ) { 
+            return $http({
+                url: detalleUrl + 'eliminaFactura/',
+                method: "GET",
+                params: {
+                  path: path
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        insertarFactura: function( parametros ) { 
+            return $http({
+                url: detalleUrl + 'insertarFactura/',
+                method: "GET",
+                params: parametros,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

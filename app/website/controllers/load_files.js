@@ -21,6 +21,7 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
             var files     = req.files;
             var fieldname = files[ index ].fieldname;
             var extencion = file.originalname.split('.').pop();
+            var nombreModificado = "Factura_" + req.body.numeroCotizacion + "." + extencion;
 
             var Url_Destino_2 =  "107\\Factura\\1";
             var Url_Destino = destino + req.body.idOrden + "\\Factura\\" + req.body.cotizacionFactura
@@ -35,9 +36,9 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                 fieldname: fieldname, 
                 success:true, 
                 msg: "Se cargo correctamente",
-                nombre: file.originalname, 
-                Path: destino + '/' + file.originalname,
-                PathDB: req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + file.originalname,
+                nombre: nombreModificado, 
+                Path: destino + '/' + nombreModificado,
+                PathDB: req.body.idOrden + "/Factura/" + req.body.cotizacionFactura + '/' + nombreModificado,
                 Param: req.body
             });
 
@@ -48,6 +49,7 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
             var fieldname = files[ index ].fieldname;
             var extencion = file.originalname.split('.').pop();
             var nameFile  = '';
+            var nombreModificado = "Factura_" + req.body.numeroCotizacion + "." + extencion;
 
             if( opt_dest_fields === undefined ){
                 nameFile = file.originalname;
@@ -66,7 +68,7 @@ Load_Files.prototype.upload = function( destino, req, res, miCallback ) { // Typ
                 }
             }  
 
-            callback( null, nameFile );
+            callback( null, nombreModificado );
         }
     });
 
