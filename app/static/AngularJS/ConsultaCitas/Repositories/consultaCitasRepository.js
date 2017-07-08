@@ -128,13 +128,14 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             })
         },
-        getPartidasTaller: function(idTaller, especialidad) {
+        getPartidasTaller: function(idTaller, especialidad, idContratoOperacion) {
             return $http({
                 url: consultaCitaUrl + 'getPartidasTaller/',
                 method: "GET",
                 params: {
                     idTaller: idTaller,
-                    especialidad: especialidad
+                    especialidad: especialidad,
+                    idContratoOperacion: idContratoOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'

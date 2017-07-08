@@ -195,6 +195,10 @@ OrdenServicio.prototype.get_getPartidasTaller = function(req, res, next) {
         name: 'especialidad',
         value: req.query.especialidad,
         type: self.model.types.STRING
+    },{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_PARTIDAS_TALLER_SP', params, function(error, result) {

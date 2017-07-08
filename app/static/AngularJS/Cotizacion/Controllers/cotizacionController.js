@@ -144,12 +144,24 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
 
     $scope.getPartidasTaller = function(idTaller) {
+        var partidas = [];
         $('#loadModal').modal('show');
         $scope.idTaller = idTaller;
         $('.dataTablePartidasTalleres').DataTable().destroy();
-        consultaCitasRepository.getPartidasTaller(1, $scope.especialidad).then(function(result) {
+        consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidad, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             if (result.data.length > 0) {
-                $scope.partidasTaller = result.data;
+               partidas.push(result.data[0]);
+
+                result.data.forEach(function(item) {
+
+                    partidas.forEach(function(item2) {
+                      if (item.idPartida != item2.idPartida) {
+                        partidas.push(item);
+                      };
+                    });
+                  
+                });
+                $scope.partidasTaller =partidas;
                 //globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
                 globalFactory.filtrosTabla("dataTablePartidasTalleres", "PartidasTalleres", 100);
             }
