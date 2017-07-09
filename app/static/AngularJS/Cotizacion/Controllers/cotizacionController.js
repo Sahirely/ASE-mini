@@ -232,7 +232,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                 alertFactory.success('se creo nueva cotización');
                 $scope.limpiarParametros();
                 $('#loadModal').modal('hide');
-                location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 1;
+                location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 2;
             } else {
                 $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
