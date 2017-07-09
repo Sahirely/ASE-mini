@@ -31,7 +31,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.errores_factura = false;
     $scope.idOrden = 0;
     $scope.show_tokenMargen=false;
-
+    $scope.procesarCompra = '';
+    $scope.estadoCompra = false;
     $scope.sinTiempoDisponible = 1;
     $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
 
@@ -1451,6 +1452,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
                     if (result.data.length > 0) {
                         alertFactory.info('Se ha provisionado correctamente');
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, 1000);
+                        $scope.init();
                     }
                 }, function(error) {
                     alertFactory.error('No se pudo insertar en BPRO');
@@ -1468,6 +1473,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
             console.log( result );
             if (result.data[0].success == 1) {
                 $scope.botonProcesarCompra = true;
+            }else if (result.data[0].success == 2) {
+                $scope.botonProcesarCompra = false;
+                $scope.estadoCompra = true;
+                $scope.procesarCompra = 'PROVISIOADO';
             }else{
                 $scope.botonProcesarCompra = false;
             }
