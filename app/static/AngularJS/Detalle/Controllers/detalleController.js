@@ -282,7 +282,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             alertFactory.warning('El token proporcionado no cuenta con el nivel de autorización necesario para esta operación.');
                         }
                         else{
-                            $scope.btnSaveCotizacion(result.data[0].idUsuario);
+                            $scope.btnSaveCotizacion(result.data[0].idUsuario, );
                         }
                     },500 );
                 }
@@ -342,25 +342,25 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     };
 
-    $scope.btnSaveCotizacion = function( idUsuario ) {
+    $scope.btnSaveCotizacion = function( idUsuario, cotizacion ) {
         $scope.class_buttonGuardaCotizacion = 'fa fa-spinner fa-spin';
         if($scope.userData.presupuesto == 1){
-            var haveBalance = $scope.checkBalance();
+            var haveBalance = $scope.checkBalance(cotizacion);
             if (haveBalance == true) {
-                $scope.UpdatePartidaStatus(idUsuario);
+                $scope.UpdatePartidaStatus(idUsuario, cotizacion);  
             } else {
                 $('.modal-dialog').css('width', '1050px');
                 modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '');
                 $scope.class_buttonGuardaCotizacion = '';
             }
         }else{
-            $scope.UpdatePartidaStatus(idUsuario);
+            $scope.UpdatePartidaStatus(idUsuario, cotizacion);
         }
     };
 
-    $scope.checkBalance = function() {
+    $scope.checkBalance = function(cotizacion) {
         var sumOperacion = 0;
-        $scope.cotizaciones[0].detalle.forEach(function(item) {
+        cotizacion.detalle.forEach(function(item) {
             if (item.btnStep != 0 && item.btnDisabled == false) {
                 sumOperacion += item.ventaTotal;
             }
@@ -379,8 +379,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }
     };
 
-    $scope.UpdatePartidaStatus = function( idUsuario ) {
-        $scope.cotizaciones[0].detalle.forEach(function(item) {
+    $scope.UpdatePartidaStatus = function( idUsuario,cotizacion ) {
+     
+        cotizacion.detalle.forEach(function(item) {
             if (item.btnDisabled == false && item.selOption > 1) {
                 var params = {
                     idUsuario: '',
@@ -403,7 +404,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         });
 
         setTimeout(function() {
-            $scope.UpdateCotizacionStatus($scope.cotizaciones[0].idCotizacion, idUsuario);
+            $scope.UpdateCotizacionStatus(cotizacion.idCotizacion, idUsuario);
         }, 1000);
     };
 
@@ -415,7 +416,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 switch (Number(valor)) {
                     case 2: //cliente
                         alertFactory.success('Faltan partidas por aprobar.');
-                        $scope.buttonGuardaCotizacion = '';
+                        $scope.class_buttonGuardaCotizacion = '';
                         $scope.init();
                         break;
                     case 3:
@@ -431,21 +432,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
 
                                 }, function(error) {
-                                    $scope.buttonGuardaCotizacion = '';
+                                    $scope.class_buttonGuardaCotizacion = '';
                                     alertFactory.error('No se puede enviar el correo');
                                 });
                             }
-                            $scope.buttonGuardaCotizacion = '';
+                            $scope.class_buttonGuardaCotizacion = '';
                         }, function (error) {
                             alertFactory.error("Error al obtener información para el mail");
-                            $scope.buttonGuardaCotizacion = '';
+                            $scope.class_buttonGuardaCotizacion = '';
                         });
                         break;
                     case 4:
                         location.href = '/cotizacionconsulta';
                         break;
                     default:
-                        $scope.buttonGuardaCotizacion = '';
+                        $scope.class_buttonGuardaCotizacion = '';
                         alertFactory.info('Debe seleccionar partidas para aprobar.');
                 }
 

@@ -257,7 +257,7 @@
                         <!-- </div> -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <div class="carousel slide" id="carousel1" >
+                            <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
                                 <div class="carousel-inner">
                                     <div class="item itamCarousel"  ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
                                         <img
@@ -747,14 +747,19 @@
                                                             </tr>
                                                         </tbody>
                                                     </table>
-                                                    <div ng-show="btn_editarCotizacion">
-                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)">
+                                                    <div>
+
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
                                                         <span class="{{class_buttonEditarCotizacion}}"></span>
                                                         Editar Cotización
                                                         </button>
-                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)">
-                                                        <span class="{{class_buttonEditarCotizacion}}"></span>
+                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
+                                                        <span></span>
                                                         Cancelar Cotización
+                                                        </button>
+                                                         <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." 
+                                                            class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
+                                                            <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotizacion
                                                         </button>
                                                     </div>
                                                 </div>
@@ -867,10 +872,7 @@
                         class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                     <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
-                    <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." 
-                        class="btn btn-primary btn-movil" ng-click="btnSaveCotizacion( idUsuario )">
-                    <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotizacion
-                    </button>
+                   
                     <button ng-hide="btnEditarIsEnable" class="btn btn-success btn-movil" type="submit"> Editar</button>
                 </div>
             </div>
