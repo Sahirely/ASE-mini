@@ -946,49 +946,100 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }
     }
 
-    $scope.ValidaEntrega = function() {
-        detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
-            if (result.data[0].RealizarOperacion) {
-                if ($scope.token_termino == '' || $scope.token_termino === undefined) {
-                    alertFactory.error('Introduce el Token de Verificación');
+    $scope.ValidaEntrega = function(objeto) {
+            if(objeto == 0){
+                detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+                if (result.data[0].RealizarOperacion) {
+                    if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                        alertFactory.error('Introduce el Token de Verificación');
+                    } else {
+                        detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                            if (r_token.data[0].Success) {
+                                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
+                                    alertFactory.success('Se ha pasado a estatus Entrega');
+                                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                                                if (resp.data.length > 0) {
+                                                    var correoDe = resp.data[0].correoDe;
+                                                    var correoPara = resp.data[0].correoPara;
+                                                    var asunto = resp.data[0].asunto;
+                                                    var texto = resp.data[0].texto;
+                                                    var bodyhtml = resp.data[0].bodyhtml;
+                                                     commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                                            $("html, body").animate({
+                                                                scrollTop: 0
+                                                            }, 1000);
+                                                            $scope.init();
+                                                            $scope.token_termino = '';
+                                                            $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+                                                            
+                                                    }, function(error) {
+                                                        alertFactory.error('No se puede enviar el correo');
+                                                    });
+                                                }
+                                            }, function (error) {
+                                                alertFactory.error("Error al obtener información para el mail");
+                                            });
+                                });
+                            } else {
+                                alertFactory.error(r_token.data[0].Msg);
+                                $scope.token_termino = '';
+                            }
+                        });
+                    }
                 } else {
-                    detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
-                        if (r_token.data[0].Success) {
-                            detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
-                                alertFactory.success('Se ha pasado a estatus Entrega');
-                                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                                            if (resp.data.length > 0) {
-                                                var correoDe = resp.data[0].correoDe;
-                                                var correoPara = resp.data[0].correoPara;
-                                                var asunto = resp.data[0].asunto;
-                                                var texto = resp.data[0].texto;
-                                                var bodyhtml = resp.data[0].bodyhtml;
-                                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                                        $("html, body").animate({
-                                                            scrollTop: 0
-                                                        }, 1000);
-                                                        $scope.init();
-                                                        $scope.token_termino = '';
-                                                        $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                        
-                                                }, function(error) {
-                                                    alertFactory.error('No se puede enviar el correo');
-                                                });
-                                            }
-                                        }, function (error) {
-                                            alertFactory.error("Error al obtener información para el mail");
-                                        });
-                            });
-                        } else {
-                            alertFactory.error(r_token.data[0].Msg);
-                            $scope.token_termino = '';
-                        }
-                    });
+                    alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
                 }
-            } else {
-                alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+            });
+        }else{
+            if($scope.validaProcesoProvisionamiento == 2){
+                    detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
+                    if (result.data[0].RealizarOperacion) {
+                        if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                            alertFactory.error('Introduce el Token de Verificación');
+                        } else {
+                            detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
+                                if (r_token.data[0].Success) {
+                                    detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
+                                        alertFactory.success('Se ha pasado a estatus Cobranza');
+                                            commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                                                    if (resp.data.length > 0) {
+                                                        var correoDe = resp.data[0].correoDe;
+                                                        var correoPara = resp.data[0].correoPara;
+                                                        var asunto = resp.data[0].asunto;
+                                                        var texto = resp.data[0].texto;
+                                                        var bodyhtml = resp.data[0].bodyhtml;
+                                                         commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                                                $("html, body").animate({
+                                                                    scrollTop: 0
+                                                                }, 1000);
+                                                                $scope.init();
+                                                                $scope.token_termino = '';
+                                                                $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+                                                                
+                                                        }, function(error) {
+                                                            alertFactory.error('No se puede enviar el correo');
+                                                        });
+                                                    }
+                                                }, function (error) {
+                                                    alertFactory.error("Error al obtener información para el mail");
+                                                });
+                                    });
+                                } else {
+                                    alertFactory.error(r_token.data[0].Msg);
+                                    $scope.token_termino = '';
+                                }
+                            });
+                        }
+                    } else {
+                        alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+                    }
+                });
+
+            }else{
+                swal("Advertencia!", "La orden se debe provisionar");
             }
-        });
+        }
+ 
     }
 
     $scope.ValidaPorCobrar = function() {
@@ -1477,10 +1528,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }else if (result.data[0].success == 2) {
                 $scope.botonProcesarCompra = false;
                 $scope.estadoCompra = true;
-                $scope.procesarCompra = 'PROVISIOADO';
+                $scope.procesarCompra = 'PROVISIONADO';
             }else{
                 $scope.botonProcesarCompra = false;
             }
+            $scope.validaProcesoProvisionamiento = result.data[0].success;
         }, function(error) {
             alertFactory.error('No se pudo revisar estatus de facturas');
         });
