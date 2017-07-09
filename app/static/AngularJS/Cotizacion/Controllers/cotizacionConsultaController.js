@@ -256,39 +256,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       return result;
     }
 
-    //Abre la modal para confirmar la cancelación de la orden
-    $scope.cancelarAprobacion = function (idCotizacion) {
-        $('.btnTerminarTrabajo').ready(function () {
-            swal({
-                    title: "¿Esta seguro que desea cancelar la cotización?",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#65BD10",
-                    confirmButtonText: "Si",
-                    cancelButtonText: "No",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        $scope.cancelarCotizacion(idCotizacion);
-                        location.href = '/cotizacionconsulta';
-                    } else {
-                        swal("Cotizacion no cancelada");
-                    }
-                });
-        });
-    };
-
-    $scope.cancelarCotizacion = function(idCotizacion) {
-        $scope.promise = cotizacionConsultaRepository.cancelaCotizacion($scope.userData.idUsuario, idCotizacion).then(function () {
-               swal("Trabajo terminado!", "La cotización se ha cancelado");
-         },
-         function (error) {
-             alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
-         });
-    };
-
     $scope.AutorizacionDetalle = function (nOrden) {     
         location.href = "/detalle?orden=" + nOrden + "&estatus=4";
     };
