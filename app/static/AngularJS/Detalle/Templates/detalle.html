@@ -832,7 +832,7 @@
 
 <div class="controles-fixed">
     <div class="contenedor">
-        <div class="col-xs-5">
+        <div class="col-xs-4">
             <table class="table tbl-accion" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (idEstatusOrden != 13)">
                 <tr>
                     <td class="header" width="120">
@@ -842,6 +842,9 @@
                     <td> <p class="accion-detalle">{{detalleOrden.accion}}</p> </td>
                 </tr>
             </table>
+        </div>
+        <div class="col-xs-1">
+        <button ng-hide="aprovisonamiento == null" class="btn btn-info btn-movil" type="submit" ng-click="realizaProvision();"> Provisiona </button>
         </div>
         <div class="col-xs-7" id="footerDetalle">
             <div class="col-xs-12">

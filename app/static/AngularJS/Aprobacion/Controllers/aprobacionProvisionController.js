@@ -30,6 +30,7 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
 
     $scope.seleccionarOrden = function(obj) {
         location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden;
+        localStorageService.set('provision', obj);
     }
 
   });

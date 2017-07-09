@@ -39,6 +39,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.init = function() {
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
+        $scope.aprovisonamiento = localStorageService.get('provision');
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.btnSwitch.classCosto = 'btn btn-success';
         $scope.btnSwitch.classVenta = 'btn btn-default';
@@ -1513,6 +1514,20 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.cancelarCotizacion = function(idCotizacion) {
         $scope.promise = cotizacionConsultaRepository.cancelaCotizacion($scope.userData.idUsuario, idCotizacion).then(function () {
                swal("Trabajo terminado!", "La cotización se ha cancelado");
+         },
+         function (error) {
+             alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
+         });
+    };
+
+    $scope.realizaProvision = function() {
+        $scope.promise = detalleRepository.postaproviosionamiento($scope.idOrden, $scope.userData.idUsuario).then(function () {
+               swal("Trabajo terminado!", "La orden se ha provisionado corractamente");
+               localStorageService.remove('provision');
+                        $("html, body").animate({
+                            scrollTop: 0
+                        }, 1000);
+                        $scope.init();
          },
          function (error) {
              alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');

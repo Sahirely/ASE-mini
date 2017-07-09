@@ -410,6 +410,18 @@ registrationModule.factory('detalleRepository', function($http) {
               },
               headers:{ 'Content-Type': 'application/json' }
           });
+        },
+        postaproviosionamiento: function(idOrden, idUsuario){
+            debugger;
+          return $http({
+              url: detalleUrl + 'aproviosionamiento',
+              method: "POST",
+              params: {
+                  idOrden: idOrden,
+                  idUsuario: idUsuario
+              },
+              headers:{ 'Content-Type': 'application/json' }
+          });
         }
     };
 });
