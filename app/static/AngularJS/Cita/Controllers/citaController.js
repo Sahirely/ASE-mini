@@ -445,11 +445,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
 
         });
-        if ($scope.idServicios == '') {
+        if ($scope.idServicios == '' && $scope.zonaSelected == 0) {
 
-            alertFactory.warning("Seleccione minimo un especialidad como criterio de búsqueda.");
-        } else if ($scope.zonaSelected == 0) {
-            alertFactory.warning("Seleccione minimo una zona como criterio de búsqueda.");
+            alertFactory.warning("Seleccione minimo un criterio de búsqueda.");
         } else {
             tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
                 $scope.mostrarTabla = true;
