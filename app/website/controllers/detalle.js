@@ -871,4 +871,25 @@ Detalle.prototype.post_insertBPRO = function(req, res, next) {
     });
 }
 
+Detalle.prototype.post_aproviosionamiento = function(req, res, next) {
+    
+    var self = this;
+    var params = [{
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('UPD_PROVISION_BPRO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;
