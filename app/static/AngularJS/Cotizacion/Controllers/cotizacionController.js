@@ -27,9 +27,14 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $scope.mostrarTalleres = true;
         $scope.mostrarPartida = false;
         $scope.getCotizacionDetalle();
-        if ($scope.idCotizacion != undefined ) {
+        
+        //if ($scope.idCotizacion != undefined ) { //LQMA comment 10072017
+        if($scope.numeroOrden != undefined) {  //LQMA add 10072017 
+            console.log('entro a obtener detalle')
             $scope.getOrdenDetalle();
-            $scope.show_nuevaCotizacion = false;
+            
+            if ($scope.idCotizacion != undefined ) //LQMA add 10072017
+                $scope.show_nuevaCotizacion = false;
         };
 
     }
@@ -111,6 +116,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
     $scope.getOrdenDetalle = function() {
         consultaCitasRepository.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden).then(function(result) {
+            //LQMA 10072017
+            //console.log(result.data)
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
             }
