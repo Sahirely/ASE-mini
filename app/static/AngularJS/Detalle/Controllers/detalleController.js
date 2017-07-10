@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository,filterFilter) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -198,6 +198,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.getMostrarCotizaciones = function(numeroOrden, estatus, idUsuario) {
         cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario).then(function(result) {
+            console.log("--------------------------------------");
+            console.log( result );
+            console.log("--------------------------------------");
             if (result.data.success == true) {
                 $scope.cotizaciones = result.data.data;
                 $scope.getTotales();
@@ -247,12 +250,19 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.partidasportokentotal = 0;
-    $scope.initApproveButtons = function(item) {
+    $scope.initApproveButtons = function(item ,idCotizacion) {
         if (item.Aprueba == 1 && item.idEstatusPartida == 1) {
             item.btnDisabled = false;
             if( $scope.portoken ){
                 $scope.partidasportokentotal++;
-                item.selOption = 2;
+                item.selOption = 1; // 2
+                if( $scope.idCotizacionActive == idCotizacion ){
+                    item.selOption = 2; // 2
+                }
+                else{
+                    item.selOption = 1; // 2
+                    item.btnDisabled = true;
+                }
             }
             else{
                 item.selOption = item.idEstatusPartida;
@@ -284,7 +294,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             alertFactory.warning('El token proporcionado no cuenta con el nivel de autorización necesario para esta operación.');
                         }
                         else{
-                            $scope.btnSaveCotizacion(result.data[0].idUsuario, );
+                            // alert("btnSaveCotizacion("+ result.data[0].idUsuario +","+ $scope.idCotizacionActive +")");
+                            // btnSaveCotizacion( result.data[0].idUsuario, cotizacion)
+                            // console.log('inicio de btnSaveCotizacion')
+                            // var coti = cotizaciones;
+                            var coti = filterFilter( $scope.cotizaciones , {idCotizacion: $scope.idCotizacionActive} );
+                            $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0]);
                         }
                     },500 );
                 }
@@ -414,6 +429,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         aprobacionRepository.getUpdateStatusCotizacion(idCotizacion, idUsuario).then(function(result) {
             if (result.data.length > 0) {
                 var valor = result.data[0].idEstatusCotizacion;
+                console.log( valor );
 
                 switch (Number(valor)) {
                     case 2: //cliente
