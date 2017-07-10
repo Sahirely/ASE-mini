@@ -452,6 +452,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 }, function(error) {
                                     $scope.class_buttonGuardaCotizacion = '';
                                     alertFactory.error('No se puede enviar el correo');
+                                    setTimeout( function(){
+                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
+                                    },1500);
                                 });
                             }
                             $scope.class_buttonGuardaCotizacion = '';
@@ -1126,6 +1129,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                     //$scope.init();
                                             }, function(error) {
                                                 alertFactory.error('No se puede enviar el correo');
+                                                setTimeout( function(){
+                                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                                                },1500);
                                             });
                                         }
                                     }, function (error) {
@@ -1433,6 +1439,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         //$scope.init();
                                 }, function(error) {
                                     alertFactory.error('No se puede enviar el correo');
+                                    setTimeout( function(){
+                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                                    },1500);
                                 });
                             }
                         }, function (error) {
