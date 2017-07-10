@@ -1507,6 +1507,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             function (isConfirm) {
                 if (isConfirm) {
                     $scope.cancelarOrden();
+                    location.href = '/consultaCitas';
                 } else {
                     swal("Cita no cancelada");
                 }
@@ -1577,10 +1578,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     closeOnConfirm: false,
                     closeOnCancel: false
                 },
-                function (isConfirm) {
+                function (isConfirm) {  
                     if (isConfirm) {
                         $scope.cancelarCotizacion(Cotizacion.idCotizacion);
-                        location.href = "/detalle?orden=" + $scope.numeroOrden + "&estatus=4";
+                        location.href = '/unidad?economico=' + $scope.detalleOrden.numeroEconomico;
+                        //location.href = "/detalle?orden=" + $scope.numeroOrden + "&estatus=4";
                     } else {
                         swal("Cotizacion no cancelada");
                     }

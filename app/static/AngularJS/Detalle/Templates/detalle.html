@@ -486,8 +486,8 @@
                                     <button class="btn btn-archivo btn-large-dim btn-outline m-t-md"
                                         type="button"
                                         ng-click="archivoEvidencia(1);"
-                                        ng-disabled="validaCertificado == 0"
-                                        ng-class="{btn_archivo_yep: validaCertificado != 0}">
+                                        ng-disabled="validaCertificado == 0 || estatus == 4"
+                                        ng-class="{btn_archivo_yep: validaCertificado != 0 && estatus != 4}">
                                     <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
@@ -497,8 +497,8 @@
                                     <button class="btn btn-archivo btn-large-dim btn-outline m-t-md"
                                         type="button"
                                         ng-click="OpenTrabajo();"
-                                        ng-disabled="idEstatusOrden < 7"
-                                        ng-class="{btn_archivo_yep: idEstatusOrden >= 7}">
+                                        ng-disabled="estatus == 4 || estatus == 2 || validaCertificado == 0"
+                                        ng-class="{btn_archivo_yep: estatus != 4 && estatus != 2 && validaCertificado != 0 }">
                                     <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
