@@ -54,7 +54,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.enviaNota();
 
         if($scope.userData.presupuesto == 1){
-           $scope.getSaldos($routeParams.orden); 
+           $scope.getSaldos($routeParams.orden);
         }
         $('.horaAsignada').clockpicker();
         $scope.ShowFacturas();
@@ -66,7 +66,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
           $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
         }
 
- 
+
     };
 
     //funcion reloj recursiva cada minuto
@@ -364,7 +364,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         if($scope.userData.presupuesto == 1){
             var haveBalance = $scope.checkBalance(cotizacion);
             if (haveBalance == true) {
-                $scope.UpdatePartidaStatus(idUsuario, cotizacion);  
+                $scope.UpdatePartidaStatus(idUsuario, cotizacion);
             } else {
                 $('.modal-dialog').css('width', '1050px');
                 modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '');
@@ -389,7 +389,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             } else {
                 $scope.TieneSaldo = false;
                 return false;
-            } 
+            }
         }else{
             $scope.TieneSaldo = false;
             return false;
@@ -397,7 +397,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.UpdatePartidaStatus = function( idUsuario,cotizacion ) {
-     
+
         cotizacion.detalle.forEach(function(item) {
             if (item.btnDisabled == false && item.selOption > 1) {
                 var params = {
@@ -407,7 +407,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     idEstatusPartida: 0
                 };
                 params.idUsuario = idUsuario;
-                params.idCotizacion = $scope.cotizaciones[0].idCotizacion;
+                params.idCotizacion = cotizacion.idCotizacion;
                 params.idPartida = item.idPartida;
                 params.idEstatusPartida = item.selOption;
 
@@ -742,10 +742,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 Respuesta.data.forEach(function(item, key) {
                     var ServerPath = item.Param.docServer + '/orden/' + item.PathDB;
                     var Extension = item.PathDB.split('.').pop().toLowerCase();
-                    
+
                     if( Extension == 'xml' ){
-                        
-                        detalleRepository.validaFactura( item.PathDB ).then(function(result) {                            
+
+                        detalleRepository.validaFactura( item.PathDB ).then(function(result) {
                             if( parseInt(result.data.return.codigo) == 0 ){
                                 $scope.FacturaLista();
                                 $("#mensaje").text('¡Factura no válida!');
@@ -780,7 +780,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                     Folio = aux[0];
                                 }
 
-                                
+
                                 detalleRepository.getRFCFactura($scope.numeroCotizacion).then(function(result) {
                                     if( result.data.length != 0 ){
                                         var rfc          = result.data[0];
@@ -881,11 +881,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         });
                     }
                     // detalleRepository.getGuardarFactura(ServerPath, item.Param.idOrden, item.Param.cotizacionFactura).then(function(result) {
-                        
+
                     // });
                 });
 
-                
+
             }, function(error) {
                 //console.log(error);
             });
@@ -987,7 +987,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                             $scope.init();
                                                             $scope.token_termino = '';
                                                             $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                            
+
                                                     }, function(error) {
                                                         alertFactory.error('No se puede enviar el correo');
                                                     });
@@ -1031,7 +1031,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                                 $scope.init();
                                                                 $scope.token_termino = '';
                                                                 $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                                
+
                                                         }, function(error) {
                                                             alertFactory.error('No se puede enviar el correo');
                                                         });
@@ -1055,7 +1055,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 swal("Advertencia!", "La orden se debe provisionar");
             }
         }
- 
+
     }
 
     $scope.ValidaPorCobrar = function() {
@@ -1121,7 +1121,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             var texto = resp.data[0].texto;
                                             var bodyhtml = resp.data[0].bodyhtml;
                                              commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                                    
+
                                                     location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                                                     //$scope.init();
                                             }, function(error) {
@@ -1153,7 +1153,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 closeOnConfirm: false
             },
             function() {
-               
+
             });*/
         $("#ModalRechazoTrabajo").modal();
         $scope.motivo_rechazoTrabajo='';
@@ -1178,7 +1178,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                     }, 1000);
                                     $scope.init();
                                     swal("", "Se ha rechazado el trabajo", "success");
-                                  
+
                             }, function(error) {
                                 alertFactory.error('No se puede enviar el correo');
                             });
@@ -1288,7 +1288,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.validateEstatusAprobacion = function (){
         var bandera = true;
-        
+
         if ($scope.cotizaciones != undefined) {
             $scope.cotizaciones.forEach(function(item) {
                 item.detalle.forEach(function(itemDetail) {
@@ -1312,7 +1312,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }else{
             swal('Debe de contar con una cotización.');
         }
-        
+
     }
 
     //utilidad
@@ -1354,9 +1354,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         var texto = resp.data[0].texto;
                                         var bodyhtml = resp.data[0].bodyhtml;
                                          commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                                //$scope.estatusAprobacion(); 
+                                                //$scope.estatusAprobacion();
                                             alertFactory.info('Se notifico por correo la utilidad');
-                                                
+
                                         }, function(error) {
                                             alertFactory.error('No se puede enviar el correo');
                                         });
@@ -1367,12 +1367,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             }else{
                                 swal('La orden se encuentra en espera de Aprobación de Utilidad');
                             }
-                            
+
                         }
                     }, function(error) {
                         alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
                     });
-                   
+
                 }
             });
 
@@ -1400,7 +1400,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }, function(error) {
             alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
         });
-              
+
     };
 
 
@@ -1428,7 +1428,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
                                  commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                                       
+
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                                         //$scope.init();
                                 }, function(error) {
@@ -1496,7 +1496,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 closeOnCancel: false
             },
             function (isConfirm) {
-                if (isConfirm) {  
+                if (isConfirm) {
                     $scope.cancelarOrden();
                 } else {
                     swal("Cita no cancelada");
