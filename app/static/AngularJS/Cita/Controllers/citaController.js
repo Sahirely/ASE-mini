@@ -104,7 +104,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.tipoDeCita.idTipoCita = $scope.detalleOrden.idTipoCita;
                             $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
                             $scope.idTaller = $scope.detalleOrden.idTaller;
-                            $scope.zonaSelected = $scope.detalleOrden.idZona;
+                            $scope.idZonaTaller = $scope.detalleOrden.idZona;
                             $scope.opcionTipoCita = false;
                             $scope.opcionEstadoUnidad = false;
                             $scope.grua = $scope.detalleOrden.grua;
@@ -323,7 +323,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.agendarCita = function() {
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller, $scope.idServicios).then(function(result) {
+        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
            
             if (result.data[0].respuesta == 1) {
                 $scope.numeroOrden = result.data[0].numeroOrden;
@@ -449,7 +449,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
 
         });
-        if ($scope.idServicios == '' && $scope.zonaSelected == 0) {
+        if ($scope.idServicios == '' || $scope.zonaSelected == 0) {
 
             alertFactory.warning("Seleccione minimo un criterio de búsqueda.");
         } else {
@@ -460,8 +460,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             });
         }
     };
-    $scope.sendIdTaller = function(idTaller) {
-        $scope.idTaller = idTaller;
+    $scope.sendIdTaller = function(taller) {
+        $scope.idTaller = taller.idProveedor;
+        $scope.idZonaTaller = taller.idZona;
         $scope.muestraBtnPreOrden = true;
     };
     $scope.getTallerXid = function(idTaller) {
@@ -497,7 +498,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
         });
 
-        citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.zonaSelected, $scope.idTaller, $scope.idServicios).then(function(result) {
+        citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
             if( $scope.idCotizacion == 0 ){
                 cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita).then(function(result) {
                     $scope.idCotizacion = result.data[0].idCotizacion;
