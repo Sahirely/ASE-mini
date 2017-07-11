@@ -13,7 +13,7 @@
                             <h3>Tipo de Orden: <span class="text-orden">{{detalleOrden.nombreTipoOrden}} </span></h3>
                         </div>
                         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                            <h3><span class="label label-primary mayusculas">{{detalleOrden.nombreEstatusOrden}} </span></h3>
+                            <h3><span class="label label-primary mayusculas">{{detalleOrden.nombreEstatusOrden}}</span></h3>
                             <!-- <button class="btn btn-primary pull-right"
                                 ng-show="estatus == 5"
                                 ng-click="getReporteConformidad(detalleOrden.idOrden)">
@@ -486,9 +486,9 @@
                                     <button class="btn btn-archivo btn-large-dim btn-outline m-t-md"
                                         type="button"
                                         ng-click="archivoEvidencia(1);"
-                                        ng-disabled="validaCertificado == 0 || estatus == 4"
-                                        ng-class="{btn_archivo_yep: validaCertificado != 0 && estatus != 4}">
-                                    <i class="fa fa-file-pdf-o"></i>
+                                        ng-disabled="validaCertificado == 0"
+                                        ng-class="{btn_archivo_yep: validaCertificado != 0 }">
+                                        <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
@@ -497,8 +497,8 @@
                                     <button class="btn btn-archivo btn-large-dim btn-outline m-t-md"
                                         type="button"
                                         ng-click="OpenTrabajo();"
-                                        ng-disabled="estatus == 4 || estatus == 2 || validaCertificado == 0"
-                                        ng-class="{btn_archivo_yep: estatus != 4 && estatus != 2 && validaCertificado != 0 }">
+                                        ng-disabled="detalleOrden.idEstatusOrden < 6"
+                                        ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
                                     <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>

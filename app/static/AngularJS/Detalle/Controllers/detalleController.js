@@ -46,6 +46,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.btnSwitch.classVenta = 'btn btn-default';
         $scope.showButtonSwitch($scope.userData.idRol);
         $scope.checkComprobanteRecepcion();
+        $scope.checkHojaTrabajo();
         $scope.HistoricoCotizaciones = [];
         $scope.getHistoricos();
         $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
@@ -1232,6 +1233,20 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.validaCertificado = 1;
             } else {
                 $scope.validaCertificado = 0;
+            }
+        }, function(error) {
+            alertFactory.error('No se puede obtener el historico de la orden.');
+        });
+    }
+
+    $scope.validaHojaTrabajo = false;
+    $scope.checkHojaTrabajo = function() {
+        detalleRepository.getExistsComprobanteRecepcion($scope.numeroOrden, 2).then(function(result) {
+            var resultado = result.data[0];
+            if (resultado[0].ID != 0) {
+                $scope.validaHojaTrabajo = true;
+            } else {
+                $scope.validaHojaTrabajo = false;
             }
         }, function(error) {
             alertFactory.error('No se puede obtener el historico de la orden.');
