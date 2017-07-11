@@ -96,13 +96,16 @@ function modal_saldos($scope, $modal, saldos, nombreCentroTrabajo, callback, err
 };
 
 
-function modal_partidas($scope, $modal, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error) {
+function modal_partidas($scope, $modal, bandera, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/modals/Template/partidas.html',
         controller: 'partidas_controller',
         backdrop: 'static',
         size: 300,
         resolve: {
+            bandera: function() {
+                return bandera
+            },
             idtaller: function() {
                 return idtaller
             },

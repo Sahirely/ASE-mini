@@ -255,6 +255,19 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getPartidasUnidad: function(idTipoUnidad, idContratoOperacion) {
+            return $http({
+                url: consultaCitaUrl + 'getPartidasUnidad/',
+                method: "GET",
+                params: {
+                    idTipoUnidad: idTipoUnidad,
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

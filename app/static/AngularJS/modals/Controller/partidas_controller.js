@@ -1,5 +1,6 @@
-registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
+registrationModule.controller('partidas_controller', function($scope, $modalInstance, $modal, $http, $sce, $window, bandera, idtaller, especialidades, partidas, idCotizacion, infoBusqueda, callback, error, ordenServicioRepository, alertFactory, consultaCitasRepository, globalFactory, userFactory) {
     $scope.idTaller = idtaller;
+    $scope.bandera = bandera;
     $scope.especialidades = especialidades;
     $scope.lstPartidaSeleccionada = partidas;
     $scope.idCotizacion = idCotizacion;
@@ -16,7 +17,8 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         }
 
         var partidas = [];
-        consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+    if($scope.bandera == 1){
+                consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
 
@@ -30,6 +32,25 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         }, function(error) {
             alertFactory.error('No se puenen obtener las órdenes');
         });
+
+    }else{
+                        consultaCitasRepository.getPartidasUnidad($scope.detalleBusqueda[0].idTipoUnidad, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.partidasTaller = result.data;
+
+                globalFactory.filtrosTabla("partidas", "Partidas Talleres", 100);
+                setTimeout(function() {
+                    $('[data-toggle="popover"]').popover({
+                        html: true
+                    });
+                }, 100);
+            }
+        }, function(error) {
+            alertFactory.error('No se puenen obtener las órdenes');
+        });
+
+    }
+
     };
     $scope.close = function() {
         $modalInstance.dismiss('cancel');

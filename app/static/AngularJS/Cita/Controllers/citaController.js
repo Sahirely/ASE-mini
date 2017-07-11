@@ -299,17 +299,19 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     // Se manda a llamar la modal para mostrar las partidas y seleccionar las paritdas necesarias para la unidad
     //*****************************************************************************************************************************//
-    $scope.getModalPartidas = function() {
-        $scope.infoBusqueda = [{
-            idTipoUnidad: $scope.detalleUnidad.idTipoUnidad,
-            nombreTipoUnidad: $scope.detalleUnidad.nombreTipoUnidad,
-            nombreServicios: $scope.nombreServicios,
-            nombreZona: $scope.nombreZona,
-            etiquetaZona: $scope.etiquetaZona
-        }]
-        $('.modal-dialog').css('width', '1050px');
-        modal_partidas($scope, $modal, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.partidas, $scope.idCotizacion, $scope.infoBusqueda, $scope.resultado, '');
+    $scope.getModalPartidas = function(objeto) {
+            $scope.infoBusqueda = [{
+                idTipoUnidad: $scope.detalleUnidad.idTipoUnidad,
+                nombreTipoUnidad: $scope.detalleUnidad.nombreTipoUnidad,
+                nombreServicios: $scope.nombreServicios,
+                nombreZona: $scope.nombreZona,
+                etiquetaZona: $scope.etiquetaZona
+            }]
+            $('.modal-dialog').css('width', '1050px');
+            modal_partidas($scope, $modal, objeto, $scope.idTaller, $scope.idServicios.slice(0, -1), $scope.partidas, $scope.idCotizacion, $scope.infoBusqueda, $scope.resultado, '');
     };
+
+
     $scope.resultado = function(partidas) {
         $scope.partidas = partidas;
         $scope.labelItems = partidas.length;

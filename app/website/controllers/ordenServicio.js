@@ -625,4 +625,23 @@ OrdenServicio.prototype.get_getAprobacionUtilidad = function (req, res, next) {
     });
 }
 
+OrdenServicio.prototype.get_getPartidasUnidad = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idTipoUnidad',
+        value: req.query.idTipoUnidad,
+        type: self.model.types.INT
+    }, {
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_PARTIDAS_TIPO_UNIDAD_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 module.exports = OrdenServicio;
