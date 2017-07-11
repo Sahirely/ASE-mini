@@ -196,7 +196,7 @@
 
 
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button ng-show="idRol != 1" type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas(1)" ng-show="muestraBtnPreOrden"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
+                    <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas(1)" ng-show="muestraBtnPreOrden && idRol != 1"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
 
                     <button ng-show="idRol == 1" type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas(0)" ng-show="muestraBtnPreOrden"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
                     <!-- <button type="button" class="btn btn-danger pull-right btn-movil m-t-xs space">{{labelItems}} Items</button> -->
