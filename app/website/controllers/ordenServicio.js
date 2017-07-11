@@ -175,7 +175,21 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
 
 OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
     var self = this;
-    var params = [];
+        //LQMA add 11072017 
+    var params = [{
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    },{
+        name: 'idZona',
+        value: req.query.idZona,
+        type: self.model.types.INT
+    }];    
+
     //LQMA 14062017 se cambio SEL_TALLER_PRUEBA_SP por SEL_TALLERES_SP
     this.model.query('SEL_TALLERES_SP', params, function(error, result) {
         self.view.expositor(res, {

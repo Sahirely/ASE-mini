@@ -118,11 +118,15 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        getTalleres: function() {
+        getTalleres: function(idUsuario, idContratoOperacion, idZona) {
             return $http({
                 url: consultaCitaUrl + 'getTalleres/',
                 method: "GET",
-                params: {},
+                params: { //LQMA add 11072017
+                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion,
+                    idZona : idZona
+                },
                 headers: {
                     'Content-Type': 'application/json'
                 }

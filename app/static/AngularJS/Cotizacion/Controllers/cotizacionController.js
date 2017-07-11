@@ -22,6 +22,9 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $scope.idCotizacion = $routeParams.idCotizacion;
         $scope.numeroOrden = $routeParams.orden;
         $scope.estatus = $routeParams.estatus;
+         //LQMA add 11072017
+        $scope.idZona = $routeParams.idZona;
+        console.log('idZona: ' + $scope.idZona);
 
         $scope.getTipoOrdenesServicio()
         $scope.mostrarTalleres = true;
@@ -54,7 +57,10 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.getTalleres = function() {
         $('#loadModal').modal('show');
         $('.dataTableTalleres').DataTable().destroy();
-        $scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
+        //LQMA add cambio 11072017
+        //$scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
+        $scope.promise = consultaCitasRepository.getTalleres($scope.userData.idUsuario,$scope.userData.contratoOperacionSeleccionada,$scope.idZona).then(function(result) {  
+         
             if (result.data.length > 0) {
 
                  if ($scope.idCotizacion != undefined ) {

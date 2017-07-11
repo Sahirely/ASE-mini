@@ -137,6 +137,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.detalleOrden = result.data[0];
                 $scope.estatus = $routeParams.estatus;
                 $scope.estatusUtilidad();
+                //LQMA add 11072017    
+                $scope.idZona_Orden = result.data[0].idZona;
 
                 if ($scope.estatus == undefined)
                   $scope.estatus = $scope.detalleOrden.idEstatusOrden;
@@ -230,7 +232,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.nuevaCotizacion = function() {
         $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
-        location.href = '/cotizacionnueva?orden=' + $routeParams.orden;
+        //location.href = '/cotizacionnueva?orden=' + $routeParams.orden;
+        //LQMA 11072017
+         location.href = '/cotizacionnueva?orden=' + $routeParams.orden + '&idZona=' +$scope.idZona_Orden;
     }
 
     $scope.enviaNota = function() {
