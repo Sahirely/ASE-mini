@@ -15,23 +15,10 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
             $scope.sumatoriaTotal();
         }
 
-        
         var partidas = [];
         consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             if (result.data.length > 0) {
-
-                partidas.push(result.data[0]);
-
-                result.data.forEach(function(item) {
-
-                    partidas.forEach(function(item2) {
-                      if (item.idPartida != item2.idPartida) {
-                        partidas.push(item);
-                      };
-                    });
-                  
-                });
-                $scope.partidasTaller =partidas;
+                $scope.partidasTaller = result.data;
 
                 globalFactory.filtrosTabla("partidas", "Partidas Talleres", 100);
                 setTimeout(function() {
