@@ -148,7 +148,7 @@
 
         <div class=" row col-xs-12 col-sm-6 col-md-6 col-lg-6">
         </div>
-        <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" ng-show="totalOrdenes.length > 0">
+        <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" >
             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                 <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro('')">
                 <label for="rdTodas"> Todos </label>
@@ -162,7 +162,7 @@
                 <label for="rdSinTaller"> Nuevas Sin Taller </label>
             </div>
         </div>
-        <div class="row" ng-show="totalOrdenes.length > 0">
+        <div class="row" >
             <div class="panel-body">
                 <tabset>
                     <tab heading="Citas" index="0" active="ConTallerActive">

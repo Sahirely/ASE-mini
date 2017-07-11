@@ -30,7 +30,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.userData = userFactory.getUserData();
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
-          $scope.filtroEstatus = $scope.estatusDashboard; 
+          $scope.filtroEstatus = $scope.estatusDashboard;
         }else{
           $scope.filtroEstatus = '';
         }
@@ -41,8 +41,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
         $scope.devuelveEjecutivos();
-        globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
-        globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
 
 
         if ($scope.userData.idRol == 2) {
@@ -134,8 +132,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
               globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
           } else {
               $scope.cotizaciones = [];
-              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 5);
-              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 5);
+              globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes Con Presupuesto", 100);
+              globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
+              globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
               alertFactory.info('No se Encontraron Ordenes en Aprobación.');
           }
 
@@ -256,7 +255,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       return result;
     }
 
-    $scope.AutorizacionDetalle = function (nOrden) {     
+    $scope.AutorizacionDetalle = function (nOrden) {
         location.href = "/detalle?orden=" + nOrden + "&estatus=4";
     };
 
