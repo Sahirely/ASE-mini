@@ -301,6 +301,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getModalPartidas = function(objeto) {
             $scope.infoBusqueda = [{
+                idUnidad: $scope.detalleUnidad.idUnidad,
                 idTipoUnidad: $scope.detalleUnidad.idTipoUnidad,
                 nombreTipoUnidad: $scope.detalleUnidad.nombreTipoUnidad,
                 nombreServicios: $scope.nombreServicios,

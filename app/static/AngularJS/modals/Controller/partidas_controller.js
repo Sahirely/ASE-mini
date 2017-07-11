@@ -34,7 +34,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
         });
 
     }else{
-                        consultaCitasRepository.getPartidasUnidad($scope.detalleBusqueda[0].idTipoUnidad, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+                        consultaCitasRepository.getPartidasUnidad($scope.detalleBusqueda[0].idUnidad, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
 
