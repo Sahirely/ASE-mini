@@ -39,6 +39,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.init = function() {
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
+        $scope.rolLogged = $scope.userData.idRol;
         $scope.aprovisonamiento = localStorageService.get('provision');
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.btnSwitch.classCosto = 'btn btn-success';

@@ -862,7 +862,7 @@
                     <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
                     </button>
                     <button ng-hide="btnNegroIsEnable" class="btn btn-negro btn-movil" type="submit">Negro</button>
-                    <button ng-hide="btnEditarCitaIsEnable" data-loading-text="Loading..." 
+                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1" data-loading-text="Loading..." 
                         ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit" ng-click="editarCita()">
                     <span class="{{class_buttonEditarCita}}"></span> Editar Cita
                     </button>

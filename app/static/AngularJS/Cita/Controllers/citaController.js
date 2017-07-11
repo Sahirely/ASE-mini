@@ -31,6 +31,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
+        $scope.idRol = $scope.userData.idRol;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
         $scope.permisos();
         $scope.getDetalleUnidad();
