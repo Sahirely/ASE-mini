@@ -170,3 +170,20 @@ function modal_planDeAccion($scope, $modal, callback, error) {
         }
     });
 };
+
+function modal_agregarComentario($scope, $modal, callback, error) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/modals/Template/comentarios.html',
+        controller: 'comentarios_controller',
+        backdrop: 'static',
+        size: 300,
+        resolve: {
+            callback: function() {
+                return callback;
+            },
+            error: function() {
+                return error;
+            }
+        }
+    });
+};

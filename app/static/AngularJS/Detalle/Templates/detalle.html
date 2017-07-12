@@ -361,10 +361,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a data-slide="prev" href="#carousel1" class="left carousel-control iconCarousel">
+                                <a data-slide="prev" href="#carousel1" ng-non-bindable class="left carousel-control iconCarousel">
                                 <span class="icon-prev"></span>
                                 </a>
-                                <a data-slide="next" href="#carousel1" class="right carousel-control iconCarousel">
+                                <a data-slide="next" href="#carousel1" ng-non-bindable class="right carousel-control iconCarousel">
                                 <span class="icon-next"></span>
                                 </a>
                             </div>
@@ -706,7 +706,7 @@
                                                                         <input type="radio"
                                                                             ng-model="partida.selOption"
                                                                             ng-disabled="partida.btnDisabled"
-                                                                            value="3" >
+                                                                            value="3" ng-click=agregarComentario(1)>
                                                                     </div>
                                                                 </td>
                                                                 <td ng-show="false" center>
