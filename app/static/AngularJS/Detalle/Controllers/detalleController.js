@@ -1285,7 +1285,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.acciones = function() {
         if (($scope.comentaAccion != undefined && $scope.comentaAccion != "") && ($scope.fechaAccion != undefined && $scope.fechaAccion != "")) {
-            detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaAccion, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
+             //FAL 12072017 calcula la nueva fecha
+            $scope.fechaCompleta = $scope.fechaAccion + ' ' + $scope.horaAccion;
+            detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaCompleta, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
                 if (result.data.length > 0) {
                     alertFactory.success('Se inserto correctamente la Acción');
                     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
@@ -1655,4 +1657,53 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     };
 
+    //FAL 12072017 funciones para no permitir planes difernetes de la fecha actual
+    $scope.NoFechaAntigua = function(fecha){
+        
+        var CurrentDate = new Date();
+        var anio = CurrentDate.getFullYear();
+        var mes = CurrentDate.getMonth() + 1;
+        var dia = CurrentDate.getDate();
+        var diaActual  = new Date(anio+'/'+mes+'/'+dia);
+        var fechaSeleccionada = new Date(fecha);
+
+        if (fechaSeleccionada < diaActual){
+            $scope.fechaAccion = '';
+            $scope.horaAccion = '';
+            $scope.SeleccionoDiaActual = false;
+            alertFactory.info('No puede seleccionar una fecha anterior.');
+        }
+
+        if(!(fechaSeleccionada < diaActual) && !(fechaSeleccionada > diaActual)){
+            $scope.SeleccionoDiaActual = true;
+            if($scope.horaAccion != undefined && $scope.horaAccion != '' && $scope.horaAccion != null){
+                $scope.NoHoraAntigua($scope.horaAccion);
+            }
+        }
+
+        if(fechaSeleccionada > diaActual){
+          $scope.SeleccionoDiaActual = false;
+        }
+    };
+
+    $scope.NoHoraAntigua = function(hora){
+        
+      if($scope.fechaAccion != undefined && $scope.fechaAccion != '' && $scope.fechaAccion != null){
+          if($scope.SeleccionoDiaActual == true){
+              var HoraActual = new Date();
+              var anio = HoraActual.getFullYear();
+              var mes = HoraActual.getMonth() + 1;
+              var dia = HoraActual.getDate();
+              var HoraSeleccionada  = new Date(anio+'/'+mes+'/'+dia+' '+hora+ ':00.000');
+
+              if (!(HoraSeleccionada > HoraActual)){
+                $scope.horaAccion = '';
+                alertFactory.info('No puede seleccionar una hora anterior.');
+              }
+          }
+      }else{
+            $scope.horaAccion = '';
+            alertFactory.info('Seleccione antes la fecha del recordatorio.');
+      }
+    }
 });

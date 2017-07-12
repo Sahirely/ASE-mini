@@ -1178,29 +1178,38 @@
             </div>
             <div class="modal-body">
                 <!-- Acciones -->
+                <!--12072017 agre FAL plan de acción -->
                 <div class="row">
-                    <form role="form">
-                        <br>
-                        <div class="col-sm-3 col-md-3 col-lg-3">
-                            <label>Plan</label>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <label>Plan de acción</label>
+                    </div>
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        <textarea name="message" placeholder="Escriba su plan de acción" style="width: 352px; height: 82px;" ng-model="comentaAccion" capitalize></textarea>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+                        <label>Fecha</label>
+                    </div>
+                    <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+                        <div class="input-group date">
+                            <input type="text" class="form-control" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)" calendar>
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
-                        <div class="col-sm-9 col-md-9 col-lg-9">
-                            <textarea name="message" placeholder="Escriba su plan de acción" ng-model="comentaAccion" style="width: 352px; height: 82px;"></textarea>
-                            <!-- <input type="text" class="form-control"> -->
-                        </div>
-                        <div class="col-sm-3 col-md-3 col-lg-3 m-t">
-                            <label>Fecha</label>
-                        </div>
-                        <div class="col-sm-5 col-md-5 col-lg-5 m-t">
-                            <div class="input-group date">
-                                <input type="text" class="form-control" value="" ng-model="fechaAccion" calendar>
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+                                <label>Hora</label>
+                            </div>
+                            <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+                                <div class="input-group horaAsignada" data-autoclose="true">
+                                    <input type="text" class="form-control" value="" ng-model="horaAccion" ng-change="NoHoraAntigua(horaAccion)">
+                                    <span class="input-group-addon">
+                            <span class="fa fa-clock-o"></span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-4 col-lg-4 m-t" style="padding-bottom: 15px;">
-                            <!-- <button class="btn btn-sm btn-primary pull-right" ng-click="acciones()">Agregar Acción</button> -->
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
