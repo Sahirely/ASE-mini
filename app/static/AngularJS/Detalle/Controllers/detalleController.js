@@ -280,6 +280,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.err_aprobacion_show = false;
+    $scope.idUsuarioToken = 0;
     $scope.VerificaTokenAprobacion = function(){
         if( $scope.token_aprobacion == '' || $scope.token_aprobacion === undefined ){
             $(".err_aprobacion").fadeIn();
@@ -305,7 +306,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             // console.log('inicio de btnSaveCotizacion')
                             // var coti = cotizaciones;
                             var coti = filterFilter( $scope.cotizaciones , {idCotizacion: $scope.idCotizacionActive} );
-                            $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0]);
+                            $scope.idUsuarioToken = result.data[0].idUsuario;
+                            // $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0]);
                         }
                     },500 );
                 }
@@ -366,6 +368,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.btnSaveCotizacion = function( idUsuario, cotizacion ) {
+        if( $scope.idUsuarioToken != 0 ){
+            idUsuario = $scope.idUsuarioToken;
+            $scope.idUsuarioToken = 0;
+        }
+
         $scope.class_buttonGuardaCotizacion = 'fa fa-spinner fa-spin';
         if($scope.userData.presupuesto == 1){
             var haveBalance = $scope.checkBalance(cotizacion);
