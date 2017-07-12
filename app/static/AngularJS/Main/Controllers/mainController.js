@@ -7,8 +7,8 @@
     //*****************************************************************************************************************************//
     // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
-    
-    
+
+
     var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');
@@ -16,30 +16,30 @@
     $scope.comentario = '';
 
     $scope.init = function() {
-        if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
-            $scope.busquedaNumEco = localStorageService.get('economico');
-            $rootScope.busqueda = 1;
-            $scope.numeroEconomico = '';
-        }else if (localStorageService.get('orden') != null && localStorageService.get('orden') != '') {
-            $scope.busquedaNumOrden =  localStorageService.get('orden');
-            $rootScope.busqueda = 2;
-            $scope.numeroOrden = '';
-        }else{
-            $rootScope.busqueda = 1;
-            $scope.numeroEconomico = '';
-            $rootScope.busqueda = 1;
-            $scope.busquedaNumEco = '';
-            $scope.busquedaNumOrden = '';
-        }
-        
-
-        $scope.cargaChatTaller();
-        $scope.cargaChatCliente();
-        $scope.userData = userFactory.getUserData(); //localStorageService.get('userData');
-        $scope.getNumeroEconomico ();
-        $scope.getNumeroOrdenes ();
+        $scope.userData = userFactory.getUserData();
         if ($scope.userData != null){
           $scope.idUsuario = $scope.userData.idUsuario;
+          if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
+              $scope.busquedaNumEco = localStorageService.get('economico');
+              $rootScope.busqueda = 1;
+              $scope.numeroEconomico = '';
+          }else if (localStorageService.get('orden') != null && localStorageService.get('orden') != '') {
+              $scope.busquedaNumOrden =  localStorageService.get('orden');
+              $rootScope.busqueda = 2;
+              $scope.numeroOrden = '';
+          }else{
+              $rootScope.busqueda = 1;
+              $scope.numeroEconomico = '';
+              $rootScope.busqueda = 1;
+              $scope.busquedaNumEco = '';
+              $scope.busquedaNumOrden = '';
+          }
+
+          $scope.cargaChatTaller();
+          $scope.cargaChatCliente();
+           //localStorageService.get('userData');
+          $scope.getNumeroEconomico ();
+          $scope.getNumeroOrdenes ();
         }
     }
 
@@ -168,7 +168,7 @@
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
     $scope.getDetalleOrden = function(orden) {
-        
+
         localStorageService.set('orden', orden);
         localStorageService.set('economico', '');
         consultaCitasRepository.getExisteOrden($scope.idUsuario, orden).then(function(result) {

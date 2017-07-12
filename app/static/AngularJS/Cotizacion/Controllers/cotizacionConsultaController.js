@@ -111,20 +111,22 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           if (result.data.length > 0){
               result.data.forEach(function(item) {
                   var existe = false;
-                       if (item.tienePresupuesto==1) {
+
+                  $scope.cotizaciones.forEach(function(value){
+                      if (value.idOrden == item.idOrden){
+                          existe = true;
+                      }
+                  });
+
+                  if (!existe){
+                      $scope.cotizaciones.push(item);
+                      if (item.tienePresupuesto==1) {
                           $scope.sumatoria_conPresupuesto += item.venta;
                       }else if (item.tienePresupuesto==2) {
                           $scope.sumatoria_sinPresupuesto += item.venta;
                       }else if (item.tienePresupuesto==0) {
                           $scope.sumatoria_conPresupuesto += item.venta;
                       }
-                  $scope.cotizaciones.forEach(function(value){
-                      if (value.idOrden == item.idOrden){
-                          existe = true;
-                      }
-                  });
-                  if (!existe){
-                      $scope.cotizaciones.push(item);
                   }
               });
               globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes Con Presupuesto", 100);
