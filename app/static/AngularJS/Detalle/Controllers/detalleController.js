@@ -279,41 +279,47 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.err_aprobacion_show = false;
     $scope.idUsuarioToken = 0;
-    $scope.VerificaTokenAprobacion = function() {
-        if ($scope.token_aprobacion == '' || $scope.token_aprobacion === undefined) {
+    $scope.VerificaTokenAprobacion = function(){
+        $(".aprobar_partidas").attr("disabled","disabled");
+        $(".aprobar_partidas i").show();
+        $scope.pidiendoToken = true;
+        if( $scope.token_aprobacion == '' || $scope.token_aprobacion === undefined ){
             $(".err_aprobacion").fadeIn();
             $scope.err_apronacion = 'Es necesario el token para hacer esta operación';
-            setTimeout(function() {
+            $(".aprobar_partidas i").hide();
+            setTimeout( function(){
+                $(".aprobar_partidas").removeAttr("disabled");
                 $(".err_aprobacion").fadeOut();
             }, 3000);
-        } else {
-            // idOrden, Token, idCotizacion
-            detalleRepository.validaTokenAprobacion($scope.detalleOrden.idOrden, $scope.token_aprobacion, $scope.idCotizacionActive).then(function(result) {
-                if (result.data[0].Success == 1) {
+        }
+        else{
+            detalleRepository.validaTokenAprobacion( $scope.detalleOrden.idOrden, $scope.token_aprobacion, $scope.idCotizacionActive ).then(function(result) {
+                if( result.data[0].Success == 1 ){                    
                     $("#ModalShowToken").modal('hide');
-                    $scope.aprobacionPorToken($scope.numeroOrden, $scope.idEstatusCotizacionActive, result.data[0].idUsuario);
-                    setTimeout(function() {
+                    $scope.aprobacionPorToken($scope.numeroOrden, $scope.idEstatusCotizacionActive, result.data[0].idUsuario );
+                    setTimeout( function(){
 
-                        if ($scope.partidasportokentotal == 0) {
+                        if( $scope.partidasportokentotal == 0 ){
                             alertFactory.warning('El token proporcionado no cuenta con el nivel de autorización necesario para esta operación.');
-                        } else {
-                            // alert("btnSaveCotizacion("+ result.data[0].idUsuario +","+ $scope.idCotizacionActive +")");
-                            // btnSaveCotizacion( result.data[0].idUsuario, cotizacion)
-                            // console.log('inicio de btnSaveCotizacion')
-                            // var coti = cotizaciones;
-                            var coti = filterFilter($scope.cotizaciones, { idCotizacion: $scope.idCotizacionActive });
+                        }
+                        else{
+                            var coti = filterFilter( $scope.cotizaciones , {idCotizacion: $scope.idCotizacionActive} );
                             $scope.idUsuarioToken = result.data[0].idUsuario;
                             // $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0]);
                         }
-                    }, 500);
-                } else {
+                    },500 );
+                }
+                else{
                     $(".err_aprobacion").fadeIn();
                     $scope.err_apronacion = result.data[0].Msg;
                     $scope.token_aprobacion = '';
-                    setTimeout(function() {
+                    setTimeout( function(){
                         $(".err_aprobacion").fadeOut();
                     }, 3000);
                 }
+
+                    $(".aprobar_partidas i").hide();
+                    $(".aprobar_partidas").removeAttr("disabled");
             }, function(error) {
                 // alertFactory.error('');
             });
@@ -1104,40 +1110,58 @@ registrationModule.controller('detalleController', function($scope, $location, $
         });
     }
 
+    $(".token-group button i").hide();
     $scope.ValidaUtilidad = function() {
+        $(".token-group input").attr("disabled", "disabled");
+        $(".token-group button").attr("disabled", "disabled");
+        $(".token-group button i").show();
+
         if ($scope.token_utilidad == '' || $scope.token_utilidad === undefined) {
             alertFactory.error('Introduce el Token de Verificación');
+            $(".token-group input").removeAttr("disabled");
+            $(".token-group button").removeAttr("disabled");
+            $(".token-group button i").hide();
         } else {
             detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_utilidad).then(function(r_token) {
                 if (r_token.data[0].Success) {
                     $scope.token_utilidad = '';
                     detalleRepository.tokenEstatus($scope.detalleOrden.idOrden).then(function(resp) {});
                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
-                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
                             if (resp.data.length > 0) {
                                 var correoDe = resp.data[0].correoDe;
                                 var correoPara = resp.data[0].correoPara;
                                 var asunto = resp.data[0].asunto;
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
-                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
 
-                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                                    //$scope.init();
+                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+
+                                        // $(".token-group input").removeAttr("disabled");
+                                        // $(".token-group button").removeAttr("disabled");
+                                        // $(".token-group button i").hide();
+                                        //$scope.init();
                                 }, function(error) {
                                     alertFactory.error('No se puede enviar el correo');
-                                    setTimeout(function() {
+                                    setTimeout( function(){
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                                    }, 1500);
+                                    },1500);
                                 });
                             }
-                        }, function(error) {
+                        }, function (error) {
                             alertFactory.error("Error al obtener información para el mail");
+                            location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                         });
                     });
                 } else {
                     alertFactory.error(r_token.data[0].Msg);
                     $scope.token_termino = '';
+
+                    $scope.token_utilidad = '';
+                    $(".token-group input").removeAttr("disabled");
+                    $(".token-group button").removeAttr("disabled");
+                    $(".token-group button i").hide();
                 }
             });
         }

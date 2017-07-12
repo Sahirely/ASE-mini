@@ -851,7 +851,9 @@
                 <div class="tokenMargen" ng-show="show_tokenMargen">                    
                     <div class="token-group pull-right" role="group" aria-label="...">
                         <input type="text" ng-model="token_utilidad" placeholder="Token de Utilidad">
-                        <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaUtilidad();">Aceptar</button>
+                        <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaUtilidad();">
+                            <i  class="fa fa-spinner" aria-hidden="true"></i> Aceptar
+                        </button>
                     </div>
                 </div>
 
@@ -980,9 +982,22 @@
                 </div>
             </div>
             <div class="modal-footer consulta">
-                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="VerificaTokenAprobacion();">
-                Aprobar partidas
+                <button class="btn btn-primary pull-right btn-movil aprobar_partidas" type="button" ng-click="VerificaTokenAprobacion();">
+                    <i  class="fa fa-spinner" aria-hidden="true"></i> Aprobar partidas
                 </button>
+                <style type="text/css">
+                    .fa-spinner{
+                        animation-name: rotate; 
+                        animation-duration: 1.5s; 
+                        animation-iteration-count: infinite;
+                        animation-timing-function: linear;
+                    }
+
+                    @keyframes rotate {
+                        from {transform: rotate(0deg);}
+                        to {transform: rotate(360deg);}
+                    }
+                </style>
             </div>
         </div>
     </div>
