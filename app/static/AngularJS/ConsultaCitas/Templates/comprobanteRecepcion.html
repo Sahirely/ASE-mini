@@ -38,17 +38,8 @@
        </div>
         <!-- {{modulosComprobante}} -->
         <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-            <div class="input-group m-b center pull-right"> 
-                <strong>Seleccionar Todos   </strong>
-                <div class="radio radio-info radio-inline">
-                    <input type="radio" id="todos1" value="1" name="todos" ng-model="selectTodos" ng-click="todosComprobanteRecepcion()">
-                    <label for="todos1"> Si </label>
-                </div>
-                <div class="radio radio-inline">
-                    <input type="radio" id="todos2" value="0" name="todos" ng-model="selectTodos" ng-click="todosComprobanteRecepcion()">
-                    <label for="todos2"> No </label>
-                </div>
-            </div>
+
+
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <tabset>
                     <tab ng-repeat="titulos in modulosComprobante" heading="{{titulos.nombreComprobanteRecepcion}}" index="{{titulos.indexComprobante}}" ng-model="titulos.indexComprobante" ng-click="menu(titulos.indexComprobante)">
@@ -82,8 +73,9 @@
                                     <br/>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 6">
                                         <img src="{{detalle.rutaImagen}}" class="tamanioImagen"></img>
-                                        <input type="radio" id="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" value="1" name="{{detalle.idCatalogoDetalleModuloComprobante}}{{detalle.consecutivo}}" ng-model="detalle.select" ng-change="">
+
                                         <textarea class="descTxt" placeholder="{{detalle.nombreCatalogoDetalleModuloComprobante}}" ng-model="detalle.selectTxt" ng-disabled="ubi_ParteDerecha==false"></textarea>
+
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="{{titulos.indexComprobante}} == 5 && {{detalle.consecutivo}} == 2">
                                       <div class="col-xs-12 col-sm-5 col-md-7 col-lg-5">
