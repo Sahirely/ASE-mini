@@ -929,7 +929,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             $("html, body").animate({
                                                 scrollTop: 0
                                             }, 1000);
-                                            $scope.init();
+                                            $scope.addComentarioTermino();
+
                                         });
                                     }
                                 });
@@ -960,7 +961,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         $("html, body").animate({
                             scrollTop: 0
                         }, 1000);
-                        $scope.init();
+                        $scope.addComentarioTermino();
+
                     });
                 } else {
                     $scope.class_buttonTerminaTrabajo = '';
@@ -1004,6 +1006,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         alertFactory.error("Error al obtener información para el mail");
                                     });
                                 });
+
                             } else {
                                 alertFactory.error(r_token.data[0].Msg);
                                 $scope.token_termino = '';
@@ -1048,6 +1051,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             alertFactory.error("Error al obtener información para el mail");
                                         });
                                     });
+
                                 } else {
                                     alertFactory.error(r_token.data[0].Msg);
                                     $scope.token_termino = '';
@@ -1653,21 +1657,49 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
     //Funcion para genear comentarios 
     $scope.agregarComentario = function(tipoComentario, partida) {
+        $scope.tipoComentario = 1;
         //tipoComentario=1 <-- Cuando se rechaza una partida
-        $scope.partidaComentario = [];
-        $scope.partidaComentario = partida;
-        $('.modal-dialog').css('width', '1050px');
-        modal_agregarComentario($scope, $modal, $scope.resultadoComentario, '');
+        var repetido = 0;
+        angular.forEach($scope.comentarios, function(value, key) {
+            if (value.id == partida.idPartida) { repetido++; } else {
+
+            }
+        });
+        if (repetido != 0) {
+
+        } else {
+            $scope.partidaComentario = [];
+            $scope.partidaComentario = partida;
+            $('.modal-dialog').css('width', '1050px');
+            modal_agregarComentario($scope, $modal, $scope.resultadoComentario, '');
+        }
+
 
     };
     $scope.resultadoComentario = function(comentarios) {
+        if ($scope.tipoComentario == 1) {
+            $scope.comentarios.push({
+                id: $scope.partidaComentario.idPartida,
+                comentario: 'Número de Parte: ' + $scope.partidaComentario.noParte + ' Comentario: ' + comentarios
+            });
+        } else if ($scope.tipoComentario == 2) {
+            $scope.comentarios.push({
+                comentario: comentarios
+            });
+            $scope.updateComentariosPartidas();
+        }
 
-        $scope.comentarios.push({
-            id: $scope.partidaComentario.idPartida,
-            comentario: 'Número de Parte: ' + $scope.partidaComentario.noParte + ' Comentario: ' + comentarios
+    };
+    $scope.verificaComentario = function(tipoComentario, partida) {
+        //tipoComentario=1 <-- Cuando se rechaza una partida
+        angular.forEach($scope.comentarios, function(value, key) {
+            if (value.id == partida.idPartida) {
+                $scope.comentarios.splice((key), 1)
+            } else {}
         });
     };
     $scope.updateComentariosPartidas = function() {
+        if ($scope.tipoComentario == 1) {
             angular.forEach($scope.comentarios, function(value, key) {
                 detalleRepository.insNota(value.comentario, $scope.numeroOrden, $scope.userData.idUsuario, $scope.idEstatusOrden).then(function(result) {
                     if (result.data.length > 0) {
@@ -1677,9 +1709,26 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     alertFactory.error('No se pudieron obtener las notas');
                 });
             });
-            $scope.comentarios=[];
+        } else if ($scope.tipoComentario == 2) {
+            detalleRepository.insNota($scope.comentarios[0].comentario, $scope.numeroOrden, $scope.userData.idUsuario, 6).then(function(result) {
+                if (result.data.length > 0) {
+                    $scope.notaTrabajo = result.data;
+                    $scope.init();
+                }
+            }, function(error) {
+                alertFactory.error('No se pudieron obtener las notas');
+            });
         }
-        //FAL 12072017 funciones para no permitir planes difernetes de la fecha actual
+
+        $scope.comentarios = [];
+    };
+    $scope.addComentarioTermino = function() {
+        $scope.tipoComentario = 2;
+        $('.modal-dialog').css('width', '1050px');
+        modal_agregarComentario($scope, $modal, $scope.resultadoComentario, '');
+    };
+    //Termina lo de comentarios
+    //FAL 12072017 funciones para no permitir planes difernetes de la fecha actual
     $scope.NoFechaAntigua = function(fecha) {
 
         var CurrentDate = new Date();

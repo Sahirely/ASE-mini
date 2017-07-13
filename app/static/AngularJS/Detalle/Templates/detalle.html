@@ -662,7 +662,7 @@
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                         <input type="radio" ng-init="partida.btnDisabled=true;
                                                                             partida.selOption=1;
-                                                                            initApproveButtons(partida,cotizacion.idCotizacion);" ng-disabled="partida.btnDisabled" ng-model="partida.selOption" value="2">
+                                                                            initApproveButtons(partida,cotizacion.idCotizacion);" ng-disabled="partida.btnDisabled" ng-model="partida.selOption" value="2" ng-click="verificaComentario(1,partida)">
                                                                     </div>
                                                                 </td>
                                                                 <td ng-show="estatus == 4">
