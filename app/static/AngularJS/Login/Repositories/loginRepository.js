@@ -50,6 +50,16 @@ registrationModule.factory('loginRepository', function ($http) {
               'Content-Type': 'application/json'
               }
           });
+        },
+        getTiempoInactividad: function(){
+          return $http({
+              url: loginUrl + 'tiempoInactividad/',
+              method: "GET",
+              params: {},
+              headers: {
+              'Content-Type': 'application/json'
+              }
+          });
         }
     };
 });

@@ -1,14 +1,18 @@
-registrationModule.factory('userFactory', function(localStorageService, loginRepository, alertFactory) {
+registrationModule.factory('userFactory', function($window, loginRepository, alertFactory) {
   return{
     getUserData: function(){
-      return (localStorageService.get('userData'));
+      var json = [];
+      $.each($window.sessionStorage, function(i, v){
+        json.push(angular.fromJson(v));
+      });
+      return json[0];
     },
     saveUserData: function(userData){
-      localStorageService.set('userData',userData);
-      return (localStorageService.get('userData'));
+      $window.sessionStorage.setItem(userData,JSON.stringify(userData));
+      return (this.getUserData());
     },
     updateSelectedOperation: function(data){
-      var userData = localStorageService.get('userData');
+      var userData = this.getUserData();
 
       loginRepository.iniciaSesionHistorial(userData.idUsuario).then(function (result){
       });
@@ -38,20 +42,28 @@ registrationModule.factory('userFactory', function(localStorageService, loginRep
       userData.fechaInicio = ObjetoOperacionSelected.fechaInicio;
       userData.fechafin = ObjetoOperacionSelected.fechafin;
 
-      localStorageService.set('userData', userData);
-      return (localStorageService.get('userData'));
+      $window.sessionStorage.setItem(userData,JSON.stringify(userData));
+      return (this.getUserData());
     },
     logOut: function(){
-      var userData = localStorageService.get('userData');
+      var userData = this.getUserData();
       loginRepository.cierraSesionHistorial(userData.idUsuario).then(function(){
       });
-      localStorageService.clearAll();
+      $window.sessionStorage.clear();
+      location.href = '/';
     },
     ValidaSesion: function(){
-      var userData = localStorageService.get('userData');
+      var userData = this.getUserData();
 
       if (userData == null || userData == undefined){
         location.href = '/';
+      }else{
+        var id = userData.idUsuario;
+        loginRepository.ValidaSesionActiva(id).then(function(result){
+            if (result.data[0].HasSession == 'False'){
+                location.href = '/';
+            }
+        });
       }
     }
   }

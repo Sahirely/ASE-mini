@@ -23,7 +23,6 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
 
     $scope.login = function (username, password) {
       loginRepository.login(username,password).then(function (result){
-        
           if (result.data.data.length > 0) {
               if (result.data.data[0].HasSession == 'False'){
                 $scope.userData = userFactory.saveUserData(result.data.data[0]);
@@ -42,10 +41,25 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
                   } else {
                     alertFactory.info('El usuario no tiene una operación asignada.')
                   }
-
                 }
               }else{
-                  alertFactory.error('No puede iniciar sesión por que ya tiene una sesión activa.');
+                swal({
+                      title: '¿Deseas cerrar la sesión anterior?',
+                      text: "El usuario ya cuenta con una sesión activa.",
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Si',
+                      cancelButtonText: 'Cancelar'
+                    },function(isConfirm) {
+                        if (isConfirm) {
+                          loginRepository.cierraSesionHistorial(result.data.data[0].idUsuario).then(function(){
+                          });
+                          $scope.login(username, password);
+                        }
+                    });
+
               }
           } else {
               alertFactory.info('Usuario y/o contraseña no válidos');

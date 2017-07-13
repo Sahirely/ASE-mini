@@ -35,6 +35,20 @@ Login.prototype.post_ingresaHistorial = function(req, res, next){
 
 }
 
+Login.prototype.get_tiempoInactividad = function(req, res, next){
+  var obj = {};
+
+  var self = this;
+
+  var params = [];
+
+  self.model.query('[SEL_TIEMPO_INACTIVIDAD_SP]', params, function (error, result){
+    obj.error = error;
+    obj.result = result[0].minutos;
+    self.view.expositor(res, obj);
+  });
+}
+
 Login.prototype.post_cierraHistorial = function(req, res, next){
     var obj = {};
 

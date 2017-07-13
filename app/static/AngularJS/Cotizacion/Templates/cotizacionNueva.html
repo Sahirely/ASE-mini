@@ -137,12 +137,7 @@
                                 </table>
                             </div>
                             <br/>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right" ng-show="show_nuevaCotizacion">
-                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="nuevaCotizacion()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right" ng-show="!show_nuevaCotizacion">
-                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="actulizacionDetalle()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Actualizar Cotización</button>
-                            </div>
+
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5" ng-show="mostrarPartida">
                             <!--                             <div class="table-responsive scroll_content">
@@ -188,6 +183,12 @@
                                     </tr>
                                 </tbody>
                             </table> -->
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right" ng-show="show_nuevaCotizacion">
+                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="nuevaCotizacion()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Guardar Cotización</button>
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" align="right" ng-show="!show_nuevaCotizacion">
+                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="actulizacionDetalle()" data-toggle="tooltip" tooltip="Buscar" id="btnCotizar" tooltip-placement="right">Actualizar Cotización</button>
+                            </div>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 partidasSel">
                                 <div class="table-responsive scroll_content">
                                     <table class="table dataTableItem">
