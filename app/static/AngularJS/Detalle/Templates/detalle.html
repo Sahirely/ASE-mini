@@ -69,9 +69,9 @@
                             </div-->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
-                                <table  id="padreTimeLine">
+                                <table id="padreTimeLine">
                                     <tr>
-                                        <td  ng-repeat='historico in HistoricoOrden' class="center" style="width: {{100 / HistoricoOrden.length}}%;" ng-class="{'activeTimeLine':historico.idOrden>0, '':''}" >
+                                        <td ng-repeat='historico in HistoricoOrden' class="center" style="width: {{100 / HistoricoOrden.length}}%;" ng-class="{'activeTimeLine':historico.idOrden>0, '':''}">
                                             <span class="m-b-xs">
                                             <strong>{{historico.nombreEstatusOrden}}</strong>
                                             </span>
@@ -85,12 +85,12 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" >
-                                    <div id= "numCotizacion" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 center">{{cotz.data[0].numeroCotizacion}}</div>
+                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div id="numCotizacion" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 center">{{cotz.data[0].numeroCotizacion}}</div>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                         <table id="subTimeLine">
                                             <tr>
-                                                <td  ng-repeat="cot in cotz.data" class="center" style="width: {{100 / cotz.data.length}}%;" ng-class="{'activeSubTimeLine':cot.idCotizacion>0, '':''}" >
+                                                <td ng-repeat="cot in cotz.data" class="center" style="width: {{100 / cotz.data.length}}%;" ng-class="{'activeSubTimeLine':cot.idCotizacion>0, '':''}">
                                                     <span class="m-b-xs">
                                                     <strong>{{cot.nombreEstatusCotizacion}}</strong>
                                                     </span>
@@ -185,7 +185,6 @@
                                         <h5>Detalle de la orden</h5>
                                     </div>
                                     <div class="ibox-content">
-                                       
                                         <p>
                                             <label>Número Economico: </label>
                                             <span>{{detalleOrden.numeroEconomico}}</span>
@@ -262,9 +261,8 @@
                             <h3>Catálogo de Evidencias</h3>
                             <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
                                 <div class="carousel-inner">
-                                    <div class="item itamCarousel"  ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
-                                        <img
-                                            ng-show="evidencia.tipo == 'jpg'
+                                    <div class="item itamCarousel" ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
+                                        <img ng-show="evidencia.tipo == 'jpg'
                                             || evidencia.tipo == 'JPG'
                                             || evidencia.tipo == 'jpeg'
                                             || evidencia.tipo == 'JPEG'
@@ -273,11 +271,7 @@
                                             || evidencia.tipo == 'gif'
                                             || evidencia.tipo == 'GIG'
                                             || evidencia.tipo == 'bmp'
-                                            || evidencia.tipo == 'BMP'"
-                                            alt="image"
-                                            title ="{{evidencia.tipo}}"
-                                            class="img-responsive"
-                                            src="{{evidencia.ruta}}" />
+                                            || evidencia.tipo == 'BMP'" alt="image" title="{{evidencia.tipo}}" class="img-responsive" src="{{evidencia.ruta}}" />
                                         <div ng-show="evidencia.tipo == 'xml' || evidencia.tipo == 'XML'" class="item-no-img">
                                             <a href="{{evidencia.ruta}}" class="documentos" download="">
                                                 <div class="gal-ico">
@@ -350,8 +344,7 @@
                                             && evidencia.tipo != 'doc'
                                             && evidencia.tipo != 'DOC'
                                             && evidencia.tipo != 'docx'
-                                            && evidencia.tipo != 'DOCX'"
-                                            class="item-no-img">
+                                            && evidencia.tipo != 'DOCX'" class="item-no-img">
                                             <a href="{{evidencia.ruta}}" class="documentos" download="">
                                                 <div class="gal-ico">
                                                     <i class="fa fa-file-o" aria-hidden="true"></i>
@@ -362,10 +355,10 @@
                                     </div>
                                 </div>
                                 <a data-slide="prev" href="#carousel1" ng-non-bindable class="left carousel-control iconCarousel">
-                                <span class="icon-prev"></span>
+                                    <span class="icon-prev"></span>
                                 </a>
                                 <a data-slide="next" href="#carousel1" ng-non-bindable class="right carousel-control iconCarousel">
-                                <span class="icon-next"></span>
+                                    <span class="icon-next"></span>
                                 </a>
                             </div>
                             <br/>
@@ -384,10 +377,7 @@
                                                     || evidencia.tipo == 'GIG'
                                                     || evidencia.tipo == 'bmp'
                                                     || evidencia.tipo == 'BMP'">
-                                                    <img alt="image"
-                                                        class=""
-                                                        width="100"
-                                                        src="{{evidencia.ruta}}">
+                                                    <img alt="image" class="" width="100" src="{{evidencia.ruta}}">
                                                     <p>{{evidencia.nombreEvidencia}}</p>
                                                 </div>
                                                 <div class="gal-ico-thums" ng-show="evidencia.tipo == 'xml'">
@@ -398,28 +388,23 @@
                                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                                                     <p>{{evidencia.nombreEvidencia}}</p>
                                                 </div>
-                                                <div class="gal-ico-thums"
-                                                    ng-show="evidencia.tipo == 'xls' || evidencia.tipo == 'xlsx'">
+                                                <div class="gal-ico-thums" ng-show="evidencia.tipo == 'xls' || evidencia.tipo == 'xlsx'">
                                                     <i class="fa fa-file-excel-o" aria-hidden="true"></i>
                                                     <p>{{evidencia.nombreEvidencia}}</p>
                                                 </div>
-                                                <div class="gal-ico-thums"
-                                                    ng-show="evidencia.tipo == 'txt'">
+                                                <div class="gal-ico-thums" ng-show="evidencia.tipo == 'txt'">
                                                     <i class="fa fa-file-text-o" aria-hidden="true"></i>
                                                     <p>{{evidencia.nombreEvidencia}}</p>
                                                 </div>
-                                                <div class="gal-ico-thums"
-                                                    ng-show="evidencia.tipo == 'zip' || evidencia.tipo == 'rar'">
+                                                <div class="gal-ico-thums" ng-show="evidencia.tipo == 'zip' || evidencia.tipo == 'rar'">
                                                     <i class="fa fa-file-archive-o" aria-hidden="true"></i>
                                                     <p>{{evidencia.nombreEvidencia}}</p>
                                                 </div>
-                                                <div class="gal-ico-thums"
-                                                    ng-show="evidencia.tipo == 'doc' || evidencia.tipo == 'docx'">
+                                                <div class="gal-ico-thums" ng-show="evidencia.tipo == 'doc' || evidencia.tipo == 'docx'">
                                                     <i class="fa fa-file-word-o" aria-hidden="true"></i>
                                                     <p>{{evidencia.nombreEvidencia}}</p>
                                                 </div>
-                                                <div class="gal-ico-thums"
-                                                    ng-show="
+                                                <div class="gal-ico-thums" ng-show="
                                                     evidencia.tipo != 'jpg'
                                                     && evidencia.tipo != 'JPG'
                                                     && evidencia.tipo != 'jpeg'
@@ -464,7 +449,7 @@
                                     <br>
                                     <input type="hidden" value="{{idOrden}}" name="idOrden">
                                     <input type="hidden" value="{{docServer}}" name="docServer">
-                                    <input type="file" name="myFile1" id="myFile1" class="inputfile inputfile-3" accept="*/*"/>
+                                    <input type="file" name="myFile1" id="myFile1" class="inputfile inputfile-3" accept="*/*" />
                                     <label for="myFile1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="30" height="27" viewBox="0 0 20 17">
                                             <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path>
@@ -483,43 +468,29 @@
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Recepción</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md"
-                                        type="button"
-                                        ng-click="archivoEvidencia(1);"
-                                        ng-disabled="validaCertificado == 0"
-                                        ng-class="{btn_archivo_yep: validaCertificado != 0 }">
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="archivoEvidencia(1);" ng-disabled="validaCertificado == 0" ng-class="{btn_archivo_yep: validaCertificado != 0 }">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Hoja de Trabajo</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md"
-                                        type="button"
-                                        ng-click="OpenTrabajo();"
-                                        ng-disabled="detalleOrden.idEstatusOrden < 6"
-                                        ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
-                                    <i class="fa fa-file-pdf-o"></i>
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="detalleOrden.idEstatusOrden < 6" ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
+                                        <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Factura</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md"
-                                        type="button"
-                                        ng-disabled="totalfacturas == 0"
-                                        ng-class="{btn_archivo_yep: totalfacturas != 0}"
-                                        ng-click="OpenModalShowFactura()" >
-                                    <i class="fa fa-file-pdf-o"></i>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="totalfacturas == 0" ng-class="{btn_archivo_yep: totalfacturas != 0}" ng-click="OpenModalShowFactura()">
+                                        <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center" ng-show="false">
                                     <label>Orden de Pago</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md"
-                                        type="button"
-                                        ng-disabled="true">
-                                    <i class="fa fa-file-pdf-o"></i>
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true">
+                                        <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
                             </div>
@@ -529,11 +500,11 @@
                         </div>
                         <!--Costos totales de las  cotizaciones-->
                         <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="estatus==4  && userData.presupuesto == 1">
-                            <div >
+                            <div>
                                 <h3>Presupuesto</h3>
                                 <p>
                                     <label>Centro de Trabajo: </label>
-                                    <span >{{centroTrabajo}}</span>
+                                    <span>{{centroTrabajo}}</span>
                                 </p>
                                 <p>
                                     <label>Presupuesto: </label>
@@ -554,7 +525,7 @@
                                 <!--h3>Utilidad</h3-->
                                 <p>
                                     <label>Utilidad Minima de la Operación: </label>
-                                    <span >{{userData.porcentajeUtilidad | currency:"%": 2}}</span>
+                                    <span>{{userData.porcentajeUtilidad | currency:"%": 2}}</span>
                                 </p>
                                 <p>
                                     <label>Utilidad de la Orden: </label>
@@ -604,7 +575,8 @@
                                                 <address>
                                                     <strong>Estatus: </strong>
                                                     <span class="label label-success mayusculas">{{cotizacion.nombreEstatusCotizacion}} </span>
-                                                    <br/> <br/><strong>Usuario Creador: </strong> <span>{{cotizacion.nombreCompleto}}</span>
+                                                    <br/>
+                                                    <br/><strong>Usuario Creador: </strong> <span>{{cotizacion.nombreCompleto}}</span>
                                                     <br><strong>Fecha de Creación: </strong> <span>{{cotizacion.fechaCotizacion | date:"dd/MM/yyyy"}}</span>
                                                 </address>
                                             </div>
@@ -625,16 +597,13 @@
                                                         btnSwitch.classVenta='btn btn-success';
                                                         btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura"  ng-show="estatus == 5 && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
-                                                Cargar Factura {{ }}
+                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
+                                                    Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
                                                     </button> -->
-                                                <span
-                                                    class="label label-primary pull-right cargar-factura"
-                                                    ng-show="estatus == 5 && cotizacion.factura != 0"
-                                                    style="padding: 10px 13px">
+                                                <span class="label label-primary pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0" style="padding: 10px 13px">
                                                 FACTURA CARGADA
                                                 </span>
                                             </div>
@@ -666,8 +635,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr ng-repeat="partida in cotizacion.detalle"
-                                                                ng-init="partida.rowColor='info'; setRowColor(partida)" class="{{partida.rowColor}}" >
+                                                            <tr ng-repeat="partida in cotizacion.detalle" ng-init="partida.rowColor='info'; setRowColor(partida)" class="{{partida.rowColor}}">
                                                                 <td ng-hide="true">{{partida.idEspecialidad}}</td>
                                                                 <td>{{partida.especialidad}}</td>
                                                                 <td ng-hide="true">{{partida.idPartidaClasificacion}}</td>
@@ -690,43 +658,29 @@
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
-                                                                <td ng-show="estatus == 4" >
+                                                                <td ng-show="estatus == 4">
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
-                                                                        <input type="radio"
-                                                                            ng-init="partida.btnDisabled=true;
+                                                                        <input type="radio" ng-init="partida.btnDisabled=true;
                                                                             partida.selOption=1;
-                                                                            initApproveButtons(partida,cotizacion.idCotizacion);"
-                                                                            ng-disabled="partida.btnDisabled"
-                                                                            ng-model="partida.selOption"
-                                                                            value="2" >
+                                                                            initApproveButtons(partida,cotizacion.idCotizacion);" ng-disabled="partida.btnDisabled" ng-model="partida.selOption" value="2">
                                                                     </div>
                                                                 </td>
-                                                                <td ng-show="estatus == 4" >
+                                                                <td ng-show="estatus == 4">
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
-                                                                        <input type="radio"
-                                                                            ng-model="partida.selOption"
-                                                                            ng-disabled="partida.btnDisabled"
-                                                                            value="3" ng-click=agregarComentario(1)>
+                                                                        <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="3" ng-click=agregarComentario(1,partida)>
                                                                     </div>
                                                                 </td>
                                                                 <td ng-show="false" center>
-                                                                    <input type="radio"
-                                                                        ng-model="partida.selOption"
-                                                                        ng-disabled="partida.btnDisabled"
-                                                                        value="1"
-                                                                        ng-hide="true">
+                                                                    <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1" ng-hide="true">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                         <tfoot>
                                                             <tr>
                                                                 <td colspan="10">&nbsp;</td>
-                                                                <td colspan="3" align="right" ng-hide ="userData.idRol ==  4">
-                                                                    <a href="#"
-                                                                        class="btn btn-success btn-xs"
-                                                                        ng-show="estatus == 4"
-                                                                        ng-click="modal_aprobacion( cotizacion.idCotizacion, cotizacion.idEstatusCotizacion )">
-                                                                    <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token
+                                                                <td colspan="3" align="right" ng-hide="userData.idRol ==  4">
+                                                                    <a href="#" class="btn btn-success btn-xs" ng-show="estatus == 4" ng-click="modal_aprobacion( cotizacion.idCotizacion, cotizacion.idEstatusCotizacion )">
+                                                                        <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -751,18 +705,14 @@
                                                         </tbody>
                                                     </table>
                                                     <div>
-
                                                         <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
-                                                        <span class="{{class_buttonEditarCotizacion}}"></span>
-                                                        Editar Cotización
+                                                            <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
                                                         <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
-                                                        <span></span>
-                                                        Cancelar Cotización
+                                                            <span></span> Cancelar Cotización
                                                         </button>
-                                                         <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." 
-                                                            class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
-                                                            <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotizacion
+                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
+                                                            <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
                                                         </button>
                                                     </div>
                                                 </div>
@@ -773,7 +723,6 @@
                             </div>
                         </div>
                         <br>
-                        
                         <!-- Notas -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <div class="panel panel-default">
@@ -787,7 +736,7 @@
                                                 <div ng-repeat="notas in notaTrabajo">
                                                     <div class="chat-element">
                                                         <a href="#" ng-class="notas.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'">
-                                                        <img alt="image" class="img-circle" src="image/profile/man2.jpg">
+                                                            <img alt="image" class="img-circle" src="image/profile/man2.jpg">
                                                         </a>
                                                         <div class="media-body">
                                                             <small ng-class="notas.idUsuario===userData.idUsuario ? 'pull-right' : 'pull-left'">{{notas.tiempoTranscurrido}}</small>
@@ -818,8 +767,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
                         <!-- /Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
                     </div>
                 </div>
@@ -827,141 +774,124 @@
         </div>
     </div>
 </div>
-
-<br><br>
-
+<br>
+<br>
 <div class="controles-fixed">
     <div class="contenedor">
         <div class="col-xs-4">
             <table class="table tbl-accion" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (idEstatusOrden != 13)">
                 <tr>
                     <td class="header" width="120">
-                        <label>Plan de Acción:</label><br>
+                        <label>Plan de Acción:</label>
+                        <br>
                         <button class="btn btn-primary btn-xs" ng-click="OpenModalPlanAccion();">Agregar Acción</button>
                     </td>
-                    <td> <p class="accion-detalle">{{detalleOrden.accion}}</p> </td>
+                    <td>
+                        <p class="accion-detalle">{{detalleOrden.accion}}</p>
+                    </td>
                 </tr>
             </table>
         </div>
         <div class="col-xs-1">
-        <button ng-hide="aprovisonamiento == null" class="btn btn-info btn-movil" type="submit" ng-click="realizaProvision();"> Provisiona </button>
+            <button ng-hide="aprovisonamiento == null" class="btn btn-info btn-movil" type="submit" ng-click="realizaProvision();"> Provisiona </button>
         </div>
         <div class="col-xs-7" id="footerDetalle">
             <div class="col-xs-12">
-                <div class="tokenMargen" ng-show="show_tokenMargen">                    
+                <div class="tokenMargen" ng-show="show_tokenMargen">
                     <div class="token-group pull-right" role="group" aria-label="...">
                         <input type="text" ng-model="token_utilidad" placeholder="Token de Utilidad">
                         <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaUtilidad();">
-                            <i  class="fa fa-spinner" aria-hidden="true"></i> Aceptar
+                            <i class="fa fa-spinner" aria-hidden="true"></i> Aceptar
                         </button>
                     </div>
                 </div>
-
                 <div class="btn-group pull-right botoneses3" role="group" style="margin-right: 10px; ">
-                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." 
-                        ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil" 
-                        type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
-                    <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
+                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil" type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
+                        <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
                     </button>
                     <button ng-hide="btnNegroIsEnable" class="btn btn-negro btn-movil" type="submit">Negro</button>
-                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1" data-loading-text="Loading..." 
-                        ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit" ng-click="editarCita()">
-                    <span class="{{class_buttonEditarCita}}"></span> Editar Cita
+                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit" ng-click="editarCita()">
+                        <span class="{{class_buttonEditarCita}}"></span> Editar Cita
                     </button>
-                    <button ng-show="estatus == 1 || estatus == 2"  data-loading-text="Loading..." 
-                        ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
-                    <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
+                    <button ng-show="estatus == 1 || estatus == 2" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
+                        <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
                     </button>
-                    <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." 
-                        ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
-                    <span class="{{class_buttonComprobanteRecepcion}}"></span> Comprobante de Recepción
+                    <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
+                        <span class="{{class_buttonComprobanteRecepcion}}"></span> Comprobante de Recepción
                     </button>
-                    <button ng-hide="userData.idRol == 1 || btnComprobanteRecepcionIsEnable || estatus == 1 " data-loading-text="Loading..." 
-                        class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
-                    <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
+                    <button ng-hide="(userData.idRol == 1 || btnComprobanteRecepcionIsEnable || estatus == 1 ) &&   estatus != 4" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
+                        <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
-                   
                     <button ng-hide="btnEditarIsEnable" class="btn btn-success btn-movil" type="submit"> Editar</button>
                 </div>
             </div>
-        
             <!-- / -->
-
             <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
             <div class="col-sm-12" ng-show="idEstatusOrden==5 && estatus==5" ;>
                 <div class="btn-group pull-right" role="group" aria-label="...">
                     <!--PROCESA COMPRA-->
-                    <button class="btn btn-info btn-movil" type="button"  ng-click="validaFacturaCotizacion()" ng-show="botonProcesarCompra" > 
+                    <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="botonProcesarCompra">
                         Procesar compra
                     </button>
                     <!--VALIDAR USUARIO PARA PROVISIONES-->
-<!--                     <button class="btn btn-inf btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
+                    <!--                     <button class="btn btn-inf btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
                     Aprobación Provisión
                     </button> -->
-                    <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." 
-                        class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
-                    <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
+                    <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
+                        <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
                     <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
-                    <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
+                        <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
                     </button>
                 </div>
             </div>
             <!-- / -->
-
             <!-- Seccion para el token de administrador -->
             <div class="" ng-show="idEstatusOrden==6 && estatus==5">
                 <div class="col-xs-12">
-                                    <!--PROCESA COMPRA-->
-                    <button class="btn btn-info btn-movil" type="button"  ng-click="validaFacturaCotizacion()" ng-show="botonProcesarCompra" > 
+                    <!--PROCESA COMPRA-->
+                    <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="botonProcesarCompra">
                         Procesar compra
                     </button>
                     <div class="token-group pull-right" role="group" aria-label="...">
                         <input type="text" ng-model="token_termino" placeholder="Token de Administrador">
                         <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(0);">Aceptar</button>
                     </div>
-                    
-
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
-                        <button class="btn btn-success pull-right btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
+                        <button class="btn btn-success pull-right btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
                             Aprobación Provisión
                         </button>
                     </div>
                 </div>
             </div>
             <!-- / -->
-            
             <!-- Seccion para el token de cliente -->
             <div ng-show="idEstatusOrden==7">
-                <div class="col-xs-12"  ng-hide="userData.idRol == 4">
-                                    <!--PROCESA COMPRA-->
-                    <button class="btn btn-info btn-movil" type="button"  ng-click="validaFacturaCotizacion()" ng-show="botonProcesarCompra" > 
+                <div class="col-xs-12" ng-hide="userData.idRol == 4">
+                    <!--PROCESA COMPRA-->
+                    <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="botonProcesarCompra">
                         Procesar compra
                     </button>
                     <div class="token-group pull-right" role="group" aria-label="...">
                         <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                         <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                     </div>
-                    
-
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
-                        <button class="btn btn-success btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" > 
+                        <button class="btn btn-success btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
                             Aprobación Provisión
                         </button>
-
                         <button class="btn btn-danger" type="button" ng-click="RechazarTrabajo();">
                             Rechazar Trabajo
                         </button>
                     </div>
                 </div>
             </div>
-            <!-- / -->            
+            <!-- / -->
         </div>
     </div>
 </div>
-
 <!-- Modal Mostrar -->
 <div class="modal fade" id="ModalShowToken" role="dialog">
     <div class="modal-dialog">
@@ -983,20 +913,24 @@
             </div>
             <div class="modal-footer consulta">
                 <button class="btn btn-primary pull-right btn-movil aprobar_partidas" type="button" ng-click="VerificaTokenAprobacion();">
-                    <i  class="fa fa-spinner" aria-hidden="true"></i> Aprobar partidas
+                    <i class="fa fa-spinner" aria-hidden="true"></i> Aprobar partidas
                 </button>
                 <style type="text/css">
-                    .fa-spinner{
-                        animation-name: rotate; 
-                        animation-duration: 1.5s; 
-                        animation-iteration-count: infinite;
-                        animation-timing-function: linear;
+                .fa-spinner {
+                    animation-name: rotate;
+                    animation-duration: 1.5s;
+                    animation-iteration-count: infinite;
+                    animation-timing-function: linear;
+                }
+                
+                @keyframes rotate {
+                    from {
+                        transform: rotate(0deg);
                     }
-
-                    @keyframes rotate {
-                        from {transform: rotate(0deg);}
-                        to {transform: rotate(360deg);}
+                    to {
+                        transform: rotate(360deg);
                     }
+                }
                 </style>
             </div>
         </div>
@@ -1018,11 +952,11 @@
                 <br>
                 <label>Motivo</label>
                 <input type="text" ng-model="motivo_rechazoTrabajo" class="token_admin form-control">
-                <br>      
+                <br>
             </div>
             <div class="modal-footer consulta">
                 <button class="btn btn-danger pull-right btn-movil" type="button" ng-click="aceptarRechazoTrabajo();">
-                Rechazar
+                    Rechazar
                 </button>
             </div>
         </div>
@@ -1056,29 +990,19 @@
                             <tr ng-repeat="Fac in Facturas.data">
                                 <td><b>{{Fac.numeroCotizacion}}</b></td>
                                 <td>
-                                    <a  ng-show="Fac.facturas[0].tipo == 'pdf'"
-                                        href="{{Fac.facturas[0].rutaDocumento}}"
-                                        target="_blanc">
-                                    <i class="fa fa-file-pdf-o fac_pdf"></i>
+                                    <a ng-show="Fac.facturas[0].tipo == 'pdf'" href="{{Fac.facturas[0].rutaDocumento}}" target="_blanc">
+                                        <i class="fa fa-file-pdf-o fac_pdf"></i>
                                     </a>
-                                    <a  ng-show="Fac.facturas[1].tipo == 'pdf'"
-                                        href="{{Fac.facturas[1].rutaDocumento}}"
-                                        target="_blanc">
-                                    <i class="fa fa-file-pdf-o fac_pdf"></i>
+                                    <a ng-show="Fac.facturas[1].tipo == 'pdf'" href="{{Fac.facturas[1].rutaDocumento}}" target="_blanc">
+                                        <i class="fa fa-file-pdf-o fac_pdf"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a  ng-show="Fac.facturas[0].tipo == 'xml'"
-                                        href="{{Fac.facturas[0].rutaDocumento}}"
-                                        target="_blanc"
-                                        download="Reporte2Mayo2010">
-                                    <i class="fa fa-file-code-o fac_xml"></i>
+                                    <a ng-show="Fac.facturas[0].tipo == 'xml'" href="{{Fac.facturas[0].rutaDocumento}}" target="_blanc" download="Reporte2Mayo2010">
+                                        <i class="fa fa-file-code-o fac_xml"></i>
                                     </a>
-                                    <a  ng-show="Fac.facturas[1].tipo == 'xml'"
-                                        href="{{Fac.facturas[1].rutaDocumento}}"
-                                        target="_blanc"
-                                        download="Reporte2Mayo2010">
-                                    <i class="fa fa-file-code-o fac_xml"></i>
+                                    <a ng-show="Fac.facturas[1].tipo == 'xml'" href="{{Fac.facturas[1].rutaDocumento}}" target="_blanc" download="Reporte2Mayo2010">
+                                        <i class="fa fa-file-code-o fac_xml"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -1158,15 +1082,13 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-cerrar" data-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary btn-subir" ng-click="Cargar_Factura_Tmp();">
-                    <span class="{{class_buttonCargaFactura}}"></span>
-                    Subir Factura
+                        <span class="{{class_buttonCargaFactura}}"></span> Subir Factura
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
 <!-- Modal Mostrar -->
 <div class="modal fade" id="ModalPlanAccion" role="dialog">
     <div class="modal-dialog">
@@ -1218,99 +1140,78 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
-    $(document).ready(function() {
-        $(window).scroll(function (event) {
-            var scroll = $(window).scrollTop();
-            if( scroll <= 60 ){
-                $(".controles-fixed").removeClass("entra");
-            }else{
-                $(".controles-fixed").addClass("entra");
-            }
-        });
-    
-        $('.scroll_content').slimscroll({
-            //height: '580px',
-            width: '100%'
-        })
-        setTimeout(function() {
-            $('[data-toggle="popover"]').popover({
-                html: true
-            });
-        }, 500);
-    
-    
-    
-    
-        var inputs = document.querySelectorAll('.inputfile');
-        Array.prototype.forEach.call(inputs, function(input) {
-            var label = input.nextElementSibling,
-                labelVal = label.innerHTML;
-    
-            input.addEventListener('change', function(e) {
-                var fileName = '';
-                if (this.files && this.files.length > 1)
-                    fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
-                else
-                    fileName = e.target.value.split('\\').pop();
-    
-                if (fileName)
-                    label.querySelector('span').innerHTML = fileName;
-                else
-                    label.innerHTML = labelVal;
-            });
-        });
+$(document).ready(function() {
+    $(window).scroll(function(event) {
+        var scroll = $(window).scrollTop();
+        if (scroll <= 60) {
+            $(".controles-fixed").removeClass("entra");
+        } else {
+            $(".controles-fixed").addClass("entra");
+        }
     });
 
-    var optFlag = true;
-    var moreOptions = function(){
-        if( optFlag ){
-            $(".tokenMargen").fadeOut();                
-            setTimeout( function(){
-                $(".botoneses3").fadeIn();
-            },200);
-            optFlag = false;
+    $('.scroll_content').slimscroll({
+        //height: '580px',
+        width: '100%'
+    })
+    setTimeout(function() {
+        $('[data-toggle="popover"]').popover({
+            html: true
+        });
+    }, 500);
 
-            $(".mas-options .fa-angle-down").hide();
-            $(".mas-options .fa-angle-up").show();
-            $(".mas-options small").text('Introducir Token');
-        }
-        else{
-            $(".botoneses3").fadeOut();
-            setTimeout( function(){
-                $(".tokenMargen").fadeIn();                
-            },200);
-            optFlag = true;
 
-            $(".mas-options .fa-angle-down").show();
-            $(".mas-options .fa-angle-up").hide();
-            $(".mas-options small").text('Más Opciones');
-        }
 
-        // <div class="mas-options" onclick="moreOptions();">
-        //     <small>Más Opciones</small><br>
-        //     <i class="fa fa-angle-down" aria-hidden="true"></i>
-        //     <i class="fa fa-angle-up" aria-hidden="true"></i>
-        // </div>
+
+    var inputs = document.querySelectorAll('.inputfile');
+    Array.prototype.forEach.call(inputs, function(input) {
+        var label = input.nextElementSibling,
+            labelVal = label.innerHTML;
+
+        input.addEventListener('change', function(e) {
+            var fileName = '';
+            if (this.files && this.files.length > 1)
+                fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+            else
+                fileName = e.target.value.split('\\').pop();
+
+            if (fileName)
+                label.querySelector('span').innerHTML = fileName;
+            else
+                label.innerHTML = labelVal;
+        });
+    });
+});
+
+var optFlag = true;
+var moreOptions = function() {
+    if (optFlag) {
+        $(".tokenMargen").fadeOut();
+        setTimeout(function() {
+            $(".botoneses3").fadeIn();
+        }, 200);
+        optFlag = false;
+
+        $(".mas-options .fa-angle-down").hide();
+        $(".mas-options .fa-angle-up").show();
+        $(".mas-options small").text('Introducir Token');
+    } else {
+        $(".botoneses3").fadeOut();
+        setTimeout(function() {
+            $(".tokenMargen").fadeIn();
+        }, 200);
+        optFlag = true;
+
+        $(".mas-options .fa-angle-down").show();
+        $(".mas-options .fa-angle-up").hide();
+        $(".mas-options small").text('Más Opciones');
     }
+
+    // <div class="mas-options" onclick="moreOptions();">
+    //     <small>Más Opciones</small><br>
+    //     <i class="fa fa-angle-down" aria-hidden="true"></i>
+    //     <i class="fa fa-angle-up" aria-hidden="true"></i>
+    // </div>
+}
 </script>

@@ -36,6 +36,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.sinTiempoDisponible = 1;
     $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
 
+    //Agrega para comentarios
+    $scope.comentarios = [];
+
     $scope.init = function() {
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
@@ -279,47 +282,44 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.err_aprobacion_show = false;
     $scope.idUsuarioToken = 0;
-    $scope.VerificaTokenAprobacion = function(){
-        $(".aprobar_partidas").attr("disabled","disabled");
+    $scope.VerificaTokenAprobacion = function() {
+        $(".aprobar_partidas").attr("disabled", "disabled");
         $(".aprobar_partidas i").show();
         $scope.pidiendoToken = true;
-        if( $scope.token_aprobacion == '' || $scope.token_aprobacion === undefined ){
+        if ($scope.token_aprobacion == '' || $scope.token_aprobacion === undefined) {
             $(".err_aprobacion").fadeIn();
             $scope.err_apronacion = 'Es necesario el token para hacer esta operación';
             $(".aprobar_partidas i").hide();
-            setTimeout( function(){
+            setTimeout(function() {
                 $(".aprobar_partidas").removeAttr("disabled");
                 $(".err_aprobacion").fadeOut();
             }, 3000);
-        }
-        else{
-            detalleRepository.validaTokenAprobacion( $scope.detalleOrden.idOrden, $scope.token_aprobacion, $scope.idCotizacionActive ).then(function(result) {
-                if( result.data[0].Success == 1 ){                    
+        } else {
+            detalleRepository.validaTokenAprobacion($scope.detalleOrden.idOrden, $scope.token_aprobacion, $scope.idCotizacionActive).then(function(result) {
+                if (result.data[0].Success == 1) {
                     $("#ModalShowToken").modal('hide');
-                    $scope.aprobacionPorToken($scope.numeroOrden, $scope.idEstatusCotizacionActive, result.data[0].idUsuario );
-                    setTimeout( function(){
+                    $scope.aprobacionPorToken($scope.numeroOrden, $scope.idEstatusCotizacionActive, result.data[0].idUsuario);
+                    setTimeout(function() {
 
-                        if( $scope.partidasportokentotal == 0 ){
+                        if ($scope.partidasportokentotal == 0) {
                             alertFactory.warning('El token proporcionado no cuenta con el nivel de autorización necesario para esta operación.');
-                        }
-                        else{
-                            var coti = filterFilter( $scope.cotizaciones , {idCotizacion: $scope.idCotizacionActive} );
+                        } else {
+                            var coti = filterFilter($scope.cotizaciones, { idCotizacion: $scope.idCotizacionActive });
                             $scope.idUsuarioToken = result.data[0].idUsuario;
                             // $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0]);
                         }
-                    },500 );
-                }
-                else{
+                    }, 500);
+                } else {
                     $(".err_aprobacion").fadeIn();
                     $scope.err_apronacion = result.data[0].Msg;
                     $scope.token_aprobacion = '';
-                    setTimeout( function(){
+                    setTimeout(function() {
                         $(".err_aprobacion").fadeOut();
                     }, 3000);
                 }
 
-                    $(".aprobar_partidas i").hide();
-                    $(".aprobar_partidas").removeAttr("disabled");
+                $(".aprobar_partidas i").hide();
+                $(".aprobar_partidas").removeAttr("disabled");
             }, function(error) {
                 // alertFactory.error('');
             });
@@ -379,6 +379,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             var haveBalance = $scope.checkBalance(cotizacion);
             if (haveBalance == true) {
                 $scope.UpdatePartidaStatus(idUsuario, cotizacion);
+                $scope.updateComentariosPartidas();
             } else {
                 $('.modal-dialog').css('width', '1050px');
                 modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '');
@@ -386,6 +387,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }
         } else {
             $scope.UpdatePartidaStatus(idUsuario, cotizacion);
+            $scope.updateComentariosPartidas();
         }
     };
 
@@ -1127,29 +1129,29 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     $scope.token_utilidad = '';
                     detalleRepository.tokenEstatus($scope.detalleOrden.idOrden).then(function(resp) {});
                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
-                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
                             if (resp.data.length > 0) {
                                 var correoDe = resp.data[0].correoDe;
                                 var correoPara = resp.data[0].correoPara;
                                 var asunto = resp.data[0].asunto;
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
-                                 commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
 
-                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
 
-                                        // $(".token-group input").removeAttr("disabled");
-                                        // $(".token-group button").removeAttr("disabled");
-                                        // $(".token-group button i").hide();
-                                        //$scope.init();
+                                    // $(".token-group input").removeAttr("disabled");
+                                    // $(".token-group button").removeAttr("disabled");
+                                    // $(".token-group button i").hide();
+                                    //$scope.init();
                                 }, function(error) {
                                     alertFactory.error('No se puede enviar el correo');
-                                    setTimeout( function(){
+                                    setTimeout(function() {
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                                    },1500);
+                                    }, 1500);
                                 });
                             }
-                        }, function (error) {
+                        }, function(error) {
                             alertFactory.error("Error al obtener información para el mail");
                             location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                         });
@@ -1285,7 +1287,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.acciones = function() {
         if (($scope.comentaAccion != undefined && $scope.comentaAccion != "") && ($scope.fechaAccion != undefined && $scope.fechaAccion != "")) {
-             //FAL 12072017 calcula la nueva fecha
+            //FAL 12072017 calcula la nueva fecha
             $scope.fechaCompleta = $scope.fechaAccion + ' ' + $scope.horaAccion;
             detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaCompleta, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
                 if (result.data.length > 0) {
@@ -1650,60 +1652,80 @@ registrationModule.controller('detalleController', function($scope, $location, $
             });
     };
     //Funcion para genear comentarios 
-    $scope.agregarComentario = function(tipoComentario) {
+    $scope.agregarComentario = function(tipoComentario, partida) {
         //tipoComentario=1 <-- Cuando se rechaza una partida
+        $scope.partidaComentario = [];
+        $scope.partidaComentario = partida;
         $('.modal-dialog').css('width', '1050px');
-        modal_agregarComentario($scope, $modal, '', '');
+        modal_agregarComentario($scope, $modal, $scope.resultadoComentario, '');
 
     };
+    $scope.resultadoComentario = function(comentarios) {
 
-    //FAL 12072017 funciones para no permitir planes difernetes de la fecha actual
-    $scope.NoFechaAntigua = function(fecha){
-        
+        $scope.comentarios.push({
+            id: $scope.partidaComentario.idPartida,
+            comentario: 'Número de Parte: ' + $scope.partidaComentario.noParte + ' Comentario: ' + comentarios
+        });
+    };
+    $scope.updateComentariosPartidas = function() {
+            angular.forEach($scope.comentarios, function(value, key) {
+                detalleRepository.insNota(value.comentario, $scope.numeroOrden, $scope.userData.idUsuario, $scope.idEstatusOrden).then(function(result) {
+                    if (result.data.length > 0) {
+                        $scope.notaTrabajo = result.data;
+                    }
+                }, function(error) {
+                    alertFactory.error('No se pudieron obtener las notas');
+                });
+            });
+            $scope.comentarios=[];
+        }
+        //FAL 12072017 funciones para no permitir planes difernetes de la fecha actual
+    $scope.NoFechaAntigua = function(fecha) {
+
         var CurrentDate = new Date();
         var anio = CurrentDate.getFullYear();
         var mes = CurrentDate.getMonth() + 1;
         var dia = CurrentDate.getDate();
-        var diaActual  = new Date(anio+'/'+mes+'/'+dia);
+        var diaActual = new Date(anio + '/' + mes + '/' + dia);
         var fechaSeleccionada = new Date(fecha);
 
-        if (fechaSeleccionada < diaActual){
+        if (fechaSeleccionada < diaActual) {
             $scope.fechaAccion = '';
             $scope.horaAccion = '';
             $scope.SeleccionoDiaActual = false;
             alertFactory.info('No puede seleccionar una fecha anterior.');
         }
 
-        if(!(fechaSeleccionada < diaActual) && !(fechaSeleccionada > diaActual)){
+        if (!(fechaSeleccionada < diaActual) && !(fechaSeleccionada > diaActual)) {
             $scope.SeleccionoDiaActual = true;
-            if($scope.horaAccion != undefined && $scope.horaAccion != '' && $scope.horaAccion != null){
+            if ($scope.horaAccion != undefined && $scope.horaAccion != '' && $scope.horaAccion != null) {
                 $scope.NoHoraAntigua($scope.horaAccion);
             }
         }
 
-        if(fechaSeleccionada > diaActual){
-          $scope.SeleccionoDiaActual = false;
+        if (fechaSeleccionada > diaActual) {
+            $scope.SeleccionoDiaActual = false;
         }
     };
 
-    $scope.NoHoraAntigua = function(hora){
-        
-      if($scope.fechaAccion != undefined && $scope.fechaAccion != '' && $scope.fechaAccion != null){
-          if($scope.SeleccionoDiaActual == true){
-              var HoraActual = new Date();
-              var anio = HoraActual.getFullYear();
-              var mes = HoraActual.getMonth() + 1;
-              var dia = HoraActual.getDate();
-              var HoraSeleccionada  = new Date(anio+'/'+mes+'/'+dia+' '+hora+ ':00.000');
+    $scope.NoHoraAntigua = function(hora) {
 
-              if (!(HoraSeleccionada > HoraActual)){
-                $scope.horaAccion = '';
-                alertFactory.info('No puede seleccionar una hora anterior.');
-              }
-          }
-      }else{
+        if ($scope.fechaAccion != undefined && $scope.fechaAccion != '' && $scope.fechaAccion != null) {
+            if ($scope.SeleccionoDiaActual == true) {
+                var HoraActual = new Date();
+                var anio = HoraActual.getFullYear();
+                var mes = HoraActual.getMonth() + 1;
+                var dia = HoraActual.getDate();
+                var HoraSeleccionada = new Date(anio + '/' + mes + '/' + dia + ' ' + hora + ':00.000');
+
+                if (!(HoraSeleccionada > HoraActual)) {
+                    $scope.horaAccion = '';
+                    alertFactory.info('No puede seleccionar una hora anterior.');
+                }
+            }
+        } else {
             $scope.horaAccion = '';
             alertFactory.info('Seleccione antes la fecha del recordatorio.');
-      }
+        }
     }
 });
