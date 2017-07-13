@@ -6,10 +6,11 @@
 // -- Fecha: 
 // -- =============================================
 
-registrationModule.controller('ordenAnticipoController', function ($scope,$rootScope, localStorageService, alertFactory, globalFactory, ordenAnticipoRepository) {
+registrationModule.controller('ordenAnticipoController', function ($scope,$rootScope, localStorageService, userFactory, alertFactory, globalFactory, ordenAnticipoRepository) {
 
     //método de inicio en la pantalla en relación
     $scope.init = function () {
+        userFactory.ValidaSesion();
         getOrdenesAnticipoPendiente();
         getOrdenesAnticipoAplicado();
     }

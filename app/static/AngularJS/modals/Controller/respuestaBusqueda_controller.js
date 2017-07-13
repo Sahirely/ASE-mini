@@ -1,4 +1,4 @@
-registrationModule.controller('respuestaBusqueda_controller', function($scope, $modalInstance, $modal, tipobusqueda, respuesta, callback, error, $http, $sce, $window, ordenServicioRepository, alertFactory, busquedaUnidadRepository) {
+registrationModule.controller('respuestaBusqueda_controller', function($scope, $modalInstance, $modal, userFactory, tipobusqueda, respuesta, callback, error, $http, $sce, $window, ordenServicioRepository, alertFactory, busquedaUnidadRepository) {
     //*****************************************************************************************************************************//
     // $scope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
@@ -7,6 +7,7 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
     $scope.numeroEconomico = '';
 
     $scope.init = function() {
+        userFactory.ValidaSesion();
         $scope.mensaje = respuesta.mensaje;
     };
     $scope.close = function() {

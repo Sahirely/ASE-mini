@@ -1,4 +1,4 @@
-registrationModule.controller('administracionOrdenController', function ($scope, $route, $modal, $rootScope, localStorageService, alertFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository) {
+registrationModule.controller('administracionOrdenController', function ($scope, $route, $modal, $rootScope, userFactory, localStorageService, alertFactory, ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, ordenAnticipoRepository, trabajoRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -8,6 +8,7 @@ registrationModule.controller('administracionOrdenController', function ($scope,
     $scope.ideTaller = 0;
     //init del controller
     $scope.init = function () {
+        userFactory.ValidaSesion();
         $scope.tipoCotizacion();
         //configuraciones de dropzone
         Dropzone.autoDiscover = false;

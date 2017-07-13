@@ -1,10 +1,10 @@
 
-registrationModule.controller('token_controller', function ($scope, $modalInstance, $modal, idAprobacionUtilidad, origen, callback, error, $http, $sce, $window, ordenServicioRepository, alertFactory) {
+registrationModule.controller('token_controller', function ($scope, $modalInstance, $modal, userFactory, idAprobacionUtilidad, origen, callback, error, $http, $sce, $window, ordenServicioRepository, alertFactory) {
 
 	
 	$scope.init= function (){
 		$scope.token='';
-
+userFactory.ValidaSesion();
         $scope.show_Aprobacion= false; 
         $scope.show_cita= false; 
         $scope.show_trabajo= false;

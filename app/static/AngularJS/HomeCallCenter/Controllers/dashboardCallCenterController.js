@@ -6,6 +6,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     $scope.idUsuario = '';
 
     $scope.init = function() {
+        userFactory.ValidaSesion();
       $scope.fecha_actual = new Date();
       if ($scope.userData.idRol == 3) {
         $scope.idUsuario = $scope.userData.idUsuario;

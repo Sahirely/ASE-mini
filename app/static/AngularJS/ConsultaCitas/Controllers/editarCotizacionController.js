@@ -7,7 +7,7 @@ registrationModule.controller('editarCotizacionController', function($scope, $lo
 	 
     
 	$scope.init  = function (){
-	
+		userFactory.ValidaSesion();
 		$scope.getOrdenDetalle();
 	}
 

@@ -1,4 +1,4 @@
-registrationModule.controller('nuevaUnidadController', function ($scope, $modal, idOperacion, presupuesto, gps, callback, idContratoOperacion, $modalInstance, configuradorRepository, cotizacionConsultaRepository,  alertFactory) {
+registrationModule.controller('nuevaUnidadController', function ($scope, $modal, idOperacion, presupuesto,userFactory, gps, callback, idContratoOperacion, $modalInstance, configuradorRepository, cotizacionConsultaRepository,  alertFactory) {
 
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
@@ -13,6 +13,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     };
 
     $scope.init = function () {
+        userFactory.ValidaSesion();
     	$scope.show_centros=false;
     	$scope.show_gps=false
 

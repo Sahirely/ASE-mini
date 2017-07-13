@@ -18,7 +18,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.show_nuevaCotizacion = true;
 
     $scope.init = function() {
-
+        userFactory.ValidaSesion();
         $scope.idCotizacion = $routeParams.idCotizacion;
         $scope.numeroOrden = $routeParams.orden;
         $scope.estatus = $routeParams.estatus;

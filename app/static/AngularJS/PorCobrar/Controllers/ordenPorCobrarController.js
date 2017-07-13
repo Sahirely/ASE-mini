@@ -41,7 +41,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   }
 
   $scope.init = function () {
-
+userFactory.ValidaSesion();
     // para obtener las zonas promero se inicializa la primer zona padre.
     userFactory.ValidaSesion()
     $scope.ZonasSeleccionadas[0] = '0'

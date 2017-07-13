@@ -1,4 +1,4 @@
-registrationModule.controller('ordenServicioController', function($scope, $rootScope, localStorageService, alertFactory, cotizacionAutorizacionRepository, citaRepository, cotizacionRepository, cotizacionMailRepository, ordenServicioRepository, commonService, $location) {
+registrationModule.controller('ordenServicioController', function($scope, $rootScope, localStorageService, userFactory, alertFactory, cotizacionAutorizacionRepository, citaRepository, cotizacionRepository, cotizacionMailRepository, ordenServicioRepository, commonService, $location) {
     var cDetalles = [];
     var cPaquetes = [];
     $scope.chat = [];
@@ -25,6 +25,7 @@ registrationModule.controller('ordenServicioController', function($scope, $rootS
         $scope.vistaEditaPrecio = 0;
     }
     $scope.init = function() {
+        userFactory.ValidaSesion();
         $scope.cargaFicha();
         $scope.cargaDatosCliente($scope.objBotonera.idCita);
         $scope.getCotizacionByTrabajo();

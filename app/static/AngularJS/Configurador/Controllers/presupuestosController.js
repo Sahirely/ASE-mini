@@ -1,11 +1,11 @@
-registrationModule.controller('presupuestosController', function ($scope, $modal, idOperacion, modalUnidad, callback, error, $modalInstance, configuradorRepository) {
+registrationModule.controller('presupuestosController', function ($scope, $modal, idOperacion, modalUnidad, userFactory, callback, error, $modalInstance, configuradorRepository) {
 	
 	$scope.numCentros=0;
 	$scope.models=[];
 	$scope.modalPlus = modalUnidad;
 
 	$scope.init = function (){
-		 
+		 userFactory.ValidaSesion();
 		 $scope.recuperaCentros();
 	};
 

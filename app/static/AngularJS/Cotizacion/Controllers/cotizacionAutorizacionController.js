@@ -1,4 +1,4 @@
-registrationModule.controller('cotizacionAutorizacionController', function ($scope, $rootScope, localStorageService, $location, alertFactory, cotizacionAutorizacionRepository, citaRepository, cotizacionRepository, cotizacionMailRepository, cotizacionConsultaRepository) {
+registrationModule.controller('cotizacionAutorizacionController', function ($scope, $rootScope, userFactory, localStorageService, $location, alertFactory, cotizacionAutorizacionRepository, citaRepository, cotizacionRepository, cotizacionMailRepository, cotizacionConsultaRepository) {
 
     var cDetalles = [];
     var cPaquetes = [];
@@ -43,6 +43,7 @@ registrationModule.controller('cotizacionAutorizacionController', function ($sco
 
 
     $scope.init = function () {
+        userFactory.ValidaSesion();
         $scope.cargaFicha();
         $scope.cargaChatTaller();
         $scope.cargaChatCliente();

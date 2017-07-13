@@ -28,6 +28,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.Zonas                 = [];
 
     $scope.init = function() {
+        userFactory.ValidaSesion();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();

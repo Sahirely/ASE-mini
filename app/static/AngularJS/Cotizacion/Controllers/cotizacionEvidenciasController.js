@@ -1,10 +1,11 @@
-registrationModule.controller('cotizacionEvidenciasController', function ($scope, localStorageService, alertFactory, cotizacionEvidenciasRepository, $rootScope, uploadRepository) {
+registrationModule.controller('cotizacionEvidenciasController', function ($scope, localStorageService, userFactory, alertFactory, cotizacionEvidenciasRepository, $rootScope, uploadRepository) {
     var idCotizacion = localStorageService.get('cotizacion');
     $scope.idTrabajo = localStorageService.get('work');
     $scope.userData = localStorageService.get('userData');
 
     $scope.init = function () {
         //configuraciones de dropzone
+        userFactory.ValidaSesion();
         Dropzone.autoDiscover = false;
         $scope.dzOptionsCotizacion = uploadRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",20);
         $scope.cargaEvidencias();

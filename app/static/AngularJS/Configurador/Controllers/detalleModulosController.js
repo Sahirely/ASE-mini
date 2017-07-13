@@ -1,7 +1,8 @@
-registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, idContratoOperacion, unidades, $modalInstance, configuradorRepository, localStorageService, alertFactory) {
+registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, userFactory, idContratoOperacion, unidades, $modalInstance, configuradorRepository, localStorageService, alertFactory) {
 $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.init = function () {
+        userFactory.ValidaSesion();
         $scope.titulo= detalle.nombreModulos;
         $scope.detalleModulo ();
         $scope.contador =0;

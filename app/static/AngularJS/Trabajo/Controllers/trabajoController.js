@@ -32,6 +32,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.sumatoria_proceso=0;
 
     $scope.Init = function() {
+      userFactory.ValidaSesion();
         $scope.show_proceso=true;
         $scope.show_entrega=false;
         $scope.muestraTabla = false;

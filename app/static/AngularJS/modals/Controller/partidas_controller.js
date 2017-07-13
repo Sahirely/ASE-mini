@@ -10,6 +10,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
     $scope.btnSwitch.classVenta = 'btn btn-default';
     $scope.detalleBusqueda = infoBusqueda;
     $scope.init = function() {
+        userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.permisosUsuario();
         if ($scope.lstPartidaSeleccionada.length > 0) {

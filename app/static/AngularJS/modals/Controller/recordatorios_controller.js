@@ -6,6 +6,7 @@ registrationModule.controller('recordatorios_controller', function($scope, $moda
 	$scope.btn_recordatorios= 'Agregar';
 
 	$scope.init = function () {
+    userFactory.ValidaSesion();
 		if (data != '') {
 			$scope.btn_recordatorios= 'Actualizar';
 			$scope.comentaRecordatorio = data.texto;

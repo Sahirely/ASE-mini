@@ -1,4 +1,4 @@
-registrationModule.controller('ordenServicioEvidenciaController', function($scope, localStorageService, alertFactory, ordenServicioEvidenciaRepository, $rootScope, uploadRepository) {
+registrationModule.controller('ordenServicioEvidenciaController', function($scope, localStorageService, userFactory, alertFactory, ordenServicioEvidenciaRepository, $rootScope, uploadRepository) {
     var idCotizacion = localStorageService.get('cotizacion');
     var trabajo = localStorageService.get('objTrabajo');
     $scope.userData = localStorageService.get('userData');
@@ -9,6 +9,7 @@ registrationModule.controller('ordenServicioEvidenciaController', function($scop
     }
     $scope.init = function() {
         //configuraciones de dropzone
+        userFactory.ValidaSesion();
         Dropzone.autoDiscover = false;
         $scope.dzOptionsServicio = uploadRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT", 20);
         $scope.cargaEvidencias();

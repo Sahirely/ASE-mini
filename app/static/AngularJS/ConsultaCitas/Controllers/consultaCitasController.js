@@ -28,7 +28,9 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada
     var tipoConsulta = 1
 
-    $scope.init = function() {};
+    $scope.init = function() {
+        userFactory.ValidaSesion();
+    };
 
     //init de la pantalla tallerCita
     $scope.initTallerCita = function() {

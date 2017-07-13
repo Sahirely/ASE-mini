@@ -7,6 +7,7 @@ registrationModule.controller('aprobacionutilidadController', function ($scope, 
         $scope.ideTaller=0;
     //init del controller
     $scope.init = function () {
+        userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.getAprobacionUtilidad();
     }

@@ -1,7 +1,7 @@
-registrationModule.controller('tipoUnidadesController', function ($scope, $modal, data, $modalInstance, configuradorRepository, alertFactory, globalFactory) {
+registrationModule.controller('tipoUnidadesController', function ($scope, $modal, data, $modalInstance, userFactory, configuradorRepository, alertFactory, globalFactory) {
 
 	$scope.init = function () {
-
+		userFactory.ValidaSesion();
 		$('.dataTableTipoUnidades').DataTable().destroy();
         $scope.tipoUnidades=[];
 		$scope.tipoUnidades = data;
