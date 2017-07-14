@@ -238,7 +238,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
     $scope.nuevaCotizacion = function() {
         $('#loadModal').modal('show');
-        cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.userData.idUsuario, 1, $scope.numeroOrden, $scope.idTipoCita).then(function(result) {
+        cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.userData.idUsuario, 1, $scope.numeroOrden, $scope.idTipoCita,0).then(function(result) {
                                                 //idTaller, idUsuario, idEstatusCotizacion, idOrden,idCatalogoTipoOrdenServicio
             if (result.data[0].idCotizacion > 0) {
                 $scope.idCotizacion = result.data[0].idCotizacion;
