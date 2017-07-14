@@ -195,9 +195,13 @@ Cotizacion.prototype.post_cotizacionNueva = function(req, res, next) {
         name: 'idOrden',
         value: req.body.idOrden,
         type: self.model.types.STRING
-    }, , {
+    },{
         name: 'idCatalogoTipoOrdenServicio',
         value: req.body.idCatalogoTipoOrdenServicio,
+        type: self.model.types.INT
+    },{
+        name: 'existeTaller',
+        value: req.body.existeTaller,
         type: self.model.types.INT
     }];
 

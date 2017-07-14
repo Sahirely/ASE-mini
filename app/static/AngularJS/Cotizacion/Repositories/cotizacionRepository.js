@@ -3,16 +3,17 @@ var cotizacion = global_settings.urlCORS + '/api/orden/';
 var ruta = global_settings.uploadPath;
 //var ruta = 'C:/Users/Mario/Documents/FileUpload';
 
-registrationModule.factory('cotizacionRepository', function ($http) {
+registrationModule.factory('cotizacionRepository', function($http) {
     return {
-       
-        insCotizacionNueva: function (idTaller, idUsuario, idEstatusCotizacion, idOrden,idCatalogoTipoOrdenServicio) {
+
+        insCotizacionNueva: function(idTaller, idUsuario, idEstatusCotizacion, idOrden, idCatalogoTipoOrdenServicio, existeTaller) {
             var msgObj = {
                 idTaller: idTaller,
                 idUsuario: idUsuario,
                 idEstatusCotizacion: idEstatusCotizacion,
                 idOrden: idOrden,
-                idCatalogoTipoOrdenServicio:idCatalogoTipoOrdenServicio
+                idCatalogoTipoOrdenServicio: idCatalogoTipoOrdenServicio,
+                existeTaller: existeTaller
             }
             return $http({
                 url: searchUrl + 'cotizacionNueva',
@@ -23,7 +24,7 @@ registrationModule.factory('cotizacionRepository', function ($http) {
                 }
             });
         },
-        inCotizacionDetalle: function (idCotizacion, costo, cantidad, venta, idPartida, idEstatusPartida) {
+        inCotizacionDetalle: function(idCotizacion, costo, cantidad, venta, idPartida, idEstatusPartida) {
             var msgObj = {
                 idCotizacion: idCotizacion,
                 costo: costo,
@@ -41,14 +42,14 @@ registrationModule.factory('cotizacionRepository', function ($http) {
                 }
             });
         },
-        getMostrarCotizaciones: function (numeroOrden, estatus , usuario ) {
+        getMostrarCotizaciones: function(numeroOrden, estatus, usuario) {
             return $http({
                 url: cotizacion + 'cotizaciones',
                 method: "GET",
                 params: {
-                    numeroOrden:numeroOrden,
-                    estatus:estatus,
-                    usuario:usuario
+                    numeroOrden: numeroOrden,
+                    estatus: estatus,
+                    usuario: usuario
                 },
                 headers: {
                     'Content-Type': 'application/json'
