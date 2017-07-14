@@ -378,7 +378,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                         $scope.lstPartidaSeleccionada.splice((h), 1)
                         $scope.sumatoriaTotal();
                     }else{
-                       $scope.lstPartidaSeleccionada[h].estatus = 3;
+                       $scope.lstPartidaSeleccionada[h].estatus = 4;
                        $scope.lstPartidaSeleccionada[h].cantidad = 0;
                        $scope.lstPartidaSeleccionada[h].precioUnitario = 0;
                        $scope.lstPartidaSeleccionada[h].costoUnitario = 0;
