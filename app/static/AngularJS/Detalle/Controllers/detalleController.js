@@ -140,7 +140,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.detalleOrden = result.data[0];
                 $scope.estatus = $routeParams.estatus;
                 $scope.estatusUtilidad();
-                //LQMA add 11072017    
+                //LQMA add 11072017
                 $scope.idZona_Orden = result.data[0].idZona;
 
                 if ($scope.estatus == undefined)
@@ -369,6 +369,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.btnSaveCotizacion = function(idUsuario, cotizacion) {
+        $('#loadModal').modal('show');
         if ($scope.idUsuarioToken != 0) {
             idUsuario = $scope.idUsuarioToken;
             $scope.idUsuarioToken = 0;
@@ -381,6 +382,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.UpdatePartidaStatus(idUsuario, cotizacion);
                 $scope.updateComentariosPartidas();
             } else {
+                $('#loadModal').modal('hide');
                 $('.modal-dialog').css('width', '1050px');
                 modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '');
                 $scope.class_buttonGuardaCotizacion = '';
@@ -448,9 +450,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
                 switch (Number(valor)) {
                     case 2: //cliente
-                        alertFactory.success('Faltan partidas por aprobar.');
                         $scope.class_buttonGuardaCotizacion = '';
                         $scope.init();
+                        $('#loadModal').modal('hide');
+                        alertFactory.success('Faltan partidas por aprobar.');
                         break;
                     case 3:
                         commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
@@ -461,37 +464,44 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
                                 commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-
+                                    $('#loadModal').modal('hide');
                                     location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
 
                                 }, function(error) {
                                     $scope.class_buttonGuardaCotizacion = '';
                                     alertFactory.error('No se puede enviar el correo');
                                     setTimeout(function() {
+                                        $('#loadModal').modal('hide');
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
                                     }, 1500);
                                 });
                             }
                             $scope.class_buttonGuardaCotizacion = '';
                         }, function(error) {
-                            alertFactory.error("Error al obtener información para el mail");
                             $scope.class_buttonGuardaCotizacion = '';
+                            $('#loadModal').modal('hide');
+                            alertFactory.error("Error al obtener información para el mail");
+
                         });
                         break;
                     case 4:
+                        $('#loadModal').modal('hide');
                         location.href = '/cotizacionconsulta';
                         break;
                     default:
                         $scope.class_buttonGuardaCotizacion = '';
+                        $('#loadModal').modal('hide');
                         alertFactory.info('Debe seleccionar partidas para aprobar.');
                 }
 
             } else {
                 $scope.buttonGuardaCotizacion = '';
+                $('#loadModal').modal('hide');
                 alertFactory.success('Finalizó sin respuesta.');
             }
         }, function(error) {
             $scope.buttonGuardaCotizacion = '';
+            $('#loadModal').modal('hide'); 
             alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
         });
     };
@@ -949,7 +959,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
                 } else {
                     $scope.class_buttonTerminaTrabajo = '';
-                    alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+                    alertFactory.info('Aún quedan cotizaciones pendientes por revisar');
                 }
             });
         } else {
@@ -966,7 +976,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     });
                 } else {
                     $scope.class_buttonTerminaTrabajo = '';
-                    alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
+                    alertFactory.info('Aún quedan cotizaciones pendientes por revisar');
                 }
             });
         }
@@ -1655,7 +1665,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
             });
     };
-    //Funcion para genear comentarios 
+    //Funcion para genear comentarios
     $scope.agregarComentario = function(tipoComentario, partida) {
         $scope.tipoComentario = 1;
         //tipoComentario=1 <-- Cuando se rechaza una partida

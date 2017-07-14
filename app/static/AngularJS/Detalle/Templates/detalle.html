@@ -36,7 +36,7 @@
                         </div>
                         <!--div class="row">
                             <div class="col-md-12">
-                                
+
                                 <div style="display:inline-block;width:90%;overflow-y:auto;">
                                     <ul class="timeline timeline-horizontal">
                                         <li class="timeline-item" ng-repeat='historico in HistoricoOrden'>
@@ -65,7 +65,7 @@
                             </ul>
                             </div>
                             </div>
-                            
+
                             </div-->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
@@ -113,7 +113,7 @@
                                 <div id="padreTimeLine">
                                     <ul class="timeline timeline-horizontal">
                                         <li class="timeline-item" ng-repeat='historico in HistoricoOrden'>
-                            
+
                                             <div class="timelnie-item">
                                                 <div class="row">
                                                     <div class="col-xs-3 date">
@@ -711,7 +711,7 @@
                                                         <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
                                                             <span></span> Cancelar Cotización
                                                         </button>
-                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
+                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
                                                             <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
                                                         </button>
                                                     </div>
@@ -892,6 +892,18 @@
         </div>
     </div>
 </div>
+<!-- Modal cargando-->
+<div id="loadModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="spiner-example" style="margin-top: 35%">
+            <div class="sk-spinner sk-spinner-wandering-cubes">
+                <div class="sk-cube1"></div>
+                <div class="sk-cube2"></div>
+            </div>
+            <div style="color:white;margin-left: 46%; margin-top:20px">Cargando...</div>
+        </div>
+    </div>
+</div>
 <!-- Modal Mostrar -->
 <div class="modal fade" id="ModalShowToken" role="dialog">
     <div class="modal-dialog">
@@ -922,7 +934,7 @@
                     animation-iteration-count: infinite;
                     animation-timing-function: linear;
                 }
-                
+
                 @keyframes rotate {
                     from {
                         transform: rotate(0deg);
