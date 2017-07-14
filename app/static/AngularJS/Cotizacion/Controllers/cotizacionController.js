@@ -125,6 +125,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         consultaCitasRepository.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
+                $scope.estatusActual = result.data[0].idEstatusOrden;
             }
         }, function(error) {
             alertFactory.error('No se puede obtener los detalles de la orden');
@@ -251,7 +252,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                 alertFactory.success('se creo nueva cotización');
                 $scope.limpiarParametros();
                 $('#loadModal').modal('hide');
-                location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + 2;
+                location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + $scope.estatusActual;
             } else {
                 $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
@@ -274,7 +275,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                     alertFactory.success('Se  actulizó la cotización');
                     $scope.limpiarParametros();
                     $('#loadModal').modal('hide');
-                    location.href = '/detalle?orden=' + $scope.numeroOrden+ '&estatus=' + $scope.estatus;
+                    location.href = '/detalle?orden=' + $scope.numeroOrden+ '&estatus=' + $scope.estatusActual;
                 } else {
                 }
             }, function(error) {
@@ -377,7 +378,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                         $scope.lstPartidaSeleccionada.splice((h), 1)
                         $scope.sumatoriaTotal();
                     }else{
-                       $scope.lstPartidaSeleccionada[h].estatus = 3;
+                       $scope.lstPartidaSeleccionada[h].estatus = 4;
                        $scope.lstPartidaSeleccionada[h].cantidad = 0;
                        $scope.lstPartidaSeleccionada[h].precioUnitario = 0;
                        $scope.lstPartidaSeleccionada[h].costoUnitario = 0;

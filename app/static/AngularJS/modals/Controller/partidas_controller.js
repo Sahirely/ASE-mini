@@ -158,7 +158,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
                         $scope.lstPartidaSeleccionada.splice((h), 1)
                         $scope.sumatoriaTotal();
                     } else {
-                        $scope.lstPartidaSeleccionada[h].idEstatusPartida = 3;
+                        $scope.lstPartidaSeleccionada[h].idEstatusPartida = 4;
                         $scope.lstPartidaSeleccionada[h].cantidad = 0;
                         $scope.lstPartidaSeleccionada[h].precioUnitario = 0;
                         $scope.lstPartidaSeleccionada[h].costoUnitario = 0;

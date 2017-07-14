@@ -23,6 +23,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.x = 0;
     $scope.totalNiveles = 0;
     $scope.zonaSelected = "0";
+    $scope.idZonaSeleccionada = 0;
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
     $scope.Zonas = [];
@@ -122,7 +123,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.getTallerXid($scope.detalleOrden.idTaller);
                             $scope.getPreCotizacion($scope.idCotizacion);
 
-                            $scope.getZonasCita($scope.zonaSelected);
+                            $scope.getZonasCita($scope.idZonaSeleccionada);
                             $scope.getDetalleOrdenEspecialidad();
 
                         } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
@@ -260,27 +261,27 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
 
     $scope.NoHoraAntigua = function(hora) {
-            if ($scope.fechaCita != undefined && $scope.fechaCita != '' && $scope.fechaCita != null) {
-                if ($scope.SeleccionoDiaActual == true) {
-                    var HoraActual = new Date();
-                    var anio = HoraActual.getFullYear();
-                    var mes = HoraActual.getMonth() + 1;
-                    var dia = HoraActual.getDate();
-                    var HoraSeleccionada = new Date(anio + '/' + mes + '/' + dia + ' ' + hora + ':00.000');
+        if ($scope.fechaCita != undefined && $scope.fechaCita != '' && $scope.fechaCita != null) {
+            if ($scope.SeleccionoDiaActual == true) {
+                var HoraActual = new Date();
+                var anio = HoraActual.getFullYear();
+                var mes = HoraActual.getMonth() + 1;
+                var dia = HoraActual.getDate();
+                var HoraSeleccionada = new Date(anio + '/' + mes + '/' + dia + ' ' + hora + ':00.000');
 
-                    if (!(HoraSeleccionada > HoraActual)) {
-                        $scope.horaCita = '';
-                        alertFactory.info('No puede seleccionar una hora pasada.');
-                    }
+                if (!(HoraSeleccionada > HoraActual)) {
+                    $scope.horaCita = '';
+                    alertFactory.info('No puede seleccionar una hora pasada.');
                 }
-            } else {
-                $scope.horaCita = '';
-                alertFactory.info('Seleccione antes la fecha de la cita.');
             }
+        } else {
+            $scope.horaCita = '';
+            alertFactory.info('Seleccione antes la fecha de la cita.');
         }
-        //*****************************************************************************************************************************//
-        // Obtiene los servicios(especialidades) que se le pueden ofrecer dependiendo de la operación y el contrato
-        //*****************************************************************************************************************************//
+    }
+    //*****************************************************************************************************************************//
+    // Obtiene los servicios(especialidades) que se le pueden ofrecer dependiendo de la operación y el contrato
+    //*****************************************************************************************************************************//
     $scope.getServicios = function() {
         citaRepository.getServicios($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.servicios = result.data;
@@ -347,7 +348,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 });
 
                 if ($scope.labelItems > 0) {
-                    cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita,0).then(function(result) {
+                    cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
                         $scope.idCotizacion = result.data[0].idCotizacion;
                         angular.forEach($scope.partidas, function(value, key) {
                             cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, 1).then(function(result) {
@@ -421,6 +422,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
+        //Verifica que zona esta seleccionada 
+        angular.forEach(zonaseleccionada, function(value, key) {
+            if (key == 0) {} else if (value != 0) {
+                $scope.idZonaSeleccionada = value;
+            }
+        });
         //Obtengo la zona seleccionada
         angular.forEach(zona.data, function(value, key) {
             if (value.idZona == $scope.zonaSelected) {
@@ -448,11 +455,11 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
 
         });
-        if ($scope.idServicios == '' || $scope.zonaSelected == 0) {
+        if ($scope.idServicios == '' && $scope.idZonaSeleccionada == 0) {
 
             alertFactory.warning("Seleccione minimo un criterio de búsqueda.");
         } else {
-            tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.zonaSelected, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
+            tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.idZonaSeleccionada, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
                 $scope.mostrarTabla = true;
                 $scope.talleres = result.data;
                 globalFactory.filtrosTabla("talleres", "Talleres", 100);
