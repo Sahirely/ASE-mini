@@ -1,27 +1,27 @@
 registrationModule.directive('capitalize', function() {
-   return {
-     require: 'ngModel',
-     link: function(scope, element, attrs, modelCtrl) {
-        var capitalize = function(inputValue) {
-           if(inputValue == undefined || inputValue=="") inputValue = '';
-           var capitalized = inputValue.toUpperCase();
-           if(capitalized !== inputValue) {
-              modelCtrl.$setViewValue(capitalized);
-              modelCtrl.$render();
+    return {
+        require: 'ngModel',
+        link: function(scope, element, attrs, modelCtrl) {
+            var capitalize = function(inputValue) {
+                if (inputValue == undefined || inputValue == "") inputValue = '';
+                var capitalized = inputValue.toUpperCase();
+                if (capitalized !== inputValue) {
+                    modelCtrl.$setViewValue(capitalized);
+                    modelCtrl.$render();
+                }
+                return capitalized;
             }
-            return capitalized;
-         }
-         modelCtrl.$parsers.push(capitalize);
-         capitalize(scope[attrs.ngModel]);  // capitalize initial value
-     }
-   };
+            modelCtrl.$parsers.push(capitalize);
+            capitalize(scope[attrs.ngModel]); // capitalize initial value
+        }
+    };
 });
 
-registrationModule.directive('ngEnter', function () {
-    return function (scope, element, attrs) {
-        element.bind("keydown keypress", function (event) {
-            if(event.which === 13) {
-                scope.$apply(function (){
+registrationModule.directive('ngEnter', function() {
+    return function(scope, element, attrs) {
+        element.bind("keydown keypress", function(event) {
+            if (event.which === 13) {
+                scope.$apply(function() {
                     scope.$eval(attrs.ngEnter);
                 });
 
@@ -31,11 +31,11 @@ registrationModule.directive('ngEnter', function () {
     };
 });
 
-registrationModule.directive('addressNumber', function () {
+registrationModule.directive('addressNumber', function() {
     return {
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
-            $(el).bind('keypress', function (event) {
+        link: function(scope, el, attr, ngModel) {
+            $(el).bind('keypress', function(event) {
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 var keyCode = !event.charCode ? event.which : event.charCode;
                 if (keyCode === 32 || keyCode === 0 || keyCode === 8 || keyCode === 9) {
@@ -50,11 +50,11 @@ registrationModule.directive('addressNumber', function () {
     };
 });
 
-registrationModule.directive('onlyletters', function () {
+registrationModule.directive('onlyletters', function() {
     return {
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
-            $(el).bind('keypress', function (event) {
+        link: function(scope, el, attr, ngModel) {
+            $(el).bind('keypress', function(event) {
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 var keyCode = !event.charCode ? event.which : event.charCode;
                 if (keyCode === 32 || keyCode === 0 || keyCode === 8 || keyCode === 9) {
@@ -69,11 +69,11 @@ registrationModule.directive('onlyletters', function () {
     };
 });
 
-registrationModule.directive('onlynumletter', function () {
+registrationModule.directive('onlynumletter', function() {
     return {
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
-            $(el).bind('keypress', function (event) {
+        link: function(scope, el, attr, ngModel) {
+            $(el).bind('keypress', function(event) {
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 var keyCode = !event.charCode ? event.which : event.charCode;
                 if (keyCode === 32 || keyCode === 0 || keyCode === 8 || keyCode === 9) {
@@ -88,11 +88,11 @@ registrationModule.directive('onlynumletter', function () {
     };
 });
 
-registrationModule.directive('numberguion', function () {
+registrationModule.directive('numberguion', function() {
     return {
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
-            $(el).bind('keypress', function (event) {
+        link: function(scope, el, attr, ngModel) {
+            $(el).bind('keypress', function(event) {
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 var keyCode = !event.charCode ? event.which : event.charCode;
                 if (keyCode === 32 || keyCode === 0 || keyCode === 8 || keyCode === 9) {
@@ -107,11 +107,11 @@ registrationModule.directive('numberguion', function () {
     };
 });
 
-registrationModule.directive('onlynumber', function () {
+registrationModule.directive('onlynumber', function() {
     return {
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
-            $(el).bind('keypress', function (event) {
+        link: function(scope, el, attr, ngModel) {
+            $(el).bind('keypress', function(event) {
                 var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
                 var keyCode = !event.charCode ? event.which : event.charCode;
                 if (keyCode === 32 || keyCode === 0 || keyCode === 8 || keyCode === 9) {
@@ -126,12 +126,13 @@ registrationModule.directive('onlynumber', function () {
     };
 });
 
-registrationModule.directive('calendar', function () {
+registrationModule.directive('calendar', function() {
 
 
     return {
+        restrict: 'A',
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
+        link: function(scope, el, attr, ngModel) {
             $(el).datepicker({
                 todayBtn: "linked",
                 keyboardNavigation: false,
@@ -140,18 +141,18 @@ registrationModule.directive('calendar', function () {
                 autoclose: true,
                 todayHighlight: true,
                 format: 'yyyy/mm/dd'
-          });
+            });
         }
     };
 
 });
 
-registrationModule.directive('mes', function () {
+registrationModule.directive('mes', function() {
 
 
     return {
         require: 'ngModel',
-        link: function (scope, el, attr, ngModel) {
+        link: function(scope, el, attr, ngModel) {
             $(el).datepicker({
                 minViewMode: 1,
                 keyboardNavigation: false,
@@ -159,7 +160,7 @@ registrationModule.directive('mes', function () {
                 autoclose: true,
                 todayHighlight: true,
                 format: 'MM-yyyy'
-          });
+            });
         }
     };
 
@@ -190,3 +191,14 @@ function isValidNumber(strToEvaluate) {
     var polizaField = /^[0-9]*$/;
     return polizaField.test(strToEvaluate);
 }
+
+registrationModule.directive('clickedDisable', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, ele, attrs) {
+            $(ele).click(function() {
+                $(ele).attr('disabled', true);
+            });
+        }
+    };
+});
