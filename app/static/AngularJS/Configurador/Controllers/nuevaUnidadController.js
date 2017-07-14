@@ -14,6 +14,8 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
 
     $scope.init = function () {
         userFactory.ValidaSesion();
+        $scope.userData = userFactory.getUserData();
+        $scope.idUsuario = $scope.userData.idUsuario;
     	$scope.show_centros=false;
     	$scope.show_gps=false
 
@@ -84,7 +86,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     //obtiene las zonas por cada nivel con que cuenta el usuario
     $scope.devuelveZonas = function() {
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-            cotizacionConsultaRepository.getZonas(idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
+            cotizacionConsultaRepository.getZonas(idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function(result) {
                 if (result.data.length > 0) {
                     var valueToPush = {};
                     valueToPush.orden = result.data[0].orden;

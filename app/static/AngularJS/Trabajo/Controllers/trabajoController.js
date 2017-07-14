@@ -4,20 +4,18 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     // $scope.idOperacion           = 2;
     // $scope.idUsuario             = 2;
     // $scope.idContratoOperacion   = 2;
-    $scope.userData              = userFactory.getUserData();
-
-    $scope.idOperacion           = $scope.userData.idOperacion;
-    $scope.idUsuario             = $scope.userData.idUsuario;
-    $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
+    $scope.idOperacion = $scope.userData.idOperacion;
+    $scope.idUsuario = $scope.userData.idUsuario;
+    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
 
     //VARIABLES PARA ZONAS DINAMICAS
-    $scope.x                    = 0;
-    $scope.totalNiveles         = 0;
-    $scope.zonaSelected         = "0";
-    $scope.ZonasSeleccionadas   = {};
-    $scope.NivelesZona          = [];
-    $scope.Zonas                = [];
-    $scope.idZona               = 0;
+    $scope.x = 0;
+    $scope.totalNiveles = 0;
+    $scope.zonaSelected = "0";
+    $scope.ZonasSeleccionadas = {};
+    $scope.NivelesZona = [];
+    $scope.Zonas = [];
+    $scope.idZona = 0;
 
     $scope.fechaMes      = '';
     $scope.fechaInicio   = '';
@@ -32,6 +30,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.sumatoria_proceso=0;
 
     $scope.Init = function() {
+      $scope.userData = userFactory.getUserData();
       userFactory.ValidaSesion();
         $scope.show_proceso=true;
         $scope.show_entrega=false;
@@ -420,7 +419,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     //obtiene las zonas por cada nivel con que cuenta el usuario
     $scope.devuelveZonas = function() {
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona).then(function(result) {
+            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function(result) {
                 if (result.data.length > 0) {
                     var valueToPush      = {};
                     valueToPush.orden    = result.data[0].orden;

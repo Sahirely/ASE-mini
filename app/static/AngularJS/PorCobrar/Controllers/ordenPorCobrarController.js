@@ -41,7 +41,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   }
 
   $scope.init = function () {
-userFactory.ValidaSesion();
+    $scope.userData = userFactory.getUserData();
     // para obtener las zonas promero se inicializa la primer zona padre.
     userFactory.ValidaSesion()
     $scope.ZonasSeleccionadas[0] = '0'
@@ -119,7 +119,7 @@ userFactory.ValidaSesion();
   // obtiene las zonas por cada nivel con que cuenta el usuario
   $scope.devuelveZonas = function () {
     for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-      cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona).then(function (result) {
+      cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function (result) {
         if (result.data.length > 0) {
           var valueToPush = {}
           valueToPush.orden = result.data[0].orden

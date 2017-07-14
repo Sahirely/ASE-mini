@@ -23,13 +23,14 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               headers:{ 'Content-Type': 'application/json' }
           });
         },
-        getZonas: function (idContratoOperacion, idNivel) {
+        getZonas: function (idContratoOperacion, idNivel, idUsuario) {
             return $http({
                 url: searchUrl + 'zonas/',
                 method: "GET",
                 params: {
                     idContratoOperacion: idContratoOperacion,
-                    idNivel: idNivel
+                    idNivel: idNivel,
+                    idUsuario: idUsuario
                 },
                 headers: {
                     'Content-Type': 'application/json'

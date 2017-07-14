@@ -110,6 +110,10 @@ Cotizacion.prototype.get_zonas = function(req, res, next) {
         name: 'idNivel',
         value: req.query.idNivel,
         type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_ZONAS_SP', params, function(error, result) {
