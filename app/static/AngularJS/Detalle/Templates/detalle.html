@@ -597,7 +597,7 @@
                                                         btnSwitch.classVenta='btn btn-success';
                                                         btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
+                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
                                                     Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
@@ -859,9 +859,9 @@
                     </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
-                        <button class="btn btn-success pull-right btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
+                        <!-- <button class="btn btn-success pull-right btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
                             Aprobación Provisión
-                        </button>
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -879,9 +879,9 @@
                     </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
-                        <button class="btn btn-success btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
+                        <!-- <button class="btn btn-success btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
                             Aprobación Provisión
-                        </button>
+                        </button> -->
                         <button class="btn btn-danger" type="button" ng-click="RechazarTrabajo();">
                             Rechazar Trabajo
                         </button>

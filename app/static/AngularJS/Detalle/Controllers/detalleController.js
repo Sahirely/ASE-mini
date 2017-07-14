@@ -593,7 +593,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     //LQMA 07062017
     $scope.getReporteConformidad = function(idOrden) {
-        detalleRepository.getReporteConformidad(idOrden).then(function(result) {
+        detalleRepository.getReporteConformidad(idOrden, $scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function(result) {
             if (result.data.length > 0) {
                 var rptReporteConformidadData = []
                 rptReporteConformidadData.encabezado = result.data[0][0];
@@ -1509,8 +1509,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
 
-    $scope.aprobarProvision = function(provision) {
-
+    $scope.validaFacturaCotizacion = function(provision) {
         swal({
                 title: "Advertencia",
                 text: "¿Está seguro de aprobar la provisión de la orden?",
@@ -1524,24 +1523,27 @@ registrationModule.controller('detalleController', function($scope, $location, $
             },
             function(isConfirm) {
                 if (isConfirm) {
-
-                    swal("Proceso Realizado!");
-
-                    /* provisionesRepository.putAprobacionProvision(provision.idTrabajo, $scope.userData.idUsuario ).then(function (res) {
-
-                         if (res.data[0].id == 1) {
-                              swal("Proceso Realizado!");
-                             $scope.getAprobacionProvision();
-                         }else if (res.data[0].id  == 2) {
-                              swal("Ya se encuentra procesada");
-                         }
-                     }, function (error) {
-                         alertFactory.error("Error al cargar la orden");
-                     });*/
+                    detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                        if (result.data[0].success == 1) {
+                            detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                                if (result.data.length > 0) {
+                                    alertFactory.info('Se ha provisionado correctamente');
+                                    $("html, body").animate({
+                                        scrollTop: 0
+                                    }, 1000);
+                                    $scope.init();
+                                }
+                            }, function(error) {
+                                alertFactory.error('No se pudo insertar en BPRO');
+                            });
+                        } else {
+                            alertFactory.info('Faltan cargar facturas');
+                        }
+                    }, function(error) {
+                        alertFactory.error('No se pudo revisar estatus de facturas');
+                    });
                 }
             });
-
-
     };
 
 
@@ -1577,7 +1579,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             });
     };
 
-    $scope.validaFacturaCotizacion = function() {
+  /*  $scope.validaFacturaCotizacion = function() {
         detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
             if (result.data[0].success == 1) {
                 detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
@@ -1597,7 +1599,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         }, function(error) {
             alertFactory.error('No se pudo revisar estatus de facturas');
         });
-    }
+    } */
 
     $scope.validaFacturaCotizacionBoton = function() {
         detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
