@@ -1,4 +1,4 @@
-registrationModule.factory('userFactory', function($window, loginRepository, alertFactory) {
+registrationModule.factory('userFactory', function($window, localStorageService, loginRepository, alertFactory) {
   return{
     getUserData: function(){
       var json = [];
@@ -8,6 +8,7 @@ registrationModule.factory('userFactory', function($window, loginRepository, ale
       return json[0];
     },
     saveUserData: function(userData){
+      localStorageService.clearAll();
       $window.sessionStorage.setItem(userData,JSON.stringify(userData));
       return (this.getUserData());
     },
@@ -50,6 +51,7 @@ registrationModule.factory('userFactory', function($window, loginRepository, ale
       loginRepository.cierraSesionHistorial(userData.idUsuario).then(function(){
       });
       $window.sessionStorage.clear();
+      localStorageService.clearAll();
       location.href = '/';
     },
     ValidaSesion: function(){
