@@ -599,7 +599,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     //LQMA 07062017
     $scope.getReporteConformidad = function(idOrden) {
-        detalleRepository.getReporteConformidad(idOrden, $scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function(result) {
+        detalleRepository.getReporteConformidad(idOrden, 1, 1).then(function(result) {
             if (result.data.length > 0) {
                 var rptReporteConformidadData = []
                 rptReporteConformidadData.encabezado = result.data[0][0];
