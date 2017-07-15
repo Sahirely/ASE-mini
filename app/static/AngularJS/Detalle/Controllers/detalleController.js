@@ -457,9 +457,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 switch (Number(valor)) {
                     case 2: //cliente
                         $scope.class_buttonGuardaCotizacion = '';
-                        $scope.init();
+                        //$scope.init();
                         $('#loadModal').modal('hide');
+
                         alertFactory.success('Faltan partidas por aprobar.');
+                        setTimeout(function() {
+                            location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                        }, 500);
                         break;
                     case 3:
                         commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
