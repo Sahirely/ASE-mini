@@ -882,7 +882,7 @@
                         <!-- <button class="btn btn-success btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
                             Aprobación Provisión
                         </button> -->
-                        <button class="btn btn-danger" type="button" ng-click="RechazarTrabajo();">
+                        <button ng-hide="estadoCompra == true" class="btn btn-danger" type="button" ng-click="RechazarTrabajo();">
                             Rechazar Trabajo
                         </button>
                     </div>
