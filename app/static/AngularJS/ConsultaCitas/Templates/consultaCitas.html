@@ -185,7 +185,7 @@
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
                                         <th>Zona</th>
-                                        <th>Taller</th>
+
                                         <th>Tipo Servicio</th>
                                         <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
@@ -202,7 +202,7 @@
                                         <td>{{ordenesTaller.numeroOrden}}</td>
                                         <td>{{ordenesTaller.numeroEconomico}}</td>
                                         <td>{{ordenesTaller.nombreZona}}</td>
-                                        <td>{{ordenesTaller.nombreTaller}}</td>
+
                                         <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
                                         <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
                                         <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
@@ -236,8 +236,7 @@
                                         <th>Consecutivo</th>
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
-                                        <th>Zona</th>
-                                        <th>Taller</th>
+
                                         <th>Tipo Servicio</th>
                                         <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
@@ -253,8 +252,8 @@
                                         <td>{{ordenesSinTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
-                                        <td>{{ordenesSinTaller.nombreZona}}</td>
-                                        <td>{{ordenesSinTaller.nombreTaller}}</td>
+
+
                                         <td ng-if="ordenesSinTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
                                         <td ng-if="ordenesSinTaller.idTipoOrden == 2">{{ordenesSinTaller.nombreTipoORden}}</td>
                                         <td>{{ordenesSinTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
