@@ -204,6 +204,12 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'editarCotizacionController'
         });
 
+        $routeProvider.when('/preordenCotizacion', {
+            templateUrl: 'AngularJS/PreordenCotizacion/Templates/PreordenCotizacion.html',
+            controller: 'preordenCotizacionController'
+        });
+
+
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false

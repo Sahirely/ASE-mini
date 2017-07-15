@@ -19,5 +19,6 @@ module.exports = {
   detalle: require('./controllers/detalle'),
   cobrar: require('./controllers/cobrar/cobrar'),
   dashboardCallcenter: require('./controllers/dashboardCallcenter'),
+  preordenCotizacion: require('./controllers/preordenCotizacion'),//FAL 15072017
   commonFunctions: require('./controllers/commonFunctions') //LQMA 11062017
 }

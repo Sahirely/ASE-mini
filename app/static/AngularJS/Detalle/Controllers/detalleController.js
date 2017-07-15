@@ -1802,4 +1802,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
             alertFactory.info('Seleccione antes la fecha del recordatorio.');
         }
     }
+
+      //FAL 14072017   direccionamiento a preorden-cotizacion
+    $scope.irpreordenCotizacion = function(idCotizacion) {
+        $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
+        location.href = '/preordenCotizacion?idCotizacion=' + idCotizacion;
+    }
+    
 });
