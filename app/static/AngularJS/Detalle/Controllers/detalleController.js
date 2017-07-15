@@ -1528,6 +1528,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
                                 if (result.data.length > 0) {
                                     alertFactory.info('Se ha provisionado correctamente');
+                                    swal("Proceso Realizado");
                                     $("html, body").animate({
                                         scrollTop: 0
                                     }, 1000);
