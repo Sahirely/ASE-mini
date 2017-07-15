@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div>
-        </div>            
+        </div>
             <!-- / Filtros -->
             <div class="row">
                 <div class="col-lg-12" ng-show="muestraTabla">
@@ -104,7 +104,7 @@
                                 </tab>
                                 <tab heading="Entrega" index="1" active="entregaActive" ng-click="menu(1)">
                                 </tab>
-                            </tabset>  
+                            </tabset>
 
                             <div ng-show="show_proceso">
                                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -113,7 +113,7 @@
                                             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                                                 <input type="radio" value="55" id="rdtproceso" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
                                                 <label for="rdtproceso"> Todos </label>
-                                            </div> 
+                                            </div>
                                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                                 <input type="radio" value="5" id="rdproceso" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
                                                 <label for="rdproceso"> En Proceso </label>
@@ -141,7 +141,6 @@
                                                     <th>Número de la Orden</th>
                                                     <th>Número Económico</th>
                                                     <th>Zona</th>
-                                                    <th>Taller</th>
                                                     <th>Tipo Orden</th>
                                                     <th>Marca</th>
                                                     <th>Modelo</th>
@@ -160,8 +159,7 @@
                                                     <td ng-click="detalleOrden(orden)">{{orden.idOrden}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.numeroOrden}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.numeroEconomico}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.idZona}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreTaller}}</td>
+                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreZona}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.nombreTipoOrdenServicio}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.marcaUnidad}}</td>
                                                     <td ng-click="detalleOrden(orden)">{{orden.modeloUnidad}}</td>
@@ -193,7 +191,7 @@
                                             <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                                                 <input type="radio" value="67" id="rdeTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
                                                 <label for="rdeTodas"> Todos </label>
-                                            </div> 
+                                            </div>
                                             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                                 <input type="radio" value="6" id="rdtermino" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro()">
                                                 <label for="rdtermino"> Termino Trabajo </label>
