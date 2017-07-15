@@ -225,10 +225,16 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.totalSumaVenta = 0;
         if ($scope.cotizaciones != null || $scope.cotizaciones != undefined) {
             $scope.cotizaciones.forEach(function(item) {
-                item.detalle.forEach(function(itemDetail) {
-                    $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costoTotal;
-                    $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.ventaTotal;
-                });
+                if (item.idEstatusCotizacion == 4) {} else {
+                    item.detalle.forEach(function(itemDetail) {
+                        if (itemDetail.idEstatusPartida == 3 || itemDetail.idEstatusPartida == 4) {} else {
+                            $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costoTotal;
+                            $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.ventaTotal;
+                        }
+
+                    });
+                }
+
             });
         }
     }
@@ -451,9 +457,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 switch (Number(valor)) {
                     case 2: //cliente
                         $scope.class_buttonGuardaCotizacion = '';
-                        $scope.init();
+                        //$scope.init();
                         $('#loadModal').modal('hide');
+
                         alertFactory.success('Faltan partidas por aprobar.');
+                        setTimeout(function() {
+                            location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                        }, 500);
                         break;
                     case 3:
                         commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
@@ -501,7 +511,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }
         }, function(error) {
             $scope.buttonGuardaCotizacion = '';
-            $('#loadModal').modal('hide'); 
+            $('#loadModal').modal('hide');
             alertFactory.error('Aprobación getUpdateStatusCotizacion error.');
         });
     };
@@ -593,7 +603,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     //LQMA 07062017
     $scope.getReporteConformidad = function(idOrden) {
-        detalleRepository.getReporteConformidad(idOrden, $scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function(result) {
+        detalleRepository.getReporteConformidad(idOrden, 1, 1).then(function(result) {
             if (result.data.length > 0) {
                 var rptReporteConformidadData = []
                 rptReporteConformidadData.encabezado = result.data[0][0];
@@ -1245,21 +1255,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.ShowFacturas = function() {
-            detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
-                $scope.Facturas = respuesta.data;
-                if ($scope.Facturas.success) {
-                    $scope.facturas_empty = false;
-                    $scope.Facturas.data.forEach(function(item, key) {
-                        item.facturas.forEach(function(element, k) {
-                            $scope.totalfacturas++;
-                        });
+        detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
+            $scope.Facturas = respuesta.data;
+            if ($scope.Facturas.success) {
+                $scope.facturas_empty = false;
+                $scope.Facturas.data.forEach(function(item, key) {
+                    item.facturas.forEach(function(element, k) {
+                        $scope.totalfacturas++;
                     });
-                } else {
-                    $scope.facturas_empty = true;
-                }
-            });
-        }
-        //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
+                });
+            } else {
+                $scope.facturas_empty = true;
+            }
+        });
+    }
+    //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
 
     $scope.checkComprobanteRecepcion = function() {
         detalleRepository.getExistsComprobanteRecepcion($scope.numeroOrden, 1).then(function(result) {
@@ -1580,27 +1590,27 @@ registrationModule.controller('detalleController', function($scope, $location, $
             });
     };
 
-  /*  $scope.validaFacturaCotizacion = function() {
-        detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-            if (result.data[0].success == 1) {
-                detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-                    if (result.data.length > 0) {
-                        alertFactory.info('Se ha provisionado correctamente');
-                        $("html, body").animate({
-                            scrollTop: 0
-                        }, 1000);
-                        $scope.init();
-                    }
-                }, function(error) {
-                    alertFactory.error('No se pudo insertar en BPRO');
-                });
-            } else {
-                alertFactory.info('Faltan cargar facturas');
-            }
-        }, function(error) {
-            alertFactory.error('No se pudo revisar estatus de facturas');
-        });
-    } */
+    /*  $scope.validaFacturaCotizacion = function() {
+          detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+              if (result.data[0].success == 1) {
+                  detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                      if (result.data.length > 0) {
+                          alertFactory.info('Se ha provisionado correctamente');
+                          $("html, body").animate({
+                              scrollTop: 0
+                          }, 1000);
+                          $scope.init();
+                      }
+                  }, function(error) {
+                      alertFactory.error('No se pudo insertar en BPRO');
+                  });
+              } else {
+                  alertFactory.info('Faltan cargar facturas');
+              }
+          }, function(error) {
+              alertFactory.error('No se pudo revisar estatus de facturas');
+          });
+      } */
 
     $scope.validaFacturaCotizacionBoton = function() {
         detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
