@@ -949,6 +949,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             $("html, body").animate({
                                                 scrollTop: 0
                                             }, 1000);
+                                            $scope.getReporteConformidad($scope.detalleOrden.idOrden);
                                             $scope.addComentarioTermino();
 
                                         });
@@ -981,6 +982,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         $("html, body").animate({
                             scrollTop: 0
                         }, 1000);
+                        $scope.getReporteConformidad($scope.detalleOrden.idOrden);
                         $scope.addComentarioTermino();
 
                     });
