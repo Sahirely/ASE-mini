@@ -101,9 +101,10 @@
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
                                                     <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
                                                     </span>
-                                                    <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);">
+                                                    <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);" ng-show="userData.Rol=='Call Center' && cot.nombreEstatusCotizacion=='En Espera de Aprobación'">
                                                         <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
                                                     </button>
+                                                    
                                                 </td>
                                             </tr>
                                         </table>
