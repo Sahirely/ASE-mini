@@ -4,9 +4,13 @@ registrationModule.controller('comentarios_controller', function($scope, $modalI
         $modalInstance.dismiss('cancel');
     };
     $scope.agregar = function() {
-
-        callback($scope.comentario);
+    	if($scope.comentario == '' || $scope.comentario == null || $scope.comentario == undefined){
+    		alertFactory.info('Favor de ingresar comentario')
+    	}else{
+    		callback($scope.comentario);
         $scope.close();
+    	}
+        
 
     };
 
