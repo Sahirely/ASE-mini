@@ -19,7 +19,7 @@ registrationModule.controller('partidas_controller', function($scope, $modalInst
 
         var partidas = [];
     if($scope.bandera == 1){
-                consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+                consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidades, $scope.userData.contratoOperacionSeleccionada, $scope.detalleBusqueda[0].idTipoUnidad).then(function(result) {
             if (result.data.length > 0) {
                 $scope.partidasTaller = result.data;
 
