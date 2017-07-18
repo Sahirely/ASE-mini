@@ -32,15 +32,17 @@
                         <th>Partida</th>
                         <th>No. Parte</th>
                         <th>Especialidad</th>
+                        <th>Descripción</th>
                         <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                         <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                         <th>Agregar</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="partidasTaller in partidasTaller" title='Descripción' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='{{partidasTaller.descripcion}}'>
+                        <tr ng-repeat="partidasTaller in partidasTaller" title='Descripción' data-toggle="popover" data-placement="top" data-trigger="hover">
                             <td>{{ partidasTaller.partida }}</td>
                             <td>{{ partidasTaller.noParte }}</td>
                             <td>{{ partidasTaller.especialidad }}</td>
+                            <td>{{ partidasTaller.descripcion }}</td>
                             <td class="text-right" ng-show="btnSwitch.showCostoVenta">{{ partidasTaller.costo | currency}}</td>
                             <td class="text-right" ng-hide="btnSwitch.showCostoVenta">{{partidasTaller.venta | currency}}</td>
                             <td class="text-center">
