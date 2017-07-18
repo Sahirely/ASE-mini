@@ -324,54 +324,67 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.agendarCita = function() {
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
+        debugger;
+        if ($scope.userData.idRol == 1){
+            //si el usuario es un cliente la zona a guardar será la zona seleccionada de último nivel
+            $scope.idZonaTaller = $scope.ZonasSeleccionadas[$scope.Zonas.length];
+        }
+        if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
 
-            if (result.data[0].respuesta == 1) {
-                $scope.numeroOrden = result.data[0].numeroOrden;
-                $scope.idOrden = result.data[0].idOrden;
+              citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
 
-                commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                    if (resp.data.length > 0) {
-                        var correoDe = resp.data[0].correoDe;
-                        var correoPara = resp.data[0].correoPara;
-                        var asunto = resp.data[0].asunto;
-                        var texto = resp.data[0].texto;
-                        var bodyhtml = resp.data[0].bodyhtml;
-                        commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                            if (result.data.length > 0) {}
-                        }, function(error) {
-                            alertFactory.error('No se puede enviar el correo');
-                        });
-                    }
-                }, function(error) {
-                    alertFactory.error("Error al obtener información para el mail");
-                });
+                  if (result.data[0].respuesta == 1) {
+                      $scope.numeroOrden = result.data[0].numeroOrden;
+                      $scope.idOrden = result.data[0].idOrden;
 
-                if ($scope.labelItems > 0) {
-                    cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
-                        $scope.idCotizacion = result.data[0].idCotizacion;
-                        angular.forEach($scope.partidas, function(value, key) {
-                            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, 1).then(function(result) {
-                                alertFactory.success('Orden de Servicio Agendada');
-                                setTimeout(function() {
-                                    location.href = '/unidad?economico=' + $routeParams.economico;
-                                }, 1000);
-                            });
-                        });
-                    });
-                } else {
-                    alertFactory.success('Orden de Servicio Agendada');
-                    setTimeout(function() {
-                        location.href = '/unidad?economico=' + $routeParams.economico;
-                    }, 1000);
-                }
+                      commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                          if (resp.data.length > 0) {
+                              var correoDe = resp.data[0].correoDe;
+                              var correoPara = resp.data[0].correoPara;
+                              var asunto = resp.data[0].asunto;
+                              var texto = resp.data[0].texto;
+                              var bodyhtml = resp.data[0].bodyhtml;
+                              commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                  if (result.data.length > 0) {}
+                              }, function(error) {
+                                  alertFactory.error('No se puede enviar el correo');
+                              });
+                          }
+                      }, function(error) {
+                          alertFactory.error("Error al obtener información para el mail");
+                      });
 
-            } else if (result.data[0].respuesta == 0) {
-                alertFactory.info('Ocurrio un problema al agendar la orden de servicio. Intente de nuevo')
-            } else {
-                alertFactory.error('Ocurrio un problema')
-            }
-        });
+                      if ($scope.labelItems > 0) {
+                          cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
+                              $scope.idCotizacion = result.data[0].idCotizacion;
+                              angular.forEach($scope.partidas, function(value, key) {
+                                  cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, 1).then(function(result) {
+                                      alertFactory.success('Orden de Servicio Agendada');
+                                      setTimeout(function() {
+                                          location.href = '/unidad?economico=' + $routeParams.economico;
+                                      }, 1000);
+                                  });
+                              });
+                          });
+                      } else {
+                          alertFactory.success('Orden de Servicio Agendada');
+                          setTimeout(function() {
+                              location.href = '/unidad?economico=' + $routeParams.economico;
+                          }, 1000);
+                      }
+
+                  } else if (result.data[0].respuesta == 0) {
+                      alertFactory.info('Ocurrio un problema al agendar la orden de servicio. Intente de nuevo')
+                  } else {
+                      alertFactory.error('Ocurrio un problema')
+                  }
+              });
+
+          }else{
+              alertFactory.info('Debe seleccionar una zona para guardar su Cita.');
+          }
+
+
     };
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
@@ -422,7 +435,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
-        //Verifica que zona esta seleccionada 
+        //Verifica que zona esta seleccionada
         angular.forEach(zonaseleccionada, function(value, key) {
             if (key == 0) {} else if (value != 0) {
                 $scope.idZonaSeleccionada = value;

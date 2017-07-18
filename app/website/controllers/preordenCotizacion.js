@@ -44,12 +44,28 @@ PreordenCotizacion.prototype.get_Talleres = function(req, res, next) {
             {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
         ];
 
-    this.model.query('SEL_TALLERES_SP', params, function(error, result) {
+    self.model.query('SEL_TALLERES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
         });
     });
+}
+
+PreordenCotizacion.prototype.get_partidasTaller = function(req, res, next){
+    var self = this;
+    var params = [
+        { name: 'idProveedor', value: req.query.idTaller, type: self.model.types.INT },
+        { name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT }
+    ];
+
+    self.model.query('SEL_PARTIDAS_X_PROVEEDOR_COTIZACION', params, function(error, result){
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            });
+    });
+
 }
 
 

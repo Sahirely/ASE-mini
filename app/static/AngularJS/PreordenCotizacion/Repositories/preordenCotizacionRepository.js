@@ -34,6 +34,20 @@ registrationModule.factory('preordenCotizacionRepository', function($http, $q) {
             });
         },
 
+        getPartidasTaller: function(idTaller, idCotizacion){
+            return $http({
+                url: preordenCotizacionUrl + 'partidasTaller/',
+                method: "GET",
+                params: {
+                    idTaller: idTaller,
+                    idCotizacion: idCotizacion
+                },
+                headers: {
+                    'Content-Type':'application/json'
+                }
+            });
+        },
+
         getGuardarCotizacion: function(idCotizacion, idUsuario, idTaller, idCotizacionesDetalle, idZona) {
             return $http({
                 url: preordenCotizacionUrl + 'guardarCotizacion/',

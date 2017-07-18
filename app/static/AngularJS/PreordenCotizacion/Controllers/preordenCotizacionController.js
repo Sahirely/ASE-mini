@@ -42,16 +42,15 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.getMostrarTalleres = function(idUsuario, idContratoOperacion) {
         preordenCotizacionRepository.getTalleres(idUsuario, idContratoOperacion).then(function(result) {
-
             if (result.data.length > 0) {
 
                 $scope.talleres = result.data;
 
-                var resTalleres = result.data;
-                resTalleres.forEach(function(item, key) {
-                    resTalleres[key].partidas = JSON.parse($scope.talleres[key].partidas);
-                });
-                $scope.talleres = resTalleres;
+                // var resTalleres = result.data;
+                // resTalleres.forEach(function(item, key) {
+                //     resTalleres[key].partidas = JSON.parse($scope.talleres[key].partidas);
+                // });
+                // $scope.talleres = resTalleres;
 
             } else
 
@@ -67,27 +66,44 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
     };
 
     $scope.seleccionaPartidas = function() {
-
+        $scope.cotizaciones.forEach(function(item){
+            item.idTallertmp = 0;
+        });
         if ($scope.tallerSeleccionado == undefined) {
             alertFactory.error('No ha seleccionado ningun proveedor');
         } else {
             // var intTallerSeleccionado = JSON.parse($scope.tallerSeleccionado[0]);
             $scope.tallerSeleccionado = JSON.parse($scope.tallerSeleccionado);
             // $scope.idZonaSeleccionado = intTallerSeleccionado[1];
-            var partidasTaller = $scope.tallerSeleccionado.partidas;
-            var resCotizaciones = $scope.cotizaciones;
 
+            preordenCotizacionRepository.getPartidasTaller($scope.tallerSeleccionado.idTaller, $scope.idCotizacion).then(function(result){
+                if(result.data.length > 0){
+                    var partidasTaller = result.data;
+                    var resCotizaciones = $scope.cotizaciones;
+                    var contPartidasEncontradas = 0;
 
-            for (var i = 0; i < resCotizaciones.length; i++) {
+                    for (var i = 0; i < resCotizaciones.length; i++) {
 
-                for (var j = 0; j < partidasTaller.length; j++) {
-                    if (partidasTaller[j].idPartida == resCotizaciones[i].idPartida) {
-                        resCotizaciones[i].idTallertmp = parseInt($scope.tallerSeleccionado.idTaller);
+                        for (var j = 0; j < partidasTaller.length; j++) {
+                            if (partidasTaller[j].idPartida == resCotizaciones[i].idPartida) {
+                                resCotizaciones[i].idTallertmp = parseInt($scope.tallerSeleccionado.idTaller);
+                                contPartidasEncontradas ++;
+                            }
+                        }
                     }
-                }
-            }
 
-            $scope.cotizaciones = resCotizaciones;
+                    $scope.cotizaciones = resCotizaciones;
+                    if (contPartidasEncontradas == 0){
+                        alertFactory.info('El taller seleccionado no cuenta con las partidas de su preorden.');
+                    }
+                }else {
+                  alertFactory.info('El taller Seleccionado no cuenta con partidas para su unidad.');
+                }
+            },function(error){
+                alertFactory.error(error);
+            });
+
+
         }
 
 
