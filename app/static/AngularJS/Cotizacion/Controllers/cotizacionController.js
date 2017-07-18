@@ -30,12 +30,12 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $scope.mostrarTalleres = true;
         $scope.mostrarPartida = false;
         $scope.getCotizacionDetalle();
-        
+
         //if ($scope.idCotizacion != undefined ) { //LQMA comment 10072017
-        if($scope.numeroOrden != undefined) {  //LQMA add 10072017 
+        if($scope.numeroOrden != undefined) {  //LQMA add 10072017
             console.log('entro a obtener detalle')
             $scope.getOrdenDetalle();
-            
+
             if ($scope.idCotizacion != undefined ) //LQMA add 10072017
                 $scope.show_nuevaCotizacion = false;
         };
@@ -59,8 +59,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $('.dataTableTalleres').DataTable().destroy();
         //LQMA add cambio 11072017
         //$scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
-        $scope.promise = consultaCitasRepository.getTalleres($scope.userData.idUsuario,$scope.userData.contratoOperacionSeleccionada,$scope.idZona).then(function(result) {  
-         
+        $scope.promise = consultaCitasRepository.getTalleres($scope.userData.idUsuario,$scope.userData.contratoOperacionSeleccionada,$scope.idZona).then(function(result) {
+
             if (result.data.length > 0) {
 
                  if ($scope.idCotizacion != undefined ) {
@@ -159,13 +159,13 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $scope.idTaller = idTaller;
         //LQMA 110702017 se comento
         //$('.dataTablePartidasTalleres').DataTable().destroy();
-        
-        consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidad, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+
+        consultaCitasRepository.getPartidasTaller($scope.idTaller, $scope.especialidad, $scope.userData.contratoOperacionSeleccionada, $scope.detalleOrden.idTipoUnidad).then(function(result) {
             if (result.data.length > 0) {
                //partidas.push(result.data[0]);
 
-               console.log('result.data'); 
-               console.log(result.data); 
+               console.log('result.data');
+               console.log(result.data);
 
                /* LQMA 11072017, se comento
                 result.data.forEach(function(item) {
@@ -175,12 +175,12 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                         partidas.push(item);
                       };
                     });
-                  
+
                 });
 
                 $scope.partidasTaller =partidas;
                 */
-                $scope.partidasTaller = result.data;    
+                $scope.partidasTaller = result.data;
 
                 //globalFactory.minMinDrawDocument("dataTablePartidasTalleres", "PartidasTalleres");
                 globalFactory.filtrosTabla("dataTablePartidasTalleres", "PartidasTalleres", 100);
