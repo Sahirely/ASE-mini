@@ -175,7 +175,7 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
 
 OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
     var self = this;
-        //LQMA add 11072017 
+        //LQMA add 11072017
     var params = [{
         name: 'idUsuario',
         value: req.query.idUsuario,
@@ -188,7 +188,7 @@ OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
         name: 'idZona',
         value: req.query.idZona,
         type: self.model.types.INT
-    }];    
+    }];
 
     //LQMA 14062017 se cambio SEL_TALLER_PRUEBA_SP por SEL_TALLERES_SP
     this.model.query('SEL_TALLERES_SP', params, function(error, result) {
@@ -213,9 +213,13 @@ OrdenServicio.prototype.get_getPartidasTaller = function(req, res, next) {
         name: 'idContratoOperacion',
         value: req.query.idContratoOperacion,
         type: self.model.types.INT
+    },{
+        name: 'tipoUnidad',
+        value: req.query.idTipoUnidad,
+        type: self.model.types.INT
     }];
 
-    this.model.query('SEL_PARTIDAS_TALLER_SP', params, function(error, result) {
+    self.model.query('SEL_PARTIDAS_TALLER_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
