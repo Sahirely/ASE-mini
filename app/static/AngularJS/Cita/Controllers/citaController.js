@@ -27,6 +27,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
     $scope.Zonas = [];
+    $scope.disableCita = true;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -123,7 +124,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.getTallerXid($scope.detalleOrden.idTaller);
                             $scope.getPreCotizacion($scope.idCotizacion);
 
-                            $scope.getZonasCita($scope.idZonaSeleccionada);
+                            $scope.getZonasCita($scope.idZonaTaller);
                             $scope.getDetalleOrdenEspecialidad();
 
                         } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
@@ -324,11 +325,11 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.agendarCita = function() {
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
-        debugger;
-        if ($scope.userData.idRol == 1){
+        // if ($scope.userData.idRol == 1){
             //si el usuario es un cliente la zona a guardar será la zona seleccionada de último nivel
+            $scope.disableCita = false;
             $scope.idZonaTaller = $scope.ZonasSeleccionadas[$scope.Zonas.length];
-        }
+        // }
         if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
 
               citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
@@ -381,10 +382,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
               });
 
           }else{
-              alertFactory.info('Debe seleccionar una zona para guardar su Cita.');
+              alertFactory.info('Debe seleccionar una Unidad Operativa para guardar su Cita.');
           }
 
-
+          $scope.disableCita = true;
     };
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
@@ -481,7 +482,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
     $scope.sendIdTaller = function(taller) {
         $scope.idTaller = taller.idProveedor;
-        $scope.idZonaTaller = taller.idZona;
+        //  $scope.idZonaTaller = taller.idZona;
         $scope.muestraBtnPreOrden = true;
     };
     $scope.getTallerXid = function(idTaller) {
@@ -500,6 +501,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
 
     $scope.actualizarCita = function() {
+        $scope.disableCita = false;
         if ($scope.grua == true) {
             $scope.grua = 1;
         } else { $scope.grua = 0 }
@@ -517,35 +519,45 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
         });
 
-        citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
-            if ($scope.idCotizacion == 0) {
-                cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
-                    $scope.idCotizacion = result.data[0].idCotizacion;
-                    angular.forEach($scope.partidas, function(value, key) {
-                        cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
-                            alertFactory.success('Cotización Detalle Creada');
-                        });
-                    });
-                });
-            } else {
-                cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, $scope.idCotizacion).then(function(result) {
-                    angular.forEach($scope.partidas, function(value, key) {
-                        cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
-                            alertFactory.success('Cotización Detalle Creada');
-                        });
-                    });
-                });
+        $scope.idZonaTaller = $scope.ZonasSeleccionadas[$scope.Zonas.length];
 
-            }
+        if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
 
-            citaRepository.putEspecialidadOrden($scope.detalleOrden.idOrden, $scope.idServicios, $scope.serviciosEstatus).then(function(result) {
-                alertFactory.success('Especialidades guardadas');
-            });
+            citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
+                  if ($scope.idCotizacion == 0) {
+                      cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
+                          $scope.idCotizacion = result.data[0].idCotizacion;
+                          angular.forEach($scope.partidas, function(value, key) {
+                              cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
+                                  alertFactory.success('Cotización Detalle Creada');
+                              });
+                          });
+                      });
+                  } else {
+                      cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, $scope.idCotizacion).then(function(result) {
+                          angular.forEach($scope.partidas, function(value, key) {
+                              cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
+                                  alertFactory.success('Cotización Detalle Creada');
+                              });
+                          });
+                      });
 
-            setTimeout(function() {
-                location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
-                //location.href = '/unidad?economico=' + $routeParams.economico;
-            }, 1000);
-        });
+                  }
+
+                  citaRepository.putEspecialidadOrden($scope.detalleOrden.idOrden, $scope.idServicios, $scope.serviciosEstatus).then(function(result) {
+                      alertFactory.success('Especialidades guardadas');
+                  });
+
+                  setTimeout(function() {
+                      location.href = '/detalle?orden=' + $scope.detalleOrden.numeroOrden + '&estatus=2'; // Esta funciona
+                      //location.href = '/unidad?economico=' + $routeParams.economico;
+                  }, 1000);
+              });
+
+        }else{
+            alertFactory.info('Debe seleccionar una Unidad Operativa para guardar su Cita.');
+        }
+
+        $scope.disableCita = true;
     };
 });
