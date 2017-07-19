@@ -28,6 +28,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.NivelesZona = [];
     $scope.Zonas = [];
     $scope.disableCita = true;
+    $scope.isEdit == false;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -123,9 +124,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.getServicios();
                             $scope.getTallerXid($scope.detalleOrden.idTaller);
                             $scope.getPreCotizacion($scope.idCotizacion);
-
                             $scope.getZonasCita($scope.idZonaTaller);
                             $scope.getDetalleOrdenEspecialidad();
+                            $scope.isEdit = true;
 
                         } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
                             // location.href = '/unidad?economico=' + $routeParams.economico;
@@ -133,6 +134,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.getTipoEstadoUnidad();
                             $scope.getServicios();
                             $scope.muestraAgendarCita = true;
+                            $scope.isEdit = false;
                         } else {
                             error();
                         }
