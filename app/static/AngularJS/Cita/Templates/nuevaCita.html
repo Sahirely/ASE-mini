@@ -115,12 +115,12 @@
                     </form>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" >
-                    <div class="m-t-lg" ng-hide="userData.idRol == 1 || isEdit == true">
+                    <div class="m-t-lg" ng-hide="userData.idRol == 1">
                         <h3 class="subTitleP"> Búsqueda Taller</h3>
                     </div>
-                    <div class="m-t-lg" ng-show="userData.idRol == 1 || isEdit == true">
+                    <div class="m-t-lg" ng-show="userData.idRol == 1">
                     </div>
-                    <form class="form-horizontal" ng-hide="userData.idRol == 1 || isEdit == true">
+                    <form class="form-horizontal" ng-hide="userData.idRol == 1">
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Especialidad:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" ng-hide="mensajeServicios">
@@ -147,7 +147,7 @@
                             </div>
                         </div>
                     </form>
-                    <form class="form-horizontal" ng-hide="userData.idRol == 1 || isEdit == true">
+                    <form class="form-horizontal" ng-hide="userData.idRol == 1">
                         <div class="form-group">
                             <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label">Buscar Taller:</label>
                             <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                     </form>
-                    <form class="form-horizontal" ng-hide="userData.idRol == 1 || isEdit == true">
+                    <form class="form-horizontal" ng-hide="userData.idRol == 1">
                         <div class="form-group">
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 <!--button type="button" class="btn btn-primary pull-right" ng-click="buscarTaller()"><i class="fa fa-search"><strong> Buscar </strong></i>
@@ -165,7 +165,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-hide="userData.idRol == 1 || isEdit == true">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-hide="userData.idRol == 1">
                     <!-- <div class="subTitleP" ng-hide="muestraAgendarCita">
                         {{detalleOrden.nombreZonas}}
                     </div> -->
@@ -196,7 +196,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas(1)" ng-show="muestraBtnPreOrden && idRol != 1 && isEdit == false"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
+                    <button type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas(1)" ng-show="muestraBtnPreOrden && idRol != 1"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
                     <button ng-show="idRol == 1 || isEdit == false;" type="button" class="btn btn-primary pull-right btn-movil m-t-xs space" ng-click="getModalPartidas(0)" ng-show="muestraBtnPreOrden"><span class="glyphicon glyphicon-usd"></span><strong> Pre-orden de servicio {{labelItems}}</strong></button>
                     <!-- <button type="button" class="btn btn-danger pull-right btn-movil m-t-xs space">{{labelItems}} Items</button> -->
                     <button type="button" class="btn btn-success pull-right btn-movil m-t-xs space" ng-click="agendarCita()" ng-show="muestraAgendarCita && idRol != 1" ng-disabled="disableCita == false || tipoDeCita == '' || tipoDeCita == undefined || estadoDeUnidad == '' || estadoDeUnidad == undefined || fechaCita == '' || fechaCita == undefined || horaCita == '' || horaCita == undefined "><span class="glyphicon glyphicon-calendar "></span><strong> Agendar cita</strong></button>
