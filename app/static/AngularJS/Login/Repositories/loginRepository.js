@@ -39,12 +39,13 @@ registrationModule.factory('loginRepository', function ($http) {
               }
           });
         },
-        ValidaSesionActiva: function(idUsuario){
+        ValidaSesionActiva: function(idUsuario, idSesion){
           return $http({
               url: loginUrl + 'validaSesionActiva/',
               method: "GET",
               params: {
-                  idUsuario: idUsuario
+                  idUsuario: idUsuario,
+                  idSesion: idSesion
                 },
               headers: {
               'Content-Type': 'application/json'

@@ -76,7 +76,12 @@ Login.prototype.get_validaSesionActiva = function(req, res, next){
         name: 'idUsuario',
         value: req.query.idUsuario,
         type: self.model.types.INT
-    }]
+    },{
+        name: 'idSesion',
+        value: req.query.idSesion,
+        type: self.model.types.INT
+    }
+  ]
 
     self.model.query('SEL_VALIDA_SESION_ACTIVA_SP', params,function(error, result){
         obj.error = error;

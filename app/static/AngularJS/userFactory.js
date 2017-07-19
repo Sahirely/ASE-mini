@@ -12,11 +12,14 @@ registrationModule.factory('userFactory', function($window, localStorageService,
       $window.sessionStorage.setItem(userData,JSON.stringify(userData));
       return (this.getUserData());
     },
+    setActiveSesion: function(sesion){
+      var userData = this.getUserData();
+      userData.sesion = sesion;
+      $window.sessionStorage.setItem(userData,JSON.stringify(userData));
+      return (this.getUserData());
+    },
     updateSelectedOperation: function(data){
       var userData = this.getUserData();
-
-      loginRepository.iniciaSesionHistorial(userData.idUsuario).then(function (result){
-      });
 
       for (var i = 0; i < userData.Operaciones.length; i++) {
         if(userData.Operaciones[i].idContratoOperacion == data){
@@ -61,7 +64,8 @@ registrationModule.factory('userFactory', function($window, localStorageService,
         location.href = '/';
       }else{
         var id = userData.idUsuario;
-        loginRepository.ValidaSesionActiva(id).then(function(result){
+        var sesion = userData.sesion;
+        loginRepository.ValidaSesionActiva(id, sesion).then(function(result){
             if (result.data[0].HasSession == 'False'){
                 location.href = '/';
             }

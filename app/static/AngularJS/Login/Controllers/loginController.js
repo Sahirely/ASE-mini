@@ -12,8 +12,9 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
         $scope.userData = userFactory.getUserData();
         if($scope.userData != null && $scope.userData != undefined){
             var id = $scope.userData.idUsuario;
+            var sesion = $scope.userData.sesion;
 
-            loginRepository.ValidaSesionActiva(id).then(function(result){
+            loginRepository.ValidaSesionActiva(id, sesion).then(function(result){
                 if (result.data[0].HasSession == 'True'){
                     $scope.Home();
                 }
@@ -80,13 +81,17 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
       }
 
       $scope.Home = function(){
-        if ($scope.userData.idRol == 3){
-          location.href = '/dashboardCallCenter';
-        } else if ($scope.userData.idRol == 5){
-          location.href = '/configurador';
-        } else {
-          location.href = '/dashboardgeneral';
-        }
+          loginRepository.iniciaSesionHistorial($scope.userData.idUsuario).then(function (result){
+                var sesion = result.data[0].idSesion;
+                $scope.userData = userFactory.setActiveSesion(sesion);
+                if ($scope.userData.idRol == 3){
+                  location.href = '/dashboardCallCenter';
+                } else if ($scope.userData.idRol == 5){
+                  location.href = '/configurador';
+                } else {
+                  location.href = '/dashboardgeneral';
+                }
+          });
       }
 
 });
