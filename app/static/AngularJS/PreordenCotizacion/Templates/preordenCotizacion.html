@@ -33,7 +33,7 @@
                                     <span class="glyphicon glyphicon-remove "></span>
                                 </button>
                             </td>
-                            <td class="text-center" ng-show= "partida.idTallertmp!=0 && partida.idTallertmp!='Q'"">
+                            <td class="text-center" ng-show= "partida.idTallertmp!=0 && partida.idTallertmp!='Q'">
                                 <button class="btn btn-success btn-sm " type="button " id="btnCotizar " ng-click="partidaQuitar(partida) "data-toggle="tooltip " tooltip-placement="top " tooltip="Agregar ">
                                     <span class="glyphicon glyphicon-ok "></span>
                                 </button>
@@ -41,7 +41,7 @@
                             <td class="text-center" ng-show = "partida.idTallertmp== 0">
                                 &nbsp;
                             </td>
-                           
+
                         </tr>
                     </tbody>
                 </table>
@@ -55,13 +55,13 @@
                 <label for="multipleSelect"> Selecciona el Taller: </label><br>
                 <select name="multipleSelect" id="multipleSelect" ng-model="tallerSeleccionado" multiple size="15">
                   <option  ng-repeat="taller in talleres"  value="{{taller}}">{{taller.nombreComercial}}</option>
-                  
+
                 </select><br>
                 <!-- <tt>multipleSelect = {{tallerSeleccionado}}</tt><br/> -->
-                <br> 
+                <br>
                 <button type="submit" class="btn btn-primary btn-subir" ng-click="seleccionaPartidas()">
                     <span class="{{class_buttonCargaFactura}}"></span> Selecciona Partidas del proveedor
-                </button>   
+                </button>
                  <button type="submit" class="btn btn-primary btn-subir" ng-click="agregaTalleres()">
                     <span class="{{class_buttonCargaFactura}}"></span> Enviar a Vista previa
                 </button>
@@ -94,8 +94,8 @@
                     </tbody>
                 </table>
             </div>
-            
-            <br>    
+
+            <br>
          <button type="submit" class="btn btn-primary btn-subir" ng-click="guardaFactura();">
             <span class="{{class_buttonCargaFactura}}"></span> Crear cotización
         </button>
@@ -104,5 +104,17 @@
         </button>
     </div>
     </div>
+    </div>
+</div>
+<!-- Modal cargando-->
+<div id="loadModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="spiner-example" style="margin-top: 35%">
+            <div class="sk-spinner sk-spinner-wandering-cubes">
+                <div class="sk-cube1"></div>
+                <div class="sk-cube2"></div>
+            </div>
+            <div style="color:white;margin-left: 46%; margin-top:20px">Cargando...</div>
+        </div>
     </div>
 </div>
