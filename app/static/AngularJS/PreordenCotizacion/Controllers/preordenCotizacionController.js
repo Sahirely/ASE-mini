@@ -13,14 +13,23 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
-        $scope.getMostrarCotizacion($scope.idCotizacion, $scope.idContratoOperacion);
-        $scope.getMostrarTalleres($scope.idUsuario, $scope.idContratoOperacion);
+        $scope.getTipoUnidad($scope.idCotizacion);
         $scope.talleres = [];
     };
 
     var error = function() {
         alertFactory.error('Ocurrio un Error');
     };
+
+    $scope.getTipoUnidad = function(idCotizacion){
+        preordenCotizacionRepository.getTipoUnidadByCotizacion(idCotizacion).then(function(result){
+            var idTipoUnidad = result.data[0].idTipoUnidad;
+            $scope.getMostrarCotizacion($scope.idCotizacion, $scope.idContratoOperacion);
+            $scope.getMostrarTalleres($scope.idUsuario, $scope.idContratoOperacion, idTipoUnidad);
+        }, function(error){
+          alertFactory.error(error);
+        });
+    }
 
     $scope.getMostrarCotizacion = function(idCotizacion, idContratoOperacion) {
         preordenCotizacionRepository.getCotizacion(idCotizacion, idContratoOperacion).then(function(result) {
@@ -33,15 +42,15 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
                 });
                 $scope.cotizaciones = resCotizaciones;
             } else {
-                alertFactory.error('No tiene partidas esta preorden');
+                alertFactory.info('No tiene partidas esta preorden');                
             }
         }, function(error) {
-            alertFactory.error(result.msg);
+            alertFactory.error('Ocurrio un error');
         });
     };
 
-    $scope.getMostrarTalleres = function(idUsuario, idContratoOperacion) {
-        preordenCotizacionRepository.getTalleres(idUsuario, idContratoOperacion).then(function(result) {
+    $scope.getMostrarTalleres = function(idUsuario, idContratoOperacion, idTipoUnidad) {
+        preordenCotizacionRepository.getTalleres(idUsuario, idContratoOperacion, idTipoUnidad).then(function(result) {
             if (result.data.length > 0) {
 
                 $scope.talleres = result.data;
@@ -55,7 +64,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             } else
 
             {
-                alertFactory.error('El usuario no tiene talleres asignados');
+                alertFactory.info('El usuario no tiene talleres asignados');
             }
 
         }, function(error) {

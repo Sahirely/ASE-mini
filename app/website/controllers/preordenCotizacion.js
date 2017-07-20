@@ -36,12 +36,25 @@ PreordenCotizacion.prototype.get_Preorden = function(req, res, next) {
     });
 }
 
+PreordenCotizacion.prototype.get_tipoUnidadByCotizacion = function(req, res, next){
+  var self = this;
+  var params = [{name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT }];
+
+  self.model.query('SEL_TIPO_UNIDAD_BY_COTIZACION_SP', params, function(error, result){
+    self.view.expositor(res, {
+        error: error,
+        result: result
+    });
+  });
+}
+
 
 PreordenCotizacion.prototype.get_Talleres = function(req, res, next) {
     var self = this;
     var params = [
             {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
-            {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
+            {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+            {name: 'idTipoUnidad', value: req.query.idTipoUnidad, type: self.model.types.INT}
         ];
 
     self.model.query('SEL_TALLERES_SP', params, function(error, result) {

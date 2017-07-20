@@ -6,13 +6,14 @@ registrationModule.factory('preordenCotizacionRepository', function($http, $q) {
 
     return {
 
-       getCotizacion: function(idCotizacion, idContratoOperacion) {
+       getCotizacion: function(idCotizacion, idContratoOperacion, idTipoCotizacion) {
             return $http({
                 url: preordenCotizacionUrl + 'Preorden/',
                 method: "GET",
                 params: {
                     idCotizacion: idCotizacion,
-                    idContratoOperacion: idContratoOperacion
+                    idContratoOperacion: idContratoOperacion,
+                    idTipoCotizacion: idTipoCotizacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -20,13 +21,27 @@ registrationModule.factory('preordenCotizacionRepository', function($http, $q) {
             });
         },
 
-        getTalleres: function(idUsuario, idContratoOperacion) {
+        getTipoUnidadByCotizacion: function(idCotizacion){
+            return $http({
+                url:  preordenCotizacionUrl +'tipoUnidadByCotizacion/',
+                method: "GET",
+                params: {
+                    idCotizacion: idCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        getTalleres: function(idUsuario, idContratoOperacion, idTipoUnidad) {
             return $http({
                 url: preordenCotizacionUrl + 'Talleres/',
                 method: "GET",
                 params: {
                     idUsuario: idUsuario,
-                    idContratoOperacion: idContratoOperacion
+                    idContratoOperacion: idContratoOperacion,
+                    idTipoUnidad: idTipoUnidad
                 },
                 headers: {
                     'Content-Type': 'application/json'
