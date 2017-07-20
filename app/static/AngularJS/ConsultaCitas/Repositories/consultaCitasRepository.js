@@ -125,7 +125,8 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 params: { //LQMA add 11072017
                     idUsuario: idUsuario,
                     idContratoOperacion: idContratoOperacion,
-                    idZona : idZona
+                    idZona : idZona,
+                    idTipoUnidad:  idTipoUnidad
                 },
                 headers: {
                     'Content-Type': 'application/json'

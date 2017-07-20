@@ -188,6 +188,10 @@ OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
         name: 'idZona',
         value: req.query.idZona,
         type: self.model.types.INT
+    },{
+        name: 'idTipoUnidad',
+        value: req.query.idTipoUnidad,
+        type: self.model.types.INT
     }];
 
     //LQMA 14062017 se cambio SEL_TALLER_PRUEBA_SP por SEL_TALLERES_SP

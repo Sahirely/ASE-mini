@@ -59,7 +59,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $('.dataTableTalleres').DataTable().destroy();
         //LQMA add cambio 11072017
         //$scope.promise = consultaCitasRepository.getTalleres().then(function(result) {
-        $scope.promise = consultaCitasRepository.getTalleres($scope.userData.idUsuario,$scope.userData.contratoOperacionSeleccionada,$scope.idZona).then(function(result) {
+        $scope.promise = consultaCitasRepository.getTalleres($scope.userData.idUsuario,$scope.userData.contratoOperacionSeleccionada,$scope.idZona,$scope.detalleOrden.idTipoUnidad).then(function(result) {
 
             if (result.data.length > 0) {
 
