@@ -53,6 +53,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.checkHojaTrabajo();
         $scope.HistoricoCotizaciones = [];
         $scope.getHistoricos();
+
+        $scope.enviaNota();
+        $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
+
         if ($scope.userData.presupuesto == 1) {
             $scope.getSaldos($routeParams.orden);
         }
@@ -65,11 +72,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
             $scope.sinTiempoDisponible = 0;
             $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
         }
-        $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.enviaNota();
     };
 
     //funcion reloj recursiva cada minuto
@@ -216,11 +218,14 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.cotizaciones = result.data.data;
                 $scope.getTotales();
                 $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
+                $('#loadModal').modal('hide');
             } else {
+              $('#loadModal').modal('hide');
                 // alertFactory.error('No se puede obtener los documentos de la orden');
             }
         }, function(error) {
-            alertFactory.error(result.msg);
+          $('#loadModal').modal('hide');
+            alertFactory.error('Ocurrio un error');
         });
     }
 
@@ -257,7 +262,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             if (result.data.length > 0) {
                 $scope.notaTrabajo = result.data;
             }
-            $('#loadModal').modal('hide');
+
         }, function(error) {
             alertFactory.error('No se pudieron obtener las notas');
             $('#loadModal').modal('hide');
