@@ -4,8 +4,11 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     $scope.userData              = userFactory.getUserData();
     $scope.idOperacion           = $scope.userData.idOperacion;
     $scope.idUsuario = '';
+    $scope.fechaRetraso = '';
+    $scope.fechaRestante= '';
 
     $scope.init = function() {
+//Se agrego la validación de sesiones de Usuario Rodrigo Olivares
         userFactory.ValidaSesion();
       $scope.fecha_actual = new Date();
       if ($scope.userData.idRol == 3) {
