@@ -3,6 +3,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
     $scope.idCotizacion = $routeParams.idCotizacion;
+    $scope.numeroOrden = $routeParams.orden;
     $scope.cotizaciones = [];
     $scope.talleres = [];
     $scope.cotizacionesSeleccionadas = [];
@@ -10,6 +11,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.init = function() {
         userFactory.ValidaSesion();
+        $('#loadModal').modal('show');
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
@@ -27,6 +29,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             $scope.getMostrarCotizacion($scope.idCotizacion, $scope.idContratoOperacion);
             $scope.getMostrarTalleres($scope.idUsuario, $scope.idContratoOperacion, idTipoUnidad);
         }, function(error){
+          $('#loadModal').modal('hide');
           alertFactory.error(error);
         });
     }
@@ -42,9 +45,11 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
                 });
                 $scope.cotizaciones = resCotizaciones;
             } else {
-                alertFactory.info('No tiene partidas esta preorden');                
+                alertFactory.info('No tiene partidas esta preorden');
+                location.href = '/detalle?orden='+ $scope.numeroOrden;
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('Ocurrio un error');
         });
     };
@@ -54,6 +59,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             if (result.data.length > 0) {
 
                 $scope.talleres = result.data;
+                $('#loadModal').modal('hide');
 
                 // var resTalleres = result.data;
                 // resTalleres.forEach(function(item, key) {
@@ -64,11 +70,13 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             } else
 
             {
+                $('#loadModal').modal('hide');
                 alertFactory.info('El usuario no tiene talleres asignados');
             }
 
         }, function(error) {
-            alertFactory.error(result.msg);
+            $('#loadModal').modal('hide');
+            alertFactory.error(error);
         });
 
 
@@ -156,7 +164,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.irpreordenCotizacion = function() {
         $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
-        location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion;
+        location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
     }
 
     $scope.guardaFactura = function() {
@@ -171,7 +179,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
         preordenCotizacionRepository.getGuardarCotizacion($scope.idCotizacion, $scope.idUsuario, $scope.tallerSeleccionado.idTaller, partidas, $scope.tallerSeleccionado.idZona).then(function(result) {
 
-            location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion;
+            location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
 
 
         });

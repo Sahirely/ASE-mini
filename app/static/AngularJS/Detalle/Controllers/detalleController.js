@@ -41,6 +41,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.init = function() {
         userFactory.ValidaSesion();
+        $('#loadModal').modal('show');
         $scope.userData = userFactory.getUserData();
         $scope.rolLogged = $scope.userData.idRol;
         $scope.aprovisonamiento = localStorageService.get('provision');
@@ -52,12 +53,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.checkHojaTrabajo();
         $scope.HistoricoCotizaciones = [];
         $scope.getHistoricos();
-        $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
-        $scope.enviaNota();
-
         if ($scope.userData.presupuesto == 1) {
             $scope.getSaldos($routeParams.orden);
         }
@@ -70,8 +65,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
             $scope.sinTiempoDisponible = 0;
             $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
         }
-
-
+        $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.enviaNota();
     };
 
     //funcion reloj recursiva cada minuto
@@ -86,6 +84,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 }, 60000);
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se pudo obtener el tiempo transcurrido.');
             $scope.sinTiempoDisponible = 0;
             $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
@@ -112,6 +111,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }
             $scope.getHistoricosCotz();
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener las cotizaciones de la orden.');
         });
     }
@@ -163,6 +163,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener los detalles de la orden');
         });
     }
@@ -173,6 +174,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.detalleCliente = result.data[0];
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener los detalles del cliente');
         });
     }
@@ -183,6 +185,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.detalleDocumentos = result.data[0];
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener los documentos de la orden');
         });
     }
@@ -199,6 +202,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.detalleEvidencias = resEvidnecias;
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener los documentos de la orden');
         });
     }
@@ -253,8 +257,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
             if (result.data.length > 0) {
                 $scope.notaTrabajo = result.data;
             }
+            $('#loadModal').modal('hide');
         }, function(error) {
             alertFactory.error('No se pudieron obtener las notas');
+            $('#loadModal').modal('hide');
         });
         $scope.textoNota = null;
     };
@@ -590,6 +596,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.saldos = result.data[0];
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('sinsaldos');
         });
     };
@@ -1269,6 +1276,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
             } else {
                 $scope.facturas_empty = true;
             }
+        }, function(error){
+          $('#loadModal').modal('hide');
         });
     }
     //********** [ Aqui Termina Ordenes en Proceso ] ******************************************************************************//
@@ -1282,6 +1291,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.validaCertificado = 0;
             }
         }, function(error) {
+          $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener el historico de la orden.');
         });
     }
@@ -1296,6 +1306,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 $scope.validaHojaTrabajo = false;
             }
         }, function(error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se puede obtener el historico de la orden.');
         });
     }
@@ -1806,7 +1817,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
       //FAL 14072017   direccionamiento a preorden-cotizacion
     $scope.irpreordenCotizacion = function(idCotizacion) {
         $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
-        location.href = '/preordenCotizacion?idCotizacion=' + idCotizacion;
+        location.href = '/preordenCotizacion?idCotizacion=' + idCotizacion + '&orden=' + $scope.numeroOrden;
     }
-    
+
 });
