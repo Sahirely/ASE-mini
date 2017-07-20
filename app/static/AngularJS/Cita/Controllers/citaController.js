@@ -124,7 +124,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.getServicios();
                             $scope.getTallerXid($scope.detalleOrden.idTaller);
                             $scope.getPreCotizacion($scope.idCotizacion);
-                            $scope.getZonasCita($scope.idZonaTaller);
+                            // $scope.getZonasCita($scope.idZonaTaller);
                             $scope.getDetalleOrdenEspecialidad();
                             $scope.isEdit = true;
 
@@ -185,6 +185,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                 zonasArray.forEach(function(item) {
                     $scope.ZonasSeleccionadas[item.nivel] = '' + item.idZona + '';
                 });
+
 
             } else {
                 alertFactory.info('No se encontraron las zonas de la cita.')
@@ -471,11 +472,14 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             }
 
         });
+
+        // $scope.idZonaSeleccionada = $scope.ZonasSeleccionadas[$scope.Zonas.length];
+
         if ($scope.idServicios == '' && $scope.idZonaSeleccionada == 0) {
 
             alertFactory.warning("Seleccione minimo un criterio de búsqueda.");
         } else {
-            tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.idZonaSeleccionada, $scope.taller, $scope.idServicios.slice(0, -1)).then(function(result) {
+            tallerRepository.getTalleres($scope.idUsuario, $scope.idContratoOperacion, $scope.idZonaSeleccionada, $scope.taller, $scope.idServicios.slice(0, -1),$scope.detalleUnidad.idTipoUnidad).then(function(result) {
                 $scope.mostrarTabla = true;
                 $scope.talleres = result.data;
                 globalFactory.filtrosTabla("talleres", "Talleres", 100);
