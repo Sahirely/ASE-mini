@@ -118,7 +118,7 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        getTalleres: function(idUsuario, idContratoOperacion, idZona) {
+        getTalleres: function(idUsuario, idContratoOperacion, idZona,idTipoUnidad) {
             return $http({
                 url: consultaCitaUrl + 'getTalleres/',
                 method: "GET",
