@@ -235,13 +235,15 @@ registrationModule.controller('detalleController', function($scope, $location, $
         if ($scope.cotizaciones != null || $scope.cotizaciones != undefined) {
             $scope.cotizaciones.forEach(function(item) {
                 if (item.idEstatusCotizacion == 4) {} else {
-                    item.detalle.forEach(function(itemDetail) {
-                        if (itemDetail.idEstatusPartida == 3 || itemDetail.idEstatusPartida == 4) {} else {
-                            $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costoTotal;
-                            $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.ventaTotal;
-                        }
+                    if (item.detalle != null || item.detalle != undefined){
+                        item.detalle.forEach(function(itemDetail) {
+                            if (itemDetail.idEstatusPartida == 3 || itemDetail.idEstatusPartida == 4) {} else {
+                                $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costoTotal;
+                                $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.ventaTotal;
+                            }
 
-                    });
+                        });
+                    }
                 }
 
             });
