@@ -152,3 +152,8 @@
     width: 100%;
     font-size: 14px;
 }
+
+.verde-bg {
+    background-color: #1ab394;
+    color: #ffffff;
+}
