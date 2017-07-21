@@ -820,9 +820,12 @@
                     </button>
                     <button ng-show="estatus == 1 || estatus == 2" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
-                    </button>
+                    </button>                    
                     <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
                         <span class="{{class_buttonComprobanteRecepcion}}"></span> Comprobante de Recepción
+                    </button>
+                    <button data-loading-text="Loading..." class="btn btn-morado btn-movil"  ng-click="enviaVerificacion()" ng-hide="detalleOrden.verificada">
+                        <span class="{{class_buttonEnviaAprobacion}}"></span> Verificar Unidad
                     </button>
                     <button ng-hide="(userData.idRol == 1 || btnComprobanteRecepcionIsEnable || estatus == 1 ) &&   estatus != 4" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                         <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización

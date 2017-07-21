@@ -272,6 +272,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.textoNota = null;
     };
 
+    $scope.enviaVerificacion = function(){
+      window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0'+ $scope.detalleOrden.numeroEconomico);
+    }
+
     $scope.comprobante = function() {
         if ($scope.detalleOrden.verificada){
             $scope.class_buttonComprobanteRecepcion = 'fa fa-spinner fa-spin';
