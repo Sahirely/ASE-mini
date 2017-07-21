@@ -101,7 +101,7 @@
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
                                                     <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
                                                     </span>
-                                                    <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);" ng-show="userData.idRol==3 && cot.isPreorden ==1 && cot.hasPart == 1">
+                                                    <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2 )&& cot.isPreorden == 1 && cot.hasPart == 1">
                                                         <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
                                                     </button>
 
@@ -710,10 +710,10 @@
                                                         </tbody>
                                                     </table>
                                                     <div>
-                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2" ng-hide="cotizacion.idTaller[0] == 0">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
-                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2">
+                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2"ng-hide="cotizacion.idTaller[0] == 0">
                                                             <span></span> Cancelar Cotización
                                                         </button>
                                                         <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
