@@ -120,6 +120,34 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             //     alertFactory.error(error);
             // });
 
+            // FAL preordenCotizacionRepository.getPartidasTaller($scope.tallerSeleccionado.idTaller, $scope.idCotizacion).then(function(result){
+            //     if(result.data.length > 0){
+            //         var partidasTaller = result.data;
+            //         var resCotizaciones = $scope.cotizaciones;
+            //         var contPartidasEncontradas = 0;
+            //
+            //         for (var i = 0; i < resCotizaciones.length; i++) {
+            //
+            //             for (var j = 0; j < partidasTaller.length; j++) {
+            //                 if (partidasTaller[j].idPartida == resCotizaciones[i].idPartida) {
+            //                     resCotizaciones[i].idTallertmp = parseInt($scope.tallerSeleccionado.idTaller);
+            //                     contPartidasEncontradas ++;
+            //                 }
+            //             }
+            //         }
+            //
+            //         $scope.cotizaciones = resCotizaciones;
+            //         if (contPartidasEncontradas == 0){
+            //             alertFactory.info('El taller seleccionado no cuenta con las partidas de su preorden.');
+            //         }
+            //     }else {
+            //       alertFactory.info('El taller Seleccionado no cuenta con partidas para su unidad.');
+            //     }
+            // },function(error){ 
+            //     alertFactory.error(error);
+            // });
+
+
             $scope.cotizaciones.forEach(function(item){
                 item.idTallertmp = parseInt($scope.tallerSeleccionado.idTaller);
             });
