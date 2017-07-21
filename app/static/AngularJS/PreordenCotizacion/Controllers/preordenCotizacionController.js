@@ -59,6 +59,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             if (result.data.length > 0) {
 
                 $scope.talleres = result.data;
+                globalFactory.filtrosTabla("proveedoresTable", "Talleres", 5);
                 $('#loadModal').modal('hide');
 
                 // var resTalleres = result.data;
@@ -70,6 +71,8 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             } else
 
             {
+                $scope.talleres = [];
+                globalFactory.filtrosTabla("proveedoresTable", "Talleres", 5);
                 $('#loadModal').modal('hide');
                 alertFactory.info('El usuario no tiene talleres asignados');
             }
@@ -82,6 +85,10 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     };
 
+    $scope.selectTaller = function(tallerSel){
+      $scope.tallerSeleccionado = tallerSel;
+    }
+
     $scope.seleccionaPartidas = function() {
         $scope.cotizaciones.forEach(function(item){
             item.idTallertmp = 0;
@@ -90,7 +97,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             alertFactory.error('No ha seleccionado ningun proveedor');
         } else {
             // var intTallerSeleccionado = JSON.parse($scope.tallerSeleccionado[0]);
-            $scope.tallerSeleccionado = JSON.parse($scope.tallerSeleccionado);
+            // $scope.tallerSeleccionado = JSON.parse($scope.tallerSeleccionado);
             // $scope.idZonaSeleccionado = intTallerSeleccionado[1];
 
             // preordenCotizacionRepository.getPartidasTaller($scope.tallerSeleccionado.idTaller, $scope.idCotizacion).then(function(result){
@@ -116,7 +123,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             //     }else {
             //       alertFactory.info('El taller Seleccionado no cuenta con partidas para su unidad.');
             //     }
-            // },function(error){ 
+            // },function(error){
             //     alertFactory.error(error);
             // });
 
@@ -143,7 +150,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             //     }else {
             //       alertFactory.info('El taller Seleccionado no cuenta con partidas para su unidad.');
             //     }
-            // },function(error){ 
+            // },function(error){
             //     alertFactory.error(error);
             // });
 

@@ -52,11 +52,25 @@
                 <h3 class="subTitleP ">Talleres</h3>
             </div>
             <div class="table-responsive scroll_content partidasSel ">
-                <label for="multipleSelect"> Selecciona el Taller: </label><br>
-                <select name="multipleSelect" id="multipleSelect" ng-model="tallerSeleccionado" multiple size="15">
+                <label for="multipleSelect"> Selecciona el Taller: {{tallerSeleccionado.nombreComercial}}</label><br>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover proveedoresTable" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                      <thead>
+                          <tr>
+                              <th>Talleres</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="taller in talleres">
+                              <td ng-click="selectTaller(taller);">{{taller.nombreComercial}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+                </div>
+                <!-- <select name="multipleSelect" id="multipleSelect" ng-model="tallerSeleccionado" multiple size="15">
                   <option  ng-repeat="taller in talleres"  value="{{taller}}">{{taller.nombreComercial}}</option>
 
-                </select><br>
+                </select><br> -->
                 <!-- <tt>multipleSelect = {{tallerSeleccionado}}</tt><br/> -->
                 <br>
                 <button type="submit" class="btn btn-primary btn-subir" ng-click="seleccionaPartidas()">

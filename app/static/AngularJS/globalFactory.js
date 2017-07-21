@@ -75,7 +75,7 @@ registrationModule.factory('globalFactory', function(commonFunctionRepository) {
             setTimeout(function() {
                 var table = $('.' + dataTable).DataTable({
                     dom: '<"html5buttons"B>lTfgitp',
-                    'iDisplayLength': 100,
+                    'iDisplayLength': displayLength,
                     buttons: [{
                         extend: 'excel',
                         exportOptions: {
@@ -136,7 +136,7 @@ registrationModule.factory('globalFactory', function(commonFunctionRepository) {
            // console.log('entro a sendMail');
             //console.log('correo: ' + correoDe);
             commonFunctionRepository.sendMail(correoDe,correoPara,asunto, texto, bodyhtml, archivoRuta, nombreArchivo).then(function(result) {
-                
+
                 //console.log(result);
             });
 
