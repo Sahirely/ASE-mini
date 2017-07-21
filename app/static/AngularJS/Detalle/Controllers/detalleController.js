@@ -273,8 +273,24 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.comprobante = function() {
-        $scope.class_buttonComprobanteRecepcion = 'fa fa-spinner fa-spin';
-        location.href = '/comprobanteRecepcion?orden=' + $routeParams.orden;
+        if ($scope.detalleOrden.verificada){
+            $scope.class_buttonComprobanteRecepcion = 'fa fa-spinner fa-spin';
+            location.href = '/comprobanteRecepcion?orden=' + $routeParams.orden;
+        }else{
+          swal({
+                  title: '¡Unidad de la cita no verificada!',
+                  text: 'No puede recepcionar la unidad.',
+                  timer: 3000
+                  }).then(
+                      function () {},
+                      // handling the promise rejection
+                      function (dismiss) {
+                        if (dismiss === 'timer') {
+                          console.log('I was closed by the timer')
+                        }
+                      }
+                    );
+        }
     };
 
     $scope.partidasportokentotal = 0;

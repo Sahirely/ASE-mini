@@ -110,7 +110,7 @@
             </div>
 
             <br>
-         <button type="submit" class="btn btn-primary btn-subir" ng-click="guardaFactura();">
+         <button type="submit" class="btn btn-primary btn-subir" ng-click="guardaFactura();" ng-disabled="cotizacionesSeleccionadas.length == 0">
             <span class="{{class_buttonCargaFactura}}"></span> Crear cotización
         </button>
         <button type="submit" class="btn btn-danger btn-subir" ng-click="irpreordenCotizacion();">
