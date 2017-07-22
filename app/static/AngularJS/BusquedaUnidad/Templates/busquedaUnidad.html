@@ -10,47 +10,76 @@
                     <div class="ibox-content">
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                             <div class="payment-card">
-                                <p>
-                                    <label>No. Ecónomico:</label>
-                                    <span>{{detalleUnidad.numeroEconomico}}</span>
-                                </p>
-                                <p>
-                                    <label>Placas:</label>
-                                    <span>{{detalleUnidad.placas}}</span>
-                                </p>
-                                <p>
-                                    <label>VIN:</label>
-                                    <span>{{detalleUnidad.vin}}</span>
-                                </p>
-                                <p>
-                                    <label>Marca:</label>
-                                    <span>{{detalleUnidad.marca}}</span>
-                                </p>
-                                <p>
-                                    <label>Sub Marca:</label>
-                                    <span>{{detalleUnidad.subMarca}}</span>
-                                </p>
-                                <p>
-                                    <label>Versión:</label>
-                                    <span>{{detalleUnidad.version}}</span>
-                                </p>
-                                <p>
-                                    <label>Modelo:</label>
-                                    <span>{{detalleUnidad.modelo}}</span>
-                                </p>
-                                <p>
-                                    <label>Tipo de Unidad:</label>
-                                    <span>{{detalleUnidad.nombreTipoUnidad}}</span>
-                                </p>
-                                <p>
-                                    <label>Zona:</label>
-                                    <span>{{detalleUnidad.zona}}</span>
-                                </p>
-                                <p ng-show="userData.geolocalizacion == 1">
-                                    <label>Ubicación:</label>
-                                    <span>{{detalleUnidad.gps}}</span>
-                                </p>
-                            </div>
+                              <div class="row">
+                                  <div class="col-xs-6 col-md-12 col-sm-6 col-lg-6">
+                                      <p>
+                                          <label>No. Ecónomico:</label>
+                                          <span>{{detalleUnidad.numeroEconomico}}</span>
+                                          <!-- <i class="fa fa-check"></i> -->
+                                      </p>
+                                      <p>
+                                          <label>Placas:</label>
+                                          <span>{{detalleUnidad.placas}}</span>
+                                      </p>
+                                      <p>
+                                          <label>VIN:</label>
+                                          <span>{{detalleUnidad.vin}}</span>
+                                      </p>
+                                      <p>
+                                          <label>Marca:</label>
+                                          <span>{{detalleUnidad.marca}}</span>
+                                      </p>
+                                      <p>
+                                          <label>Sub Marca:</label>
+                                          <span>{{detalleUnidad.subMarca}}</span>
+                                      </p>
+                                      <p>
+                                          <label>Versión:</label>
+                                          <span>{{detalleUnidad.version}}</span>
+                                      </p>
+                                      <p>
+                                          <label>Modelo:</label>
+                                          <span>{{detalleUnidad.modelo}}</span>
+                                      </p>
+                                      <p>
+                                          <label>Tipo de Unidad:</label>
+                                          <span>{{detalleUnidad.nombreTipoUnidad}}</span>
+                                      </p>
+                                      <p>
+                                          <label>Zona:</label>
+                                          <span>{{detalleUnidad.zona}}</span>
+                                      </p>
+                                      <p ng-show="userData.geolocalizacion == 1">
+                                          <label>Ubicación:</label>
+                                          <span>{{detalleUnidad.gps}}</span>
+                                      </p>
+                                  </div>
+                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-show="detalleUnidad.verificada">
+                                    <div class="widget style1 verde-bg">
+                                        <div class="row vertical-align">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-check fa-1x"></i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <h2 class="font-bold">Verificada</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-hide="detalleUnidad.verificada">
+                                  <div class="widget style1 rojo-bg">
+                                      <div class="row vertical-align">
+                                          <div class="col-xs-2">
+                                              <i class="fa fa-times fa-1x"></i>
+                                          </div>
+                                          <div class="col-xs-10 text-right">
+                                              <h2 class="font-bold">No Verificada</h2>
+                                          </div>
+                                      </div>
+                                  </div>
+                                </div>
+                              </div>
+                           </div>
                             <p ng-show="mostrarMapa">
                                 <label>Localización:</label>
                                 <br>
@@ -130,13 +159,15 @@
                             </div>
                         </div>
 
+
+
                         <div class="col-xs-12 col-sm-12" ng-show="agendarCita" id="agendarCita">
                             <label ng-hide="muestraOrdenActual">{{ordendesActual[0].mensaje}}</label>
                             <button class="btn btn-primary pull-right" ng-click="btnAgendarCita()">
                                 <i class="fa fa-calendar"></i> Agendar Cita
                             </button>
                         </div>
-                        
+
                         <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraSwitch">
                             <div class="btn-group pull-right" ng-show="muestraOrdenActual">
                                 <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
