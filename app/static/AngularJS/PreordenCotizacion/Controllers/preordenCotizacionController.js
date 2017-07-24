@@ -189,7 +189,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.partidaQuitar = function(partida) {
 
-        var intTallerSeleccionado = $scope.tallerSeleccionado
+        var intTallerSeleccionado = $scope.tallerSeleccionado;
         var resCotizaciones = $scope.cotizaciones;
         resCotizaciones.forEach(function(item, key) {
 
@@ -200,6 +200,15 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
         });
         $scope.cotizaciones = resCotizaciones;
     };
+
+    $scope.partidaAgregar = function(partida) {
+
+        $scope.cotizaciones.forEach(function(item, key){
+            if (item.idPartida == partida.idPartida){
+                item.idTallertmp = $scope.tallerSeleccionado.idTaller;
+            }
+        });
+    }
 
     $scope.irpreordenCotizacion = function() {
         $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
