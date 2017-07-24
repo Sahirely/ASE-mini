@@ -359,7 +359,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                       });
 
                       if ($scope.labelItems > 0) {
-                          cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 1, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
+                          cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 5, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
                               $scope.idCotizacion = result.data[0].idCotizacion;
                               angular.forEach($scope.partidas, function(value, key) {
                                   cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, 1).then(function(result) {
@@ -533,7 +533,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
 
                   if ($scope.idCotizacion == 0) {
                       if ($scope.labelItems > 0){
-                        cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
+                        cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 5, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
                             $scope.idCotizacion = result.data[0].idCotizacion;
                             angular.forEach($scope.partidas, function(value, key) {
                                 cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
@@ -544,7 +544,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                       }
 
                   } else {
-                      cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 1, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, $scope.idCotizacion).then(function(result) {
+                      cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 5, $scope.detalleOrden.numeroOrden, $scope.tipoDeCita.idTipoCita, $scope.idCotizacion).then(function(result) {
                           angular.forEach($scope.partidas, function(value, key) {
                               cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, value.costo, value.cantidad, value.venta, value.idPartida, value.idEstatusPartida).then(function(result) {
                                   alertFactory.success('Cotización Detalle Creada');
