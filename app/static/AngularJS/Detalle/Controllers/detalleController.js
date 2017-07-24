@@ -1400,11 +1400,15 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
         if ($scope.cotizaciones != undefined) {
             $scope.cotizaciones.forEach(function(item) {
-                item.detalle.forEach(function(itemDetail) {
-                    if (itemDetail.costo == 0) {
-                        bandera = false;
-                    };
-                });
+                if (item.idTaller != 0){
+                    if (item.detalle != null || item.detalle != undefined){
+                        item.detalle.forEach(function(itemDetail) {
+                            if (itemDetail.costo == 0) {
+                                bandera = false;
+                            };
+                        });
+                    }
+                }
             });
 
             if (bandera) {
