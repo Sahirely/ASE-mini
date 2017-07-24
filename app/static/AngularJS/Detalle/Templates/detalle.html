@@ -264,7 +264,7 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
                             <carousel interval="'-1'"  ng-hide="validaCertificado == 0">
-                                <slide  ng-repeat="evidencia in detalleEvidencias">
+                                <slide class="itemCarousel" ng-repeat="evidencia in detalleEvidencias">
                                   <!-- active="!$index" -->
                                   <a href="{{evidencia.ruta}}" ng-show="evidencia.tipo == 'jpg'
                                       || evidencia.tipo == 'JPG'
