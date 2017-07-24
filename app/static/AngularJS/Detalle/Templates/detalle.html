@@ -263,7 +263,104 @@
                         <!-- </div> -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
+                            <carousel interval="'-1'"  ng-hide="validaCertificado == 0">
+                                <slide  ng-repeat="evidencia in detalleEvidencias">
+                                  <!-- active="!$index" -->
+                                  <a href="{{evidencia.ruta}}" ng-show="evidencia.tipo == 'jpg'
+                                      || evidencia.tipo == 'JPG'
+                                      || evidencia.tipo == 'jpeg'
+                                      || evidencia.tipo == 'JPEG'
+                                      || evidencia.tipo == 'png'
+                                      || evidencia.tipo == 'PNG'
+                                      || evidencia.tipo == 'gif'
+                                      || evidencia.tipo == 'GIG'
+                                      || evidencia.tipo == 'bmp'
+                                      || evidencia.tipo == 'BMP'" class="documentos" download="">
+                                      <img  alt="image" title="{{evidencia.tipo}}" class="img-responsive" src="{{evidencia.ruta}}" />
+                                  </a>
+                                  <div ng-show="evidencia.tipo == 'xml' || evidencia.tipo == 'XML'" class="item-no-img">
+                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                          <div class="gal-ico">
+                                              <i class="fa fa-file-code-o" aria-hidden="true"></i>
+                                              <p>{{evidencia.nombreEvidencia}}</p>
+                                          </div>
+                                      </a>
+                                  </div>
+                                  <div ng-show="evidencia.tipo == 'pdf' || evidencia.tipo == 'PDF'" class="item-no-img">
+                                      <object style="width: 100%; height: 100%" data="{{evidencia.ruta}}" type="application/pdf">
+                                          <embed src="{{evidencia.ruta}}" type="application/pdf" />
+                                      </object>
+                                  </div>
+                                  <div ng-show="evidencia.tipo == 'xls' || evidencia.tipo == 'xlsx'  || evidencia.tipo == 'XLS' || evidencia.tipo == 'XLSX'" class="item-no-img">
+                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                          <div class="gal-ico">
+                                              <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                              <p>{{evidencia.nombreEvidencia}}</p>
+                                          </div>
+                                      </a>
+                                  </div>
+                                  <div ng-show="evidencia.tipo == 'txt' || evidencia.tipo == 'TXT'" class="item-no-img">
+                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                          <div class="gal-ico">
+                                              <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                              <p>{{evidencia.nombreEvidencia}}</p>
+                                          </div>
+                                      </a>
+                                  </div>
+                                  <div ng-show="evidencia.tipo == 'zip' || evidencia.tipo == 'rar' || evidencia.tipo == 'ZIP' || evidencia.tipo == 'RAR'" class="item-no-img">
+                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                          <div class="gal-ico">
+                                              <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                                              <p>{{evidencia.nombreEvidencia}}</p>
+                                          </div>
+                                      </a>
+                                  </div>
+                                  <div ng-show="evidencia.tipo == 'doc' || evidencia.tipo == 'docx' || evidencia.tipo == 'DOC' || evidencia.tipo == 'DOCX'" class="item-no-img">
+                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                          <div class="gal-ico">
+                                              <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                                              <p>{{evidencia.nombreEvidencia}}</p>
+                                          </div>
+                                      </a>
+                                  </div>
+                                  <div ng-show="evidencia.tipo != 'jpg'
+                                      && evidencia.tipo != 'JPG'
+                                      && evidencia.tipo != 'jpeg'
+                                      && evidencia.tipo != 'JPEG'
+                                      && evidencia.tipo != 'png'
+                                      && evidencia.tipo != 'PNG'
+                                      && evidencia.tipo != 'gif'
+                                      && evidencia.tipo != 'GIF'
+                                      && evidencia.tipo != 'bmp'
+                                      && evidencia.tipo != 'BMP'
+                                      && evidencia.tipo != 'xml'
+                                      && evidencia.tipo != 'XML'
+                                      && evidencia.tipo != 'pdf'
+                                      && evidencia.tipo != 'PDF'
+                                      && evidencia.tipo != 'xls'
+                                      && evidencia.tipo != 'XLS'
+                                      && evidencia.tipo != 'xlsx'
+                                      && evidencia.tipo != 'XLSX'
+                                      && evidencia.tipo != 'txt'
+                                      && evidencia.tipo != 'TXT'
+                                      && evidencia.tipo != 'zip'
+                                      && evidencia.tipo != 'ZIP'
+                                      && evidencia.tipo != 'rar'
+                                      && evidencia.tipo != 'RAR'
+                                      && evidencia.tipo != 'doc'
+                                      && evidencia.tipo != 'DOC'
+                                      && evidencia.tipo != 'docx'
+                                      && evidencia.tipo != 'DOCX'" class="item-no-img">
+                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                          <div class="gal-ico">
+                                              <i class="fa fa-file-o" aria-hidden="true"></i>
+                                              <p>{{evidencia.nombreEvidencia}}</p>
+                                          </div>
+                                      </a>
+                                  </div>
+                                </slide>
+                            </carousel>
+                            <!-- <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
                                 <div class="carousel-inner">
                                     <div class="item itamCarousel" ng-class="{active:!$index}" ng-repeat="evidencia in detalleEvidencias">
                                         <img ng-show="evidencia.tipo == 'jpg'
@@ -364,7 +461,7 @@
                                 <a data-slide="next" href="#carousel1" ng-non-bindable class="right carousel-control iconCarousel">
                                     <span class="icon-next"></span>
                                 </a>
-                            </div>
+                            </div> -->
                             <br/>
                             <div class="contenedor" style="width: 100%; height: 150px;">
                                 <table width="100%" border="0" cellspacing="40" cellpadding="40">
@@ -820,7 +917,7 @@
                     </button>
                     <button ng-show="estatus == 1 || estatus == 2" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
-                    </button>                    
+                    </button>
                     <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
                         <span class="{{class_buttonComprobanteRecepcion}}"></span> Comprobante de Recepción
                     </button>
