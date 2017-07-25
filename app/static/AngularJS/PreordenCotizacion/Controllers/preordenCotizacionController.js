@@ -30,7 +30,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             $scope.getMostrarTalleres($scope.idUsuario, $scope.idContratoOperacion, idTipoUnidad);
         }, function(error){
           $('#loadModal').modal('hide');
-          alertFactory.error(error);
+          alertFactory.error('Ocurrio un error.');
         });
     }
 
@@ -79,7 +79,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
         }, function(error) {
             $('#loadModal').modal('hide');
-            alertFactory.error(error);
+            alertFactory.error('Ocurrio un error.');
         });
 
 
@@ -94,7 +94,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             item.idTallertmp = 0;
         });
         if ($scope.tallerSeleccionado == undefined) {
-            alertFactory.error('No ha seleccionado ningun proveedor');
+            alertFactory.info('No ha seleccionado ningun proveedor');
         } else {
             // var intTallerSeleccionado = JSON.parse($scope.tallerSeleccionado[0]);
             // $scope.tallerSeleccionado = JSON.parse($scope.tallerSeleccionado);
@@ -231,6 +231,31 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
 
         });
+    }
+
+    $scope.cancelarPartida = function(partida){
+      swal({
+            title: '¿Esta seguró de cancelar la partida?',
+            text: "se cancelará la partida " + partida.partida + " de la PreOrden.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+          },function(isConfirm) {
+              if (isConfirm) {
+                  preordenCotizacionRepository.cancelaPartidaPreorden($scope.idCotizacion, partida.idPartida).then(function(result){
+                      if (result.data.length > 0){
+                          alertFactory.info(result.data[0].msg);
+                      }
+                      $scope.init();
+                  },function(error){
+                      alertFactory.error('Ocurrio un error');
+                  });
+              }
+          });
+
     }
 
 

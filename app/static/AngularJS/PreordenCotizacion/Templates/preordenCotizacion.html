@@ -20,26 +20,32 @@
                         <th>Cantidad</th>
                         <th>Venta</th>
                         <th>Agregar</th>
+                        <th>Cancelar Partida</th>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="partida in cotizaciones " title='Descripción' data-toggle="popover " data-placement="top " data-trigger="hover " data-content='{{partidasTaller.descripcion}}'>
+                        <tr ng-repeat="partida in cotizaciones " >
                             <td>{{partida.partida}}</td>
                             <td>{{partida.noParte}}</td>
                             <td>{{partida.descripcion}}</td>
                             <td>{{partida.cantidad}}</td>
                             <td>{{partida.venta | currency}}</td>
                             <td class="text-center" ng-show = "partida.idTallertmp!= 0 && partida.idTallertmp == 'Q'">
-                                <button class="btn btn-danger btn-sm " type="button " id="btnCotizar " ng-click="partidaAgregar(partida) "data-toggle="tooltip " tooltip-placement="top " tooltip="Quitar ">
-                                    <span class="glyphicon glyphicon-remove "></span>
+                                <button class="btn btn-danger btn-sm " type="button" id="btnCotizar" ng-click="partidaAgregar(partida)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar">
+                                    <span class="fa fa-times"></span>
                                 </button>
                             </td>
                             <td class="text-center" ng-show= "partida.idTallertmp!=0 && partida.idTallertmp!='Q'">
-                                <button class="btn btn-success btn-sm " type="button " id="btnCotizar " ng-click="partidaQuitar(partida) "data-toggle="tooltip " tooltip-placement="top " tooltip="Agregar ">
-                                    <span class="glyphicon glyphicon-ok "></span>
+                                <button class="btn btn-success btn-sm" type="button" id="btnCotizar" ng-click="partidaQuitar(partida)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
+                                    <span class="fa fa-check"></span>
                                 </button>
                             </td>
                             <td class="text-center" ng-show = "partida.idTallertmp== 0">
                                 &nbsp;
+                            </td>
+                            <td>
+                              <button class="btn btn-danger btn-sm" type="button" ng-click="cancelarPartida(partida)" data-toggle="tooltip" tooltip-placement="top" tooltip="Quitar de PreOrden">
+                                  <span class="fa fa-trash"></span>
+                              </button>
                             </td>
 
                         </tr>

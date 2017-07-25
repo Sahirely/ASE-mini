@@ -63,6 +63,20 @@ registrationModule.factory('preordenCotizacionRepository', function($http, $q) {
             });
         },
 
+        cancelaPartidaPreorden: function(idCotizacion, idPartida){
+            return $http({
+                url: preordenCotizacionUrl + 'cancelaPartidaCotizacion/',
+                method: "GET",
+                params: {
+                    idCotizacion: idCotizacion,
+                    idPartida: idPartida
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
         getGuardarCotizacion: function(idCotizacion, idUsuario, idTaller, idCotizacionesDetalle, idZona) {
             return $http({
                 url: preordenCotizacionUrl + 'guardarCotizacion/',

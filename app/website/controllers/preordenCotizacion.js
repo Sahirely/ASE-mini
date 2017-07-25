@@ -81,6 +81,20 @@ PreordenCotizacion.prototype.get_partidasTaller = function(req, res, next){
 
 }
 
+PreordenCotizacion.prototype.get_cancelaPartidaCotizacion = function(req, res, next){
+    var self = this;
+
+    var params = [{name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT},
+                  {name: 'idPartida', value: req.query.idPartida, type: self.model.types.INT}];
+
+    self.model.query('UPD_CANCELA_PARTIDAS_PREORDEN_SP', params, function(error, result){
+        self.view.expositor(res,{
+          error: error,
+          result: result
+        });
+    });
+}
+
 
 PreordenCotizacion.prototype.get_guardarCotizacion = function(req, res, next){
     var self = this;
