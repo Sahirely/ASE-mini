@@ -855,9 +855,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
-                            //              var RFC_Receptor = rfc.RFCCliente;
-                            //              var RFC_Emisor = rfc.RFCTaller;
-                            //              var subTotal = $scope.cotizacionTotal;
+                                //  var RFC_Receptor = rfc.RFCCliente;
+                                //  var RFC_Emisor = rfc.RFCTaller;
+                                //  var subTotal = $scope.cotizacionTotal;
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
@@ -1029,10 +1029,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.ValidaEntrega = function(objeto) {
+        $('#loadModal').modal('show');
         if (objeto == 0) {
             detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
                 if (result.data[0].RealizarOperacion) {
                     if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                        $('#loadModal').modal('hide');
                         alertFactory.error('Introduce el Token de Verificación');
                     } else {
                         detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
@@ -1053,23 +1055,27 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                 $scope.init();
                                                 $scope.token_termino = '';
                                                 $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-
+                                                $('#loadModal').modal('hide');
                                             }, function(error) {
+                                                $('#loadModal').modal('hide');
                                                 alertFactory.error('No se puede enviar el correo');
                                             });
                                         }
                                     }, function(error) {
+                                        $('#loadModal').modal('hide');
                                         alertFactory.error("Error al obtener información para el mail");
                                     });
                                 });
 
                             } else {
+                                $('#loadModal').modal('hide');
                                 alertFactory.error(r_token.data[0].Msg);
                                 $scope.token_termino = '';
                             }
                         });
                     }
                 } else {
+                    $('#loadModal').modal('hide');
                     alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
                 }
             });
@@ -1078,6 +1084,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
                     if (result.data[0].RealizarOperacion) {
                         if ($scope.token_termino == '' || $scope.token_termino === undefined) {
+                            $('#loadModal').modal('hide');
                             alertFactory.error('Introduce el Token de Verificación');
                         } else {
                             detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function(r_token) {
@@ -1098,28 +1105,33 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                     $scope.init();
                                                     $scope.token_termino = '';
                                                     $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-
+                                                    $('#loadModal').modal('hide');
                                                 }, function(error) {
+                                                    $('#loadModal').modal('hide');
                                                     alertFactory.error('No se puede enviar el correo');
                                                 });
                                             }
                                         }, function(error) {
+                                            $('#loadModal').modal('hide');
                                             alertFactory.error("Error al obtener información para el mail");
                                         });
                                     });
 
                                 } else {
+                                    $('#loadModal').modal('hide');
                                     alertFactory.error(r_token.data[0].Msg);
                                     $scope.token_termino = '';
                                 }
                             });
                         }
                     } else {
+                        $('#loadModal').modal('hide');
                         alertFactory.error('Aun quedan cotizaciones pendientes por revisar');
                     }
                 });
 
             } else {
+                $('#loadModal').modal('hide');
                 swal("Advertencia!", "La orden se debe provisionar");
             }
         }
@@ -1397,10 +1409,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.validateEstatusAprobacion = function() {
         var bandera = true;
-
+        $('#loadModal').modal('show');
         if ($scope.cotizaciones != undefined) {
             $scope.cotizaciones.forEach(function(item) {
-                if (item.idTaller != 0){
+             /*   if (item.idTaller != 0){
                     if (item.detalle != null || item.detalle != undefined){
                         item.detalle.forEach(function(itemDetail) {
                             if (itemDetail.costo == 0) {
@@ -1408,7 +1420,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             };
                         });
                     }
-                }
+                }*/
             });
 
             if (bandera) {
@@ -1420,9 +1432,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 }
 
             } else {
+                $('#loadModal').modal('hide');
                 swal('No se puede enviar a aprobación ya que cuenta con partidas sin precio asignado.');
             }
         } else {
+            $('#loadModal').modal('hide');
             swal('Debe de contar con una cotización.');
         }
 
@@ -1469,20 +1483,24 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                             commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
                                                 //$scope.estatusAprobacion();
                                                 alertFactory.info('Se notifico por correo la utilidad');
-
+                                                $('#loadModal').modal('hide');
                                             }, function(error) {
+                                                $('#loadModal').modal('hide');
                                                 alertFactory.error('No se puede enviar el correo');
                                             });
                                         }
                                     }, function(error) {
+                                        $('#loadModal').modal('hide');
                                         alertFactory.error("Error al obtener información para el mail");
                                     });
                                 } else {
+                                    $('#loadModal').modal('hide');
                                     swal('La orden se encuentra en espera de Aprobación de Utilidad');
                                 }
 
                             }
                         }, function(error) {
+                            $('#loadModal').modal('hide');
                             alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
                         });
 
@@ -1541,10 +1559,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 var texto = resp.data[0].texto;
                                 var bodyhtml = resp.data[0].bodyhtml;
                                 commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-
+                                    $('#loadModal').modal('hide');
                                     location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                                     //$scope.init();
                                 }, function(error) {
+                                    $('#loadModal').modal('hide');
                                     alertFactory.error('No se puede enviar el correo');
                                     setTimeout(function() {
                                         location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
@@ -1552,11 +1571,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 });
                             }
                         }, function(error) {
+                            $('#loadModal').modal('hide');
                             alertFactory.error("Error al obtener información para el mail");
                         });
                     });
                     swal("Orden en aprobación!");
                 } else {
+                    $('#loadModal').modal('hide');
                     swal("La Orden no se envió a aprobación!");
                 }
             });
