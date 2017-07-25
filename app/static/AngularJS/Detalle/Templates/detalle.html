@@ -807,10 +807,10 @@
                                                         </tbody>
                                                     </table>
                                                     <div>
-                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2" ng-hide="cotizacion.idTaller[0] == 0">
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
-                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-show="cotizacion.idEstatusCotizacion==1 || cotizacion.idEstatusCotizacion==2"ng-hide="cotizacion.idTaller[0] == 0">
+                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
                                                             <span></span> Cancelar Cotización
                                                         </button>
                                                         <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
