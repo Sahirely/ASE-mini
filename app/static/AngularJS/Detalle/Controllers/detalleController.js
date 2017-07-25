@@ -906,7 +906,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                                         $scope.FacturaLista();
                                                         $("#mensaje").text('¡Factura guardada!');
                                                         $(".errores_factura").append('<tr> <td width="20%"><strong>Info</strong></td> <td>Factura guardada correctamente.</td> </tr>');
-                                                        detalleRepository.eliminaFactura(item.PathDB);
+                                                        // detalleRepository.eliminaFactura(item.PathDB);
                                                     } else {
                                                         $scope.FacturaLista();
                                                         $("#mensaje").text('¡Factura no guardada!');
