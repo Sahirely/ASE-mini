@@ -1294,7 +1294,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     }
 
-    $scope.OpenModalShowFactura = function() {
+    $scope.OpenModalShowFactura = function(numCotizacion) {
+        $scope.numCotizacionFactura = numCotizacion;
         $("#ModalShowFactura").modal();
     }
 

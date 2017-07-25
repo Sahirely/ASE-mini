@@ -583,7 +583,8 @@
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Factura</label>
                                     <br>
-                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" ng-disabled="totalfacturas == 0" ng-class="{btn_archivo_yep: totalfacturas != 0}" ng-click="OpenModalShowFactura()">
+                                    <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" disabled="disabled">
+                                        <!-- ng-disabled="totalfacturas == 0" ng-class="{btn_archivo_yep: totalfacturas != 0}" ng-click="OpenModalShowFactura()" -->
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
@@ -705,7 +706,7 @@
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
                                                     </button> -->
-                                                <span class="label label-primary pull-right cargar-factura" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura != 0" style="padding: 10px 13px">
+                                                <span  class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura != 0" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" >
                                                 FACTURA CARGADA
                                                 </span>
                                             </div>
@@ -1104,7 +1105,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="Fac in Facturas.data">
+                            <tr ng-repeat="Fac in Facturas.data" ng-show="numCotizacionFactura == Fac.numeroCotizacion">
                                 <td><b>{{Fac.numeroCotizacion}}</b></td>
                                 <td>
                                     <a ng-show="Fac.facturas[0].tipo == 'pdf'" href="{{Fac.facturas[0].rutaDocumento}}" target="_blanc">
