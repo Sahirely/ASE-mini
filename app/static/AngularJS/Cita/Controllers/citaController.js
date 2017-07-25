@@ -331,6 +331,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         // if ($scope.userData.idRol == 1){
             //si el usuario es un cliente la zona a guardar será la zona seleccionada de último nivel
             $scope.disableCita = false;
+            $('#loadModal').modal('show');
             $scope.idZonaTaller = $scope.ZonasSeleccionadas[$scope.Zonas.length];
         // }
         if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
@@ -378,17 +379,21 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                       }
 
                   } else if (result.data[0].respuesta == 0) {
+                      $('#loadModal').modal('hide');
                       alertFactory.info('Ocurrio un problema al agendar la orden de servicio. Intente de nuevo')
                   } else {
+                      $('#loadModal').modal('hide');
                       alertFactory.error('Ocurrio un problema')
                   }
               });
 
           }else{
+              $('#loadModal').modal('hide');
+              $scope.disableCita = true;
               alertFactory.info('Debe seleccionar una Unidad Operativa para guardar su Cita.');
           }
 
-          $scope.disableCita = true;
+          // $scope.disableCita = true;
     };
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
     $scope.obtieneNivelZona = function() {
@@ -508,6 +513,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
 
     $scope.actualizarCita = function() {
         $scope.disableCita = false;
+        $('#loadModal').modal('show');
         if ($scope.grua == true) {
             $scope.grua = 1;
         } else { $scope.grua = 0 }
@@ -565,9 +571,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
               });
 
         }else{
+            $('#loadModal').modal('hide');
             alertFactory.info('Debe seleccionar una Unidad Operativa para guardar su Cita.');
+            $scope.disableCita = true;
         }
-
-        $scope.disableCita = true;
     };
 });
