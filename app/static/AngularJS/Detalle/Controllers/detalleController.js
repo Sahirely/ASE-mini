@@ -968,27 +968,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
         if ($scope.userData.presupuesto == 1) {
             detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
                 if (result.data[0].RealizarOperacion) {
-
                     aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function(result) {
                         if (result.data.length > 0) {
                             $scope.saldosTermino = result.data[0];
                             if (result.data[0].presupuestoVenta > 0) {
                                 $scope.idPresupuesto = result.data[0].idPresupuesto;
-                                detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-                                    if (result.data.length > 0) {
 
-                                        detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
-                                            $scope.class_buttonTerminaTrabajo = '';
-                                            alertFactory.success('Se ha terminado el trabajo');
-                                            $("html, body").animate({
-                                                scrollTop: 0
-                                            }, 1000);
-                                            $scope.getReporteConformidad($scope.detalleOrden.idOrden);
                                             $scope.addComentarioTermino();
-
-                                        });
-                                    }
-                                });
 
                             } else {
                                 $('.modal-dialog').css('width', '1050px');
@@ -1010,21 +996,43 @@ registrationModule.controller('detalleController', function($scope, $location, $
         } else {
             detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function(result) {
                 if (result.data[0].RealizarOperacion) {
-                    detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(r_token) {
-                        $scope.class_buttonTerminaTrabajo = '';
-                        alertFactory.success('Se ha terminado el trabajo');
-                        $("html, body").animate({
-                            scrollTop: 0
-                        }, 1000);
-                        $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+
                         $scope.addComentarioTermino();
 
-                    });
                 } else {
                     $scope.class_buttonTerminaTrabajo = '';
                     alertFactory.info('Aún quedan cotizaciones pendientes por revisar');
                 }
             });
+        }
+    }
+
+    $scope.cambiaEstatusOrdenTermino = function(){
+        if ($scope.userData.presupuesto == 1) {
+          detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(result) {
+              if (result.data.length > 0) {
+
+                  detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(r_token) {
+                      $scope.class_buttonTerminaTrabajo = '';
+                      alertFactory.success('Se ha terminado el trabajo');
+                      $("html, body").animate({
+                          scrollTop: 0
+                      }, 1000);
+                      $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+                      $scope.init();
+                  });
+              }
+          });
+        }else {
+          detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(r_token) {
+              $scope.class_buttonTerminaTrabajo = '';
+              alertFactory.success('Se ha terminado el trabajo');
+              $("html, body").animate({
+                  scrollTop: 0
+              }, 1000);
+              $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+              $scope.init();
+          });
         }
     }
 
@@ -1772,10 +1780,14 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 comentario: 'Número de Parte: ' + $scope.partidaComentario.noParte + ' Comentario: ' + comentarios
             });
         } else if ($scope.tipoComentario == 2) {
-            $scope.comentarios.push({
-                comentario: comentarios
-            });
-            $scope.updateComentariosPartidas();
+            if ( comentarios != '' && comentarios != null && comentarios != undefined){
+                $scope.comentarios.push({
+                    comentario: comentarios
+                });
+                $scope.updateComentariosPartidas();
+            }else{
+                $scope.class_buttonTerminaTrabajo = '';
+            }
         }
 
     };
@@ -1802,7 +1814,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             detalleRepository.insNota($scope.comentarios[0].comentario, $scope.numeroOrden, $scope.userData.idUsuario, 6).then(function(result) {
                 if (result.data.length > 0) {
                     $scope.notaTrabajo = result.data;
-                    $scope.init();
+                    $scope.cambiaEstatusOrdenTermino();
                 }
             }, function(error) {
                 alertFactory.error('No se pudieron obtener las notas');
