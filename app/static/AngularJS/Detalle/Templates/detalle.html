@@ -706,7 +706,7 @@
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
                                                     </button> -->
-                                                <span  class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura != 0" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" >
+                                                <span  class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura != 0" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip" data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
                                                 FACTURA CARGADA
                                                 </span>
                                             </div>
