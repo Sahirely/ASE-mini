@@ -29,11 +29,36 @@ busquedaUnidad.prototype.get_detalleUnidad = function(req, res, next) {
         type: self.model.types.STRING
     }];
 
-    this.model.query('SEL_DETALLE_UNIDAD_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
+    self.model.query('SEL_DETALLE_UNIDAD_SP', params, function(error, result) {
+
+        if (result.length > 0){
+          var idUnidad = result[0].idUnidad;
+
+          var params2 = [{
+              name: 'idUnidad',
+              value: idUnidad,
+              type: self.model.types.INT
+          }];
+
+          result[0].zonasUnidad = [];
+
+          self.model.query('SEL_ZONAS_UNIDAD_SP', params2, function(e, r){
+              if (r.length > 0){
+                result[0].zonasUnidad = r;
+              }
+
+              self.view.expositor(res, {
+                  error: error,
+                  result: result
+              });
+
+          });
+        }else {
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            });
+        }
     });
 };
 //Obtiene la existencia de la unidad y si el usuario cumple con los permisos necesarios
@@ -132,7 +157,7 @@ busquedaUnidad.prototype.get_detalleOrden = function(req, res, next) {
           self.view.expositor(res, {
               error: error,
               result: result
-          });    
+          });
     });
 };
 
@@ -149,7 +174,7 @@ busquedaUnidad.prototype.get_detalleOrdenEspecialidad = function(req, res, next)
           self.view.expositor(res, {
               error: error,
               result: result
-          });    
+          });
     });
 };
 

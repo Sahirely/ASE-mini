@@ -34,9 +34,13 @@
                     <label>Tipo de Unidad:</label>
                     <span>{{detalleOrden.tipoUnidad}}</span>
                 </p>
-                <p>
+                <!-- <p>
                     <label>Zona:</label>
                     <span>{{detalleOrden.zona}}</span>
+                </p> -->
+                <p ng-repeat="z in detalleOrden.zonasUnidad | orderBy : 'orden'">
+                    <label>{{z.etiqueta}} de la Unidad:</label>
+                    <span>{{z.nombre}}</span>
                 </p>
                 <p ng-show="userData.geolocalizacion == 1">
                     <label>Ubicación:</label>

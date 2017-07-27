@@ -165,11 +165,35 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
         type: self.model.types.STRING
     }];
 
-    this.model.query('SEL_DETALLE_ORDEN_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
+    self.model.query('SEL_DETALLE_ORDEN_SP', params, function(error, result) {
+        if (result.length > 0){
+          var idUnidad = result[0].idUnidad;
+
+          var params2 = [{
+              name: 'idUnidad',
+              value: idUnidad,
+              type: self.model.types.INT
+          }];
+
+          result[0].zonasUnidad = [];
+
+          self.model.query('SEL_ZONAS_UNIDAD_SP', params2, function(e, r){
+              if (r.length > 0){
+                result[0].zonasUnidad = r;
+              }
+
+              self.view.expositor(res, {
+                  error: error,
+                  result: result
+              });
+
+          });
+        }else {
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            });
+        }
     });
 }
 

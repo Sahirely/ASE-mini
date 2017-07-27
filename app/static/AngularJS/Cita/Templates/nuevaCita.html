@@ -10,25 +10,28 @@
                     <div ng-class="{ 'col-xs-12 col-sm-12 col-md-12 col-lg-12': mostrarMapa == false, 'col-xs-12 col-sm-6 col-md-6 col-lg-6': mostrarMapa == true }">
                         <!-- class="col-xs-12 col-sm-6 col-md-6 col-lg-6" -->
                         <div class="widget-head-color-box navy-bgv2 p-lg text-center" ng-class="{ 'navy-bgv2-mod': mostrarMapa == false}">
+                            <div class="row m-b-md">
+                                <h2 class="font-bold no-margins">
+                                    Ficha Técnica de Unidad
+                                </h2>
+                            </div>
                             <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                                  <div class="m-b-md">
-                                      <h2 class="font-bold no-margins">
-                                      Ficha Técnica de Unidad
-                                  </h2>
-                                  </div>
+                                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
                                   <div >
                                       <address>
                                           <h3>
-                                            <strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}<br><br>
-                                            <strong>Placas:</strong> {{detalleUnidad.placas}}<br><br>
-                                            <strong>VIN:</strong> {{detalleUnidad.vin}}<br><br>
-                                            <strong>Marca:</strong> {{detalleUnidad.marca}}<br><br>
-                                            <strong>Sub Marca:</strong> {{detalleUnidad.subMarca}}<br><br>
-                                            <strong>Versión:</strong> {{detalleUnidad.version}}<br><br>
-                                            <strong>Modelo:</strong> {{detalleUnidad.modelo}}<br><br>
-                                            <strong>Tipo de Unidad:</strong> {{detalleUnidad.nombreTipoUnidad}}<br><br>
-                                            <strong>Zona:</strong> {{detalleUnidad.zona}}<br><br>
+                                            <p><strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}</p>
+                                            <p><strong>Placas:</strong> {{detalleUnidad.placas}}</p>
+                                            <p><strong>VIN:</strong> {{detalleUnidad.vin}}</p>
+                                            <p><strong>Marca:</strong> {{detalleUnidad.marca}}</p>
+                                            <p><strong>Sub Marca:</strong> {{detalleUnidad.subMarca}}</p>
+                                            <p><strong>Versión:</strong> {{detalleUnidad.version}}</p>
+                                            <p><strong>Modelo:</strong> {{detalleUnidad.modelo}}</p>
+                                            <p><strong>Tipo de Unidad:</strong> {{detalleUnidad.nombreTipoUnidad}}</p>
+                                            <!-- <strong>Zona:</strong> {{detalleUnidad.zona}}<br><br> -->
+                                            <p ng-repeat="z in detalleUnidad.zonasUnidad | orderBy : 'orden'">
+                                                <strong>{{z.etiqueta}}:</strong>{{z.nombre}}
+                                            </p>
                                             <p ng-show="userData.geolocalizacion == 1"><strong>Ubicación:</strong> {{detalleUnidad.gps}}</p>
                                           </h3>
                                       </address>
@@ -36,7 +39,7 @@
                                 </div>
 
 
-                                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
                                   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6" ng-show="detalleUnidad.verificada">
                                     <div class="widget style1 verde-bg">
                                         <div class="row vertical-align">
