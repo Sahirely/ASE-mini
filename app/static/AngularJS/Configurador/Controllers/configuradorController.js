@@ -20,16 +20,16 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.getOperaciones();
 	}
 
-	$scope.limpiarDatos = function () { 
-		$scope.tipoOperacion = '';  
-		$scope.utilidad = '';  
-		$scope.porcentajeUtilidad = 0; 
-		$scope.gsp = '';  
-        $scope.asignado = '';  
-		$scope.estatus = '';  
-		$scope.formaDePago = '';  
-		$scope.presupuesto = ''; 
-		$scope.centros = ''; 
+	$scope.limpiarDatos = function () {
+		$scope.tipoOperacion = '';
+		$scope.utilidad = '';
+		$scope.porcentajeUtilidad = 0;
+		$scope.gsp = '';
+        $scope.asignado = '';
+		$scope.estatus = '';
+		$scope.formaDePago = '';
+		$scope.presupuesto = '';
+		$scope.centros = '';
 		$scope.idContrato = 0;
 	}
 
@@ -55,13 +55,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
         }
     }
 
-/********BUSQUEDA*************/	
+/********BUSQUEDA*************/
 
 	$scope.nuevaOperacion= function (){
 		$scope.show_wizard= true;
 		$scope.show_busquedaOperacion=false;
 		$scope.show_operacion=true;
-		$scope.menu('operacion'); 
+		$scope.menu('operacion');
         $scope.btn_operacion = 'Guardar';
 		$scope.getTipoOperacion();
 		//$scope.getFormaPago();
@@ -69,7 +69,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	}
 
 	$scope.lookUpOperacion = function (data){
-		
+
 		$scope.idOperacion=data.idOperacion;
 
 		$scope.promise = configuradorRepository.getDatosOperacion(data.idOperacion).then(function (result) {
@@ -80,7 +80,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.porcentajeUtilidad = result.data[0].porcentajeUtilidad;
             	$scope.presupuesto = result.data[0].presupuesto;
             	$scope.gsp = result.data[0].geolocalizacion;
-                $scope.asignado = result.data[0].tiempoAsignado; 
+                $scope.asignado = result.data[0].tiempoAsignado;
             	$scope.estatus = result.data[0].idEstatusOperacion;
                 $scope.formaDePago = result.data[0].formaPago;
                 $scope.btn_operacion = 'Siguiente';
@@ -94,7 +94,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             		$scope.show_linkPresupuesto=true;
             	};
 
-            	
+
 
             }
         }, function (error) {
@@ -115,7 +115,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         });
     }
 
-/********OPERACIÓN*************/	
+/********OPERACIÓN*************/
 
      $scope.getTipoOperacion = function(){
         $scope.promise = configuradorRepository.getTipoOperaciones().then(function (result) {
@@ -167,13 +167,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
         }
     }
 
-   
+
 	$scope.guardarOperacion = function () {
         localStorageService.set('timeAsigna', $scope.asignado);
 		$scope.promise = configuradorRepository.postOperaciones($scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion, $scope.idCentroTrabajo).then(function (result) {
-            
+
             if (result.data[0].idOperacion != undefined) {
-            
+
             	$scope.idOperacion=result.data[0].idOperacion;
                 $scope.show_operacion=false;
 				$scope.show_licitacion=true;
@@ -229,13 +229,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
 						return true;
 					}
 				}
-				
+
 			}else{
 				return false;
-			}	
-		}	
-		
-		  
+			}
+		}
+
+
 	}
 
 	$scope.openBusqueda = function () {
@@ -245,9 +245,9 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.show_operacion=false;
 		$scope.limpiarDatos();
 	}
-		
 
-/********LICITACIÓN*************/	
+
+/********LICITACIÓN*************/
 
 	$scope.getLicitaciones = function() {
          $('.dataTableLicitaciones').DataTable().destroy();
@@ -255,21 +255,22 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.promise = configuradorRepository.getLicitaciones($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
             	for (var i = 0 ; i < result.data.length; i++) {
-                   
+
             		if (result.data[i].idOperacion == null) {
-            			$scope.licitaciones.push(result.data[i]);
+            				$scope.licitaciones.push(result.data[i]);
             		}else if (result.data[i].idOperacion == $scope.idOperacion) {
-            			$scope.licitaciones.push(result.data[i]);
-                        $scope.idContratoOperacion=result.data[i].idContratoOperacion;
+            				$scope.licitaciones.push(result.data[i]);
+										$scope.idContrato = result.data[i].idContrato;
+                    $scope.idContratoOperacion=result.data[i].idContratoOperacion;
             		};
             	}
-                
+
                  globalFactory.filtrosTabla("dataTableLicitaciones", "Operaciones", 100);
             }
         }, function (error) {
             alertFactory.error('No se puenen obtener las Operaciones');
         });
-    } 
+    }
 
     $scope.selectLicitacion = function (contrato) {
     	$scope.idContrato=contrato.idContrato;
@@ -286,19 +287,19 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 
 	$scope.guardarLicitacion = function (){
-		if (($scope.idContrato != 0 && $scope.idContrato != undefined) || $scope.idContratoOperacion>0) {
+		if (($scope.idContrato != 0 && $scope.idContrato != undefined) && $scope.idContratoOperacion>0) {
 		$scope.promise = configuradorRepository.postContratoOperacion($scope.idOperacion, $scope.idContrato).then(function (result) {
-				
+
 	        	if (result.data.length > 0) {
                     if (result.data[0].idContratoOperacion != undefined) {
                         $scope.idContratoOperacion=result.data[0].idContratoOperacion;
-                       
+
                     };
                     $scope.show_licitacion=false;
                     $scope.show_unidad=true;
                     $scope.menu('unidad');
                     $scope.getTipoUnidad();
-	           		
+
 	            }
 	        }, function (error) {
 	            alertFactory.error('No se puenen guardar la Operación');
@@ -307,7 +308,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 			alertFactory.error('Seleccione una Licitación.');
 		}
 
-		
+
 	}
 
 	$scope.openOperacion = function (){
@@ -316,7 +317,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
         $scope.menu('operacion');
 	}
 
-/********UNIDAD*************/	
+/********UNIDAD*************/
 
 	$scope.getTipoUnidad = function(){
         $('.dataTableLicitaciones').DataTable().destroy();
@@ -338,7 +339,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     		$scope.menu('modulos');
     		$scope.catalogoDeModulos('Default');
     		$scope.catalogoDeModulos('Adicional');
-        
+
 	}
 
 	$scope.openLicitacion = function (){
@@ -358,7 +359,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     $scope.verZonas = function () {
         modal_zonas($scope, $modal, $scope.idContratoOperacion)
     }
-    
+
 
     /*$scope.changeTipo = function (tipo, valor) {
         var bandera = false;
@@ -399,20 +400,20 @@ registrationModule.controller('configuradorController', function ($scope, $route
             }, function (error) {
                 alertFactory.error('No se guardaron las unidades');
             });
-    	
+
     }
 
 
     /*$scope.numeroUnidades = function () {
     	$scope.promise = configuradorRepository.getunidadOperacion($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
-                
+
             	$scope.numUnidades = result.data;
             }
         }, function (error) {
             alertFactory.error('No se guardaron las unidades');
         });
-    	
+
     }*/
 
     $scope.descarga_formatoExcelDeUnidades= function () {
@@ -428,7 +429,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
     	$scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
             if (result.data.length > 0) {
-                
+
             }
         }, function (error) {
             alertFactory.error('No se pueden obtener los Modulos');
@@ -437,10 +438,10 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
 
-/********MODULOS*************/	
+/********MODULOS*************/
 
 	$scope.detalleModulo = function (modulo){
-        
+
 		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion, $scope.numUnidades);
 	}
 
@@ -455,7 +456,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
                 }else{
                 	$scope.modulosAdicional = result.data;
                 }
-                
+
             }
         }, function (error) {
             alertFactory.error('No se pueden obtener los Modulos');
@@ -571,7 +572,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             }
             else{
                 $scope.dzMethods.removeAllFiles(true);
-                alertFactory.info("No se pudieron subir los archivos");   
+                alertFactory.info("No se pudieron subir los archivos");
             }
         },
     };
@@ -580,7 +581,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     function checkAllSuccess(file, index, array) {
         return file.status === 'success';
     }
-    
+
     //valida si existe algún error
     function checkExistsError(file) {
         return file.status === 'error';
@@ -594,13 +595,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
         setTimeout(function () {
         $scope.promise = configuradorRepository.postCargararMaxUnidades($scope.idOperacion, 'Unidades.xlsx').then(function (result) {
             if (result.data.length > 0) {
-               // $scope.numeroUnidades();  
-               $scope.getTipoUnidad (); 
+               // $scope.numeroUnidades();
+               $scope.getTipoUnidad ();
             }
         }, function (error) {
             alertFactory.error('No se pueden obtener los Modulos');
         });
-        }, 1000); 
+        }, 1000);
 /*        cotizacionEvidenciasRepository.getEvidenciasByCotizacion(idCotizacion, $scope.userData.idTipoUsuario, $scope.idTrabajo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.slides = result.data;
@@ -631,4 +632,3 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
 });
-
