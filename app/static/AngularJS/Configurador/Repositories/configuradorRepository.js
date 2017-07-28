@@ -136,11 +136,11 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        getTipoUnidadesProveedores: function(){
+        getTipoUnidadesProveedores: function(idOperacion){
             return $http({
                 url: onfiguradorUrl + 'tipoUnidadesProveedores/',
                 method: "GET",
-                params: {},
+                params: {idOperacion: idOperacion},
                 headers: {
                     'Content-Type': 'application/json'
                 }

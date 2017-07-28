@@ -354,7 +354,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }
 
     $scope.verTipoUnidades = function () {
-    	modal_tipoUnidad($scope, $modal, $scope.tiposUnidades);
+    	modal_tipoUnidad($scope, $modal, $scope.tiposUnidades, $scope.idOperacion);
     }
 
     $scope.verZonas = function () {

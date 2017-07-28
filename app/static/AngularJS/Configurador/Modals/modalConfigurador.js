@@ -69,7 +69,7 @@ function modal_detalleModulos($scope, $modal, idOperacion, detalle, idContratoOp
     });
 }
 
-function modal_tipoUnidad($scope, $modal, data) {
+function modal_tipoUnidad($scope, $modal, data, idOperacion) {
     var modalInstance = $modal.open({
         templateUrl: '../AngularJS/Configurador/Templates/tipoUnidades.html',
         controller: 'tipoUnidadesController',
@@ -78,6 +78,9 @@ function modal_tipoUnidad($scope, $modal, data) {
         resolve: {
             data: function() {
                 return data;
+            },
+            idOperacion: function() {
+                return idOperacion;
             }
         }
     });
@@ -101,20 +104,20 @@ function modal_zonas($scope, $modal, idContratoOperacion) {
 function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
     var incorrect = 0;
-    var emailList = [];  
+    var emailList = [];
 
     if($.trim(emailAddress).length > 0 ){
-        
+
         if(emailAddress.substring($.trim(emailAddress).length  - 1,$.trim(emailAddress).length) == ","){
             emailAddress = emailAddress.substring(0,$.trim(emailAddress).length  - 1);
         }
-        
+
         if(emailAddress.indexOf(",") != -1){
             emailList = emailAddress.split(",");
-        }else{   
+        }else{
             emailList.push(emailAddress);
         }
-        
+
         $.each(emailList, function(i,v){
             if(!pattern.test($.trim(v)))
                 incorrect += 1;

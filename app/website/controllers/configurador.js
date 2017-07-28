@@ -35,7 +35,11 @@ Configurador.prototype.get_operaciones = function(req, res, next) {
 //Obtiene los tipos de unidad del sistema de Proveedores
 Configurador.prototype.get_tipoUnidadesProveedores = function(req, res, next) {
     var self = this;
-    var params = [];
+    var params = [{
+                      name: 'idOperacion',
+                      value: req.query.idOperacion,
+                      type: self.model.types.INT
+                  }];
     this.model.query('SEL_TIPOS_UNIDAD_SIS_PROVEEDORES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,

@@ -1,11 +1,12 @@
-registrationModule.controller('tipoUnidadesController', function ($scope, $modal, data, $modalInstance, userFactory, configuradorRepository, alertFactory, globalFactory) {
+registrationModule.controller('tipoUnidadesController', function ($scope, $modal, data, idOperacion, $modalInstance, userFactory, configuradorRepository, alertFactory, globalFactory) {
 
 	$scope.init = function () {
 		userFactory.ValidaSesion();
 		$('.dataTableTipoUnidades').DataTable().destroy();
 		$scope.tipoUnidades=[];
+		var operacion = idOperacion;
 
-		configuradorRepository.getTipoUnidadesProveedores().then(function(result){
+		configuradorRepository.getTipoUnidadesProveedores(operacion).then(function(result){
 			if (result.data.length > 0){
 				$scope.tipoUnidades = result.data;
 				globalFactory.filtrosTabla("dataTableTipoUnidades", "Unidades", 100);
