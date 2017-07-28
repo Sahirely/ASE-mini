@@ -320,8 +320,9 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********UNIDAD*************/
 
 	$scope.getTipoUnidad = function(){
-        $('.dataTableLicitaciones').DataTable().destroy();
-        $scope.tiposUnidades=[];
+				$('.dataTableLicitaciones').DataTable().destroy();
+				$('.dataTableUnidades').DataTable().destroy();
+				$scope.tiposUnidades = [];
 
         $scope.promise = configuradorRepository.getTipoUnidades($scope.idOperacion).then(function (result) {
             if (result.data.length > 0) {
