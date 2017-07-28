@@ -418,12 +418,11 @@ registrationModule.controller('configuradorController', function ($scope, $route
     }*/
 
     $scope.descarga_formatoExcelDeUnidades= function () {
-        var url = $rootScope.vIpServer + '/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx'
+        var url = $rootScope.docServer + '/archivos/FormatoExcelDeUnidades.xlsx';
         var a = document.createElement('a');
             a.href = url;
             a.download = 'FormatoUnidad';
             a.click();
-        //window.open('E:/Produccion/ASE/ASEv2/app/static/AngularJS/Configurador/FormatoExcelDeUnidades.xlsx', 'FormatoUnidad');
     }
 
     $scope.carga_formatoExcelDeUnidades = function () {
