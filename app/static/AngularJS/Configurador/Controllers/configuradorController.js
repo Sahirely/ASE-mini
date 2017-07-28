@@ -13,7 +13,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 	$scope.init= function (){
         userFactory.ValidaSesion();
         Dropzone.autoDiscover = false;
-        $scope.dzOptionsCotizacion = configuradorRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",20);
+        $scope.dzOptionsCotizacion = configuradorRepository.getDzOptions("application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml",1);
 		$scope.limpiarDatos ();
 		$scope.show_wizard= false;
 		$scope.show_busquedaOperacion=true;
