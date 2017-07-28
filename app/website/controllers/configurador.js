@@ -219,8 +219,19 @@ Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
         name: 'idZona',
         value: req.body.idZona,
         type: self.model.types.INT
+    }, {
+        name: 'modelo',
+        value: req.body.modelo,
+        type: self.model.types.STRING
+    }, {
+        name: 'combustible',
+        value: req.body.combustible,
+        type: self.model.types.STRING
+    }, {
+        name: 'verificada',
+        value: req.body.verificada,
+        type: self.model.types.INT
     }];
-
 
     this.model.post('INS_UNIDAD_SP', params, function(error, result) {
         //Callback
