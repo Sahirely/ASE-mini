@@ -2,7 +2,7 @@
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
         <h4 class="modal-title">Nueva Unidad</h4>
-        
+
     </div>
 </div>
 <div class="modal-body">
@@ -46,12 +46,52 @@
                     <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Tipo de Unidad</label>
                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                         <select class="form-control" id="tipoUnidad"
-                        ng-model="tipoUnidad" ng-options="tipo.idTipoUnidad as tipo.unidad  for tipo in tipoUnidades" >
+                        ng-model="tipoUnidad" ng-options="tipo.idTipoUnidad as tipo.tipo + ' ' + tipo.marca + ' ' + tipo.subMarca  for tipo in tipoUnidades" >
                              <option value=''>Selecionar Tipo de Unidad</option>
                         </select>
                     </div>
                 </div>
             </form>
+            <form class="form-horizontal">
+               <div class="form-group">
+                   <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Modelo</label>
+                   <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                       <select class="form-control" id="modeloUnidad" ng-model="modeloUnidad" >
+                            <option value=''>Selecionar Modelo</option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                            <option value=''></option>
+                       </select>
+                   </div>
+               </div>
+           </form>
             <form class="form-horizontal" ng-show="show_centros">
                 <div class="form-group">
                     <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Centro de Trabajo</label>
@@ -91,7 +131,7 @@
                     </div>
                 </div>
             </form>
-           
+
 
         </div>
     </div>
@@ -99,5 +139,3 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-primary" ng-click="guardarUnidad()">Guardar</button>
 </div>
-
-      

@@ -33,7 +33,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     	};
 
     }
-  
+
      $scope.getCentrosDeTrabajo = function(){
         $scope.promise = configuradorRepository.getCentrosDeTrabajo(idOperacion).then(function (result) {
             if (result.data.length > 0) {
@@ -45,13 +45,13 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     }
 
     $scope.getTipoUnidad = function(){
-        $scope.promise = configuradorRepository.getTipoUnidades(idOperacion).then(function (result) {
-            if (result.data.length > 0) {
-                $scope.tipoUnidades = result.data;
-            }
-        }, function (error) {
-            alertFactory.error('No se puenen obtener los Centros de Trabajo');
-        });
+      configuradorRepository.getTipoUnidadesProveedores(idOperacion).then(function(result){
+        if (result.data.length > 0){
+          $scope.tipoUnidades = result.data;
+        }
+      }, function(error){
+          alertFactory.info('No se pudieron obtener los tipos de unidad.')
+      });
     }
 
 	$scope.guardarUnidad = function () {
@@ -64,7 +64,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
         }, function (error) {
             alertFactory.error('No se puenen guardar la Operación');
         });
-		
+
 	}
 
 
@@ -105,7 +105,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
-        //Obtengo la zona seleccionada 
+        //Obtengo la zona seleccionada
         angular.forEach(zona.data, function(value, key) {
             if (value.idZona == $scope.zonaSelected) {
                 $scope.nombreZona = value.nombre;
@@ -120,4 +120,3 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     };
 
 });
-
