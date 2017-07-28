@@ -3,7 +3,8 @@ var ConfiguradorView = require('../views/ejemploVista'),
 var XLSX = require('xlsx');
 var path = require('path');
 var Load_Files = require('../controllers/load_files');
-var dirname = 'E:/ASE_Temp/';
+//var dirname = 'E:/ASE_Temp/';
+var dirname = 'E:/ASEv2Documentos/public/archivos/';
 var fs = require('fs');
 
 var Configurador = function(conf) {
@@ -476,6 +477,18 @@ Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
                         }, {
                             name: 'idZona',
                             value: worksheet['H' + row].v,
+                            type: self.model.types.INT
+                        }, {
+                            name: 'modelo',
+                            value: worksheet['I' + row].v,
+                            type: self.model.types.STRING
+                        }, {
+                            name: 'combustible',
+                            value: worksheet['J' + row].v,
+                            type: self.model.types.STRING
+                        }, {
+                            name: 'verificada',
+                            value: worksheet['K' + row].v,
                             type: self.model.types.INT
                         }];
                       
