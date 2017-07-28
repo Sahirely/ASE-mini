@@ -86,7 +86,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
-        postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo, placas, idZona) {
+        postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo, placas, idZona, modelo, combustible, verificada) {
 
            var msgObj = {
                 numeroEconomico: numeroEconomico,
@@ -97,7 +97,10 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 idOperacion: idOperacion,
                 idCentroTrabajo: idCentroTrabajo,
                 placas: placas,
-                idZona: idZona
+                idZona: idZona,
+                modelo: modelo,
+                combustible: combustible,
+                verificada: verificada
             };
             return $http({
                 url: onfiguradorUrl + 'nuevaUnidad/',
