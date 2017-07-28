@@ -32,7 +32,7 @@
                                     <tbody>
                                         <tr ng-repeat="operacion in operaciones" ng-click="lookUpOperacion(operacion)" tooltip="Detalle">
                                             <td>{{operacion.razonSocial}}</td>
-                                            <td>{{operacion.idOperacion}}</td>  
+                                            <td>{{operacion.idOperacion}}</td>
                                             <td>{{operacion.descripcion}}</td>
                                             <td>{{operacion.fechaInicio | date:'dd-MM-yy HH:mm'}}</td>
                                             <td>{{operacion.fechaFin | date:'dd-MM-yy HH:mm'}}</td>
@@ -40,7 +40,7 @@
                                             <td ng-if="operacion.idEstatusOperacion==0" >Inactiva</td>
                                             <td class="center">
                                                 <span ng-class="{'glyphicon glyphicon-ok': operacion.geolocalizacion==true}" ></span>
-                                            </td> 
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -58,7 +58,7 @@
                                                     <button type="button" class="btn btn-primary btn-circle circle ">
                                                         <i class="glyphicon glyphicon-lock"></i>
                                                     </button>
-                                                </div> 
+                                                </div>
                                                 <div class="center menu">Operaciones</div>
                                             </a>
                                         </li>
@@ -69,7 +69,7 @@
                                                     <button type="button" class="btn btn-primary btn-circle circle">
                                                         <i class="glyphicon glyphicon-link"></i>
                                                     </button>
-                                                </div> 
+                                                </div>
                                                 <div class="center menu">Contratos</div>
                                             </a>
                                         </li>
@@ -80,7 +80,7 @@
                                                     <button type="button" class="btn btn-primary btn-circle circle" >
                                                         <i class="fa fa-car"></i>
                                                     </button>
-                                                </div>    
+                                                </div>
                                                 <div class="center menu">Unidades</div>
                                             </a>
                                         </li>
@@ -91,19 +91,19 @@
                                                     <button type="button" class="btn btn-primary btn-circle circle">
                                                         <i class="glyphicon glyphicon-cog"></i>
                                                     </button>
-                                                </div> 
+                                                </div>
                                                 <div class="center menu">Modulos</div>
                                             </a>
                                         </li>
 
-                                        
+
                                     </ul>
                                 </div>
 
                                 <div class="space"></div>
                                 <div class="space"></div>
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" id="formulario" ng-model="formulario" >
-                                    
+
                                     <!--OPERACIONES-->
                                     <div id="operacionFormulario" ng-model="operacionFormulario" class="section_configurador col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_operacion">
 
@@ -310,7 +310,7 @@
                                                             </button>
                                                             <button ng-show="licitacion.idOperacion == null" class="btn btn-danger" type="button" data-toggle="tooltip" tooltip="Contrato Inactivo" id="btnCotizar" tooltip-placement="top" ng-click="selectLicitacion(licitacion)">
                                                             <span class="glyphicon glyphicon-remove"></span>
-                                                            </button> 
+                                                            </button>
                                                             <!--<div class="radio radio-info radio-warning radio-inline" ng-show="licitacion.idOperacion == null">
                                                                 <input type="radio" id="licitacion1" value="1" name="licitacion1" checked="" ng-model="select" ng-change="selectLicitacion(licitacion)" ng-disabled="!operacioActiva">
                                                                 <label for="licitacion1">  </label>
@@ -342,11 +342,14 @@
 
                                     <!--UNIDAD-->
                                     <div id="unidades" ng-model="unidades" class="section_configurador col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_unidad">
-                                       
+
 
                                         <table class="table table-striped table-bordered table-hover dataTableUnidades" >
                                             <thead>
-                                                <th>Unidad</th>
+                                                <th>Número Económico</th>
+                                                <th>Placas</th>
+                                                <th>VIN</th>
+                                                <th>Tipo de Unidad</th>
                                                 <th>Marca</th>
                                                 <th>SubMarca</th>
                                                 <th>Año</th>
@@ -356,6 +359,9 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="tipos in tiposUnidades">
+                                                    <td>{{tipos.numeroEconomico}}</td>
+                                                    <td>{{tipos.placas}}</td>
+                                                    <td>{{tipos.vin}}</td>
                                                     <td>{{tipos.tipo}}</td>
                                                     <td>{{tipos.marca}}</td>
                                                     <td>{{tipos.subMarca}}</td>
@@ -373,7 +379,7 @@
                                         <div class="space"></div>
                                         </br>
                                         </br>
-                                        
+
                                          <div class=" col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right ">
 
                                             <form class="form-horizontal">
@@ -389,12 +395,12 @@
                                                         <a href="#"  ng-click="verZonas()"> Ver Zonas </a>
                                                     </div>
                                                 </div>
-                                            </form> 
-                                            
+                                            </form>
+
                                         </div>
                                         <div class="space"></div>
-                                        <div class="space"></div> 
-                                        
+                                        <div class="space"></div>
+
                                         <div class="footer_btn row col-xs-12 col-sm-12 col-md-12 col-lg-12 pull-right " >
                                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                                 <button type="button" class="btn btn-success  m-t-n-xs" ng-click="nuevaUnidad()">
@@ -429,11 +435,11 @@
 
                                     <!--MODULOS-->
                                     <div id="modulosFormulario" ng-model="modulosFormulario" class="section_configurador col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="show_modulos">
-                                             
+
                                         <form class="form-horizontal">
                                             <div class="form-group">
                                                 <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleBlue">Default</strong>
-                                                
+
                                             </div>
                                         </form>
 
@@ -453,7 +459,7 @@
                                         <form class="form-horizontal">
                                             <div class="form-group">
                                                 <strong class="col-xs-2 col-sm-2 col-md-2 col-lg-2 titleBlue">Agregar Módulo</strong>
-                                                
+
                                             </div>
                                         </form>
 
@@ -491,7 +497,7 @@
                                             </table>
 
                                          </div>
-                                        
+
                                         <div class="space"></div>
                                         <div class="footer_btn ">
                                             <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarModulos()">
@@ -505,9 +511,9 @@
                                     </div>
 
                                 </div>
-                                
+
                             </div>
-                        
+
                     </div>
                 </div>
             </div>
