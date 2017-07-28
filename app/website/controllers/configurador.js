@@ -32,6 +32,18 @@ Configurador.prototype.get_operaciones = function(req, res, next) {
     });
 }
 
+//Obtiene los tipos de unidad del sistema de Proveedores
+Configurador.prototype.get_tipoUnidadesProveedores = function(req, res, next) {
+    var self = this;
+    var params = [];
+    this.model.query('SEL_TIPOS_UNIDAD_SIS_PROVEEDORES_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 //Tipo Operaciones
 Configurador.prototype.get_tipoOperaciones = function(req, res, next) {
     var self = this;
@@ -64,7 +76,7 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
     var params = {};
     var self = this;
 
-    var params = [{ 
+    var params = [{
         name: 'idCatalogoTipoOperacion',
         value: req.body.idCatalogoTipoOperacion,
         type: self.model.types.INT
@@ -236,7 +248,7 @@ Configurador.prototype.get_centrosDeTrabajo = function(req, res, next) {
     });
 }
 
-//tipo de unidad
+//unidades
 Configurador.prototype.get_tipoUnidades = function(req, res, next) {
     var self = this;
     var params = [{
@@ -404,7 +416,7 @@ Configurador.prototype.post_numeroUnidades= function(req, res, next) {
     });
 }
 
-//muestra el numero de unidades por operacion 
+//muestra el numero de unidades por operacion
 Configurador.prototype.get_unidadOperacion = function(req, res, next) {
     var self = this;
     var params = [{
@@ -491,7 +503,7 @@ Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
                             value: worksheet['K' + row].v,
                             type: self.model.types.INT
                         }];
-                      
+
 
                         self.model.queryConnect('INS_UNIDAD_SP', params, null);
 
@@ -580,7 +592,7 @@ Configurador.prototype.post_moduloporFechas = function(req, res, next) {
 
 //devuelve los trabajos con estatus iniciados
 Configurador.prototype.post_subirArchivo = function(req, res, next){
-    var self = this;    
+    var self = this;
     var Subir = new Load_Files();
      Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
                      "myFile2": {"Name":"Unidad","Path": "E:/ASE_Temp", "Type": "*"}

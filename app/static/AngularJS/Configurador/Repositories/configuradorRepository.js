@@ -35,7 +35,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             })
         },
         postOperaciones: function(idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, formaPago, presupuesto, centros, idOperacion, idcentros) {
-          
+
            var msgObj = {
                 idCatalogoTipoOperacion: idCatalogoTipoOperacion,
                 manejoUtilidad: manejoUtilidad,
@@ -72,7 +72,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postContratoOperacion: function(idOperacion, idContrato) {
-          
+
            var msgObj = {
                 idOperacion: idOperacion,
                 idContrato: idContrato
@@ -87,7 +87,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postUnidad: function(numeroEconomico, vin,  gps, idTipoUnidad, sustituto, idOperacion, idCentroTrabajo, placas, idZona) {
-          
+
            var msgObj = {
                 numeroEconomico: numeroEconomico,
                 vin: vin,
@@ -109,7 +109,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         getCentrosDeTrabajo: function(idOperacion) {
-            
+
             var msgObj = {
                 idOperacion: idOperacion
             };
@@ -131,6 +131,16 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 params: {
                          idOperacion: idOperacion
                 },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getTipoUnidadesProveedores: function(){
+            return $http({
+                url: onfiguradorUrl + 'tipoUnidadesProveedores/',
+                method: "GET",
+                params: {},
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -164,7 +174,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postModuloPorDertalle: function(idModulo, detalle) {
-          
+
            var msgObj = {
                 idModulo: idModulo,
                 detalle: detalle
@@ -179,7 +189,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postModuloAdicional: function(idOperacion, modulos) {
-          
+
            var msgObj = {
                 idOperacion: idOperacion,
                 modulos: modulos
@@ -222,7 +232,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             })
         },
         postnumeroUnidades: function(idOperacion, idTipoUnidad, cantidad) {
-          
+
            var msgObj = {
                 idOperacion: idOperacion,
                 idTipoUnidad: idTipoUnidad,
@@ -250,9 +260,9 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
-        }, 
+        },
         postCargararMaxUnidades: function(idOperacion, archivo) {
-          
+
            var msgObj = {
                 idOperacion: idOperacion,
                 archivo: archivo
@@ -346,7 +356,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             })
         },
         quitaDetalleModulo: function(idDetalleModulo) {
-          
+
            var msgObj = {
                 idDetalleModulo: idDetalleModulo
             };
@@ -360,7 +370,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postNivelMonto: function(idOperacionContrato, montoDe, montoA, montoMax, nivel) {
-          
+
            var msgObj = {
                 idOperacionContrato: idOperacionContrato,
                 montoDe: montoDe,
@@ -378,7 +388,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postNivelPartda: function(idOperacionContrato, idPartida, nivel) {
-          
+
            var msgObj = {
                 idOperacionContrato: idOperacionContrato,
                 idPartida: idPartida,
@@ -394,7 +404,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postModificacionNivelMonto: function(idOperacionContrato, montoDe, montoA, nivel) {
-          
+
            var msgObj = {
                 idOperacionContrato: idOperacionContrato,
                 montoDe: montoDe,
@@ -411,7 +421,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postModificacionNivelPartida: function(idOperacionContrato, idPartida, nivel) {
-          
+
            var msgObj = {
                 idOperacionContrato: idOperacionContrato,
                 idPartida: idPartida,
@@ -456,5 +466,5 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             })
         }
 
-    }    
+    }
 });

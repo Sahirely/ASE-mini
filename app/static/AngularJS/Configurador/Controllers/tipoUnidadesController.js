@@ -3,9 +3,16 @@ registrationModule.controller('tipoUnidadesController', function ($scope, $modal
 	$scope.init = function () {
 		userFactory.ValidaSesion();
 		$('.dataTableTipoUnidades').DataTable().destroy();
-        $scope.tipoUnidades=[];
-		$scope.tipoUnidades = data;
-		globalFactory.filtrosTabla("dataTableTipoUnidades", "Unidades", 100);
+		$scope.tipoUnidades=[];
+
+		configuradorRepository.getTipoUnidadesProveedores().then(function(result){
+			if (result.data.length > 0){
+				$scope.tipoUnidades = result.data;
+				globalFactory.filtrosTabla("dataTableTipoUnidades", "Unidades", 100);
+			}
+		}, function(error){
+				alertFactory.info('No se pudieron obtener los tipos de unidad.')
+		});
 	}
 
 	$scope.close = function () {
