@@ -58,36 +58,59 @@
                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                        <select class="form-control" id="modeloUnidad" ng-model="modeloUnidad" >
                             <option value=''>Selecionar Modelo</option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
-                            <option value=''></option>
+                            <option value='1980'></option>
+                            <option value='1981'></option>
+                            <option value='1982'></option>
+                            <option value='1983'></option>
+                            <option value='1984'></option>
+                            <option value='1985'></option>
+                            <option value='1986'></option>
+                            <option value='1987'></option>
+                            <option value='1988'></option>
+                            <option value='1989'></option>
+                            <option value='1990'></option>
+                            <option value='1991'></option>
+                            <option value='1992'></option>
+                            <option value='1993'></option>
+                            <option value='1994'></option>
+                            <option value='1995'></option>
+                            <option value='1996'></option>
+                            <option value='1997'></option>
+                            <option value='1998'></option>
+                            <option value='1999'></option>
+                            <option value='2000'></option>
+                            <option value='2001'></option>
+                            <option value='2002'></option>
+                            <option value='2003'></option>
+                            <option value='2004'></option>
+                            <option value='2005'></option>
+                            <option value='2006'></option>
+                            <option value='2007'></option>
+                            <option value='2008'></option>
+                            <option value='2009'></option>
+                            <option value='2010'></option>
+                            <option value='2011'></option>
+                            <option value='2012'></option>
+                            <option value='2013'></option>
+                            <option value='2014'></option>
+                            <option value='2015'></option>
+                            <option value='2016'></option>
+                            <option value='2017'></option>
+                            <option value='2018'></option>
+                            <option value='2019'></option>
+                       </select>
+                   </div>
+               </div>
+           </form>
+            <form class="form-horizontal">
+               <div class="form-group">
+                   <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Versión</label>
+                   <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                       <select class="form-control" id="versionUnidad" ng-model="versionUnidad" >
+                            <option value=''>Selecionar Version</option>
+                            <option value='GASOLINA'></option>
+                            <option value='DIESEL'></option>
+                            <option value='REMOLQUE'></option>
                        </select>
                    </div>
                </div>
@@ -131,7 +154,21 @@
                     </div>
                 </div>
             </form>
-
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-4 col-sm-4 col-md-4 col-lg-4 control-label">Verificado</label>
+                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" id="verificado1" value="1" name="verificado1" checked="" ng-model="verificado">
+                            <label for="sustituto1"> Si </label>
+                        </div>
+                        <div class="radio radio-inline">
+                            <input type="radio" id="verificado2" value="0" name="verificado2" ng-model="verificado">
+                            <label for="sustituto2"> No </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
         </div>
     </div>
