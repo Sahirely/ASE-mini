@@ -49,7 +49,7 @@ registrationModule.factory('citaRepository', function($http, $q) {
                 }
             })
         },
-        putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller, especialidades ) {
+        putAgendarCita: function(idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller, especialidades, idCentroTrabajo) {
             return $http({
                 url: citaUrl + 'agendarCita/',
                 method: "PUT",
@@ -63,7 +63,8 @@ registrationModule.factory('citaRepository', function($http, $q) {
                     comentario: comentario,
                     idZona: idZona,
                     taller: taller,
-                    especialidades:especialidades
+                    especialidades:especialidades,
+                    idCentroTrabajo: idCentroTrabajo
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -83,7 +84,7 @@ registrationModule.factory('citaRepository', function($http, $q) {
                 }
             });
         },
-        putActualizarCita: function(idOrden,idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller, especialidades) {
+        putActualizarCita: function(idOrden,idUnidad, idUsuario, idTipoCita, idEstadoUnidad, grua, fechaCita, comentario, idZona, taller, especialidades, idCentroTrabajo) {
             return $http({
                 url: citaUrl + 'actualizarCita/',
                 method: "PUT",
@@ -98,7 +99,8 @@ registrationModule.factory('citaRepository', function($http, $q) {
                     comentario: comentario,
                     idZona: idZona,
                     taller: taller,
-                    especialidades: especialidades
+                    especialidades: especialidades,
+                    idCentroTrabajo: idCentroTrabajo
                 },
                 headers: {
                     'Content-Type': 'application/json'

@@ -1,4 +1,4 @@
-registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository, consultaCitasRepository, commonFunctionRepository) {
+registrationModule.controller('citaController', function($scope, $route, $modal, $rootScope, $routeParams, localStorageService, alertFactory, globalFactory, userFactory, citaRepository, configuradorRepository, busquedaUnidadRepository, cotizacionConsultaRepository, tallerRepository, cotizacionRepository, consultaCitasRepository, commonFunctionRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
@@ -29,6 +29,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     $scope.Zonas = [];
     $scope.disableCita = true;
     $scope.isEdit == false;
+    $scope.centrosTrabajo = [];
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -93,6 +94,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         // debugger;
         busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
             $scope.detalleUnidad = result.data[0];
+            if ($scope.userData.presupuesto){
+                $scope.centroTrabajo = $scope.detalleUnidad.idCentroTrabajo;
+                $scope.opcionCentroTrabajo = false;
+            }
 
             if ($scope.detalleUnidad.situacionOrden == 1) {
 
@@ -108,6 +113,10 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.estadoDeUnidad.idEstadoUnidad = $scope.detalleOrden.idEstadoUnidad;
                             $scope.idTaller = $scope.detalleOrden.idTaller;
                             $scope.idZonaTaller = $scope.detalleOrden.idZona;
+                            if ($scope.userData.presupuesto){
+                              $scope.centroTrabajo = $scope.detalleOrden.idCentroTrabajo;
+                              $scope.opcionCentroTrabajo = false;
+                            }
                             $scope.opcionTipoCita = false;
                             $scope.opcionEstadoUnidad = false;
                             $scope.grua = $scope.detalleOrden.grua;
@@ -119,6 +128,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             if (hora <= 9) { hora = '0' + hora }
                             $scope.horaCita = date.getUTCHours() + ":" + hora;
                             $scope.comentarios = $scope.detalleOrden.comenatario;
+                            $scope.getCentrosDeTrabajo();
                             $scope.getTipoOrdenesServicioActulizar();
                             $scope.getTipoEstadoUnidad();
                             $scope.getServicios();
@@ -130,6 +140,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
 
                         } else if ($scope.detalleOrden.respuesta == 0 || $routeParams.tipo == 'nueva') {
                             // location.href = '/unidad?economico=' + $routeParams.economico;
+                            $scope.getCentrosDeTrabajo();
                             $scope.getTipoOrdenesServicio();
                             $scope.getTipoEstadoUnidad();
                             $scope.getServicios();
@@ -139,6 +150,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             error();
                         }
                     } else {
+                        $scope.getCentrosDeTrabajo();
                         $scope.getTipoOrdenesServicio();
                         $scope.getTipoEstadoUnidad();
                         $scope.getServicios();
@@ -146,12 +158,14 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                     }
                 });
             } else if ($scope.detalleUnidad.situacionOrden == 0) {
+                $scope.getCentrosDeTrabajo();
                 $scope.getTipoOrdenesServicio();
                 $scope.getTipoEstadoUnidad();
                 $scope.getServicios();
                 $scope.muestraAgendarCita = true;
             }
         });
+
     };
 
     //*****************************************************************************************************************************//
@@ -205,6 +219,20 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.tipoCita = result.data;
         });
     };
+
+    $scope.getCentrosDeTrabajo = function(){
+      $scope.centrosTrabajo = [];
+      configuradorRepository.getCentrosDeTrabajo($scope.userData.idOperacion).then(function(result){
+          $scope.centrosTrabajo = result.data;
+
+          angular.forEach($scope.centrosTrabajo, function(item){
+              if (item.idCentroTrabajo == $scope.centroTrabajo){
+                  $scope.nombreCentroTrabajo = item.nombreCentroTrabajo;
+              }
+          });
+
+      });
+    }
 
     //*****************************************************************************************************************************//
     // Obtiene los tipos de ordenes de servicio por ejemplo servicio y refacciones
@@ -322,10 +350,24 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         $scope.partidas = partidas;
         $scope.labelItems = partidas.length;
     };
+
+    $scope.agendarCita = function(){
+        if ($scope.userData.presupuesto){
+            if($scope.centroTrabajo == undefined || $scope.centroTrabajo == null || $scope.centroTrabajo == 0){
+                alertFactory.info('Debe seleccionar un centro de trabajo para continuar.');
+            }else{
+                $scope.agendarCita2();
+            }
+        }else{
+            $scope.centroTrabajo = 0;
+            $scope.agendarCita2();
+        }
+    }
+
     //*****************************************************************************************************************************//
     // Se inserta la orden de servicio en la base de datos
     //*****************************************************************************************************************************//
-    $scope.agendarCita = function() {
+    $scope.agendarCita2 = function() {
         // var fecha = $scope.fechaCita.split('/');
         // var fechaTrabajo = fecha[2] + '/' + fecha[1] + '/' + fecha[0]
         // if ($scope.userData.idRol == 1){
@@ -335,8 +377,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.idZonaTaller = $scope.ZonasSeleccionadas[$scope.Zonas.length];
         // }
         if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
+            debugger;
 
-              citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
+              citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios, $scope.centroTrabajo).then(function(result) {
 
                   if (result.data[0].respuesta == 1) {
                       $scope.numeroOrden = result.data[0].numeroOrden;
@@ -512,6 +555,19 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
 
     $scope.actualizarCita = function() {
+        if ($scope.userData.presupuesto){
+            if($scope.centroTrabajo == 0 || $scope.centroTrabajo == undefined || $scope.centroTrabajo == null){
+                alertFactory.info('Debe seleccionar un centro de trabajo para continuar.');
+            }else{
+                $scope.actualizarCita2();
+            }
+        }else{
+            $scope.centroTrabajo = 0;
+            $scope.actualizarCita2();
+        }
+    }
+
+    $scope.actualizarCita2 = function() {
         $scope.disableCita = false;
         $('#loadModal').modal('show');
         if ($scope.grua == true) {
@@ -535,7 +591,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
 
         if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
 
-            citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios).then(function(result) {
+            citaRepository.putActualizarCita($scope.detalleOrden.idOrden, $scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios, $scope.centroTrabajo).then(function(result) {
 
                   if ($scope.idCotizacion == 0) {
                       if ($scope.labelItems > 0){
