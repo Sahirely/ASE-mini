@@ -56,11 +56,17 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     }
 
 	$scope.guardarUnidad = function () {
+
 		$scope.promise = configuradorRepository.postUnidad($scope.numEconomico, $scope.vin, $scope.numGPS, $scope.tipoUnidad, $scope.sustituto, idOperacion, $scope.centroTrabajo, $scope.placa, $scope.zonaSelected, $scope.modeloUnidad, $scope.versionUnidad, $scope.verificado).then(function (result) {
            if (result.data.length > 0) {
-           		alertFactory.success('Se guardó correctamente la unidad.');
-                callback();
-            	$scope.close();
+              var uniNueva = result.data[0].idUnidad;
+              if (uniNueva != 0){
+                  alertFactory.success('Se guardó correctamente la unidad.');
+                  callback();
+                	$scope.close();
+              } else {
+                  alertFactory.info('El número económico ingresado ya existe, no se guardo la unidad.');
+              }
             }
         }, function (error) {
             alertFactory.error('No se puede guardar la unidad');
