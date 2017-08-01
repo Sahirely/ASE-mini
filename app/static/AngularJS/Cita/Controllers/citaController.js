@@ -134,7 +134,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                             $scope.getServicios();
                             $scope.getTallerXid($scope.detalleOrden.idTaller);
                             $scope.getPreCotizacion($scope.idCotizacion);
-                            // $scope.getZonasCita($scope.idZonaTaller);
+                            $scope.getZonasCita($scope.idZonaTaller);
                             $scope.getDetalleOrdenEspecialidad();
                             $scope.isEdit = true;
 
@@ -197,7 +197,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             var zonasArray = result.data;
             if (zonasArray.length > 0) {
                 zonasArray.forEach(function(item) {
-                    $scope.ZonasSeleccionadas[item.nivel] = '' + item.idZona + '';
+                    $scope.ZonasSeleccionadas[item.orden] = '' + item.idZona + '';
                 });
 
 
