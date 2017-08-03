@@ -72,6 +72,10 @@ busquedaUnidad.prototype.get_existeUnidad = function(req, res, next) {
         name: 'economico',
         value: req.query.economico,
         type: self.model.types.STRING
+    },{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_EXISTE_UNIDAD_SP', params, function(error, result) {

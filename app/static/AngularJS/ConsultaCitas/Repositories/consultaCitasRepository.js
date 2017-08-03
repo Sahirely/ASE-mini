@@ -15,13 +15,14 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             })
         },
-        getExisteOrden: function(idUsuario, numeroOrden) {
+        getExisteOrden: function(idUsuario, numeroOrden, idContratoOperacion) {
             return $http({
                 url: consultaCitaUrl + 'getOrdenExistente/',
                 method: "GET",
                 params: {
                     idUsuario: idUsuario,
-                    numeroOrden: numeroOrden
+                    numeroOrden: numeroOrden,
+                    idContratoOperacion: idContratoOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'

@@ -917,6 +917,20 @@ Configurador.prototype.post_nivelMonto = function(req, res, next) {
     });
 }
 
+Configurador.prototype.post_EliminaNivelMonto = function(req, res, next){
+  var self = this;
+  var object = {};
+  var params = [{name: 'idOperacionContrato', value: req.body.idOperacionContrato, type: self.model.types.INT}];
+
+  self.model.post('DEL_NIVEL_MONTO_SP', params, function(error, result){
+      object.error = error;
+      object.result = result;
+
+      self.view.expositor(res, object);
+  });
+
+}
+
 Configurador.prototype.post_nivelPartida = function(req, res, next) {
     var object = {};
     var params = {};

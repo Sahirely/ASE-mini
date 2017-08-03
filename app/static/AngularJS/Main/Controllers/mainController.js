@@ -128,7 +128,7 @@
     $scope.getDetalleUnidad = function(economico) {
         localStorageService.set('economico', economico);
         localStorageService.set('orden', '');
-        busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico).then(function(result) {
+        busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico, $scope.userData.idOperacion).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 //
@@ -171,7 +171,7 @@
 
         localStorageService.set('orden', orden);
         localStorageService.set('economico', '');
-        consultaCitasRepository.getExisteOrden($scope.idUsuario, orden).then(function(result) {
+        consultaCitasRepository.getExisteOrden($scope.idUsuario, orden, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 $('.modal-dialog').css('width', '1050px');

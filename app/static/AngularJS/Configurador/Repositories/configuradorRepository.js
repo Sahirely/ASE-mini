@@ -390,6 +390,20 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             });
         },
+
+        postEliminaNivelMonto: function(idOperacionContrato){
+            return $http({
+                url: onfiguradorUrl + 'EliminaNivelMonto/',
+                method: "POST",
+                data: {
+                  idOperacionContrato: idOperacionContrato
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
         postNivelPartda: function(idOperacionContrato, idPartida, nivel) {
 
            var msgObj = {

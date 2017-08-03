@@ -40,6 +40,10 @@ OrdenServicio.prototype.get_getOrdenExistente = function(req, res, next) {
         name: 'numeroOrden',
         value: req.query.numeroOrden,
         type: self.model.types.STRING
+    },{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_EXISTE_ORDEN_SP', params, function(error, result) {

@@ -2,7 +2,7 @@
     <div class="modal-title">
         <button aria-hidden="true" class="close" data-dismiss="modal" type="button" ng-click="close()">×</button>
         <h4 class="modal-title">Centros de Trabajo</h4>
-        
+
     </div>
 </div>
 <div class="modal-body">
@@ -20,10 +20,10 @@
                 </div>
             </form-->
             <!--div class="table-responsive row"-->
-                <div>
+                <div ng-hide="modalPlus == 1">
                     <button class="btn btn-primary pull-right" tooltip="Nuevo Centro de Trabajo" type="button" ng-click="plusCentro()">Nuevo Centro de Trabajo</button>
-                </div>  
-                </br>         
+                </div>
+                </br>
                 <table class="table table-bordered table-hover dataTableCentros" >
                     <thead>
                         <tr>
@@ -33,8 +33,9 @@
                     </thead>
                     <tbody>
                         <tr  ng-repeat="model in models">
-                            <td>{{model.num}}</td>
-                            <td>
+                            <td>{{model.idCentroTrabajo}}</td>
+                            <td ng-show="modalPlus == 1">{{model.valor}}</td>
+                            <td ng-hide="modalPlus == 1">
                                 <div class="checkbox checkbox-warning">
                                     <input type="numeric" class="form-control" value="" id="nivel" ng-model="model.valor" capitalize>
                                 </div>
@@ -47,8 +48,15 @@
         <!--/div-->
     </div>
 </div>
-<div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="guardarCentros()">Guardar</button>
+<div class="modal-footer" ng-hide="modalPlus == 1">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <button  type="button" class="btn btn-primary" ng-click="guardarCentros()">Continuar</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <label>* para guardar la información dar click en continuar y a continuación dar click en siguiente en el módulo de operaciones.</label>
+        </div>
+    </div>
 </div>
-
-      
