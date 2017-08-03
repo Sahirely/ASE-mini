@@ -26,7 +26,7 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
 
     var nodemailer = require('nodemailer');
     var smtpTransport = require('nodemailer-smtp-transport');
-    var transporter = nodemailer.createTransport(smtpTransport({
+/*    var transporter = nodemailer.createTransport(smtpTransport({
         host: '192.168.20.1',
         port: 25,
         secure: false,
@@ -35,7 +35,14 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
             pass: 's1st3m4s'
         },
         tls: { rejectUnauthorized: false }
-    }));
+    }));*/
+    var transporter = nodemailer.createTransport({
+          service: 'Gmail',
+          auth: {
+            user: 'sisgpoa@gmail.com',
+            pass: 'Gp04ndr4d3'
+          }
+    });
     var mailOptions = {
         from: req.body.correoDe, 
         to: req.body.correoPara, 
