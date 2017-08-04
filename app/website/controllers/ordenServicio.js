@@ -565,13 +565,9 @@ OrdenServicio.prototype.get_getCitizacionDetalle = function(req, res, next) {
         name: 'idCotizacion',
         value: req.query.idCotizacion,
         type: self.model.types.INT
-    }, {
-        name: 'usuario',
-        value: req.query.usuario,
-        type: self.model.types.INT
     }];
 
-    this.model.query('SEL_PARTIDAS_APROBACION_SP', params, function(error, result) {
+    this.model.query('SEL_PARTIDAS_COTIZACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

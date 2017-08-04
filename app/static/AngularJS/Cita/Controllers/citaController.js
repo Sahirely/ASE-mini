@@ -548,7 +548,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         });
     };
     $scope.getPreCotizacion = function(idCotizacion) {
-        consultaCitasRepository.getCotizacionDetalle(idCotizacion, $scope.idUsuario).then(function(result) {
+        consultaCitasRepository.getCotizacionDetalle(idCotizacion).then(function(result) {
             $scope.labelItems = result.data.length;
             $scope.partidas = result.data;
         });

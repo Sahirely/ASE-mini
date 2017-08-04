@@ -26,7 +26,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
     $scope.getTipoUnidad = function(idCotizacion){
         preordenCotizacionRepository.getTipoUnidadByCotizacion(idCotizacion).then(function(result){
             var idTipoUnidad = result.data[0].idTipoUnidad;
-            $scope.getMostrarCotizacion($scope.idCotizacion, $scope.idContratoOperacion);
+            $scope.getMostrarCotizacion($scope.idCotizacion);
             $scope.getMostrarTalleres($scope.idUsuario, $scope.idContratoOperacion, idTipoUnidad);
         }, function(error){
           $('#loadModal').modal('hide');
@@ -34,8 +34,8 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
         });
     }
 
-    $scope.getMostrarCotizacion = function(idCotizacion, idContratoOperacion) {
-        preordenCotizacionRepository.getCotizacion(idCotizacion, idContratoOperacion).then(function(result) {
+    $scope.getMostrarCotizacion = function(idCotizacion) {
+        preordenCotizacionRepository.getCotizacion(idCotizacion).then(function(result) {
 
             if (result.data.length > 0) {
                 $scope.cotizaciones = result.data;

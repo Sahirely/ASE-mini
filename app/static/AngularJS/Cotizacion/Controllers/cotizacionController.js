@@ -16,9 +16,13 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.especialidad = '2,4'
     $scope.userData = userFactory.getUserData();
     $scope.show_nuevaCotizacion = true;
+    $scope.btnSwitch = {};
 
     $scope.init = function() {
         userFactory.ValidaSesion();
+        $scope.btnSwitch.classCosto = 'btn btn-success';
+        $scope.btnSwitch.classVenta = 'btn btn-default';
+        $scope.showButtonSwitch($scope.userData.idRol);
         $scope.idCotizacion = $routeParams.idCotizacion;
         $scope.numeroOrden = $routeParams.orden;
         $scope.estatus = $routeParams.estatus;
@@ -42,6 +46,32 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
     }
 
+    $scope.showButtonSwitch = function(usrRol) {
+        switch (Number(usrRol)) {
+            case 1: //cliente
+                $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = false;
+                $scope.btn_editarCotizacion = false;
+                break;
+            case 2: //admin
+                $scope.hideSwitchBtn = false;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.btn_editarCotizacion = true;
+                break;
+            case 3: //callcenter
+                $scope.hideSwitchBtn = false;
+                $scope.btnSwitch.showCostoVenta = true;
+                $scope.btn_editarCotizacion = true;
+                break;
+            case 4: //proveedor
+                $scope.hideSwitchBtn = true;
+                $scope.btnSwitch.showCostoVenta = true;
+                break;
+            default:
+                $scope.hideSwitchBtn = true;
+        }
+    };
+    0
     $scope.getTipoOrdenesServicio = function() {
         citaRepository.getTipoOrdenesServicio().then(function(result) {
             $scope.tipoCita = result.data;
@@ -244,7 +274,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             if (result.data[0].idCotizacion > 0) {
                 $scope.idCotizacion = result.data[0].idCotizacion;
                 $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
+                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.costoUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
                         if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
                         }
                     });
@@ -269,7 +299,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.actulizacionDetalle = function (){
 
         $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.precioUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
+            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.costoUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
 
                 if (nuevos.data[0].idCotizacionDetalle > 0) {
                     alertFactory.success('Se  actulizó la cotización');

@@ -23,12 +23,10 @@ var PreordenCotizacion = function(conf) {
 PreordenCotizacion.prototype.get_Preorden = function(req, res, next) {
     var self = this;
     var params = [
-
-            {name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT },
-            {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
+            {name: 'idCotizacion', value: req.query.idCotizacion, type: self.model.types.INT }
         ];
 
-    this.model.query('SEL_DETALLE_COTIZACION_SINTALLER_SP', params, function(error, result) {
+    this.model.query('SEL_PARTIDAS_COTIZACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

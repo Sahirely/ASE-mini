@@ -106,13 +106,12 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        getCotizacionDetalle: function(idCotizacion, usuario) {
+        getCotizacionDetalle: function(idCotizacion) {
             return $http({
                 url: consultaCitaUrl + 'getCitizacionDetalle/',
                 method: "GET",
                 params: {
-                    idCotizacion: idCotizacion,
-                    usuario: usuario
+                    idCotizacion: idCotizacion
                 },
                 headers: {
                     'Content-Type': 'application/json'

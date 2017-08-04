@@ -54,7 +54,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8" >
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" >
                             <br/>
                             <br/>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" ng-show="show_nuevaCotizacion">
@@ -83,6 +83,14 @@
                             </div>
                             <br/>
                             <br/>
+                        </div>
+                        <div class="btn-group pull-right col-xs-12 col-sm-12 col-md-2 col-lg-2" ng-hide="hideSwitchBtn">
+                            <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+                                btnSwitch.classVenta='btn btn-default';
+                                btnSwitch.classCosto='btn btn-success'">Costo</button>
+                            <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+                                btnSwitch.classVenta='btn btn-success';
+                                btnSwitch.classCosto='btn btn-default'">Venta</button>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="mostrarTalleres">
                             <div class="table-responsive">
@@ -125,7 +133,8 @@
                                             <th>No.Partida</th>
                                             <th>No.Parte</th>
                                             <th>Descripción</th>
-                                            <th>Precio</th>
+                                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                             <th>Agregar</th>
                                         </tr>
                                     </thead>
@@ -134,7 +143,8 @@
                                             <td>{{ partidasTaller.partida }}</td>
                                             <td>{{ partidasTaller.noParte }}</td>
                                             <td>{{ partidasTaller.descripcion }}</td>
-                                            <td>{{ partidasTaller.costo | currency}}</td>
+                                            <td ng-show="btnSwitch.showCostoVenta">{{ partidasTaller.costo | currency}}</td>
+                                            <td ng-hide="btnSwitch.showCostoVenta">{{ partidasTaller.venta | currency}}</td>
                                             <td>
                                                 <button class="btn btn-success btn-sm" type="button" id="btnCotizar" ng-click="partidaSeleccionada(partidasTaller)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar">
                                                     <span class="glyphicon glyphicon-plus"></span>
@@ -204,8 +214,8 @@
                                             <tr>
                                                 <th>No. Partida</th>
                                                 <th>Cantidad</th>
-                                                <th>Costo Unitario</th>
-                                                <th>Precio Unitario</th>
+                                                <th ng-show="btnSwitch.showCostoVenta">Costo Unitario</th>
+                                                <th ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                                                 <th class="ancho text-center">Acción</th>
                                             </tr>
                                         </thead>
@@ -213,8 +223,8 @@
                                             <tr ng-repeat="lstPartidaSeleccionada in lstPartidaSeleccionada">
                                                 <td><a title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{lstPartidaSeleccionada.idPartida}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='Descripcion: {{lstPartidaSeleccionada.descripcion}}'>{{ lstPartidaSeleccionada.numPartida }} </a></td>
                                                 <td>{{ lstPartidaSeleccionada.cantidad }}</td>
-                                                <td class="text-right">{{ lstPartidaSeleccionada.costoUnitario | currency}}</td>
-                                                <td class="text-right">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
+                                                <td class="text-right" ng-show="btnSwitch.showCostoVenta">{{ lstPartidaSeleccionada.costoUnitario | currency}}</td>
+                                                <td class="text-right" ng-hide="btnSwitch.showCostoVenta">{{ lstPartidaSeleccionada.precioUnitario | currency}}</td>
                                                 <td>
                                                     <div class="btn-group">
                                                         <button class="btn-success btn btn-xs" type="button" ng-click="agregarItem(lstPartidaSeleccionada)" data-toggle="tooltip" tooltip-placement="top" tooltip="Agregar"><span class="glyphicon glyphicon-plus"></span></button>
@@ -228,24 +238,24 @@
                                                 <td colspan="2">
                                                     <strong>SUBTOTAL :</strong>
                                                 </td>
-                                                <td>{{ subTotalCosto | currency}}</td>
-                                                <td>{{ subTotalPrecio | currency}}</td>
+                                                <td ng-show="btnSwitch.showCostoVenta">{{ subTotalCosto | currency}}</td>
+                                                <td ng-hide="btnSwitch.showCostoVenta">{{ subTotalPrecio | currency}}</td>
                                                 <td> </td>
                                             </tr>
                                             <tr class="text-right">
                                                 <td colspan="2">
                                                     <strong>I.V.A :</strong>
                                                 </td>
-                                                <td>{{ ivaSubTotalCosto | currency}}</td>
-                                                <td>{{ ivaSubTotalPrecio | currency}}</td>
+                                                <td ng-show="btnSwitch.showCostoVenta">{{ ivaSubTotalCosto | currency}}</td>
+                                                <td ng-hide="btnSwitch.showCostoVenta">{{ ivaSubTotalPrecio | currency}}</td>
                                                 <td> </td>
                                             </tr>
                                             <tr class="text-right">
                                                 <td colspan="2">
                                                     <strong>TOTAL :</strong>
                                                 </td>
-                                                <td>{{ totalCosto | currency}}</td>
-                                                <td>{{ totalPrecio | currency}}</td>
+                                                <td ng-show="btnSwitch.showCostoVenta">{{ totalCosto | currency}}</td>
+                                                <td ng-hide="btnSwitch.showCostoVenta">{{ totalPrecio | currency}}</td>
                                                 <td> </td>
                                             </tr>
                                         </tfoot>

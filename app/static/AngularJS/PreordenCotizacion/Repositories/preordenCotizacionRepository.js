@@ -6,14 +6,12 @@ registrationModule.factory('preordenCotizacionRepository', function($http, $q) {
 
     return {
 
-       getCotizacion: function(idCotizacion, idContratoOperacion, idTipoCotizacion) {
+       getCotizacion: function(idCotizacion) {
             return $http({
                 url: preordenCotizacionUrl + 'Preorden/',
                 method: "GET",
                 params: {
-                    idCotizacion: idCotizacion,
-                    idContratoOperacion: idContratoOperacion,
-                    idTipoCotizacion: idTipoCotizacion
+                    idCotizacion: idCotizacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
