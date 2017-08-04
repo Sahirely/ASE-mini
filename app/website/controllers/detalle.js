@@ -602,6 +602,16 @@ var self = this;
         name: 'idOrden',
         value: req.query.idOrden,
         type: self.model.types.INT
+      },
+      {
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+      },
+      {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
       }];
       this.model.queryAllRecordSet('SEL_REPORTE_CONFORMIDAD_SP',params, function (error, result) {
           self.view.expositor(res, {

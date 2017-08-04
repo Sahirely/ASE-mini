@@ -209,12 +209,14 @@ registrationModule.factory('detalleRepository', function($http) {
             });
         },
         //LQMA  07062017
-        getReporteConformidad: function(idOrden) {
+        getReporteConformidad: function(idOrden, idContratoOperacion, idUsuario) {
             return $http({
                 url: detalleUrl + 'reporteConformidad/',
                 method: "GET",
                 params: {
-                    idOrden: idOrden
+                    idOrden: idOrden,
+                    idContratoOperacion: idContratoOperacion,
+                    idUsuario: idUsuario
                 },
                 headers: {
                     'Content-Type': 'application/json'
