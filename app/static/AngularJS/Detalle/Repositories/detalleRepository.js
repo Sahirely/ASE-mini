@@ -261,7 +261,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        postAcciones: function(texto, fecha, idUsuario, idOrden){
+        postAcciones: function(texto, fecha, idUsuario, idOrden, idEstatusOrden){
           return $http({
               url: detalleUrl + 'accion/',
               method: "POST",
@@ -269,7 +269,8 @@ registrationModule.factory('detalleRepository', function($http) {
                   texto: texto,
                   fecha: fecha,
                   idUsuario: idUsuario,
-                  idOrden: idOrden
+                  idOrden: idOrden,
+                  idEstatusOrden: idEstatusOrden
                 },
               headers: {
               'Content-Type': 'application/json'
@@ -366,7 +367,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        eliminaFactura: function( path ) { 
+        eliminaFactura: function( path ) {
             return $http({
                 url: detalleUrl + 'eliminaFactura/',
                 method: "GET",
@@ -378,7 +379,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        insertarFactura: function( parametros ) { 
+        insertarFactura: function( parametros ) {
             return $http({
                 url: detalleUrl + 'insertarFactura/',
                 method: "GET",

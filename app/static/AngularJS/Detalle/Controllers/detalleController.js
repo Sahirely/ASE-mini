@@ -1308,6 +1308,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.OpenModalPlanAccion = function() {
+        $('.calendarControl').datepicker('setDate', null);
+        $scope.fechaAccion = '';
+        $scope.horaAccion = '';
         $("#ModalPlanAccion").modal();
     }
 
@@ -1374,7 +1377,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         if (($scope.comentaAccion != undefined && $scope.comentaAccion != "") && ($scope.fechaAccion != undefined && $scope.fechaAccion != "")) {
             //FAL 12072017 calcula la nueva fecha
             $scope.fechaCompleta = $scope.fechaAccion + ' ' + $scope.horaAccion;
-            detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaCompleta, $scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
+            detalleRepository.postAcciones($scope.comentaAccion, $scope.fechaCompleta, $scope.userData.idUsuario, $scope.idOrdenURL, $scope.idEstatusOrden).then(function(result) {
                 if (result.data.length > 0) {
                     alertFactory.success('Se inserto correctamente la Acción');
                     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden);
@@ -1389,6 +1392,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             alertFactory.info('Porfavor llene todos los campos');
         }
     }
+
     $scope.recordatorio = function() {
         if (($scope.comentaRecordatorio != undefined && $scope.comentaRecordatorio != "") &&
             ($scope.fechaRecordatorio != undefined && $scope.fechaRecordatorio != "") &&

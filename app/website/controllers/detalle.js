@@ -707,6 +707,10 @@ Detalle.prototype.post_accion = function(req, res, next) {
         name: 'idOrden',
         value: req.query.idOrden,
         type: self.model.types.INT
+    },{
+        name: 'estatusOrden',
+        value: req.query.idEstatusOrden,
+        type: self.model.types.INT
     }];
 
 

@@ -221,10 +221,10 @@
                                             <label>Zona de la Orden:</label>
                                             <span>{{detalleOrden.nombreZona}}</span>
                                         </p>
-                                        <p>
+                                        <!-- <p>
                                             <label>Plan de Acción:</label>
                                             <span>{{detalleOrden.accion}}</span>
-                                        </p>
+                                        </p> -->
                                         <p ng-show="detalleOrden.idGarantia==1">
                                             <label>Motivo por Garantia:</label>
                                             <span>{{detalleOrden.motivoGarantia}}</span>
@@ -887,10 +887,11 @@
                     <td class="header" width="120">
                         <label>Plan de Acción:</label>
                         <br>
-                        <button class="btn btn-primary btn-xs" ng-click="OpenModalPlanAccion();">Agregar Acción</button>
+                        <button class="btn btn-primary btn-xs" ng-click="OpenModalPlanAccion();">{{detalleOrden.hasAccion == 1 ? 'Editar Acción' : 'Agregar Acción'}}</button>
                     </td>
                     <td>
                         <p class="accion-detalle">{{detalleOrden.accion}}</p>
+                        <p class="accion-detalle" ng-show="detalleOrden.hasAccion == 1">{{detalleOrden.fechaAccion | date:"MM/dd/yyyy h:mma"}}</p>
                     </td>
                 </tr>
             </table>
@@ -1231,7 +1232,7 @@
                     </div>
                     <div class="col-sm-5 col-md-5 col-lg-5 m-t">
                         <div class="input-group date">
-                            <input type="text" class="form-control" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)" calendar>
+                            <input type="text" class="form-control calendarControl" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)" calendar>
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
