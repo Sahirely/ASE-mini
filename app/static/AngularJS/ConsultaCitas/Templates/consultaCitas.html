@@ -236,7 +236,7 @@
                                         <th>Consecutivo</th>
                                         <th>Número de la Orden</th>
                                         <th>Número Económico</th>
-
+                                        <th>Zona</th>
                                         <th>Tipo Servicio</th>
                                         <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
@@ -252,7 +252,7 @@
                                         <td>{{ordenesSinTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
-
+                                        <td>{{ordenesSinTaller.nombreZona}}</td>
 
                                         <td ng-if="ordenesSinTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
                                         <td ng-if="ordenesSinTaller.idTipoOrden == 2">{{ordenesSinTaller.nombreTipoORden}}</td>
