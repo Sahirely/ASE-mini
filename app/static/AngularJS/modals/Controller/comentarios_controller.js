@@ -5,18 +5,14 @@ registrationModule.controller('comentarios_controller', function($scope, $modalI
     }
 
     $scope.close = function() {
-        if($scope.comentario === '' || $scope.comentario === null || $scope.comentario === undefined){
-          callback('');
-          $modalInstance.dismiss('cancel');
-        }else{
-          callback($scope.comentario);
-          $modalInstance.dismiss('cancel');
-        }
+        callback('');
+        $modalInstance.dismiss('cancel');
     };
     $scope.agregar = function() {
     	if($scope.comentario == '' || $scope.comentario == null || $scope.comentario == undefined){
     		alertFactory.info('Favor de ingresar comentario')
     	}else{
+        callback($scope.comentario);
         $scope.close();
     	}
     };
