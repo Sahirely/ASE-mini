@@ -26,52 +26,56 @@ registrationModule.factory('dashBoardRepository', function ($http) {
         //         }
         //     });
         // },
-        getTotalCitas: function ( idOperacion, idZona ) {
+        getTotalCitas: function ( idOperacion, idZona, idUsuario ) {
             return $http({
                 url: tableroUrl + 'sumatoriaCitas/',
                 method: "GET",
                 params: {
                     idOperacion: idOperacion,
-                    idZona:idZona
+                    idZona: idZona,
+                    idUsuario: idUsuario
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getTotalCotizaciones: function ( idOperacion, idZona ) {
+        getTotalCotizaciones: function ( idOperacion, idZona, idUsuario ) {
             return $http({
                 url: tableroUrl + 'sumatoriaCotizaciones/',
                 method: "GET",
                 params: {
                     idOperacion: idOperacion,
-                    idZona:idZona
+                    idZona: idZona,
+                    idUsuario: idUsuario
                    },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getTotalOrdenes: function ( idOperacion, idZona ) {
+        getTotalOrdenes: function ( idOperacion, idZona, idUsuario ) {
             return $http({
                 url: tableroUrl + 'sumatoriaOrdenes',
                 method: "GET",
                 params: {
                     idOperacion: idOperacion,
-                    idZona:idZona
+                    idZona: idZona,
+                    idUsuario: idUsuario
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getTotalProceso: function ( idOperacion, idZona ) {
+        getTotalProceso: function ( idOperacion, idZona, idUsuario ) {
             return $http({
                 url: tableroUrl + 'sumatoriaProceso',
                 method: "GET",
                 params: {
                     idOperacion: idOperacion,
-                    idZona:idZona
+                    idZona: idZona,
+                    idUsuario: idUsuario
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -83,9 +87,10 @@ registrationModule.factory('dashBoardRepository', function ($http) {
                 url: tableroUrl + 'sumatoriaOrdenesPorCobrar',
                 method: "GET",
                 params: {
-                    idZona:idZona,
-                    idUsuario:idUsuario,
-                    idOperacion: idOperacion
+                    idOperacion: idOperacion,
+                    idZona: idZona,
+                    idUsuario: idUsuario
+                    
                 },
                 headers: {
                     'Content-Type': 'application/json'

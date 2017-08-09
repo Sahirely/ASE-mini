@@ -22,7 +22,8 @@ DashBoard.prototype.get_sumatoriaCitas = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
-        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_CITAS_SP', params, function (error, result) {
@@ -40,7 +41,8 @@ DashBoard.prototype.get_sumatoriaCotizaciones = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
-        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_COTIZACIONES_SP', params, function (error, result) {
@@ -58,7 +60,8 @@ DashBoard.prototype.get_sumatoriaOrdenes = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
-        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_ORDENES_SERVICIO_SP', params, function (error, result) {
@@ -76,7 +79,8 @@ DashBoard.prototype.get_sumatoriaProceso = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
-        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_ORDENES_PROCESO_SP', params, function (error, result) {
@@ -93,7 +97,8 @@ DashBoard.prototype.get_sumatoriaOrdenesPorCobrar = function (req, res, next) {
     //Obtención de valores de los parámetros del request
     var params = [
         { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
-        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT }
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_DASHBOARD_ORDENES_COBRAR_SP', params, function (error, result) {

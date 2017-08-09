@@ -50,7 +50,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.totalMontoCitas  = 0;
         $scope.totalCostoCitas  = 0;
 
-        dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected ).then(function(datos) {
+        dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario  ).then(function(datos) {
             var Resultados = datos.data;
 
             Resultados.forEach(function(item, key) {
@@ -100,7 +100,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaCotizaciones = function() {
-        dashBoardRepository.getTotalCotizaciones( $scope.idOperacion, $scope.zonaSelected ).then(function( cotizaciones ) {
+        dashBoardRepository.getTotalCotizaciones( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario  ).then(function( cotizaciones ) {
             var Resultados  = cotizaciones.data;
             var valuesDonut = [];
             var colores     = [];
@@ -147,7 +147,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaProceso = function() {
-        dashBoardRepository.getTotalProceso( $scope.idOperacion, $scope.zonaSelected ).then(function(proceso) {
+        dashBoardRepository.getTotalProceso( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario  ).then(function(proceso) {
             var Resultados                    = proceso.data;
             $scope.totalProceso               = 0;
             $scope.totalHorasOrdenesProceso  = 0;
@@ -201,7 +201,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaOrdenes = function() {
-        dashBoardRepository.getTotalOrdenes( $scope.idOperacion, $scope.zonaSelected ).then(function(ordenes) {
+        dashBoardRepository.getTotalOrdenes( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario ).then(function(ordenes) {
             var Resultados                    = ordenes.data;
             $scope.totalOrdenes               = 0;
             $scope.totalHorasOrdenesServicio  = 0;
@@ -255,7 +255,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     };
 
     $scope.sumatoriaOrdenesPorCobrar = function() {
-        dashBoardRepository.getTotalOrdenesPorCobrar( $scope.idOperacion, $scope.zonaSelected ).then(function(ordenesCobrar) {
+        dashBoardRepository.getTotalOrdenesPorCobrar( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario ).then(function(ordenesCobrar) {
             var Resultados  = ordenesCobrar.data;
             var valuesDonut = [];
             var colores     = [];
