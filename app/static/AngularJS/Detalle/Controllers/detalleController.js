@@ -831,16 +831,19 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 });
                             } else {
                                 $("#mensaje").text('¡Factura cargada correctamente!');
-                                var xml = result.data.xml_objet;
+                                debugger;
+                                var xmltemp = JSON.stringify(result.data.xml_objet);
+                                xmltemp = xmltemp.toUpperCase();
+                                var xml = JSON.parse(xmltemp);
                                 var sxml = result.data.xml;
 
-                                var UUID = xml['cfdi:Comprobante']['cfdi:Complemento'][0]['tfd:TimbreFiscalDigital'][0].$['UUID'];
-                                var RFC_Emisor = xml['cfdi:Comprobante']['cfdi:Emisor'][0].$['rfc']
-                                var RFC_Receptor = xml['cfdi:Comprobante']['cfdi:Receptor'][0].$['rfc'];
-                                var subTotal = xml['cfdi:Comprobante'].$['subTotal'];
-                                var Total = xml['cfdi:Comprobante'].$['total'];
-                                var Fecha = xml['cfdi:Comprobante'].$['fecha'];
-                                var Folio = xml['cfdi:Comprobante'].$['folio'];
+                                var UUID = xml['CFDI:COMPROBANTE']['CFDI:COMPLEMENTO'][0]['TFD:TIMBREFISCALDIGITAL'][0].$['UUID'];
+                                var RFC_Emisor = xml['CFDI:COMPROBANTE']['CFDI:EMISOR'][0].$['RFC']
+                                var RFC_Receptor = xml['CFDI:COMPROBANTE']['CFDI:RECEPTOR'][0].$['RFC'];
+                                var subTotal = xml['CFDI:COMPROBANTE'].$['SUBTOTAL'];
+                                var Total = xml['CFDI:COMPROBANTE'].$['TOTAL'];
+                                var Fecha = xml['CFDI:COMPROBANTE'].$['FECHA'];
+                                var Folio = xml['CFDI:COMPROBANTE'].$['FOLIO'];
 
                                 if (Folio === undefined || Folio === null || Folio == "") {
                                     var aux = UUID.split("-");
@@ -862,6 +865,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
 
+                                        debugger;
                                         if (RFC_Receptor != rfc.RFCCliente) {
                                             $scope.FacturaLista();
                                             $("#mensaje").text('¡Factura no válida!');
