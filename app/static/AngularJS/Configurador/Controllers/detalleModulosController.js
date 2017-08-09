@@ -1,4 +1,4 @@
-registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, userFactory, idContratoOperacion, unidades, $modalInstance, configuradorRepository, localStorageService, alertFactory) {
+registrationModule.controller('detalleModulosController', function ($scope, $modal, idOperacion, detalle, userFactory, idContratoOperacion, unidades, $modalInstance, configuradorRepository, localStorageService, alertFactory, globalFactory) {
 $scope.timeAsignacion = localStorageService.get('timeAsigna');
 
     $scope.init = function () {
@@ -67,7 +67,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                 });
             }
         }
-        $scope.promise = configuradorRepository.getDetalleModulo(detalle.idModulo).then(function (result) {
+        $scope.promise = configuradorRepository.getDetalleModulo(detalle.idModulo, idOperacion).then(function (result) {
             if (result.data.length > 0) {
                $scope.detalles = result.data;
                     for (var i = 0 ; i < result.data.length; i++) {
@@ -137,18 +137,17 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
     $scope.getPartidasUnidad = function(){
         $scope.dataPartidas=[];
         $('.dataTablePartidas').DataTable().destroy();
-        for (var i = 0 ; i < unidades.length; i++) {
+        // for (var i = 0 ; i < unidades.length; i++) {
             var obj=new Object();
-            obj.ID = unidades[i].idTipoUnidad;
-            obj.unidad = unidades[i].unidad;
+        //     obj.ID = unidades[i].idTipoUnidad;
+        //     obj.unidad = unidades[i].unidad;
             $scope.partidas=[];
 
-            $scope.promise = configuradorRepository.getInfoNivelPartida(idContratoOperacion, unidades[i].idTipoUnidad).then(function (result) {
+            $scope.promise = configuradorRepository.getInfoNivelPartida(idContratoOperacion).then(function (result) {
 
                 if (result.data.length > 0) {
 
                     $scope.partidas = result.data;
-
 
                     obj.partidas=$scope.partidas;
                     $scope.dataPartidas.push(obj);
@@ -157,7 +156,9 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
             }, function (error) {
                 alertFactory.error('No se puenen obtener las Operaciones');
             });
-        };
+        // };
+
+        globalFactory.filtrosTabla("dataTablePartidas", "PARTIDAS", 5);
     }
 
      $scope.plusNivel = function (){
@@ -362,7 +363,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
             };
         };
         if($scope.banderaModulo == 3){
-                    $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
+                    $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
                         if (result.data.length > 0) {
                             $scope.close();
                         }
@@ -394,7 +395,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
+                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
                                 if (result.data.length > 0) {
                                     $scope.close();
                                 }
@@ -417,7 +418,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
+                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
                                 if (result.data.length > 0) {
                                     if ($scope.banderaidModulo == 19) {
                                         $scope.show_nivelesAprobacion=true;
@@ -458,7 +459,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
+                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
                                 if (result.data.length > 0) {
                                     $scope.close();
                                 }
@@ -502,7 +503,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle).then(function (result) {
+                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
                                 if (result.data.length > 0) {
                                     $scope.close();
                                 }

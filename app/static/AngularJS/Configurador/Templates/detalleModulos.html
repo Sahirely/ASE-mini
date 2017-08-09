@@ -158,59 +158,59 @@
         </div>
     </div>
 </div>
-
-<div class="modal-body" ng-show="banderaModulo == 5">
-    <div id="content_popDrag">
-       <div class="modal-body">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <th>Característica</th>
-                    <th>Seleccionar</th>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="detalle in detalles">
-                        <td>{{detalle.nombreDetalleModulo}}</td>
-                        <td>
-                            <div class="checkbox checkbox-warning" ng-hide="detalle.verificar == 'true'">
-                                <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
-                                 <label></label>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div ng-hide="detalle.verificar == 'false'">
-                                         <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4 text-right">
-                                    <div ng-hide="detalle.verificar == 'false'">
-                                        <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                        <tr ng-hide="timeAsignacion != 1">
-                            <td>Tiempo Espera - En Aprobación</td>
-                            <td>
-                                <div class="form-group">
-                                    <!-- <label class="col-sm-3">Hora: </label> -->
-                                    <div class="col-sm-9">
-                                        <div class="input-group horaAsignada" data-autoclose="true">
-                                            <input type="text" class="form-control" value="" ng-model="aprobacion">
-                                            <span class="input-group-addon">
-                                                <span class="fa fa-clock-o"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
+<!-- <div class="modal-dialog modal-lg"> -->
+  <div class="modal-body" ng-show="banderaModulo == 5">
+      <div id="content_popDrag">
+         <div class="modal-body">
+              <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                      <th>Característica</th>
+                      <th>Seleccionar</th>
+                  </thead>
+                  <tbody>
+                      <tr ng-repeat="detalle in detalles">
+                          <td>{{detalle.nombreDetalleModulo}}</td>
+                          <td>
+                              <div class="checkbox checkbox-warning" ng-hide="detalle.verificar == 'true'">
+                                  <input id="checkbox1" type="checkbox" ng-model="detalleModul" ng-change="changeDetalle(detalle, detalleModul )">
+                                   <label></label>
+                              </div>
+                              <div class="row">
+                                  <div class="col-md-4">
+                                      <div ng-hide="detalle.verificar == 'false'">
+                                           <span class="label label-info"><i class="glyphicon glyphicon-ok" data-toggle="tooltip" tooltip="Agregado Correctamente"></i></span>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4 text-right">
+                                      <div ng-hide="detalle.verificar == 'false'">
+                                          <span class="label label-danger" ng-click="deleteDetalleModulo(detalle.idDetalleModulo)"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="Quitar Característica" id="cursorPoint"></i></span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                          <tr ng-hide="timeAsignacion != 1">
+                              <td>Tiempo Espera - En Aprobación</td>
+                              <td>
+                                  <div class="form-group">
+                                      <!-- <label class="col-sm-3">Hora: </label> -->
+                                      <div class="col-sm-9">
+                                          <div class="input-group horaAsignada" data-autoclose="true">
+                                              <input type="text" class="form-control" value="" ng-model="aprobacion">
+                                              <span class="input-group-addon">
+                                                  <span class="fa fa-clock-o"></span>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </td>
+                          </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+<!-- </div> -->
 <div class="modal-body" ng-show="banderaModulo == 6">
     <div id="content_popDrag">
        <div class="modal-body">
@@ -488,7 +488,7 @@
                     <thead>
                         <th>Partida</th>
                         <th>Descripción</th>
-                        <th>Costo</th>
+                        <!-- <th>Costo</th> -->
                         <th>Venta</th>
                         <th>Nivel</th>
                     </thead>
@@ -496,11 +496,11 @@
                         <tr ng-repeat="partida in data.partidas">
                             <td>{{partida.partida}}</td>
                             <td>{{partida.descripcion}}</td>
-                            <td>{{partida.costo}}</td>
+                            <!-- <td>{{partida.costo}}</td> -->
                             <td>{{partida.venta}}</td>
                             <td>
                                  <div class="checkbox checkbox-warning">
-                                    <input type="numeric" class="form-control" value="" id="nivel" ng-model="partida.nivel" capitalize ng-change="changePartida (partida, data.idTipoUnidad)">
+                                    <input type="numeric" class="form-control" value="" id="nivel" ng-model="partida.nivel" capitalize ng-change="changePartida (partida, data.idTipoUnidad)" style="width: 100px !important;">
                                 </div>
                             </td>
                         </tr>

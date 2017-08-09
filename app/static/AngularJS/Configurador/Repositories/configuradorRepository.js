@@ -14,6 +14,16 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
+        deleteModulos: function(idModulo){
+            return $http({
+                url: onfiguradorUrl + 'eliminaModulo/',
+                method: "POST",
+                params: { idModulo: idModulo },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
         getTipoOperaciones: function() {
             return $http({
                 url: onfiguradorUrl + 'tipoOperaciones/',
@@ -164,23 +174,25 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        getDetalleModulo: function(idModulo) {
+        getDetalleModulo: function(idModulo, idOperacion) {
             return $http({
                 url: onfiguradorUrl + 'detalleModulo/',
                 method: "GET",
                 params: {
-                         idModulo: idModulo
+                         idModulo: idModulo,
+                         idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        postModuloPorDertalle: function(idModulo, detalle) {
+        postModuloPorDertalle: function(idModulo, detalle, idOperacion) {
 
            var msgObj = {
                 idModulo: idModulo,
-                detalle: detalle
+                detalle: detalle,
+                idOperacion: idOperacion
             };
             return $http({
                 url: onfiguradorUrl + 'moduloPorDertalle/',
@@ -280,6 +292,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
             });
         },
         postFechas: function(idOperacion, idEstatusOrden, tiempoEnEspera) {
+          debugger;
            var msgObj = {
                 idOperacion: idOperacion,
                 idEstatusOrden: idEstatusOrden,
@@ -469,8 +482,8 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
         },
         getInfoNivelPartida: function(idContratoOperacion, idTipoUnidad) {
             var msgObj = {
-                idContratoOperacion: idContratoOperacion,
-                idTipoUnidad,idTipoUnidad
+                idContratoOperacion: idContratoOperacion //,
+                //idTipoUnidad,idTipoUnidad
             };
 
             return $http({

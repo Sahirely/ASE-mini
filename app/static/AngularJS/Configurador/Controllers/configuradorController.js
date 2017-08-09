@@ -441,13 +441,13 @@ registrationModule.controller('configuradorController', function ($scope, $route
 /********MODULOS*************/
 
 	$scope.detalleModulo = function (modulo){
-
-		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion, $scope.numUnidades);
+		modal_detalleModulos($scope, $modal, $scope.idOperacion, modulo, $scope.idContratoOperacion, $scope.tiposUnidades);
 	}
 
 	$scope.catalogoDeModulos = function(tipo){
 		$scope.modulosDefault = [];
 		$scope.modulosAdicional = [];
+		$scope.adicionaleModulos = [];
 
         $scope.promise = configuradorRepository.getCatalogoModulos($scope.idOperacion, tipo).then(function (result) {
             if (result.data.length > 0) {

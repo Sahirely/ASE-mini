@@ -51,7 +51,7 @@ function modal_detalleModulos($scope, $modal, idOperacion, detalle, idContratoOp
         templateUrl: '../AngularJS/Configurador/Templates/detalleModulos.html',
         controller: 'detalleModulosController',
         backdrop: 'static',
-        size: 300,
+        size: 500,
         resolve: {
             idOperacion: function() {
                 return idOperacion;

@@ -308,6 +308,10 @@ Configurador.prototype.get_detalleModulo = function(req, res, next) {
         name: 'idModulo',
         value: req.query.idModulo,
         type: self.model.types.INT
+    },{
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
     }];
 
     this.model.query('SEL_CATALOGO_DETALLE_MODULO_SP', params, function(error, result) {
@@ -331,6 +335,10 @@ Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
         name: 'detalle',
         value: req.body.detalle,
         type: self.model.types.STRING
+    },{
+        name: 'idOperacion',
+        value: req.body.idOperacion,
+        type: self.model.types.INT
     }];
 
 
@@ -578,7 +586,7 @@ Configurador.prototype.post_moduloporFechas = function(req, res, next) {
 
 
     this.model.post('INS_OPERACION_TIEMPO_EN_ESPERA_SP', params, function(error, result) {
-        //Callback
+        //Callback;
         object.error = error;
         object.result = result;
 
@@ -866,7 +874,7 @@ Configurador.prototype.post_eliminaModulo = function(req, res, next) {
 
     var params = [{
         name: 'idModulo',
-        value: req.body.idModulo,
+        value: req.query.idModulo,
         type: self.model.types.INT
     }];
 
@@ -1047,12 +1055,13 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
          name: 'idContratoOperacion',
          value: req.query.idContratoOperacion,
          type: self.model.types.INT
-     },
-     {
-         name: 'idTipoUnidad',
-         value: req.query.idTipoUnidad,
-         type: self.model.types.INT
-     }];
+     }//,
+    //  {
+    //      name: 'idTipoUnidad',
+    //      value: req.query.idTipoUnidad,
+    //      type: self.model.types.INT
+    //  }
+   ];
 
     this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
         self.view.expositor(res, {
