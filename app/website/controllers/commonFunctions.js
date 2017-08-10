@@ -26,25 +26,26 @@ CommonFunctions.prototype.post_sendMail = function(req, res, next) {
 
     var nodemailer = require('nodemailer');
     var smtpTransport = require('nodemailer-smtp-transport');
-/*    var transporter = nodemailer.createTransport(smtpTransport({
-        host: '192.168.20.1',
+    var transporter = nodemailer.createTransport(smtpTransport({
+        host: '192.168.20.17',
         port: 25,
         secure: false,
         auth: {
-            user: 'sistemas',
-            pass: 's1st3m4s'
+            user: 'noreply',
+            pass: 'P4n4m4!'
         },
         tls: { rejectUnauthorized: false }
-    }));*/
-    var transporter = nodemailer.createTransport({
+    }));
+   /* var transporter = nodemailer.createTransport({
           service: 'Gmail',
           auth: {
             user: 'sisgpoa@gmail.com',
             pass: 'Gp04ndr4d3'
           }
-    });
+    });*/
     var mailOptions = {
-        from: req.body.correoDe, 
+        //from: req.body.correoDe,
+        from: '"Notificacion" <noreply@centraldeoperaciones.com>' ,
         to: req.body.correoPara, 
         subject: req.body.asunto, 
         text: req.body.texto, 
