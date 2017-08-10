@@ -372,6 +372,13 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     });
         }
         if($scope.banderaModulo == 4){
+            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
+                if (result.data.length > 0) {
+                    $scope.close();
+                }
+            }, function (error) {
+                alertFactory.error('No se puede guardar la configuración');
+            });
             if(($scope.sintaller != undefined && $scope.sintaller != "") && ($scope.contaller != undefined && $scope.contaller  != "") &&
                ($scope.entaller != undefined && $scope.entaller  != "")){
                     $scope.promise = configuradorRepository.postFechas(idOperacion, 1, $scope.sintaller).then(function (result) {
@@ -395,18 +402,24 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
-                                if (result.data.length > 0) {
-                                    $scope.close();
-                                }
-                            }, function (error) {
-                                alertFactory.error('No se puede guardar la configuración');
-                            });
+
             }else{
                 alertFactory.info('Porfavor ingrese las fechas');
             }
         }
         if($scope.banderaModulo == 5){
+            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
+                if (result.data.length > 0) {
+                    if ($scope.banderaidModulo == 19) {
+                        $scope.show_nivelesAprobacion=true;
+                        $scope.getAprobaciones();
+                    }else{
+                        $scope.close();
+                    }
+                }
+            }, function (error) {
+                alertFactory.error('No se puede guardar la configuración');
+            });
             if(($scope.aprobacion != undefined && $scope.aprobacion != "")){
                     $scope.promise = configuradorRepository.postFechas(idOperacion, 4, $scope.aprobacion).then(function (result) {
                         if (result.data.length > 0) {
@@ -418,24 +431,19 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
-                                if (result.data.length > 0) {
-                                    if ($scope.banderaidModulo == 19) {
-                                        $scope.show_nivelesAprobacion=true;
-                                        $scope.getAprobaciones()
-                                    }else{
-                                        $scope.close();
-                                    }
 
-                                }
-                            }, function (error) {
-                                alertFactory.error('No se puede guardar la configuración');
-                            });
             }else{
                 alertFactory.info('Porfavor ingrese una fecha');
             }
         }
         if($scope.banderaModulo == 6){
+            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
+                if (result.data.length > 0) {
+                    $scope.close();
+                }
+            }, function (error) {
+                alertFactory.error('No se puede guardar la configuración');
+            });
             if(($scope.enproceso != undefined && $scope.enproceso != "") && ($scope.terminotrabajo != undefined && $scope.terminotrabajo  != "") &&
                ($scope.entrega != undefined && $scope.entrega  != "")){
                     $scope.promise = configuradorRepository.postFechas(idOperacion, 5, $scope.enproceso).then(function (result) {
@@ -459,18 +467,19 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
-                                if (result.data.length > 0) {
-                                    $scope.close();
-                                }
-                            }, function (error) {
-                                alertFactory.error('No se puede guardar la configuración');
-                            });
+
             }else{
                 alertFactory.info('Porfavor ingrese las fechas');
             }
         }
         if($scope.banderaModulo == 7){
+            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
+                if (result.data.length > 0) {
+                    $scope.close();
+                }
+            }, function (error) {
+                alertFactory.error('No se puede guardar la configuración');
+            });
             if(($scope.porcobrar != undefined && $scope.porcobrar != "")){
                     $scope.promise = configuradorRepository.postFechas(idOperacion, 8, $scope.porcobrar).then(function (result) {
                         if (result.data.length > 0) {
@@ -503,13 +512,7 @@ $scope.timeAsignacion = localStorageService.get('timeAsigna');
                     }, function (error) {
                         alertFactory.error('No se puede guardar la fecha');
                     });
-                            $scope.promise = configuradorRepository.postModuloPorDertalle($scope.banderaidModulo, detalle, idOperacion).then(function (result) {
-                                if (result.data.length > 0) {
-                                    $scope.close();
-                                }
-                            }, function (error) {
-                                alertFactory.error('No se puede guardar la configuración');
-                            });
+
             }else{
                 alertFactory.info('Porfavor ingrese una fecha');
             }

@@ -7,7 +7,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.filtroEstatus = '';
     $scope.fechaMes = '';
     $scope.message = "Buscando...";
-    $scope.userData = {};
+    // $scope.userData = {};
+
     //VARIABLES PARA ZONAS DINAMICAS
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -26,8 +27,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.init = function () {
         //para obtener las zonas promero se inicializa la primer zona padre.
-        userFactory.ValidaSesion();
+        // $('.ocultalo').show();
+        // if($scope.userData.tiempoAsignado == 1){
+        //   $('.ocultalo').hide();
+        // }
         $scope.userData = userFactory.getUserData();
+        userFactory.ValidaSesion();
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
           $scope.filtroEstatus = $scope.estatusDashboard;
@@ -129,12 +134,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                       }
                   }
               });
-              globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes Con Presupuesto", 100);
+              globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
               globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
               globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
           } else {
               $scope.cotizaciones = [];
-              globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes Con Presupuesto", 100);
+              globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
               globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
               globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
               alertFactory.info('No se Encontraron Ordenes en Aprobación.');

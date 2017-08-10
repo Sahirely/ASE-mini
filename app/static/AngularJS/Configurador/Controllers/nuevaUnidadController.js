@@ -6,6 +6,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
     $scope.zonaSelected = "0";
     $scope.ZonasSeleccionadas = {};
     $scope.numGPS = 0;
+    $scope.centroTrabajo = 0;
     $scope.NivelesZona = [];
     $scope.Zonas = [];
 
@@ -59,6 +60,7 @@ registrationModule.controller('nuevaUnidadController', function ($scope, $modal,
 
 		$scope.promise = configuradorRepository.postUnidad($scope.numEconomico, $scope.vin, $scope.numGPS, $scope.tipoUnidad, $scope.sustituto, idOperacion, $scope.centroTrabajo, $scope.placa, $scope.zonaSelected, $scope.modeloUnidad, $scope.versionUnidad, $scope.verificado).then(function (result) {
            if (result.data.length > 0) {
+              debugger;
               var uniNueva = result.data[0].idUnidad;
               if (uniNueva != 0){
                   alertFactory.success('Se guardó correctamente la unidad.');

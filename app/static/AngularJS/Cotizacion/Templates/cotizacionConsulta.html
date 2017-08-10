@@ -172,7 +172,7 @@
 
             <div class=" row col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="userData.presupuesto == 0">
               <div class="table-responsive">
-                <table class="table table-bordered table-hover ordenesPresupuesto1" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                <table class="table table-bordered table-hover ordenesPresupuesto1" cg-busy="{promise:promise,message:message}">
                     <thead>
                         <tr>
                             <th>Cliente</th>
@@ -189,8 +189,8 @@
                             <th>Porcentaje de Aprobación</th>
                             <th>Estadistica P/A/R/T</th>
                             <th hidden="hidden">Estatus Filtro</th>
-                            <th>Tiempo en Espera / Tiempo Transcurrido</th>
-                            <th>Abrir</th>
+                            <th ng-if="userData.tiempoAsignado == 1" >Tiempo en Espera / Tiempo Transcurrido </th>
+                            <!-- <th>Abrir</th> -->
                         </tr>
                     </thead>
                     <tbody>
@@ -209,7 +209,7 @@
                             <td>{{cotizacion.porcentaje}} %</td>
                             <td>{{cotizacion.estadistica}}</td>
                             <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}</td>
-                            <td>{{cotizacion.tiempoEspera}}</td>
+                            <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
                             <!--td class='center'>
                                 <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
@@ -256,7 +256,7 @@
                                     <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
-                                    <th>Tiempo en Espera / Tiempo Transcurrido</th>
+                                    <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
                                     <!--th>Abrir</th-->
                                 </tr>
                             </thead>
@@ -277,7 +277,7 @@
                                     <td>{{cotizacion.porcentaje}} %</td>
                                     <td>{{cotizacion.estadistica}}</td>
                                     <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
-                                    <td>{{cotizacion.tiempoEspera}}</td>
+                                    <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
                                     <!--td class='center'>
                                         <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
@@ -324,7 +324,7 @@
                                     <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
-                                    <th>Tiempo en Espera / Tiempo Transcurrido</th>
+                                    <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
                                     <!--th>Abrir</th-->
                                 </tr>
                             </thead>
@@ -346,7 +346,7 @@
                                   <td>{{cotizacion.porcentaje}} %</td>
                                   <td>{{cotizacion.estadistica}}</td>
                                   <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
-                                  <td>{{cotizacion.tiempoEspera}}</td>
+                                  <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
                                   <!--td>
                                     <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                         <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>

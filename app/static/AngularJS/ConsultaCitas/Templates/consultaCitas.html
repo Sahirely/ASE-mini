@@ -192,7 +192,7 @@
                                         <th>Estatus</th>
                                         <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
                                         <th>Agendó</th>
-                                        <th>Tiempo Transcurrido Tiempo Asignado</th>
+                                        <th ng-show="userData.tiempoAsignado == 1">Tiempo Transcurrido Tiempo Asignado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -211,7 +211,7 @@
                                         <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesTaller.venta | currency : "$"}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
-                                        <td>{{ordenesTaller.tiempoEspera}}</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesTaller.tiempoEspera}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -243,7 +243,7 @@
                                         <th>Estatus</th>
                                         <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
                                         <th>Agendó</th>
-                                        <th>Tiempo Transcurrido Tiempo Asignado</th>
+                                        <th ng-show="userData.tiempoAsignado == 1">Tiempo Transcurrido Tiempo Asignado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -261,7 +261,7 @@
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesSinTaller.venta | currency : "$"}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
-                                        <td>{{ordenesSinTaller.tiempoEspera}}</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesSinTaller.tiempoEspera}}</td>
                                     </tr>
                                         <!--<tr ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} ">
                                         <td>{{ordenesSinTaller.nombreCliente}}</td>
