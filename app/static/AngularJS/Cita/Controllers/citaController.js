@@ -433,7 +433,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
           }else{
               $('#loadModal').modal('hide');
               $scope.disableCita = true;
-              alertFactory.info('Debe seleccionar una Unidad Operativa para guardar su Cita.');
+              alertFactory.info('Debe seleccionar una zona para agendar su cita.');
           }
 
           // $scope.disableCita = true;
