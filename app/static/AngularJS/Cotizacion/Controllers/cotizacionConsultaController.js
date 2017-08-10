@@ -102,9 +102,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       $scope.cotizacionesSinPresupuesto = [];
       $scope.sumatoria_conPresupuesto = 0;
       $scope.sumatoria_sinPresupuesto = 0;
-      $('.ordenesPresupuesto1').DataTable().destroy();
-      $('.ordenesPresupuesto').DataTable().destroy();
-      $('.ordenesSinPresupuesto').DataTable().destroy();
+      // $('.ordenesPresupuesto1').DataTable().destroy();
+      // $('.ordenesPresupuesto').DataTable().destroy();
+      // $('.ordenesSinPresupuesto').DataTable().destroy();
       var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
       var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
       var fechaMes = this.obtieneFechaMes();

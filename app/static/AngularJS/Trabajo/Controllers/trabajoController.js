@@ -311,7 +311,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $('.clockpicker').clockpicker();
 
         $scope.numeroTrabajo = '';
-        $('.ordenservicio').DataTable().destroy();
+        // $('.ordenservicio').DataTable().destroy();
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
             $scope.fechaInicio,
             $scope.fechaFin,
