@@ -297,21 +297,36 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     }
 
     $scope.actulizacionDetalle = function (){
-
-        $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-            cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.costoUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
-
-                if (nuevos.data[0].idCotizacionDetalle > 0) {
-                    alertFactory.success('Se  actulizó la cotización');
-                    $scope.limpiarParametros();
-                    $('#loadModal').modal('hide');
-                    location.href = '/detalle?orden=' + $scope.numeroOrden+ '&estatus=' + $scope.estatusActual;
-                } else {
-                }
-            }, function(error) {
-                alertFactory.error('No se pudo actulizar la cotización');
-            });
+        var totalPartidas = 0;
+        $scope.lstPartidaSeleccionada.forEach(function(detalle){
+            totalPartidas += detalle.cantidad;
         });
+
+        debugger;
+        if (totalPartidas > 0){
+            $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
+                if (detalleCotizacion.cantidad != 0){
+                    detalleCotizacion.estatus = 1;
+                } else {
+                    detalleCotizacion.estatus = 4;
+                }
+
+                cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.costoUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
+
+                    if (nuevos.data[0].idCotizacionDetalle > 0) {
+                        alertFactory.success('Se  actulizó la cotización');
+                        $scope.limpiarParametros();
+                        $('#loadModal').modal('hide');
+                        location.href = '/detalle?orden=' + $scope.numeroOrden+ '&estatus=' + $scope.estatusActual;
+                    } else {
+                    }
+                }, function(error) {
+                    alertFactory.error('No se pudo actulizar la cotización');
+                });
+            });
+        } else {
+            alertFactory.info('No puede actualizar la cotización con todas sus partidas con cantidad 0.');
+        }
 
     }
 
