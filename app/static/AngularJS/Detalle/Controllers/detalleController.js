@@ -1276,6 +1276,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
         if ($scope.motivo_rechazoTrabajo != '') {
             $("#ModalRechazoTrabajo").modal('hide');
+            $('#loadModal').modal('show');
 
             detalleRepository.rechazaTrabajo($scope.detalleOrden.idOrden, $scope.idUsuario, $scope.motivo_rechazoTrabajo).then(function(Rechazado) {
                 commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
@@ -1289,15 +1290,19 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             $("html, body").animate({
                                 scrollTop: 0
                             }, 1000);
+
                             $scope.init();
                             swal("", "Se ha rechazado el trabajo", "success");
+                            $('#loadModal').modal('hide');
 
                         }, function(error) {
                             alertFactory.error('No se puede enviar el correo');
+                            $('#loadModal').modal('hide');
                         });
                     }
                 }, function(error) {
                     alertFactory.error("Error al obtener información para el mail");
+                    $('#loadModal').modal('hide');
                 });
             });
         } else {
