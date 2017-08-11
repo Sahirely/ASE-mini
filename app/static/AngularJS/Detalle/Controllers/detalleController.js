@@ -33,6 +33,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.show_tokenMargen = false;
     $scope.procesarCompra = '';
     $scope.estadoCompra = false;
+    $scope.estadoProveedor = false;
     $scope.sinTiempoDisponible = 1;
     $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
 
@@ -833,6 +834,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 $("#mensaje").text('¡Factura cargada correctamente!');
                                 debugger;
                                 var xmltemp = JSON.stringify(result.data.xml_objet);
+                                xmltemp = xmltemp.replace("\\", "/");
                                 xmltemp = xmltemp.toUpperCase();
                                 var xml = JSON.parse(xmltemp);
                                 var sxml = result.data.xml;
@@ -1704,6 +1706,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
             console.log(result);
             if (result.data[0].success == 1) {
                 $scope.botonProcesarCompra = true;
+                $scope.estadoProveedor = true;
+            } else if (result.data[0].success == 0) {
+                $scope.botonProcesarCompra = true;
+                $scope.estadoProveedor = false;
             } else if (result.data[0].success == 2) {
                 $scope.botonProcesarCompra = false;
                 $scope.estadoCompra = true;
