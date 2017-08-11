@@ -94,8 +94,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
         });
     };
 
-
-
     $scope.getHistoricos = function() {
         detalleRepository.getHistoricoOrden($scope.numeroOrden).then(function(result) {
             if (result.data.length > 0) {
@@ -500,33 +498,32 @@ registrationModule.controller('detalleController', function($scope, $location, $
                         }, 500);
                         break;
                     case 3:
-                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                                    $('#loadModal').modal('hide');
-                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
+                          if ($scope.hasDetalleModulo(5,14) === true) {
 
-                                }, function(error) {
-                                    $scope.class_buttonGuardaCotizacion = '';
-                                    alertFactory.error('No se puede enviar el correo');
-                                    setTimeout(function() {
-                                        $('#loadModal').modal('hide');
-                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
-                                    }, 1500);
-                                });
-                            }
-                            $scope.class_buttonGuardaCotizacion = '';
-                        }, function(error) {
-                            $scope.class_buttonGuardaCotizacion = '';
-                            $('#loadModal').modal('hide');
-                            alertFactory.error("Error al obtener información para el mail");
+                              commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                                  if (resp.data.length > 0) {
+                                      var correoDe = resp.data[0].correoDe;
+                                      var correoPara = resp.data[0].correoPara;
+                                      var asunto = resp.data[0].asunto;
+                                      var texto = resp.data[0].texto;
+                                      var bodyhtml = resp.data[0].bodyhtml;
+                                      commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                          if (result.data.length > 0) {}
+                                      }, function(error) {
+                                          alertFactory.error('No se puede enviar el correo');
+                                      });
+                                  }
 
-                        });
+                              }, function(error) {
+                                  alertFactory.error("Error al obtener información para el mail");
+                              });
+                          }
+
+                          $('#loadModal').modal('hide');
+                          $scope.class_buttonGuardaCotizacion = '';
+                          setTimeout(function() {
+                              location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
+                          }, 1500);
                         break;
                     case 4:
                         $('#loadModal').modal('hide');
@@ -1019,6 +1016,28 @@ registrationModule.controller('detalleController', function($scope, $location, $
               if (result.data.length > 0) {
 
                   detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(r_token) {
+
+                    if ($scope.hasDetalleModulo(6, 19) === true) {
+
+                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                              if (resp.data.length > 0) {
+                                  var correoDe = resp.data[0].correoDe;
+                                  var correoPara = resp.data[0].correoPara;
+                                  var asunto = resp.data[0].asunto;
+                                  var texto = resp.data[0].texto;
+                                  var bodyhtml = resp.data[0].bodyhtml;
+                                  commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                      if (result.data.length > 0) {}
+                                  }, function(error) {
+                                      alertFactory.error('No se puede enviar el correo');
+                                  });
+                              }
+
+                          }, function(error) {
+                              alertFactory.error("Error al obtener información para el mail");
+                          });
+                      }
+
                       $scope.class_buttonTerminaTrabajo = '';
                       alertFactory.success('Se ha terminado el trabajo');
                       $("html, body").animate({
@@ -1055,30 +1074,36 @@ registrationModule.controller('detalleController', function($scope, $location, $
                             if (r_token.data[0].Success) {
                                 detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
                                     alertFactory.success('Se ha pasado a estatus Entrega');
-                                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                                        if (resp.data.length > 0) {
-                                            var correoDe = resp.data[0].correoDe;
-                                            var correoPara = resp.data[0].correoPara;
-                                            var asunto = resp.data[0].asunto;
-                                            var texto = resp.data[0].texto;
-                                            var bodyhtml = resp.data[0].bodyhtml;
-                                            commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                                                $("html, body").animate({
-                                                    scrollTop: 0
-                                                }, 1000);
-                                                $scope.init();
-                                                $scope.token_termino = '';
-                                                $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                $('#loadModal').modal('hide');
-                                            }, function(error) {
-                                                $('#loadModal').modal('hide');
-                                                alertFactory.error('No se puede enviar el correo');
-                                            });
-                                        }
-                                    }, function(error) {
-                                        $('#loadModal').modal('hide');
-                                        alertFactory.error("Error al obtener información para el mail");
-                                    });
+
+                                    if ($scope.hasDetalleModulo(6,19) === true) {
+
+                                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                                            if (resp.data.length > 0) {
+                                                var correoDe = resp.data[0].correoDe;
+                                                var correoPara = resp.data[0].correoPara;
+                                                var asunto = resp.data[0].asunto;
+                                                var texto = resp.data[0].texto;
+                                                var bodyhtml = resp.data[0].bodyhtml;
+                                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                                    if (result.data.length > 0) {}
+                                                }, function(error) {
+                                                    alertFactory.error('No se puede enviar el correo');
+                                                });
+                                            }
+
+                                        }, function(error) {
+                                            alertFactory.error("Error al obtener información para el mail");
+                                        });
+                                    }
+
+                                    $("html, body").animate({
+                                        scrollTop: 0
+                                    }, 1000);
+                                    $scope.init();
+                                    $scope.token_termino = '';
+                                    $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+                                    $('#loadModal').modal('hide');
+
                                 });
 
                             } else {
@@ -1105,30 +1130,36 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 if (r_token.data[0].Success) {
                                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(c_token) {
                                         alertFactory.success('Se ha pasado a estatus Cobranza');
-                                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                                            if (resp.data.length > 0) {
-                                                var correoDe = resp.data[0].correoDe;
-                                                var correoPara = resp.data[0].correoPara;
-                                                var asunto = resp.data[0].asunto;
-                                                var texto = resp.data[0].texto;
-                                                var bodyhtml = resp.data[0].bodyhtml;
-                                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                                                    $("html, body").animate({
-                                                        scrollTop: 0
-                                                    }, 1000);
-                                                    $scope.init();
-                                                    $scope.token_termino = '';
-                                                    $scope.getReporteConformidad($scope.detalleOrden.idOrden);
-                                                    $('#loadModal').modal('hide');
-                                                }, function(error) {
-                                                    $('#loadModal').modal('hide');
-                                                    alertFactory.error('No se puede enviar el correo');
-                                                });
-                                            }
-                                        }, function(error) {
-                                            $('#loadModal').modal('hide');
-                                            alertFactory.error("Error al obtener información para el mail");
-                                        });
+
+                                        if ($scope.hasDetalleModulo(7,20) === true) {
+
+                                            commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                                                if (resp.data.length > 0) {
+                                                    var correoDe = resp.data[0].correoDe;
+                                                    var correoPara = resp.data[0].correoPara;
+                                                    var asunto = resp.data[0].asunto;
+                                                    var texto = resp.data[0].texto;
+                                                    var bodyhtml = resp.data[0].bodyhtml;
+                                                    commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                                        if (result.data.length > 0) {}
+                                                    }, function(error) {
+                                                        alertFactory.error('No se puede enviar el correo');
+                                                    });
+                                                }
+
+                                            }, function(error) {
+                                                alertFactory.error("Error al obtener información para el mail");
+                                            });
+                                        }
+
+                                        $("html, body").animate({
+                                            scrollTop: 0
+                                        }, 1000);
+                                        $scope.init();
+                                        $scope.token_termino = '';
+                                        $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+                                        $('#loadModal').modal('hide');
+
                                     });
 
                                 } else {
@@ -1215,32 +1246,28 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     $scope.token_utilidad = '';
                     detalleRepository.tokenEstatus($scope.detalleOrden.idOrden).then(function(resp) {});
                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
-                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                      if ($scope.hasDetalleModulo(5,14) === true) {
+                          commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                              if (resp.data.length > 0) {
+                                  var correoDe = resp.data[0].correoDe;
+                                  var correoPara = resp.data[0].correoPara;
+                                  var asunto = resp.data[0].asunto;
+                                  var texto = resp.data[0].texto;
+                                  var bodyhtml = resp.data[0].bodyhtml;
+                                  commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                      if (result.data.length > 0) {}
+                                  }, function(error) {
+                                      alertFactory.error('No se puede enviar el correo');
+                                  });
+                              }
 
-                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                          }, function(error) {
+                              alertFactory.error("Error al obtener información para el mail");
+                          });
+                      }
 
-                                    // $(".token-group input").removeAttr("disabled");
-                                    // $(".token-group button").removeAttr("disabled");
-                                    // $(".token-group button i").hide();
-                                    //$scope.init();
-                                }, function(error) {
-                                    alertFactory.error('No se puede enviar el correo');
-                                    setTimeout(function() {
-                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                                    }, 1500);
-                                });
-                            }
-                        }, function(error) {
-                            alertFactory.error("Error al obtener información para el mail");
-                            location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                        });
+                      location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+
                     });
                 } else {
                     alertFactory.error(r_token.data[0].Msg);
@@ -1281,31 +1308,36 @@ registrationModule.controller('detalleController', function($scope, $location, $
             $('#loadModal').modal('show');
 
             detalleRepository.rechazaTrabajo($scope.detalleOrden.idOrden, $scope.idUsuario, $scope.motivo_rechazoTrabajo).then(function(Rechazado) {
-                commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                    if (resp.data.length > 0) {
-                        var correoDe = resp.data[0].correoDe;
-                        var correoPara = resp.data[0].correoPara;
-                        var asunto = resp.data[0].asunto;
-                        var texto = resp.data[0].texto;
-                        var bodyhtml = resp.data[0].bodyhtml;
-                        commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                            $("html, body").animate({
-                                scrollTop: 0
-                            }, 1000);
 
-                            $scope.init();
-                            swal("", "Se ha rechazado el trabajo", "success");
-                            $('#loadModal').modal('hide');
+              if ($scope.hasDetalleModulo(5,14) === true) {
 
-                        }, function(error) {
-                            alertFactory.error('No se puede enviar el correo');
-                            $('#loadModal').modal('hide');
-                        });
-                    }
-                }, function(error) {
-                    alertFactory.error("Error al obtener información para el mail");
-                    $('#loadModal').modal('hide');
-                });
+                  commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                        if (resp.data.length > 0) {
+                            var correoDe = resp.data[0].correoDe;
+                            var correoPara = resp.data[0].correoPara;
+                            var asunto = resp.data[0].asunto;
+                            var texto = resp.data[0].texto;
+                            var bodyhtml = resp.data[0].bodyhtml;
+                            commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                if (result.data.length > 0) {}
+                            }, function(error) {
+                                alertFactory.error('No se puede enviar el correo');
+                            });
+                        }
+
+                    }, function(error) {
+                        alertFactory.error("Error al obtener información para el mail");
+                    });
+                }
+
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 1000);
+
+                $scope.init();
+                swal("", "Se ha rechazado el trabajo", "success");
+                $('#loadModal').modal('hide');
+
             });
         } else {
             alertFactory.info('Debes poner el motivo del rechazo del trabajo.');
@@ -1575,29 +1607,33 @@ registrationModule.controller('detalleController', function($scope, $location, $
             function(isConfirm) {
                 if (isConfirm) {
                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function(result) {
-                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                                    $('#loadModal').modal('hide');
-                                    location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                                    //$scope.init();
-                                }, function(error) {
-                                    $('#loadModal').modal('hide');
-                                    alertFactory.error('No se puede enviar el correo');
-                                    setTimeout(function() {
-                                        location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
-                                    }, 1500);
-                                });
-                            }
-                        }, function(error) {
-                            $('#loadModal').modal('hide');
-                            alertFactory.error("Error al obtener información para el mail");
-                        });
+
+                      if ($scope.hasDetalleModulo(5,14) === true) {
+
+                          commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                              if (resp.data.length > 0) {
+                                  var correoDe = resp.data[0].correoDe;
+                                  var correoPara = resp.data[0].correoPara;
+                                  var asunto = resp.data[0].asunto;
+                                  var texto = resp.data[0].texto;
+                                  var bodyhtml = resp.data[0].bodyhtml;
+                                  commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                      if (result.data.length > 0) {}
+                                  }, function(error) {
+                                      alertFactory.error('No se puede enviar el correo');
+                                  });
+                              }
+
+                          }, function(error) {
+                              alertFactory.error("Error al obtener información para el mail");
+                          });
+                      }
+
+                      $('#loadModal').modal('hide');
+                      setTimeout(function() {
+                          location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
+                      }, 1500);
+
                     });
                     swal("Orden en aprobación!");
                 } else {
@@ -1908,5 +1944,20 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
         location.href = '/preordenCotizacion?idCotizacion=' + idCotizacion + '&orden=' + $scope.numeroOrden;
     }
+
+    $scope.hasDetalleModulo = function(idCatalogoModulo, idCatalogoDetalleModulo) {
+        var hasDM = false;
+        angular.forEach($scope.userData.Modulos, function(modulo) {
+            if (modulo.idCatalogoModulo == idCatalogoModulo) {
+                angular.forEach(modulo.detalle, function(detalleModulo, key) {
+                    if (detalleModulo.idCatalogoDetalleModulo == idCatalogoDetalleModulo) {
+                        hasDM = true;
+                    }
+                });
+            }
+        })
+
+        return hasDM;
+    };
 
 });
