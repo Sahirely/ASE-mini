@@ -385,22 +385,27 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                       $scope.numeroOrden = result.data[0].numeroOrden;
                       $scope.idOrden = result.data[0].idOrden;
 
-                      commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                          if (resp.data.length > 0) {
-                              var correoDe = resp.data[0].correoDe;
-                              var correoPara = resp.data[0].correoPara;
-                              var asunto = resp.data[0].asunto;
-                              var texto = resp.data[0].texto;
-                              var bodyhtml = resp.data[0].bodyhtml;
-                              commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                                  if (result.data.length > 0) {}
-                              }, function(error) {
-                                  alertFactory.error('No se puede enviar el correo');
-                              });
-                          }
-                      }, function(error) {
-                          alertFactory.error("Error al obtener información para el mail");
-                      });
+
+                      if ($scope.hasDetalleModulo() === true) {
+
+                          commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                              if (resp.data.length > 0) {
+                                  var correoDe = resp.data[0].correoDe;
+                                  var correoPara = resp.data[0].correoPara;
+                                  var asunto = resp.data[0].asunto;
+                                  var texto = resp.data[0].texto;
+                                  var bodyhtml = resp.data[0].bodyhtml;
+                                  commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                      if (result.data.length > 0) {}
+                                  }, function(error) {
+                                      alertFactory.error('No se puede enviar el correo');
+                                  });
+                              }
+
+                          }, function(error) {
+                              alertFactory.error("Error al obtener información para el mail");
+                          });
+                      }
 
                       if ($scope.labelItems > 0) {
                           cotizacionRepository.insCotizacionNueva(0, $scope.idUsuario, 5, $scope.numeroOrden, $scope.tipoDeCita.idTipoCita, 0).then(function(result) {
@@ -566,6 +571,21 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.actualizarCita2();
         }
     }
+
+    $scope.hasDetalleModulo = function() {
+      var hasDM = false;
+      angular.forEach($scope.userData.Modulos, function(modulo) {
+          if (modulo.idCatalogoModulo == 3) {
+              angular.forEach(modulo.detalle, function(detalleModulo, key) {
+                  if (detalleModulo.idCatalogoDetalleModulo == 10) {
+                      hasDM = true;
+                  }
+              });
+          }
+      })
+
+      return hasDM;
+  };
 
     $scope.actualizarCita2 = function() {
         $scope.disableCita = false;

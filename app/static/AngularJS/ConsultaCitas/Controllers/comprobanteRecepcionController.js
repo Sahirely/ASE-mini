@@ -74,11 +74,11 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
 
 
     $scope.addComprobanteRecepcion = function() {
-     
+
         var contador = 0;
         var contadorTotal = 0;
 
-       
+
          angular.forEach($scope.modulosComprobante, function(value, key) {
             if(value.indexComprobante <= 5){
                 angular.forEach(value.detalle, function(value2, key) {
@@ -145,23 +145,36 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
             alertFactory.error('No se puede obtener los detalles de la orden');
         });
 
-        commonFunctionRepository.dataMail(idOrden, idUsuario).then(function (resp) {
-        if (resp.data.length > 0) {
-            var correoDe = resp.data[0].correoDe;
-            var correoPara = resp.data[0].correoPara;
-            var asunto = resp.data[0].asunto;
-            var texto = resp.data[0].texto;
-            var bodyhtml = resp.data[0].bodyhtml;
-             commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
-                if (result.data.length > 0) {
+        var hasDM = false;
+        angular.forEach($scope.userData.Modulos, function (modulo){
+            if (modulo.idCatalogoModulo == 4) {
+                angular.forEach(modulo.detalle, function(detalleModulo, key) {
+                    if (detalleModulo.idCatalogoDetalleModulo == 6) {
+                        hasDM = true;
+                    }
+                });
+            }
+        });
+
+        if(hasDM){
+            commonFunctionRepository.dataMail(idOrden, idUsuario).then(function (resp) {
+                if (resp.data.length > 0) {
+                    var correoDe = resp.data[0].correoDe;
+                    var correoPara = resp.data[0].correoPara;
+                    var asunto = resp.data[0].asunto;
+                    var texto = resp.data[0].texto;
+                    var bodyhtml = resp.data[0].bodyhtml;
+                     commonFunctionRepository.sendMail(correoDe,correoPara,asunto,texto,bodyhtml,'','').then(function(result) {
+                        if (result.data.length > 0) {
+                        }
+                    }, function(error) {
+                        alertFactory.error('No se puede enviar el correo');
+                    });
                 }
-            }, function(error) {
-                alertFactory.error('No se puede enviar el correo');
+            }, function (error) {
+                alertFactory.error("Error al obtener información para el mail");
             });
         }
-    }, function (error) {
-        alertFactory.error("Error al obtener información para el mail");
-    });
 
 }
 

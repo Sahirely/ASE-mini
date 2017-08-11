@@ -226,8 +226,43 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
         //LQMA 15072017 end
 
         preordenCotizacionRepository.getGuardarCotizacion($scope.idCotizacion, $scope.idUsuario, $scope.tallerSeleccionado.idTaller, partidas, $scope.tallerSeleccionado.idZona).then(function(result) {
+              var hasDM = false;
+              angular.forEach($scope.userData.Modulos, function (modulo){
+                  if (modulo.idCatalogoModulo == 4) {
+                      angular.forEach(modulo.detalle, function(detalleModulo, key) {
+                          if (detalleModulo.idCatalogoDetalleModulo == 6) {
+                              hasDM = true;
+                          }
+                      });
+                  }
+              });
 
-            location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
+              if (hasDM){
+                  if (result.data.length > 0){
+                        $scope.idOrden = result.data[0].idOrden;
+                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                            if (resp.data.length > 0) {
+                                var correoDe = resp.data[0].correoDe;
+                                var correoPara = resp.data[0].correoPara;
+                                var asunto = resp.data[0].asunto;
+                                var texto = resp.data[0].texto;
+                                var bodyhtml = resp.data[0].bodyhtml;
+                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                    if (result.data.length > 0) {}
+                                }, function(error) {
+                                    alertFactory.error('No se puede enviar el correo');
+                                });
+                            }
+                        }, function(error) {
+                            alertFactory.error("Error al obtener información para el mail");
+                        });
+
+                    }
+                }
+
+
+
+                location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
 
 
         });
