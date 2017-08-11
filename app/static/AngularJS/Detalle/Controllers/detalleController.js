@@ -1609,42 +1609,47 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
 
     $scope.validaFacturaCotizacion = function(provision) {
-        swal({
-                title: "Advertencia",
-                text: "¿Está seguro de aprobar la provisión de la orden?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#67BF11",
-                confirmButtonText: "Si",
-                cancelButtonText: "No",
-                closeOnConfirm: false,
-                closeOnCancel: true
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-                        if (result.data[0].success == 1) {
-                            detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
-                                if (result.data.length > 0) {
-                                    alertFactory.info('Se ha provisionado correctamente');
-                                    swal("Proceso Realizado");
-                                    $("html, body").animate({
-                                        scrollTop: 0
-                                    }, 1000);
-                                    $scope.init();
-                                }
-                            }, function(error) {
-                                alertFactory.error('No se pudo insertar en BPRO');
-                            });
-                        } else {
-                            alertFactory.info('Faltan cargar facturas');
-                        }
-                    }, function(error) {
-                        alertFactory.error('No se pudo revisar estatus de facturas');
-                    });
-                }
-            });
-    };
+        if($scope.estadoProveedor == true){
+                    swal({
+                    title: "Advertencia",
+                    text: "¿Está seguro de aprobar la provisión de la orden?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#67BF11",
+                    confirmButtonText: "Si",
+                    cancelButtonText: "No",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                            if (result.data[0].success == 1) {
+                                detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function(result) {
+                                    if (result.data.length > 0) {
+                                        alertFactory.info('Se ha provisionado correctamente');
+                                        swal("Proceso Realizado");
+                                        $("html, body").animate({
+                                            scrollTop: 0
+                                        }, 1000);
+                                        $scope.init();
+                                    }
+                                }, function(error) {
+                                    alertFactory.error('No se pudo insertar en BPRO');
+                                });
+                            } else {
+                                alertFactory.info('Faltan cargar facturas');
+                            }
+                        }, function(error) {
+                            alertFactory.error('No se pudo revisar estatus de facturas');
+                        });
+                    }
+                });
+        }else{
+            swal("Aun se tienen facturas por subir y/o datos incompletos del proveedor!", "Favor de contactar a desarrolloproveedores@centraldeoperaciones.com");
+        }
+    }
+
 
 
     //Abre la modal para confirmar la cancelación de la orden
