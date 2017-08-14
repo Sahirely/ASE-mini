@@ -398,12 +398,12 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                                   commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
                                       if (result.data.length > 0) {}
                                   }, function(error) {
-                                      alertFactory.error('No se puede enviar el correo');
+                                      // alertFactory.error('No se puede enviar el correo');
                                   });
                               }
 
                           }, function(error) {
-                              alertFactory.error("Error al obtener información para el mail");
+                              // alertFactory.error("Error al obtener información para el mail");
                           });
                       }
 
