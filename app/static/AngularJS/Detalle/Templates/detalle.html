@@ -67,6 +67,11 @@
                             </div>
 
                             </div-->
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-lg-push-9 pull-right">
+                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
+                                <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
+                            </button>
+                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="progressPrincipal">
                                 <table id="padreTimeLine">
@@ -101,9 +106,9 @@
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
                                                     <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
                                                     </span>
-                                                    <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2 )&& cot.isPreorden == 1 && cot.hasPart == 1">
+                                                    <!-- <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2 )&& cot.isPreorden == 1 && cot.hasPart == 1">
                                                         <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
-                                                    </button>
+                                                    </button> -->
 
                                                 </td>
                                             </tr>

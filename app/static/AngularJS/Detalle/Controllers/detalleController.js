@@ -126,6 +126,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     valueToPush.data = result.data;
 
                     $scope.HistoricoCotizaciones.push(valueToPush);
+
+                    if (result.data[0].isPreorden == 1 && result.data[0].hasPart == 1){
+                        $scope.preorden = result.data[0];
+                    }
                 }
             }, function(error) {
                 alertFactory.error('No se pudo recuperar el historico de la cotización.');
