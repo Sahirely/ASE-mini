@@ -1,5 +1,5 @@
 registrationModule.controller('dashboardCallCenterController', function($scope, alertFactory, userFactory,$modal, $rootScope, localStorageService, $route, dashboardCallCenterRepository,$timeout,dateFilter,globalFactory, detalleRepository) {
-    
+
     // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
     $scope.idOperacion           = $scope.userData.idOperacion;
@@ -19,13 +19,13 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         $scope.traeRecordatorios();
         $scope.traeOrdenCallCenter(0);
         $scope.zonasCallCenter();
-        $rootScope.modulo            = 'home'; 
+        $rootScope.modulo            = 'home';
 
       }else{
         $scope.traeEjecutivos ();
-        $rootScope.modulo            = 'callcenter'; 
+        $rootScope.modulo            = 'callcenter';
       }
-      
+
     };
 
     //funcion reloj recursiva cada minuto
@@ -36,7 +36,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         },60000);
       };
 
-    //inicia reloj 
+    //inicia reloj
       $scope.iniClock();
 
     $scope.traeEjecutivos = function() {
@@ -100,6 +100,9 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
             if (result.data.length > 0) {
                 $scope.recordatorios = result.data;
                  globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 5);
+            } else {
+                $scope.recordatorios = [];
+                globalFactory.filtrosTabla("dataTableRecordatorios", "fechaAccion", 5);
             }
         }, function (error) {
             alertFactory.error('El usuario no tiene recordatorios');
@@ -111,7 +114,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         $scope.ordencall=[];
         $scope.sumatoria_ordenes = 0;
         $('.dataTableOrdenCallCenter').DataTable().destroy();
-       
+
         $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario, tipo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
@@ -122,7 +125,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
                     $scope.sumatoria_ordenes += item.venta;
                   };
                 });
-                
+
                 globalFactory.filtrosTabla("dataTableOrdenCallCenter", "numeroOrden", 100);
             }
         }, function (error) {
@@ -132,9 +135,9 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
 
     $scope.zonasCallCenter = function(tipo){
         $scope.zonas=[];
-       
+
         $scope.promise = dashboardCallCenterRepository.getZonasCallCenter($scope.idUsuario, $scope.userData.contratoOperacionSeleccionada,).then(function (result) {
-            
+
             if (result.data.length > 0) {
                 $scope.zonas = result.data;
 
@@ -172,15 +175,16 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
             if (isConfirm) {
                detalleRepository.postEstatusRecordatorio(data.idRecordatorio).then(function(result) {
                     if (result.data.length > 0) {
+                      debugger;
                         $scope.traeRecordatorios();
                         swal('El Recordatorio fue Finalizado.');
-                        
-                        
+
+
                     }
                 }, function(error) {
                     alertFactory.error('No se puede guardar accion, intente mas tarde o comuniquese con el administrador');
                 });
-               
+
             }
         });
 
