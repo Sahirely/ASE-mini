@@ -351,16 +351,34 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         $scope.labelItems = partidas.length;
     };
 
+    $scope.tienePreorden = function(){
+        var result = false;
+        var totalPartidas = 0;
+
+        angular.forEach($scope.partidas, function(value, key) {
+            totalPartidas += value.cantidad;
+        });
+
+        if (totalPartidas > 0)
+            result = true;
+
+        return result;
+    }
+
     $scope.agendarCita = function(){
-        if ($scope.userData.presupuesto){
-            if($scope.centroTrabajo == undefined || $scope.centroTrabajo == null || $scope.centroTrabajo == 0){
-                alertFactory.info('Debe seleccionar un centro de trabajo para continuar.');
+        if ($scope.tienePreorden()) {
+            if ($scope.userData.presupuesto){
+                if($scope.centroTrabajo == undefined || $scope.centroTrabajo == null || $scope.centroTrabajo == 0){
+                    alertFactory.info('Debe seleccionar un centro de trabajo para continuar.');
+                }else{
+                    $scope.agendarCita2();
+                }
             }else{
+                $scope.centroTrabajo = 0;
                 $scope.agendarCita2();
             }
-        }else{
-            $scope.centroTrabajo = 0;
-            $scope.agendarCita2();
+        } else {
+            alertFactory.info('Debe seleccionar partidas en la preorden para guardar su cita.');
         }
     }
 
@@ -560,16 +578,20 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     };
 
     $scope.actualizarCita = function() {
-        if ($scope.userData.presupuesto){
-            if($scope.centroTrabajo == 0 || $scope.centroTrabajo == undefined || $scope.centroTrabajo == null){
-                alertFactory.info('Debe seleccionar un centro de trabajo para continuar.');
+        // if ($scope.tienePreorden()) {
+            if ($scope.userData.presupuesto){
+                if($scope.centroTrabajo == 0 || $scope.centroTrabajo == undefined || $scope.centroTrabajo == null){
+                    alertFactory.info('Debe seleccionar un centro de trabajo para continuar.');
+                }else{
+                    $scope.actualizarCita2();
+                }
             }else{
+                $scope.centroTrabajo = 0;
                 $scope.actualizarCita2();
             }
-        }else{
-            $scope.centroTrabajo = 0;
-            $scope.actualizarCita2();
-        }
+        // } else {
+        //     alertFactory.info('Debe seleccionar partidas en la preorden para actualizar su cita.');
+        // }
     }
 
     $scope.hasDetalleModulo = function() {
