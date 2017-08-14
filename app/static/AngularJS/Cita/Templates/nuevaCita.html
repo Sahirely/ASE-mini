@@ -16,7 +16,7 @@
                                 </h2>
                             </div>
                             <div class="row">
-                                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="userData.verificacionVehicular == 0">
                                   <div >
                                       <address>
                                           <h3>
@@ -38,8 +38,29 @@
                                   </div>
                                 </div>
 
+                                <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7" ng-show="userData.verificacionVehicular == 1">
+                                  <div >
+                                      <address>
+                                          <h3>
+                                            <p><strong>No. Económico:</strong> {{detalleUnidad.numeroEconomico}}</p>
+                                            <p><strong>Placas:</strong> {{detalleUnidad.placas}}</p>
+                                            <p><strong>VIN:</strong> {{detalleUnidad.vin}}</p>
+                                            <p><strong>Marca:</strong> {{detalleUnidad.marca}}</p>
+                                            <p><strong>Sub Marca:</strong> {{detalleUnidad.subMarca}}</p>
+                                            <p><strong>Versión:</strong> {{detalleUnidad.version}}</p>
+                                            <p><strong>Modelo:</strong> {{detalleUnidad.modelo}}</p>
+                                            <p><strong>Tipo de Unidad:</strong> {{detalleUnidad.nombreTipoUnidad}}</p>
+                                            <!-- <strong>Zona:</strong> {{detalleUnidad.zona}}<br><br> -->
+                                            <p ng-repeat="z in detalleUnidad.zonasUnidad | orderBy : 'orden'">
+                                                <strong>{{z.etiqueta}}:</strong>{{z.nombre}}
+                                            </p>
+                                            <p ng-show="userData.geolocalizacion == 1"><strong>Ubicación:</strong> {{detalleUnidad.gps}}</p>
+                                          </h3>
+                                      </address>
+                                  </div>
+                                </div>
 
-                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+                                <div class="col-xs-5 col-sm-5 col-md-5 col-lg-5" ng-show="userData.verificacionVehicular == 1">
                                   <div class="col-xs-12 col-sm-12 col-md-10 col-lg-6" ng-show="detalleUnidad.verificada">
                                     <div class="widget style1 verde-bg">
                                         <div class="row vertical-align">

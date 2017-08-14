@@ -58,7 +58,7 @@
                                           <span>{{detalleUnidad.gps}}</span>
                                       </p>
                                   </div>
-                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-show="detalleUnidad.verificada">
+                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-show="detalleUnidad.verificada == 1 && userData.verificacionVehicular == 1">
                                     <div class="widget style1 verde-bg">
                                         <div class="row vertical-align">
                                             <div class="col-xs-3">
@@ -70,7 +70,7 @@
                                         </div>
                                     </div>
                                   </div>
-                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-hide="detalleUnidad.verificada">
+                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-hide="detalleUnidad.verificada == 1 || userData.verificacionVehicular == 0">
                                   <div class="widget style1 rojo-bg">
                                       <div class="row vertical-align">
                                           <div class="col-xs-2">

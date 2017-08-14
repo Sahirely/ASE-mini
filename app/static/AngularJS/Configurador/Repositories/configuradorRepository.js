@@ -44,7 +44,7 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 }
             })
         },
-        postOperaciones: function(idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, formaPago, presupuesto, centros, idOperacion, idcentros) {
+        postOperaciones: function(idCatalogoTipoOperacion, manejoUtilidad, porcentajeUtilidad, geolocalizacion, tiempoAsignado, estatusOperacion, formaPago, presupuesto, centros, idOperacion, idcentros, verificacion) {
 
            var msgObj = {
                 idCatalogoTipoOperacion: idCatalogoTipoOperacion,
@@ -57,7 +57,8 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                 presupuesto: presupuesto,
                 centros: centros,
                 idOperacion:idOperacion,
-                idcentros:idcentros
+                idcentros:idcentros,
+                verificacion: verificacion
             };
             return $http({
                 url: onfiguradorUrl + 'nuevaOperacion/',

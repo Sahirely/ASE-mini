@@ -120,12 +120,14 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         name: 'idOperacion',
         value: req.body.idOperacion,
         type: self.model.types.INT
-
-
     }, {
         name: 'idcentros',
         value: req.body.idcentros,
         type: self.model.types.STRING
+    },{
+        name: 'verificacion',
+        value: req.body.verificacion,
+        type: self.model.types.INT
     }];
 
 
