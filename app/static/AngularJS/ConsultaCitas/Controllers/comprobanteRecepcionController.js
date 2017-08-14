@@ -217,6 +217,12 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         if(result.data[i].id == 33) var ubi_TechoDesc = result.data[i].descripcion;
                         if(result.data[i].id == 34) var ubi_TraseraDesc = result.data[i].descripcion;
                         if(result.data[i].id == 35) var ubi_ParteIzquierdaDesc = result.data[i].descripcion;
+                        if (result.data[i].id == 36) var img_ParteIzquierda  = $rootScope.docServer + result.data[i].descripcion;
+                        if (result.data[i].id == 37) var img_ParteDerecha  = $rootScope.docServer + result.data[i].descripcion;
+                        if (result.data[i].id == 38) var img_Delantera  = $rootScope.docServer + result.data[i].descripcion;
+                        if (result.data[i].id == 39) var img_Trasera  = $rootScope.docServer + result.data[i].descripcion;
+                        if (result.data[i].id == 40) var img_Techo  = $rootScope.docServer + result.data[i].descripcion;
+
                     }
                 var data = {
                     "DatosUnidad":
@@ -255,7 +261,12 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         "ubi_DelanteraDesc": ubi_DelanteraDesc,
                         "ubi_TechoDesc": ubi_TechoDesc,
                         "ubi_TraseraDesc": ubi_TraseraDesc,
-                        "ubi_ParteIzquierdaDesc": ubi_ParteIzquierdaDesc
+                        "ubi_ParteIzquierdaDesc": ubi_ParteIzquierdaDesc,
+                        "img_ParteIzquierda":img_ParteIzquierda,
+                        "img_ParteDerecha":img_ParteDerecha,
+                        "img_Delantera":img_Delantera,
+                        "img_Trasera":img_Trasera,
+                        "img_Techo":img_Techo
                         }
                     }
                 }
