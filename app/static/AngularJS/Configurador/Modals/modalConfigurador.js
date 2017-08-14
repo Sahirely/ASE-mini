@@ -100,6 +100,21 @@ function modal_zonas($scope, $modal, idContratoOperacion) {
     });
 }
 
+function modal_datosFacturacion($scope, $modal, idOperacion) {
+    var modalInstance = $modal.open({
+        templateUrl: '../AngularJS/Configurador/Templates/Facturacion.html',
+        controller: 'facturacionController',
+        backdrop: 'static',
+        keyboard: false,
+        size: 500,
+        resolve:{
+            idOperacion: function() {
+                return idOperacion;
+            }
+        }
+    });
+}
+
 //Valida correo
 function isValidEmailAddress(emailAddress) {
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);

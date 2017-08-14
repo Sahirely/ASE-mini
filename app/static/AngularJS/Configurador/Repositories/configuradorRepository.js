@@ -495,6 +495,28 @@ registrationModule.factory('configuradorRepository', function($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
+        },
+        getDatosFacturacion: function(idOperacion){
+            return $http({
+                url: onfiguradorUrl + 'getDatosFacturacion/',
+                method: "GET",
+                params: { idOperacion: idOperacion },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+        },
+        insDatosFacturacion: function(idOperacion, rfc, razonSocial){
+          return $http({
+              url: onfiguradorUrl + 'insContratoFacturacion/',
+              method: "GET",
+              params: { idOperacion: idOperacion,
+                        rfc: rfc,
+                        razonSocial: razonSocial },
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          })
         }
 
     }

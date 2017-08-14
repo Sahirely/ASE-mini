@@ -282,6 +282,32 @@ Configurador.prototype.get_tipoUnidades = function(req, res, next) {
     });
 }
 
+Configurador.prototype.get_getDatosFacturacion = function(req, res, next){
+    var self = this;
+    var params = [{name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT}];
+
+    self.model.query('SEL_DATOS_FACTURACION_OPERACION_SP', params, function (error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Configurador.prototype.get_insContratoFacturacion = function(req, res, next){
+    var self = this;
+    var params = [{name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT},
+                  {name: 'rfc', value: req.query.rfc, type: self.model.types.STRING},
+                  {name: 'razonSocial', value: req.query.razonSocial, type: self.model.types.STRING}];
+
+    self.model.query('INS_CONTRATO_OPERACION_FACTURACION_SP', params, function (error, result){
+        self.view.expositor(res,{
+            error: error,
+            result: result
+        });
+    });
+}
+
 //Modulos
 Configurador.prototype.get_catalogoModulos = function(req, res, next) {
     var self = this;

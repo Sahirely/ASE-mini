@@ -632,4 +632,8 @@ registrationModule.controller('configuradorController', function ($scope, $route
         });
     }
 
+		$scope.datosFact = function(){
+				modal_datosFacturacion($scope, $modal, $scope.idOperacion);
+		}
+
 });
