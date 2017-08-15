@@ -343,10 +343,6 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
         { name: 'idTipoUnidad', value: req.query.idTipoUnidad, type: self.model.types.INT }
 
     ];
-    var params2 = [
-        { name: 'idTipoUnidad', value: req.query.idTipoUnidad, type: self.model.types.INT },
-        { name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING }
-    ];
 
     self.model.query('SEL_MODULOS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
         var modulosComprobante = result;
@@ -356,8 +352,9 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
 
         if (modulosComprobante.length != 0) {
             modulosComprobante.forEach(function(item, key) {
-                var params = [
-                    { name: 'idCatalogoModuloComprobante', value: item.idCatalogoModuloComprobante, type: self.model.types.INT }
+                var params2 = [
+                    { name: 'idCatalogoModuloComprobante', value: item.idCatalogoModuloComprobante, type: self.model.types.INT },
+                    { name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING }
                 ];
 
                 self.model.query('SEL_DETALLE_MODULOS_COMPROBANTE_RECEPCION_SP', params2, function(err, datos) {
