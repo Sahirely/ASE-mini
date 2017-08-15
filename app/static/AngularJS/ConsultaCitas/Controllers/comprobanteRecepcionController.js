@@ -11,7 +11,7 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
     };
 
     $scope.getdatosComprobante = function(idTipoUnidad) {
-        consultaCitasRepository.getdatosComprobante(idTipoUnidad).then(function(result) {
+        consultaCitasRepository.getdatosComprobante(idTipoUnidad, $scope.numeroOrden).then(function(result) {
             if (result.data.success == true) {
                     $scope.modulosComprobante = result.data.data;
             } else {

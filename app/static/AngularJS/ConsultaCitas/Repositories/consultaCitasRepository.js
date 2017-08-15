@@ -148,12 +148,13 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
-        getdatosComprobante: function(idTipoUnidad) {
+        getdatosComprobante: function(idTipoUnidad, numeroOrden) {
             return $http({
                 url: consultaCitaUrl + 'getdatosComprobante',
                 method: "GET",
                 params: {
-                    idTipoUnidad: idTipoUnidad
+                    idTipoUnidad: idTipoUnidad,
+                    numeroOrden: numeroOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

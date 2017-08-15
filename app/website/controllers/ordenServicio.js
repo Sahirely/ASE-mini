@@ -343,6 +343,10 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
         { name: 'idTipoUnidad', value: req.query.idTipoUnidad, type: self.model.types.INT }
 
     ];
+    var params2 = [
+        { name: 'idTipoUnidad', value: req.query.idTipoUnidad, type: self.model.types.INT },
+        { name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING }
+    ];
 
     self.model.query('SEL_MODULOS_COMPROBANTE_RECEPCION_SP', params, function(error, result) {
         var modulosComprobante = result;
@@ -356,7 +360,7 @@ OrdenServicio.prototype.get_getdatosComprobante = function(req, res, next) {
                     { name: 'idCatalogoModuloComprobante', value: item.idCatalogoModuloComprobante, type: self.model.types.INT }
                 ];
 
-                self.model.query('SEL_DETALLE_MODULOS_COMPROBANTE_RECEPCION_SP', params, function(err, datos) {
+                self.model.query('SEL_DETALLE_MODULOS_COMPROBANTE_RECEPCION_SP', params2, function(err, datos) {
                     modulosComprobante[key].detalle = datos;
 
                     if (key >= (tamanio - 1)) {
