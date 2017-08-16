@@ -76,6 +76,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Recordatorio</th>
+                                                <th>Operador</th>
                                                 <th>Fecha</th>
                                                 <th>Tiempo vencido</th>
                                                 <th ng-show="userData.idRol == 3">Editar</th>
@@ -85,6 +86,7 @@
                                         <tbody>
                                             <tr title="Doble click para ver detalles" ng-repeat="recordatorio in recordatorios " >
                                                 <td>{{recordatorio.texto}}</td>
+                                                <td>{{recordatorio.nombreCompleto}}</td>
                                                 <td>{{recordatorio.fechaRecordatorio}} {{recordatorio.horaRecordatorio}} </td>
                                                 <td ng-class="{'semaforoVerde': recordatorio.minutos < 0, 'semaforoRojo': recordatorio.minutos >= 0}">{{recordatorio.tiempo}}</td>
                                                 <td class="center" ng-show="userData.idRol == 3">
