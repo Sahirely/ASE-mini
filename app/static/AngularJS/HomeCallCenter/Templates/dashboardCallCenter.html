@@ -86,7 +86,7 @@
                                             <tr title="Doble click para ver detalles" ng-repeat="recordatorio in recordatorios " >
                                                 <td>{{recordatorio.texto}}</td>
                                                 <td>{{recordatorio.fechaRecordatorio}} {{recordatorio.horaRecordatorio}} </td>
-                                                <td>{{recordatorio.tiempo}}</td>
+                                                <td ng-class="{'semaforoVerde': recordatorio.minutos < 0, 'semaforoRojo': recordatorio.minutos >= 0}">{{recordatorio.tiempo}}</td>
                                                 <td class="center" ng-show="userData.idRol == 3">
                                                     <button class="btn btn-info btn-xs" title="Editar" ng-click="recoradatorios(recordatorio)" ><i class="glyphicon glyphicon-refresh"></i></button>
 
