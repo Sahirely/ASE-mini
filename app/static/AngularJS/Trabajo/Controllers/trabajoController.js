@@ -16,6 +16,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.NivelesZona = [];
     $scope.Zonas = [];
     $scope.idZona = 0;
+    $scope.btnSwitch = {};
 
     $scope.fechaMes      = '';
     $scope.fechaInicio   = '';
@@ -43,6 +44,10 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.obtieneNivelZona();
         //termina el cargado de las Zonas del usuario.
         $scope.devuelveEjecutivos();
+
+        $scope.btnSwitch.classCosto = 'btn btn-success';
+        $scope.btnSwitch.classVenta = 'btn btn-default';
+        $scope.showButtonSwitch($scope.userData.idRol);
 
         // globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
         // globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
@@ -437,6 +442,31 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             });
         }
     };
+
+
+    $scope.showButtonSwitch = function(usrRol) {
+    switch (Number(usrRol)) {
+        case 1: //cliente
+            $scope.hideSwitchBtn = true;
+            $scope.btnSwitch.showCostoVenta = false;
+
+            break;
+        case 2: //admin
+            $scope.hideSwitchBtn = false;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        case 3: //callcenter
+            $scope.hideSwitchBtn = false;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        case 4: //proveedor
+            $scope.hideSwitchBtn = true;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        default:
+            $scope.hideSwitchBtn = true;
+    }
+};
 
     // $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
     //     //al cambiar de zona se establece como zona seleccionada.

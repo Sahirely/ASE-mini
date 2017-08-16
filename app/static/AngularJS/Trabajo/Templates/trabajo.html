@@ -8,6 +8,14 @@
     </div>
 
     <div class="wrapper wrapper-content">
+        <div class="btn-group pull-right" style="padding:0 10px 10px 0 ;" ng-hide="hideSwitchBtn">
+    <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+        btnSwitch.classVenta='btn btn-default';
+        btnSwitch.classCosto='btn btn-success'">Costo</button>
+    <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+        btnSwitch.classVenta='btn btn-success';
+        btnSwitch.classCosto='btn btn-default'">Venta</button>
+    </div>
        <div class="row">
             <div class="contenedorFiltros">
                 <div class="col-xs-12">

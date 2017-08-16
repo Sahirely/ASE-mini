@@ -17,7 +17,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.NivelesZona = [];
     $scope.Zonas = [];
     $scope.estatusDashboard = 0;
-
+    $scope.btnSwitch = {};
     $scope.cotizaciones = [];
 
      $scope.show_sumatorias = false;
@@ -41,6 +41,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
 
         $scope.consultaCotizacionesFiltros();
+        $scope.btnSwitch.classCosto = 'btn btn-success';
+        $scope.btnSwitch.classVenta = 'btn btn-default';
+        $scope.showButtonSwitch($scope.userData.idRol);
 
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
@@ -265,5 +268,29 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.AutorizacionDetalle = function (nOrden) {
         location.href = "/detalle?orden=" + nOrden + "&estatus=4";
     };
+
+    $scope.showButtonSwitch = function(usrRol) {
+    switch (Number(usrRol)) {
+        case 1: //cliente
+            $scope.hideSwitchBtn = true;
+            $scope.btnSwitch.showCostoVenta = false;
+
+            break;
+        case 2: //admin
+            $scope.hideSwitchBtn = false;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        case 3: //callcenter
+            $scope.hideSwitchBtn = false;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        case 4: //proveedor
+            $scope.hideSwitchBtn = true;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        default:
+            $scope.hideSwitchBtn = true;
+    }
+};
 
 });

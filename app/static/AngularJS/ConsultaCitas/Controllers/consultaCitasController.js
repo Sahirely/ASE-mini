@@ -16,6 +16,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.Zonas = [];
     $scope.sumatoria_conTaller= 0;
     $scope.sumatoria_sinTaller= 0;
+    $scope.btnSwitch = {};
     // var Zona = 0 //$scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
     // var idEjecutivo = 0 //$scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
     // var fechaMes = '' //this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
@@ -29,7 +30,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     var tipoConsulta = 1
 
     $scope.init = function() {
-        userFactory.ValidaSesion();
+        userFactory.ValidaSesion();        
     };
 
     //init de la pantalla tallerCita
@@ -46,6 +47,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
             autoclose: true,
             todayHighlight: true
         });
+
+        $scope.btnSwitch.classCosto = 'btn btn-success';
+        $scope.btnSwitch.classVenta = 'btn btn-default';        
+        $scope.showButtonSwitch($scope.userData.idRol);
 
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
@@ -338,6 +343,30 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         location.href = '/nuevacita?economico=' + obj.numeroEconomico + '&estatus=' + 1;
 
     }
+
+    $scope.showButtonSwitch = function(usrRol) {
+    switch (Number(usrRol)) {
+        case 1: //cliente
+            $scope.hideSwitchBtn = true;
+            $scope.btnSwitch.showCostoVenta = false;
+
+            break;
+        case 2: //admin
+            $scope.hideSwitchBtn = false;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        case 3: //callcenter
+            $scope.hideSwitchBtn = false;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        case 4: //proveedor
+            $scope.hideSwitchBtn = true;
+            $scope.btnSwitch.showCostoVenta = true;
+            break;
+        default:
+            $scope.hideSwitchBtn = true;
+    }
+};
 
 
 });
