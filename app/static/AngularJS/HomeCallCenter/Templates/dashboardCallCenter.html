@@ -190,8 +190,8 @@
                         <td>{{ordenescall.comentarioOrden}}</td>
                         <td>{{ordenescall.nombreEstatusOrden}}</td>
                         <!--Se Módifico la funcionalidad del tiempo atrao y restante Rodrigo Olivares-->
-                        <td ng-class="{'semaforoVerde': ordenescall.horasTranscurrido < 24 }">
-                        {{ ordenescall.horasTranscurrido < 24 ? ordenescall.tiempoTranscurrido : ' '}}</td>
+                        <td ng-class="{'semaforoVerde': ordenescall.horasTranscurrido <= 24 }">
+                        {{ ordenescall.horasTranscurrido <= 24 ? ordenescall.tiempoTranscurrido : ' '}}</td>
 
                         <td ng-class="{'semaforoRojo': ordenescall.horasTranscurrido > 24 }">
                         {{ordenescall.horasTranscurrido > 24 ? ordenescall.tiempoTranscurrido : ' '}}</td>
