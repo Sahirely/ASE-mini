@@ -3,13 +3,13 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     // <<-- Para activar en que opción del menú se encuentra
     $scope.userData              = userFactory.getUserData();
     $scope.idOperacion           = $scope.userData.idOperacion;
-    $scope.idUsuario = '';
+    $scope.idUsuario = null;
     $scope.fechaRetraso = '';
     $scope.fechaRestante= '';
 
     $scope.init = function() {
 //Se agrego la validación de sesiones de Usuario Rodrigo Olivares
-        userFactory.ValidaSesion();
+      userFactory.ValidaSesion();
       $scope.fecha_actual = new Date();
       if ($scope.userData.idRol == 3) {
         $scope.idUsuario = $scope.userData.idUsuario;
@@ -19,11 +19,11 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         $scope.traeRecordatorios();
         $scope.traeOrdenCallCenter(0);
         $scope.zonasCallCenter();
-        $rootScope.modulo            = 'home';
+        $rootScope.modulo = 'home';
 
       }else{
-        $scope.traeEjecutivos ();
-        $rootScope.modulo            = 'callcenter';
+        $scope.traeEjecutivos();
+        $rootScope.modulo = 'callcenter';
       }
 
     };
@@ -52,18 +52,12 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
 
     $scope.changeEjecutivo = function (data) {
         $scope.idUsuario = data;
-        $scope.traeOrdenesAtrasadas();
-        $scope.traeOrdenesParaHoy();
-        $scope.traeOrdenesSinObjetivo();
-        $scope.traeRecordatorios();
         $scope.traeOrdenCallCenter(0);
         $scope.zonasCallCenter();
-
-
     }
 
     $scope.traeOrdenesAtrasadas = function() {
-
+        $scope.idUsuario == null ? $scope.idUsuario = $scope.userData.idUsuario :  $scope.idUsuario;
         dashboardCallCenterRepository.getOrdenAtraso($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario)
             .then(function successCallback(response) {
                 $scope.ordenesAtrasadas = response.data[0].NUM;
@@ -74,7 +68,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     };
 
     $scope.traeOrdenesParaHoy = function() {
-
+        $scope.idUsuario == null ? $scope.idUsuario = $scope.userData.idUsuario :  $scope.idUsuario;
         dashboardCallCenterRepository.getOrdenParaHoy($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario)
             .then(function successCallback(response) {
                 $scope.ordenesParaHoy = response.data[0].NUM;
@@ -84,6 +78,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     };
 
     $scope.traeOrdenesSinObjetivo = function() {
+      $scope.idUsuario == null ? $scope.idUsuario = $scope.userData.idUsuario :  $scope.idUsuario;
         dashboardCallCenterRepository.getOrdenSinObjetivo($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario)
             .then(function successCallback(response) {
                 $scope.ordenesSinObjetivo = response.data[0].NUM;
@@ -113,8 +108,12 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
         var ordenes = [];
         $scope.ordencall=[];
         $scope.sumatoria_ordenes = 0;
+        $scope.traeRecordatorios();
+        $scope.traeOrdenesAtrasadas();
+        $scope.traeOrdenesParaHoy();
+        $scope.traeOrdenesSinObjetivo();
         $('.dataTableOrdenCallCenter').DataTable().destroy();
-
+        $scope.idUsuario == null ? $scope.idUsuario = $scope.userData.idUsuario :  $scope.idUsuario;
         $scope.promise = dashboardCallCenterRepository.getOrdenCallCenter($scope.userData.contratoOperacionSeleccionada, $scope.idUsuario, tipo).then(function (result) {
             if (result.data.length > 0) {
                 $scope.ordencall = result.data;
@@ -149,11 +148,10 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
 
 
      $scope.seleccionarOrden = function(obj) {
-        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;
+        location.href = '/detalle?orden=' + obj.numeroOrden;
     }
 
     $scope.recoradatorios = function (data) {
-
         modal_recordatorios($scope, $modal, $scope.userData.contratoOperacionSeleccionada, data, $scope.traeRecordatorios, '');
     }
 
