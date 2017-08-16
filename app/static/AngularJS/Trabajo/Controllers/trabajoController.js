@@ -59,7 +59,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
             $scope.filtroEstatus = $scope.estatusDashboard;
-            $scope.getOrdenesServicioInit(3);
             if($scope.filtroEstatus == 0 || $scope.filtroEstatus == 5){
                 $scope.show_proceso=true;
                 $scope.show_entrega=false;
@@ -67,8 +66,12 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 $scope.show_proceso=false;
                 $scope.show_entrega=true;
             }
+            $scope.getOrdenesServicioInit(3);
 
         }else{
+            $scope.filtroEstatus = 55
+            $scope.show_proceso=true;
+            $scope.show_entrega=false;
             $scope.getOrdenesServicio(3);
         }
 
@@ -340,7 +343,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $('.clockpicker').clockpicker();
 
         $scope.numeroTrabajo = '';
-        $('.ordenservicio').DataTable().destroy();
+        //$('.ordenservicio').DataTable().destroy();
 
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
             $scope.fechaInicio,
