@@ -199,6 +199,8 @@
                             <th hidden="hidden">Estatus Filtro</th>
                             <th ng-if="userData.tiempoAsignado == 1" >Tiempo en Espera / Tiempo Transcurrido </th>
                             <!-- <th>Abrir</th> -->
+                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -218,6 +220,8 @@
                             <td>{{cotizacion.estadistica}}</td>
                             <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}</td>
                             <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
+                            <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
+                            <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
                             <!--td class='center'>
                                 <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
@@ -259,7 +263,8 @@
                                     <th>No. de Aprobación</th>
                                     <th>Marca - Modelo</th>
                                     <th>Estatus</th>
-                                    <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
+                                    <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                    <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                     <th>Cotizó</th>
                                     <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
@@ -280,7 +285,8 @@
                                     <td>{{cotizacion.numeroCotizacion}}</td>
                                     <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td>
                                     <td>{{cotizacion.nombreEstatusCotizacion}}</td>
-                                    <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{cotizacion.venta | currency : "$"}}</td>
+                                    <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
+                                    <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
                                     <td>{{cotizacion.nombreUsuario}}</td>
                                     <td>{{cotizacion.porcentaje}} %</td>
                                     <td>{{cotizacion.estadistica}}</td>
@@ -327,7 +333,8 @@
                                     <th>Marca - Modelo</th>
                                     <th>Estatus</th>
                                     <th>Motivo</th>
-                                    <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
+                                    <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                    <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                     <th>Cotizó</th>
                                     <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
@@ -349,7 +356,8 @@
                                   <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td>
                                   <td>{{cotizacion.nombreEstatusCotizacion}}</td>
                                   <td>{{cotizacion.motivoPresupuesto}}</td>
-                                  <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{cotizacion.venta | currency : "$"}}</td>
+                                  <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
+                                    <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
                                   <td>{{cotizacion.nombreUsuario}}</td>
                                   <td>{{cotizacion.porcentaje}} %</td>
                                   <td>{{cotizacion.estadistica}}</td>

@@ -155,27 +155,29 @@
                                                     <th>Descripción</th>
                                                     <th>Estatus</th>
                                                     <th>Estatus provisión</th>
-                                                    <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
+                                                    <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                                    <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                                     <th>Fecha Creación Orden</th>
                                                     <th>Fecha inicio real de trabajos</th>
                                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera/ Tiempo Transcurrido</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : estatusValidador, idGarantia: estadoGarantia }" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
-                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreCliente}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.idOrden}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.numeroOrden}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.numeroEconomico}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreZona}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreTipoOrdenServicio}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.marcaUnidad}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.modeloUnidad}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.comentarioOrden}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{orden.nombreEstatusOrden}}</td>
-                                                    <td ng-click="detalleOrden(orden)">{{'BPRO'}}</td>
-                                                    <td ng-show="userData.idRol == 2 || userData.idRol == 3" ng-click="detalleOrden(orden)">{{orden.venta | currency : "$"}}</td>
-                                                    <td ng-click="detalleOrden(orden)"> {{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}} </td>
+                                                <tr ng-repeat="(key, orden) in ordenes | filter : { idEstatusOrden : estatusValidador, idGarantia: estadoGarantia }" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top" ng-click="detalleOrden(orden)">
+                                                    <td>{{orden.nombreCliente}}</td>
+                                                    <td>{{orden.idOrden}}</td>
+                                                    <td>{{orden.numeroOrden}}</td>
+                                                    <td>{{orden.numeroEconomico}}</td>
+                                                    <td>{{orden.nombreZona}}</td>
+                                                    <td>{{orden.nombreTipoOrdenServicio}}</td>
+                                                    <td>{{orden.marcaUnidad}}</td>
+                                                    <td>{{orden.modeloUnidad}}</td>
+                                                    <td>{{orden.comentarioOrden}}</td>
+                                                    <td>{{orden.nombreEstatusOrden}}</td>
+                                                    <td>{{'BPRO'}}</td>
+                                                    <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{orden.costo | currency}}</td>
+                                                    <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{orden.venta | currency}}</td>
+                                                    <td> {{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}} </td>
                                                     <td>
                                                         <button class="btn btn-primary"
                                                             ng-click="OpenModal( key, orden.idOrden );"
@@ -234,7 +236,8 @@
                                                     <th>Descripción</th>
                                                     <th>Estatus</th>
                                                     <th>Estatus provisión</th>
-                                                    <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
+                                                    <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                                    <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                                     <th>Fecha Creación Orden</th>
                                                     <th>Fecha inicio real de trabajos</th>
                                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera/ Tiempo Transcurrido</th>
@@ -255,7 +258,8 @@
                                                     <td>{{orden.comentarioOrden}}</td>
                                                     <td>{{orden.nombreEstatusOrden}}</td>
                                                     <td>{{'BPRO'}}</td>
-                                                    <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{orden.venta | currency: "$"}}</td>
+                                                    <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{orden.costo | currency}}</td>
+                                                    <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{orden.venta | currency}}</td>
                                                     <td>{{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}}</td>
                                                     <td>{{orden.fechaInicioTrabajo}}
                                                         <!-- <button ng-if="trabajo.estatus == 'Iniciado' || trabajo.estatus == 'OrdenGarantia'" ng-hide="userData.idTipoUsuario == 4" class="btn btn-success" type="button" ng-click="cargaFecha(trabajo.idTrabajo)" data-toggle="tooltip" tooltip="Fecha Inicio real de trabajos" tooltip-placement="up"><span class="glyphicon glyphicon-calendar"></span></button> -->
