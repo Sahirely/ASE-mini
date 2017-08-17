@@ -565,6 +565,16 @@ Detalle.prototype.get_obtenerIdCotzPorOrden = function(req, res, next){
         name: 'numOrden',
         value: req.query.numOrden,
         type: self.model.types.STRING
+      },
+      {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+      },
+      {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
       }];
 
       this.model.query('SEL_ID_COTIZACIONES_POR_ORDEN',params, function (error, result) {

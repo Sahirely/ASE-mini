@@ -143,12 +143,14 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        getIdCotizacionesPorOrden: function(numOrden) {
+        getIdCotizacionesPorOrden: function(numOrden, idUsuario, idOperacion) {
             return $http({
                 url: detalleUrl + 'obtenerIdCotzPorOrden/',
                 method: "GET",
                 params: {
-                    numOrden: numOrden
+                    numOrden: numOrden,
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'

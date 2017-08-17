@@ -104,7 +104,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             alertFactory.error('No se puede obtener el historico de la orden.');
         });
 
-        detalleRepository.getIdCotizacionesPorOrden($scope.numeroOrden).then(function(result) {
+        detalleRepository.getIdCotizacionesPorOrden($scope.numeroOrden, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             $scope.numCotz = result.data.length;
             if (result.data.length > 0) {
                 $scope.IdsCotizacionesPorOrden = result.data;
