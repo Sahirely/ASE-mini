@@ -16,6 +16,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.Zonas = [];
     $scope.sumatoria_conTaller= 0;
     $scope.sumatoria_sinTaller= 0;
+    $scope.sumatoria_costo_conTaller= 0;
+    $scope.sumatoria_costo_sinTaller= 0;
     $scope.btnSwitch = {};
     // var Zona = 0 //$scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
     // var idEjecutivo = 0 //$scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
@@ -106,6 +108,8 @@ registrationModule.controller('consultaCitasController', function($scope, $route
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         $scope.sumatoria_conTaller= 0;
         $scope.sumatoria_sinTaller= 0;
+        $scope.sumatoria_costo_conTaller= 0;
+        $scope.sumatoria_costo_sinTaller= 0;
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.idContratoOperacion, tipoConsulta).then(function(result) {
                                                                 //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
             if (result.data.length > 0) {
@@ -115,8 +119,10 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
                     if (item.idEstatusOrden==2) {
                         $scope.sumatoria_conTaller += item.venta;
+                        $scope.sumatoria_costo_conTaller += item.costo;
                     }else if (item.idEstatusOrden==1) {
                         $scope.sumatoria_sinTaller += item.venta;
+                        $scope.sumatoria_costo_sinTaller += item.costo;
                     }
                    
                 });

@@ -242,14 +242,19 @@
               <tabset>
                   <tab heading="Con Presupuesto" index="0">
                         <br/>
-                        <div class="row sumatorias" ng-show="show_sumatorias">
+                        <div class="row sumatorias" >
                             <div class="col-xs-3 pull-right">
-                                <div>
+                                <div ng-show="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_conPresupuesto |  currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
                                 </div>
+                                <div ng-hide="btnSwitch.showCostoVenta">
+                                    <h2 class="no-margins">{{sumatoria_costo_conPresupuesto |  currency: "$"}}</h2>
+                                    <small>precio costo s/iva</small>
+                                </div>
                             </div>
                         </div>
+                        
                       <br>
                       <div class="table-responsive">
                         <table class="table table-bordered table-hover ordenesPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
@@ -309,11 +314,15 @@
                   </tab>
                   <tab heading="Sin Presupuesto" index="0">
                       <br/>
-                        <div class="row sumatorias" ng-show="show_sumatorias">
+                        <div class="row sumatorias" >
                             <div class="col-xs-3 pull-right">
-                                <div>
+                                <div ng-show="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_sinPresupuesto |  currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
+                                </div>
+                                <div ng-hide="btnSwitch.showCostoVenta">
+                                    <h2 class="no-margins">{{sumatoria_costo_sinPresupuesto |  currency: "$"}}</h2>
+                                    <small>precio costo s/iva</small>
                                 </div>
                             </div>
                         </div>

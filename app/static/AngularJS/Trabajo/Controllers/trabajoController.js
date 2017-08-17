@@ -29,6 +29,8 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
     $scope.sumatoria_entrega=0;
     $scope.sumatoria_proceso=0;
+    $scope.sumatoria_costo_entrega=0;
+    $scope.sumatoria_costo_proceso=0;
 
     $scope.Init = function() {
       $scope.userData = userFactory.getUserData();
@@ -95,9 +97,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                   $scope.estatusValidador = 5;
                   $scope.estadoGarantia = '';
                   $scope.sumatoria_proceso = 0;
+                  $scope.sumatoria_costo_proceso=0;
                    $scope.ordenes.forEach(function(item) {
                       if (item.idEstatusOrden==5) {
                           $scope.sumatoria_proceso += item.venta;
+                          $scope.sumatoria_costo_proceso += item.costo;
                       }
                   });
           }
@@ -107,9 +111,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                   $scope.estatusValidador = 5;
                   $scope.estadoGarantia = 1;
                   $scope.sumatoria_proceso = 0;
+                  $scope.sumatoria_costo_proceso=0;
                    $scope.ordenes.forEach(function(item) {
                       if (item.idEstatusOrden == 5 && item.idGarantia == 1) {
                           $scope.sumatoria_proceso += item.venta;
+                          $scope.sumatoria_costo_proceso += item.costo;
                       }
                   });
           }
@@ -119,9 +125,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                   $scope.estatusValidador = $scope.filtroEstatus;
                   $scope.estadoGarantia = 0;
                   $scope.sumatoria_proceso = 0;
+                  $scope.sumatoria_costo_proceso=0;
                    $scope.ordenes.forEach(function(item) {
                       if (item.idEstatusOrden == 5  && item.idGarantia == 0) {
                           $scope.sumatoria_proceso += item.venta;
+                          $scope.sumatoria_costo_proceso += item.costo;
                       }
 
                   });
@@ -132,9 +140,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                $scope.estatusValidador = '';
                $scope.estadoEstatus = 1;
                $scope.sumatoria_entrega = 0;
+               $scope.sumatoria_costo_entrega=0;
                $scope.ordenes.forEach(function(item) {
                   if (item.conjuntoEstatus== 1 ) {
                      $scope.sumatoria_entrega += item.venta;
+                     $scope.sumatoria_costo_entrega += item.costo;
                   }
               });
           }
@@ -143,9 +153,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
               $scope.entregaActive = true;
                   $scope.estatusValidador = $scope.filtroEstatus;
               $scope.sumatoria_entrega = 0;
+              $scope.sumatoria_costo_entrega=0;
               $scope.ordenes.forEach(function(item) {
                   if (item.idEstatusOrden== 6) {
                      $scope.sumatoria_entrega += item.venta;
+                     $scope.sumatoria_costo_entrega += item.costo;
                   }
 
               });
@@ -156,9 +168,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
               $scope.entregaActive = true;
                   $scope.estatusValidador = $scope.filtroEstatus;
                $scope.sumatoria_entrega = 0;
+               $scope.sumatoria_costo_entrega=0;
                $scope.ordenes.forEach(function(item) {
                   if (item.idEstatusOrden== 7 ) {
                      $scope.sumatoria_entrega += item.venta;
+                     $scope.sumatoria_costo_entrega += item.costo;
                   }
               });
           }
@@ -183,9 +197,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 $scope.estadoGarantia = '';
                 $scope.filtroEstatus = 55;
                 $scope.sumatoria_proceso = 0;
+                $scope.sumatoria_costo_proceso=0;
                  $scope.ordenes.forEach(function(item) {
                     if (item.idEstatusOrden==5) {
                         $scope.sumatoria_proceso += item.venta;
+                        $scope.sumatoria_costo_proceso += item.costo;
                     }
                 });
               break;
@@ -196,9 +212,11 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 $scope.estadoEstatus = 1;
                 $scope.filtroEstatus = 67;
                  $scope.sumatoria_entrega = 0;
+                 $scope.sumatoria_costo_entrega = 0;
                  $scope.ordenes.forEach(function(item) {
                     if (item.conjuntoEstatus== 1 ) {
                        $scope.sumatoria_entrega += item.venta;
+                       $scope.sumatoria_costo_entrega += item.costo;
                     }
                 });
               break;
