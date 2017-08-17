@@ -15,10 +15,10 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
     };
     //*****************************************************************************************************************************//
     // ***  busquedaUnidadRepository.getExisteUnidad($scope.idUsuarioPruebas, economico)  ***/
-    // Busca si existe la unidad, si el usuario tiene permisos para el tipo de operación y el rol al que pertenece 
+    // Busca si existe la unidad, si el usuario tiene permisos para el tipo de operación y el rol al que pertenece
     // puede visualizar la información de dicha unidad
-    // $scope.tipoRespuesta = 0 <-- No existe la unidad 
-    // $scope.tipoRespuesta = 1 <-- Existe la unidad y tiene todos los permisos necesarios 
+    // $scope.tipoRespuesta = 0 <-- No existe la unidad
+    // $scope.tipoRespuesta = 1 <-- Existe la unidad y tiene todos los permisos necesarios
     // $scope.tipoRespuesta = 2 <-- Existe la unidad pero el tipo de operación no le corresponde
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
@@ -45,7 +45,17 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
     $scope.getDetalleOrden = function(orden) {
-        location.href = '/detalle?orden=' + orden;
+      localStorageService.set('orden', orden);
+      localStorageService.set('economico', '');
+      consultaCitasRepository.getExisteOrden($scope.userData.idUsuario, orden, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+          $scope.tipoRespuesta = result.data[0];
+          if ($scope.tipoRespuesta.respuesta == 0) {
+              $('.modal-dialog').css('width', '1050px');
+              modal_respuesta_busqueda($scope, $modal, $rootScope.busqueda, $scope.tipoRespuesta, '', '');
+          } else if ($scope.tipoRespuesta.respuesta == 1) {
+              location.href = '/detalle?orden=' + orden;
+          }
+      });
     };
 
 

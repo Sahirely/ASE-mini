@@ -117,24 +117,31 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
       $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2).then(function (result){
           if (result.data.length > 0){
+              
               result.data.forEach(function(item) {
                   var existe = false;
+                  var x = 0;
 
-                  $scope.cotizaciones.forEach(function(value){
+                  $scope.cotizaciones.forEach(function(value, key){
                       if (value.idOrden == item.idOrden){
                           existe = true;
+                          x = key;
                       }
                   });
 
                   if (!existe){
                       $scope.cotizaciones.push(item);
-                      if (item.tienePresupuesto==1) {
-                          $scope.sumatoria_conPresupuesto += item.venta;
-                      }else if (item.tienePresupuesto==2) {
-                          $scope.sumatoria_sinPresupuesto += item.venta;
-                      }else if (item.tienePresupuesto==0) {
-                          $scope.sumatoria_conPresupuesto += item.venta;
-                      }
+                  }else{
+                      $scope.cotizaciones[x].venta += item.venta;
+                      $scope.cotizaciones[x].costo += item.costo;
+                  }
+
+                  if (item.tienePresupuesto==1) {
+                      $scope.sumatoria_conPresupuesto += item.venta;
+                  }else if (item.tienePresupuesto==2) {
+                      $scope.sumatoria_sinPresupuesto += item.venta;
+                  }else if (item.tienePresupuesto==0) {
+                      $scope.sumatoria_conPresupuesto += item.venta;
                   }
               });
               globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
