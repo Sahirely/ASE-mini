@@ -1611,7 +1611,7 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                     cotizaciones.forEach(function(item, key) {
                         var params = [
                             {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING},
-                            {name: 'usuario', value: req.query.usuario , type: self.model.types.STRING}
+                            {name: 'usuario', value: req.query.idUsuario , type: self.model.types.STRING}
                         ];
 
                         self.model.query('SEL_PARTIDAS_APROBACION_SP', params, function (err, datos) {
