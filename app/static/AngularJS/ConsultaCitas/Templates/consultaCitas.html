@@ -177,11 +177,11 @@
                          <br/>
                         <div class="row sumatorias" >
                             <div class="col-xs-3 pull-right">
-                                <div ng-show="btnSwitch.showCostoVenta">
+                                <div ng-hide="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_conTaller |  currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
                                 </div>
-                                <div ng-hide="btnSwitch.showCostoVenta">
+                                <div ng-show="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_costo_conTaller |  currency: "$"}}</h2>
                                     <small>precio costo s/iva</small>
                                 </div>
@@ -235,11 +235,11 @@
                         <br/>
                         <div class="row sumatorias" >
                             <div class="col-xs-3 pull-right">
-                                <div ng-show="btnSwitch.showCostoVenta">
+                                <div ng-hide="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_sinTaller |  currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
                                 </div>
-                                <div ng-hide="btnSwitch.showCostoVenta">
+                                <div ng-show="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_costo_sinTaller |  currency: "$"}}</h2>
                                     <small>precio costo s/iva</small>
                                 </div>
