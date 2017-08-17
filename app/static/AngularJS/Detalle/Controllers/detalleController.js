@@ -213,7 +213,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.getMostrarCotizaciones = function(numeroOrden, estatus, idUsuario) {
-        cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario).then(function(result) {
+        cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             console.log("--------------------------------------");
             console.log(result);
             console.log("--------------------------------------");

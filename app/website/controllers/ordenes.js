@@ -103,7 +103,7 @@ Orden.prototype.get_generaTxtFactura = function (req, res, next) {
         type: self.model.types.INT
         }];
 
-    //Identifica el tipo de orden de servicio 
+    //Identifica el tipo de orden de servicio
     self.model.query('SEL_TIPO_ORDEN_SERVICIO_SP', paramsTipoOrden, function (error, result) {
         //Callback
         object.error = error;
@@ -415,7 +415,7 @@ Orden.prototype.get_getaprobacionutilidad = function (req, res, next) {
         });
     });
 }
- 
+
  //obtiene todas las órdenes en espera de aprobación de provisión
 Orden.prototype.get_getaprobacionprovision = function (req, res, next) {
     var self = this;
@@ -428,7 +428,7 @@ Orden.prototype.get_getaprobacionprovision = function (req, res, next) {
     });
 }
 
-//Valiada si ya se encuentra procesada la orden 
+//Valiada si ya se encuentra procesada la orden
 Orden.prototype.get_getordenservicio = function (req, res, next) {
     var self = this;
     var params = [{
@@ -445,7 +445,7 @@ Orden.prototype.get_getordenservicio = function (req, res, next) {
     });
 }
 
-//Valiada si ya se encuentra procesada la orden 
+//Valiada si ya se encuentra procesada la orden
 Orden.prototype.get_getservicio = function (req, res, next) {
     var self = this;
     var params = [{
@@ -506,7 +506,7 @@ Orden.prototype.post_insertaDatosAprobacionUtilidad = function (req, res, next) 
     });
 }
 
-//obtiene el estatus de una utilidad registrada 
+//obtiene el estatus de una utilidad registrada
 Orden.prototype.get_getestatusutilidad = function (req, res, next) {
     var self = this;
     var params = [{
@@ -830,7 +830,7 @@ Orden.prototype.post_precioEditado = function (req, res, next) {
     });
 }
 
-//Renombra el nombre de la copade con su identity 
+//Renombra el nombre de la copade con su identity
 Orden.prototype.post_cambiaNombreCopade = function (req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
@@ -1018,8 +1018,8 @@ Orden.prototype.get_generaFactura = function (req, res, next) {
                 if (file.includes('Factura')) {
                     posicion = file.indexOf('temp')
                     if (posicion != -1) {
-                        //LQMA ADD 19092016 leer del archivo temporal para validar 
-                        //if(idEstatus == 12) 
+                        //LQMA ADD 19092016 leer del archivo temporal para validar
+                        //if(idEstatus == 12)
                         //if (file.includes('Factura_' + numeroCotizacion + 'temp.XML' ||  'Factura_' + numeroCotizacion + 'temp.xml')){
                         //      file = file.indexOf('temp') >= 0?file.replace('.XML','temp.XML'):file.replace('.xml','temp.xml');
                         //   }
@@ -1088,7 +1088,7 @@ Orden.prototype.get_generaFactura = function (req, res, next) {
                                         name: 'idUsuario',
                                         value: req.query.idUsuario,
                                         type: self.model.types.INT
-                                    },       
+                                    },
                                     {
                                         name: 'rfc',
                                         value: rfc,
@@ -1106,7 +1106,7 @@ Orden.prototype.get_generaFactura = function (req, res, next) {
                                                  }
                                         ];
 
-                                //LQMA add 19092016    
+                                //LQMA add 19092016
                                 if (aux == 0)
                                     getDatosFactura2(res, self, paramsFactura);
 
@@ -1168,7 +1168,7 @@ Orden.prototype.get_removeFactura = function (req, res, next) {
             type: self.model.types.INT
         }];
 
-    //LQMA add 20092016 
+    //LQMA add 20092016
     var idOpcion = req.query.idOpcion; //1:borrar temporales; 2:borrar originales
 
     var directorioFactura = dirname + req.query.idTrabajo + '/' + req.query.idCotizacion + '/documentos/factura';
@@ -1427,19 +1427,19 @@ Orden.prototype.get_cotizacionesabonados = function (req, res, next) {
             name: 'fechaInicio',
             value: req.query.fechaInicio,
             type: self.model.types.STRING
-                        
+
         },
         {
             name: 'fechaFin',
             value: req.query.fechaFin,
             type: self.model.types.STRING
-                        
+
         },
         {
             name: 'razonSocial',
             value: req.query.razonSocial,
             type: self.model.types.STRING
-                        
+
         }];
 
     this.model.query('SEL_COTIZACION_ABONADOS_SP', params, function (error, result) {
@@ -1509,7 +1509,7 @@ Orden.prototype.get_facturascobradas = function (req, res, next) {
             name: 'razonSocial',
             value: req.query.razonSocial,
             type: self.model.types.STRING
-                        
+
         }
     ];
 
@@ -1585,21 +1585,23 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
     var self = this;
     try{
 
-        if( req.query.numeroOrden == null || req.query.numeroOrden == '' ){            
+        if( req.query.numeroOrden == null || req.query.numeroOrden == '' ){
             object.result = {success: false, msg: 'No se ha proporcionado el Número de Orden.'};
             self.view.expositor(res, object);
         }
-        else if( req.query.estatus == null || req.query.estatus == '' ){            
+        else if( req.query.estatus == null || req.query.estatus == '' ){
             object.result = {success: false, msg: 'No se ha proporcionado el Estatus.'};
             self.view.expositor(res, object);
         }
         else{
             var params = [
                 {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING },
-                {name: 'estatus', value: req.query.estatus, type: self.model.types.STRING }            
+                {name: 'estatus', value: req.query.estatus, type: self.model.types.STRING },
+                {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+                {name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }
             ];
             self.model.query('SEL_COTIZACIONES_ORDEN_SP', params, function (error, result) {
-                var cotizaciones = result;                
+                var cotizaciones = result;
                 var tamanio = cotizaciones.length;
                 var contador = 0;
                 var i = 0;
@@ -1608,16 +1610,16 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                     // var contador = 0;
                     cotizaciones.forEach(function(item, key) {
                         var params = [
-                            {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING}, 
-                            {name: 'usuario', value: req.query.usuario , type: self.model.types.STRING}                        
+                            {name: 'idCotizacion', value: item.idCotizacion, type: self.model.types.STRING},
+                            {name: 'usuario', value: req.query.usuario , type: self.model.types.STRING}
                         ];
-                        
+
                         self.model.query('SEL_PARTIDAS_APROBACION_SP', params, function (err, datos) {
                         //self.model.query('SEL_COTIZACION_DETALLE_SP', params, function (err, datos) {
 
                             if( datos.length != 0 ){
                                 cotizaciones [ key ].detalle = datos;
-                                contador++;                                
+                                contador++;
                             }
                             else{
                                 contador++;
@@ -1631,7 +1633,7 @@ Orden.prototype.get_cotizaciones = function (req, res, next) {
                                         msg: 'Se encontraron ' + cotizaciones.length + ' registros.',
                                         data: cotizaciones
                                     }
-                                }); 
+                                });
                             }
                         });
                     });

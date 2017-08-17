@@ -42,14 +42,15 @@ registrationModule.factory('cotizacionRepository', function($http) {
                 }
             });
         },
-        getMostrarCotizaciones: function(numeroOrden, estatus, usuario) {
+        getMostrarCotizaciones: function(numeroOrden, estatus, idUsuario, idOperacion) {
             return $http({
                 url: cotizacion + 'cotizaciones',
                 method: "GET",
                 params: {
                     numeroOrden: numeroOrden,
                     estatus: estatus,
-                    usuario: usuario
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
