@@ -142,13 +142,13 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
                   if (item.tienePresupuesto==1) {
                       $scope.sumatoria_conPresupuesto += item.venta;
-                      $scope.sumatoria_costo_conPresupuesto = item.costo;
+                      $scope.sumatoria_costo_conPresupuesto += item.costo;
                   }else if (item.tienePresupuesto==2) {
                       $scope.sumatoria_sinPresupuesto += item.venta;
-                      $scope.sumatoria_costo_sinPresupuesto = item.costo;
+                      $scope.sumatoria_costo_sinPresupuesto += item.costo;
                   }else if (item.tienePresupuesto==0) {
                       $scope.sumatoria_conPresupuesto += item.venta;
-                      $scope.sumatoria_costo_conPresupuesto = item.costo;
+                      $scope.sumatoria_costo_conPresupuesto += item.costo;
                   }
               });
               globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
