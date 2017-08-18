@@ -248,7 +248,9 @@ Detalle.prototype.get_facturasPorOrden = function(req, res, next){
     var self = this;
     var params = [
             {name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING},
-            {name: 'estatus', value: req.query.estatus, type: self.model.types.INT}
+            {name: 'estatus', value: req.query.estatus, type: self.model.types.INT},
+            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT},
+            {name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT}
         ];
     var respuesta = [];
 

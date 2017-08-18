@@ -862,9 +862,9 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
-                                //  var RFC_Receptor = rfc.RFCCliente;
-                                //  var RFC_Emisor = rfc.RFCTaller;
-                                //  var subTotal = $scope.cotizacionTotal;
+                                  var RFC_Receptor = rfc.RFCCliente;
+                                  var RFC_Emisor = rfc.RFCTaller;
+                                  var subTotal = $scope.cotizacionTotal;
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
                                         // Esta sección se debera quitar para producción
@@ -1363,7 +1363,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.ShowFacturas = function() {
-        detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
+        detalleRepository.getFacturas($scope.numeroOrden, 3, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(respuesta) {
             $scope.Facturas = respuesta.data;
             if ($scope.Facturas.success) {
                 $scope.facturas_empty = false;
