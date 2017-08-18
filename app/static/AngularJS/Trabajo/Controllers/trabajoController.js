@@ -91,6 +91,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
     $scope.cambioFiltro = function(){
           globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
+          globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
           if ($scope.filtroEstatus == 55){
               $scope.procesoActive = true;
               $scope.entregaActive = false;
@@ -189,6 +190,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.show_proceso=false;
         $scope.show_entrega=false;
         globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
+        globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
         switch(data)
         {
               case 0:
