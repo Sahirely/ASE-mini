@@ -221,7 +221,13 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         if (result.data[i].id == 37) var img_ParteDerecha  = $rootScope.docServer + result.data[i].descripcion;
                         if (result.data[i].id == 38) var img_Delantera  = $rootScope.docServer + result.data[i].descripcion;
                         if (result.data[i].id == 39) var img_Trasera  = $rootScope.docServer + result.data[i].descripcion;
-                        if (result.data[i].id == 40) var img_Techo  = $rootScope.docServer + result.data[i].descripcion;
+                        if (result.data[i].id == 40) var img_Techo  = $rootScope.docServer + result.data[i].descripcion;                        
+                        if (result.data[i].id == 41) var hdr_zona  =  result.data[i].descripcionCompleta;
+                        if (result.data[i].id == 42) var hdr_tipo  =  result.data[i].descripcion;
+                        if (result.data[i].id == 43) var hdr_unidad  =  result.data[i].descripcion;
+                        if (result.data[i].id == 44) var hdr_economico  =  result.data[i].descripcion;
+                        if (result.data[i].id == 45) var hdr_logo  = $rootScope.docServer + result.data[i].descripcion;
+
 
                     }
                 var data = {
@@ -266,7 +272,13 @@ registrationModule.controller('comprobanteRecepcionController', function($scope,
                         "img_ParteDerecha":img_ParteDerecha,
                         "img_Delantera":img_Delantera,
                         "img_Trasera":img_Trasera,
-                        "img_Techo":img_Techo
+                        "img_Techo":img_Techo ,
+                        "hdr_zona":hdr_zona,
+                        "hdr_tipo":hdr_tipo,
+                        "hdr_unidad":hdr_unidad,
+                        "hdr_economico":hdr_economico,
+                        "hdr_logo":hdr_logo,
+                        "userPrintName":$scope.userData.nombreCompleto
                         }
                     }
                 }
