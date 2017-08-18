@@ -335,6 +335,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.getOrdenesServicio = function(tipoConsulta) {
         $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
+        var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
 
         $scope.numeroTrabajo = '';
         // $('.ordenservicio').DataTable().destroy();
@@ -345,7 +346,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             $scope.fechaMes,
             $scope.numeroTrabajo,
             $scope.zonaSelected,
-            $scope.ejecutivoSelected,
+            ejecutivo,
             $scope.userData.idUsuario,
             $scope.idContratoOperacion,
             tipoConsulta) // $scope.idUsuario
@@ -367,6 +368,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
         $scope.numeroTrabajo = '';
         //$('.ordenservicio').DataTable().destroy();
+        var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
 
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
             $scope.fechaInicio,
@@ -375,7 +377,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
             $scope.fechaMes,
             $scope.numeroTrabajo,
             $scope.zonaSelected,
-            $scope.ejecutivoSelected,
+            ejecutivo,
             $scope.userData.idUsuario,
             $scope.idContratoOperacion,
             tipoConsulta) // $scope.idUsuario
