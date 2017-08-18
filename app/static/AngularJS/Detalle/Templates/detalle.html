@@ -68,7 +68,7 @@
 
                             </div-->
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-lg-push-9 pull-right">
-                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
+                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 4 || userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
                                 <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
                             </button>
                         </div>
@@ -915,14 +915,14 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right botoneses3" role="group" style="margin-right: 10px; ">
-                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil" type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
+                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1 || userData.idRol ==  4" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil" type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
                         <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
                     </button>
                     <button ng-hide="btnNegroIsEnable" class="btn btn-negro btn-movil" type="submit">Negro</button>
-                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit" ng-click="editarCita()">
+                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1 || userData.idRol ==  4" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit" ng-click="editarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Editar Cita
                     </button>
-                    <button ng-show="estatus == 1 || estatus == 2" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
+                    <button ng-show="(estatus == 1 || estatus == 2) && (userData.idRol !=  4)" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
                     </button>
                     <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
