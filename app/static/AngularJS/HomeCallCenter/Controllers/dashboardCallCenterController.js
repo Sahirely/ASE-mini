@@ -13,10 +13,10 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
       $scope.fecha_actual = new Date();
       if ($scope.userData.idRol == 3) {
         $scope.idUsuario = $scope.userData.idUsuario;
-        $scope.traeOrdenesAtrasadas();
-        $scope.traeOrdenesParaHoy();
-        $scope.traeOrdenesSinObjetivo();
-        $scope.traeRecordatorios();
+       // $scope.traeOrdenesAtrasadas();
+       // $scope.traeOrdenesParaHoy();
+       // $scope.traeOrdenesSinObjetivo();
+       // $scope.traeRecordatorios();
         $scope.traeOrdenCallCenter(0);
         $scope.zonasCallCenter();
         $rootScope.modulo = 'home';
