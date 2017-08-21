@@ -7,17 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "cwd": "${workspaceRoot}",
-            "name": "Launch via NPM",
-            "runtimeExecutable": "npm",
-            "windows": {
-                "runtimeExecutable": "npm.cmd"
-            },
-            "runtimeArgs": [
-                "run-script",
-                "debug"
-            ],
-            "port": 5858
+            "name": "Launch Program",
+            "program": "${workspaceRoot}/workers.js"
         }
     ]
 }

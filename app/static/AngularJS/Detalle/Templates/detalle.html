@@ -1,115 +1,58 @@
 <link rel="stylesheet" href="AngularJS/Detalle/Styles/detalle.css">
 <div ng-init="init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
-        <span class="title title-xs"> Consulta de Orden</span>
+        <div class="title title-xs">
+            Orden {{numeroOrden}}
+            <div class="text-orden">{{detalleOrden.nombreTipoOrden}} </div>
+        </div>
+<!-- LOGO DE LA OPERACIÓN -->
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                            <h3>Orden: <span class="text-orden"> {{numeroOrden}} </span></h3>
-                            <h3>Tipo de Orden: <span class="text-orden">{{detalleOrden.nombreTipoOrden}} </span></h3>
-                        </div>
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                            <h3><span class="label label-primary mayusculas">{{detalleOrden.nombreEstatusOrden}}</span></h3>
-                            <!-- <button class="btn btn-primary pull-right"
-                                ng-show="estatus == 5"
-                                ng-click="getReporteConformidad(detalleOrden.idOrden)">
-                                Test :: Generar Hoja de trabajo :: Orden ( {{detalleOrden.idOrden}} )
-                                </button> -->
-                        </div>
-                        <div ng-show="estadoCompra == true" class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                            <h3><span class="label label-primary mayusculas">{{procesarCompra}} </span></h3>
-                        </div>
-                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-class="{conTiempo: sinTiempoDisponible == 0, sinTiempo: sinTiempoDisponible == 1}" ng-show="userData.tiempoAsignado == 1">
-                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 TiempoTranscurrido">
-                                {{tiempoTranscurridoDisplay}}
-                            </div>
-                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                                <i class="fa fa-clock-o reloj"></i>
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12">
-                            <div class="hr-line-dashed"></div>
-                        </div>
-                        <!--div class="row">
-                            <div class="col-md-12">
-
-                                <div style="display:inline-block;width:90%;overflow-y:auto;">
-                                    <ul class="timeline timeline-horizontal">
-                                        <li class="timeline-item" ng-repeat='historico in HistoricoOrden'>
-                                            <div class="timeline-badge primary"><i class="glyphicon glyphicon-check"></i></div>
-                                            <div class="timeline-panel">
-                                                <div class="timeline-heading">
-                                                    <h4 class="timeline-title">{{historico.nombreEstatusOrden}}</h4>
-                                                    <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i> Fecha: {{historico.fecha | date:"dd/MM/yyyy" }}</small></p>
-                                                </div>
-                                                <div class="timeline-body">
-                                                    <p class="glyphicon glyphicon-user">{{historico.nombreCompleto}}</p>
-                                                </div>
-                                            </div-->
-                        <!--div class="timelnie-item">
-                            <div class="row">
-                                <div class="col-xs-3 date">
-                                    <small class="text-navy">{{historico.fecha | date:"dd/MM/yyyy hh:mm"  }}</small>
-                                </div>
-                                <div class="col-xs-7 content no-top-border">
-                                    <p class="m-b-xs"><strong>{{historico.nombreEstatusOrden}}</strong></p>
-                                    <p class="glyphicon glyphicon-user">{{historico.nombreCompleto}}</p>
-                                </div>
-                            </div>
-                            </div>
-                            </li>
-                            </ul>
-                            </div>
-                            </div>
-
-                            </div-->
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-lg-push-9 pull-right">
-                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
-                                <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
-                            </button>
-                        </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="row">
+                                <span class="label label-default mayusculas">{{detalleOrden.nombreEstatusOrden}}</span>
+                                <span class="label label-success mayusculas" ng-show="estadoCompra == true">{{procesarCompra}} </span>
+                            </div>
                             <div class="progressPrincipal">
                                 <table id="padreTimeLine">
                                     <tr>
-                                        <td ng-repeat='historico in HistoricoOrden' class="center" style="width: {{100 / HistoricoOrden.length}}%;" ng-class="{'activeTimeLine':historico.idOrden>0, '':''}">
+                                        <td ng-repeat='historico in HistoricoOrden' class="containerTimeline" style="width: {{100 / HistoricoOrden.length}}%;" ng-class="{'activeTimeLine':historico.idOrden>0, '':''}">
                                             <span class="m-b-xs">
                                             <strong>{{historico.nombreEstatusOrden}}</strong>
                                             </span>
                                             <br>
-                                            <span class="glyphicon glyphicon-user" ng-show="historico.idOrden>0"> {{historico.nombreCompleto}}
-                                            </span>
+                                            <span class="glyphicon glyphicon-user" ng-show="historico.idOrden>0"> 
+                                            </span>{{historico.nombreCompleto}}
                                             <br>
                                             <span class="fechaTimeLine" ng-show="historico.idOrden>0">
                                             <strong>{{historico.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
                                             </span>
+                                            <div class="arrow-right"></div>
                                         </td>
                                     </tr>
                                 </table>
+                                <!-- FIN NUEVO DISEÑO DE TIMELINE -->
                                 <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div id="numCotizacion" class="col-xs-3 col-sm-3 col-md-3 col-lg-3 center">{{cotz.data[0].numeroCotizacion}}</div>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
                                         <table id="subTimeLine">
                                             <tr>
-                                                <td ng-repeat="cot in cotz.data" class="center" style="width: {{100 / cotz.data.length}}%;" ng-class="{'activeSubTimeLine':cot.idCotizacion>0, '':''}">
+                                                <td ng-repeat="cot in cotz.data" class="containerSubTimeline" style="width: {{100 / cotz.data.length}}%;" ng-class="{'activeSubTimeLine':cot.idCotizacion>0, '':''}">
                                                     <span class="m-b-xs">
                                                     <strong>{{cot.nombreEstatusCotizacion}}</strong>
                                                     </span>
                                                     <br>
-                                                    <span class="glyphicon glyphicon-user" ng-show="cot.idCotizacion>0"> {{cot.nombreCompleto}}
-                                                    </span>
+                                                    <span class="glyphicon glyphicon-user" ng-show="cot.idCotizacion>0"> 
+                                                    </span>{{cot.nombreCompleto}}
                                                     <br>
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
                                                     <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
                                                     </span>
-                                                    <!-- <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(cot.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2 )&& cot.isPreorden == 1 && cot.hasPart == 1">
-                                                        <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
-                                                    </button> -->
-
+                                                    <div class="arrow-right-sub"></div>
                                                 </td>
                                             </tr>
                                         </table>
@@ -117,74 +60,19 @@
                                 </div>
                             </div>
                         </div>
-                        <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="progressPrincipal">
-                                <div id="padreTimeLine">
-                                    <ul class="timeline timeline-horizontal">
-                                        <li class="timeline-item" ng-repeat='historico in HistoricoOrden'>
-
-                                            <div class="timelnie-item">
-                                                <div class="row">
-                                                    <div class="col-xs-3 date">
-                                                        <small class="text-navy">{{historico.fecha | date:"dd/MM/yyyy hh:mm"  }}</small>
-                                                    </div>
-                                                    <div class="col-xs-7 content no-top-border">
-                                                        <p class="m-b-xs">
-                                                            <strong>{{historico.nombreEstatusOrden}}</strong>
-                                                        </p>
-                                                        <p class="glyphicon glyphicon-user">
-                                                            <strong>{{historico.nombreCompleto}}</strong>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                        <div class="row">
+                            <!-- TIEMPO -->
+                            <div class=" timeContainer pull-right" ng-class="{conTiempo: sinTiempoDisponible == 0, sinTiempo: sinTiempoDisponible == 1}"
+                                ng-show="userData.tiempoAsignado == 1">
+                                <div class="TiempoTranscurrido">
+                                    {{tiempoTranscurridoDisplay}}
                                 </div>
-                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'" class="col-xs-10 col-sm-10 col-md-10 col-lg-10" id="subTimeLine">
-                                    <strong id= "numCotizacion">{{cotz.data[0].numeroCotizacion}}</strong>
-                                    <ul class="timeline timeline-horizontal">
-                                        <li class="timeline-item" ng-repeat="cot in cotz.data">
-                                            <div class="timelnie-item">
-                                                <div class="row">
-                                                    <div class="col-xs-3 date">
-                                                        <small class="text-navy">{{cot.fecha | date:"dd/MM/yyyy hh:mm"  }}</small>
-                                                    </div>
-                                                    <div class="col-xs-7 content no-top-border">
-                                                        <p class="m-b-xs">
-                                                            <strong>{{cot.nombreEstatusCotizacion}}</strong>
-                                                        </p>
-                                                        <p class="glyphicon glyphicon-user">
-                                                            <strong>{{cot.nombreCompleto}}</strong>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="pull-right">
+                                    <i class="fa fa-clock-o reloj"></i>
                                 </div>
                             </div>
-                            </div-->
-                        <!--div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <div class="progressPrincipal">
-                                <div class="progressBarraPadre">
-                                    <div ng-repeat='historico in HistoricoOrden' class="progressBarra" style="width: {{historico.PorcentajeTotal}}%">
-                                        <a href="#" title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{historico.nombreCompleto}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='<p>Fecha: {{historico.fecha | date:"dd/MM/yyyy" }}</p> <p>Hora: {{historico.fecha | date:"hh:mm:ss a" }}</p>'>{{historico.nombreEstatusOrden}}</a>
-                                    </div>
-                                </div>
-                                <div ng-repeat="cotz in HistoricoCotizaciones | orderBy:'consecutivo'">
-                                    <div class='subProgress'>
-                                        <p class="padding">{{cotz.data[0].numeroCotizacion}}</p>
-                                        <div ng-class="{'subProgressBarra':cot.idEstatusCotizacion!= 4, 'subProgressBarraCancelada': cot.idEstatusCotizacion==4}" ng-repeat="cot in cotz.data" style="width: {{cot.Porcentaje}}%;">
-                                            <a href="#" title='<img alt="image" class="img-circle" src="image/profile/man2.jpg"> {{cot.nombreCompleto}}' data-toggle="popover" data-placement="top" data-trigger="hover" data-content='<p>Fecha: {{cot.fecha | date:"dd/MM/yyyy" }}</p> <p>Hora: {{cot.fecha | date:"hh:mm:ss a" }}</p> '>
-                                            {{cot.nombreEstatusCotizacion}}
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div-->
-                        <div class="col-xs-12 col-sm-12">
+                        </div>
+                        <div class="row">
                             <div class="hr-line-dashed"></div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -226,10 +114,6 @@
                                             <label>Zona de la Orden:</label>
                                             <span>{{detalleOrden.nombreZona}}</span>
                                         </p>
-                                        <!-- <p>
-                                            <label>Plan de Acción:</label>
-                                            <span>{{detalleOrden.accion}}</span>
-                                        </p> -->
                                         <p ng-show="detalleOrden.idGarantia==1">
                                             <label>Motivo por Garantia:</label>
                                             <span>{{detalleOrden.motivoGarantia}}</span>
@@ -238,7 +122,7 @@
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                                <div class="ibox float-e-margins">
+                                <!-- <div class="ibox float-e-margins">
                                     <div class="ibox-title">
                                         <h5>Detalle del Cliente</h5>
                                     </div>
@@ -256,7 +140,7 @@
                                             <span>{{detalleCliente.telefono}}</span>
                                         </p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
@@ -268,10 +152,10 @@
                         <!-- </div> -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <carousel interval="'-1'"  ng-hide="validaCertificado == 0">
+                            <carousel interval="'-1'" ng-hide="validaCertificado == 0">
                                 <slide class="itemCarousel" ng-repeat="evidencia in detalleEvidencias">
-                                  <!-- active="!$index" -->
-                                  <a href="{{evidencia.ruta}}" ng-show="evidencia.tipo == 'jpg'
+                                    <!-- active="!$index" -->
+                                    <a href="{{evidencia.ruta}}" ng-show="evidencia.tipo == 'jpg'
                                       || evidencia.tipo == 'JPG'
                                       || evidencia.tipo == 'jpeg'
                                       || evidencia.tipo == 'JPEG'
@@ -283,52 +167,54 @@
                                       || evidencia.tipo == 'BMP'" class="documentos" download="">
                                       <img  alt="image" title="{{evidencia.tipo}}" class="img-responsive" src="{{evidencia.ruta}}" />
                                   </a>
-                                  <div ng-show="evidencia.tipo == 'xml' || evidencia.tipo == 'XML'" class="item-no-img">
-                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
-                                          <div class="gal-ico">
-                                              <i class="fa fa-file-code-o" aria-hidden="true"></i>
-                                              <p>{{evidencia.nombreEvidencia}}</p>
-                                          </div>
-                                      </a>
-                                  </div>
-                                  <div ng-show="evidencia.tipo == 'pdf' || evidencia.tipo == 'PDF'" class="item-no-img">
-                                      <object style="width: 100%; height: 100%" data="{{evidencia.ruta}}" type="application/pdf">
+                                    <div ng-show="evidencia.tipo == 'xml' || evidencia.tipo == 'XML'" class="item-no-img">
+                                        <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                            <div class="gal-ico">
+                                                <i class="fa fa-file-code-o" aria-hidden="true"></i>
+                                                <p>{{evidencia.nombreEvidencia}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div ng-show="evidencia.tipo == 'pdf' || evidencia.tipo == 'PDF'" class="item-no-img">
+                                        <object style="width: 100%; height: 100%" data="{{evidencia.ruta}}" type="application/pdf">
                                           <embed src="{{evidencia.ruta}}" type="application/pdf" />
                                       </object>
-                                  </div>
-                                  <div ng-show="evidencia.tipo == 'xls' || evidencia.tipo == 'xlsx'  || evidencia.tipo == 'XLS' || evidencia.tipo == 'XLSX'" class="item-no-img">
-                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
-                                          <div class="gal-ico">
-                                              <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                                              <p>{{evidencia.nombreEvidencia}}</p>
-                                          </div>
-                                      </a>
-                                  </div>
-                                  <div ng-show="evidencia.tipo == 'txt' || evidencia.tipo == 'TXT'" class="item-no-img">
-                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
-                                          <div class="gal-ico">
-                                              <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                                              <p>{{evidencia.nombreEvidencia}}</p>
-                                          </div>
-                                      </a>
-                                  </div>
-                                  <div ng-show="evidencia.tipo == 'zip' || evidencia.tipo == 'rar' || evidencia.tipo == 'ZIP' || evidencia.tipo == 'RAR'" class="item-no-img">
-                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
-                                          <div class="gal-ico">
-                                              <i class="fa fa-file-archive-o" aria-hidden="true"></i>
-                                              <p>{{evidencia.nombreEvidencia}}</p>
-                                          </div>
-                                      </a>
-                                  </div>
-                                  <div ng-show="evidencia.tipo == 'doc' || evidencia.tipo == 'docx' || evidencia.tipo == 'DOC' || evidencia.tipo == 'DOCX'" class="item-no-img">
-                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
-                                          <div class="gal-ico">
-                                              <i class="fa fa-file-word-o" aria-hidden="true"></i>
-                                              <p>{{evidencia.nombreEvidencia}}</p>
-                                          </div>
-                                      </a>
-                                  </div>
-                                  <div ng-show="evidencia.tipo != 'jpg'
+                                    </div>
+                                    <div ng-show="evidencia.tipo == 'xls' || evidencia.tipo == 'xlsx'  || evidencia.tipo == 'XLS' || evidencia.tipo == 'XLSX'"
+                                        class="item-no-img">
+                                        <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                            <div class="gal-ico">
+                                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                                <p>{{evidencia.nombreEvidencia}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div ng-show="evidencia.tipo == 'txt' || evidencia.tipo == 'TXT'" class="item-no-img">
+                                        <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                            <div class="gal-ico">
+                                                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                                                <p>{{evidencia.nombreEvidencia}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div ng-show="evidencia.tipo == 'zip' || evidencia.tipo == 'rar' || evidencia.tipo == 'ZIP' || evidencia.tipo == 'RAR'" class="item-no-img">
+                                        <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                            <div class="gal-ico">
+                                                <i class="fa fa-file-archive-o" aria-hidden="true"></i>
+                                                <p>{{evidencia.nombreEvidencia}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div ng-show="evidencia.tipo == 'doc' || evidencia.tipo == 'docx' || evidencia.tipo == 'DOC' || evidencia.tipo == 'DOCX'"
+                                        class="item-no-img">
+                                        <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                            <div class="gal-ico">
+                                                <i class="fa fa-file-word-o" aria-hidden="true"></i>
+                                                <p>{{evidencia.nombreEvidencia}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div ng-show="evidencia.tipo != 'jpg'
                                       && evidencia.tipo != 'JPG'
                                       && evidencia.tipo != 'jpeg'
                                       && evidencia.tipo != 'JPEG'
@@ -356,13 +242,13 @@
                                       && evidencia.tipo != 'DOC'
                                       && evidencia.tipo != 'docx'
                                       && evidencia.tipo != 'DOCX'" class="item-no-img">
-                                      <a href="{{evidencia.ruta}}" class="documentos" download="">
-                                          <div class="gal-ico">
-                                              <i class="fa fa-file-o" aria-hidden="true"></i>
-                                              <p>{{evidencia.nombreEvidencia}}</p>
-                                          </div>
-                                      </a>
-                                  </div>
+                                        <a href="{{evidencia.ruta}}" class="documentos" download="">
+                                            <div class="gal-ico">
+                                                <i class="fa fa-file-o" aria-hidden="true"></i>
+                                                <p>{{evidencia.nombreEvidencia}}</p>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </slide>
                             </carousel>
                             <!-- <div class="carousel slide" id="carousel1" ng-hide="validaCertificado == 0">
@@ -574,14 +460,16 @@
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
                                     <label>Recepción</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="archivoEvidencia(1);" ng-disabled="validaCertificado == 0" ng-class="{btn_archivo_yep: validaCertificado != 0 }">
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="archivoEvidencia(1);" ng-disabled="validaCertificado == 0"
+                                        ng-class="{btn_archivo_yep: validaCertificado != 0 }">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
                                 <div class="col-sm-3 col-md-3 col-lg-3 text-center">
-                                    <label>Hoja de Trabajo</label>
+                                    <label>Hoja Trabajo</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="detalleOrden.idEstatusOrden < 6" ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
+                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="detalleOrden.idEstatusOrden < 6"
+                                        ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
@@ -604,6 +492,12 @@
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="hr-line-dashed"></div>
+                        </div>
+                        <!-- PREORDEN -->
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
+                                        <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
+                                    </button>
                         </div>
                         <!--Costos totales de las  cotizaciones-->
                         <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="estatus==4  && userData.presupuesto == 1 && (rolLogged == 2)">
@@ -644,8 +538,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-hide="estatus==4  && userData.presupuesto == 1">
-                        </div>
+
                         <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4">
                             <div ng-show="orden.IdTipoOrden = 2">
                                 <table class="table invoice-total">
@@ -656,11 +549,13 @@
                                         </tr>
                                         <tr>
                                             <td><strong>I.V.A :</strong></td>
-                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 0.16 : totalSumaVenta * 0.16 | currency}}</td>
+                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 0.16 : totalSumaVenta *
+                                                0.16 | currency}}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>TOTAL :</strong></td>
-                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 1.16 : totalSumaVenta * 1.16 | currency}}</td>
+                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 1.16 : totalSumaVenta *
+                                                1.16 | currency}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -705,13 +600,16 @@
                                                         btnSwitch.classVenta='btn btn-success';
                                                         btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
+                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura == 0 && userData.idRol != 1"
+                                                    ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
                                                     Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
                                                     </button> -->
-                                                <span  class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura != 0" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip" data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
+                                                <span class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="(estatus == 5 || estatus == 6 || estatus == 7) && cotizacion.factura != 0"
+                                                    ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip"
+                                                    data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
                                                 FACTURA CARGADA
                                                 </span>
                                             </div>
@@ -770,7 +668,9 @@
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                         <input type="radio" ng-init="partida.btnDisabled=true;
                                                                             partida.selOption=1;
-                                                                            initApproveButtons(partida,cotizacion.idCotizacion);" ng-disabled="partida.btnDisabled" ng-model="partida.selOption" value="2" ng-click="verificaComentario(1,partida)">
+                                                                            initApproveButtons(partida,cotizacion.idCotizacion);"
+                                                                            ng-disabled="partida.btnDisabled" ng-model="partida.selOption"
+                                                                            value="2" ng-click="verificaComentario(1,partida)">
                                                                     </div>
                                                                 </td>
                                                                 <td ng-show="estatus == 4">
@@ -800,26 +700,32 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td><strong>SUBTOTAL :</strong></td>
-                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto : cotizacion.sumaVenta | currency}}</td>
+                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto
+                                                                    : cotizacion.sumaVenta | currency}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>I.V.A :</strong></td>
-                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto * 0.16 : cotizacion.sumaVenta * 0.16 | currency}}</td>
+                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto
+                                                                    * 0.16 : cotizacion.sumaVenta * 0.16 | currency}}</td>
                                                             </tr>
                                                             <tr>
                                                                 <td><strong>TOTAL :</strong></td>
-                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto * 1.16 : cotizacion.sumaVenta * 1.16 | currency}}</td>
+                                                                <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto
+                                                                    * 1.16 : cotizacion.sumaVenta * 1.16 | currency}}</td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
                                                     <div>
-                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)"
+                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
-                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
+                                                        <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)"
+                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
                                                             <span></span> Cancelar Cotización
                                                         </button>
-                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
+                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right "
+                                                            ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
                                                             <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
                                                         </button>
                                                     </div>
@@ -915,23 +821,31 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right botoneses3" role="group" style="margin-right: 10px; ">
-                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil" type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
+                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4"
+                        style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil"
+                        type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
                         <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
                     </button>
                     <button ng-hide="btnNegroIsEnable" class="btn btn-negro btn-movil" type="submit">Negro</button>
-                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit" ng-click="editarCita()">
+                    <button ng-hide="btnEditarCitaIsEnable || rolLogged == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0"
+                        style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-warning btn-movil" type="submit"
+                        ng-click="editarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Editar Cita
                     </button>
-                    <button ng-show="estatus == 1 || estatus == 2" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
+                    <button ng-show="estatus == 1 || estatus == 2" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}"
+                        class="btn btn-danger btn-movil" type="submit" ng-click="CancelarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
                     </button>
-                    <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0" style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit" ng-click="comprobante()">
+                    <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0"
+                        style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit"
+                        ng-click="comprobante()">
                         <span class="{{class_buttonComprobanteRecepcion}}"></span> Comprobante de Recepción
                     </button>
-                    <button data-loading-text="Loading..." class="btn btn-morado btn-movil"  ng-click="enviaVerificacion()" ng-hide="detalleOrden.verificada">
+                    <button data-loading-text="Loading..." class="btn btn-morado btn-movil" ng-click="enviaVerificacion()" ng-hide="detalleOrden.verificada">
                         <span class="{{class_buttonEnviaAprobacion}}"></span> Verificar Unidad
                     </button>
-                    <button ng-hide="(userData.idRol == 1 || btnComprobanteRecepcionIsEnable || estatus == 1 ) &&   estatus != 4" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
+                    <button ng-hide="(userData.idRol == 1 || btnComprobanteRecepcionIsEnable || estatus == 1 ) &&   estatus != 4" data-loading-text="Loading..."
+                        class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                         <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
                     <button ng-hide="btnEditarIsEnable" class="btn btn-success btn-movil" type="submit"> Editar</button>
@@ -952,7 +866,8 @@
                     <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                         <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
-                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1 || userData.idRol ==  4" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
+                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1 || userData.idRol ==  4" data-loading-text="Loading..."
+                        type="button" ng-click="ValidaTerminoTrabajo();">
                         <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
                     </button>
                 </div>
@@ -1005,8 +920,8 @@
     </div>
 </div>
 <!-- Modal cargando-->
-<div id="loadModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" >
-    <div class="modal-dialog" >
+<div id="loadModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
         <div class="spiner-example" style="margin-top: 35%">
             <div class="sk-spinner sk-spinner-wandering-cubes">
                 <div class="sk-cube1"></div>
@@ -1040,21 +955,21 @@
                     <i class="fa fa-spinner" aria-hidden="true"></i> Aprobar partidas
                 </button>
                 <style type="text/css">
-                .fa-spinner {
-                    animation-name: rotate;
-                    animation-duration: 1.5s;
-                    animation-iteration-count: infinite;
-                    animation-timing-function: linear;
-                }
+                    .fa-spinner {
+                        animation-name: rotate;
+                        animation-duration: 1.5s;
+                        animation-iteration-count: infinite;
+                        animation-timing-function: linear;
+                    }
 
-                @keyframes rotate {
-                    from {
-                        transform: rotate(0deg);
+                    @keyframes rotate {
+                        from {
+                            transform: rotate(0deg);
+                        }
+                        to {
+                            transform: rotate(360deg);
+                        }
                     }
-                    to {
-                        transform: rotate(360deg);
-                    }
-                }
                 </style>
             </div>
         </div>
@@ -1230,14 +1145,16 @@
                         <label>Plan de acción</label>
                     </div>
                     <div class="col-sm-9 col-md-9 col-lg-9">
-                        <textarea name="message" placeholder="Escriba su plan de acción" style="width: 352px; height: 82px;" ng-model="comentaAccion" capitalize></textarea>
+                        <textarea name="message" placeholder="Escriba su plan de acción" style="width: 352px; height: 82px;" ng-model="comentaAccion"
+                            capitalize></textarea>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3 m-t">
                         <label>Fecha</label>
                     </div>
                     <div class="col-sm-5 col-md-5 col-lg-5 m-t">
                         <div class="input-group date">
-                            <input type="text" class="form-control calendarControl" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)" calendar>
+                            <input type="text" class="form-control calendarControl" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)"
+                                calendar>
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                         </div>
                     </div>
@@ -1265,77 +1182,78 @@
     </div>
 </div>
 <script>
-$(document).ready(function() {
-    $(window).scroll(function(event) {
-        var scroll = $(window).scrollTop();
-        if (scroll <= 60) {
-            $(".controles-fixed").removeClass("entra");
+    $(document).ready(function () {
+        $(window).scroll(function (event) {
+            var scroll = $(window).scrollTop();
+            if (scroll <= 60) {
+                $(".controles-fixed").removeClass("entra");
+            } else {
+                $(".controles-fixed").addClass("entra");
+            }
+        });
+
+        $('.scroll_content').slimscroll({
+            //height: '580px',
+            width: '100%'
+        })
+        setTimeout(function () {
+            $('[data-toggle="popover"]').popover({
+                html: true
+            });
+        }, 500);
+
+
+
+
+        var inputs = document.querySelectorAll('.inputfile');
+        Array.prototype.forEach.call(inputs, function (input) {
+            var label = input.nextElementSibling,
+                labelVal = label.innerHTML;
+
+            input.addEventListener('change', function (e) {
+                var fileName = '';
+                if (this.files && this.files.length > 1)
+                    fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+                else
+                    fileName = e.target.value.split('\\').pop();
+
+                if (fileName)
+                    label.querySelector('span').innerHTML = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+        });
+    });
+
+    var optFlag = true;
+    var moreOptions = function () {
+        if (optFlag) {
+            $(".tokenMargen").fadeOut();
+            setTimeout(function () {
+                $(".botoneses3").fadeIn();
+            }, 200);
+            optFlag = false;
+
+            $(".mas-options .fa-angle-down").hide();
+            $(".mas-options .fa-angle-up").show();
+            $(".mas-options small").text('Introducir Token');
         } else {
-            $(".controles-fixed").addClass("entra");
+            $(".botoneses3").fadeOut();
+            setTimeout(function () {
+                $(".tokenMargen").fadeIn();
+            }, 200);
+            optFlag = true;
+
+            $(".mas-options .fa-angle-down").show();
+            $(".mas-options .fa-angle-up").hide();
+            $(".mas-options small").text('Más Opciones');
         }
-    });
 
-    $('.scroll_content').slimscroll({
-        //height: '580px',
-        width: '100%'
-    })
-    setTimeout(function() {
-        $('[data-toggle="popover"]').popover({
-            html: true
-        });
-    }, 500);
-
-
-
-
-    var inputs = document.querySelectorAll('.inputfile');
-    Array.prototype.forEach.call(inputs, function(input) {
-        var label = input.nextElementSibling,
-            labelVal = label.innerHTML;
-
-        input.addEventListener('change', function(e) {
-            var fileName = '';
-            if (this.files && this.files.length > 1)
-                fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
-            else
-                fileName = e.target.value.split('\\').pop();
-
-            if (fileName)
-                label.querySelector('span').innerHTML = fileName;
-            else
-                label.innerHTML = labelVal;
-        });
-    });
-});
-
-var optFlag = true;
-var moreOptions = function() {
-    if (optFlag) {
-        $(".tokenMargen").fadeOut();
-        setTimeout(function() {
-            $(".botoneses3").fadeIn();
-        }, 200);
-        optFlag = false;
-
-        $(".mas-options .fa-angle-down").hide();
-        $(".mas-options .fa-angle-up").show();
-        $(".mas-options small").text('Introducir Token');
-    } else {
-        $(".botoneses3").fadeOut();
-        setTimeout(function() {
-            $(".tokenMargen").fadeIn();
-        }, 200);
-        optFlag = true;
-
-        $(".mas-options .fa-angle-down").show();
-        $(".mas-options .fa-angle-up").hide();
-        $(".mas-options small").text('Más Opciones');
+        // <div class="mas-options" onclick="moreOptions();">
+        //     <small>Más Opciones</small><br>
+        //     <i class="fa fa-angle-down" aria-hidden="true"></i>
+        //     <i class="fa fa-angle-up" aria-hidden="true"></i>
+        // </div>
     }
 
-    // <div class="mas-options" onclick="moreOptions();">
-    //     <small>Más Opciones</small><br>
-    //     <i class="fa fa-angle-down" aria-hidden="true"></i>
-    //     <i class="fa fa-angle-up" aria-hidden="true"></i>
-    // </div>
-}
 </script>
