@@ -213,7 +213,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.getMostrarCotizaciones = function(numeroOrden, estatus, idUsuario) {
-        cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+        cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             console.log("--------------------------------------");
             console.log(result);
             console.log("--------------------------------------");
@@ -492,18 +492,16 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
                 switch (Number(valor)) {
                     case 2: //cliente
-                        $scope.class_buttonGuardaCotizacion = '';
                         //$scope.init();
-                        $('#loadModal').modal('hide');
-
                         alertFactory.success('Faltan partidas por aprobar.');
                         setTimeout(function() {
+                            $('#loadModal').modal('hide');
+                            $scope.class_buttonGuardaCotizacion = '';
                             location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=4';
                         }, 500);
                         break;
                     case 3:
                           if ($scope.hasDetalleModulo(5,14) === true) {
-
                               commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
                                   if (resp.data.length > 0) {
                                       var correoDe = resp.data[0].correoDe;
@@ -517,15 +515,13 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                           // alertFactory.error('No se puede enviar el correo');
                                       });
                                   }
-
                               }, function(error) {
                                   // alertFactory.error("Error al obtener información para el mail");
                               });
                           }
-
-                          $('#loadModal').modal('hide');
-                          $scope.class_buttonGuardaCotizacion = '';
                           setTimeout(function() {
+                              $('#loadModal').modal('hide');
+                              $scope.class_buttonGuardaCotizacion = '';
                               location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=5';
                           }, 1500);
                         break;
@@ -1363,7 +1359,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.ShowFacturas = function() {
-        detalleRepository.getFacturas($scope.numeroOrden).then(function(respuesta) {
+        detalleRepository.getFacturas($scope.numeroOrden, 3, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(respuesta) {
             $scope.Facturas = respuesta.data;
             if ($scope.Facturas.success) {
                 $scope.facturas_empty = false;

@@ -24,6 +24,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.sumatoria_conPresupuesto = 0;
      $scope.sumatoria_sinPresupuesto = 0;
+     $scope.sumatoria_costo_conPresupuesto = 0;
+     $scope.sumatoria_costo_sinPresupuesto = 0;
 
     $scope.init = function () {
         //para obtener las zonas promero se inicializa la primer zona padre.
@@ -105,6 +107,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       $scope.cotizacionesSinPresupuesto = [];
       $scope.sumatoria_conPresupuesto = 0;
       $scope.sumatoria_sinPresupuesto = 0;
+      $scope.sumatoria_costo_conPresupuesto = 0;
+      $scope.sumatoria_costo_sinPresupuesto = 0;
       // $('.ordenesPresupuesto1').DataTable().destroy();
       // $('.ordenesPresupuesto').DataTable().destroy();
       // $('.ordenesSinPresupuesto').DataTable().destroy();
@@ -138,10 +142,13 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
                   if (item.tienePresupuesto==1) {
                       $scope.sumatoria_conPresupuesto += item.venta;
+                      $scope.sumatoria_costo_conPresupuesto += item.costo;
                   }else if (item.tienePresupuesto==2) {
                       $scope.sumatoria_sinPresupuesto += item.venta;
+                      $scope.sumatoria_costo_sinPresupuesto += item.costo;
                   }else if (item.tienePresupuesto==0) {
                       $scope.sumatoria_conPresupuesto += item.venta;
+                      $scope.sumatoria_costo_conPresupuesto += item.costo;
                   }
               });
               globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);

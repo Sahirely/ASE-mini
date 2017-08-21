@@ -17,13 +17,15 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        getFacturas: function( numeroOrden ) {
+        getFacturas: function(numeroOrden, estatus, idUsuario, idOperacion) {
             return $http({
                 url: detalleUrl + 'facturasPorOrden/',
                 method: "GET",
                 params: {
                     numeroOrden: numeroOrden,
-                    estatus: 3
+                    estatus: estatus,
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'

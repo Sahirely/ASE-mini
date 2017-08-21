@@ -175,11 +175,15 @@
                 <tabset>
                     <tab heading="Citas" index="0" active="ConTallerActive">
                          <br/>
-                        <div class="row sumatorias" ng-show="show_sumatorias">
+                        <div class="row sumatorias" >
                             <div class="col-xs-3 pull-right">
-                                <div>
+                                <div ng-hide="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_conTaller |  currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
+                                </div>
+                                <div ng-show="btnSwitch.showCostoVenta">
+                                    <h2 class="no-margins">{{sumatoria_costo_conTaller |  currency: "$"}}</h2>
+                                    <small>precio costo s/iva</small>
                                 </div>
                             </div>
                         </div>
@@ -198,7 +202,8 @@
                                         <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
-                                        <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
+                                        <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                        <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                         <th>Agendó</th>
                                         <th ng-show="userData.tiempoAsignado == 1">Tiempo Transcurrido Tiempo Asignado</th>
                                     </tr>
@@ -216,7 +221,8 @@
                                         <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesTaller.comentarioOrden}}</td>
                                         <td>{{ordenesTaller.nombreEstatusOrden}}</td>
-                                        <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesTaller.venta | currency : "$"}}</td>
+                                        <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{ordenesTaller.costo | currency}}</td>
+                                        <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesTaller.venta | currency}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
                                         <td ng-show="userData.tiempoAsignado == 1">{{ordenesTaller.tiempoEspera}}</td>
@@ -227,11 +233,15 @@
                     </tab>
                     <tab heading="Citas Sin Taller" index="1" active="SinTallerActive" ng-hide="userData.idRol == 4">
                         <br/>
-                        <div class="row sumatorias" ng-show="show_sumatorias">
+                        <div class="row sumatorias" >
                             <div class="col-xs-3 pull-right">
-                                <div>
+                                <div ng-hide="btnSwitch.showCostoVenta">
                                     <h2 class="no-margins">{{sumatoria_sinTaller |  currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
+                                </div>
+                                <div ng-show="btnSwitch.showCostoVenta">
+                                    <h2 class="no-margins">{{sumatoria_costo_sinTaller |  currency: "$"}}</h2>
+                                    <small>precio costo s/iva</small>
                                 </div>
                             </div>
                         </div>
@@ -249,7 +259,8 @@
                                         <th>Fecha Creación Orden</th>
                                         <th>Comentarios Adicionales</th>
                                         <th>Estatus</th>
-                                        <th ng-show="userData.idRol == 2 || userData.idRol == 3">Precio venta sin IVA</th>
+                                        <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                        <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                         <th>Agendó</th>
                                         <th ng-show="userData.tiempoAsignado == 1">Tiempo Transcurrido Tiempo Asignado</th>
                                     </tr>
@@ -267,7 +278,8 @@
                                         <td>{{ordenesSinTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
-                                        <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesSinTaller.venta | currency : "$"}}</td>
+                                        <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{ordenesSinTaller.costo | currency}}</td>
+                                        <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesSinTaller.venta | currency}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
                                         <td ng-show="userData.tiempoAsignado == 1">{{ordenesSinTaller.tiempoEspera}}</td>
                                     </tr>

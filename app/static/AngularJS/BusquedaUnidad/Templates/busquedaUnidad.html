@@ -193,7 +193,6 @@
                                             <th>Número de Orden</th>
                                             <th>Tipo de Orden</th>
                                             <th>Fecha</th>
-                                            <th>Taller</th>
                                             <th ng-show="mostrarComentarios">Comentarios</th>
                                             <th>Agendó</th>
                                             <th ng-show="btnSwitch.showCostoVenta">Costo</th>
@@ -208,7 +207,6 @@
                                             <td>{{ orden.numeroOrden}}</td>
                                             <td>{{orden.tipoOrden}}</td>
                                             <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
-                                            <td>{{ orden.razonSocial}}</td>
                                             <td ng-show="mostrarComentarios">{{orden.descripcion}}</td>
                                             <td>{{orden.nombreCompleto}}</td>
                                             <td ng-show="btnSwitch.showCostoVenta">{{orden.costo | currency}}</td>
@@ -235,7 +233,6 @@
                                             <th>Número de Orden</th>
                                             <th>Tipo de Orden</th>
                                             <th>Fecha</th>
-                                            <th>Taller</th>
                                             <th ng-show="mostrarComentarios">Comentarios</th>
                                             <th>Agendó</th>
                                             <th ng-show="btnSwitch.showCostoVenta">Costo</th>
@@ -250,7 +247,6 @@
                                             <td>{{ historialOrden.numeroOrden }}</td>
                                             <td>{{ historialOrden.tipoOrden}}</td>
                                             <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
-                                            <td>{{ historialOrden.razonSocial}}</td>
                                             <td ng-show="mostrarComentarios">{{historialOrden.descripcion}}</td>
                                             <td>{{historialOrden.nombreCompleto}}</td>
                                             <td ng-show="btnSwitch.showCostoVenta">{{historialOrden.costo | currency}}</td>

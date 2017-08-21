@@ -217,6 +217,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.guardaFactura = function() {
         //LQMA 15072017 begin
+        $('#loadModal').modal('show');
         var partidas = '';
         angular.forEach($scope.cotizacionesSeleccionadas, function(value, key) {
             partidas = partidas + ',' + $scope.cotizacionesSeleccionadas[key].idPartida
@@ -260,8 +261,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
                     }
                 }
 
-
-
+                $('#loadModal').modal('hide');
                 location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
 
 
