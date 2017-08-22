@@ -22,6 +22,27 @@ var Reporte = function (conf) {
     }
 }
 
+
+
+
+
+Reporte.prototype.get_reporteAntiguedadSaldo = function (req, res, next){
+    var obj = {};
+    var self = this;
+    var params = [];
+    // var params = [{
+    //     name: 'idOperacion',
+    //     value: req.query.idOperacion,
+    //     type: self.model.types.INT
+    // }];
+
+    self.model.query('SEL_REPORTE_ANTIGUEDAD_SALDO_SP', params,function(error, result){
+        obj.error = error;
+        obj.result = result;
+        self.view.expositor(res, obj);
+    });
+    }
+
 //obtiene el reporte del parque vehicular de la operación
 Reporte.prototype.get_ReporteParqueVehicular = function (req, res, next){
     var obj = {};

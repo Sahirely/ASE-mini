@@ -98,52 +98,48 @@
                                             <th>Número Órden</th>
                                             <th>Número Económico</th>
                                             <th>Zona</th>
-                                            <th>Tar</th>
+                                            <th>Taller</th>
                                             <th>Costo de la Orden</th>
                                             <th>Precio de la Orden</th>
                                             <th>Descripción de la Orden</th>
                                             <th>Estatus</th>
-                                            <th>Folio Certificado</th>
-                                            <th>Copade</th>
-                                            <th>Fecha Cita</th>
+                                            <th>Fecha Creación Orden</th>
                                             <th>Fecha Cotización</th>
-                                            <th>Fecha Aprobación Orden</th>
+                                            <th>Fecha Aprobación</th>
+                                            <th>Fecha Proceso</th>
                                             <th>Fecha Termino Trabajo</th>
-                                            <th>Fecha Salida de la Unidad</th>
-                                            <th>Fecha Generación Certificado</th>
-                                            <th>0 a 30</th>
-                                            <th>31 a 45</th>
-                                            <th>46 a 60</th>
-                                            <th>más de 61</th>
+                                            <th>Fecha Salida</th>
+                                            <th>Días 0-30</th>
+                                            <th>Días 31-45</th>
+                                            <th>Días 46-60</th>
+                                            <th>Días más de 60</th>
                                             <th>Días</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="orden in ordenes ">
-                                            <td>{{orden.cliente}}</td>
-                                            <td>{{orden.idCita}}</td>
-                                            <td>{{orden.numeroTrabajo}}</td>
-                                            <td>{{orden.numEconomico}}</td>
-                                            <td>{{orden.zona}}</td>
-                                            <td>{{orden.TAR}}</td>
-                                            <td>{{orden.costoOrden | currency: "$"}}</td>
-                                            <td>{{orden.precioOrden | currency: "$"}}</td>
-                                            <td>{{orden.trabajo}}</td>
-                                            <td>{{orden.descripcionLarga}}</td>
-                                            <td>{{orden.folioCertificado}}</td>
-                                            <td>{{orden.numeroCopade}}</td>
-                                            <td>{{orden.fechaCita | date:'dd-MM-yyyy HH:mm'}}</td>
-                                            <td>{{orden.fechaMandaAprovacion | date:'dd-MM-yyyy HH:mm'}}</td>
-                                            <td>{{orden.fechaAutorizacion | date:'dd-MM-yyyy HH:mm'}}</td>
-                                            <td>{{orden.fechaTerminacionTrabajo | date:'dd-MM-yyyy HH:mm'}}</td>
-                                            <td>{{orden.fechaSalidaUnidad | date:'dd-MM-yyyy HH:mm'}}</td>
-                                            <td>{{orden.FechaGeneracionCertificado | date:'dd-MM-yyyy HH:mm'}}</td>
-                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.primero==1}"></span></td>
-                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.segundo==1}"></span></td>
-                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.tercero==1}"></span></td>
-                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.cuarto==1}"></span></td>
-                                            <td>{{orden.tiempo}}</td>
-                                            
+                                            <td>{{orden.Cliente}}</td>
+                                            <td>{{orden.consecutivoOrden}}</td>
+                                            <td>{{orden.numeroOrden}}</td>
+                                            <td>{{orden.numeroEconomico}}</td>
+                                            <td>{{orden.nombreZona}}</td>
+                                            <td>{{orden.talleres}}</td>
+                                            <td>{{orden.costo| currency: "$"}}</td>
+                                            <td>{{orden.venta| currency: "$"}}</td>
+                                            <td>{{orden.descripcion}}</td>
+                                            <td>{{orden.estatus}}</td>
+                                            <td>{{orden.fechaCreacionOrden | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
+                                            <td>{{orden.fechaCotizacion | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
+                                            <td>{{orden.fechaAprobacion | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
+                                            <td>{{orden.fechaProceso | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
+                                            <td>{{orden.fechaTerminoTrabajo | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
+                                            <td>{{orden.fechaSalida | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>                  
+                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_0_30==1}"></span></td>
+                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_31_45==1}"></span></td>
+                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_46_60==1}"></span></td>
+                                            <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_mas_60==1}"></span></td>
+                                            <td>{{orden.dias}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
