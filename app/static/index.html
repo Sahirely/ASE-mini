@@ -88,11 +88,11 @@
                 <li   ng-show="userData.idRol == 2 " ng-class="{'active': (modulo=='reporteAntiguedad' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
                         <li ng-class="{'active': modulo=='reporteAntiguedad'}"><a href="/reporte">Reporte Antigüedad de Saldos</a></li>
                         <li ng-class="{'active': modulo=='reporteMargenUtilidad'}"><a href="/reporteutilidad">Reporte Márgenes de Utilidad</a></li>
-                        <li ng-show="userData.esProveedor == 0" ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
                         <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteCertificadoConformidad">Certificado Conformidad</a></li>
+                        <li><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
+                        <li ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
                     </ul>
                 </li>
                 <li ng-class="{'active': modulo=='tutorial'}" ng-show="{{userData.idRol != 5}}">

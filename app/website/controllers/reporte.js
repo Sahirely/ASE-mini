@@ -167,4 +167,31 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
     });
 }
 
+//Obtiene todas las citas no canceladas generadas para cierta unidad
+Reporte.prototype.get_historialUnidad = function (req, res, next) {
+
+    var self = this;
+
+    var params = [{
+            name: 'numeroEconomico',
+            value: req.query.numeroEconomico,
+            type: self.model.types.STRING
+        },{
+            name: 'tipoConsulta',
+            value: req.query.tipoConsulta,
+            type: self.model.types.INT
+        },{
+            name: 'idOperacion',
+            value: req.query.idOperacion,
+            type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_HISTORIAL_UNIDAD_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Reporte;

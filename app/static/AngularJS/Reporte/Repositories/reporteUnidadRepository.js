@@ -37,6 +37,20 @@ registrationModule.factory('reporteUnidadRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getHistorialUnidad: function (numeroEconomico, tipoConsulta, idOperacion) {
+            return $http({
+                url: reporteUnidadUrl + 'historialUnidad/',
+                method: "GET",
+                params: {
+                    numeroEconomico: numeroEconomico,
+                    tipoConsulta: tipoConsulta,
+                    idOperacion: idOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

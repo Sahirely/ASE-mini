@@ -3,7 +3,7 @@
 
 <div ng-init="init()" class="animated bounceInRight">
     <div class="headTitleTallerCita">
-        <span class="title"> Historial de la Unidad<span class="subtitle">ASE/ Cliente/ Taller</span></span>
+        <span class="title"> Historial de la Unidad</span>
     </div>
     <div>
 
@@ -23,45 +23,47 @@
                         </div>
                         <br/>
                         <tabset>
-                            <tab heading="Citas" index="0">
+                            <tab heading="Órdenes" index="0">
                                 <br/>
                                 <br/>
                                 <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTableCita" cg-busy="{promise:promise,message:message}">
+                                    <table class="table table-striped table-bordered table-hover dataTableOrden" cg-busy="{promise:promise,message:message}">
                                         <thead>
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th>Consecutivo</th>
-                                                <th>Número económico</th>
+                                                <th>Número de la Orden</th>
+                                                <th>Número Económico</th>
+                                                <th>Unidad</th>
+                                                <th>Tipo Servicio</th>
                                                 <th>Zona</th>
-                                                <th>TAR</th>
-                                                <th>NombreTaller</th>
-                                                <th>Trabajo</th>
-                                                <th>Fecha Creación Cita</th>
-                                                <th>Fecha de cita</th>
-                                                <th>Fecha Confirmación Cita</th>
-                                                <th>Fecha Entrada Unidad</th>
+                                                <th>Taller</th>
+                                                <th>Descripción</th>
+                                                <th>Fecha de Aceptación del Trabajo</th>
+                                                <th>Fecha Terminación Trabajo</th>
+                                                <th>Fecha Salida Unidad</th>
+                                                <th>Fecha Generación de Hoja de Trabajo</th>
+                                                <th>Fecha Aceptación Cliente Hoja de Trabajo</th> 
                                                 <th>Estatus</th>
-                                                <th>Ver</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="cita in citasUnidad">
-                                               <td>{{cita.cliente}}</td>
-                                               <td>{{cita.Consecutivo}}</td>
-                                               <td>{{cita.numEconomico}}</td>
-                                               <td>{{cita.zona}}</td>
-                                               <td>{{cita.TAR}}</td>
-                                               <td>{{cita.razonSocial}}</td>
-                                               <td>{{cita.trabajo}}</td>
-                                               <td>{{cita.fechaCreacion | date:"dd-MM-yy HH:mm"}}</td>
-                                               <td>{{cita.fechaCita | date:"dd-MM-yy HH:mm"}}</td>
-                                               <td>{{cita.fechaConfirmacion | date:"dd-MM-yy HH:mm"}}</td>
-                                               <td>{{cita.fechaLlegada | date:"dd-MM-yy HH:mm"}}</td>
-                                               <td>{{cita.descripcionLarga}}</td>
-                                               <td>
-                                                   <button class="btn btn-info" type="button"  ng-click="verOrden(cita, 1)" data-toggle="tooltip" tooltip="Ver la cita" tooltip-placement="left"><span class="glyphicon glyphicon-sunglasses"></span></button>
-                                               </td>
+                                            <tr ng-repeat="orden in ordenesUnidad"  ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                <td>{{orden.Cliente}}</td>
+                                                <td>{{orden.consecutivoOrden}}</td>
+                                                <td>{{orden.numeroOrden}}</td>
+                                                <td>{{orden.numeroEconomico}}</td>
+                                                <td>{{orden.unidad}}</td>
+                                                <td>{{orden.nombreTipoOrdenServicio}}</td>
+                                                <td>{{orden.nombre}}</td>
+                                                <td>{{orden.talleres}}</td>
+                                                <td>{{orden.comentarioOrden}}</td>
+                                                <td>{{orden.fechaAprobacion | date:"dd-MM-yy HH:mm"}}</td>
+                                                <td>{{orden.fechaFin | date:"dd-MM-yy HH:mm"}}</td>
+                                                <td>{{orden.fechaInicioReal | date:"dd-MM-yy HH:mm"}}</td>
+                                                <td>{{orden.fechaCertificadoGenerado | date:"dd-MM-yy HH:mm"}}</td>
+                                                <td>{{orden.CertificadoDescargadoCliente | date:"dd-MM-yy HH:mm"}}</td>
+                                                <td>{{orden.nombreEstatusOrden}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -76,97 +78,34 @@
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th>Consecutivo</th>
-                                                <th>Número de orden</th>
-                                                <th>Número de cotización</th>
-                                                <th>Número económico</th>
+                                                <th>Número de la Orden</th>
+                                                <th>Número de Cotización</th>
+                                                <th>Número Económico</th>
+                                                <th>Unidad</th>
+                                                <th>Tipo Servicio</th>
                                                 <th>Zona</th>
-                                                <th>TAR</th>
-                                                <th>NombreTaller</th>
-                                                <th>Trabajo</th>
+                                                <th>Taller</th>
+                                                <th>Descripción</th>
                                                 <th>Fecha Validación o Modificación de Diagnóstico</th>
                                                 <th>Fecha Autorización de Diagnóstico Modificado</th>
                                                 <th>Estatus</th>
-                                                <th>Ver</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="cotizacion in cotizacionesUnidad">
-                                                <td>{{cotizacion.cliente}}</td>
-                                                <td>{{cotizacion.Consecutivo}}</td>
-                                                <td>{{cotizacion.numeroTrabajo}}</td>
+                                            <tr ng-repeat="cotizacion in cotizacionesUnidad"  ng-click="detalleOrden(cotizacion)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
+                                                <td>{{cotizacion.Cliente}}</td>
+                                                <td>{{cotizacion.consecutivoOrden}}</td>
+                                                <td>{{cotizacion.numeroOrden}}</td>
                                                 <td>{{cotizacion.numeroCotizacion}}</td>
-                                                <td>{{cotizacion.numEconomico}}</td>
-                                                <td>{{cotizacion.zona}}</td>
-                                                <td>{{cotizacion.TAR}}</td>
-                                                <td>{{cotizacion.razonSocial}}</td>
-                                                <td>{{cotizacion.trabajo}}</td>
+                                                <td>{{cotizacion.numeroEconomico}}</td>
+                                                <td>{{cotizacion.unidad}}</td>
+                                                <td>{{cotizacion.nombreTipoOrdenServicio}}</td>
+                                                <td>{{cotizacion.nombre}}</td>
+                                                <td>{{cotizacion.talleres}}</td>
+                                                <td>{{cotizacion.comentarioOrden}}</td>
                                                 <td>{{cotizacion.fechaCotizacion | date:"dd-MM-yy HH:mm"}}</td>
                                                 <td>{{cotizacion.fechaAutorizacionCot | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{cotizacion.descripcionLarga}}</td>
-                                                <td>
-                                                   <button class="btn btn-info" type="button" data-toggle="tooltip" tooltip="Ver la cotización" tooltip-placement="left" ng-click="verOrden(cotizacion, 1)"><span class="glyphicon glyphicon-sunglasses"></span></button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </tab>
-                            <tab heading="Órdenes" index="2">
-                                <br/>
-                                <br/>
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTableOrden" cg-busy="{promise:promise,message:message}">
-                                        <thead>
-                                            <tr>
-                                                <th>Cliente</th>
-                                                <th>Consecutivo</th>
-                                                <th>Número de orden</th>
-                                                <th>Número económico</th>
-                                                <th>Zona</th>
-                                                <th>TAR</th>
-                                                <th>NombreTaller</th>
-                                                <th>Trabajo</th>
-                                                <th>Fecha Inicio Real de Trabajos</th>
-                                                <th>Fecha Terminación Trabajo</th>
-                                                <th>Fecha Salida Unidad</th>
-                                                <th>Fecha Generación del Formato de Conformidad Call</th>
-                                                <th>Fecha de Carga del Formato de Conformidad Call</th>
-                                                <th>Fecha Descarga del Formato de Conformidad Cliente</th>
-                                                <th>Fecha de Aceptación del Trabajo por Pemex, Entrada Servicios SAP</th>
-                                                <th>Fecha Factura Taller</th>
-                                                <th>Fecha Recepción COPADE</th>
-                                                <th>Fecha de Facturacion a la bóveda electrónica</th>
-                                                <th>Fecha Orden en garantía</th>
-                                                <th>Estatus</th>
-                                                <th>Ver</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr ng-repeat="orden in ordenesUnidad">
-                                                <td>{{orden.cliente}}</td>
-                                                <td>{{orden.Consecutivo}}</td>
-                                                <td>{{orden.numeroTrabajo}}</td>
-                                                <td>{{orden.numEconomico}}</td>
-                                                <td>{{orden.zona}}</td>
-                                                <td>{{orden.TAR}}</td>
-                                                <td>{{orden.razonSocial}}</td>
-                                                <td>{{orden.trabajo}}</td>
-                                                <td>{{orden.fechaInicioReal | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaFin | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaInicioReal | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaCertificadoGenerado | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaCertificadoCallCargado | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.CertificadoDescargadoCliente | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaAprobacion | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaFacturacion | date:"dd-MM-yy HH:mm"}}</td>
-                                                <!--<td>{{orden.fechaPendienteCobro | date:"dd-MM-yy HH:mm"}}</td>-->
-                                                <td>{{orden.fechaRecepcionCopade | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaCobroCopade | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.fechaGarantia | date:"dd-MM-yy HH:mm"}}</td>
-                                                <td>{{orden.descripcionLarga}}</td>
-                                                <td>
-                                                   <button class="btn btn-info" type="button" ng-click="verOrden(orden, 1)" data-toggle="tooltip" tooltip="Ver órden de servicio" tooltip-placement="left"><span class="glyphicon glyphicon-sunglasses"></span></button>
-                                                </td>  
+                                                <td>{{cotizacion.nombreEstatusOrden}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
