@@ -138,31 +138,11 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
     ];
 
     self.model.query('SEL_REPORTE_MARGEN_UTILIDAD_SP', params, function (error, result) {
-        var margenes = result;
-        var tamanio = margenes.length;
 
-        if(margenes.length != 0){
-            margenes.forEach(
-                function(item, key){
-                    var params2 = [{name:'idOrden', value:item.idOrden, type:self.model.types.INT}];
-
-                    self.model.query('SEL_ZONAS_BY_ORDEN_SP', params2, function (e, r){
-                          item.zonas = r;
-
-                          if (key >= (tamanio-1)){
-                              object.error = error;
-                              object.result = margenes;
-                              self.view.expositor(res,object);
-                          }
-                    });
-                }
-            );
-        }else{
-            //Callback
             object.error = error;
-            object.result = margenes;
+            object.result = result;
             self.view.expositor(res, object);
-        }
+
     });
 }
 
