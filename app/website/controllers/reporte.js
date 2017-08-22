@@ -65,3 +65,105 @@ Reporte.prototype.get_tipoUnidad = function (req, res, next){
     });
 
 }
+
+Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+
+    var params = [
+        {
+            name: 'idOperacion',
+            value: req.query.idOperacion,
+            type: self.model.types.INT
+        }
+        // {
+        //     name: 'fechaInicio',
+        //     value: req.query.fechaInicio,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'fechaFin',
+        //     value: req.query.fechaFin,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'fechaMes',
+        //     value: req.query.fechaMes,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'rangoInicial',
+        //     value: req.query.rangoInicial,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'rangoFinal',
+        //     value: req.query.rangoFinal,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'zona',
+        //     value: req.query.zona,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'tar',
+        //     value: req.query.tar,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'idTipoCita',
+        //     value: req.query.idTipoCita,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'estatus',
+        //     value: req.query.estatus,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'numeroTrabajo',
+        //     value: req.query.numeroTrabajo,
+        //     type: self.model.types.STRING
+        // },
+        // {
+        //     name: 'bandera',
+        //     value: req.query.bandera,
+        //     type: self.model.types.STRING
+        // }
+    ];
+
+    self.model.query('SEL_REPORTE_MARGEN_UTILIDAD_SP', params, function (error, result) {
+        var margenes = result;
+        var tamanio = margenes.length;
+
+        if(margenes.length != 0){
+            margenes.forEach(
+                function(item, key){
+                    var params2 = [{name:'idOrden', value:item.idOrden, type:self.model.types.INT}];
+
+                    self.model.query('SEL_ZONAS_BY_ORDEN_SP', params2, function (e, r){
+                          item.zonas = r;
+
+                          if (key >= (tamanio-1)){
+                              object.error = error;
+                              object.result = margenes;
+                              self.view.expositor(res,object);
+                          }
+                    });
+                }
+            );
+        }else{
+            //Callback
+            object.error = error;
+            object.result = margenes;
+            self.view.expositor(res, object);
+        }
+    });
+}
+
+module.exports = Reporte;
