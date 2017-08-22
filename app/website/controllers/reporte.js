@@ -100,6 +100,11 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
             name: 'idOperacion',
             value: req.query.idOperacion,
             type: self.model.types.INT
+        },
+        {
+            name: 'numOrden',
+            value: req.query.numOrden,
+            type: self.model.types.STRING
         }
         // {
         //     name: 'fechaInicio',
@@ -144,11 +149,6 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
         // {
         //     name: 'estatus',
         //     value: req.query.estatus,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'numeroTrabajo',
-        //     value: req.query.numeroTrabajo,
         //     type: self.model.types.STRING
         // },
         // {
