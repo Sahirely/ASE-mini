@@ -831,7 +831,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                                 $("#mensaje").text('¡Factura cargada correctamente!');
                                 debugger;
                                 var xmltemp = JSON.stringify(result.data.xml_objet);
-
+                                xmltemp = xmltemp.replace(/\\"/g, ' ');
                                 xmltemp = xmltemp.replace(/\\/g, '/');
                                 xmltemp = xmltemp.toUpperCase();
                                 var xml = JSON.parse(xmltemp);
