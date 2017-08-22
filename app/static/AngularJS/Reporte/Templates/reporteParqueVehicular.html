@@ -7,102 +7,75 @@
     <div class="wrapper wrapper-content">
       <div class="row">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Filtros de Búsqueda
+              <div class="ibox-title " role="tab" id="headingOne">
+                <h5>Filtros de búsqueda</h5>
+                <div class="ibox-tools">
+                  <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne"
+                  aria-expanded="true" aria-controls="collapseOne">
+                  <i class="fa fa-chevron-down"></i>
+                </a>
+              </div>
             </div>
-            <div class="panel-body">
-              <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
-                        <label class="font-noraml">{{zona.etiqueta}}</label>
-                        <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
-                            <option value="0">Seleccione una Zona</option>
-                            <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
-                              {{z.nombre}}
-                            </option>
-                        </select>
-                    </div>
+            <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
+              <div class="row ">
+              <div class="col-xs-12 col-sm-2" ng-repeat="zona in Zonas | orderBy:'orden'">
+                  <label class="font-noraml">{{zona.etiqueta}}</label>
+                  <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
+                      <option value="0">Seleccione</option>
+                      <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                        {{z.nombre}}
+                      </option>
+                  </select>
+              </div>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                    <label class="font-noraml">Tipo de Unidad</label>
+                    <select class="form-control m-b" id="tipoUni" ng-model="tipoUnidadSelected"
+                    ng-options="tipUni.idTipoUnidad as tipUni.tipo for tipUni in tiposUnidad">
+                    <option value="">Todos</option>
+                  </select>
                   </div>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                        <label class="font-noraml">Tipo de Unidad</label>
-                        <select class="form-control m-b" id="tipoUni" ng-model="tipoUnidadSelected"
-                        ng-options="tipUni.idTipoUnidad as tipUni.unidad for tipUni in tiposUnidad">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-                    <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                      <br>
-                        <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                            class="btn btn-primary" ng-click="GetReporteParqueVehicular();">
-                            <span class="glyphicon glyphicon-search"></span>
-                        </button>
-                    </div>
+                  <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                    <br>
+                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
+                    class="btn btn-primary" ng-click="GetReporteParqueVehicular();">
+                    <span class="glyphicon glyphicon-search"></span>
+                  </button>
                   </div>
               </div>
             </div>
         </div>
       </div>
-      <div class="row" ng-show="Unidades.length > 0">
         <div class="table-responsive">
           <table class="table table-bordered table-hover parqueVehicular" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
               <thead>
                   <tr>
                       <th class="center">Número Económico</th>
                       <th class="center">Placas</th>
-                      <th class="center">Tipo</th>
+                      <th class="center">Tipo Unidad</th>
+                      <th class="center">Tipo Combustible</th>
                       <th class="center">Marca</th>
                       <th class="center">Sub Marca</th>
-                      <th class="center">Año</th>
-                      <th class="center">Versión</th>
+                      <th class="center">Modelo</th>
                       <th class="center">VIN</th>
-                      <th class="center" ng-show="showGPS">GPS</th>
-                      <th class="center">Sustituto</th>
-                      <th class="center" ng-show="showCentro">Centro de Trabajo</th>
+                      <!-- <th class="center">Centro de Trabajo</th> -->
                       <th class="center">Zona</th>
                   </tr>
               </thead>
               <tbody>
                   <tr ng-repeat="unidad in Unidades" ng-click="irDetalle(unidad.numeroEconomico)">
-                      <td class="center">
-                          {{unidad.numeroEconomico}}
-                      </td>
-                      <td class="center">
-                  			   {{unidad.placas}}
-                      </td>
-                      <td class='center'>
-                          {{unidad.tipo}}
-                      </td>
-                      <td class="center">
-                          {{unidad.nombreMarca}}
-                      </td>
-                      <td class="center">
-                          {{unidad.nombreSubMarca}}
-                      </td>
-                      <td class="center">
-                          {{unidad.anio}}
-                      </td>
-                      <td class="center">
-                          {{unidad.version}}
-                      </td>
-                      <td class="center">
-                          {{unidad.vin}}
-                      </td>
-                      <td class="center" ng-show="showGPS">
-                          {{unidad.gps == 1 ? 'Si' : 'No'}}
-                      </td>
-                      <td class="center">
-                          {{unidad.sustituto == 1 ? 'Si' : 'No'}}
-                      </td>
-                      <td class="center" ng-show="showCentro">
-                  			   {{unidad.nombreCentroTrabajo}}
-                      </td>
-                      <td>
-                          {{unidad.nombreZona}}
-                      </td>
+                      <td class="center">{{unidad.numeroEconomico}}</td>
+                      <td class="center">{{unidad.placas}}</td>
+                      <td class='center'>{{unidad.tipo}}</td>
+                      <td class="center">{{unidad.tipoCombustible}}</td>
+                      <td class='center'>{{unidad.Marca}}</td>
+                      <td class="center">{{unidad.subMarca}}</td>
+                      <td class="center">{{unidad.modelo}}</td>
+                      <td class="center">{{unidad.vin}}</td>
+                      <!-- <td class="center">{{unidad.nombreCentroTrabajo}}</td> -->
+                      <td class="center">{{unidad.nombre}}</td>
               </tbody>
           </table>
         </div>
-      </div>
     </div>
 </div>
