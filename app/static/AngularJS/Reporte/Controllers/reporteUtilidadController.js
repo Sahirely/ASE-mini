@@ -114,5 +114,17 @@ registrationModule.controller('reporteUtilidadController', function($scope, aler
         });
     };
 
+    $(".touchspin2").TouchSpin({
+        min: -1000,
+        max: 1000,
+        step: 0.1,
+        decimals: 2,
+        //boostat: 5,
+        //maxboostedstep: 10,
+        //postfix: '%',
+        buttondown_class: 'btn btn-white',
+        buttonup_class: 'btn btn-white'
+    });
+
 
 });

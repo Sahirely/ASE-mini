@@ -1,5 +1,6 @@
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link href="AngularJS/Reporte/Styles/reporteMargenesUtilidad.css" rel="stylesheet">
+
 <link rel="stylesheet" href="Libraries/css/nsPopover.css">
 <div ng-init="initUtilidad()">
     <div class="headTitleTallerCita">
@@ -38,36 +39,64 @@
                                                        </div>
                                                    </div>
                                                    <div class="row espacioInferior">
-                                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
-                                                         <label class="font-noraml">Mes</label>
-                                                         <div class="input-group date">
-                                                             <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
-                                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="divfechaMes">
+                                                             <label class="font-noraml">Mes</label>
+                                                             <div class="input-group date">
+                                                                 <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
+                                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                             </div>
                                                          </div>
-                                                     </div>
-                                                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                                         <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
-                                                         <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
-                                                             <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
-                                                             <span class="input-group-addon"> a </span>
-                                                             <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
+                                                         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                                             <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
+                                                             <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
+                                                                 <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
+                                                                 <span class="input-group-addon"> a </span>
+                                                                 <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
+                                                             </div>
                                                          </div>
-                                                     </div>
-                                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                         <label class="font-noraml">Rango Inicial</label>
-                                                         <input class="touchspin2" type="text" value="" name="demo1" id="rangoi" ng-model="rangoInicial">
-                                                     </div>
-                                                     <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                                                         <label class="font-noraml">Rango Final</label>
-                                                         <input class="touchspin2" type="text" value="" name="demo2" id="rangof" ng-model="rangoFinal">
-                                                     </div>
-                                                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                                       <br>
-                                                         <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                                                             class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
-                                                             <span class="glyphicon glyphicon-search"></span>
-                                                         </button>
-                                                     </div>
+                                                         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                                             <label class="font-noraml">Tipo Orden</label>
+                                                             <select class="form-control" name="tipoCita" ng-model="idTipoCita">
+                                                                 <option value="">Seleccione el Tipo de Orden</option>
+                                                                 <option value="1">Servicio</option>
+                                                                 <option value="2">Refacciones</option>
+                                                             </select>
+                                                         </div>
+
+
+                                                   </div>
+                                                   <div class="row espacioInferior">
+
+                                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                                               <label class="font-noraml">Rango Inicial</label>
+                                                               <input class="touchspin2" type="text" value="" name="demo1" id="rangoi" ng-model="rangoInicial">
+                                                            </div>
+                                                            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                                                <label class="font-noraml">Rango Final</label>
+                                                                <input class="touchspin2" type="text" value="" name="demo2" id="rangof" ng-model="rangoFinal">
+                                                            </div>
+
+                                                       <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                                                           <label class="font-noraml">Estatus</label>
+                                                           <select class="form-control" name="estatus" ng-model="estatus" ng-enter="facturadas()">
+                                                               <option value="">Seleccione el Estatus</option>
+                                                               <option value="1">Provisionadas</option>
+                                                               <option value="2">No Provisionadas</option>
+                                                               <option value="3">Prefactura Generada</option>
+                                                           </select>
+                                                       </div>
+                                                       <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                                         <br>
+                                                           <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
+                                                               class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
+                                                               <span class="glyphicon glyphicon-search"></span>
+                                                           </button>
+                                                       </div>
+                                                       <!-- <div class="col-xs-0">
+                                                           <label class="font-noraml">Buscar</label>
+                                                           <br>
+                                                           <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="buscaFiltros()"><span class="glyphicon glyphicon-search"></span></button>
+                                                       </div> -->
                                                    </div>
 
                                                    <div class="row">
@@ -90,31 +119,7 @@
                            <br>
 
                         <br>
-                        <div class="row">
 
-                            <div class="col-xs-3">
-                                <label class="font-noraml">Tipo Orden</label>
-                                <select class="form-control" name="tipoCita" ng-model="idTipoCita">
-                                    <option value="">Seleccione el Tipo de Orden</option>
-                                    <option value="1">Servicio</option>
-                                    <option value="2">Refacciones</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-3">
-                                <label class="font-noraml">Estatus</label>
-                                <select class="form-control" name="estatus" ng-model="estatus" ng-enter="facturadas()">
-                                    <option value="">Seleccione el Estatus</option>
-                                    <option value="1">Provisionadas</option>
-                                    <option value="2">No Provisionadas</option>
-                                    <option value="3">Prefactura Generada</option>
-                                </select>
-                            </div>
-                            <div class="col-xs-0">
-                                <label class="font-noraml">Buscar</label>
-                                <br>
-                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="buscaFiltros()"><span class="glyphicon glyphicon-search"></span></button>
-                            </div>
-                        </div>
                         <br>
                         <br>
 
@@ -141,45 +146,47 @@
                             <br>
                             <br>
                             <br>
-                            <table class="table table-striped table-bordered table-hover dataTableUtilidad" cg-busy="{promise:promise,message:message}">
-                                <thead>
-                                    <tr>
-                                        <th>Cliente</th>
-                                        <th>Consecutivo</th>
-                                        <th>Orden</th>
-                                        <th>Número Económico</th>
-                                        <th>Zona</th>
-                                        <th>Talleres</th>
-                                        <th>Fecha de Cita</th>
-                                        <th>Estatus Orden Servicio</th>
-                                        <th>Tipo Orden</th>
-                                        <th>Estatus provisión</th>
-                                        <th>Costo Orden</th>
-                                        <th>Precio Orden</th>
-                                        <th>Utilidad</th>
-                                        <th>Margen Utilidad</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="margenes in margenUtilidad" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{margenes.zonasConcatenadas}}">
-                                        <td>{{margenes.Cliente}}</td>
-                                        <td>{{margenes.consecutivoOrden}}</td>
-                                        <td>{{margenes.numeroOrden}}</td>
-                                        <td>{{margenes.numeroEconomico}}</td>
-                                        <td>{{margenes.nombreZona}}</td>
-                                        <td>{{margenes.talleres}}</td>
-                                        <td>{{margenes.fechaCreacionOrden | date:"dd-MM-yy HH:mm" : 'UTC'}}</td>
-                                        <td>{{margenes.estatus}}</td>
-                                        <td>{{margenes.nombreTipoOrdenServicio}}</td>
-                                        <td ng-class="{'rowAzul': margenes.estatusProvision =='No provisionada'}">{{margenes.estatusProvision}}</td>
-                                        <td>{{margenes.costo | currency }}</td>
-                                        <td>{{margenes.venta | currency }}</td>
-                                        <td>{{margenes.utilidad | currency }}</td>
-                                        <td ng-class="{'semaforoVerde': margenes.margen >= margenes.margenConfigurado, 'semaforoAmarillo': margenes.margen > 0 && margenes.margen  < margenes.margenConfigurado, 'semaforoRojo': margenes.margen <= 0}">{{margenes.margen | number : 2}}%</td>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover dataTableUtilidad" cg-busy="{promise:promise,message:message}">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Consecutivo</th>
+                                            <th>Orden</th>
+                                            <th>Número Económico</th>
+                                            <th>Zona</th>
+                                            <th>Talleres</th>
+                                            <th>Fecha de Cita</th>
+                                            <th>Estatus Orden Servicio</th>
+                                            <th>Tipo Orden</th>
+                                            <th>Estatus provisión</th>
+                                            <th>Costo Orden</th>
+                                            <th>Precio Orden</th>
+                                            <th>Utilidad</th>
+                                            <th>Margen Utilidad</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="margenes in margenUtilidad" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{margenes.zonasConcatenadas}}">
+                                            <td>{{margenes.Cliente}}</td>
+                                            <td>{{margenes.consecutivoOrden}}</td>
+                                            <td>{{margenes.numeroOrden}}</td>
+                                            <td>{{margenes.numeroEconomico}}</td>
+                                            <td>{{margenes.nombreZona}}</td>
+                                            <td>{{margenes.talleres}}</td>
+                                            <td>{{margenes.fechaCreacionOrden | date:"dd-MM-yy HH:mm" : 'UTC'}}</td>
+                                            <td>{{margenes.estatus}}</td>
+                                            <td>{{margenes.nombreTipoOrdenServicio}}</td>
+                                            <td ng-class="{'rowAzul': margenes.estatusProvision =='No provisionada'}">{{margenes.estatusProvision}}</td>
+                                            <td>{{margenes.costo | currency }}</td>
+                                            <td>{{margenes.venta | currency }}</td>
+                                            <td>{{margenes.utilidad | currency }}</td>
+                                            <td ng-class="{'semaforoVerde': margenes.margen >= margenes.margenConfigurado, 'semaforoAmarillo': margenes.margen > 0 && margenes.margen  < margenes.margenConfigurado, 'semaforoRojo': margenes.margen <= 0}">{{margenes.margen | number : 2}}%</td>
 
-                                    </tr>
-                                </tbody>
-                            </table>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <!-- </div> -->
                     </div>
