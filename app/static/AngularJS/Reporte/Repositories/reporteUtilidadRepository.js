@@ -23,6 +23,16 @@ registrationModule.factory('reporteUtilidadRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getTipoOrden: function(){
+            return $http({
+                url: reporteUtilidadUrl + 'tipoOrden/',
+                method: "GET",
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

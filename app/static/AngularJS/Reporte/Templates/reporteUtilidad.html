@@ -56,10 +56,8 @@
                                                          </div>
                                                          <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
                                                              <label class="font-noraml">Tipo Orden</label>
-                                                             <select class="form-control" name="tipoCita" ng-model="idTipoCita">
+                                                             <select class="form-control" name="tipoCita" ng-model="idTipoCita" ng-options = "tipo.idCatalogoTipoOrdenServicio as tipo.nombreTipoOrdenServicio for tipo in tiposOrdenes">
                                                                  <option value="">Seleccione el Tipo de Orden</option>
-                                                                 <option value="1">Servicio</option>
-                                                                 <option value="2">Refacciones</option>
                                                              </select>
                                                          </div>
 
@@ -80,15 +78,15 @@
                                                            <label class="font-noraml">Estatus</label>
                                                            <select class="form-control" name="estatus" ng-model="estatus" ng-enter="facturadas()">
                                                                <option value="">Seleccione el Estatus</option>
-                                                               <option value="1">Provisionadas</option>
-                                                               <option value="2">No Provisionadas</option>
-                                                               <option value="3">Prefactura Generada</option>
+                                                               <option value="0">Provisionadas</option>
+                                                               <option value="7">No Provisionadas</option>
+                                                               <option value="1">En Proceso</option>
                                                            </select>
                                                        </div>
                                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
                                                          <br>
                                                            <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                                                               class="btn btn-primary" ng-click="buscaOrden(1)">
+                                                               class="btn btn-primary" ng-click="buscaFiltros(1)">
                                                                <span class="glyphicon glyphicon-search"></span>
                                                            </button>
                                                        </div>
@@ -127,7 +125,7 @@
                         <br>
 
 
-                            <div class="row  col-md-offset-4 col-md-offset-5 col-lg-offset-8">
+                            <div class="row  col-md-offset-4 col-md-offset-5 col-lg-offset-6">
                                   <div class="col-sm-4 col-md-4 col-lg-4">
                                       <h2 class="no-margins ng-binding">{{sumatoriaCosto| currency: "$"}}</h2>
                                       <small>precio costo s/iva</small>
@@ -156,7 +154,7 @@
                                             <th>Número Económico</th>
                                             <th>Zona</th>
                                             <th>Talleres</th>
-                                            <th>Fecha de Cita</th>
+                                            <th>Fecha de Creacion de Orden</th>
                                             <th>Estatus Orden Servicio</th>
                                             <th>Tipo Orden</th>
                                             <th>Estatus provisión</th>
