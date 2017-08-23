@@ -1,6 +1,6 @@
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link rel="stylesheet" href="AngularJS/Administracion/Styles/administracionOrden.css">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()" >
     <div class="headTitleTallerCita">
         <span class="title"> Aprobación de Utilidades</span>
     </div>
@@ -15,7 +15,7 @@
                             </div>
                         </div-->
                         <br/>
-                    
+
                         <div class="table-responsive">
                             <table class="table table-bordered table-hover dataTableAprobacionUtilidad" cg-busy="{promise:promise,message:message}">
                                 <thead>
@@ -48,7 +48,7 @@
                                         <td>{{utilidad.nombreEstatusOrden }}</td>
                                     </tr>
                                 </tbody>
-                            </table>          
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="row utlidad">
                         <label class="control-label">¿Desea aprobar la orden con el margen de utilidad actual?</label>
                     </div>
-                   
+
                     <div class="form-group row">
                         <label class="col-sm-3 control-label">No. Token</label>
                         <div class="col-sm-7">
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
@@ -130,7 +130,7 @@
                             <tr>
                                 <td><strong>TOTAL Taller :</strong></td>
                                 <td>{{ sumaPrecioTotal  | currency: "$"}}</td>
-                                
+
                             </tr>
                             <tr>
                                 <td><strong>TOTAL Cliente:</strong></td>

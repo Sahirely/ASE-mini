@@ -1,6 +1,6 @@
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link rel="stylesheet" href="AngularJS/Administracion/Styles/administracionOrden.css">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()">
     <div class="headTitleTallerCita">
         <span class="title"> Aprobación Provisión</span>
     </div>
@@ -36,8 +36,8 @@
                                         <td>{{provision.costo |  currency: "$"}}</td>
                                         <td>{{provision.venta | currency: "$"}}</td>
                                         <td>{{provision.nombreEstatusOrden }}</td>
-                                        <td>{{provision.tiempo }}</td>      
-                                        
+                                        <td>{{provision.tiempo }}</td>
+
                                     </tr>
                                 </tbody>
                             </table>

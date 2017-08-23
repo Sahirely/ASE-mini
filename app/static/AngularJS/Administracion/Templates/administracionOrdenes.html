@@ -1,6 +1,6 @@
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link rel="stylesheet" href="AngularJS/Administracion/Styles/administracionOrden.css">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()">
     <div class="headTitleTallerCita">
         <span class="title" ng-show="userData.esProveedor == 0" > Gestión de Compras Unificadas<span class="subtitle">Administrador</span></span>
         <span class="title" ng-show="userData.esProveedor == 1" > Validación de Órdenes<span class="subtitle">Proveedor</span></span>
@@ -129,7 +129,7 @@
                                                                 <td ng-if="cotizacion.existeProveedor > 0">
                                                                     <button ng-disabled="cotizacion.existeAnticipo > 0" type="button" class="btn btn-success" ng-click="getIdCotizacion(cotizacion.idCotizacion, cotizacion.numeroCotizacion); adjuntar(cotizacion, 7, 0, 1)" tooltip="Solicitar Anticipo"><span class="glyphicon glyphicon-upload"></span></button>
 
-                                                                
+
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -139,7 +139,7 @@
                                         </td> -->
                                         <td>
                                             <!--<button class="btn btn-primary" type="button" ng-click="" data-toggle="tooltip" tooltip="Subir factura" tooltip-placement="left"><span class="glyphicon glyphicon-file"></span></button>
-                                            
+
                                             <button class="btn btn-info" type="button" ng-click="aprobarTrabajo(trabajo, 1)" data-toggle="tooltip" tooltip="Ver órden de servicio" tooltip-placement="up"><span class="glyphicon glyphicon-sunglasses"></span></button>-->
 
                                             <!--button ng-if="trabajo.estatus == 'Cerrado'" ng-hide="userData.idTipoUsuario == 2 || userData.idTipoUsuario == 4" class="btn btn-success" type="button" ng-click="adjuntar(trabajo,3,1,0)" data-toggle="tooltip" tooltip="Cargar factura" tooltip-placement="up"><span class="glyphicon glyphicon-upload"></span> </button-->
@@ -189,7 +189,7 @@
                                                 <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" data-toggle="modal"></span>
                                             </button>
                                         </td>
-                                        <!-- ng-disabled="orden.sinProveedor > 0" 
+                                        <!-- ng-disabled="orden.sinProveedor > 0"
                                         <!--<td>
                                         <button class="btn btn-info" type="button" ng-click="cierreTrabajo(orden.idTrabajo)" data-toggle="tooltip" tooltip="Mover a Cierre de Orden" tooltip-placement="left"><span class="glyphicon glyphicon-fast-forward"></span></button>
                                         </td>-->
@@ -199,7 +199,7 @@
                                         <!-- <button class="btn btn-info" type="button" ng-click="openFacturaModal(orden.idTrabajo)" data-toggle="tooltip" tooltip="Cargar Factura" tooltip-placement="left"><span class="glyphicon glyphicon-open"></span></button> -->
 
                                         <!-- <td>
-                                            <a type="button" data-toggle="tooltip" tooltip="Generar Factura.txt" tooltip-placement="left" class="btn btn-primary" role="button" ng-click="generaTXT(orden.idTrabajo, orden.numeroTrabajo)"><span class="fa fa-file-text-o"></span></a> 
+                                            <a type="button" data-toggle="tooltip" tooltip="Generar Factura.txt" tooltip-placement="left" class="btn btn-primary" role="button" ng-click="generaTXT(orden.idTrabajo, orden.numeroTrabajo)"><span class="fa fa-file-text-o"></span></a>
                                         </td> -->
                                         <!--<td>
                                             <button class="btn btn-success" type="button" ng-click="lookAt(orden, 0)" data-toggle="tooltip" tooltip="Editar Costos" tooltip-placement="left"><span class="glyphicon glyphicon-usd"></span></button>

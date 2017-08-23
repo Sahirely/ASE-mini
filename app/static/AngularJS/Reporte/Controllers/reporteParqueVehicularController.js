@@ -1,4 +1,6 @@
-registrationModule.controller('reporteParqueVehicularController', function ($scope, $route, alertFactory, userFactory, configuradorRepository, reporteRepository, cotizacionConsultaRepository, globalFactory) {
+registrationModule.controller('reporteParqueVehicularController', function ($scope, $rootScope, $route, alertFactory, userFactory, configuradorRepository, reporteRepository, cotizacionConsultaRepository, globalFactory) {
+
+  $rootScope.modulo = 'reporteParqueVehicular';
   $scope.userData = {};
   $scope.userData = userFactory.getUserData();
   $scope.tiposUnidad = [];
@@ -83,12 +85,12 @@ registrationModule.controller('reporteParqueVehicularController', function ($sco
     $('.parqueVehicular').DataTable().destroy();
     var idTipoUnidad = $scope.tipoUnidadSelected == '' || $scope.tipoUnidadSelected == undefined ? null :  $scope.tipoUnidadSelected;
     var idZona = $scope.zonaSelected == '' || $scope.zonaSelected == '0' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
-    reporteRepository.reporteParqueVehicular($scope.idContratoOperacion, idTipoUnidad, idZona).then(function(result){      
+    reporteRepository.reporteParqueVehicular($scope.idContratoOperacion, idTipoUnidad, idZona).then(function(result){
       if(result.data.length > 0){
         $scope.Unidades = result.data;
         globalFactory.filtrosTabla("parqueVehicular", "Parque Vehicular", 100);
         alertFactory.success('Unidades encontradas.');
-      }else { 
+      }else {
         alertFactory.info('No se encontraron unidades');
       }
     },function (error){

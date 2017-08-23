@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="AngularJS/Cotizacion/Styles/cotizacion.css">
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link type="text/css" href="Libraries/css/ladda/ladda-themeless.min.css" rel="stylesheet">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()" >
     <div class="headTitleTallerCita">
         <span class="title title-xs">Cotizaciones</span>
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -39,23 +39,23 @@
                         <br> Zona: <strong>{{cotizacion.nombreZona}}</strong>
                     </address>
                 </div>
-                
+
             </div>
         </div>
     </div>
 
 
     <div class="wrapper wrapper-content">
-        
+
         <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="panel panel-default">
                                         <div class="panel-body">
-                                            
+
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
-                                            
-                                            
-                                           
+
+
+
                                             <br>
                                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                                 <div class="table-responsive m-t">
@@ -98,7 +98,7 @@
                                                                 <td ng-hide="estatus == 5">
                                                                     <button ng-init="partida.btnClass='btn btn-success';
                                                                         partida.btnStatus=0;
-                                                                        partida.btnText='*'; 
+                                                                        partida.btnText='*';
                                                                         partida.btnIcon='glyphicon glyphicon-question-sign'" ng-class="partida.btnClass" ng-click="setApprove(partida)">
                                                                         <span ng-class="partida.btnIcon"></span>
                                                                     </button>
@@ -133,7 +133,6 @@
                                     </div>
                                 </div>
                             </div>
-       
+
     </div>
 </div>
-

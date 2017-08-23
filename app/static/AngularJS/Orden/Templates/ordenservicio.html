@@ -1,4 +1,4 @@
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()" >
     <div class="row headTitleTallerCita">
         <div class="col-lg-10">
             <span class="title"> Órden de Servicio<span class="subtitle">Call Center / Taller</span></span>
@@ -100,17 +100,17 @@
             <span class="title" ng-show="userData.idTipoUsuario == 1 || userData.idTipoUsuario == 2">Notas<span class="subtitle"></span></span>
             </br></br> </br></br>
         <div class="row">
-            <div class="col-lg-7">  
+            <div class="col-lg-7">
                 <div ng-show="userData.idTipoUsuario == 1 || userData.idTipoUsuario == 2">
-                    <div class="my-scroll-nota"> 
+                    <div class="my-scroll-nota">
                         <div class="chat-activity-list">
                                         <div ng-repeat="notas in notaTrabajo">
                                             <div class="chat-element">
                                                 <a href="#" ng-class="notas.idUsuario === userData.idUsuario ? 'pull-left' : 'pull-right'">
                                                     <img alt="image" class="img-circle" src="image/profile/man2.jpg">
-                                                </a> 
+                                                </a>
                                                 <div class="media-body">
-                                                    <small ng-class="notas.idUsuario === userData.idUsuario ? 'pull-right' : 'pull-left'">{{notas.tiempoTranscurrido}}</small> 
+                                                    <small ng-class="notas.idUsuario === userData.idUsuario ? 'pull-right' : 'pull-left'">{{notas.tiempoTranscurrido}}</small>
                                                     <div ng-class="notas.idUsuario === userData.idUsuario ? 'pull-left' : 'pull-right'">
                                                        <strong>{{notas.nombreCompleto}}</strong>
                                                        <p class="m-b-xs">

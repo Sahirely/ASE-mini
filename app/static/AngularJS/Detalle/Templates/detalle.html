@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="AngularJS/Detalle/Styles/detalle.css">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()" >
     <div class="headTitleTallerCita">
         <div class="title title-xs">
             Orden {{numeroOrden}}
@@ -25,7 +25,7 @@
                                             <strong>{{historico.nombreEstatusOrden}}</strong>
                                             </span>
                                             <br>
-                                            <span class="glyphicon glyphicon-user" ng-show="historico.idOrden>0"> 
+                                            <span class="glyphicon glyphicon-user" ng-show="historico.idOrden>0">
                                             </span>{{historico.nombreCompleto}}
                                             <br>
                                             <span class="fechaTimeLine" ng-show="historico.idOrden>0">
@@ -46,7 +46,7 @@
                                                     <strong>{{cot.nombreEstatusCotizacion}}</strong>
                                                     </span>
                                                     <br>
-                                                    <span class="glyphicon glyphicon-user" ng-show="cot.idCotizacion>0"> 
+                                                    <span class="glyphicon glyphicon-user" ng-show="cot.idCotizacion>0">
                                                     </span>{{cot.nombreCompleto}}
                                                     <br>
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">

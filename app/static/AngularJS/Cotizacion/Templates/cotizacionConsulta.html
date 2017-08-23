@@ -1,6 +1,6 @@
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link href="AngularJS/Cotizacion/Styles/cotizacionConsulta.css" rel="stylesheet">
-<div ng-init="init()" class="animated bounceInRight">
+<div ng-init="init()">
     <div class="headTitleTallerCita">
         <span class="title"> Aprobaciones</span>
     </div>
@@ -201,7 +201,7 @@
                             <th hidden="hidden">Estatus Filtro</th>
                             <th ng-if="userData.tiempoAsignado == 1" >Tiempo en Espera / Tiempo Transcurrido </th>
                             <!-- <th>Abrir</th> -->
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -223,7 +223,7 @@
                             <td>{{cotizacion.estadistica}}</td>
                             <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}</td>
                             <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
-                            
+
                             <!--td class='center'>
                                 <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
@@ -254,7 +254,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                       <br>
                       <div class="table-responsive">
                         <table class="table table-bordered table-hover ordenesPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
