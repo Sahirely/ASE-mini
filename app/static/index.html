@@ -85,7 +85,7 @@
                         <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
                     </ul>
                 </li>
-                <li   ng-show="userData.idRol == 2 " ng-class="{'active': (modulo=='reporteAntiguedad' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
+                <li   ng-show="userData.idRol == 2" ng-class="{'active': (modulo=='reporteAntiguedad' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
                         <li ng-class="{'active': modulo=='reporteAntiguedad'}"><a href="/reporte">Reporte Antigüedad de Saldos</a></li>
@@ -93,6 +93,14 @@
                         <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteCertificadoConformidad">Certificado Conformidad</a></li>
                         <li><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
                         <li ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
+                    </ul>
+                </li>
+                <li ng-show="userData.idRol == 2" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
+                    <a href="#" ng-click="showChat = 0"><i class="fa fa-gavel"></i> <span class="nav-label">Reclamación</span><span class="label label-warning pull-right"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-class="{'active': modulo=='emisionOficios'}"><a href="/resumenReclamacion">Emisión de Oficios</a></li>
+                        <li ng-class="{'active': modulo=='rptReclamacion'}"><a href="/reporteReclamacion">Reporte Reclamación</a></li>
+                        <li ng-class="{'active': modulo=='consultaOficios'}"><a href="/historialReclamacion">Consulta de Oficios Emitidos</a></li>
                     </ul>
                 </li>
                 <li ng-class="{'active': modulo=='tutorial'}" ng-show="{{userData.idRol != 5}}">
@@ -380,8 +388,10 @@
     <script src="AngularJS/ConsultaCitas/Controllers/comprobanteRecepcionController.js"></script>
     <script src="AngularJS/UsuarioTar/Repositories/usuariotarRepository.js"></script>
     <script src="AngularJS/UsuarioTar/Controllers/usuariotarController.js"></script>
-    <script src="AngularJS/Reporte/Repositories/reporteReclamacionRepository.js"></script>
-    <script src="AngularJS/Reporte/Controllers/reporteReclamacionController.js"></script>
+    <script src="AngularJS/Reclamacion/Controllers/historialReclamacionController.js"></script>
+    <script src="AngularJS/Reclamacion/Controllers/reporteReclamacionController.js"></script>
+    <script src="AngularJS/Reclamacion/Controllers/resumenReclamacionController.js"></script>
+    <script src="AngularJS/Reclamacion/Repositories/reclamacionRepository.js"></script>
     <script src="AngularJS/ConsultaCitas/Controllers/consultaCitasController.js"></script>
     <script src="AngularJS/ConsultaCitas/Repositories/consultaCitasRepository.js"></script>
     <script src="AngularJS/Detalle/Controllers/detalleController.js"></script>

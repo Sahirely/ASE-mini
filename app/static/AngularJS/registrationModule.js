@@ -185,11 +185,6 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'usuariotarController'
         });
 
-        $routeProvider.when('/reporteReclamacion', {
-            templateUrl: 'AngularJS/Reporte/Templates/reporteReclamacion.html',
-            controller: 'reporteReclamacionController'
-        });
-
         $routeProvider.when('/detalle', {
             templateUrl: 'AngularJS/Detalle/Templates/detalle.html',
             controller: 'detalleController'
@@ -208,6 +203,23 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/PreordenCotizacion/Templates/PreordenCotizacion.html',
             controller: 'preordenCotizacionController'
         });
+
+        $routeProvider.when('/reporteReclamacion', {
+          templateUrl: 'AngularJS/Reclamacion/Templates/reporteReclamacion.html',
+          controller: 'reporteReclamacionController'
+        })
+
+        $routeProvider.when('/resumenReclamacion', {
+          templateUrl: 'AngularJS/Reclamacion/Templates/resumenReclamacion.html',
+          controller: 'resumenReclamacionController'
+        })
+
+        $routeProvider.when('/historialReclamacion', {
+          templateUrl: 'AngularJS/Reclamacion/Templates/historialReclamacion.html',
+          controller: 'historialReclamacionController'
+        })
+
+
 
 
         $locationProvider.html5Mode({

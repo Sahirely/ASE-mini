@@ -7,6 +7,7 @@ module.exports = {
   login: require('./controllers/login'),
   example: require('./controllers/example'),
   reporte: require('./controllers/reporte'),
+  reclamacion: require('./controllers/reclamacion'),
   presupuesto: require('./controllers/presupuesto'),
   taller: require('./controllers/taller'),
   ordenAnticipo: require('./controllers/ordenAnticipo'),

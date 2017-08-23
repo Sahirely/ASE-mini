@@ -1,0 +1,95 @@
+<link href="../../css/inspinia/sweetalert/sweetalert.css" rel="stylesheet">
+<link rel="stylesheet" href="../../css/trabajo.css">
+<div ng-init="init()">
+    <div class="headTitleTallerCita">
+        <span class="title">Emisión de Oficios<span class="subtitle"></span></span>
+    </div>
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                    <div class="row col-md-12">
+                        <div class="totalesResumen">Precio Total: <span class="totalesFinal">{{cantidadTotal | currency: "$"}}</span></div>
+                    </div>
+                        <div class="row col-md-12">
+<!--                             <div class="col-md-4">
+                                <label class="font-noraml">Zona</label>
+                                <select class="form-control m-b" ng-disabled="callCenter != null"
+                                id="zona" ng-model="zona" 
+                                ng-options="zona.idZona as zona.descripcionZona for zona in zonas" 
+                                ng-change="devuelveTars(zona)">
+                                    <option value="">Seleccioné una Zona</option>
+                                </select>
+                            </div> -->
+                    <!--   <div class="col-md-3">
+                               <label class="font-noraml">Tar</label>
+                                <select ng-disabled="zona == null" class="form-control m-b" id="tar" ng-model="tar" 
+                                ng-options="tar.idTAR as tar.nombreTar for tar in tars">
+                                    <option value="">Seleccioné una TAR</option>
+                                </select> 
+                            </div>-->
+                            <div class="col-md-10">
+                            </div>
+                            <div class="col-md-1">
+                                <!-- <label class="font-noraml">Buscar</label> -->
+                                <br>
+                                <button id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="callResumen()"><span></span> Actualizar </button>
+                            </div>
+                            <div class="col-md-1">
+                            <!-- <label class="font-noraml">Emisio</label> --><br> 
+                                <button id="btnBuscar" busy="Buscando.." data-loading-text="Loading..." type="button" tooltip="Generar reporte reclamacion" class="btn btn-success" ng-click="callAnexos()"><span class="{{class_buttonReclamacion}}"></span> Emitir Oficios </button>
+                            </div>
+                        </div>
+
+                <div class="row col-md-12">
+                    <BR>
+                <!-- <span class="blueStrong">Resumen de reportes de conformidad</span> -->
+                    <br/>
+                    <br/>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover dataTableResumen" cg-busy="{promise:promise,message:message}">
+                                <thead>
+                                    <tr>
+                                        <th colspan="2" style="background-color: white;"></th>
+                                        <th colspan="2">Anexo 1 - Reportes de conformidad generados por callcenter sin firma del cliente</th>
+                                        <th colspan="2">Anexo 2 - Reportes de conformidad firmados sin COPADE</th>
+                                        <th colspan="2">Anexo 3 - Reportes de conformidad no generado por falta de OSUR</th>
+                                        <th colspan="2" style="background-color: white;"></th>
+                                    </tr>
+                                    <tr>
+                                        <th>Zona</th>
+                                        <th>TAR</th>
+                                        <th>Total</th>
+                                        <th>Precio</th>
+                                        <th>Total</th>
+                                        <th>Precio</th>
+                                        <th>Total</th>
+                                        <th>Precio</th>
+                                        <th>Total</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="resumen in resumenes">
+                                        <td>{{resumen.zona}}</td>
+                                        <td>{{resumen.TAR}}</td>
+                                        <td>{{resumen.cantidad1}}</td>
+                                        <td>{{resumen.precio1  |  currency: "$"}}</td>
+                                        <td>{{resumen.cantidad2}}</td>
+                                        <td>{{resumen.precio2  |  currency: "$"}}</td>
+                                        <td>{{resumen.cantidad3}}</td>
+                                        <td>{{resumen.precio3  |  currency: "$"}}</td>
+                                        <td>{{resumen.Total  |  currency: "$"}}</td>
+ 										<td><button id="" busy="Buscando.." tooltip="Ver detalle" type="button" class="btn btn-info" ng-click="verResumen(resumen)"><span class="glyphicon glyphicon-sunglasses"></span></button></td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    </div>
+        		</div>
+            </div>
+        </div>
+    </div>
+</div>
