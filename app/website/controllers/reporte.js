@@ -105,7 +105,7 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
             name: 'idOperacion',
             value: req.query.idOperacion,
             type: self.model.types.INT
-        }
+        },
         {
             name: 'numOrden',
             value: req.query.numOrden,
