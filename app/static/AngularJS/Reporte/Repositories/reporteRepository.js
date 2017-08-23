@@ -26,6 +26,15 @@ registrationModule.factory('reporteRepository', function($http) {
                 }
             });
         },
+        estatusOrdenes: function() {
+            return $http({
+                url: reporteGralUrl + 'estatusOrdenes',
+                method: "GET",                
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getTipoUnidades: function(idOperacion) {
             return $http({
                 url: reporteGralUrl + 'tipoUnidad',

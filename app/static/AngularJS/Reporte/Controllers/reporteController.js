@@ -1,4 +1,4 @@
-    registrationModule.controller('reporteController', function($scope, alertFactory, $rootScope, globalFactory, localStorageService, ordenPorCobrarRepository, reporteRepository, dashBoardRepository) {
+    registrationModule.controller('reporteController', function($scope, alertFactory, $rootScope, globalFactory, localStorageService, ordenPorCobrarRepository, reporteRepository, dashBoardRepository, cotizacionConsultaRepository, userFactory) {
         //*****************************************************************************************************************************//
         // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
         //*****************************************************************************************************************************//
@@ -6,12 +6,39 @@
         $scope.message = "Buscando...";
         $scope.tipofecha = "";
         $scope.ordenes = [];
+
+
+        $scope.x = 0;
+        $scope.totalNiveles = 0;
+        $scope.zonaSelected = "0";
+        $scope.ZonasSeleccionadas = {};
+        $scope.NivelesZona = [];
+        $scope.Zonas = [];
+        $scope.callCenters = [];
+        $scope.lstEstatus = [];
+        $scope.txtTaller = "";
+        $scope.rptParams = [];
+        $scope.sumatoriaCosto = 0;
+        $scope.sumatoriaVenta = 0;
+
+
+
+        $scope.Zonas = [];
+
         $scope.init = function() {
-            //$scope.devuelveZonas();
-            //$scope.buscaCallCenter();
-            //$scope.buscaEstatus();
-            $scope.getReporteAntiguedad();
+            $scope.userData = userFactory.getUserData();
+            userFactory.ValidaSesion();
+            $scope.ZonasSeleccionadas[0] = "0";
+            $scope.obtieneNivelZona();
+
+            $scope.rptParams = $scope.getEmptyFilterParams();
+            $scope.rptParams.idOperacion = $scope.userData.idOperacion;
+
+            $scope.getReporteAntiguedad($scope.rptParams);
+            $scope.getEjecutivos();
+            $scope.estatusOrdenes();
         }
+
         $scope.fechaRango = function() {
             $scope.fechaMes = null;
         }
@@ -20,86 +47,119 @@
             $scope.fechaFin = null;
         }
 
+        $scope.getReporteAntiguedad = function(params) {
+            reporteRepository.reporteAntiguedadSaldo(params).then(function(result) {
+                $scope.ordenes = result.data;
+                globalFactory.filtrosTabla("tblAntiguedadSaldos", "AntiguedadSaldos", 100);
 
-        $scope.getReporteAntiguedad = function() {
-            reporteRepository.reporteAntiguedadSaldo().then(function(result) {            
+                $scope.sumatoriaCosto = 0;
+                $scope.sumatoriaVenta = 0;
 
-                 
-                $scope.ordenes=result.data;            
-                //globalFactory.filtrosTabla("tblAntiguedadSaldos", "Margen de Utilidad", 100);
+                $scope.ordenes.forEach(function(item) {
+                    $scope.sumatoriaCosto += item.costo;
+                    $scope.sumatoriaVenta += item.venta;
+                });
+
+
             });
         };
 
+        $scope.estatusOrdenes = function() {
+            reporteRepository.estatusOrdenes().then(function(result) {
+                $scope.lstEstatus = result.data;
+            });
+        };
 
+        $scope.getEjecutivos = function() {
+            cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.contratoOperacionSeleccionada).then(function(ejecutivos) {
+                if (ejecutivos.data.length > 0) {
+                    $scope.callCenters = ejecutivos.data;
+                }
+            }, function(error) {
+                alertFactory.error('No se pudo recuperar información de los ejecutivos');
+            });
+        };
 
+        $scope.obtieneNivelZona = function() {
+            $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function(result) {
+                    $scope.totalNiveles = result.data.length;
+                    if (result.data.length > 0) {
+                        $scope.NivelesZona = result.data;
+                        $scope.devuelveZonas();
+                    }
+                },
+                function(error) {
+                    alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
+                });
+        }
 
-
-
-
-
-
-        $scope.devuelveTars = function(zona) {
-            if (zona != null) {
-                dashBoardRepository.getTars(zona).then(function(tars) {
-                    if (tars.data.length > 0) {
-                        $scope.tars = tars.data;
+        //obtiene las zonas por cada nivel con que cuenta el usuario
+        $scope.devuelveZonas = function() {
+            for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
+                cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function(result) {
+                    if (result.data.length > 0) {
+                        var valueToPush = {};
+                        valueToPush.orden = result.data[0].orden;
+                        valueToPush.etiqueta = result.data[0].etiqueta;
+                        valueToPush.data = result.data;
+                        $scope.Zonas.push(valueToPush);
+                        //se establece por default cada zona seleccionada en 0
+                        $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
                     }
                 }, function(error) {
-                    alertFactory.error('No se pudo recuperar información de las TARs');
+                    alertFactory.error('No se pudo recuperar información de las zonas');
                 });
-            } else {
-                $scope.tar = null;
             }
         };
-        $scope.devuelveZonas = function() {
-            dashBoardRepository.getZonas($scope.userData.idUsuario).then(function(zonas) {
-                if (zonas.data.length > 0) {
-                    $scope.zonas = zonas.data;
-                }
-            }, function(error) {
-                alertFactory.error('No se pudo recuperar información de las zonas');
-            });
-        };
-        $scope.callReporte = function(tipo) {
-            if ($scope.fechaInicio == '') {
-                $scope.fechaInicio = null;
-                $scope.fechaFin = null;
-            };
-            var callCenter = $scope.callCenter
-            $scope.ordenes = [];
-            $scope.tipofecha == "" ? $scope.tipofecha = undefined : $scope.tipofecha;
-            $('.dataTableReporteSaldos').DataTable().destroy();
-            reporteRepository.reporteAntiguedad($scope.fechaInicio, $scope.fechaFin, $scope.zona, $scope.tar, $scope.estatus, $scope.numeroTrabajo, tipo, $scope.callCenter, $scope.tipofecha).then(function(response) {
-                if (response.data.length > 0) {
-                    $scope.ordenes = response.data;
-                    globalFactory.waitDrawDocument("dataTableReporteSaldos", "ReporteAntiguedadSaldos");
-                } else {
-                    alertFactory.info('No se encontraro información');
-                }
-            }, function(error) {
-                alertFactory.error('No se pudo recuperar información de las zonas');
-            });
-        };
-        $scope.buscaCallCenter = function() {
-            var idUsuario = null;
-            if ($scope.userData.idTipoUsuario == 2) {
-                idUsuario = $scope.userData.idUsuario;
+
+        $scope.cambioZona = function(id, orden) {
+            //al cambiar de zona se establece como zona seleccionada.
+            $scope.zonaSelected = id;
+            //se limpian los combos siguientes.
+            for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
+                $scope.ZonasSeleccionadas[$scope.x] = "0";
             }
-            reporteRepository.callcenter(idUsuario).then(function(response) {
-                if (response.data.length > 0) {
-                    $scope.callCenters = response.data;
-                }
-            }, function(error) {
-                alertFactory.error('No se pudo recuperar información de callcenter');
-            });
-        };
-        $scope.buscaEstatus = function() {
-            reporteRepository.estatus().then(function(response) {
-                if (response.data.length > 0) {
-                    $scope.estatuss = response.data;
-                }
-            }, function(error) {
-                alertFactory.error('No se pudo recuperar información de los estatus');
-            });
-        };
+        }
+
+
+        $scope.searchByFilters = function() {
+            $scope.rptParams = $scope.getEmptyFilterParams();
+            $scope.rptParams.idOperacion = $scope.userData.idOperacion;;
+            $scope.rptParams.fechaInicial = $scope.fechaInicio == "" ? null : $scope.fechaInicio === undefined ? null : $scope.fechaInicio;
+            $scope.rptParams.fechaFinal = $scope.fechaFin == "" ? null : $scope.fechaFin === undefined ? null : $scope.fechaFin;
+            $scope.rptParams.taller = $scope.txtTaller == "" ? null : $scope.txtTaller;
+            $scope.rptParams.idCallcenter = $scope.callCenter === undefined ? null : $scope.callCenter;
+            $scope.rptParams.idEstatus = $scope.estatus === undefined ? null : $scope.estatus;
+            $scope.rptParams.idZona = $scope.ZonasSeleccionadas[$scope.totalNiveles] == 0 ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles] === undefined ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles];
+            $scope.getReporteAntiguedad($scope.rptParams);
+
+        }
+
+        $scope.searchByOrderNumber = function() {
+            $scope.rptParams = $scope.getEmptyFilterParams();
+            $scope.rptParams.idOperacion = $scope.userData.idOperacion;
+            $scope.rptParams.numeroOrden = $scope.numeroTrabajo == "" ? null : $scope.numeroTrabajo;
+            $scope.getReporteAntiguedad($scope.rptParams);
+        }
+
+        $scope.getEmptyFilterParams = function() {
+            var filterParams = {};
+
+            filterParams.idOperacion = null;
+            filterParams.fechaInicial = null;
+            filterParams.fechaFinal = null;
+            filterParams.taller = null;
+            filterParams.idCallcenter = null;
+            filterParams.idEstatus = null;
+            filterParams.idZona = null;
+            filterParams.numeroOrden = null;
+
+            return filterParams;
+        }
+
+
+
+
+
+
     });
