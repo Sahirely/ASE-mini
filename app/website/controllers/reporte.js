@@ -43,6 +43,18 @@ Reporte.prototype.get_reporteAntiguedadSaldo = function (req, res, next){
     });
     }
 
+Reporte.prototype.get_tipoOrden = function (req, res, next){
+    var obj = {};
+    var self = this;
+    var params = [];
+
+    self.model.query('SEL_TIPO_ORDEN_SERVICIO_SP', params, function(error, result){
+        obj.error = error;
+        obj.result = result;
+        self.view.expositor(res, obj);
+    });
+}
+
 //obtiene el reporte del parque vehicular de la operación
 Reporte.prototype.get_ReporteParqueVehicular = function (req, res, next){
     var obj = {};
@@ -150,7 +162,7 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
             name: 'idEstatus',
             value: req.query.idEstatus,
             type: self.model.types.INT
-        } 
+        }
     ];
 
     self.model.query('SEL_REPORTE_MARGEN_UTILIDAD_SP', params, function (error, result) {
