@@ -97,65 +97,60 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
 
     var params = [
         {
+            name: 'tipoConsulta',
+            value: req.query.tipoConsulta,
+            type: self.model.types.INT
+        },
+        {
             name: 'idOperacion',
             value: req.query.idOperacion,
             type: self.model.types.INT
-        },
+        }
         {
             name: 'numOrden',
             value: req.query.numOrden,
             type: self.model.types.STRING
-        }
-        // {
-        //     name: 'fechaInicio',
-        //     value: req.query.fechaInicio,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'fechaFin',
-        //     value: req.query.fechaFin,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'fechaMes',
-        //     value: req.query.fechaMes,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'rangoInicial',
-        //     value: req.query.rangoInicial,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'rangoFinal',
-        //     value: req.query.rangoFinal,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'zona',
-        //     value: req.query.zona,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'tar',
-        //     value: req.query.tar,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'idTipoCita',
-        //     value: req.query.idTipoCita,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'estatus',
-        //     value: req.query.estatus,
-        //     type: self.model.types.STRING
-        // },
-        // {
-        //     name: 'bandera',
-        //     value: req.query.bandera,
-        //     type: self.model.types.STRING
-        // }
+        },
+        {
+            name: 'fechaInicial',
+            value: req.query.fechaInicial,
+            type: self.model.types.STRING
+        },
+        {
+            name: 'fechaFinal',
+            value: req.query.fechaFinal,
+            type: self.model.types.STRING
+        },
+        {
+            name: 'fechaMes',
+            value: req.query.fechaMes,
+            type: self.model.types.STRING
+        },
+        {
+            name: 'idZona',
+            value: req.query.idZona,
+            type: self.model.types.INT
+        },
+        {
+            name: 'rangoInicial',
+            value: req.query.rangoInicial,
+            type: self.model.types.DECIMAL
+        },
+        {
+            name: 'rangoFinal',
+            value: req.query.rangoFinal,
+            type: self.model.types.DECIMAL
+        },
+        {
+            name: 'idTipoOrden',
+            value: req.query.idTipoOrden,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idEstatus',
+            value: req.query.idEstatus,
+            type: self.model.types.INT
+        } 
     ];
 
     self.model.query('SEL_REPORTE_MARGEN_UTILIDAD_SP', params, function (error, result) {

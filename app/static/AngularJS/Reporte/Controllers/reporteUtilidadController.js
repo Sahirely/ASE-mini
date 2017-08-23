@@ -24,7 +24,7 @@ registrationModule.controller('reporteUtilidadController', function($scope, aler
         userFactory.ValidaSesion();
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
-        $scope.buscaOrden();
+        $scope.buscaOrden(2);
     };
 
     $scope.obtieneNivelZona = function(){
@@ -72,14 +72,14 @@ registrationModule.controller('reporteUtilidadController', function($scope, aler
     $scope.buscaFiltros = function() {
     };
 
-    $scope.buscaOrden = function() {
-        $scope.numeroTrabajo = $scope.numeroTrabajo === undefined || $scope.numeroTrabajo === '' ? null : $scope.numeroTrabajo;
-        $scope.getMargenUtilidad();
+    $scope.buscaOrden = function(tipoConsulta) {
+        $scope.numeroOrden = $scope.numeroOrden === undefined || $scope.numeroOrden === '' ? null : $scope.numeroOrden;
+        $scope.getMargenUtilidad(tipoConsulta);
     };
 
 
-    $scope.getMargenUtilidad = function() {
-        reporteUtilidadRepository.getUtilidad($scope.userData.idOperacion, $scope.numeroTrabajo).then(function (result){
+    $scope.getMargenUtilidad = function(tipoConsulta) {
+        reporteUtilidadRepository.getUtilidad(tipoConsulta, $scope.userData.idOperacion, $scope.numeroOrden, $scope.fechaInicio, $scope.fechaFin, $scope.fechaMes, $scope.idZona, $scope.rangoInicial, $scope.rangoFinal, $scope.idTipoCita, $scope.estatus).then(function (result){
             if(result.data.length > 0){
                 $scope.margenUtilidad = result.data;
                 console.log($scope.margenUtilidad);
