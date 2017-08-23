@@ -74,4 +74,35 @@ Reclamacion.prototype.get_reclamcionMeastro = function (req, res, next) {
     });
 }
 
+//Obtiene la sumatoria de las citas 
+Reclamacion.prototype.get_buscaAnexos = function (req, res, next) {
+    //Referencia a la clase para callback
+    var self = this;
+    //Obtención de valores de los parámetros del request
+    var params = [
+        {
+            name: 'idZona',
+            value: req.query.idZona,
+            type: self.model.types.INT
+        },
+        {
+            name: 'anexo',
+            value: req.query.anexo,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
+            type: self.model.types.INT
+        }
+    ];
+
+    this.model.query('SEL_REPORTE_RECLAMACION_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Reclamacion;

@@ -1,0 +1,55 @@
+.totales{
+    font-size: 24px;
+    font-weight: 100;
+}
+
+.totalesFinal{
+    font-size: 32px;
+   font-weight: 500;
+}
+
+
+.etiquetaTotales{
+	position: absolute;
+    right: 0;
+    margin-right: 35px;
+    font-size: 14px;
+    font-weight: 500;
+    top: 0;
+    margin-top: 60px;
+}
+
+.sumRepUtilidad{
+    margin-top: 300px !important;
+}
+
+.etiquetaTotalesFlex{
+    font-size: 14px;
+    font-weight: 500;
+    /*margin-left: 85%;*/
+    float: right;
+}
+
+.totalesFount{
+    border-top: 1px solid #999999 ;
+    margin-top: 30px;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    /*margin-left: 85%;*/
+    float: right;
+}
+
+.totalesResumen{
+    margin-top: 30px;
+    padding-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    float: right;
+}
+
+.blueStrong {
+    font-size: 20px;
+    padding-left: 16px;
+    color: #159df3;
+}

@@ -74,20 +74,6 @@ registrationModule.factory('reclamacionRepository', function ($http, $q) {
                 }
             });
         },
-                getAnexos: function (idZona, idTar, anexo) {
-            return $http({
-                url: reporteOrdenUrl + 'buscaAnexos/',
-                method: "GET",
-                params: {
-                    idZona: idZona,
-                    idTar: idTar,
-                    anexo: anexo
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
         getInfoAnexos: function (idZona,idTar,cantidad1,noReportes1,diaMax1,cantidad2,noReportes2,diaMax2,cantidad3,noReportes3,diaMax3,idOsur) {
             return $http({
                 url: reporteOrdenUrl + 'informacionAnexos/',
@@ -143,6 +129,22 @@ registrationModule.factory('reclamacionRepository', function ($http, $q) {
                 method: "POST",
                 data: {
                     jsonAnexo1: jsonAnexo1
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+        getAnexos: function (idZona, anexo, idContratoOperacion) {
+            return $http({
+                url: reclamacionUrl + 'buscaAnexos/',
+                method: "GET",
+                params: {
+                    idZona: idZona,
+                    anexo: anexo,
+                    idContratoOperacion: idContratoOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
