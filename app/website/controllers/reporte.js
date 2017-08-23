@@ -1,15 +1,15 @@
 var TrabajoView = require('../views/ejemploVista'),
-TrabajoModel = require('../models/dataAccess2'),
-moment = require('moment'),
-PDFDocument = require('pdfkit'),
-fecha = require("fecha");
+    TrabajoModel = require('../models/dataAccess2'),
+    moment = require('moment'),
+    PDFDocument = require('pdfkit'),
+    fecha = require("fecha");
 var fs = require('fs');
 
 fecha.i18n = {
     monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 }
 
-var Reporte = function (conf) {
+var Reporte = function(conf) {
     this.conf = conf || {};
 
     this.view = new TrabajoView();
@@ -17,16 +17,13 @@ var Reporte = function (conf) {
         parameters: this.conf.parameters
     });
 
-    this.response = function () {
+    this.response = function() {
         this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next);
     }
 }
 
 
-
-
-
-Reporte.prototype.get_reporteAntiguedadSaldo = function (req, res, next){
+Reporte.prototype.get_estatusOrdenes = function(req, res, next) {
     var obj = {};
     var self = this;
     var params = [];
@@ -36,19 +33,37 @@ Reporte.prototype.get_reporteAntiguedadSaldo = function (req, res, next){
     //     type: self.model.types.INT
     // }];
 
-    self.model.query('SEL_REPORTE_ANTIGUEDAD_SALDO_SP', params,function(error, result){
+    self.model.query('SEL_ESTATUS_ORDENES_SP', params, function(error, result) {
         obj.error = error;
         obj.result = result;
         self.view.expositor(res, obj);
     });
-    }
+}
 
-Reporte.prototype.get_tipoOrden = function (req, res, next){
+
+Reporte.prototype.get_reporteAntiguedadSaldo = function(req, res, next) {
+    var obj = {};
+    var self = this;
+    var params = [];
+    // var params = [{
+    //     name: 'idOperacion',
+    //     value: req.query.idOperacion,
+    //     type: self.model.types.INT
+    // }];
+
+    self.model.query('SEL_REPORTE_ANTIGUEDAD_SALDO_SP', params, function(error, result) {
+        obj.error = error;
+        obj.result = result;
+        self.view.expositor(res, obj);
+    });
+}
+
+Reporte.prototype.get_tipoOrden = function(req, res, next) {
     var obj = {};
     var self = this;
     var params = [];
 
-    self.model.query('SEL_TIPO_ORDEN_SERVICIO_SP', params, function(error, result){
+    self.model.query('SEL_TIPO_ORDEN_SERVICIO_SP', params, function(error, result) {
         obj.error = error;
         obj.result = result;
         self.view.expositor(res, obj);
@@ -56,33 +71,33 @@ Reporte.prototype.get_tipoOrden = function (req, res, next){
 }
 
 //obtiene el reporte del parque vehicular de la operación
-Reporte.prototype.get_ReporteParqueVehicular = function (req, res, next){
+Reporte.prototype.get_ReporteParqueVehicular = function(req, res, next) {
     var obj = {};
     var self = this;
-    var params = [
-    {
-        name: 'idOperacion',
-        value: req.query.idOperacion,
-        type: self.model.types.INT
-    },
-    {
-        name: 'idTipoUnidad',
-        value: req.query.idTipoUnidad,
-        type: self.model.types.INT
-    },{
-        name: 'idZona',
-        value: req.query.idZona,
-        type: self.model.types.INT
-    }];
+    var params = [{
+            name: 'idOperacion',
+            value: req.query.idOperacion,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idTipoUnidad',
+            value: req.query.idTipoUnidad,
+            type: self.model.types.INT
+        }, {
+            name: 'idZona',
+            value: req.query.idZona,
+            type: self.model.types.INT
+        }
+    ];
 
-    self.model.query('SEL_REPORTE_PARQUE_VEHICULAR_SP', params,function(error, result){
+    self.model.query('SEL_REPORTE_PARQUE_VEHICULAR_SP', params, function(error, result) {
         obj.error = error;
         obj.result = result;
         self.view.expositor(res, obj);
     });
 }
 
-Reporte.prototype.get_tipoUnidad = function (req, res, next){
+Reporte.prototype.get_tipoUnidad = function(req, res, next) {
     var obj = {};
     var self = this;
     var params = [{
@@ -91,7 +106,7 @@ Reporte.prototype.get_tipoUnidad = function (req, res, next){
         type: self.model.types.INT
     }];
 
-    self.model.query('SEL_TIPOS_UNIDAD_SP', params,function(error, result){
+    self.model.query('SEL_TIPOS_UNIDAD_SP', params, function(error, result) {
         obj.error = error;
         obj.result = result;
         self.view.expositor(res, obj);
@@ -99,7 +114,7 @@ Reporte.prototype.get_tipoUnidad = function (req, res, next){
 
 }
 
-Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
+Reporte.prototype.get_reporteUtilidad = function(req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
     //Objeto que envía los parámetros
@@ -107,8 +122,7 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
     //Referencia a la clase para callback
     var self = this;
 
-    var params = [
-        {
+    var params = [{
             name: 'tipoConsulta',
             value: req.query.tipoConsulta,
             type: self.model.types.INT
@@ -165,35 +179,35 @@ Reporte.prototype.get_reporteUtilidad = function (req, res, next) {
         }
     ];
 
-    self.model.query('SEL_REPORTE_MARGEN_UTILIDAD_SP', params, function (error, result) {
+    self.model.query('SEL_REPORTE_MARGEN_UTILIDAD_SP', params, function(error, result) {
 
-            object.error = error;
-            object.result = result;
-            self.view.expositor(res, object);
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
 
     });
 }
 
 //Obtiene todas las citas no canceladas generadas para cierta unidad
-Reporte.prototype.get_historialUnidad = function (req, res, next) {
+Reporte.prototype.get_historialUnidad = function(req, res, next) {
 
     var self = this;
 
     var params = [{
-            name: 'numeroEconomico',
-            value: req.query.numeroEconomico,
-            type: self.model.types.STRING
-        },{
-            name: 'tipoConsulta',
-            value: req.query.tipoConsulta,
-            type: self.model.types.INT
-        },{
-            name: 'idOperacion',
-            value: req.query.idOperacion,
-            type: self.model.types.INT
-        }];
+        name: 'numeroEconomico',
+        value: req.query.numeroEconomico,
+        type: self.model.types.STRING
+    }, {
+        name: 'tipoConsulta',
+        value: req.query.tipoConsulta,
+        type: self.model.types.INT
+    }, {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
 
-    this.model.query('SEL_HISTORIAL_UNIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_HISTORIAL_UNIDAD_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
