@@ -41,6 +41,28 @@ Reporte.prototype.get_estatusOrdenes = function(req, res, next) {
 }
 
 
+Reporte.prototype.get_reporteCertificadoConformidad = function(req, res, next) {
+    var obj = {};
+    var self = this;
+    
+    var params = [
+    {name: 'idOperacion',value: req.query.idOperacion,type: self.model.types.INT},
+    {name: 'fechaInicial',value: req.query.fechaInicial,type: self.model.types.STRING},
+    {name: 'fechaFinal',value: req.query.fechaFinal,type: self.model.types.STRING},
+    {name: 'idZona',value: req.query.idZona,type: self.model.types.INT},
+    {name: 'numeroOrden',value: req.query.numeroOrden,type: self.model.types.STRING},
+
+    ];
+
+
+    self.model.query('SEL_REPORTE_CERTIFICADO_CONFORMIDAD_SP', params, function(error, result) {
+        obj.error = error;
+        obj.result = result;
+        self.view.expositor(res, obj);
+    });
+}
+
+
 
 Reporte.prototype.get_reporteAntiguedadSaldo = function(req, res, next) {
     var obj = {};

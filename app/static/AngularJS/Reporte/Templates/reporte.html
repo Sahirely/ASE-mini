@@ -131,7 +131,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="orden in ordenes ">
+                            <tr ng-repeat="orden in ordenes" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{orden.zonasConcatenadas}}">
                                 <td>{{orden.Cliente}}</td>
                                 <td>{{orden.consecutivoOrden}}</td>
                                 <td>{{orden.numeroOrden}}</td>

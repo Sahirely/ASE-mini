@@ -51,6 +51,12 @@
             reporteRepository.reporteAntiguedadSaldo(params).then(function(result) {
                 $scope.ordenes = result.data;
                 globalFactory.filtrosTabla("tblAntiguedadSaldos", "AntiguedadSaldos", 100);
+                
+                setTimeout(function() {
+                    $('[data-toggle="popover"]').popover({
+                        html: true
+                    });
+                }, 100);
 
                 $scope.sumatoriaCosto = 0;
                 $scope.sumatoriaVenta = 0;
@@ -156,10 +162,6 @@
 
             return filterParams;
         }
-
-
-
-
 
 
     });
