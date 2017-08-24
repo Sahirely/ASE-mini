@@ -11,22 +11,6 @@
                     <div class="ibox-content">
 
                         <div class="row col-md-12">
-<!--                             <div class="col-md-3">
-                                <label class="font-noraml">Zona</label>
-                                <select class="form-control m-b" ng-disabled="callCenter != null"
-                                id="zona" ng-model="zona" 
-                                ng-options="zona.idZona as zona.descripcionZona for zona in zonas" 
-                                ng-change="devuelveTars(zona)">
-                                    <option value="">Seleccioné una Zona</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="font-noraml">Tar</label>
-                                <select ng-disabled="zona == null" class="form-control m-b" id="tar" ng-model="tar" 
-                                ng-options="tar.idTAR as tar.nombreTar for tar in tars">
-                                    <option value="">Seleccioné una TAR</option>
-                                </select>
-                            </div> -->
                             <div class="col-xs-3">
                             <label class="font-noraml">Número de Reporte</label>
                                 <input type="text" placeholder="Buscar Número de Reporte" ng-model="numeroReporte" class="form-control">
@@ -48,27 +32,23 @@
                     
                 <div class="row col-md-12">
                     <BR><BR>
-                <!-- <span class="blueStrong">Historial de reportes de conformidad generados</span> -->
-                    <br/>
                     <br/>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered table-hover dataTableReclamacion" cg-busy="{promise:promise,message:message}">
                                 <thead>
-                                    <th>Folio Reporte Zona Centro</th>
-                                    <th>Folio Reporte Zona Golfo</th>
-                                    <th>Folio Reporte Zona Norte</th>
-                                    <th>Folio Reporte Zona Pacifico</th>
+                                    <th>Consecutivo</th>
+                                    <th>No Reporte</th>
+                                    <th>Operacion</th>
                                     <th>Fecha de Emisión </th>
                                     <th>Acción</th>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="reporte in reportes">
-                                        <td>{{reporte.reporteC}}</td>
-                                        <td>{{reporte.reporteG}}</td>
-                                        <td>{{reporte.reporteN}}</td>
-                                        <td>{{reporte.reporteP}}</td>
-                                        <td>{{reporte.fecha | date:'dd-MM-yyyy HH:mm'}}</td>
- 										<td><button id="" busy="Buscando.." tooltip="Ver evidencia" type="button" class="btn btn-primary" ng-click="verEvidencia(reporte.identificador)"><span class="fa fa-inbox"></span></button></td>
+                                        <td>{{reporte.idReclamacion}}</td>
+                                        <td>{{reporte.noReporte}}</td>
+                                        <td>{{reporte.idOperacion}}</td>
+                                        <td>{{reporte.fechaAlta | date:'dd-MM-yyyy HH:mm'}}</td>
+ 										<td><button id="" busy="Buscando.." tooltip="Ver evidencia" type="button" class="btn btn-primary" ng-click="verEvidencia(reporte.idReclamacion)"><span class="fa fa-inbox"></span></button></td>
                                 </tbody>
                             </table>
                         </div>
