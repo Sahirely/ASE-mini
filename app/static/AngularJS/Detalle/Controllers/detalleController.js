@@ -975,7 +975,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function(result) {
                         if (result.data.length > 0) {
                             $scope.saldosTermino = result.data[0];
-                            if (result.data[0].presupuestoVenta > 0) {
+                            if (result.data[0].presupuestoVenta >= 0) {
                                 $scope.idPresupuesto = result.data[0].idPresupuesto;
 
                                             $scope.addComentarioTermino();
