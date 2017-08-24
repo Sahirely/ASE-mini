@@ -1,17 +1,19 @@
-registrationModule.controller('historialReclamacionController', function ($scope, $route, $modal, $rootScope, localStorageService, alertFactory, globalFactory, uploadRepository, reclamacionRepository, dashBoardRepository) {
-    $scope.userData = localStorageService.get('userData');
-	$scope.reclamacionUploadFile = localStorageService.get('idReclamacion');
+registrationModule.controller('historialReclamacionController', function ($scope, $route, $modal, $rootScope, userFactory, localStorageService, alertFactory, globalFactory, reclamacionRepository, dashBoardRepository) {
+    $scope.userData = userFactory.getUserData();
+    $scope.idUsuario = $scope.userData.idUsuario;
+    $scope.idRol = $scope.userData.idRol;
+    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;	
+    $scope.reclamacionUploadFile = localStorageService.get('idReclamacion');
     $rootScope.modulo = 'consultaOficios';
 
     $scope.init = function () {
-		//$scope.devuelveZonas();
-        //$scope.callReclamacion();
+        $scope.callReclamacion();
     }
 
     $scope.initEvidencia = function () {
-		//Dropzone.autoDiscover = false;
-        //$scope.cargaEvidencias();
-        //$scope.dzOptionsServicio = uploadRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",20);
+		Dropzone.autoDiscover = false;
+        $scope.cargaEvidencias();
+        $scope.dzOptionsServicio = reclamacionRepository.getDzOptions("image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",20);
     }
 
     $('#fecha .input-group.date').datepicker({
@@ -30,31 +32,7 @@ registrationModule.controller('historialReclamacionController', function ($scope
         forceParse: false,
         autoclose: true
     });
-    $scope.devuelveTars = function (zona) {
-        if (zona != null) {
-            dashBoardRepository.getTars(zona).then(function (tars) {
-                if (tars.data.length > 0) {
-                    $scope.tars = tars.data;
 
-                }
-            }, function (error) {
-                alertFactory.error('No se pudo recuperar información de las TARs');
-            });
-        } else {
-            $scope.tar = null;
-        }
-    }
-
-    $scope.devuelveZonas = function () {
-        dashBoardRepository.getZonas($scope.userData.idUsuario).then(function (zonas) {
-            if (zonas.data.length > 0) {
-                $scope.zonas = zonas.data;
-
-            }
-        }, function (error) {
-            alertFactory.error('No se pudo recuperar información de las zonas');
-        });
-    }
 
     $scope.callReclamacion = function () {
     	$('.dataTableReclamacion').DataTable().destroy();
@@ -65,7 +43,7 @@ registrationModule.controller('historialReclamacionController', function ($scope
             if (result.data.length > 0) {
                 $scope.reportes = result.data;
                 alertFactory.success('Historial recuperado correctamente');
-				waitDrawDocument("dataTableReclamacion", "Reclamación");
+                globalFactory.filtrosTabla('dataTableReclamacion', 'Reclamación', 100)
             }else{
                 alertFactory.info('No se encontro información !');
             }
@@ -80,7 +58,7 @@ registrationModule.controller('historialReclamacionController', function ($scope
  }
 
    $scope.cargaEvidencias = function () {
-        reclamacionRepository.getEvidenciasByReclamacion($scope.reclamacionUploadFile, $scope.userData.idTipoUsuario).then(function (result) {
+        reclamacionRepository.getEvidenciasByReclamacion($scope.reclamacionUploadFile).then(function (result) {
             if (result.data.length > 0) {
                 $scope.slides = result.data;
                 setTimeout(function () {
@@ -109,7 +87,7 @@ registrationModule.controller('historialReclamacionController', function ($scope
         'sending': function(file, xhr, formData){
             formData.append('idTrabajo', $scope.reclamacionUploadFile);
             formData.append('idCotizacion', 0);
-            formData.append('idCategoria', 4);
+            formData.append('idCategoria', 1);
             formData.append('idNombreEspecial', 0);//evidenciaTrabajo
         }
         ,
@@ -145,41 +123,6 @@ registrationModule.controller('historialReclamacionController', function ($scope
     //valida si existe algún error
     function checkExistsError(file) {
         return file.status === 'error';
-    }
-
-            //espera que el documento se pinte para llenar el dataTable
-    var waitDrawDocument = function (dataTable, title) {
-        setTimeout(function () {
-            var indicePorOrdenar = 0;
-            if (dataTable == 'dataTableReclamacion') {
-                indicePorOrdenar = 4;
-            } else {
-                indicePorOrdenar = 4;
-            }
-
-            $('.' + dataTable).DataTable({
-                aaSorting: [[indicePorOrdenar, 'desc']],
-                dom: '<"html5buttons"B>lTfgitp',
-                "iDisplayLength": 100,
-                buttons: [
-                    {
-                        extend: 'excel',
-                        title: title
-                    },
-                    {
-                        extend: 'print',
-                        customize: function (win) {
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
-            });
-        }, 2500);
     }
 
 });

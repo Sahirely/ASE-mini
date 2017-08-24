@@ -95,7 +95,7 @@
                         <li ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
                     </ul>
                 </li>
-                <li ng-show="userData.idRol == 2" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
+                <li ng-show="userData.idRol == 2 && userData.idOperacion == 3" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-gavel"></i> <span class="nav-label">Reclamación</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
                         <li ng-class="{'active': modulo=='emisionOficios'}"><a href="/resumenReclamacion">Emisión de Oficios</a></li>

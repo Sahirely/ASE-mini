@@ -219,7 +219,10 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
           controller: 'historialReclamacionController'
         })
 
-
+        $routeProvider.when('/evidenciaReclamacion', {
+          templateUrl: 'AngularJS/Reclamacion/Templates/evidenciaReclamacion.html',
+          controller: 'historialReclamacionController'
+        })
 
 
         $locationProvider.html5Mode({

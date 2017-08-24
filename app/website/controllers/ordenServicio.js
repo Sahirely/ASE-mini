@@ -1,6 +1,11 @@
 var OrdenServicioView = require('../views/ejemploVista'),
     OrdenServicioModel = require('../models/dataAccess2');
+
 var dirname = 'E:/ASEv2Documentos/public/orden/';
+var direclamacion = 'E:/ASEv2Documentos/public/reclamacion/';
+var fs = require('fs');
+//var JSZip = require("jszip");
+//var zip = new JSZip();
 
 var OrdenServicio = function(conf) {
     this.conf = conf || {};
@@ -691,4 +696,135 @@ OrdenServicio.prototype.get_getPartidasUnidad = function(req, res, next) {
         });
     });
 }
+
+OrdenServicio.prototype.get_evidenciasByReclamacion = function (req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+
+    var params = [{
+            name: 'idReclamacion',
+            value: req.query.idReclamacion,
+            type: self.model.types.DECIMAL
+        }];
+
+    var evidenciasByReclamacion = [];
+
+    cargaEvidencias(req.query.idReclamacion);
+
+    this.model.listaEvidencia(evidenciasByReclamacion, function (error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+
+    function cargaEvidencias(idReclamacion) {
+        var rutaPrincipal = direclamacion + idReclamacion;
+        var carpetas = fs.readdirSync(rutaPrincipal);
+        carpetas.forEach(function (documento) {
+            var ext = obtenerExtArchivo(documento);
+            var idTipoArchivo = obtenerTipoArchivo(ext);
+            var fecha = fs.statSync(rutaPrincipal + '/' + documento).mtime.getTime();
+            evidenciasByReclamacion.push({
+                idTipoEvidencia: 1,
+                idTipoArchivo: idTipoArchivo,
+                nombreArchivo: documento,
+                fecha: fecha,
+                carpeta: 'reclamacion'
+            });
+        });
+    }
+}
+
+var obtenerExtArchivo = function (file) {
+    return '.' + file.split('.').pop();
+}
+
+var obtenerTipoArchivo = function (ext) {
+    var type;
+    if (ext == '.pdf' || ext == '.doc' || ext == '.xls' || ext == '.docx' || ext == '.xlsx' ||
+        ext == '.PDF' || ext == '.DOC' || ext == '.XLS' || ext == '.DOCX' || ext == '.XLSX' ||
+        ext == '.ppt' || ext == '.PPT' || ext == '.xml' || ext == '.XML') {
+        type = 1;
+    } else if (ext == '.jpg' || ext == '.png' || ext == '.gif' || ext == '.bmp' || ext == '.JPG' || ext == '.PNG' || ext == '.GIF' || ext == '.BMP') {
+        type = 2;
+    } else if (ext == '.mp4') {
+        type = 3;
+    } else if (ext == '.zip' || ext == '.ZIP' ) {
+        type = 4;
+    }
+    return type;
+}
+
+////Método para insertar evidencia
+OrdenServicio.prototype.post_uploadfiles = function (req, res, next) {
+    //res.end("File is uploaded");
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            idTrabajo = (req.body.idTrabajo).constructor !== Array ? req.body.idTrabajo : req.body.idTrabajo[0];
+            var idCotizacion = req.body.idCotizacion.constructor !== Array ? req.body.idCotizacion : req.body.idCotizacion[0];
+            var idCategoria = (req.body.idCategoria).constructor != Array ? req.body.idCategoria : req.body.idCategoria[0];
+            idNombreEspecial = (req.body.idNombreEspecial).constructor != Array ? req.body.idNombreEspecial : req.body.idNombreEspecial[0];
+
+            if (idCategoria == 1) {
+                var filename = guid();
+                if (!fs.existsSync(direclamacion + idTrabajo)) {
+                    fs.mkdirSync(direclamacion + idTrabajo);
+                }
+                if (idNombreEspecial == 0) {
+                    nameFile = 'Evidencia-' + filename;
+                    cb(null, direclamacion + idTrabajo);
+                }
+            } else {
+                nameFile = '';
+                cb(null, dirCopades);
+            }
+        },
+        filename: function (req, file, cb) {
+            if (nameFile !== '') {
+                if (nameFile === 'Evidencia') {
+                    nameFile = nameFile + obtieneConsecutivo(direclamacion);
+                }
+                cb(null, nameFile + obtenerExtArchivo(file.originalname));
+            } else if (consecutivoArchivo > 0) {
+                cb(null, 'Evidencia' + consecutivoArchivo + obtenerExtArchivo(file.originalname));
+            } else {
+                cb(null, file.originalname);
+            }
+            nameFile = '';
+            consecutivoArchivo = 0;
+        }
+    });
+    var upload = multer({
+        storage: storage
+    }).any();
+
+    upload(req, res, function (err) {
+        if (err) {
+            //console.log(err);
+            return res.end("Error al subir el archivo.");
+        } else {
+            req.files.forEach(function (f) {
+                //console.log(f.originalname);
+                // and move file to final destination...
+            });
+            res.end("Archivo subido");
+        }
+    });
+}
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4();
+};
+
 module.exports = OrdenServicio;
