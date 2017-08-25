@@ -635,6 +635,10 @@
                                                                 <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                                                 <th ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                                                                 <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                                                <td ng-show="estatus == 4 || estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">
+                                                                  <th>Usuario Aprobador</th>
+                                                                  <th>Fecha Aprobación</th>
+                                                                </td>
                                                                 <th ng-show="estatus == 4">Aprobar</th>
                                                                 <th ng-show="estatus == 4">Rechazar</th>
                                                                 <th ng-show="false">&nbsp;</th>
@@ -664,6 +668,10 @@
                                                                 <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
+                                                                <td ng-show="estatus == 4 || estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">
+                                                                    <td>{{partida.usuario}}</td>
+                                                                    <td>{{partida.fechaAprobacion | date:'dd-MM-yyyy HH:mm' : 'UTC' }}</td>
+                                                                </td>
                                                                 <td ng-show="estatus == 4">
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                         <input type="radio" ng-init="partida.btnDisabled=true;
