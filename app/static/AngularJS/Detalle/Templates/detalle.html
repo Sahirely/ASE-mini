@@ -509,11 +509,11 @@
                                 </p>
                                 <p>
                                     <label>Presupuesto: </label>
-                                    <span ng-class="(totalSumaVenta * 1.16) > (saldos.presupuesto-saldos.saldoDisponible) ?  'sinPresupuesto' : ''">{{saldos.presupuesto | currency:"$": 2}}</span>
+                                    <span ng-class="(totalSumaVenta) > (saldos.saldo) ?  'sinPresupuesto' : ''">{{saldos.presupuesto | currency:"$": 2}}</span>
                                 </p>
                                 <p>
                                     <label>Saldo Disponible: </label>
-                                    <span ng-class="(totalSumaVenta * 1.16) > (saldos.presupuesto-saldos.saldoDisponible) ?  'sinPresupuesto' : ''">{{saldos.presupuesto-saldos.saldoDisponible| currency:"$": 2}}</span>
+                                    <span ng-class="(totalSumaVenta) > (saldos.saldo) ?  'sinPresupuesto' : ''">{{saldos.saldo| currency:"$": 2}}</span>
                                 </p>
                                 <!-- <p>
                                     <label>Saldo Real: </label>
