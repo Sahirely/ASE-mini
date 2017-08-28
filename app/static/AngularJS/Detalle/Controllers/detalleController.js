@@ -637,8 +637,10 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.getReporteConformidad = function(idOrden) {
         detalleRepository.getReporteConformidad(idOrden, $scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario).then(function(result) {
             if (result.data.length > 0) {
-                var rptReporteConformidadData = []
+                var rptReporteConformidadData = [];
                 rptReporteConformidadData.encabezado = result.data[0][0];
+                rptReporteConformidadData.encabezado.logo = $rootScope.docServer + rptReporteConformidadData.encabezado.img;
+                rptReporteConformidadData.encabezado.firma = $rootScope.docServer + rptReporteConformidadData.encabezado.firmaDoc;
                 rptReporteConformidadData.partidas = result.data[1];
                 rptReporteConformidadData.total = result.data[2][0];
                 rptReporteConformidadData.firma = result.data[3];
@@ -655,7 +657,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     }
                     var jsonData = {
                         "template": {
-                            "name": "reporteConformidad_rpt"
+                            "name": "hojaTrabajo_rpt"
                         },
                         "data": rptReporteConformidad //
                     }
