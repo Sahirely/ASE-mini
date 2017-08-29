@@ -170,6 +170,40 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 control-label">Solpe</label>
+                        <div class="col-sm-7">
+                            <div class="m-b">
+                                <input type="text" class="form-control" type="number" ng-model="txtSolpe">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+
+                        <table class="table table-bordered table-striped table-hover dataTableFondos">
+    <thead>
+        <tr>
+            <!-- <th>SaldoID</th> -->            
+            <th>Saldo</th>
+            <th>Traspasar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in lstPresupuestos">
+            <!-- <td>{{item.idPresupuesto}}</td> -->
+            <td>{{item.saldo | currency: "$"}}</td>
+            <td> <input type="checkbox" > </td>
+        </tr>
+    </tbody>
+</table>
+
+                       
+                                
+                    </div>
+
                     <!--<table class="table table-bordered table-striped table-hover dataTablePresupuestos" ng-show="sumaOsur.length>0">
                         <thead>
                             <tr>
