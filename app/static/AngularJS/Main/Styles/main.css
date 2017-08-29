@@ -115,7 +115,7 @@ body {
     color: #a7b1c2 !important;
     border-style: none;
     font-weight: 600;
-    margin-left: -130px !important;
+    /*margin-left: -130px !important;*/
 }
 
 #NombreOperacion{

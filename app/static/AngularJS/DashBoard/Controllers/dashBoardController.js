@@ -27,11 +27,21 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
     $scope.NivelesZona           = [];
     $scope.Zonas                 = [];
 
+
+    //VARIABLES PARA MEMORANDUMS
+    $scope.memorandums           = [];
+    
+
+
     $scope.init = function() {
         userFactory.ValidaSesion();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
+        //OBTENEMOS LOS MEMORANDUMS DEL CLIENTE
+        //EN CASO DE EXISTIR MEMORANDUMS ENTONCES MOSTRAMOS MODAL DE BLOQUEO
+        $("#mdMemorandums").modal('show')
+
 
         $scope.LoadData();
     };
@@ -42,6 +52,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.sumatoriaOrdenes();
         $scope.sumatoriaOrdenesPorCobrar();
         $scope.sumatoriaProceso();
+        
     }
 
     $scope.sumatoriaCitas = function() {
