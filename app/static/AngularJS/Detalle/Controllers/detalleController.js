@@ -1706,7 +1706,6 @@ registrationModule.controller('detalleController', function($scope, $location, $
             function(isConfirm) {
                 if (isConfirm) {
                     $scope.cancelarOrden();
-                    location.href = '/consultaCitas';
                 } else {
                     swal("Cita no cancelada");
                 }
@@ -1727,7 +1726,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
                     if (result.success) {
                         swal("Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.");
-                        //slocation.href = '/consultaCitas';
+                        //location.href = '/consultaCitas';
                     }
 
                 },
