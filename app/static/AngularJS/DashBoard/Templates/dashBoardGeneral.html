@@ -15,238 +15,295 @@
                                       {{z.nombre}}
                                   </option>
                               </select>
-                          </div>
-                      </div>
-                      <div class="hr-line-dashed"></div>
-                      <div class="row">
-                        <div class="col-lg-6 contenedor">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <h5>Citas</h5>
-                                    <div class="ibox-tools">
-                                        <span class="label label-success pull-right">Total: {{totalCitas |  number}}</span>
-                                    </div>
-                                </div>
-                                <div class="ibox-content ">
-                                    <div class="row contenedor">
-                                        <div class="col-sm-6 divTabla">
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Estatus</div>
-                                                <div class="col-sm-2">Totales</div>
-                                                <div class="col-sm-2">Prom. hrs.</div>
-                                                <div class="col-sm-2">Monto</div>
-                                            </div>
-                                            <div class="row rowBody" ng-repeat="x in citas" style="border-bottom: solid 1px #f4f4f4;">
-                                                <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
-                                                <div class="col-sm-4">{{x.estatus}}</div>
-                                                <div class="col-sm-2">{{x.total}}</div>
-                                                <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
-                                            </div>
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Total</div>
-                                                <div class="col-sm-2">{{totalCitas | number}}</div>
-                                                <div class="col-sm-2">{{totalHorasCitas | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCitas | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCitas | currency : "$"}}</div>
-                                            </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="row">
+                            <div class="col-lg-6 contenedor">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Citas</h5>
+                                        <div class="ibox-tools">
+                                            <span class="label label-success pull-right">Total: {{totalCitas |  number}}</span>
                                         </div>
-                                        <div class="donutContainer">
-                                            <div id="morris-donut-citas" class="donut"></div>
+                                    </div>
+                                    <div class="ibox-content ">
+                                        <div class="row contenedor">
+                                            <div class="col-sm-6 divTabla">
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Estatus</div>
+                                                    <div class="col-sm-2">Totales</div>
+                                                    <div class="col-sm-2">Prom. hrs.</div>
+                                                    <div class="col-sm-2">Monto</div>
+                                                </div>
+                                                <div class="row rowBody" ng-repeat="x in citas" style="border-bottom: solid 1px #f4f4f4;">
+                                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                                    <div class="col-sm-4">{{x.estatus}}</div>
+                                                    <div class="col-sm-2">{{x.total}}</div>
+                                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
+                                                </div>
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Total</div>
+                                                    <div class="col-sm-2">{{totalCitas | number}}</div>
+                                                    <div class="col-sm-2">{{totalHorasCitas | number}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCitas | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCitas | currency : "$"}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="donutContainer">
+                                                <div id="morris-donut-citas" class="donut"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 contenedor">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <h5>Cotizaciones</h5>
-                                    <div class="ibox-tools">
-                                        <span class="label label-success pull-right">Total: {{totalCotizaciones | number}}</span>
-                                    </div>
-                                </div>
-                                <div class="ibox-content">
-                                    <div class="row contenedor">
-                                        <div class="col-sm-6 divTabla">
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Estatus</div>
-                                                <div class="col-sm-2">Totales</div>
-                                                <div class="col-sm-2">Prom. hrs.</div>
-                                                <div class="col-sm-2">Monto</div>
-                                            </div>
-                                            <div class="row rowBody" ng-repeat="x in cotizaciones" style="border-bottom: solid 1px #f4f4f4;">
-                                                <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
-                                                <div class="col-sm-4">{{x.estatus}}</div>
-                                                <div class="col-sm-2">{{x.total}}</div>
-                                                <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
-                                            </div>
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Total</div>
-                                                <div class="col-sm-2">{{totalCotizaciones | number}}</div>
-                                                <div class="col-sm-2">{{totalHorasCotizaciones | number}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCotizaciones | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCotizaciones | currency : "$"}}</div>
-                                            </div>
+                            <div class="col-lg-6 contenedor">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Cotizaciones</h5>
+                                        <div class="ibox-tools">
+                                            <span class="label label-success pull-right">Total: {{totalCotizaciones | number}}</span>
                                         </div>
-                                        <div class="donutContainer">
-                                            <div id="morris-donut-cotizaciones" class="donut"></div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="row contenedor">
+                                            <div class="col-sm-6 divTabla">
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Estatus</div>
+                                                    <div class="col-sm-2">Totales</div>
+                                                    <div class="col-sm-2">Prom. hrs.</div>
+                                                    <div class="col-sm-2">Monto</div>
+                                                </div>
+                                                <div class="row rowBody" ng-repeat="x in cotizaciones" style="border-bottom: solid 1px #f4f4f4;">
+                                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                                    <div class="col-sm-4">{{x.estatus}}</div>
+                                                    <div class="col-sm-2">{{x.total}}</div>
+                                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
+                                                </div>
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Total</div>
+                                                    <div class="col-sm-2">{{totalCotizaciones | number}}</div>
+                                                    <div class="col-sm-2">{{totalHorasCotizaciones | number}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoCotizaciones | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoCotizaciones | currency : "$"}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="donutContainer">
+                                                <div id="morris-donut-cotizaciones" class="donut"></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6 contenedor">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <h5>Ordenes en Proceso</h5>
-                                    <div class="ibox-tools">
-                                        <span class="label label-success pull-right">Total: {{totalProceso | number}}</span>
+                            <div class="col-lg-6 contenedor">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Ordenes en Proceso</h5>
+                                        <div class="ibox-tools">
+                                            <span class="label label-success pull-right">Total: {{totalProceso | number}}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="ibox-content">
+                                    <div class="ibox-content">
 
-                                    <div class="row contenedor">
-                                        <div class="col-sm-6 divTabla">
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Estatus</div>
-                                                <div class="col-sm-2">Totales</div>
-                                                <div class="col-sm-2">Prom. hrs.</div>
-                                                <div class="col-sm-2">Monto</div>
+                                        <div class="row contenedor">
+                                            <div class="col-sm-6 divTabla">
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Estatus</div>
+                                                    <div class="col-sm-2">Totales</div>
+                                                    <div class="col-sm-2">Prom. hrs.</div>
+                                                    <div class="col-sm-2">Monto</div>
+                                                </div>
+                                                <div class="row rowBody" ng-repeat="x in ordenesProceso" style="border-bottom: solid 1px #f4f4f4;">
+                                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                                    <div class="col-sm-4">{{x.estatus}}</div>
+                                                    <div class="col-sm-2">{{x.total}}</div>
+                                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
+                                                </div>
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Total</div>
+                                                    <div class="col-sm-2">{{totalProceso | number}}</div>
+                                                    <div class="col-sm-2">{{totalHorasOrdenesProceso | number}}</div>
+                                                    <!-- <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div> -->
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesProceso | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesProceso | currency : "$"}}</div>
+                                                </div>
                                             </div>
-                                            <div class="row rowBody" ng-repeat="x in ordenesProceso" style="border-bottom: solid 1px #f4f4f4;">
-                                                <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
-                                                <div class="col-sm-4">{{x.estatus}}</div>
-                                                <div class="col-sm-2">{{x.total}}</div>
-                                                <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
-                                            </div>
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Total</div>
-                                                <div class="col-sm-2">{{totalProceso | number}}</div>
-                                                <div class="col-sm-2">{{totalHorasOrdenesProceso | number}}</div>
-                                                <!-- <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div> -->
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesProceso | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesProceso | currency : "$"}}</div>
+                                            <div class="donutContainer">
+                                                <div id="morris-donut-proceso" class="donut"></div>
                                             </div>
                                         </div>
-                                        <div class="donutContainer">
-                                            <div id="morris-donut-proceso" class="donut"></div>
-                                        </div>
-                                    </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 contenedor">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                <h5>Ordenes en Entrega</h5>
-                                    <div class="ibox-tools">
-                                        <span class="label label-success pull-right">Total: {{totalOrdenes | number}}</span>
-                                    </div>
-                                </div>
-                                <div class="ibox-content">
-
-                                    <div class="row contenedor">
-                                        <div class="col-sm-6 divTabla">
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Estatus</div>
-                                                <div class="col-sm-2">Totales</div>
-                                                <div class="col-sm-2">Prom. hrs.</div>
-                                                <div class="col-sm-2">Monto</div>
-                                            </div>
-                                            <div class="row rowBody" ng-repeat="x in ordenesServicio" style="border-bottom: solid 1px #f4f4f4;">
-                                                <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
-                                                <div class="col-sm-4">{{x.estatus}}</div>
-                                                <div class="col-sm-2">{{x.total}}</div>
-                                                <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
-                                            </div>
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Total</div>
-                                                <div class="col-sm-2">{{totalOrdenes | number}}</div>
-                                                <div class="col-sm-2">{{totalHorasOrdenesServicio | number}}</div>
-                                                <!-- <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div> -->
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesServicio | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesServicio | currency : "$"}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="donutContainer">
-                                            <div id="morris-donut-ordenes" class="donut"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 contenedor" ng-show="userData.idRol == 2">
-                            <div class="ibox float-e-margins">
-                                <div class="ibox-title">
-                                    <h5>Cobranza</h5>
-                                    <div class="ibox-tools">
-                                        <span class="label label-success pull-right">Total: {{totalOrdenesPorCobrar | number}}</span>
-                                    </div>
-                                </div>
-                                <div class="ibox-content">
-                                    <div class="row contenedor">
-                                        <div class="col-sm-6 divTabla">
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Estatus</div>
-                                                <div class="col-sm-2">Totales</div>
-                                                <div class="col-sm-2">Prom. hrs.</div>
-                                                <div class="col-sm-2">Monto</div>
-                                            </div>
-                                            <div class="row rowBody" ng-repeat="x in ordenesCobrar" style="border-bottom: solid 1px #f4f4f4;">
-                                                <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
-                                                <div class="col-sm-4">{{x.estatus}}</div>
-                                                <div class="col-sm-2">{{x.total}}</div>
-                                                <div class="col-sm-2">{{x.promedio}}</div>
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
-                                            </div>
-                                            <div class="row rowHead">
-                                                <div class="col-sm-1"></div>
-                                                <div class="col-sm-4">Total</div>
-                                                <div class="col-sm-2">{{totalOrdenesPorCobrar | number}}</div>
-                                                <div class="col-sm-2">{{totalHorasOrdenesCobrar | number}}</div>
-                                                <!-- <div class="col-sm-2">{{totalMontoOrdenesCobrar | number}}</div> -->
-                                                <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesCobrar | currency : "$"}}</div>
-                                                <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesCobrar | currency : "$"}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="donutContainer">
-                                            <div id="morris-donut-cobrar" class="donut"></div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-6 contenedor">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Ordenes en Entrega</h5>
+                                        <div class="ibox-tools">
+                                            <span class="label label-success pull-right">Total: {{totalOrdenes | number}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+
+                                        <div class="row contenedor">
+                                            <div class="col-sm-6 divTabla">
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Estatus</div>
+                                                    <div class="col-sm-2">Totales</div>
+                                                    <div class="col-sm-2">Prom. hrs.</div>
+                                                    <div class="col-sm-2">Monto</div>
+                                                </div>
+                                                <div class="row rowBody" ng-repeat="x in ordenesServicio" style="border-bottom: solid 1px #f4f4f4;">
+                                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                                    <div class="col-sm-4">{{x.estatus}}</div>
+                                                    <div class="col-sm-2">{{x.total}}</div>
+                                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
+                                                </div>
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Total</div>
+                                                    <div class="col-sm-2">{{totalOrdenes | number}}</div>
+                                                    <div class="col-sm-2">{{totalHorasOrdenesServicio | number}}</div>
+                                                    <!-- <div class="col-sm-2">{{totalMontoOrdenesServicio | number}}</div> -->
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesServicio | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesServicio | currency : "$"}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="donutContainer">
+                                                <div id="morris-donut-ordenes" class="donut"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 contenedor" ng-show="userData.idRol == 2">
+                                <div class="ibox float-e-margins">
+                                    <div class="ibox-title">
+                                        <h5>Cobranza</h5>
+                                        <div class="ibox-tools">
+                                            <span class="label label-success pull-right">Total: {{totalOrdenesPorCobrar | number}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="ibox-content">
+                                        <div class="row contenedor">
+                                            <div class="col-sm-6 divTabla">
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Estatus</div>
+                                                    <div class="col-sm-2">Totales</div>
+                                                    <div class="col-sm-2">Prom. hrs.</div>
+                                                    <div class="col-sm-2">Monto</div>
+                                                </div>
+                                                <div class="row rowBody" ng-repeat="x in ordenesCobrar" style="border-bottom: solid 1px #f4f4f4;">
+                                                    <div class="col-sm-1" style="background-color:{{x.color}}; height: 30px;">&nbsp;</div>
+                                                    <div class="col-sm-4">{{x.estatus}}</div>
+                                                    <div class="col-sm-2">{{x.total}}</div>
+                                                    <div class="col-sm-2">{{x.promedio}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{x.Monto | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{x.MontoCosto | currency : "$"}}</div>
+                                                </div>
+                                                <div class="row rowHead">
+                                                    <div class="col-sm-1"></div>
+                                                    <div class="col-sm-4">Total</div>
+                                                    <div class="col-sm-2">{{totalOrdenesPorCobrar | number}}</div>
+                                                    <div class="col-sm-2">{{totalHorasOrdenesCobrar | number}}</div>
+                                                    <!-- <div class="col-sm-2">{{totalMontoOrdenesCobrar | number}}</div> -->
+                                                    <div class="col-sm-2" ng-show="idRol != 4">{{totalMontoOrdenesCobrar | currency : "$"}}</div>
+                                                    <div class="col-sm-2" ng-show="idRol == 4">{{totalCostoOrdenesCobrar | currency : "$"}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="donutContainer">
+                                                <div id="morris-donut-cobrar" class="donut"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
-
-                </div> 
-            </div> 
-        </div> 
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<!--Modal Memorandum -->
+<div id="mdMemorandums" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg" style="width: 60%;">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h2 class="modal-title">Memorandum</h2>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>FOLIO #060 <small>29/08/2017 10:07:00</small></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <h2><strong>TITULO</strong><br><small>Revisión de Normas de Calidad</small></h2>
+                                <h2><strong>MENSAJE</strong><br><small>   Se requiere verificar el documento con las Normas de Calidad.</small></h2>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="border-left: 1px solid black;">
+                            <div class="row">
+                                <div style="margin: 1px;">
+                                    <h3>Adjuntos</h3>
+                                    <br>
+                                    <ul>
+                                        <li><a href=""><span class="fa fa-file-pdf-o"> Evidencia PDF</span></a></li>
+                                        <li><a href=""><span class="fa fa-file-word-o"> Evidencia WORD</span></a></li>
+                                        <li><a href=""><span class="fa fa-file-excel-o"> Evidencia Excel</span></a></li>
+                                        <li><a href=""><span class="fa fa-picture-o"> Evidencia Imagen</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <hr>
+                        <input type="checkbox" id="chkAceptacion" /><span> He leído el Memorandum</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Leer más tarde...</button>
+                <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">Estoy de acuerdo</button>
+            </div>
+        </div>
+
+    </div>
 </div>
+
+
 <style>
     .morris-chart text {
         font-size: 5;
     }
-
 </style>

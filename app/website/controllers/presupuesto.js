@@ -85,6 +85,10 @@ Presupuesto.prototype.post_nuevoPresupuesto = function (req, res, next) {
         name: 'idUsuario',
         value: req.body.idUsuario,
         type: self.model.types.INT
+    },{
+        name: 'solpe',
+        value: req.body.solpe,
+        type: self.model.types.STRING
     }];
 
     this.model.post('INS_PRESUPUESTO_SP', params, function (error, result) {
@@ -151,4 +155,38 @@ Presupuesto.prototype.get_presupuestoDetalle = function (req, res, next) {
         self.view.expositor(res, object);
     });
 }
+
+
+
+Presupuesto.prototype.post_insTraspasoPresupuesto = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+            name: 'idPresupuestoOrigen',
+            value: req.body.idPresupuestoOrigen,
+            type: self.model.types.INT
+        },{
+            name: 'idPresupuestoDestino',
+            value: req.body.idPresupuestoDestino,
+            type: self.model.types.INT
+        },{
+            name: 'monto',
+            value: req.body.monto,
+            type: self.model.types.INT
+        }];
+
+    this.model.post('INS_TRASPASO_PRESUPUESTO_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+
+
+
+
+
+
 module.exports = Presupuesto;
