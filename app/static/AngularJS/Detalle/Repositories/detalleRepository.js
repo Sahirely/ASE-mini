@@ -4,7 +4,7 @@ var trabajoUrl = global_settings.urlCORS + 'api/trabajo/'
 
 registrationModule.factory('detalleRepository', function($http) {
     return {
-        validaCotizacionesRevisadas: function( idOrden ) {
+        validaCotizacionesRevisadas: function(idOrden) {
             // localhost:5300/api/trabajo/validaTerminoTrabajo/?idOrden=107
             return $http({
                 url: detalleUrl + 'validaTerminoTrabajo/',
@@ -32,7 +32,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        validaTokenAprobacion: function( idOrden, Token, idCotizacion ) {
+        validaTokenAprobacion: function(idOrden, Token, idCotizacion) {
             // Token, idOrden, idCotizacion
             // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
             return $http({
@@ -40,7 +40,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 method: "GET",
                 params: {
                     idOrden: idOrden,
-                    Token:Token,
+                    Token: Token,
                     idCotizacion: idCotizacion
                 },
                 headers: {
@@ -48,43 +48,43 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        validaToken: function( idOrden, Token ) {
+        validaToken: function(idOrden, Token) {
             // localhost:5300/api/detalle/validaToken/?Token=CB817E35&idOrden=107
             return $http({
                 url: detalleUrl + 'validaToken/',
                 method: "GET",
                 params: {
                     idOrden: idOrden,
-                    Token:Token
+                    Token: Token
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        CambiaStatusOrden: function( idOrden, idUsuario ) {
+        CambiaStatusOrden: function(idOrden, idUsuario) {
             // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
             return $http({
                 url: detalleUrl + 'cambiarStatusOrden/',
                 method: "GET",
                 params: {
                     idOrden: idOrden,
-                    idUsuario:idUsuario
+                    idUsuario: idUsuario
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        rechazaTrabajo: function( idOrden, idUsuario, motivo ) {
+        rechazaTrabajo: function(idOrden, idUsuario, motivo) {
             // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
             return $http({
                 url: detalleUrl + 'rechazaTrabajo/',
                 method: "GET",
                 params: {
                     idOrden: idOrden,
-                    idUsuario:idUsuario,
-                    motivo:motivo
+                    idUsuario: idUsuario,
+                    motivo: motivo
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -122,16 +122,16 @@ registrationModule.factory('detalleRepository', function($http) {
             });
         },
         getTiempoTranscurrido: function(numOrden) {
-          return $http({
-              url: detalleUrl + 'tiempoTranscurrido/',
-              method: "GET",
-              params: {
-                  numOrden: numOrden
-              },
-              headers: {
-                  'Content-Type': 'application/json'
-              }
-          });
+            return $http({
+                url: detalleUrl + 'tiempoTranscurrido/',
+                method: "GET",
+                params: {
+                    numOrden: numOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         },
         getHistoricoOrden: function(numOrden) {
             return $http({
@@ -186,7 +186,7 @@ registrationModule.factory('detalleRepository', function($http) {
         },
         postSubirFacturas: function(numOrden) {
             var form = document.forms.namedItem("frm_subir_factura");
-            var oData = new FormData( form );
+            var oData = new FormData(form);
             return $http({
                 // url: detalleUrl + 'subirFactura/',
                 url: detalleUrl + 'subirFacturaTmp/',
@@ -229,7 +229,7 @@ registrationModule.factory('detalleRepository', function($http) {
         },
         postSubirEvidencia: function() {
             var form = document.forms.namedItem("frm_evidencia");
-            var oData = new FormData( form );
+            var oData = new FormData(form);
             return $http({
                 url: detalleUrl + 'subirEvidencia/',
                 method: "POST",
@@ -251,7 +251,7 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
-        },//LQMA 07062017
+        }, //LQMA 07062017
         getGuardaReporteConformidad: function(myJson, idOrden) {
             return $http({
                 url: detalleUrl + 'guardaReporteConformidad/',
@@ -265,125 +265,137 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        postAcciones: function(texto, fecha, idUsuario, idOrden, idEstatusOrden){
-          return $http({
-              url: detalleUrl + 'accion/',
-              method: "POST",
-              params: {
-                  texto: texto,
-                  fecha: fecha,
-                  idUsuario: idUsuario,
-                  idOrden: idOrden,
-                  idEstatusOrden: idEstatusOrden
+        postAcciones: function(texto, fecha, idUsuario, idOrden, idEstatusOrden) {
+            return $http({
+                url: detalleUrl + 'accion/',
+                method: "POST",
+                params: {
+                    texto: texto,
+                    fecha: fecha,
+                    idUsuario: idUsuario,
+                    idOrden: idOrden,
+                    idEstatusOrden: idEstatusOrden
                 },
-              headers: {
-              'Content-Type': 'application/json'
-              }
-          });
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         },
-        postRecordatorio: function(texto, fecha, idUsuario, idContratoOperacion, idRecordatorio){
-          return $http({
-              url: detalleUrl + 'recordatorio/',
-              method: "POST",
-              params: {
-                  texto: texto,
-                  fecha: fecha,
-                  idUsuario: idUsuario,
-                  idContratoOperacion: idContratoOperacion,
-                  idRecordatorio : idRecordatorio
+        postRecordatorio: function(texto, fecha, idUsuario, idContratoOperacion, idRecordatorio) {
+            return $http({
+                url: detalleUrl + 'recordatorio/',
+                method: "POST",
+                params: {
+                    texto: texto,
+                    fecha: fecha,
+                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion,
+                    idRecordatorio: idRecordatorio
                 },
-              headers: {
-              'Content-Type': 'application/json'
-              }
-          });
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         },
-        postEstatusRecordatorio: function(idRecordatorio){
-          return $http({
-              url: detalleUrl + 'estatusRecordatorio/',
-              method: "POST",
-              params: {
-                  idRecordatorio : idRecordatorio
+        postEstatusRecordatorio: function(idRecordatorio) {
+            return $http({
+                url: detalleUrl + 'estatusRecordatorio/',
+                method: "POST",
+                params: {
+                    idRecordatorio: idRecordatorio
                 },
-              headers: {
-              'Content-Type': 'application/json'
-              }
-          });
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         },
-        tokenEstatus: function(idOrden){
-          return $http({
-              url: detalleUrl + 'tokenEstatus/',
-              method: "GET",
-              params: {
-                  idOrden: idOrden
+        tokenEstatus: function(idOrden) {
+            return $http({
+                url: detalleUrl + 'tokenEstatus/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden
                 },
-              headers: {
-              'Content-Type': 'application/json'
-              }
-          });
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         },
-        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario){
-          return $http({
-              url: detalleUrl + 'presupuestoOrden/',
-              method: "POST",
-              params: {
-                  idPresupuesto: idPresupuesto,
-                  idOrden: idOrden,
-                  idUsuario: idUsuario
+        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario) {
+            return $http({
+                url: detalleUrl + 'presupuestoOrden/',
+                method: "POST",
+                params: {
+                    idPresupuesto: idPresupuesto,
+                    idOrden: idOrden,
+                    idUsuario: idUsuario
                 },
-              headers: {
-              'Content-Type': 'application/json'
-              }
-          });
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         },
-        postCancelaOrden: function(idUsuario, idOrden){
+        postCancelaOrden: function(idUsuario, idOrden) {
             debugger;
-          return $http({
-              url: detalleUrl + 'cancelaOrden',
-              method: "POST",
-              params: {
-                  idUsuario: idUsuario,
-                  idOrden: idOrden
-              },
-              headers:{ 'Content-Type': 'application/json' }
-          });
+            return $http({
+                url: detalleUrl + 'cancelaOrden',
+                method: "POST",
+                params: {
+                    idUsuario: idUsuario,
+                    idOrden: idOrden
+                },
+                headers: { 'Content-Type': 'application/json' }
+            });
         },
-        validaFactura: function( path ) {
+        postPreCancelaOrden: function(idUsuario, idOrden) {
+            debugger;
+            return $http({
+                url: detalleUrl + 'preCancelaOrden',
+                method: "POST",
+                params: {
+                    idUsuario: idUsuario,
+                    idOrden: idOrden
+                },
+                header: { 'Content-Type': 'application/json' }
+            });
+        },
+        validaFactura: function(path) {
             return $http({
                 url: detalleUrl + 'validaFactura/',
                 method: "GET",
                 params: {
-                  path: path
+                    path: path
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        getRFCFactura: function( numeroCotizacion ) {
+        getRFCFactura: function(numeroCotizacion) {
             return $http({
                 url: detalleUrl + 'getRFCFactura/',
                 method: "GET",
                 params: {
-                  numeroCotizacion: numeroCotizacion
+                    numeroCotizacion: numeroCotizacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        eliminaFactura: function( path ) {
+        eliminaFactura: function(path) {
             return $http({
                 url: detalleUrl + 'eliminaFactura/',
                 method: "GET",
                 params: {
-                  path: path
+                    path: path
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        insertarFactura: function( parametros ) {
+        insertarFactura: function(parametros) {
             return $http({
                 url: detalleUrl + 'insertarFactura/',
                 method: "GET",
@@ -406,29 +418,29 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        insertaBPRO: function(idOrden, idUsuario){
+        insertaBPRO: function(idOrden, idUsuario) {
             debugger;
-          return $http({
-              url: detalleUrl + 'insertBPRO',
-              method: "POST",
-              params: {
-                  idOrden: idOrden,
-                  idUsuario: idUsuario
-              },
-              headers:{ 'Content-Type': 'application/json' }
-          });
+            return $http({
+                url: detalleUrl + 'insertBPRO',
+                method: "POST",
+                params: {
+                    idOrden: idOrden,
+                    idUsuario: idUsuario
+                },
+                headers: { 'Content-Type': 'application/json' }
+            });
         },
-        postaproviosionamiento: function(idOrden, idUsuario){
+        postaproviosionamiento: function(idOrden, idUsuario) {
             debugger;
-          return $http({
-              url: detalleUrl + 'aproviosionamiento',
-              method: "POST",
-              params: {
-                  idOrden: idOrden,
-                  idUsuario: idUsuario
-              },
-              headers:{ 'Content-Type': 'application/json' }
-          });
+            return $http({
+                url: detalleUrl + 'aproviosionamiento',
+                method: "POST",
+                params: {
+                    idOrden: idOrden,
+                    idUsuario: idUsuario
+                },
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
     };
 });
