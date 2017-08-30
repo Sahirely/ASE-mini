@@ -51,6 +51,19 @@ registrationModule.factory('presupuestoRepository', function($http) {
                 }
             });
         },
+        getOrdenesByPE: function(idPresupuesto, idContratoOperacion){
+            return $http({
+                url: presupuestoUrl + 'ordenesByPresupuestoEspecial',
+                method: "GET",
+                params: {
+                  idPresupuesto: idPresupuesto,
+                  idContratoOperacion: idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         putNuevoPresupuesto: function(presupuesto, folioPresupuesto, fechaInicioPresupuesto, fechaFinalPresupuesto, idCentroTrabajo, idUsuario, solpe, isEspecial) {        
             return $http({        
                 url: presupuestoUrl + 'nuevoPresupuesto',

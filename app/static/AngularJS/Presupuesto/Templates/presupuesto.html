@@ -110,7 +110,7 @@
                                         {{presupuestos.ordPendiente}}
                                     </td>
                                     <td>
-                                      <button type="button" class="btn btn-warning" ng-show="presupuestos.nombreEstatusPresupuesto == 'Especial'" tooltip="Ver Ordenes del Presupuesto Especial" ng-click="verOrdenesPresupuesto(presupuestos.idPresupuesto)"><span class="fa fa-table" aria-hidden="true"></span></button>
+                                      <button type="button" class="btn btn-warning" ng-show="presupuestos.nombreEstatusPresupuesto == 'Especial'" tooltip="Ver Ordenes del Presupuesto Especial" ng-click="verOrdenesPresupuesto(presupuestos)"><span class="fa fa-table" aria-hidden="true"></span></button>
                                       {{presupuestos.nombreEstatusPresupuesto}}
                                     </td>
                                     <td>{{presupuestos.orden}}</td>
@@ -286,6 +286,50 @@
                     <button type="button" class="btn btn-white" data-dismiss="modal" ng-click="cancelaAltaPresupuesto()">Cancelar</button>
                     <button type="button" class="btn btn-success" ng-click="savePresupuesto()">Guardar</button>
                 </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal inmodal" id="OrdenesPEModal" tabindex="-1" role="dialog" aria-hidden="true" >
+    <div class="modal-dialog" style="width:70%;">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="osurTitulo">Ordenes de Presupuesto Especial {{folioPE}}</h4><BR>
+                <h4 class="osurSaldo subtitle">Saldo Presupuesto {{folioPE}}: <span class="osurSaldoPrecio"> {{ saldoPE | currency: "$"}} </span></h4><BR>
+                <h4 class="osurTotal">Total Ordenes: <span class="osurTotalPrecio"> {{ sumTotalOrdenesPE | currency: "$"}}</span></h4><BR>
+            </div>
+            <div class="modal-body">
+                <div class="row form-group table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTableOrdenesPE" >
+                      <thead>
+                          <tr>
+                              <th>Consecutivo</th>
+                              <th>No Orden</th>
+                              <th>Fecha Creación de Orden</th>
+                              <th>Estatus</th>
+                              <th>Descripción</th>
+                              <th>Centro de Trabajo</th>
+                              <th>Venta s/IVA</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="orden in OrdenesPEspecial">
+                              <td>{{orden.consecutivoOrden}}</td>
+                              <td>{{orden.numeroOrden}}</td>
+                              <td>{{orden.fechaCreacionOrden | date:"dd-MM-yy HH:mm" : 'UTC'}}</td>
+                              <td>{{orden.estatus}}</td>
+                              <td>{{orden.comentario}}</td>
+                              <td>{{orden.nombreCentroTrabajo}}</td>
+                              <td>{{orden.venta | currency: "$"}}</td>
+                          </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Salir</button>
+            </div>
         </div>
     </div>
 </div>
