@@ -54,13 +54,13 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
                 $scope.dataPresupuestos = result.data;
                 for (var i = 0; i < result.data.length; i++) {
 
-                    //if(result.data[i].idEstatusPresupuesto == 1 ){
+                   // if(result.data[i].idEstatusPresupuesto == 1 ){
                         $scope.presupuestoTotal += parseFloat(result.data[i].presupuesto);
                     //}
 
                     $scope.utilizadoTotal += parseFloat(result.data[i].utilizado);
                     $scope.saldoTotal += parseFloat(result.data[i].saldo);
-                    
+
                     if (result.data[i].saldo > 0) {
                         $scope.itemPresupuesto = { idPresupuesto: result.data[i].idPresupuesto, saldo: result.data[i].saldo, isChecked: false };
                         $scope.lstPresupuestos.push($scope.itemPresupuesto);
@@ -70,7 +70,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
 
                 $scope.margenUtilizado = (($scope.presupuestoTotal - $scope.utilizadoTotal) * 100) / $scope.presupuestoTotal;
                 $scope.margenTotal = (($scope.presupuestoTotal - $scope.saldoTotal) * 100) / $scope.presupuestoTotal;
-                globalFactory.filtrosTabla("dataTableCentroTrabajo", "CentroTrabajo");
+                globalFactory.filtrosTabla("dataTableCentroTrabajo", "CentroTrabajo", 5);
             } else {
                 alertFactory.info("No existe información con los criterios de búsqueda");
             }
@@ -123,6 +123,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
             //se llena la tabla de ordenes del centro de trabajo para el nuevo presupuesto
             presupuestoRepository.getOrdenesByCT($scope.selectedcTrabajo.idCentroTrabajo, $scope.userData.contratoOperacionSeleccionada).then(function(result){
                 $scope.OrdenesCT = result.data;
+                $scope.sumatoriaSeleccionado = 0;
                 $scope.totalOrdenesCT = 0;
 
                 $scope.OrdenesCT.forEach(function (item){
@@ -131,12 +132,14 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
 
             }, function (error){
                 $scope.OrdenesCT = [];
+                $scope.sumatoriaSeleccionado = 0;
                 $scope.totalOrdenesCT = 0;
                 $scope.presupuestoEspecial = 0;
                 alertFactory.info('Ocurrio un error al cargar las ordenes.');
             });
         }else{
             $scope.OrdenesCT = [];
+            $scope.sumatoriaSeleccionado = 0;
             $scope.totalOrdenesCT = 0;
             $scope.presupuestoEspecial = 0;
         }
@@ -173,6 +176,10 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         return result;
     }
 
+    $scope.updateSum = function(){
+        $scope.sumatoriaSeleccionado = $scope.sumaOrdenesAgregar();
+    }
+
     $scope.sumaOrdenesAgregar = function(){
         var result = 0;
 
@@ -187,6 +194,27 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         }
 
         return result;
+    }
+
+    $scope.verOrdenesPresupuesto = function(preSelected){
+          $scope.OrdenesPEspecial = [];
+          $scope.folioPE = preSelected.folioPresupuesto;
+          $scope.saldoPE = preSelected.saldo;
+          $scope.sumTotalOrdenesPE = 0;
+          $('.dataTableOrdenesPE').DataTable().destroy();
+          presupuestoRepository.getOrdenesByPE(preSelected.idPresupuesto, $scope.userData.contratoOperacionSeleccionada).then(function(result){
+                if (result.data.length > 0){
+                  $scope.OrdenesPEspecial = result.data;
+
+                  $scope.OrdenesPEspecial.forEach(function (item){
+                      $scope.sumTotalOrdenesPE += item.venta;
+                  });
+                  globalFactory.filtrosTabla("dataTableOrdenesPE", "Ordenes de Presupuesto Especial", 5);
+                  $('#OrdenesPEModal').appendTo('body').modal('show');
+                }
+          }, function(error){
+            alertFactory.error('Ocurrio un error al obtener las Ordenes del presupuesto especial seleccionado.');
+          });
     }
 
     // Guarda un nuevo presupuesto
@@ -268,7 +296,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
                     for (var i = 0; i < $scope.hojas.length; i++) {
                         $scope.precioOrdenHistorial += $scope.hojas[i].venta;
                     };
-                    globalFactory.filtrosTabla("dataTableHojas", "Hojas de Trabajo");
+                    globalFactory.filtrosTabla("dataTableHojas", "Hojas de Trabajo", 5);
                     $('#certificadosModal').appendTo('body').modal('show');
                 } else {
                     swal({
@@ -299,7 +327,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
                     for (var i = 0; i < $scope.pendientes.length; i++) {
                         $scope.precioOrdenDetalle += $scope.pendientes[i].venta;
                     };
-                    globalFactory.filtrosTabla("dataTablePendientes", "Ordenes Pendientes");
+                    globalFactory.filtrosTabla("dataTablePendientes", "Ordenes Pendientes", 5);
                     $('#ordenesModal').appendTo('body').modal('show');
 
                 } else {
