@@ -95,6 +95,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'administracionOrdenController'
         });
 
+        $routeProvider.when('/administracionmemorandum', {
+            templateUrl: 'AngularJS/Administracion/Templates/administracionMemorandum.html',
+            controller: 'administracionMemorandumController'
+        });
+
         $routeProvider.when('/administraciontaller', {
             templateUrl: 'AngularJS/Talleres/Templates/administracionTaller.html',
             controller: 'tallerController'
@@ -223,6 +228,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
           templateUrl: 'AngularJS/Reclamacion/Templates/evidenciaReclamacion.html',
           controller: 'historialReclamacionController'
         })
+
+        $routeProvider.when('/miCuenta', {
+            templateUrl: 'AngularJS/MiCuenta/Templates/miCuenta.html',
+            controller: 'miCuentaController'
+          })
 
 
         $locationProvider.html5Mode({

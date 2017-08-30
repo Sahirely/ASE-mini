@@ -133,29 +133,56 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <div class="radio radio-info radio-inline singLeft">
-                            <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                            <label for="utilidad1"> Orden </label>
-                        </div>
-                        <div class="radio radio-info radio-inline singLeft">
-                            <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                            <label for="utilidad2"> Unidad </label>
-                        </div>
-                        <div ng-hide="userData.idRol == 5 || busqueda == 2">
-                            <div class="form-group ">
-                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
-                                    ng-enter=" getDetalleUnidad(numeroEconomico)">
+                        <form class="form-horizontal" role="form">
+                            <div class="control-group">
+                                <div class="controls form-inline">
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                                        <label for="utilidad1"> Orden </label>
+                                    </div>
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                                        <label for="utilidad2"> Unidad </label>
+                                    </div>
+
+                                    <input ng-hide="userData.idRol == 5 || busqueda == 2" type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico"
+                                        class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
+                                        ng-enter=" getDetalleUnidad(numeroEconomico)">
+
+                                    <input ng-hide="userData.idRol == 5 || busqueda == 1" type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control"
+                                        autofocus typeahead="state for state in numOrdenes | filter:$viewValue" ng-enter="getDetalleOrden(numeroOrden)">
+
+
+                                    <button ng-hide="userData.idRol == 5" class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+
+
+                                    <!-- 
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                                        <label for="utilidad1"> Orden </label>
+                                    </div>
+                                    <div class="radio radio-info radio-inline">
+                                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                                        <label for="utilidad2"> Unidad </label>
+                                    </div>
+                                    <div ng-hide="userData.idRol == 5 || busqueda == 2">
+                                        <div class="form-group ">
+                                        <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
+                                            ng-enter=" getDetalleUnidad(numeroEconomico)">
+                                        </div>
+                                    </div> -->
+                                    <!-- <div ng-hide="userData.idRol == 5 || busqueda == 1">
+                                        <div class="form-group ">
+                                        <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue"
+                                            ng-enter="getDetalleOrden(numeroOrden)">
+                                        </div>
+                                    </div> -->
+                                    <!-- <div ng-hide="userData.idRol == 5">
+                                        <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+                                    </div> -->
+                                </div>
                             </div>
-                        </div>
-                        <div ng-hide="userData.idRol == 5 || busqueda == 1">
-                            <div class="form-group ">
-                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue"
-                                    ng-enter="getDetalleOrden(numeroOrden)">
-                            </div>
-                        </div>
-                        <div ng-hide="userData.idRol == 5">
-                            <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-                        </div>
+                        </form>
                     </li>
                     <li>
                         <div class="singOut right colorDetalle" ng-hide="busqueda == 2" ng-click="getDetalle(1)">
@@ -169,17 +196,16 @@
                     </li>
 
                     <li>
-                        <div class="singOut right">
-                            <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                                <span>  Rol - {{userData.Rol}}</span>
-                            </div>
-                            <div>
-                                <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
-                            </div>
+                        <div ng-hide="{{userData.idRol == 5}}">
+                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">{{userData.nombreOperacion}}
+                                    <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
+                            </ul>
                         </div>
-
                     </li>
-
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                                                         <i class="fa fa-bell"></i>  <span class="label label-primary">1</span>
@@ -187,17 +213,15 @@
                         <ul class="dropdown-menu dropdown-alerts">
                             <li>
                                 <a href="#">
-                                    <div style="color: red;">
-                                        <span class="fa fa-exclamation"></span>
+                                        <i class="fa fa-exclamation"></i>
                                         <i class="fa fa-envelope fa-fw"></i> Memorandum #060
                                         <span class="pull-right text-muted small">hace 2 hrs</span>
-                                    </div>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-envelope fa-fw"></i> Memorandum #059
+                                        <i class="fa fa-envelope-o fa-fw"></i> Memorandum #059
                                         <span class="pull-right text-muted small">hace 3 hrs</span>
                                     </div>
                                 </a>
@@ -205,7 +229,7 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-envelope fa-fw"></i> Memorandum #058
+                                        <i class="fa fa-envelope-o fa-fw"></i> Memorandum #058
                                         <span class="pull-right text-muted small">hace 1 día</span>
                                     </div>
                                 </a>
@@ -213,29 +237,45 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-envelope fa-fw"></i> Memorandum #057
+                                        <i class="fa fa-envelope-o fa-fw"></i> Memorandum #057
                                         <span class="pull-right text-muted small">hace 1 día</span>
                                     </div>
                                 </a>
                             </li>
+                            <li class="divider"></li>
+                            <li>
+                                <div class="text-center link-block">
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i> <strong>Mostrar todos los Memorandums</strong>
+                                    </a>
+                                </div>
+                            </li>
                         </ul>
                     </li>
                     <li>
-                        <div ng-hide="{{userData.idRol == 5}}">
-                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{userData.nombreOperacion}}
-                                <span class="caret"></span>
-                        </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li>
-                        <div data-toggle="tooltip" ng-click="logOut()" id="Close" title="Cerrar Sesión">
-                            <a href="/"> Cerrar Sesión
-                                        <i class="fa fa-sign-out" style="font-size: 22px;" ></i>
-                                    </a>
-                        </div>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear">
+                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Rol - {{userData.Rol}}</span></span>
+                                    <br>
+
+                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                                        Usuario - {{userData.nombreCompleto}}
+                                            <b class="caret"></b>
+                                        </span>
+                                    </span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="miCuenta">Mi Cuenta</a></li>
+                            <li class="divider"></li>
+                            <li><a href="/" ng-click="logOut()">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
+                                <!-- <div ng-click="logOut()" id="Close" title="Cerrar Sesión">
+                                    <a href="/" >Cerrar Sesión
+                                                            <i class="fa fa-sign-out"></i>
+                                                        </a>
+                                </div> -->
+                            </li>
+                        </ul>
+
                     </li>
 
                     <!-- <li>
@@ -408,6 +448,7 @@
     <script src="AngularJS/Presupuesto/Controllers/presupuestoController.js"></script>
     <script src="AngularJS/UploadFiles/Repositories/uploadRepository.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionOrdenController.js"></script>
+    <script src="AngularJS/Administracion/Controllers/administracionMemorandumController.js"></script>
     <script src="AngularJS/Talleres/Repositories/tallerRepository.js"></script>
     <script src="AngularJS/OrdenAnticipo/Repositories/ordenAnticipoRepository.js"></script>
     <script src="AngularJS/OrdenAnticipo/Controllers/ordenAnticipoController.js"></script>
@@ -461,6 +502,7 @@
     <script src="AngularJS/HomeCallCenter/Repositories/dashboardCallCenterRepository.js"></script>
     <script src="AngularJS/PreordenCotizacion/Controllers/preordenCotizacionController.js"></script>
     <script src="AngularJS/PreordenCotizacion/Repositories/preordenCotizacionRepository.js"></script>
+    <script src="AngularJS/MiCuenta/Repositories/miCuentaRepository.js"></script>
     <!-- Mainly scripts -->
     <script src="Libraries/js/metisMenu/jquery.metisMenu.js"></script>
     <script src="Libraries/js/slimscroll/jquery.slimscroll.min.js"></script>
