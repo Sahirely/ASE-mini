@@ -53,11 +53,15 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
             if (result.data.length > 0) {
                 $scope.dataPresupuestos = result.data;
                 for (var i = 0; i < result.data.length; i++) {
-                    $scope.presupuestoTotal += parseFloat(result.data[i].presupuesto);
+
+                    if(result.data[i].idEstatusPresupuesto == 1 ){
+                        $scope.presupuestoTotal += parseFloat(result.data[i].presupuesto);
+                    }
+
                     $scope.utilizadoTotal += parseFloat(result.data[i].utilizado);
                     $scope.saldoTotal += parseFloat(result.data[i].saldo);
-
-                    if ($scope.saldoTotal > 0) {
+                    
+                    if (result.data[i].saldo > 0) {
                         $scope.itemPresupuesto = { idPresupuesto: result.data[i].idPresupuesto, saldo: result.data[i].saldo, isChecked: false };
                         $scope.lstPresupuestos.push($scope.itemPresupuesto);
                     }
