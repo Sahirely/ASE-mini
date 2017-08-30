@@ -164,4 +164,9 @@
         }
 
 
+        $scope.redirectTo = function(numeroOrden) {            
+            location.href ='/detalle?orden='+numeroOrden
+        }
+
+
     });
