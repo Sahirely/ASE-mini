@@ -54,9 +54,9 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
                 $scope.dataPresupuestos = result.data;
                 for (var i = 0; i < result.data.length; i++) {
 
-                    if(result.data[i].idEstatusPresupuesto == 1 ){
+                    //if(result.data[i].idEstatusPresupuesto == 1 ){
                         $scope.presupuestoTotal += parseFloat(result.data[i].presupuesto);
-                    }
+                    //}
 
                     $scope.utilizadoTotal += parseFloat(result.data[i].utilizado);
                     $scope.saldoTotal += parseFloat(result.data[i].saldo);
