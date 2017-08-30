@@ -1,6 +1,6 @@
 <div ng-init="init()">
     <div class="headTitleTallerCita">
-        <span class="title">Certificados de Conformidad</span>
+        <span class="title">Hoja de Trabajo</span>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
@@ -90,8 +90,8 @@
                                 <th>Folio de Certificado</th>
                                 <th>Estatus de la Orden</th>
                                 <th>Fecha de Emisión</th>
-                                <th>OSUR</th>
-                                <th>Solpe</th>
+                                <th>Numero Presupuesto</th>
+                                <th ng-show="userData.idOperacion == 3">Solpe</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,7 +108,7 @@
                                 <td>{{orden.estatus}}</td>
                                 <td>{{orden.fechaTerminoTrabajo | date:'dd-MM-yyyy HH:mm': 'UTC'}}</td>
                                 <td>{{orden.folioPresupuesto}}</td>
-                                <td>{{orden.solpe}}</td>
+                                <td ng-show="userData.idOperacion == 3">{{orden.solpe}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -175,7 +175,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'reporteUtilidadController'
         });
 
-        $routeProvider.when('/reporteCertificadoConformidad', {
+        $routeProvider.when('/reporteHojaTrabajo', {
             templateUrl: 'AngularJS/Reporte/Templates/reporteCertificadoConformidad.html',
             controller: 'reporteCertificadoConformidadController'
         });
