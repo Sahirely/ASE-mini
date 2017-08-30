@@ -1,4 +1,5 @@
 <link href="../../css/inspinia/sweetalert/sweetalert.css" rel="stylesheet">
+<link rel="stylesheet" href="AngularJS/Presupuesto/Styles/presupuesto.css">
 <div ng-init="init()" >
 <div class="headTitleTallerCita">
     <span class="title">Administración de Presupuestos<span class="subtitle"></span></span>
@@ -16,17 +17,17 @@
                                 <div >
                                     <label class="col-sm-4 control-label">Centro de Trabajo</label>
                                     <div class="col-sm-8">
-                                        <select class="form-control m-b" name="ctrabajo" ng-model="selectedcTrabajo" ng-options="ctrabajo.nombreCentroTrabajo for ctrabajo in ctrabajos">
+                                        <select class="form-control m-b" name="ctrabajo" ng-model="selectedcTrabajo" ng-change="obtienePresupuesto()" ng-options="ctrabajo.nombreCentroTrabajo for ctrabajo in ctrabajos">
                                             <option value="">Seleccione un Centro de Trabajo</option>
                                         </select>
                                     </div>
                                 </div>
                             </form>
                         </div>
-                        <div class="col-md-1">
+                        <!-- <div class="col-md-1">
                                 <button tooltip="Buscar Presupuestos" id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="obtienePresupuesto()"><span class="glyphicon glyphicon-search"></span></button>
-                        </div>
-                        <div class="col-md-2 control-label">
+                        </div> -->
+                        <div class="col-md-3 control-label">
                             <div class="col-sm-2">
                                 <button class="btn btn-primary" ng-click="nuevoPresupuesto()" ng-hide="selectedcTrabajo.idCentroTrabajo == null"><i class="fa fa-check" >
                                 </i>&nbsp;Nuevo Presupuesto</button>
@@ -123,7 +124,7 @@
     </div>
 </div>
 <div class="modal inmodal lg" id="newPresupuestoModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog MyModalSize">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <h4 class="modal-title">Nuevo Presupuesto</h4>
@@ -157,7 +158,7 @@
                         <div class="col-sm-7">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="text" class="form-control" ng-model="fechaInicioPresupuesto">
+                                <input type="text" id="fIni" class="form-control" ng-model="fechaInicioPresupuesto">
                             </div>
                         </div>
                     </div>
@@ -166,12 +167,12 @@
                         <div class="col-sm-7">
                             <div class="input-group date">
                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input type="text" class="form-control" ng-model="fechaFinalPresupuesto">
+                                <input type="text" id="fFin" class="form-control" ng-model="fechaFinalPresupuesto">
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row" ng-show="userData.idOperacion == 3">
                         <label class="col-sm-2 control-label">Solpe</label>
                         <div class="col-sm-7">
                             <div class="m-b">
@@ -184,24 +185,59 @@
                     <div class="form-group row">
 
                         <table class="table table-bordered table-striped table-hover dataTableFondos">
-    <thead>
-        <tr>
-            <!-- <th>SaldoID</th> -->            
-            <th>Saldo</th>
-            <th>Traspasar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="item in lstPresupuestos">
-            <!-- <td>{{item.idPresupuesto}}</td> -->
-            <td>{{item.saldo | currency: "$"}}</td>
-            <td> <input type="checkbox" > </td>
-        </tr>
-    </tbody>
-</table>
+                            <thead>
+                                <tr>
+                                    <!-- <th>SaldoID</th> -->
+                                    <th>Saldo</th>
+                                    <th>Traspasar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in lstPresupuestos">
+                                    <!-- <td>{{item.idPresupuesto}}</td> -->
+                                    <td>{{item.saldo | currency: "$"}}</td>
+                                    <td> <input type="checkbox" > </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                       
-                                
+                    </div>
+
+                    <div class="row">
+                        <div>
+                            <button class="btn btn-primary pull-right" type="button" ng-click="changePresupuestoEspecial()">Presupuesto especial</button>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row form-group table-responsive" ng-show="presupuestoEspecial == 1">
+                        <table class="table table-bordered table-striped table-hover  dataTableOrdenesCT">
+                            <thead>
+                                <tr>
+                                    <th>Consecutivo</th>
+                                    <th>No Orden</th>
+                                    <th>Fecha Creación de Orden</th>
+                                    <th>Estatus</th>
+                                    <th>Descripción</th>
+                                    <th>Centro de Trabajo</th>
+                                    <th>Venta s/IVA</th>
+                                    <th>Total</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="orden in OrdenesCT">
+                                    <td>{{orden.consecutivoOrden}}</td>
+                                    <td>{{orden.numeroOrden}}</td>
+                                    <td>{{orden.fechaCreacionOrden | date:"dd-MM-yy HH:mm" : 'UTC'}}</td>
+                                    <td>{{orden.estatus}}</td>
+                                    <td>{{orden.comentario}}</td>
+                                    <td>{{orden.nombreCentroTrabajo}}</td>
+                                    <td>{{orden.venta | currency: "$"}}</td>
+                                    <td>{{totalOrdenesCT | currency: "$"}}</td>
+                                    <td><input type="checkbox" ng-model="orden.agregar"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                     <!--<table class="table table-bordered table-striped table-hover dataTablePresupuestos" ng-show="sumaOsur.length>0">
@@ -247,7 +283,7 @@
     </div>
 </div>
 
-<div class="modal inmodal" id="fondosOsurModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="fondosOsurModal" tabindex="-1" role="dialog" aria-hidden="true" >
     <div class="modal-dialog">
         <div class="modal-content animated flipInY">
             <div class="modal-header">
