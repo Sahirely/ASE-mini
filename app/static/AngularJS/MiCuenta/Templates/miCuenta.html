@@ -1,42 +1,211 @@
 <div ng-init="init()">
-    <div class="headTitleTallerCita">
-        <span class="title title-xs"> Mi Cuenta</span>
-    </div>
-    <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-lg-9">
-                <div class="ibox float-e-margins">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="wrapper wrapper-content animated fadeInUp">
+                <div class="ibox">
                     <div class="ibox-content">
-                        <div class="payment-card">
-                            <div class="row">
-                                <div class="col-xs-6 col-md-12 col-sm-6 col-lg-6">
-                                    <p>
-                                        <label>USUARIO:</label>
-                                        <span>EDWIN.CRUZ</span>
-                                        <!-- <i class="fa fa-check"></i> -->
-                                    </p>
-                                    <p>
-                                        <label>NOMBRE</label>
-                                        <span>EDWIN CRUZ GARCIA</span>
-                                    </p>
-                                    <p>
-                                        <label>ROL</label>
-                                        <span>ADMINISTRADOR</span>
-                                    </p>
-                                    <p>
-                                        <label>SUCURSAL</label>
-                                        <span>BAJÍO</span>
-                                    </p>
-                                    <p>
-                                        <label>UNIDAD OPERATIVA</label>
-                                        <span>QUERETARO/GUANAJUATO</span>
-                                    </p>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="m-b-md">
+                                    <a href="#" class="btn btn-primary btn-xs pull-right">Cambiar Password</a>
                                 </div>
-                                <div class="widget">
-                                    <div class="row vertical-align">
-                                        <div class="col-xs-12 text-right">
-                                            <button type="button" class="btn btn-primary">CAMBIAR PASSWORD</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="text-center">
+                                    <div>
+                                        <div class="ibox-content profile-content">
+                                            <span class="fa fa-user" style="font-size:54px;"></span>
+                                            <p>Edwin Cruz García</p>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-7" id="cluster_info">
+                                <dl class="dl-horizontal">
+                                    <dt>Rol:</dt>
+                                    <dd> Administrador</dd>
+                                    <dt>Usuario:</dt>
+                                    <dd>EDWIN.CRUZ</dd>
+                                    <dt>Ultimo inicio de sesión:</dt>
+                                    <dd>30/08/2017 12:38:05</dd>
+                                    <dt>Empresa:</dt>
+                                    <dd>Diconsa</dd>
+                                    <dt>Telefono:</dt>
+                                    <dd>5555-5555</dd>
+                                    <dt>Extensión:</dt>
+                                    <dd>555</dd>
+                                    <dt>Email:</dt>
+                                    <dd>edwin.cruz@grupoandrade.com.mx</dd>
+                                </dl>
+                            </div>
+                        </div>
+
+                        <div class="row m-t-sm">
+                            <div class="col-lg-12">
+                                <div class="panel blank-panel">
+                                    <div class="panel-heading">
+                                        <div class="panel-options">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#tab-1" target="_self" data-toggle="tab">Memorandums</a></li>
+                                                <li class=""><a href="#tab-2" target="_self" data-toggle="tab">Tickets</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="tab-1">
+                                                <div class="feed-activity-list">
+                                                    <div class="feed-element">
+                                                        <span class="fa fa-user pull-left"></span>
+                                                        <div class="media-body ">
+                                                            <small class="pull-right">Hace 2 hrs.</small>
+                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #060</strong>.
+                                                            <br>
+                                                            <small class="text-muted">Hace 2 hrs. 30/08/2017 10:05 am</small>
+                                                            <div class="well">
+                                                                Se requiere verificar el documento con las Normas de Calidad debido a que se han tenido problemas muy serios con los Talleres.
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <div class="file-box">
+                                                                            <div class="file">
+                                                                                <a href="https://checkout.lemonde.fr/glm_onestepcheckout/onestep/downloadPdf/" target="_blank">
+                                                                                            <span class="corner"></span>                                                    
+                                                                                            <div class="icon">
+                                                                                                <i class="fa fa-file-pdf-o"></i>
+                                                                                            </div>
+                                                                                            <div class="file-name">
+                                                                                                AdjuntoPDF.pdf
+                                                                                            </div>
+                                                                                        </a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="file-box">
+                                                                            <div class="file">
+                                                                                <a href="https://images.template.net/wp-content/uploads/2016/04/27133256/Sample-Blank-Memo-Template-Free-Download.jpg" target="_blank">
+                                                                                                <span class="corner"></span>                                                    
+                                                                                                <div class="icon">
+                                                                                                    <i class="fa fa-file-image-o"></i>
+                                                                                                </div>
+                                                                                                <div class="file-name">
+                                                                                                    AdjuntoIMG.jpg
+                                                                                                    <br/>
+                                                                                                    <small>Added: Jan 11, 2014</small>
+                                                                                                </div>
+                                                                                            </a>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="feed-element">
+                                                        <span class="fa fa-user pull-left"></span>
+                                                        <div class="media-body ">
+                                                            <small class="pull-right">Hace 2 hrs.</small>
+                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #059</strong>.
+                                                            <br>
+                                                            <small class="text-muted">Hace 2 hrs. 30/08/2017 10:05 am</small>
+                                                            <div class="well">
+                                                                Se requiere verificar el documento con las Normas de Calidad debido a que se han tenido problemas muy serios con los Talleres.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="feed-element">
+                                                        <span class="fa fa-user pull-left"></span>
+                                                        <div class="media-body ">
+                                                            <small class="pull-right">Hace 2 hrs.</small>
+                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #058</strong>.
+                                                            <br>
+                                                            <small class="text-muted">Hace 1 dia. 29/08/2017 10:05 am</small>
+                                                            <div class="well">
+                                                                Se requiere verificar el documento con las Normas de Calidad debido a que se han tenido problemas muy serios con los Talleres.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="tab-pane" id="tab-2">
+
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <div class="ibox">
+                                                            <div class="ibox-title">
+                                                                <h5>Lista de Tickets</h5>
+                                                            </div>
+                                                            <div class="ibox-content">
+                                                                <div class="m-b-lg">
+
+                                                                    <div class="input-group">
+                                                                        <input type="text" placeholder="Buscar ticket por # Folio" class=" form-control">
+                                                                        <span class="input-group-btn">
+                                                                                                                    <button type="button" class="btn btn-white"> Buscar</button>
+                                                                                                                </span>
+                                                                    </div>
+                                                                    <div class="m-t-md">
+                                                                        <strong>3 tickets encontrados.</strong>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Estatus</th>
+                                                                                <th>Asunto</th>
+                                                                                <th>Fecha Inicio</th>
+                                                                                <th>Fecha Fin</th>
+                                                                                <th>Observaciones</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td><span class="label label-primary"><i class="fa fa-check"></i> Completado</span></td>
+                                                                                <td>Error</td>
+                                                                                <td>30/08/2017 10:05:01 a.m.</td>
+                                                                                <td>30/08/2017 12:05:01 p.m.</td>
+                                                                                <td>
+                                                                                    <p class="small">Error al dar de alta unidades.</p>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><span class="label label-default"><i class="fa fa-check"></i> Enviado</span></td>
+                                                                                <td>Error</td>
+                                                                                <td>30/08/2017 10:05:01 a.m.</td>
+                                                                                <td>En curso</td>
+                                                                                <td>
+                                                                                    <p class="small">Error al modificar proveedor.</p>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td><span class="label label-default"><i class="fa fa-check"></i> Revisado</span></td>
+                                                                                <td>Bug</td>
+                                                                                <td>30/08/2017 10:05:01 a.m.</td>
+                                                                                <td>En Curso</td>
+                                                                                <td>
+                                                                                    <p class="small">Error al generar facturas.</p>
+                                                                                </td>
+                                                                            </tr>
+
+
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -45,72 +214,28 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <h5>Memorandum</h5>
-                        <div class="ibox-tools">
-                            <span class="label label-warning-light pull-right">10 Messages</span>
-                        </div>
-                    </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="wrapper wrapper-content project-manager">
+                <h4>Nuevo Ticket</h4>
+                <div class="ibox" style="border-left: 1px solid #d4d4d4">
                     <div class="ibox-content">
+                        <p class="small">
+                            Utiliza esta opción para generar un nuevo ticket.
+                        </p>
 
-                        <div>
-                            <div class="feed-activity-list">
-
-                                <div class="feed-element">
-                                    <div class="media-body ">
-                                        <small class="pull-right">Hace 2 hrs</small>
-                                        <strong>Administrador</strong> publicó nuevo Memorandum. <strong>Folio: #060</strong>                                        <br>
-                                        <small class="text-muted">Hoy a las 10:06 a.m.</small>
-                                        <div class="actions">
-                                            <a class="btn btn-xs btn-white"> Ir al Memorandum</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="feed-element">
-                                    <div class="media-body ">
-                                        <small class="pull-right">Hace 3 hrs</small>
-                                        <strong>Administrador</strong> publicó nuevo Memorandum. <strong>Folio: #059</strong>                                        <br>
-                                        <small class="text-muted">Hoy a las 08:06 a.m.</small>
-                                        <div class="actions">
-                                            <a class="btn btn-xs btn-white"> Ir al Memorandum</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="feed-element">
-                                    <div class="media-body ">
-                                        <small class="pull-right">Hace 1 día</small>
-                                        <strong>Administrador</strong> publicó nuevo Memorandum. <strong>Folio: #058</strong>                                        <br>
-                                        <small class="text-muted">Ayer a las 10:06 a.m.</small>
-                                        <div class="actions">
-                                            <a class="btn btn-xs btn-white"> Ir al Memorandum</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="feed-element">
-                                    <div class="media-body ">
-                                        <small class="pull-right">Hace 1 día</small>
-                                        <strong>Administrador</strong> publicó nuevo Memorandum. <strong>Folio: #057</strong>                                        <br>
-                                        <small class="text-muted">Ayer a las 10:06 a.m.</small>
-                                        <div class="actions">
-                                            <a class="btn btn-xs btn-white"> Ir al Memorandum</a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <button class="btn btn-primary btn-block m-t"><i class="fa fa-arrow-down"></i> Mostrar Todos</button>
-
+                        <div class="form-group">
+                            <label>Asunto</label>
+                            <input type="email" class="form-control" placeholder="Introduce el asunto">
                         </div>
+                        <div class="form-group">
+                            <label>Mensaje</label>
+                            <textarea class="form-control" placeholder="Introduce el mensaje" rows="15"></textarea>
+                        </div>
+                        <button class="btn btn-success btn-block">Enviar</button>
 
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
