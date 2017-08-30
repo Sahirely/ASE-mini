@@ -1713,28 +1713,16 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.cancelarOrden = function() {
-        if ($scope.userData.idRol !== 2) {
-            detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
-                    swal("Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio.");
-                    //location.href = '/consultaCitas';
-                },
-                function(error) {
-                    alertFactory.error('No se pudo realizar la pre-cancelación, intentelo más tarde.');
-                }
-            );
-        } else {
-            detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
-                    if (result.success) {
-                        swal("Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.");
-                        //location.href = '/consultaCitas';
-                    }
+        PreCancelationProcess($scope.userData.idRol);
+    };
 
-                },
-                function(error) {
-                    alertFactory.error('No se pudo cancelar la cotización, inténtelo más tarde.');
-                });
-        }
-
+    function PreCancelationProcess(rol) {
+        var messageSuccess = (rol !== 2) ? "Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio." : "Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.";
+        detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
+            swal(messageSuccess);
+        }, function(error) {
+            alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde');
+        })
     };
 
     /*  $scope.validaFacturaCotizacion = function() {
