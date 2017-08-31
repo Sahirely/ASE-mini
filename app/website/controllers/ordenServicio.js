@@ -427,6 +427,20 @@ OrdenServicio.prototype.post_cancelarOrden = function(req, res, next) {
         self.view.expositor(res, object);
     });
 }
+OrdenServicio.prototype.post_postDeleteOrderCancel = function(req, res, next) {
+    var object = {};
+    self = this;
+    var params = [{
+        name: 'idOrden',
+        value: req.body.idOrden,
+        type: self.model.types.INT
+    }];
+    this.model.post('DEL_PRE_CANCELA_ORDEN_SP', params, function(error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
 
 OrdenServicio.prototype.post_agregarEvidencias = function(req, res, next) {
     //Objeto que almacena la respuesta

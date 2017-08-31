@@ -1730,7 +1730,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 });
         }, function(error) {
             alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde');
-        })
+        });
     };
 
     /*  $scope.validaFacturaCotizacion = function() {
