@@ -5484,6 +5484,9 @@ body.mini-navbar.fixed-sidebar .logo-element {
 /* INVOICE */
 
 .invoice-table tbody > tr > td:last-child,
+.invoice-table tbody > tr > td:nth-child(7),
+.invoice-table tbody > tr > td:nth-child(6),
+.invoice-table tbody > tr > td:nth-child(5),
 .invoice-table tbody > tr > td:nth-child(4),
 .invoice-table tbody > tr > td:nth-child(3),
 .invoice-table tbody > tr > td:nth-child(2) {
@@ -5491,6 +5494,9 @@ body.mini-navbar.fixed-sidebar .logo-element {
 }
 
 .invoice-table thead > tr > th:last-child,
+.invoice-table thead > tr > th:nth-child(7),
+.invoice-table thead > tr > th:nth-child(6),
+.invoice-table thead > tr > th:nth-child(5),
 .invoice-table thead > tr > th:nth-child(4),
 .invoice-table thead > tr > th:nth-child(3),
 .invoice-table thead > tr > th:nth-child(2) {

@@ -10,10 +10,7 @@
     <meta name="author" content="name" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Libreria de Google Fonts -->
-    <!--link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900italic' rel='stylesheet' type='text/css'-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
-
-
     <!--Hojas de estilos-->
     <link href="AngularJS/Main/Styles/main.css" rel="stylesheet" type="text/css">
     <link href="Libraries/css/bootstrap.css" rel="stylesheet" />
@@ -22,6 +19,7 @@
     <link href="Libraries/css/angular-busy.css" rel="stylesheet" />
     <!--Menú INSPINIA-->
     <link href="Libraries/css/font-awesome.css" rel="stylesheet">
+    <link href="Libraries/css/header.css" rel="stylesheet">
     <!--Inspinia Elements-->
     <link href="Libraries/css/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <link href="Libraries/css/blueimp/blueimp-gallery.min.css" rel="stylesheet">
@@ -40,6 +38,8 @@
     <link href="Libraries/css/iCheck/custom.css" rel="stylesheet" rel="stylesheet">
     <!-- Cambio estilo menu -->
     <link href="AngularJS/Menu/Styles/menu.css" rel="stylesheet">
+    <!-- LIghtBox -->
+    <link href="Libraries/js/lightbox/src/css/lightbox.css" rel="stylesheet">
 </head>
 
 <body ng-app="registrationModule" ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
@@ -61,11 +61,12 @@
                 <li ng-class="{'active': modulo=='Configurador'}" ng-show="userData.idRol == 5">
                     <a href="configurador"><i class="glyphicon glyphicon-cog" data-toggle="tooltip" tooltip="Configurador" tooltip-placement="right"></i> <span class="nav-label">Configurador</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='home'}" ng-hide="{{userData.idRol == 5 || userData.idRol == 3}}">
-                    <a href="dashboardgeneral"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Home</span></a>
+                <li class="homelink" ng-class="{'active': modulo=='home'}" ng-hide="{{userData.idRol == 5 || userData.idRol == 3}}" tooltip="Inicio"
+                    tooltip-placement="right">
+                    <a href="dashboardgeneral" class="homelink"><i class="glyphicon glyphicon-home casita" data-toggle="tooltip"></i> <span class="nav-label">Inicio</span></a>
                 </li>
-                <li class="active" ng-show="userData.idRol == 3">
-                    <a href="dashboardCallCenter"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Home</span></a>
+                <li class="active homelink" ng-show="userData.idRol == 3">
+                    <a href="dashboardCallCenter" class="homelink"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Inicio</span></a>
                 </li>
                 <li ng-class="{'active': modulo=='consultaCitas'}" ng-show="{{userData.idRol != 5}}">
                     <a href="consultaCitas" ng-click="showChat = 0"><i class="fa fa-money" data-toggle="tooltip" tooltip="Consulta de Citas" tooltip-placement="right"></i> <span class="nav-label">Consulta de Citas</span></a>
@@ -134,78 +135,55 @@
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
-                <ul class="nav navbar-top-links navbar-right">
-                    <li>
-                        <form class="form-horizontal" role="form">
-                            <div class="control-group">
-                                <div class="controls form-inline">
-                                    <div class="radio radio-info radio-inline">
-                                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                                        <label for="utilidad1"> Orden </label>
-                                    </div>
-                                    <div class="radio radio-info radio-inline">
-                                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                                        <label for="utilidad2"> Unidad </label>
-                                    </div>
-
-                                    <input ng-hide="userData.idRol == 5 || busqueda == 2" type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue" ng-enter=" getDetalleUnidad(numeroEconomico)">
-
-                                    <input ng-hide="userData.idRol == 5 || busqueda == 1" type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue" ng-enter="getDetalleOrden(numeroOrden)">
-
-
-                                    <button ng-hide="userData.idRol == 5" class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-
-
-                                    <!-- 
-                                    <div class="radio radio-info radio-inline">
-                                        <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                                        <label for="utilidad1"> Orden </label>
-                                    </div>
-                                    <div class="radio radio-info radio-inline">
-                                        <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                                        <label for="utilidad2"> Unidad </label>
-                                    </div>
-                                    <div ng-hide="userData.idRol == 5 || busqueda == 2">
-                                        <div class="form-group ">
-                                        <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
-                                            ng-enter=" getDetalleUnidad(numeroEconomico)">
-                                        </div>
-                                    </div> -->
-                                    <!-- <div ng-hide="userData.idRol == 5 || busqueda == 1">
-                                        <div class="form-group ">
-                                        <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue"
-                                            ng-enter="getDetalleOrden(numeroOrden)">
-                                        </div>
-                                    </div> -->
-                                    <!-- <div ng-hide="userData.idRol == 5">
-                                        <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
-                                    </div> -->
-                                </div>
+                <ul class="nav navbar-top-links navbar-right navMain">
+                    <li id="finder">
+                        <div class="radio radio-info radio-inline singLeft inlineb">
+                            <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                            <label for="utilidad1"> Orden </label>
+                        </div>
+                        <div id="chkUnidad" class="radio radio-info radio-inline singLeft">
+                            <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
+                            <label for="utilidad2"> Unidad </label>
+                        </div>
+                        <div class="txtFinder" ng-hide="userData.idRol == 5 || busqueda == 2">
+                            <div class="form-group ">
+                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
+                                    ng-enter=" getDetalleUnidad(numeroEconomico)">
                             </div>
-                        </form>
+                        </div>
+                        <div class="txtFinder" ng-hide="userData.idRol == 5 || busqueda == 1">
+                            <div class="form-group ">
+                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue"
+                                    ng-enter="getDetalleOrden(numeroOrden)">
+                            </div>
+                        </div>
+                        <div class="inlineb" ng-hide="userData.idRol == 5">
+                            <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
+                        </div>
                     </li>
-                    <li>
+                    <li id="currentSearch">
                         <div class="singOut right colorDetalle" ng-hide="busqueda == 2" ng-click="getDetalle(1)">
-                            <div class="fa fa-car"> Unidad :</div>
-                            <div>{{busquedaNumEco}}</div>
+                            <div class="fa fa-car car"></div>
+                            <div class="lastSearch">{{busquedaNumEco}}</div>
                         </div>
                         <div class="singOut right colorDetalle" ng-hide="busqueda == 1" ng-click="getDetalle(2)">
-                            <div class="fa fa-edit"> Orden :</div>
-                            <div> {{busquedaNumOrden}}</div>
+                            <div class="fa fa-edit car"></div>
+                            <div class="lastSearch"> {{busquedaNumOrden}}</div>
                         </div>
                     </li>
 
-                    <li>
-                        <div ng-hide="{{userData.idRol == 5}}">
-                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{userData.nombreOperacion}}
-                                    <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
-                            </ul>
+                    <li id="rols">
+                        <div class="singOut right">
+                            <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                                <span> {{userData.Rol}}</span>
+                            </div>
+                            <!-- <div>
+                                <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
+                            </div> -->
                         </div>
                     </li>
-                    <li class="dropdown">
+
+                    <li class="dropdown" id="memos">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
                             <i class="fa fa-bell"></i> <span class="label label-primary">1</span>
                         </a>
@@ -251,14 +229,22 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li id="switcher">
+                        <div ng-hide="{{userData.idRol == 5}}">
+                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown">{{userData.nombreOperacion}}
+                                <span class="caret"></span>
+                        </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li id="account">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Rol - {{userData.Rol}}</span></span>
-                            <br>
-
-                            <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                                        Usuario - {{userData.nombreCompleto}}
+                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                                        {{userData.nombreCompleto}}
                                             <b class="caret"></b>
                                         </span>
                             </span>
@@ -274,7 +260,6 @@
                                 </div> -->
                             </li>
                         </ul>
-
                     </li>
 
                     <!-- <li>
@@ -412,6 +397,12 @@
     <!--icheck-->
     <script src="Libraries/js/iCheck/icheck.min.js"></script>
 
+    <!-- LIghtBox -->
+    <script src="Libraries/js/lightbox/src/js/lightbox.js"></script>
+
+
+
+
     <!-- Filter -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-filter/0.4.7/angular-filter.js"></script>
 
@@ -535,8 +526,19 @@
 
     <!-- angular-goole-maps -->
     <script src="Libraries/js/mapa/angular-google-maps.min.js?v=1.2.2"></script>
+<<<<<<< Updated upstream
     <script src="Libraries/js/mapa/lodash.underscore.min.js?v=2.4.1"></script>
+<<<<<<< Updated upstream
 
+=======
+    
+=======
+
+    <!-- slick carousel-->
+    <script src="Libraries/js/slick/slick.min.js"></script>
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQTpXj82d8UpCi97wzo_nKXL7nYrd4G70"></script> -->
 </body>
 

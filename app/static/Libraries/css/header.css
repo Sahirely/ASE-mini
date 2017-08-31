@@ -1,0 +1,86 @@
+#finder{
+    position: absolute;
+    left: 0;
+    width: 330px;
+    margin-left: 100px;
+}
+
+.inlineb{
+    display: inline-block;
+}
+
+#chkUnidad{
+    display: inline-block;
+    margin-left: 28px;
+}
+
+.txtFinder{
+    display: inline-block;
+    width: 160px;
+    margin-left: 15px;
+    margin-top: 14px;
+}
+
+.navMain{
+    height: 60px;
+}
+
+#currentSearch{
+    position: absolute;
+    left: 0;
+    margin-left: 450px;
+    margin-top: -3px;
+}
+
+.car{
+    display: inline-block;
+    font-size: 20px;
+    color: gray;
+}
+
+.lastSearch{
+    display: inline-block;
+    font-size: 19px;
+    font-weight: 400;
+    color: gray;
+    margin-left: 6px;
+}
+
+#account{
+    margin-right: -5px;
+    margin-top: 18px;
+    position: absolute;
+    right: 0;
+}
+
+#switcher{
+    position: absolute;
+    right: 0;
+    margin-top: 57px;
+    color: gray;
+}
+
+#memos{
+    position: absolute;
+    right: 0;
+    margin-right: 145px;
+    margin-top: 5px;
+}
+
+#rols{
+    position: absolute;
+    right: 0;
+    margin-right: 200px;
+    padding-bottom: 9px;
+    color: white;
+}
+
+.homelink{
+    height: 61px;
+}
+
+.casita{
+    font-size: 20px;
+    margin-top: 4px;
+    margin-left: -5px;
+}
