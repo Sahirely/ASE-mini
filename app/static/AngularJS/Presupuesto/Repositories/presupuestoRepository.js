@@ -24,6 +24,16 @@ registrationModule.factory('presupuestoRepository', function($http) {
                 }
             });
         },
+        getTraspasos: function(idPresupuestoDestino) {
+            return $http({
+                url: presupuestoUrl + 'traspasos',
+                method: "GET",
+                params: {idPresupuestoDestino:idPresupuestoDestino},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         insOrdenPresupuestoEspecial: function (idOrden, idPresupuesto, idUsuario){
             return $http({
                 url: presupuestoUrl + 'insOrdenPresupuestoEspecial',

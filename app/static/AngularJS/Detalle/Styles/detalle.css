@@ -713,4 +713,60 @@ a.documentos:hover{
     
 }
 
+.idOperacion{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 100px;
+    margin-right: 70px;
+}
+
+#logoImg{
+    width: 150px;
+}
+
 /* FIN NUEVO DISEÑO DE TIMELINE */
+
+/* FICHA tËCNICA */
+#imageCARContent{
+    text-align: center;
+}
+
+#imageCAR{
+    width: 200px;
+    display: inline-block;
+}
+
+#expContent{
+    height: 270px;
+    overflow-y: auto;
+    border-bottom: 2px dashed rgba(128, 128, 128, 0.55);
+}
+
+.slimCol{
+    width: 60px !important;
+}
+
+.fotoPartida{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+}
+
+.instPartida{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+    margin-right: -35px;
+}
+
+.tdDesc{
+    position: relative;
+    padding-right: 40px !important;
+}
+
+.lblEsp{
+    font-size: 10px;
+}

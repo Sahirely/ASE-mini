@@ -340,10 +340,15 @@ body {
 }
 
 .colorDetalle{
-    color: #0E4579;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
+    
+    padding-bottom: 17px;
+}
+
+.colorDetalle:hover{
+    background-color: #d6d6d6;
 }
 
 .dataTableAprobacionProvision tr{
