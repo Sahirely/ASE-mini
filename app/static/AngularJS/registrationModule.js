@@ -6,8 +6,9 @@
 // -- Fecha:
 // -- =============================================
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
-        "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch","thatisuday.dropzone","nsPopover"])
-    .config(function ($routeProvider, $locationProvider) {
+        "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover"
+    ])
+    .config(function($routeProvider, $locationProvider) {
 
         /*change the routes*/
         $routeProvider.when('/', {
@@ -110,12 +111,12 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'ordenAnticipoController'
         });
 
-         $routeProvider.when('/aprobacionutilidad', {
+        $routeProvider.when('/aprobacionutilidad', {
             templateUrl: 'AngularJS/Aprobacion/Templates/aprobacionutilidad.html',
             controller: 'aprobacionutilidadController'
         });
 
-         $routeProvider.when('/Tutorial', {
+        $routeProvider.when('/Tutorial', {
             templateUrl: 'AngularJS/Tutorial/Templates/tutorial.html',
             controller: 'tutorialController'
         });
@@ -130,14 +131,14 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'dashBoardController'
         });
 
-       $routeProvider.when('/dashboardCallCenter',{
-          templateUrl: 'AngularJS/HomeCallCenter/Templates/dashboardCallCenter.html',
-          controller: 'dashboardCallCenterController'
+        $routeProvider.when('/dashboardCallCenter', {
+            templateUrl: 'AngularJS/HomeCallCenter/Templates/dashboardCallCenter.html',
+            controller: 'dashboardCallCenterController'
         });
 
-        $routeProvider.when('/reporteparquevehicular',{
-          templateUrl: 'AngularJS/Reporte/Templates/reporteParqueVehicular.html',
-          controller: 'reporteParqueVehicularController'
+        $routeProvider.when('/reporteparquevehicular', {
+            templateUrl: 'AngularJS/Reporte/Templates/reporteParqueVehicular.html',
+            controller: 'reporteParqueVehicularController'
         });
 
         $routeProvider.when('/reportecita', {
@@ -194,7 +195,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/BusquedaUnidad/Templates/busquedaUnidad.html',
             controller: 'busquedaUnidadController'
         });
-         $routeProvider.when('/editarCotizacion', {
+        $routeProvider.when('/editarCotizacion', {
             templateUrl: 'AngularJS/ConsultaCitas/Templates/editalcotizacion.html',
             controller: 'editarCotizacionController'
         });
@@ -205,25 +206,29 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
 
         $routeProvider.when('/reporteReclamacion', {
-          templateUrl: 'AngularJS/Reclamacion/Templates/reporteReclamacion.html',
-          controller: 'reporteReclamacionController'
+            templateUrl: 'AngularJS/Reclamacion/Templates/reporteReclamacion.html',
+            controller: 'reporteReclamacionController'
         })
 
         $routeProvider.when('/resumenReclamacion', {
-          templateUrl: 'AngularJS/Reclamacion/Templates/resumenReclamacion.html',
-          controller: 'resumenReclamacionController'
+            templateUrl: 'AngularJS/Reclamacion/Templates/resumenReclamacion.html',
+            controller: 'resumenReclamacionController'
         })
 
         $routeProvider.when('/historialReclamacion', {
-          templateUrl: 'AngularJS/Reclamacion/Templates/historialReclamacion.html',
-          controller: 'historialReclamacionController'
+            templateUrl: 'AngularJS/Reclamacion/Templates/historialReclamacion.html',
+            controller: 'historialReclamacionController'
         })
 
         $routeProvider.when('/evidenciaReclamacion', {
-          templateUrl: 'AngularJS/Reclamacion/Templates/evidenciaReclamacion.html',
-          controller: 'historialReclamacionController'
+            templateUrl: 'AngularJS/Reclamacion/Templates/evidenciaReclamacion.html',
+            controller: 'historialReclamacionController'
         })
 
+        $routeProvider.when('/preCancelaciones', {
+            templateUrl: 'AngularJS/Precancelaciones/Templates/Precancelaciones.html',
+            controller: 'preCancelacionesController'
+        })
 
         $locationProvider.html5Mode({
             enabled: true,
@@ -231,13 +236,13 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
     });
 
-registrationModule.directive('resize', function ($window) {
-    return function (scope, element) {
+registrationModule.directive('resize', function($window) {
+    return function(scope, element) {
         var w = angular.element($window);
-        var changeHeight = function () {
+        var changeHeight = function() {
             element.css('height', (w.height() - 20) + 'px');
         };
-        w.bind('resize', function () {
+        w.bind('resize', function() {
             changeHeight(); // when window size gets changed
         });
         changeHeight(); // when page loads
@@ -250,21 +255,21 @@ registrationModule.run(function($rootScope, userFactory, loginRepository) {
     $rootScope.vIpServer = global_settings.urlCORS;
     $rootScope.docServer = global_settings.urlDOCS;
     var lastDigestRun = new Date();
-    loginRepository.getTiempoInactividad().then(function (result){
-        var  minutos = result.data;
+    loginRepository.getTiempoInactividad().then(function(result) {
+        var minutos = result.data;
         $rootScope.$watch(function detectIdle() {
             var now = new Date();
             if (now - lastDigestRun > (minutos * 1000 * 60)) {
-               userFactory.logOut();
+                userFactory.logOut();
             }
             lastDigestRun = now;
         });
     });
 });
 
-registrationModule.directive('viewportWidth', function () {
+registrationModule.directive('viewportWidth', function() {
     return {
-        link: function (scope, elm, attrs) {
+        link: function(scope, elm, attrs) {
             function getViewport() {
                 var e = window,
                     a = 'inner';

@@ -1719,7 +1719,15 @@ registrationModule.controller('detalleController', function($scope, $location, $
     function PreCancelationProcess(rol) {
         var messageSuccess = (rol !== 2) ? "Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio." : "Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.";
         detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
-            swal(messageSuccess);
+            swal({
+                    title: "Pre-cancelación",
+                    text: messageSuccess,
+                    type: 'success',
+                    showCancelButton: false
+                },
+                function() {
+                    location.href = '/consultaCitas';
+                });
         }, function(error) {
             alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde');
         })

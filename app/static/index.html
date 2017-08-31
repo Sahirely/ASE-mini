@@ -121,6 +121,9 @@
                 <li ng-show="userData.verificacionVehicular == 1">
                     <a ng-click="catalogoUnidad()"><i class="fa fa-car" aria-hidden="true"></i> <span class="nav-label">Unidades </span></a>
                 </li>
+                <li ng-show="{{userData.idRol == 2}}">
+                    <a href="preCancelaciones" ng-click="showChat = 0"><i class="glyphicon glyphicon-remove" data-toggle="tooltip" tooltip="PreCancelaciones de Ordenes" tooltip-placement="right"></i> <span class="nav-label">Cancelaciones de Ordenes</span></a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -143,14 +146,12 @@
                         </div>
                         <div ng-hide="userData.idRol == 5 || busqueda == 2">
                             <div class="form-group ">
-                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
-                                    ng-enter=" getDetalleUnidad(numeroEconomico)">
+                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue" ng-enter=" getDetalleUnidad(numeroEconomico)">
                             </div>
                         </div>
                         <div ng-hide="userData.idRol == 5 || busqueda == 1">
                             <div class="form-group ">
-                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue"
-                                    ng-enter="getDetalleOrden(numeroOrden)">
+                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue" ng-enter="getDetalleOrden(numeroOrden)">
                             </div>
                         </div>
                         <div ng-hide="userData.idRol == 5">
@@ -182,8 +183,8 @@
 
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                                                        <i class="fa fa-bell"></i>  <span class="label label-primary">1</span>
-                                                    </a>
+                            <i class="fa fa-bell"></i> <span class="label label-primary">1</span>
+                        </a>
                         <ul class="dropdown-menu dropdown-alerts">
                             <li>
                                 <a href="#">
