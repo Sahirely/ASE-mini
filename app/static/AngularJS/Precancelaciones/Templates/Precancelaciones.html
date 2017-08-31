@@ -83,7 +83,7 @@
                 <br/>
                 <div class="table-responsive">
                     <br/>
-                    <table class="table table-bordered table-hover dataTableOrdenes" cg-busy="{promise:promise,message:message}">
+                    <table class="table table-bordered table-hover dataTableOrdenes">
                         <thead>
                             <tr>
                                 <th>Cliente</th>
@@ -111,11 +111,11 @@
                                 <td>{{ordenesCanceladas.nombreTipoDeServicio}}</td>
                                 <td>{{ordenesCanceladas.fechaCreacionOrden| date:'dd/MM/yyyy hh:mm'}}</td>
                                 <td>{{ordenesCanceladas.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenCanceladas.comentarioOrden}}</td>
-                                <td>{{ordenCanceladas.nombreEstatusOrden}}</td>
-                                <td>{{ordenCanceladas.idUsuarioAgendo}}</td>
-                                <td>{{ordenCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenCanceladas.usuarioCancelacion}}</td>
+                                <td>{{ordenesCanceladas.comentarioOrden}}</td>
+                                <td>{{ordenesCanceladas.nombreEstatusOrden}}</td>
+                                <td>{{ordenesCanceladas.idUsuarioAgendo}}</td>
+                                <td>{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td>{{ordenesCanceladas.usuarioCancelacion}}</td>
                             </tr>
                         </tbody>
                     </table>

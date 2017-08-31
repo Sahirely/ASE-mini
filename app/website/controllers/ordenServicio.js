@@ -45,7 +45,7 @@ OrdenServicio.prototype.get_getOrdenExistente = function(req, res, next) {
         name: 'numeroOrden',
         value: req.query.numeroOrden,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'idContratoOperacion',
         value: req.query.idContratoOperacion,
         type: self.model.types.INT
@@ -142,26 +142,36 @@ OrdenServicio.prototype.get_getOrdenDocumentos = function(req, res, next) {
 
 // Obtiene las evidencias por Orden
 OrdenServicio.prototype.get_getOrdenEvidencias = function(req, res, next) {
-    var self = this;
-    var params = [{
-        name: 'idUsuario',
-        value: req.query.idUsuario,
-        type: self.model.types.INT
-    }, {
-        name: 'numeroOrden',
-        value: req.query.numeroOrden,
-        type: self.model.types.STRING
-    }];
+        var self = this;
+        var params = [{
+            name: 'idUsuario',
+            value: req.query.idUsuario,
+            type: self.model.types.INT
+        }, {
+            name: 'numeroOrden',
+            value: req.query.numeroOrden,
+            type: self.model.types.STRING
+        }];
 
-    this.model.query('SEL_DETALLE_ORDEN_EVIDENCIA_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
+        this.model.query('SEL_DETALLE_ORDEN_EVIDENCIA_SP', params, function(error, result) {
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            });
         });
-    });
-}
+    }
+    //Obtiene los detalles de las ordenes con status de pre-cancelación
+OrdenServicio.prototype.get_getAllOrdersCanceled = function(req, res, next) {
+        var self = this;
+        this.model.query('SEL_PRE_CANCELA_ORDEN_SP', "", function(error, result) {
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            });
 
-// Obtien los detalles de una orden
+        });
+    }
+    // Obtien los detalles de una orden
 OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
     var self = this;
     var params = [{
@@ -175,29 +185,29 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
     }];
 
     self.model.query('SEL_DETALLE_ORDEN_SP', params, function(error, result) {
-        if (result.length > 0){
-          var idUnidad = result[0].idUnidad;
+        if (result.length > 0) {
+            var idUnidad = result[0].idUnidad;
 
-          var params2 = [{
-              name: 'idUnidad',
-              value: idUnidad,
-              type: self.model.types.INT
-          }];
+            var params2 = [{
+                name: 'idUnidad',
+                value: idUnidad,
+                type: self.model.types.INT
+            }];
 
-          result[0].zonasUnidad = [];
+            result[0].zonasUnidad = [];
 
-          self.model.query('SEL_ZONAS_UNIDAD_SP', params2, function(e, r){
-              if (r.length > 0){
-                result[0].zonasUnidad = r;
-              }
+            self.model.query('SEL_ZONAS_UNIDAD_SP', params2, function(e, r) {
+                if (r.length > 0) {
+                    result[0].zonasUnidad = r;
+                }
 
-              self.view.expositor(res, {
-                  error: error,
-                  result: result
-              });
+                self.view.expositor(res, {
+                    error: error,
+                    result: result
+                });
 
-          });
-        }else {
+            });
+        } else {
             self.view.expositor(res, {
                 error: error,
                 result: result
@@ -208,7 +218,7 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
 
 OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
     var self = this;
-        //LQMA add 11072017
+    //LQMA add 11072017
     var params = [{
         name: 'idUsuario',
         value: req.query.idUsuario,
@@ -217,11 +227,11 @@ OrdenServicio.prototype.get_getTalleres = function(req, res, next) {
         name: 'idContratoOperacion',
         value: req.query.idContratoOperacion,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idZona',
         value: req.query.idZona,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idTipoUnidad',
         value: req.query.idTipoUnidad,
         type: self.model.types.INT
@@ -246,11 +256,11 @@ OrdenServicio.prototype.get_getPartidasTaller = function(req, res, next) {
         name: 'especialidad',
         value: req.query.especialidad,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'idContratoOperacion',
         value: req.query.idContratoOperacion,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'tipoUnidad',
         value: req.query.idTipoUnidad,
         type: self.model.types.INT
@@ -278,7 +288,7 @@ OrdenServicio.prototype.post_agregarModuloComprobante = function(req, res, next)
         name: 'numeroOrden',
         value: req.body.numeroOrden,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'idUsuario',
         value: req.body.idUsuario,
         type: self.model.types.INT
@@ -450,7 +460,7 @@ OrdenServicio.prototype.post_agregarEvidencias = function(req, res, next) {
     });
 }
 
-OrdenServicio.prototype.post_agregarAcciones= function(req, res, next) {
+OrdenServicio.prototype.post_agregarAcciones = function(req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
     var self = this;
@@ -511,7 +521,7 @@ OrdenServicio.prototype.post_newpdf = function(req, res, next) {
     var filePath = dirname + idOrden + '/comprobanteRecepcion/' + filename + '.pdf';
     var fileresponse = '/orden/' + idOrden + '/comprobanteRecepcion/' + filename + '.pdf';
 
-    if(idOrden != undefined || idOrden != null){
+    if (idOrden != undefined || idOrden != null) {
         if (!fs.existsSync(dirname + idOrden))
             fs.mkdirSync(dirname + idOrden);
         if (!fs.existsSync(dirname + idOrden + '/evidencia'))
@@ -590,7 +600,7 @@ OrdenServicio.prototype.post_estatusRecepcion = function(req, res, next) {
         name: 'idUsuario',
         value: req.body.idUsuario,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idOrden',
         value: req.body.idOrden,
         type: self.model.types.INT
@@ -605,15 +615,15 @@ OrdenServicio.prototype.post_estatusRecepcion = function(req, res, next) {
     });
 }
 
-OrdenServicio.prototype.get_getaprobacionprovision = function (req, res, next) {
+OrdenServicio.prototype.get_getaprobacionprovision = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idContratoOperacion',
         value: req.query.idContratoOperacion,
         type: self.model.types.INT
-        }];
+    }];
 
-    this.model.query('SEL_APROBACION_DE_PROVISION_SP', params, function (error, result) {
+    this.model.query('SEL_APROBACION_DE_PROVISION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -621,15 +631,15 @@ OrdenServicio.prototype.get_getaprobacionprovision = function (req, res, next) {
     });
 }
 
-OrdenServicio.prototype.get_validacionAprobacion = function (req, res, next) {
+OrdenServicio.prototype.get_validacionAprobacion = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOrden',
         value: req.query.idOrden,
         type: self.model.types.INT
-        }];
+    }];
 
-    this.model.query('SEL_VALIDA_UTILIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_VALIDA_UTILIDAD_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -646,11 +656,11 @@ OrdenServicio.prototype.post_utilidad = function(req, res, next) {
         name: 'idOrden',
         value: req.body.idOrden,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idUsuario',
         value: req.body.idUsuario,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'margenAprobacion',
         value: req.body.margenAprobacion,
         type: self.model.types.DECIMAL
@@ -665,11 +675,11 @@ OrdenServicio.prototype.post_utilidad = function(req, res, next) {
     });
 }
 
-OrdenServicio.prototype.get_getAprobacionUtilidad = function (req, res, next) {
+OrdenServicio.prototype.get_getAprobacionUtilidad = function(req, res, next) {
     var self = this;
     var params = [];
 
-    this.model.query('SEL_APROBACION_DE_UTILIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_APROBACION_DE_UTILIDAD_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -697,7 +707,7 @@ OrdenServicio.prototype.get_getPartidasUnidad = function(req, res, next) {
     });
 }
 
-OrdenServicio.prototype.get_evidenciasByReclamacion = function (req, res, next) {
+OrdenServicio.prototype.get_evidenciasByReclamacion = function(req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};
     //Objeto que envía los parámetros
@@ -706,16 +716,16 @@ OrdenServicio.prototype.get_evidenciasByReclamacion = function (req, res, next) 
     var self = this;
 
     var params = [{
-            name: 'idReclamacion',
-            value: req.query.idReclamacion,
-            type: self.model.types.DECIMAL
-        }];
+        name: 'idReclamacion',
+        value: req.query.idReclamacion,
+        type: self.model.types.DECIMAL
+    }];
 
     var evidenciasByReclamacion = [];
 
     cargaEvidencias(req.query.idReclamacion);
 
-    this.model.listaEvidencia(evidenciasByReclamacion, function (error, result) {
+    this.model.listaEvidencia(evidenciasByReclamacion, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -726,7 +736,7 @@ OrdenServicio.prototype.get_evidenciasByReclamacion = function (req, res, next) 
     function cargaEvidencias(idReclamacion) {
         var rutaPrincipal = direclamacion + idReclamacion;
         var carpetas = fs.readdirSync(rutaPrincipal);
-        carpetas.forEach(function (documento) {
+        carpetas.forEach(function(documento) {
             var ext = obtenerExtArchivo(documento);
             var idTipoArchivo = obtenerTipoArchivo(ext);
             var fecha = fs.statSync(rutaPrincipal + '/' + documento).mtime.getTime();
@@ -741,11 +751,11 @@ OrdenServicio.prototype.get_evidenciasByReclamacion = function (req, res, next) 
     }
 }
 
-var obtenerExtArchivo = function (file) {
+var obtenerExtArchivo = function(file) {
     return '.' + file.split('.').pop();
 }
 
-var obtenerTipoArchivo = function (ext) {
+var obtenerTipoArchivo = function(ext) {
     var type;
     if (ext == '.pdf' || ext == '.doc' || ext == '.xls' || ext == '.docx' || ext == '.xlsx' ||
         ext == '.PDF' || ext == '.DOC' || ext == '.XLS' || ext == '.DOCX' || ext == '.XLSX' ||
@@ -755,17 +765,17 @@ var obtenerTipoArchivo = function (ext) {
         type = 2;
     } else if (ext == '.mp4') {
         type = 3;
-    } else if (ext == '.zip' || ext == '.ZIP' ) {
+    } else if (ext == '.zip' || ext == '.ZIP') {
         type = 4;
     }
     return type;
 }
 
 ////Método para insertar evidencia
-OrdenServicio.prototype.post_uploadfiles = function (req, res, next) {
+OrdenServicio.prototype.post_uploadfiles = function(req, res, next) {
     //res.end("File is uploaded");
     var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
+        destination: function(req, file, cb) {
             idTrabajo = (req.body.idTrabajo).constructor !== Array ? req.body.idTrabajo : req.body.idTrabajo[0];
             var idCotizacion = req.body.idCotizacion.constructor !== Array ? req.body.idCotizacion : req.body.idCotizacion[0];
             var idCategoria = (req.body.idCategoria).constructor != Array ? req.body.idCategoria : req.body.idCategoria[0];
@@ -785,7 +795,7 @@ OrdenServicio.prototype.post_uploadfiles = function (req, res, next) {
                 cb(null, dirCopades);
             }
         },
-        filename: function (req, file, cb) {
+        filename: function(req, file, cb) {
             if (nameFile !== '') {
                 if (nameFile === 'Evidencia') {
                     nameFile = nameFile + obtieneConsecutivo(direclamacion);
@@ -804,12 +814,12 @@ OrdenServicio.prototype.post_uploadfiles = function (req, res, next) {
         storage: storage
     }).any();
 
-    upload(req, res, function (err) {
+    upload(req, res, function(err) {
         if (err) {
             //console.log(err);
             return res.end("Error al subir el archivo.");
         } else {
-            req.files.forEach(function (f) {
+            req.files.forEach(function(f) {
                 //console.log(f.originalname);
                 // and move file to final destination...
             });
