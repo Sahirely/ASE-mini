@@ -84,8 +84,10 @@
                                     <th>Fecha Inicial</th>
                                     <th>Fecha Final</th>
                                     <th>Presupuesto</th>
-                                    <th>Utilizado</th>
+                                    <th>Utilizado</th>                                    
                                     <th>Saldo</th>
+                                    <th>Traspaso</th>
+                                    <th>Detalle Traspaso</th>
                                     <th>Orden Pendientes</th>
                                     <th>Estatus</th>
                                     <th>Orden</th>
@@ -103,9 +105,13 @@
                                     <td>
                                         <button tooltip="Ver Hojas de Trabajo Generadas" class="btn btn-primary" type="button" ng-click="verHistorial(presupuestos.idPresupuesto, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-duplicate"></span></button>
                                         {{presupuestos.utilizado | currency: "$"}}
-                                    </td>
+                                    </td>                                    
                                     <td>{{presupuestos.saldo | currency: "$"}}</td>
-                                    <td>
+                                    <td>{{presupuestos.montoTraspaso | currency: "$"}}</td>
+                                    <td><button ng-show="presupuestos.esTraspaso == 1" tooltip="Detalle Saldo" class="btn btnSaldoColor" type="button" ng-click="showTransferDetail(presupuestos.idPresupuesto)" ><span class="glyphicon glyphicon-eye-open"></span></button></td>
+
+
+                                    <td >
                                         <button tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(presupuestos.idCentroTrabajo, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
                                         {{presupuestos.ordPendiente}}
                                     </td>
@@ -185,8 +191,27 @@
                     </div>
 
 
-                    <div class="form-group row">
 
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary " type="button" ng-click="showPanelTransfer()" >Traspasar Presupuesto</button>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-primary pull-right" type="button" ng-click="changePresupuestoEspecial()">Presupuesto especial</button>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group row" ng-show="showTransferPnl">
+                        <div><h4>Traspaso Presupuestos</h4><br></div>
+                          <div>
+                        <h2 class="no-margins ng-binding">{{sumTraspaso | currency: "$"}}</h2>
+                        <small>total venta s/iva seleccionado</small>
+                    </div>
+
+                        
                         <table class="table table-bordered table-striped table-hover dataTableFondos">
                             <thead>
                                 <tr>
@@ -199,19 +224,15 @@
                                 <tr ng-repeat="item in lstPresupuestos">
                                     <!-- <td>{{item.idPresupuesto}}</td> -->
                                     <td>{{item.saldo | currency: "$"}}</td>
-                                    <td> <input type="checkbox"  ng-model="item.isChecked" > </td>
+                                    <td> <input type="checkbox"  ng-model="item.isChecked" ng-change="sumTraspasoSaldos()"  > </td>
                                 </tr>
                             </tbody>
                         </table>
 
                     </div>
-
-                    <div class="row">
-                        <div>
-                            <button class="btn btn-primary pull-right" type="button" ng-click="changePresupuestoEspecial()">Presupuesto especial</button>
-                        </div>
-                    </div>
                     <br>
+
+                    <div class="row" ng-show="presupuestoEspecial == 1"><h4>Presupuesto especial</h4><br></div>
                     <div class="row" ng-show="presupuestoEspecial == 1">
                         <h2 class="no-margins ng-binding">{{sumatoriaSeleccionado | currency: "$"}}</h2>
                         <small>total venta s/iva seleccionado</small>
@@ -339,7 +360,7 @@
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Fondos de OSUR</h4>
+                <h4 class="modal-title">Presupuestos</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -352,10 +373,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="fondo in fondos">
-                                <td>{{fondo.folio}}</td>
-                                <td>{{fondo.folioAplica}}</td>
-                                <td>{{fondo.presupuestoAplicacion | currency: "$"}}</td>
+                            <tr ng-repeat="fondo in lstTraspasos">
+                                <td>{{fondo.folioOrigen}}</td>
+                                <td>{{fondo.folioDestino}}</td>
+                                <td>{{fondo.monto | currency: "$"}}</td>
                             </tr>
                         </tbody>
                     </table>

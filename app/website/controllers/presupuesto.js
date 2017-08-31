@@ -207,6 +207,24 @@ Presupuesto.prototype.get_presupuestoDetalle = function (req, res, next) {
     });
 }
 
+Presupuesto.prototype.get_traspasos = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idPresupuestoDestino',
+        value: req.query.idPresupuestoDestino,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_TRASPASOS_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+
 
 
 Presupuesto.prototype.post_insTraspasoPresupuesto = function (req, res, next) {

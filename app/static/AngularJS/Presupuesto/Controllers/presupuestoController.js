@@ -11,6 +11,8 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
     $scope.userData = userFactory.getUserData();
     $scope.numeroOrden = $routeParams.orden;
     $scope.lstPresupuestos = [];
+    $scope.showTransferPnl = false;
+    $scope.sumTraspaso = 0.00;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -112,6 +114,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         $scope.presupuesto = 0;
         $scope.fechaInicioPresupuesto = '';
         $scope.fechaFinalPresupuesto = '';
+        $scope.showTransferPnl = false;
         $('#newPresupuestoModal').appendTo('body').modal('show');
     }
 
@@ -368,8 +371,42 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         });
     }
 
+    
+
+    $scope.showTransferDetail = function(idPresupúesto) {
+        $scope.lstTraspasos =[];    
+        presupuestoRepository.getTraspasos(idPresupúesto).then(function(result) {                    
+                    $scope.lstTraspasos = result.data;
+                    $('#fondosOsurModal').appendTo('body').modal('show');                    
+                });
+    }
 
 
+    $scope.showPanelTransfer = function() {
+
+        if($scope.showTransferPnl === false){
+            $scope.showTransferPnl = true;                                    
+        }else{
+            $scope.showTransferPnl = false;            
+        }
+
+        $scope.lstPresupuestos.forEach(function(item) {
+                item.isChecked = false;
+            });
+
+        $scope.sumTraspaso =0.00;
+    }
+
+
+    $scope.sumTraspasoSaldos = function() {
+    
+
+     $scope.lstPresupuestos.forEach(function(item) {
+            if(item.isChecked == true){
+                $scope.sumTraspaso +=parseFloat(item.saldo);
+            }
+        });
+    }
 
 
 
