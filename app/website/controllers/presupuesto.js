@@ -55,6 +55,53 @@ Presupuesto.prototype.get_presupuesto = function (req, res, next) {
     });
 }
 
+//obtiene las ordenes del centro de trabajo
+Presupuesto.prototype.get_ordenesByCT = function (req, res, next){
+    var object = {};
+    var params = [];
+    var self = this;
+
+    var params = [{name: 'idCentroTrabajo', value: req.query.idCentroTrabajo, type: self.model.types.INT},
+                  {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT}];
+
+    self.model.query('SEL_ORDENES_BY_CENTRO_TRABAJO_SP', params, function (error, result){
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+
+Presupuesto.prototype.get_ordenesByPresupuestoEspecial = function (req, res, next){
+    var object = {};
+    var params = [];
+    var self = this;
+
+    var params = [{name: 'idPresupuesto', value: req.query.idPresupuesto, type:self.model.types.INT},
+                  {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type:self.model.types.INT}];
+
+    self.model.query('SEL_ORDENES_BY_PRESUPUESTO_ESPECIAL_SP', params, function (error, result){
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+
+Presupuesto.prototype.get_insOrdenPresupuestoEspecial = function (req, res, next){
+    var object = {};
+    var params = [];
+    var self = this;
+
+    var params = [{name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT},
+                  {name: 'idPresupuesto', value: req.query.idPresupuesto, type: self.model.types.INT},
+                  {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT}];
+
+    self.model.query('INS_ORDEN_PRESUPUESTO_ESPECIAL_SP', params, function (error, result){
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+
 // Guarda un nuevo presupuesto
 Presupuesto.prototype.post_nuevoPresupuesto = function (req, res, next) {
     var object = {};
@@ -89,6 +136,10 @@ Presupuesto.prototype.post_nuevoPresupuesto = function (req, res, next) {
         name: 'solpe',
         value: req.body.solpe,
         type: self.model.types.STRING
+    },{
+        name: 'isEspecial',
+        value: req.body.isEspecial,
+        type: self.model.types.INT
     }];
 
     this.model.post('INS_PRESUPUESTO_SP', params, function (error, result) {
@@ -174,7 +225,7 @@ Presupuesto.prototype.post_insTraspasoPresupuesto = function (req, res, next) {
         },{
             name: 'monto',
             value: req.body.monto,
-            type: self.model.types.INT
+            type: self.model.types.DECIMAL
         }];
 
     this.model.post('INS_TRASPASO_PRESUPUESTO_SP', params, function (error, result) {

@@ -24,7 +24,47 @@ registrationModule.factory('presupuestoRepository', function($http) {
                 }
             });
         },
-        putNuevoPresupuesto: function(presupuesto, folioPresupuesto, fechaInicioPresupuesto, fechaFinalPresupuesto, idCentroTrabajo, idUsuario, solpe) {        
+        insOrdenPresupuestoEspecial: function (idOrden, idPresupuesto, idUsuario){
+            return $http({
+                url: presupuestoUrl + 'insOrdenPresupuestoEspecial',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idPresupuesto: idPresupuesto,
+                    idUsuario: idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getOrdenesByCT: function(idCentroTrabajo, idContratoOperacion){
+            return $http({
+                url: presupuestoUrl + 'ordenesByCT',
+                method: "GET",
+                params: {
+                  idCentroTrabajo: idCentroTrabajo,
+                  idContratoOperacion: idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getOrdenesByPE: function(idPresupuesto, idContratoOperacion){
+            return $http({
+                url: presupuestoUrl + 'ordenesByPresupuestoEspecial',
+                method: "GET",
+                params: {
+                  idPresupuesto: idPresupuesto,
+                  idContratoOperacion: idContratoOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        putNuevoPresupuesto: function(presupuesto, folioPresupuesto, fechaInicioPresupuesto, fechaFinalPresupuesto, idCentroTrabajo, idUsuario, solpe, isEspecial) {        
             return $http({        
                 url: presupuestoUrl + 'nuevoPresupuesto',
                         method: "POST",
@@ -35,7 +75,8 @@ registrationModule.factory('presupuestoRepository', function($http) {
                     fechaFinalPresupuesto: fechaFinalPresupuesto,
                     idCentroTrabajo: idCentroTrabajo,
                     idUsuario: idUsuario,
-                    solpe: solpe
+                    solpe: solpe,
+                    isEspecial: isEspecial
                 },
 
                         headers: {          

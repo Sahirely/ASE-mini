@@ -165,7 +165,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="margenes in margenUtilidad" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{margenes.zonasConcatenadas}}">
+                                        <tr ng-repeat="margenes in margenUtilidad" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{margenes.zonasConcatenadas}}" ng-click="detalleUrl(margenes.numeroOrden)">
                                             <td>{{margenes.Cliente}}</td>
                                             <td>{{margenes.consecutivoOrden}}</td>
                                             <td>{{margenes.numeroOrden}}</td>

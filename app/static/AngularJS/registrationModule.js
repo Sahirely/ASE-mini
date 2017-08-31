@@ -96,6 +96,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'administracionOrdenController'
         });
 
+        $routeProvider.when('/administracionmemorandum', {
+            templateUrl: 'AngularJS/Administracion/Templates/administracionMemorandum.html',
+            controller: 'administracionMemorandumController'
+        });
+
         $routeProvider.when('/administraciontaller', {
             templateUrl: 'AngularJS/Talleres/Templates/administracionTaller.html',
             controller: 'tallerController'
@@ -171,7 +176,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'reporteUtilidadController'
         });
 
-        $routeProvider.when('/reporteCertificadoConformidad', {
+        $routeProvider.when('/reporteHojaTrabajo', {
             templateUrl: 'AngularJS/Reporte/Templates/reporteCertificadoConformidad.html',
             controller: 'reporteCertificadoConformidadController'
         });
@@ -229,6 +234,13 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/Precancelaciones/Templates/Precancelaciones.html',
             controller: 'preCancelacionesController'
         })
+
+        $routeProvider.when('/miCuenta', {
+            templateUrl: 'AngularJS/MiCuenta/Templates/miCuenta.html',
+            controller: 'miCuentaController'
+        })
+
+
 
         $locationProvider.html5Mode({
             enabled: true,

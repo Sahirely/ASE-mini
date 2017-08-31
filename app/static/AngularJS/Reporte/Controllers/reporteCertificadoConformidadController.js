@@ -127,6 +127,10 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
             return filterParams;
         }
 
+        $scope.redirectTo = function(numeroOrden) {            
+            location.href ='/detalle?orden='+numeroOrden
+        }
+
 
 
 });

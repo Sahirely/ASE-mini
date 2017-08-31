@@ -28,6 +28,10 @@ registrationModule.controller('reporteUtilidadController', function($scope, aler
         $scope.buscaOrden(2);
     };
 
+    $scope.detalleUrl = function(numOrden){
+        location.href = "/detalle?orden=" + numOrden;
+    }
+
     $scope.getTiposOrden = function(){
         $scope.tiposOrdenes = [];
         $scope.promise = reporteUtilidadRepository.getTipoOrden().then(function (result){
