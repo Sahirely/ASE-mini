@@ -9,10 +9,8 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-content">
-                   <div class="row col-lg-12">
-                        <div class="col-md-4">
-                        </div>
-                        <div class="col-md-5">
+                   <div class="row">
+                        <div class="col-md-5 col-md-offset-4">
                             <form method="get" class="form-horizontal">
                                 <div >
                                     <label class="col-sm-4 control-label">Centro de Trabajo</label>
@@ -24,17 +22,14 @@
                                 </div>
                             </form>
                         </div>
-                        <!-- <div class="col-md-1">
-                                <button tooltip="Buscar Presupuestos" id="btnBuscar" busy="Buscando.." type="button" class="btn btn-primary" ng-click="obtienePresupuesto()"><span class="glyphicon glyphicon-search"></span></button>
-                        </div> -->
+
                         <div class="col-md-3 control-label">
                             <div class="col-sm-2">
-                                <button class="btn btn-primary" ng-click="nuevoPresupuesto()" ng-hide="selectedcTrabajo.idCentroTrabajo == null"><i class="fa fa-check" >
-                                </i>&nbsp;Nuevo Presupuesto</button>
+                                <button class="btn btn-primary" ng-click="nuevoPresupuesto()" ng-hide="selectedcTrabajo.idCentroTrabajo == null"><i class="fa fa-check" ></i>&nbsp;Nuevo Presupuesto</button>
                             </div>
                         </div>
                     </div>
-                    <div class="row col-md-12">
+                    <div class="row">
                         <div class="col-lg-4">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
@@ -75,7 +70,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row col-md-12 table-responsive">
+                    <div class="table-responsive">
                         <table class="table table-bordered table-striped table-hover dataTableCentroTrabajo">
                             <thead>
                                 <tr>
@@ -109,9 +104,7 @@
                                     <td>{{presupuestos.saldo | currency: "$"}}</td>
                                     <td>{{presupuestos.montoTraspaso | currency: "$"}}</td>
                                     <td><button ng-show="presupuestos.esTraspaso == 1" tooltip="Detalle Saldo" class="btn btnSaldoColor" type="button" ng-click="showTransferDetail(presupuestos.idPresupuesto)" ><span class="glyphicon glyphicon-eye-open"></span></button></td>
-
-
-                                    <td >
+                                    <td>
                                         <button ng-show="presupuestos.nombreEstatusPresupuesto == 'Activo'" tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(presupuestos.idCentroTrabajo, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
                                         <small ng-show="presupuestos.nombreEstatusPresupuesto == 'Activo'">{{presupuestos.ordPendiente}}</small>
 

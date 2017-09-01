@@ -18,6 +18,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         userFactory.ValidaSesion();
         $scope.obtieneCentroTrabajo();
         $scope.cancelaAltaPresupuesto();
+        $scope.obtienePresupuesto();
     }
     // Obtiene los centros de trabajo por operacion
     $scope.obtieneCentroTrabajo = function() {
@@ -72,7 +73,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
 
                 $scope.margenUtilizado = (($scope.presupuestoTotal - $scope.utilizadoTotal) * 100) / $scope.presupuestoTotal;
                 $scope.margenTotal = (($scope.presupuestoTotal - $scope.saldoTotal) * 100) / $scope.presupuestoTotal;
-                globalFactory.filtrosTabla("dataTableCentroTrabajo", "CentroTrabajo", 5);
+                globalFactory.filtrosTabla("dataTableCentroTrabajo", "CentroTrabajo", 100);
             } else {
                 alertFactory.info("No existe información con los criterios de búsqueda");
             }
@@ -288,6 +289,7 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
     }
     //Obtiene la totalidad de las hojas de trabajo generadas en la historia
     $scope.verHistorial = function(idPresupuesto, saldo, folioPresupuesto, nombreCentroTrabajo) {
+        $scope.hojas = [];
         $scope.saldoPresupuesto = saldo;
         $scope.folioPresupuesto = folioPresupuesto;
         $scope.nombreCentroTrabajo = nombreCentroTrabajo;
@@ -399,7 +401,6 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
 
 
     $scope.sumTraspasoSaldos = function() {
-      debugger;
       $scope.sumTraspaso = parseFloat($scope.presupuesto == '' ? 0 : $scope.presupuesto);
       $scope.lstPresupuestos.forEach(function(item) {
             if(item.isChecked == true){
