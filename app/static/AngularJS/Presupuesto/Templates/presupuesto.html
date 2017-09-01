@@ -84,7 +84,7 @@
                                     <th>Fecha Inicial</th>
                                     <th>Fecha Final</th>
                                     <th>Presupuesto</th>
-                                    <th>Utilizado</th>                                    
+                                    <th>Utilizado</th>
                                     <th>Saldo</th>
                                     <th>Traspaso</th>
                                     <th>Detalle Traspaso</th>
@@ -105,18 +105,19 @@
                                     <td>
                                         <button tooltip="Ver Hojas de Trabajo Generadas" class="btn btn-primary" type="button" ng-click="verHistorial(presupuestos.idPresupuesto, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-duplicate"></span></button>
                                         {{presupuestos.utilizado | currency: "$"}}
-                                    </td>                                    
+                                    </td>
                                     <td>{{presupuestos.saldo | currency: "$"}}</td>
                                     <td>{{presupuestos.montoTraspaso | currency: "$"}}</td>
                                     <td><button ng-show="presupuestos.esTraspaso == 1" tooltip="Detalle Saldo" class="btn btnSaldoColor" type="button" ng-click="showTransferDetail(presupuestos.idPresupuesto)" ><span class="glyphicon glyphicon-eye-open"></span></button></td>
 
 
                                     <td >
-                                        <button tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(presupuestos.idCentroTrabajo, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
-                                        {{presupuestos.ordPendiente}}
+                                        <button ng-show="presupuestos.nombreEstatusPresupuesto == 'Activo'" tooltip="Ver Ordenes Pendientes" class="btn btn-info" type="button" ng-click="verDetalle(presupuestos.idCentroTrabajo, presupuestos.saldo, presupuestos.folioPresupuesto, presupuestos.nombreCentroTrabajo)" ><span class="glyphicon glyphicon-sunglasses"></span></button>
+                                        <small ng-show="presupuestos.nombreEstatusPresupuesto == 'Activo'">{{presupuestos.ordPendiente}}</small>
+
+                                        <button type="button" class="btn btn-warning" ng-show="presupuestos.nombreEstatusPresupuesto == 'Especial'" tooltip="Ver Ordenes del Presupuesto Especial" ng-click="verOrdenesPresupuesto(presupuestos)"><span class="fa fa-table" aria-hidden="true"></span></button>
                                     </td>
                                     <td>
-                                      <button type="button" class="btn btn-warning" ng-show="presupuestos.nombreEstatusPresupuesto == 'Especial'" tooltip="Ver Ordenes del Presupuesto Especial" ng-click="verOrdenesPresupuesto(presupuestos)"><span class="fa fa-table" aria-hidden="true"></span></button>
                                       {{presupuestos.nombreEstatusPresupuesto}}
                                     </td>
                                     <td>{{presupuestos.orden}}</td>
@@ -211,7 +212,7 @@
                         <small>total venta s/iva seleccionado</small>
                     </div>
 
-                        
+
                         <table class="table table-bordered table-striped table-hover dataTableFondos">
                             <thead>
                                 <tr>
@@ -328,14 +329,15 @@
                               <th>Consecutivo</th>
                               <th>No Orden</th>
                               <th>Fecha Creación de Orden</th>
-                              <th>Estatus</th>
+                              <th>Estatus Orden</th>
                               <th>Descripción</th>
                               <th>Centro de Trabajo</th>
                               <th>Venta s/IVA</th>
+                              <th>Estatus Presupuesto Especial</th>
                           </tr>
                       </thead>
                       <tbody>
-                          <tr ng-repeat="orden in OrdenesPEspecial">
+                          <tr ng-repeat="orden in OrdenesPEspecial" ng-class="{'semaforoVerde': orden.isPaid == 1, 'semaforoAmarillo': orden.isPaid == 0}">
                               <td>{{orden.consecutivoOrden}}</td>
                               <td>{{orden.numeroOrden}}</td>
                               <td>{{orden.fechaCreacionOrden | date:"dd-MM-yy HH:mm" : 'UTC'}}</td>
@@ -343,6 +345,7 @@
                               <td>{{orden.comentario}}</td>
                               <td>{{orden.nombreCentroTrabajo}}</td>
                               <td>{{orden.venta | currency: "$"}}</td>
+                              <td>{{orden.estatusCobro}}</td>
                           </tr>
                       </tbody>
                     </table>
@@ -415,7 +418,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="hoja in hojas">
-                                <td>{{hoja.idOrden}}</td>
+                                <td>{{hoja.consecutivoOrden}}</td>
                                 <td>{{hoja.numeroOrden}}</td>
                                 <td>{{hoja.numeroEconomico}}</td>
                                 <td>{{hoja.nombreZona}}</td>
@@ -460,7 +463,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="pendiente in pendientes">
-                                <td>{{pendiente.idOrden}}</td>
+                                <td>{{pendiente.consecutivoOrden}}</td>
                                 <td>{{pendiente.numeroOrden}}</td>
                                 <td>{{pendiente.numeroEconomico}}</td>
                                 <td>{{pendiente.nombreZona}}</td>

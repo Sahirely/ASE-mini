@@ -371,13 +371,13 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         });
     }
 
-    
+
 
     $scope.showTransferDetail = function(idPresupúesto) {
-        $scope.lstTraspasos =[];    
-        presupuestoRepository.getTraspasos(idPresupúesto).then(function(result) {                    
+        $scope.lstTraspasos =[];
+        presupuestoRepository.getTraspasos(idPresupúesto).then(function(result) {
                     $scope.lstTraspasos = result.data;
-                    $('#fondosOsurModal').appendTo('body').modal('show');                    
+                    $('#fondosOsurModal').appendTo('body').modal('show');
                 });
     }
 
@@ -385,9 +385,9 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
     $scope.showPanelTransfer = function() {
 
         if($scope.showTransferPnl === false){
-            $scope.showTransferPnl = true;                                    
+            $scope.showTransferPnl = true;
         }else{
-            $scope.showTransferPnl = false;            
+            $scope.showTransferPnl = false;
         }
 
         $scope.lstPresupuestos.forEach(function(item) {
@@ -399,13 +399,17 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
 
 
     $scope.sumTraspasoSaldos = function() {
-    
-
-     $scope.lstPresupuestos.forEach(function(item) {
+      debugger;
+      $scope.sumTraspaso = parseFloat($scope.presupuesto == '' ? 0 : $scope.presupuesto);
+      $scope.lstPresupuestos.forEach(function(item) {
             if(item.isChecked == true){
-                $scope.sumTraspaso +=parseFloat(item.saldo);
+                $scope.sumTraspaso +=parseFloat(item.saldo) ;
             }
         });
+    }
+
+    $scope.change_presupuesto = function(){
+      $scope.sumTraspasoSaldos();
     }
 
 

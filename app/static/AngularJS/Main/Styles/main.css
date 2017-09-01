@@ -138,7 +138,7 @@ body {
 }
 
 .btnBusqueda{
-   padding-top: 22px !important; 
+   padding-top: 22px !important;
 }
 
 .title {
@@ -343,7 +343,7 @@ body {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    
+
     padding-bottom: 17px;
 }
 
@@ -356,13 +356,13 @@ body {
 }
 
 .semaforoRojo{
-    background-color: #F7A8A8;
+    background-color: #F7A8A8 !important;
 }
 
 .semaforoVerde{
-    background-color: #BCF0CE;
+    background-color: #BCF0CE !important;
 }
 
 .semaforoAmarillo{
-    background-color: #F3FBB5;
+    background-color: #F3FBB5 !important;
 }
