@@ -226,6 +226,25 @@ Presupuesto.prototype.get_traspasos = function (req, res, next) {
 }
 
 
+Presupuesto.prototype.get_hasCompletePayment = function (req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idpresupuestoEspecial',
+        value: req.query.idpresupuestoEspecial ,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('SEL_ORDEN_ESPECIAL_TIENE_PAGO_COMPLETO_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
+        self.view.expositor(res, object);
+    });
+}
+
+
 
 Presupuesto.prototype.post_insTraspasoPresupuesto = function (req, res, next) {
     var object = {};
