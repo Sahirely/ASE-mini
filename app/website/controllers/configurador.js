@@ -1099,5 +1099,17 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
     });
 }
 
+Configurador.prototype.get_catalogoTipoUsuarios =  function (req, res, next){
+    var self = this;
+    var params = []
+
+    this.model.query('SEL_CATALOGO_TIPO_USUARIOS_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 
 module.exports = Configurador;

@@ -6,9 +6,9 @@
 // -- Fecha:
 // -- =============================================
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
-        "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover"
-    ])
-    .config(function($routeProvider, $locationProvider) {
+    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover","dx"
+])
+    .config(function ($routeProvider, $locationProvider) {
 
         /*change the routes*/
         $routeProvider.when('/', {
@@ -240,6 +240,10 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'miCuentaController'
         })
 
+        $routeProvider.when('/nuevoMemorandum', {
+            templateUrl: 'AngularJS/MiCuenta/Templates/nuevoMemorandum.html',
+            controller: 'nuevoMemorandumController'
+        })
 
 
         $locationProvider.html5Mode({
@@ -248,13 +252,13 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         });
     });
 
-registrationModule.directive('resize', function($window) {
-    return function(scope, element) {
+registrationModule.directive('resize', function ($window) {
+    return function (scope, element) {
         var w = angular.element($window);
-        var changeHeight = function() {
+        var changeHeight = function () {
             element.css('height', (w.height() - 20) + 'px');
         };
-        w.bind('resize', function() {
+        w.bind('resize', function () {
             changeHeight(); // when window size gets changed
         });
         changeHeight(); // when page loads
@@ -263,11 +267,11 @@ registrationModule.directive('resize', function($window) {
 
 angular.module('frapontillo.bootstrap-switch', []);
 
-registrationModule.run(function($rootScope, userFactory, loginRepository) {
+registrationModule.run(function ($rootScope, userFactory, loginRepository) {
     $rootScope.vIpServer = global_settings.urlCORS;
     $rootScope.docServer = global_settings.urlDOCS;
     var lastDigestRun = new Date();
-    loginRepository.getTiempoInactividad().then(function(result) {
+    loginRepository.getTiempoInactividad().then(function (result) {
         var minutos = result.data;
         $rootScope.$watch(function detectIdle() {
             var now = new Date();
@@ -279,9 +283,9 @@ registrationModule.run(function($rootScope, userFactory, loginRepository) {
     });
 });
 
-registrationModule.directive('viewportWidth', function() {
+registrationModule.directive('viewportWidth', function () {
     return {
-        link: function(scope, elm, attrs) {
+        link: function (scope, elm, attrs) {
             function getViewport() {
                 var e = window,
                     a = 'inner';

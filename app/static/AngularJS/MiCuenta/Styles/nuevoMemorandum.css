@@ -1,0 +1,48 @@
+/* FILE UPLOAD */
+.widget-container {
+    margin-right: 0;
+}
+
+.content h4 {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 18px;
+}
+ 
+.content {
+    margin-top: 50px;
+    margin-left: 10px;
+}
+ 
+.selected-item {
+    margin-bottom: 20px;
+}
+
+#selected-files {
+    display: none;
+}
+
+.options {
+    padding: 20px;
+    background-color: #f5f5f5;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+}
+
+.caption {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.option {
+    margin-top: 10px;
+}
+
+.superior{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
