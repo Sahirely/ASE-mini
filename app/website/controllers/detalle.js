@@ -23,7 +23,7 @@ var Detalle = function(conf) {
 
 Detalle.prototype.get_validaFactura = function(req, res, next) {
     var self = this;
-    var soap = require('soap');
+    var soap    = require('soap');
 
     var fs = require('fs');
     var pathname = _PathDocuments + req.query.path;
@@ -859,11 +859,6 @@ Detalle.prototype.post_preCancelaOrden = function(req, res, next) {
             name: 'idOrden',
             value: req.query.idOrden,
             type: self.model.types.INT
-        },
-        {
-            name: 'comentario',
-            value: req.query.comentario,
-            type: self.model.types.STRING
         }
     ];
     this.model.query('UPD_PRE_CANCELA_ORDEN_SP', params, function(error, result) {

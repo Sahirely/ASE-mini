@@ -1700,8 +1700,8 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 confirmButtonColor: "#65BD10",
                 confirmButtonText: "Si",
                 cancelButtonText: "No",
-                closeOnConfirm: true,
-                closeOnCancel: true
+                closeOnConfirm: false,
+                closeOnCancel: false
             },
             function(isConfirm) {
                 if (isConfirm) {
@@ -1713,17 +1713,12 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     $scope.cancelarOrden = function() {
-        $('.modal-dialog').css('width', '1050px');
-        modal_agregarComentario($scope, $modal, $scope.preCancelaComents, '');
-
+        PreCancelationProcess($scope.userData.idRol);
     };
-    $scope.preCancelaComents = function(comentario) {
-        PreCancelationProcess($scope.userData.idRol, comentario);
-    }
 
-    function PreCancelationProcess(rol, comentario) {
+    function PreCancelationProcess(rol) {
         var messageSuccess = (rol !== 2) ? "Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio." : "Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.";
-        detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
+        detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden).then(function(result) {
             swal({
                     title: "Pre-cancelación",
                     text: messageSuccess,
@@ -1979,7 +1974,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     };
 
     //Abre Instructivo
-    $scope.openPDF = function(str) {
+    $scope.openPDF = function(str){
         window.open(str, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');
     }
 
