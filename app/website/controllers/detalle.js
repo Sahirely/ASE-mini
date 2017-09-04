@@ -23,7 +23,7 @@ var Detalle = function(conf) {
 
 Detalle.prototype.get_validaFactura = function(req, res, next) {
     var self = this;
-    var soap    = require('soap');
+    var soap = require('soap');
 
     var fs = require('fs');
     var pathname = _PathDocuments + req.query.path;
@@ -859,6 +859,11 @@ Detalle.prototype.post_preCancelaOrden = function(req, res, next) {
             name: 'idOrden',
             value: req.query.idOrden,
             type: self.model.types.INT
+        },
+        {
+            name: 'comentario',
+            value: req.query.comentario,
+            type: self.model.types.STRING
         }
     ];
     this.model.query('UPD_PRE_CANCELA_ORDEN_SP', params, function(error, result) {
@@ -874,22 +879,22 @@ Detalle.prototype.post_preCancelaOrden = function(req, res, next) {
 Detalle.prototype.get_facturaCotizacion = function(req, res, next) {
     var self = this;
     var params = [{
-              name: 'idOrden',
-              value: req.query.idOrden,
-              type: self.model.types.INT
-        },{
-              name: 'idUsuario',
-              value: req.query.idUsuario,
-              type: self.model.types.INT
-        },{
-              name: 'idOperacion',
-              value: req.query.idOperacion,
-              type: self.model.types.INT
-        },{
-              name: 'isProduction',
-              value: req.query.isProduction,
-              type: self.model.types.INT
-        }];
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'isProduction',
+        value: req.query.isProduction,
+        type: self.model.types.INT
+    }];
 
     this.model.query('SEL_VALIDA_FACTURA_COTIZACION_SP', params, function(error, result) {
         self.view.expositor(res, {
@@ -903,21 +908,21 @@ Detalle.prototype.post_insertBPRO = function(req, res, next) {
 
     var self = this;
     var params = [{
-          name: 'idOrden',
-          value: req.query.idOrden,
-          type: self.model.types.INT
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
     }, {
-          name: 'idUsuario',
-          value: req.query.idUsuario,
-          type: self.model.types.INT
-    },{
-          name: 'idOperacion',
-          value: req.query.idOperacion,
-          type: self.model.types.INT
-    },{
-          name: 'isProduction',
-          value: req.query.isProduction,
-          type: self.model.types.INT
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'isProduction',
+        value: req.query.isProduction,
+        type: self.model.types.INT
     }];
 
     this.model.query('INS_ORDEN_PAGO_PROVISION_SP', params, function(error, result) {
@@ -932,21 +937,21 @@ Detalle.prototype.post_aproviosionamiento = function(req, res, next) {
 
     var self = this;
     var params = [{
-              name: 'idOrden',
-              value: req.query.idOrden,
-              type: self.model.types.INT
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
     }, {
-              name: 'idUsuario',
-              value: req.query.idUsuario,
-              type: self.model.types.INT
-    },{
-              name: 'idOperacion',
-              value: req.query.idOperacion,
-              type: self.model.types.INT
-    },{
-              name: 'isProduction',
-              value: req.query.isProduction,
-              type: self.model.types.INT
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'isProduction',
+        value: req.query.isProduction,
+        type: self.model.types.INT
     }];
 
     this.model.query('UPD_PROVISION_BPRO_SP', params, function(error, result) {
