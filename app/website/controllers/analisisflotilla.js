@@ -50,4 +50,55 @@ AnalisisFlotilla.prototype.get_documentosunidad = function (req, res, next) {
   })
 }
 
+AnalisisFlotilla.prototype.get_ingresoantiguedad = function (req, res, next) {
+  // Objeto que almacena la respuesta
+  var object = {}
+  var params = {}
+  var self = this
+
+  // Asigno a params el valor de mis variables
+  var params = []
+
+  this.model.query('SEL_REPORTE_AF_ANTIGUEDAD_INGRESO_SP', params, function (error, result) {
+    self.view.expositor(res, {
+      error: error,
+      result: result
+    })
+  })
+}
+
+AnalisisFlotilla.prototype.get_ingresoantiguedadgrafica = function (req, res, next) {
+  // Objeto que almacena la respuesta
+  var object = {}
+  var params = {}
+  var self = this
+
+  // Asigno a params el valor de mis variables
+  var params = []
+
+  this.model.query('SEL_GRAFICA_AF_ANTIGUEDAD_INGRESO_SP', params, function (error, result) {
+    self.view.expositor(res, {
+      error: error,
+      result: result
+    })
+  })
+}
+
+AnalisisFlotilla.prototype.get_inversion = function (req, res, next) {
+  // Objeto que almacena la respuesta
+  var object = {}
+  var params = {}
+  var self = this
+
+  // Asigno a params el valor de mis variables
+  var params = []
+
+  this.model.query('SEL_REPORTE_AF_INVERSION_SP', params, function (error, result) {
+    self.view.expositor(res, {
+      error: error,
+      result: result
+    })
+  })
+}
+
 module.exports = AnalisisFlotilla
