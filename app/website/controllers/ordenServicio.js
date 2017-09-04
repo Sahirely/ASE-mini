@@ -214,6 +214,24 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
             });
         }
     });
+} 
+
+OrdenServicio.prototype.get_getOrdenExpediente = function(req, res, next) {
+    var self = this;
+    //LQMA add 11072017
+    var params = [{
+        name: 'idUnidad',
+        value: req.query.idUnidad,
+        type: self.model.types.INT
+    }];
+
+    //LQMA 14062017 se cambio SEL_TALLER_PRUEBA_SP por SEL_TALLERES_SP
+    this.model.query('SEL_UNIDAD_EXPEDIENTE_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
 }
 
 OrdenServicio.prototype.get_getTalleres = function(req, res, next) {

@@ -1,0 +1,86 @@
+/* FILE UPLOAD */
+.widget-container {
+    margin-right: 0;
+}
+
+.content h4 {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 18px;
+}
+ 
+.content {
+    margin-top: 50px;
+    margin-left: 10px;
+}
+ 
+.selected-item {
+    margin-bottom: 20px;
+}
+
+#selected-files {
+    display: none;
+}
+
+.options {
+    padding: 20px;
+    background-color: #f5f5f5;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 260px;
+}
+
+.caption {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.option {
+    margin-top: 10px;
+}
+
+.superior{
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+
+/* LIST SEARCH */
+.list-container {
+    width: 100%;							
+    height: auto;
+    position: relative;
+}
+
+.dx-list-item-content > div {
+    padding: 2px;
+    font-size: 15px;
+}
+
+.section
+{
+    background-color: red;
+}
+
+/* TREE VIEW */
+.form > div, #selection-treeview {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#checked-items {
+    margin-top: 20px;
+}
+
+.selected-data {
+    padding: 20px;
+    background: #f5f5f5;
+    font-size: 115%;
+    font-weight: bold;
+}
+
+.dx-list-item-content {
+    padding-left: 0;
+}

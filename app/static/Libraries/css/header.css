@@ -48,7 +48,6 @@
 
 #account{
     margin-right: -5px;
-    margin-top: 18px;
     position: absolute;
     right: 0;
 }
@@ -83,4 +82,8 @@
     font-size: 20px;
     margin-top: 4px;
     margin-left: -5px;
+}
+
+.labelLight{
+    font-weight: 400;
 }

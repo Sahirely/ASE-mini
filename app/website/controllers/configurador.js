@@ -7,7 +7,7 @@ var Load_Files = require('../controllers/load_files');
 var dirname = 'E:/ASEv2Documentos/public/archivos/';
 var fs = require('fs');
 
-var Configurador = function(conf) {
+var Configurador = function (conf) {
     this.conf = conf || {};
 
     this.view = new ConfiguradorView();
@@ -15,16 +15,16 @@ var Configurador = function(conf) {
         parameters: this.conf.parameters
     });
 
-    this.response = function() {
+    this.response = function () {
         this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next);
     }
 }
 
 //Configuraciones existentes
-Configurador.prototype.get_operaciones = function(req, res, next) {
+Configurador.prototype.get_operaciones = function (req, res, next) {
     var self = this;
     var params = [];
-    this.model.query('SEL_CONFIGURACIONES_SP', params, function(error, result) {
+    this.model.query('SEL_CONFIGURACIONES_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -33,14 +33,14 @@ Configurador.prototype.get_operaciones = function(req, res, next) {
 }
 
 //Obtiene los tipos de unidad del sistema de Proveedores
-Configurador.prototype.get_tipoUnidadesProveedores = function(req, res, next) {
+Configurador.prototype.get_tipoUnidadesProveedores = function (req, res, next) {
     var self = this;
     var params = [{
-                      name: 'idOperacion',
-                      value: req.query.idOperacion,
-                      type: self.model.types.INT
-                  }];
-    this.model.query('SEL_TIPOS_UNIDAD_SIS_PROVEEDORES_SP', params, function(error, result) {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
+    this.model.query('SEL_TIPOS_UNIDAD_SIS_PROVEEDORES_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -49,11 +49,11 @@ Configurador.prototype.get_tipoUnidadesProveedores = function(req, res, next) {
 }
 
 //Tipo Operaciones
-Configurador.prototype.get_tipoOperaciones = function(req, res, next) {
+Configurador.prototype.get_tipoOperaciones = function (req, res, next) {
     var self = this;
     var params = [];
 
-    this.model.query('SEL_FORMA_TIPO_DE_OPERACION_SP', params, function(error, result) {
+    this.model.query('SEL_FORMA_TIPO_DE_OPERACION_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -62,11 +62,11 @@ Configurador.prototype.get_tipoOperaciones = function(req, res, next) {
 }
 
 //Formas de Pago
-Configurador.prototype.get_formaPago = function(req, res, next) {
+Configurador.prototype.get_formaPago = function (req, res, next) {
     var self = this;
     var params = [];
 
-    this.model.query('SEL_FORMA_DE_PAGO_SP', params, function(error, result) {
+    this.model.query('SEL_FORMA_DE_PAGO_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -75,7 +75,7 @@ Configurador.prototype.get_formaPago = function(req, res, next) {
 }
 
 //Inserta nueva Operación
-Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
+Configurador.prototype.post_nuevaOperacion = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -124,14 +124,14 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         name: 'idcentros',
         value: req.body.idcentros,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'verificacion',
         value: req.body.verificacion,
         type: self.model.types.INT
     }];
 
 
-    this.model.post('INS_OPERACIONES_SP', params, function(error, result) {
+    this.model.post('INS_OPERACIONES_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -141,7 +141,7 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
 }
 
 //Licitaciones
-Configurador.prototype.get_licitaciones = function(req, res, next) {
+Configurador.prototype.get_licitaciones = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -149,7 +149,7 @@ Configurador.prototype.get_licitaciones = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_CONTRATOS_SP', params, function(error, result) {
+    this.model.query('SEL_CONTRATOS_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -158,7 +158,7 @@ Configurador.prototype.get_licitaciones = function(req, res, next) {
 }
 
 //Inserta nueva Operación
-Configurador.prototype.post_contratoOperacion = function(req, res, next) {
+Configurador.prototype.post_contratoOperacion = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -174,7 +174,7 @@ Configurador.prototype.post_contratoOperacion = function(req, res, next) {
     }];
 
 
-    this.model.post('INS_CONTRATO_OPERACION_SP', params, function(error, result) {
+    this.model.post('INS_CONTRATO_OPERACION_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -184,7 +184,7 @@ Configurador.prototype.post_contratoOperacion = function(req, res, next) {
 }
 
 //Inserta nueva Unidad
-Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
+Configurador.prototype.post_nuevaUnidad = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -197,7 +197,7 @@ Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
         name: 'vin',
         value: req.body.vin,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'gps',
         value: req.body.gps,
         type: self.model.types.INT
@@ -239,7 +239,7 @@ Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.post('INS_UNIDAD_SP', params, function(error, result) {
+    this.model.post('INS_UNIDAD_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -249,7 +249,7 @@ Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
 }
 
 //Centros De Trabajo
-Configurador.prototype.get_centrosDeTrabajo = function(req, res, next) {
+Configurador.prototype.get_centrosDeTrabajo = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -257,7 +257,7 @@ Configurador.prototype.get_centrosDeTrabajo = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_CENTROS_DE_TRABAJO_SP', params, function(error, result) {
+    this.model.query('SEL_CENTROS_DE_TRABAJO_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -266,7 +266,7 @@ Configurador.prototype.get_centrosDeTrabajo = function(req, res, next) {
 }
 
 //unidades
-Configurador.prototype.get_tipoUnidades = function(req, res, next) {
+Configurador.prototype.get_tipoUnidades = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -274,7 +274,7 @@ Configurador.prototype.get_tipoUnidades = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function(error, result) {
+    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -282,11 +282,11 @@ Configurador.prototype.get_tipoUnidades = function(req, res, next) {
     });
 }
 
-Configurador.prototype.get_getDatosFacturacion = function(req, res, next){
+Configurador.prototype.get_getDatosFacturacion = function (req, res, next) {
     var self = this;
-    var params = [{name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT}];
+    var params = [{ name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }];
 
-    self.model.query('SEL_DATOS_FACTURACION_OPERACION_SP', params, function (error, result){
+    self.model.query('SEL_DATOS_FACTURACION_OPERACION_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -294,14 +294,14 @@ Configurador.prototype.get_getDatosFacturacion = function(req, res, next){
     });
 }
 
-Configurador.prototype.get_insContratoFacturacion = function(req, res, next){
+Configurador.prototype.get_insContratoFacturacion = function (req, res, next) {
     var self = this;
-    var params = [{name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT},
-                  {name: 'rfc', value: req.query.rfc, type: self.model.types.STRING},
-                  {name: 'razonSocial', value: req.query.razonSocial, type: self.model.types.STRING}];
+    var params = [{ name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
+    { name: 'rfc', value: req.query.rfc, type: self.model.types.STRING },
+    { name: 'razonSocial', value: req.query.razonSocial, type: self.model.types.STRING }];
 
-    self.model.query('INS_CONTRATO_OPERACION_FACTURACION_SP', params, function (error, result){
-        self.view.expositor(res,{
+    self.model.query('INS_CONTRATO_OPERACION_FACTURACION_SP', params, function (error, result) {
+        self.view.expositor(res, {
             error: error,
             result: result
         });
@@ -309,19 +309,19 @@ Configurador.prototype.get_insContratoFacturacion = function(req, res, next){
 }
 
 //Modulos
-Configurador.prototype.get_catalogoModulos = function(req, res, next) {
+Configurador.prototype.get_catalogoModulos = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
         value: req.query.idOperacion,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'tipo',
         value: req.query.tipo,
         type: self.model.types.STRING
     }];
 
-    this.model.query('SEL_CATALOGO_MODULOS_SP', params, function(error, result) {
+    this.model.query('SEL_CATALOGO_MODULOS_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -330,19 +330,19 @@ Configurador.prototype.get_catalogoModulos = function(req, res, next) {
 }
 
 //Detalle Modulos
-Configurador.prototype.get_detalleModulo = function(req, res, next) {
+Configurador.prototype.get_detalleModulo = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idModulo',
         value: req.query.idModulo,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idOperacion',
         value: req.query.idOperacion,
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_CATALOGO_DETALLE_MODULO_SP', params, function(error, result) {
+    this.model.query('SEL_CATALOGO_DETALLE_MODULO_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -350,7 +350,7 @@ Configurador.prototype.get_detalleModulo = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
+Configurador.prototype.post_moduloPorDertalle = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -363,14 +363,14 @@ Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
         name: 'detalle',
         value: req.body.detalle,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'idOperacion',
         value: req.body.idOperacion,
         type: self.model.types.INT
     }];
 
 
-    this.model.post('INS_DETALLE_MODULO_SP', params, function(error, result) {
+    this.model.post('INS_DETALLE_MODULO_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -379,7 +379,7 @@ Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_moduloAdicional= function(req, res, next) {
+Configurador.prototype.post_moduloAdicional = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -395,7 +395,7 @@ Configurador.prototype.post_moduloAdicional= function(req, res, next) {
     }];
 
 
-    this.model.post('INS_MODULO_ADICIONAL_SP', params, function(error, result) {
+    this.model.post('INS_MODULO_ADICIONAL_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -405,7 +405,7 @@ Configurador.prototype.post_moduloAdicional= function(req, res, next) {
 }
 
 //Datos de la Operación
-Configurador.prototype.get_datosOperacion = function(req, res, next) {
+Configurador.prototype.get_datosOperacion = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -413,7 +413,7 @@ Configurador.prototype.get_datosOperacion = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_DATOS_OPERACION_SP', params, function(error, result) {
+    this.model.query('SEL_DATOS_OPERACION_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -422,7 +422,7 @@ Configurador.prototype.get_datosOperacion = function(req, res, next) {
 }
 
 //zonas
-Configurador.prototype.get_zonas = function(req, res, next) {
+Configurador.prototype.get_zonas = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idContratoOperacion',
@@ -430,7 +430,7 @@ Configurador.prototype.get_zonas = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_ZONAS_OPERACIONES_SP', params, function(error, result) {
+    this.model.query('SEL_ZONAS_OPERACIONES_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -438,7 +438,7 @@ Configurador.prototype.get_zonas = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_numeroUnidades= function(req, res, next) {
+Configurador.prototype.post_numeroUnidades = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -458,7 +458,7 @@ Configurador.prototype.post_numeroUnidades= function(req, res, next) {
     }];
 
 
-    this.model.post('INS_UNIDAD_OPERACION_SP', params, function(error, result) {
+    this.model.post('INS_UNIDAD_OPERACION_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -468,7 +468,7 @@ Configurador.prototype.post_numeroUnidades= function(req, res, next) {
 }
 
 //muestra el numero de unidades por operacion
-Configurador.prototype.get_unidadOperacion = function(req, res, next) {
+Configurador.prototype.get_unidadOperacion = function (req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -476,7 +476,7 @@ Configurador.prototype.get_unidadOperacion = function(req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_UNIDAD_OPERACION_SP', params, function(error, result) {
+    this.model.query('SEL_UNIDAD_OPERACION_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -484,115 +484,115 @@ Configurador.prototype.get_unidadOperacion = function(req, res, next) {
     });
 }
 //Carga de informacion de unidades en EXCEL
-Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
+Configurador.prototype.post_cargararMaxUnidades = function (req, res, next) {
 
     var self = this;
     var workbook = XLSX.readFile(dirname + req.body.archivo);
     var first_sheet_name = workbook.SheetNames[0];
-        //Método para carga
-        var row = 0;
-        var column = 'A';
-        var address_of_cell = '';
-        var hasRows = true;
-        /* Get worksheet */
-        var worksheet = workbook.Sheets[first_sheet_name];
-        //Recorro el contenido
-        while (hasRows) {
-            row++;
-            address_of_cell = column + row.toString();
-            if(row != 1){
-                if (worksheet[address_of_cell] != null) {
-                    if (worksheet[address_of_cell].v != '') {
+    //Método para carga
+    var row = 0;
+    var column = 'A';
+    var address_of_cell = '';
+    var hasRows = true;
+    /* Get worksheet */
+    var worksheet = workbook.Sheets[first_sheet_name];
+    //Recorro el contenido
+    while (hasRows) {
+        row++;
+        address_of_cell = column + row.toString();
+        if (row != 1) {
+            if (worksheet[address_of_cell] != null) {
+                if (worksheet[address_of_cell].v != '') {
 
-                        //console.log(row);
-                        var params = [{
-                            name: 'numeroEconomico',
-                            value: worksheet['A' + row].v,
-                            type: self.model.types.STRING
-                        }, {
-                            name: 'vin',
-                            value: worksheet['B' + row].v,
-                            type: self.model.types.STRING
-                        },{
-                            name: 'gps',
-                            value: worksheet['C' + row].v,
-                            type: self.model.types.INT
-                        }, {
-                            name: 'idTipoUnidad',
-                            value: worksheet['D' + row].v,
-                            type: self.model.types.INT
-                        }, {
-                            name: 'sustituto',
-                            value: worksheet['E' + row].v,
-                            type: self.model.types.INT
-                        }, {
-                            name: 'idOperacion',
-                            value: req.body.idOperacion,
-                            type: self.model.types.INT
-                        }, {
-                            name: 'idCentroTrabajo',
-                            value: worksheet['F' + row].v,
-                            type: self.model.types.INT
-                        }, {
-                            name: 'placas',
-                            value: worksheet['G' + row].v,
-                            type: self.model.types.STRING
-                        }, {
-                            name: 'idZona',
-                            value: worksheet['H' + row].v,
-                            type: self.model.types.INT
-                        }, {
-                            name: 'modelo',
-                            value: worksheet['I' + row].v,
-                            type: self.model.types.STRING
-                        }, {
-                            name: 'combustible',
-                            value: worksheet['J' + row].v,
-                            type: self.model.types.STRING
-                        }, {
-                            name: 'verificada',
-                            value: worksheet['K' + row].v,
-                            type: self.model.types.INT
-                        }];
+                    //console.log(row);
+                    var params = [{
+                        name: 'numeroEconomico',
+                        value: worksheet['A' + row].v,
+                        type: self.model.types.STRING
+                    }, {
+                        name: 'vin',
+                        value: worksheet['B' + row].v,
+                        type: self.model.types.STRING
+                    }, {
+                        name: 'gps',
+                        value: worksheet['C' + row].v,
+                        type: self.model.types.INT
+                    }, {
+                        name: 'idTipoUnidad',
+                        value: worksheet['D' + row].v,
+                        type: self.model.types.INT
+                    }, {
+                        name: 'sustituto',
+                        value: worksheet['E' + row].v,
+                        type: self.model.types.INT
+                    }, {
+                        name: 'idOperacion',
+                        value: req.body.idOperacion,
+                        type: self.model.types.INT
+                    }, {
+                        name: 'idCentroTrabajo',
+                        value: worksheet['F' + row].v,
+                        type: self.model.types.INT
+                    }, {
+                        name: 'placas',
+                        value: worksheet['G' + row].v,
+                        type: self.model.types.STRING
+                    }, {
+                        name: 'idZona',
+                        value: worksheet['H' + row].v,
+                        type: self.model.types.INT
+                    }, {
+                        name: 'modelo',
+                        value: worksheet['I' + row].v,
+                        type: self.model.types.STRING
+                    }, {
+                        name: 'combustible',
+                        value: worksheet['J' + row].v,
+                        type: self.model.types.STRING
+                    }, {
+                        name: 'verificada',
+                        value: worksheet['K' + row].v,
+                        type: self.model.types.INT
+                    }];
 
 
-                        self.model.queryConnect('INS_UNIDAD_SP', params, null);
+                    self.model.queryConnect('INS_UNIDAD_SP', params, null);
 
-                    } else {
-                        hasRows = false;
-                    }
                 } else {
                     hasRows = false;
                 }
+            } else {
+                hasRows = false;
             }
         }
-        //Devuelvo la salida
-        self.view.expositor(res, {
-            error: null,
-            result: 'finish'
-        });
+    }
+    //Devuelvo la salida
+    self.view.expositor(res, {
+        error: null,
+        result: 'finish'
+    });
     /*});*/
 };
 
 //Tipo de unidades por Operación
- Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
+Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
 
     var self = this;
     var params = [{
-         name: 'idOperacion',
-         value: req.query.idCita,
-         type: self.model.types.INT
-     }];
+        name: 'idOperacion',
+        value: req.query.idCita,
+        type: self.model.types.INT
+    }];
 
-     this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
         });
-     });
+    });
 }
 
-Configurador.prototype.post_moduloporFechas = function(req, res, next) {
+Configurador.prototype.post_moduloporFechas = function (req, res, next) {
 
     var object = {};
     var params = {};
@@ -613,7 +613,7 @@ Configurador.prototype.post_moduloporFechas = function(req, res, next) {
     }];
 
 
-    this.model.post('INS_OPERACION_TIEMPO_EN_ESPERA_SP', params, function(error, result) {
+    this.model.post('INS_OPERACION_TIEMPO_EN_ESPERA_SP', params, function (error, result) {
         //Callback;
         object.error = error;
         object.result = result;
@@ -623,40 +623,72 @@ Configurador.prototype.post_moduloporFechas = function(req, res, next) {
 }
 
 //Tipo de unidades por Operación
- Configurador.prototype.get_datosOperacionTiempoEspera = function (req, res, next) {
+Configurador.prototype.get_datosOperacionTiempoEspera = function (req, res, next) {
 
     var self = this;
     var params = [{
-         name: 'idOperacion',
-         value: req.query.idOperacion,
-         type: self.model.types.INT
-     }];
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
+    }];
 
-     this.model.query('SEL_OPERACION_TIEMPO_EN_ESPERA_SP', params, function (error, result) {
+    this.model.query('SEL_OPERACION_TIEMPO_EN_ESPERA_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
         });
-     });
+    });
 }
 
 
 //devuelve los trabajos con estatus iniciados
-Configurador.prototype.post_subirArchivo = function(req, res, next){
+Configurador.prototype.post_subirArchivo = function (req, res, next) {
     var self = this;
     var Subir = new Load_Files();
-     Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
-                     "myFile2": {"Name":"Unidad","Path": "E:/ASE_Temp", "Type": "*"}
-                 });
+    Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
+        "myFile2": { "Name": "Unidad", "Path": "E:/ASE_Temp", "Type": "*" }
+    });
 
-    Subir.upload( function( respuesta ){
+    Subir.upload(function (respuesta) {
         self.view.expositor(res, {
             error: false,
-            result: {success: true, respuesta: respuesta }
+            result: { success: true, respuesta: respuesta }
         });
-    },"E:/ASE_Temp", req, res );
+    }, "E:/ASE_Temp", req, res);
     // setTimeout( function(){},3000 );
 }
+
+Configurador.prototype.post_uploadMemo = function (req, res, next) {
+    var storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            nameFile = 'app/static/image/Memorandums/';
+            cb(null, nameFile);
+            res.end('');
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+            nameFile = '';
+            consecutivoArchivo = 0;
+        }
+    });
+    var upload = multer({
+        storage: storage
+    }).any();
+
+    upload(req, res, function (err) {
+        if (err) {
+            //console.log(err);
+            return res.end("Error al subir el archivo.");
+        } else {
+            req.files.forEach(function (f) {
+                //console.log(f.originalname);
+                // and move file to final destination...
+            });
+            res.end("Archivo subido");
+        }
+    });
+}
+
 
 ////Método para insertar evidencia
 Configurador.prototype.post_uploadfiles = function (req, res, next) {
@@ -838,12 +870,12 @@ var obtieneConsecutivo = function (ruta) {
 }
 
 //Tipos de Niveles
- Configurador.prototype.get_tiposAprobacion = function (req, res, next) {
+Configurador.prototype.get_tiposAprobacion = function (req, res, next) {
 
     var self = this;
     var params = [];
 
-    this.model.query('SEL_TIPO_APROBACION_SP', params, function(error, result) {
+    this.model.query('SEL_TIPO_APROBACION_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -852,21 +884,21 @@ var obtieneConsecutivo = function (ruta) {
 }
 
 //Partidas Unidad
- Configurador.prototype.get_partidasUnidad = function (req, res, next) {
+Configurador.prototype.get_partidasUnidad = function (req, res, next) {
 
     var self = this;
     var params = [{
-         name: 'idContratoOperacion',
-         value: req.query.idContratoOperacion,
-         type: self.model.types.INT
-     },
-     {
-         name: 'idTipoUnidad',
-         value: req.query.idTipoUnidad,
-         type: self.model.types.INT
-     }];
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    },
+    {
+        name: 'idTipoUnidad',
+        value: req.query.idTipoUnidad,
+        type: self.model.types.INT
+    }];
 
-    this.model.query('SEL_PARTIDAS_UNIDAD_SP', params, function(error, result) {
+    this.model.query('SEL_PARTIDAS_UNIDAD_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -874,7 +906,7 @@ var obtieneConsecutivo = function (ruta) {
     });
 }
 
-Configurador.prototype.post_eliminaDetalleModulo = function(req, res, next) {
+Configurador.prototype.post_eliminaDetalleModulo = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -886,7 +918,7 @@ Configurador.prototype.post_eliminaDetalleModulo = function(req, res, next) {
     }];
 
 
-    this.model.post('DEL_DETALLE_MODULO_SP', params, function(error, result) {
+    this.model.post('DEL_DETALLE_MODULO_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -895,7 +927,7 @@ Configurador.prototype.post_eliminaDetalleModulo = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_eliminaModulo = function(req, res, next) {
+Configurador.prototype.post_eliminaModulo = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -907,7 +939,7 @@ Configurador.prototype.post_eliminaModulo = function(req, res, next) {
     }];
 
 
-    this.model.post('DEL_MODULO_SP', params, function(error, result) {
+    this.model.post('DEL_MODULO_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -916,7 +948,7 @@ Configurador.prototype.post_eliminaModulo = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_nivelMonto = function(req, res, next) {
+Configurador.prototype.post_nivelMonto = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -925,26 +957,26 @@ Configurador.prototype.post_nivelMonto = function(req, res, next) {
         name: 'idOperacionContrato',
         value: req.body.idOperacionContrato,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'montoDe',
         value: req.body.montoDe,
         type: self.model.types.DECIMAL
-    },{
+    }, {
         name: 'montoA',
         value: req.body.montoA,
         type: self.model.types.DECIMAL
-    },{
+    }, {
         name: 'montoMax',
         value: req.body.montoMax,
         type: self.model.types.DECIMAL
-    },{
+    }, {
         name: 'nivel',
         value: req.body.nivel,
         type: self.model.types.DECIMAL
     }];
 
 
-    this.model.post('INS_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
+    this.model.post('INS_DETALLE_APROBACION_MONTO_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -953,21 +985,21 @@ Configurador.prototype.post_nivelMonto = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_EliminaNivelMonto = function(req, res, next){
-  var self = this;
-  var object = {};
-  var params = [{name: 'idOperacionContrato', value: req.body.idOperacionContrato, type: self.model.types.INT}];
+Configurador.prototype.post_EliminaNivelMonto = function (req, res, next) {
+    var self = this;
+    var object = {};
+    var params = [{ name: 'idOperacionContrato', value: req.body.idOperacionContrato, type: self.model.types.INT }];
 
-  self.model.post('DEL_NIVEL_MONTO_SP', params, function(error, result){
-      object.error = error;
-      object.result = result;
+    self.model.post('DEL_NIVEL_MONTO_SP', params, function (error, result) {
+        object.error = error;
+        object.result = result;
 
-      self.view.expositor(res, object);
-  });
+        self.view.expositor(res, object);
+    });
 
 }
 
-Configurador.prototype.post_nivelPartida = function(req, res, next) {
+Configurador.prototype.post_nivelPartida = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -976,18 +1008,18 @@ Configurador.prototype.post_nivelPartida = function(req, res, next) {
         name: 'idOperacionContrato',
         value: req.body.idOperacionContrato,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idPartida',
         value: req.body.idPartida,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'nivel',
         value: req.body.nivel,
         type: self.model.types.DECIMAL
     }];
 
 
-    this.model.post('INS_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
+    this.model.post('INS_DETALLE_APROBACION_PARTIDA_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -996,7 +1028,7 @@ Configurador.prototype.post_nivelPartida = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_modificacionNivelMonto = function(req, res, next) {
+Configurador.prototype.post_modificacionNivelMonto = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -1005,22 +1037,22 @@ Configurador.prototype.post_modificacionNivelMonto = function(req, res, next) {
         name: 'idOperacionContrato',
         value: req.body.idOperacionContrato,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'montoDe',
         value: req.body.montoDe,
         type: self.model.types.DECIMAL
-    },{
+    }, {
         name: 'montoA',
         value: req.body.montoA,
         type: self.model.types.DECIMAL
-    },{
+    }, {
         name: 'nivel',
         value: req.body.nivel,
         type: self.model.types.DECIMAL
     }];
 
 
-    this.model.post('UPD_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
+    this.model.post('UPD_DETALLE_APROBACION_MONTO_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -1029,7 +1061,7 @@ Configurador.prototype.post_modificacionNivelMonto = function(req, res, next) {
     });
 }
 
-Configurador.prototype.post_modificacionNivelPartida = function(req, res, next) {
+Configurador.prototype.post_modificacionNivelPartida = function (req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -1038,18 +1070,18 @@ Configurador.prototype.post_modificacionNivelPartida = function(req, res, next) 
         name: 'idOperacionContrato',
         value: req.body.idOperacionContrato,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'idPartida',
         value: req.body.idPartida,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'nivel',
         value: req.body.nivel,
         type: self.model.types.DECIMAL
     }];
 
 
-    this.model.post('UPD_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
+    this.model.post('UPD_DETALLE_APROBACION_PARTIDA_SP', params, function (error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -1060,14 +1092,14 @@ Configurador.prototype.post_modificacionNivelPartida = function(req, res, next) 
 
 Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
 
-     var self = this;
+    var self = this;
     var params = [{
         name: 'idOperacionContrato',
         value: req.query.idOperacionContrato,
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
+    this.model.query('SEL_DETALLE_APROBACION_MONTO_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -1076,22 +1108,22 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
 }
 
 //Partidas Unidad
- Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
+Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
 
     var self = this;
     var params = [{
-         name: 'idContratoOperacion',
-         value: req.query.idContratoOperacion,
-         type: self.model.types.INT
-     }//,
-    //  {
-    //      name: 'idTipoUnidad',
-    //      value: req.query.idTipoUnidad,
-    //      type: self.model.types.INT
-    //  }
-   ];
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }//,
+        //  {
+        //      name: 'idTipoUnidad',
+        //      value: req.query.idTipoUnidad,
+        //      type: self.model.types.INT
+        //  }
+    ];
 
-    this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
+    this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -1099,5 +1131,28 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
     });
 }
 
+Configurador.prototype.get_catalogoTipoUsuarios = function (req, res, next) {
+    var self = this;
+    var params = []
+
+    this.model.query('SEL_CATALOGO_TIPO_USUARIOS_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Configurador.prototype.get_usuarios = function (req, res, next) {
+    var self = this;
+    var params = []
+
+    this.model.query('SEL_USUARIOS_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 
 module.exports = Configurador;
