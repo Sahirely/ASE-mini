@@ -1,13 +1,13 @@
-var memorandumView = require('../views/ejemploVista'),
-    memorandumModel = require('../models/dataAccess2'),
+var MemorandumView = require('../views/ejemploVista'),
+    MemorandumModel = require('../models/dataAccess2'),
     moment = require('moment');
 
 //configuración para el objeto memorandum
-var memorandum = function (conf) {
+var Memorandum = function (conf) {
     this.conf = conf || {};
 
-    this.view = new memorandumView();
-    this.model = new memorandumModel({
+    this.view = new MemorandumView();
+    this.model = new MemorandumModel({
         parameters: this.conf.parameters
     });
 
@@ -17,10 +17,17 @@ var memorandum = function (conf) {
 }
 
 //Obtiene los núemeros economicos de la operación
-memorandum.prototype.post_alta = function(req, res, next) {
+Memorandum.prototype.post_alta = function(req, res, next) {
     var self = this;
     var params = [
-        { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT}
+        { name: 'titulo', value: req.query.titulo, type: self.model.types.STRING},
+        { name: 'descripcion', value: req.query.descripcion, type: self.model.types.STRING},
+        { name: 'notificaZona', value: req.query.notificaZona, type: self.model.types.INT},
+        { name: 'notificaPerfil', value: req.query.notificaPerfil, type: self.model.types.INT},
+        { name: 'notificaUsuario', value: req.query.notificaUsuario, type: self.model.types.INT},
+        { name: 'jsonZonas', value: req.query.jsonZonas, type: self.model.types.STRING},
+        { name: 'jsonPerfiles', value: req.query.jsonPerfiles, type: self.model.types.STRING},
+        { name: 'jsonUsuarios', value: req.query.jsonUsuarios, type: self.model.types.STRING}
     ];
 
     this.model.query('INS_MEMORANDUM_SP', params, function(error, result) {
@@ -29,4 +36,6 @@ memorandum.prototype.post_alta = function(req, res, next) {
             result: result
         });
     });
-};
+}
+
+module.exports = Memorandum;

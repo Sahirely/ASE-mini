@@ -528,6 +528,15 @@ registrationModule.factory('configuradorRepository', function ($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
+        },
+        getUsuarios: function () {
+            return $http({
+                url: onfiguradorUrl + 'usuarios/',
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
         }
 
     }

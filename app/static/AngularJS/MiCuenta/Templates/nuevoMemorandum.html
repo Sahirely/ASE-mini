@@ -6,21 +6,22 @@
     <hr>
     <div class="container-fluid">
         <div class="row superior">
-            <div class="subtitle">
-                <span> Datos Generales</span>
+            <div class="subtitle text-center">
+                <span><span class="fa fa-info"></span> Datos Generales</span>
+                <button class="pull-right btn btn-sm btn-primary" type="button" ng-click="saveMemo()">GUARDAR</button>
             </div>
             <hr>
             <div class="col-md-6">
-                <input type="text" class="form-control text-center" placeholder="Introduce aqui el título" ng-model="titulo" />
+                <input type="text" class="form-control text-center" placeholder="Titulo" ng-model="titulo" />
                 <br>
-                <div id="editor"></div>
+                <div id="editor" ng-model="descripcion"></div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="dx-viewport demo-container text-center" ng-app="DemoApp" ng-controller="nuevoMemorandumController">
                     <h3> Evidencias</h3>
                     <div id="fileuploader">
                         <div class="widget-container">
-                            <div dx-file-uploader="options">
+                            <div dx-file-uploader="fileUploadOptions" class="pull-left">
                             </div>
                         </div>
                     </div>
@@ -29,22 +30,68 @@
             </div>
         </div>
         <div class="row">
-            <div class="subtitle">
-                <span> Notificaciones</span>
+            <div class="subtitle text-center">
+                <span><span class="fa fa-envelope-o"></span> Notificaciones</span>
             </div>
             <hr>
             <br>
             <div class="col-md-4">
-                <div dx-check-box="checkBox.unchecked" ng-model="chkShowPerfiles"></div><span> Notificación por Perfil</span>
-                <div class="row" ng-if="chkShowPerfiles">
-                    
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="row">
+                            <div dx-check-box="{text: 'Notificación por Perfil', value: false}" ng-model="chkShowPerfiles"></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="dx-viewport demo-container">
+                                <div class="dx-searchbar">
+                                    <div dx-text-box="searchOptionsPerfiles"></div>
+                                </div>
+                                <div>
+                                    <div dx-list="listOptionsPerfiles"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
-                <div dx-check-box="checkBox.unchecked"></div><span> Notificación por Zona</span>
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="row">
+                            <div dx-check-box="{text: 'Notificación por Usuarios', value: false}" ng-model="chkShowUsuarios"></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="dx-viewport demo-container">
+                                <div class="dx-searchbar">
+                                    <div dx-text-box="searchOptionsUsuarios"></div>
+                                </div>
+                                <div>
+                                    <div dx-list="listOptionsUsuarios"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4">
-                <div dx-check-box="checkBox.unchecked"></div><span> Notificación por Usuario</span>
+                <div class="row">
+                    <div class="row">
+                        <div dx-check-box="{text: 'Notificación por Zona', value: false}" ng-model="chkShowZonas"></div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div dx-text-box="searchOptions"></div>
+                        <div dx-tree-view="treeViewZonasOptions" dx-item-alias="data">
+                            <div data-options="dxTemplate: {name: 'item'}">
+                                <div>
+                                    {{data.text}} {{(data.price) ? (" ($" + data.price + ")") : ""}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -2,18 +2,25 @@ var nuevoMemorandumUrl = global_settings.urlCORS + '/api/memorandum/';
 
 registrationModule.factory('nuevoMemorandumRepository', function ($http) {
     return {
-        getPerfiles: function (idContratoOperacion,idUsuario) {
+        save: function(titulo, descripcion, notificaZona, notificaPerfil, notificaUsuario, jsonZonas, jsonPerfiles, jsonUsuarios){
             return $http({
-                url: nuevoMemorandumUrl + 'ordenesAtraso/',
-                method: "GET",
+                url: nuevoMemorandumUrl + 'alta/',
+                method: "POST",
                 params: {
-                    idUsuario:idUsuario,
-                    idContratoOperacion:idContratoOperacion
-                },
+                    titulo: titulo,
+                    descripcion: descripcion,
+                    notificaZona: notificaZona, 
+                    notificaPerfil: notificaPerfil, 
+                    notificaUsuario: notificaUsuario, 
+                    jsonZonas: jsonZonas,
+                    jsonPerfiles: jsonPerfiles,
+                    jsonUsuarios: jsonUsuarios
+                  },
                 headers: {
-                    'Content-Type': 'application/json'
+                'Content-Type': 'application/json'
                 }
             });
-        },
+        }
+       
     }
 })

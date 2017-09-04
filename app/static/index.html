@@ -184,6 +184,12 @@
                         <div class="singOut right">
                             <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
                                 <span> {{userData.Rol}}</span>
+                                <br>
+                                <span class="clear">
+                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                                        {{userData.nombreCompleto}}
+                                        </span>
+                            </span>
                             </div>
                             <!-- <div>
                                 <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
@@ -191,52 +197,6 @@
                         </div>
                     </li>
 
-                    <li class="dropdown" id="memos">
-                        <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell"></i> <span class="label label-primary">1</span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-alerts">
-                            <li>
-                                <a href="#">
-                                    <i class="fa fa-exclamation"></i>
-                                    <i class="fa fa-envelope fa-fw"></i> Memorandum #060
-                                    <span class="pull-right text-muted small">hace 2 hrs</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope-o fa-fw"></i> Memorandum #059
-                                        <span class="pull-right text-muted small">hace 3 hrs</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope-o fa-fw"></i> Memorandum #058
-                                        <span class="pull-right text-muted small">hace 1 día</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope-o fa-fw"></i> Memorandum #057
-                                        <span class="pull-right text-muted small">hace 1 día</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <div class="text-center link-block">
-                                    <a href="#">
-                                        <i class="fa fa-envelope"></i> <strong>Mostrar todos los Memorandums</strong>
-                                    </a>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
                     <li id="switcher">
                         <div ng-hide="{{userData.idRol == 5}}">
                             <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle"
@@ -249,17 +209,6 @@
                         </div>
                     </li>
                     <li id="account">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear">
-                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                                        {{userData.nombreCompleto}}
-                                            <b class="caret"></b>
-                                        </span>
-                            </span>
-                        </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="miCuenta">Mi Cuenta</a></li>
-                            <li class="divider"></li>
                             <li><a href="/" ng-click="logOut()">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
                                 <!-- <div ng-click="logOut()" id="Close" title="Cerrar Sesión">
                                     <a href="/" >Cerrar Sesión
@@ -267,7 +216,6 @@
                                                         </a>
                                 </div> -->
                             </li>
-                        </ul>
                     </li>
 
                     <!-- <li>
