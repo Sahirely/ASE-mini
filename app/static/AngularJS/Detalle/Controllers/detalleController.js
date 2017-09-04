@@ -44,7 +44,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $('#loadModal').modal('show')
     $scope.userData = userFactory.getUserData()
     $scope.rolLogged = $scope.userData.idRol
-    $scope.aprovisonamiento = localStorageService.get('provision')
+    $scope.aprovisonamiento = $routeParams.provision;//localStorageService.get('provision');
     $scope.idUsuario = $scope.userData.idUsuario
     $scope.btnSwitch.classCosto = 'btn btn-success'
     $scope.btnSwitch.classVenta = 'btn btn-default'
@@ -1604,9 +1604,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       },
         function (isConfirm) {
           if (isConfirm) {
-            detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function (result) {
+            detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function (result) {
               if (result.data[0].success == 1) {
-                detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario).then(function (result) {
+                detalleRepository.insertaBPRO($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function (result) {
                   if (result.data.length > 0) {
                     alertFactory.info('Se ha provisionado correctamente')
                     swal('Proceso Realizado')
@@ -1696,7 +1696,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     } */
 
   $scope.validaFacturaCotizacionBoton = function () {
-    detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario).then(function (result) {
+    detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function (result) {
       console.log(result)
       if (result.data[0].success == 1) {
         $scope.botonProcesarCompra = true
@@ -1752,9 +1752,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.realizaProvision = function () {
-    $scope.promise = detalleRepository.postaproviosionamiento($scope.idOrden, $scope.userData.idUsuario).then(function () {
+    $scope.promise = detalleRepository.postaproviosionamiento($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function () {
       swal('Trabajo terminado!', 'La orden se ha provisionado corractamente')
-      localStorageService.remove('provision')
+      // localStorageService.remove('provision')
       $('html, body').animate({
         scrollTop: 0
       }, 1000)

@@ -405,39 +405,43 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        getfacturaCotizacion: function(idOrden, idUsuario) {
+        getfacturaCotizacion: function(idOrden, idUsuario, idOperacion, isProduction) {
             return $http({
                 url: detalleUrl + 'facturaCotizacion/',
                 method: "GET",
                 params: {
                     idOrden: idOrden,
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion,
+                    isProduction: isProduction
                 },
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
         },
-        insertaBPRO: function(idOrden, idUsuario) {
-            debugger;
+        insertaBPRO: function(idOrden, idUsuario, idOperacion, isProduction) {
             return $http({
                 url: detalleUrl + 'insertBPRO',
                 method: "POST",
                 params: {
                     idOrden: idOrden,
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion,
+                    isProduction: isProduction
                 },
                 headers: { 'Content-Type': 'application/json' }
             });
         },
-        postaproviosionamiento: function(idOrden, idUsuario) {
-            debugger;
+        postaproviosionamiento: function(idOrden, idUsuario, idOperacion, isProduction) {
             return $http({
                 url: detalleUrl + 'aproviosionamiento',
                 method: "POST",
                 params: {
                     idOrden: idOrden,
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion,
+                    isProduction: isProduction
                 },
                 headers: { 'Content-Type': 'application/json' }
             });
