@@ -41,8 +41,6 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         //OBTENEMOS LOS MEMORANDUMS DEL CLIENTE
         //EN CASO DE EXISTIR MEMORANDUMS ENTONCES MOSTRAMOS MODAL DE BLOQUEO
         $("#mdMemorandums").modal('show')
-
-
         $scope.LoadData();
     };
 
