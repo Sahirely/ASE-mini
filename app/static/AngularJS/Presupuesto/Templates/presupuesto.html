@@ -218,7 +218,7 @@
                                 <tr ng-repeat="item in lstPresupuestos">
                                     <!-- <td>{{item.idPresupuesto}}</td> -->
                                     <td>{{item.saldo | currency: "$"}}</td>
-                                    <td> <input type="checkbox"  ng-model="item.isChecked" ng-change="sumTraspasoSaldos(item)"  > </td>
+                                    <td> <input type="checkbox"  ng-model="item.isChecked" ng-change="sumTraspasoSaldos()"  > </td>
                                 </tr>
                             </tbody>
                         </table>

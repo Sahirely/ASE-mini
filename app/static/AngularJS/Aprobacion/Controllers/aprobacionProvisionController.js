@@ -8,19 +8,19 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
       userFactory.ValidaSesion();
       $scope.userData = userFactory.getUserData();
   		$scope.getAprobacionProvision();
-  	}
+  	}	
 
   	$scope.getAprobacionProvision = function () {
 
         $scope.aprobacionProvision =[];
         $('.dataTableAprobacionProvision').DataTable().destroy();
-
+        
         provisionesRepository.getAprobacionProvision($scope.userData.contratoOperacionSeleccionada).then(function (result) {
-
+        
             if (result.data.length > 0) {
                $scope.aprobacionProvision=result.data;
                globalFactory.filtrosTabla("dataTableAprobacionProvision", "Provisión", 100);
-
+               
             } else {
                 alertFactory.info("No se encontrarón datos");
             }
@@ -30,8 +30,8 @@ registrationModule.controller('aprobacionProvisionController', function ($scope,
     }
 
     $scope.seleccionarOrden = function(obj) {
-            location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden + '&provision=true';
-            // localStorageService.set('provision', obj);
+        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + obj.idEstatusOrden;
+        localStorageService.set('provision', obj);
     }
 
   });

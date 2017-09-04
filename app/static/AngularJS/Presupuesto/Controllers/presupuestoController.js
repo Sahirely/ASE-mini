@@ -399,42 +399,18 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
         $scope.sumTraspaso =0.00;
     }
 
-    $scope.sumTraspasoSaldos = function(objPresupuesto) {
-        $scope.sumTraspaso =0.00;
-        $scope.sumTraspaso = parseFloat($scope.presupuesto == '' ? 0 : $scope.presupuesto);
 
-        if (objPresupuesto !== undefined) {
-            presupuestoRepository.hasCompletePayment(objPresupuesto.idPresupuesto).then(function(result) {
-                if (result.data[0].result == 0) {
-                    objPresupuesto.isChecked = false;                    
-                    alertFactory.info("El saldo del presupuesto especial no se puede seleccionar porque cuenta con ordenes pendientes de cobro.");
-                }
-                $scope.sumSelectedRows();
-            });
-        }else{
-            $scope.sumSelectedRows();
-        }
-    }
-
-    $scope.sumSelectedRows = function() {
-
-        $scope.lstPresupuestos.forEach(function(item) {
-            if (item.isChecked == true) {
-                $scope.sumTraspaso += parseFloat(item.saldo);
+    $scope.sumTraspasoSaldos = function() {
+      $scope.sumTraspaso = parseFloat($scope.presupuesto == '' ? 0 : $scope.presupuesto);
+      $scope.lstPresupuestos.forEach(function(item) {
+            if(item.isChecked == true){
+                $scope.sumTraspaso +=parseFloat(item.saldo) ;
             }
         });
     }
 
     $scope.change_presupuesto = function(){
       $scope.sumTraspasoSaldos();
-    }
-
-    $scope.hasCompletePayment = function(idPresupúesto) {
-
-    presupuestoRepository.hasCompletePayment(idPresupúesto).then(function(result) {
-            console.log(result.data[0].result);
-            return  result.data[0].result;
-        });
     }
 
 
