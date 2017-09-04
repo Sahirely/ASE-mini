@@ -99,6 +99,7 @@
                                 <th>Agendó</th>
                                 <th>Fecha Pre-cancelación</th>
                                 <th>Usuario Pre-cancela</th>
+                                <th>Comentarios Cancelación</th>
                                 <th></th>
                                 <th></th>
                             </tr>
@@ -118,6 +119,7 @@
                                 <td>{{ordenesCanceladas.idUsuarioAgendo}}</td>
                                 <td>{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
                                 <td>{{ordenesCanceladas.usuarioCancelacion}}</td>
+                                <td>{{ordenesCanceladas.comentarios}}</td>
                                 <td><button ng-click="DissmisOrder(ordenesCanceladas.idOrden)" class="btn btn-success">Ignorar Cancelación</button></td>
                                 <td><button ng-click="CancelOrder(ordenesCanceladas.idOrden)" class="btn btn-cancela">Cancelar Orden</button></td>
                             </tr>

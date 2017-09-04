@@ -347,14 +347,15 @@ registrationModule.factory('detalleRepository', function($http) {
                 headers: { 'Content-Type': 'application/json' }
             });
         },
-        postPreCancelaOrden: function(idUsuario, idOrden) {
+        postPreCancelaOrden: function(idUsuario, idOrden, comentario) {
             debugger;
             return $http({
                 url: detalleUrl + 'preCancelaOrden',
                 method: "POST",
                 params: {
                     idUsuario: idUsuario,
-                    idOrden: idOrden
+                    idOrden: idOrden,
+                    comentario: comentario
                 },
                 header: { 'Content-Type': 'application/json' }
             });
