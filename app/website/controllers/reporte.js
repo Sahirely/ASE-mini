@@ -206,11 +206,6 @@ Reporte.prototype.get_reporteUtilidad = function(req, res, next) {
             name: 'idEstatus',
             value: req.query.idEstatus,
             type: self.model.types.INT
-        },
-        {
-            name: 'isProduction',
-            value: req.query.isProduction,
-            type: self.model.types.INT
         }
     ];
 
