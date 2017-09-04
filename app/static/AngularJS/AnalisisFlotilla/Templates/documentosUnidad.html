@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="AngularJS/AnalisisFlotilla/Styles/analisisFlotilla.css">
+<div ng-init="init()">
+    <div class="headTitleTallerCita">
+        <span class="title"> Estatus del Expediente Electrónico</span>
+    </div>
+    <br>
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div id="sales" dx-pivot-grid="pivotGridOptions"></div>
+                        <div dx-popup="popupOptions">
+                            <div data-options="dxTemplate: { name: 'content' }">
+                                <div dx-data-grid="dataGridOptions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

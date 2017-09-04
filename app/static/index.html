@@ -44,6 +44,8 @@
     <link href="Libraries/css/devextreme/dx.common.css" rel="stylesheet">
     <link href="Libraries/css/devextreme/dx.light.css" rel="stylesheet">
 
+    <!-- LIGHTBOX -->
+    <link href="Libraries/css/lightbox/lightbox.css" rel="stylesheet">
 </head>
 
 <body ng-app="registrationModule" ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
@@ -69,11 +71,11 @@
                     tooltip-placement="right">
                     <a href="dashboardgeneral" class="homelink"><i class="glyphicon glyphicon-home casita" data-toggle="tooltip"></i> <span class="nav-label">Inicio</span></a>
                 </li>
-                <li class="homelink" ng-class="{'active': modulo=='miCuenta'}" ng-hide="{{userData.idRol != 2}}" tooltip="Inicio" tooltip-placement="right">
-                    <a href="miCuenta" class="homelink"><i class="glyphicon glyphicon-user casita" data-toggle="tooltip"></i> <span class="nav-label">Inicio</span></a>
-                </li>
                 <li class="active homelink" ng-show="userData.idRol == 3">
                     <a href="dashboardCallCenter" class="homelink"><i class="glyphicon glyphicon-home" data-toggle="tooltip" tooltip="Home" tooltip-placement="right"></i> <span class="nav-label">Inicio</span></a>
+                </li>
+                <li ng-class="{'active': modulo=='miCuenta'}" ng-hide="{{userData.idRol != 2}}" tooltip="Inicio" tooltip-placement="right">
+                    <a href="miCuenta"><i class="glyphicon glyphicon-user" data-toggle="tooltip"></i> <span class="nav-label">Mi Cuenta</span></a>
                 </li>
                 <li ng-class="{'active': modulo=='consultaCitas'}" ng-show="{{userData.idRol != 5}}">
                     <a href="consultaCitas" ng-click="showChat = 0"><i class="fa fa-money" data-toggle="tooltip" tooltip="Consulta de Citas" tooltip-placement="right"></i> <span class="nav-label">Consulta de Citas</span></a>
@@ -103,6 +105,16 @@
                         <li ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
                     </ul>
                 </li>
+                <li ng-class="{'active': modulo=='analisisFlotilla'}">
+                        <a href="#" ><i class="fa fa-pie-chart"></i> <span class="nav-label">Análisis de Flotilla</span><span class="label label-warning pull-right"></span></a>
+                        <ul class="nav nav-second-level">
+                                <li ng-class="{'active': modulo=='analisisFlotillaInversion'}"><a href="/afinversion">Análisis de Inversión</a></li>
+                                <!-- <li ng-class="{'active': modulo=='analisisFlotillaInversionMensual'}"><a href="/afinversionmensual">Inversión Mensual</a></li> -->
+                                <li ng-class="{'active': modulo=='analisisFlotillaAntiguedad'}"><a href="/afantiguedad">Antiguedad Ingreso</a></li>
+                                <li ng-class="{'active': modulo=='analisisFlotillaGastoUnidad'}"><a href="/afgastounidad">Gasto por Vehículo</a></li>
+                                <li ng-class="{'active': modulo=='analisisFlotillaDocumento'}"><a href="/afdocumento">Estatus del Expediente Electrónico</a></li> 
+                        </ul>
+                    </li>
                 <li ng-show="userData.idRol == 2 && userData.idOperacion == 3" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-gavel"></i> <span class="nav-label">Reclamación</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
@@ -143,15 +155,15 @@
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right navMain">
-                    
+
                     <li id="finder">
-                        <div class="radio radio-info radio-inline singLeft inlineb">
+                        <div class=" radio-info radio-inline singLeft inlineb">
                             <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                            <label for="utilidad1"> Orden </label>
+                            <label for="utilidad1" class="labelLight"> Orden </label>
                         </div>
-                        <div id="chkUnidad" class="radio radio-info radio-inline singLeft">
+                        <div id="chkUnidad" class=" radio-info radio-inline singLeft">
                             <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                            <label for="utilidad2"> Unidad </label>
+                            <label for="utilidad2" class="labelLight"> Unidad </label>
                         </div>
                         <div class="txtFinder" ng-hide="userData.idRol == 5 || busqueda == 2">
                             <div class="form-group ">
@@ -191,9 +203,6 @@
                                         </span>
                             </span>
                             </div>
-                            <!-- <div>
-                                <span class="block m-t-xs rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}"><span>Usuario - {{userData.nombreCompleto}}</span></span>
-                            </div> -->
                         </div>
                     </li>
 
@@ -449,6 +458,16 @@
     <script src="AngularJS/MiCuenta/Repositories/nuevoMemorandumRepository.js"></script>
     <script src="AngularJS/Precancelaciones/Repositories/preCancelacionesRepository.js"></script>
     <script src="AngularJS/Precancelaciones/Controllers/preCancelacionesController.js"></script>
+
+    <!-- Análisis de inversión -->
+    <script src="AngularJS/AnalisisFlotilla/Repositories/analisisFlotillaRepository.js"></script>
+    <script src="AngularJS/AnalisisFlotilla/Controllers/inversionController.js"></script>
+    <script src="AngularJS/AnalisisFlotilla/Controllers/inversionMensualController.js"></script>
+    <script src="AngularJS/AnalisisFlotilla/Controllers/antiguedadIngresoController.js"></script>
+    <script src="AngularJS/AnalisisFlotilla/Controllers/gastoUnidadController.js"></script>
+    <script src="AngularJS/AnalisisFlotilla/Controllers/documentosUnidadController.js"></script>
+    
+
     <!-- Mainly scripts -->
     <script src="Libraries/js/metisMenu/jquery.metisMenu.js"></script>
     <script src="Libraries/js/slimscroll/jquery.slimscroll.min.js"></script>
@@ -485,6 +504,8 @@
     <!-- devextreme -->
     <script src="Libraries/js/devextreme/dx.all.debug.js"></script>
 
+    <!-- LIGHTBOX -->
+    <script src="Libraries/js/lightbox/lightbox.js"></script>
 </body>
 
 </html>

@@ -106,6 +106,18 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
+        getOrdenExpediente: function(idUnidad) {
+            return $http({
+                url: consultaCitaUrl + 'getOrdenExpediente/',
+                method: "GET",
+                params: {
+                    idUnidad: idUnidad
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getCotizacionDetalle: function(idCotizacion) {
             return $http({
                 url: consultaCitaUrl + 'getCitizacionDetalle/',

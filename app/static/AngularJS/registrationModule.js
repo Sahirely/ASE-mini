@@ -245,6 +245,28 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'nuevoMemorandumController'
         })
 
+        // Análsis de Inversión
+        $routeProvider.when('/afinversion', {
+            templateUrl: 'AngularJS/AnalisisFlotilla/Templates/inversion.html',
+            controller: 'inversionController'
+        })
+        $routeProvider.when('/afinversionmensual', {
+            templateUrl: 'AngularJS/AnalisisFlotilla/Templates/inversionMensual.html',
+            controller: 'inversionMensualController'
+        })
+        $routeProvider.when('/afantiguedad', {
+            templateUrl: 'AngularJS/AnalisisFlotilla/Templates/antiguedadIngreso.html',
+            controller: 'antiguedadIngresoController'
+        })
+        $routeProvider.when('/afgastounidad', {
+            templateUrl: 'AngularJS/AnalisisFlotilla/Templates/gastoUnidad.html',
+            controller: 'gastoUnidadController'
+        })
+        $routeProvider.when('/afdocumento', {
+            templateUrl: 'AngularJS/AnalisisFlotilla/Templates/documentosUnidad.html',
+            controller: 'documentosUnidadController'
+        })
+
 
         $locationProvider.html5Mode({
             enabled: true,

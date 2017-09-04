@@ -1,0 +1,19 @@
+#sales {
+    margin-top: 30px;
+}
+.currency {
+    text-align: center;
+}
+
+#pie {
+    height: 440px;
+}
+
+#gridContainer {
+    height: 440px;
+}
+
+img {
+    height: 30px;
+    display: block;
+}
