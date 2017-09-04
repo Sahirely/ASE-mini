@@ -134,7 +134,7 @@ registrationModule.controller('reporteUtilidadController', function($scope, aler
 
 
     $scope.getMargenUtilidad = function(tipoConsulta) {
-        reporteUtilidadRepository.getUtilidad(tipoConsulta, $scope.userData.idOperacion, $scope.numeroOrden, $scope.fechaInicio, $scope.fechaFin, $scope.fechaMesBuscar, $scope.idZona, $scope.rangoInicial, $scope.rangoFinal, $scope.idTipoCita, $scope.estatus).then(function (result){
+        reporteUtilidadRepository.getUtilidad(tipoConsulta, $scope.userData.idOperacion, $scope.numeroOrden, $scope.fechaInicio, $scope.fechaFin, $scope.fechaMesBuscar, $scope.idZona, $scope.rangoInicial, $scope.rangoFinal, $scope.idTipoCita, $scope.estatus, $scope.userData.isProduction).then(function (result){
             if(result.data.length > 0){
                 $scope.margenUtilidad = result.data;
 
