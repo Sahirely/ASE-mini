@@ -446,7 +446,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }
         })
         if ($scope.saldos != undefined) {
-            if (sumOperacion <= ($scope.saldos.presupuesto - $scope.saldos.utilizado)) {
+            if (sumOperacion <= ($scope.saldos.saldo)) {
                 $scope.TieneSaldo = true
                 return true
             } else {
