@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository) {
     // *****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     // *****************************************************************************************************************************//
@@ -1664,15 +1664,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
     function PreCancelationProcess(rol, comentario) {
         var messageSuccess = (rol !== 2) ? 'Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio.' : 'Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.'
         detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
-            swal({
-                    title: 'Pre-cancelación',
-                    text: messageSuccess,
-                    type: 'success',
-                    showCancelButton: false
-                },
-                function() {
-                    location.href = '/consultaCitas'
-                })
+            preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, $scope.detalleOrden.idOrden, 1).then(function(result) {
+                commonFunctionRepository.sendMail(result.data[0].correoDe, result.data[0].correoPara, 'Pre-Cancelación', 'Ordenes', result.data[0].bodyhtml, '', '').then(function(response) {
+                    swal({
+                            title: 'Pre-cancelación',
+                            text: messageSuccess,
+                            type: 'success',
+                            showCancelButton: false
+                        },
+                        function() {
+                            location.href = '/consultaCitas'
+                        });
+
+                });
+            });
+
         }, function(error) {
             alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde')
         })
