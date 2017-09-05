@@ -43,15 +43,34 @@ var preCancelacionesRepository = function($http, $q) {
         var data = {
             idUsuario: idUsuario,
             idOrden: idOrden
-        }
+        };
         $http.post(postCancelCitaUri, data, config).then(function(response) {
             defered.resolve(response);
         });
 
         return promise;
     }
+    this.postGetMailNotification = function(idUsuario, idOrden, tipoConsulta) {
+        var postGetMailNotificationUri = PreCancelDatesUri + '/getMailCancelaOrden';
+        var config = {
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8',
+            }
+        };
+        var data = {
+            idUsuario: idUsuario,
+            idOrden: idOrden,
+            tipoConsulta: tipoConsulta
+        };
+        $http.post(postGetMailNotificationUri, data, config).then(function(response) {
+            defered.resolve(response)
+        });
+        return promise;
+
+    }
 
     return {
+        postGetMailNotification: this.postGetMailNotification,
         postCancelaOrden: this.postCancelaOrden,
         postDeleteOrderCancel: this.postDeleteOrderCancel,
         GetAllOrdersCanceled: this.GetAllOrdersCanceled
