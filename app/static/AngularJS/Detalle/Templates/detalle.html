@@ -387,7 +387,7 @@
                             </button>
                         </div>
                         <!--Costos totales de las  cotizaciones-->
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="estatus==4  && userData.presupuesto == 1 && (rolLogged == 2)">
+                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="(estatus==4 || estatus == 5)&& userData.presupuesto == 1 && (rolLogged == 2)">
                             <div>
                                 <h3>Presupuesto</h3>
                                 <p>
@@ -551,13 +551,13 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="slimCol" ng-show="false" center>
-                                                                    <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1" ng-hide="true">
+                                                                    <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                         <tfoot>
                                                             <tr>
-                                                                <td colspan="6">&nbsp;</td>
+                                                                <td colspan="3">&nbsp;</td>
                                                                 <td colspan="3" align="right" ng-hide="userData.idRol ==  4">
                                                                     <a href="#" class="btn btn-success btn-xs pull-right" ng-show="estatus == 4" ng-click="modal_aprobacion( cotizacion.idCotizacion, cotizacion.idEstatusCotizacion )">
                                                                             <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token
