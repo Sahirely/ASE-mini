@@ -1599,7 +1599,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     confirmButtonColor: '#67BF11',
                     confirmButtonText: 'Si',
                     cancelButtonText: 'No',
-                    closeOnConfirm: false,
+                    closeOnConfirm: true,
                     closeOnCancel: true
                 },
                 function(isConfirm) {
