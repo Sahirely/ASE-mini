@@ -47,6 +47,7 @@ registrationModule.factory('userFactory', function($window, localStorageService,
       userData.fechaInicio = ObjetoOperacionSelected.fechaInicio;
       userData.fechafin = ObjetoOperacionSelected.fechafin;
 
+      localStorageService.clearAll();
       $window.sessionStorage.setItem(userData,JSON.stringify(userData));
       return (this.getUserData());
     },
