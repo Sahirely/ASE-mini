@@ -109,6 +109,10 @@ var preCancelacionesController = function($scope, $route, $routeParams, userFact
 
     }
 
+    $scope.OrdenURL = function(obj) {
+        location.href = '/detalle?orden=' + obj.numeroOrden;
+    }
+
 
 };
 

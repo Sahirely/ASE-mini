@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="Libraries/css/nsPopover.css">
 <div ng-init="initPrecancelacion()">
     <div class="headTitlePreCancelaciones">
-        <span class="title">Pre cancelaciones de ordenes por confirmar</span>
+        <span class="title">Ordenes en Pre-Cancelacion</span>
     </div>
     <hr>
     <div class="wrapper wrapper-content fadeIn">
@@ -33,12 +33,11 @@
                                 <th>Fecha Pre-cancelación</th>
                                 <th>Usuario Pre-cancela</th>
                                 <th>Comentarios Pre-cancelación</th>
-                                <th></th>
-                                <th></th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="ordenesCanceladas in TotalOrdenes">
+                            <tr ng-repeat="ordenesCanceladas in TotalOrdenes" ng-click="OrdenURL(ordenesCanceladas)">
                                 <td>{{ordenesCanceladas.nombreCliente}}</td>
                                 <td>{{ordenesCanceladas.consecutivoOrden}}</td>
                                 <td>{{ordenesCanceladas.numeroOrden}}</td>
@@ -53,8 +52,7 @@
                                 <td>{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
                                 <td>{{ordenesCanceladas.usuarioCancelacion}}</td>
                                 <td>{{ordenesCanceladas.comentarios}}</td>
-                                <td><button ng-click="DissmisOrder(ordenesCanceladas.idOrden)" class="btn btn-success">Ignorar Cancelación</button></td>
-                                <td><button ng-click="CancelOrder(ordenesCanceladas.idOrden)" class="btn btn-cancela">Cancelar Orden</button></td>
+                                <td><button ng-click="DissmisOrder(ordenesCanceladas.idOrden)" class="btn btn-success" data-toggle="tooltip" tooltip="Ignorar Cancelación" tooltip-placement="left"><span class="glyphicon glyphicon-repeat"></span></button><button ng-click="CancelOrder(ordenesCanceladas.idOrden)" class="btn btn-cancela" data-toggle="tooltip" tooltip="Cancelar Orden" tooltip-placement="left"><span class="glyphicon glyphicon-remove"></span></button></td>
                             </tr>
                         </tbody>
                     </table>
