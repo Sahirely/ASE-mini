@@ -1000,7 +1000,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.cambiaEstatusOrdenTermino = function() {
         if ($scope.userData.presupuesto == 1) {
-            detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(result) {
+            detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
                 if (result.data.length > 0) {
                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(r_token) {
                         if ($scope.hasDetalleModulo(6, 19) === true) {

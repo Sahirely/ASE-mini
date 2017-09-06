@@ -321,14 +321,15 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario) {
+        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario, idOperacion) {
             return $http({
                 url: detalleUrl + 'presupuestoOrden/',
                 method: "POST",
                 params: {
                     idPresupuesto: idPresupuesto,
                     idOrden: idOrden,
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
