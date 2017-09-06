@@ -161,9 +161,14 @@ OrdenServicio.prototype.get_getOrdenEvidencias = function(req, res, next) {
         });
     }
     //Obtiene los detalles de las ordenes con status de pre-cancelación
-OrdenServicio.prototype.get_getAllOrdersCanceled = function(req, res, next) {
+OrdenServicio.prototype.post_getAllOrdersCanceled = function(req, res, next) {
         var self = this;
-        this.model.query('SEL_PRE_CANCELA_ORDEN_SP', "", function(error, result) {
+        var params= [{
+            name:'idOperacion',
+            value: req.body.idOperacion,
+            type:self.model.types.INT
+        }];
+        this.model.query('SEL_PRE_CANCELA_ORDEN_SP', params, function(error, result) {
             self.view.expositor(res, {
                 error: error,
                 result: result

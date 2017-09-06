@@ -1,4 +1,4 @@
-var preCancelacionesController = function($scope, $route, $routeParams, userFactory, preCancelacionesRepository, $rootScope, $modal, alertFactory, detalleRepository, commonFunctionRepository) {
+var preCancelacionesController = function($scope, $route, $routeParams, userFactory, preCancelacionesRepository, $rootScope, $modal, alertFactory, detalleRepository, commonFunctionRepository, globalFactory) {
     $rootScope.module = 'PreCancelaciones';
     $scope.Zonas = [];
     $scope.TotalOrdenes = [];
@@ -97,9 +97,11 @@ var preCancelacionesController = function($scope, $route, $routeParams, userFact
 
     function consultaOrdenesCanceladas() {
         $('.dataTableOrdenes').DataTable().destroy();
-        preCancelacionesRepository.GetAllOrdersCanceled().then(function(result) {
+        $scope.userData= userFactory.getUserData();
+        preCancelacionesRepository.GetAllOrdersCanceled($scope.userData.idOperacion).then(function(result) {
             if (result.length > 0) {
                 $scope.TotalOrdenes = result;
+                globalFactory.filtrosTabla("dataTablePrecancel", "PreCancelaciones", 5);
             } else {
                 alertFactory.info('No se encontraron citas canceladas');
             }

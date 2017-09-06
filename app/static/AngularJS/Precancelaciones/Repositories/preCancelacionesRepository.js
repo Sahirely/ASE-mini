@@ -4,15 +4,18 @@ var preCancelacionesRepository = function($http, $q) {
     var defered = $q.defer();
     var promise = defered.promise;
 
-    this.GetAllOrdersCanceled = function() {
+    this.GetAllOrdersCanceled = function(idOperacion) {
         var getPreCancelDatesUri = PreCancelDatesUri + '/getAllOrdersCanceled';
+        var data={
+            idOperacion:idOperacion
+        }
         var config = {
             headers: {
                 'Content-Type': 'application/json; charset=utf-8',
             }
         };
 
-        $http.get(getPreCancelDatesUri, config).then(function(response) {
+        $http.post(getPreCancelDatesUri,data,config).then(function(response) {
             defered.resolve(response.data);
         });
         return promise;

@@ -1653,6 +1653,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.cancelarOrden = function() {
+        $scope.tipoComentario = 2
         $('.modal-dialog').css('width', '1050px');
         modal_agregarComentario($scope, $modal, $scope.preCancelaComents, '');
     }
@@ -1663,25 +1664,27 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     function PreCancelationProcess(rol, comentario) {
         var messageSuccess = (rol !== 2) ? 'Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio.' : 'Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.'
-        detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
-            preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, $scope.detalleOrden.idOrden, 1).then(function(result) {
-                commonFunctionRepository.sendMail(result.data[0].correoDe, result.data[0].correoPara, 'Pre-Cancelación', 'Ordenes', result.data[0].bodyhtml, '', '').then(function(response) {
-                    swal({
-                            title: 'Pre-cancelación',
-                            text: messageSuccess,
-                            type: 'success',
-                            showCancelButton: false
-                        },
-                        function() {
-                            location.href = '/consultaCitas'
-                        });
+        if (comentario !== '') {
+            detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
+                preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, $scope.detalleOrden.idOrden, 1).then(function(result) {
+                    commonFunctionRepository.sendMail(result.data[0].correoDe, result.data[0].correoPara, 'Pre-Cancelación', 'Ordenes', result.data[0].bodyhtml, '', '').then(function(response) {
+                        swal({
+                                title: 'Pre-cancelación',
+                                text: messageSuccess,
+                                type: 'success',
+                                showCancelButton: false
+                            },
+                            function() {
+                                location.href = '/consultaCitas'
+                            });
 
+                    });
                 });
-            });
 
-        }, function(error) {
-            alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde')
-        })
+            }, function(error) {
+                alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde')
+            });
+        }
     }
 
     /*  $scope.validaFacturaCotizacion = function() {
