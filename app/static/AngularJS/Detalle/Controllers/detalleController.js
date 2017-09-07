@@ -1679,8 +1679,11 @@ registrationModule.controller('detalleController', function($scope, $location, $
         var messageSuccess = (rol !== 2) ? 'Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio.' : 'Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.'
         if (comentario !== '') {
             detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
-                preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, $scope.detalleOrden.idOrden, 1).then(function(result) {
-                    commonFunctionRepository.sendMail(result.data[0].correoDe, result.data[0].correoPara, 'Pre-Cancelación', 'Ordenes', result.data[0].bodyhtml, '', '').then(function(response) {
+                preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, $scope.detalleOrden.idOrden, 1).then(function(result2) {
+                    var correoDe= result2.data[0].correoDe;
+                    var correoPara= result2.data[0].correoPara;
+                    var bodyHtml= result2.data[0].bodyhtml;
+                    commonFunctionRepository.sendMail(correoDe, correoPara, 'Pre-Cancelación', 'Ordenes', bodyHtml, '', '').then(function(response) {
                         swal({
                                 title: 'Pre-cancelación',
                                 text: messageSuccess,

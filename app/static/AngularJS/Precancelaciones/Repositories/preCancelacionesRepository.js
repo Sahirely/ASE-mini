@@ -1,10 +1,11 @@
 var PreCancelDatesUri = global_settings.urlCORS + '/api/OrdenServicio';
 
 var preCancelacionesRepository = function($http, $q) {
-    var defered = $q.defer();
-    var promise = defered.promise;
+
 
     this.GetAllOrdersCanceled = function(idOperacion) {
+        var defered = $q.defer();
+        var promise = defered.promise;
         var getPreCancelDatesUri = PreCancelDatesUri + '/getAllOrdersCanceled';
         var data={
             idOperacion:idOperacion
@@ -21,6 +22,8 @@ var preCancelacionesRepository = function($http, $q) {
         return promise;
     };
     this.postDeleteOrderCancel = function(idOrden) {
+        var defered = $q.defer();
+        var promise = defered.promise;
         var postDeleteOrderCancelUri = PreCancelDatesUri + '/postDeleteOrderCancel';
 
         var config = {
@@ -37,6 +40,8 @@ var preCancelacionesRepository = function($http, $q) {
         return promise;
     }
     this.postCancelaOrden = function(idUsuario, idOrden) {
+        var defered = $q.defer();
+        var promise = defered.promise;
         var postCancelCitaUri = PreCancelDatesUri + '/cancelaOrden';
         var config = {
             headers: {
@@ -54,6 +59,8 @@ var preCancelacionesRepository = function($http, $q) {
         return promise;
     }
     this.postGetMailNotification = function(idUsuario, idOrden, tipoConsulta) {
+        var defered = $q.defer();
+        var promise = defered.promise;
         var postGetMailNotificationUri = PreCancelDatesUri + '/getMailCancelaOrden';
         var config = {
             headers: {
@@ -66,7 +73,7 @@ var preCancelacionesRepository = function($http, $q) {
             tipoConsulta: tipoConsulta
         };
         $http.post(postGetMailNotificationUri, data, config).then(function(response) {
-            defered.resolve(response)
+            defered.resolve(response);
         });
         return promise;
 
