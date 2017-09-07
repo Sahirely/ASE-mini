@@ -30,7 +30,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
 
     //VARIABLES PARA MEMORANDUMS
     $scope.memorandums           = [];
-    
+
 
 
     $scope.init = function() {
@@ -40,7 +40,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.obtieneNivelZona();
         //OBTENEMOS LOS MEMORANDUMS DEL CLIENTE
         //EN CASO DE EXISTIR MEMORANDUMS ENTONCES MOSTRAMOS MODAL DE BLOQUEO
-        $("#mdMemorandums").modal('show')
+        //$("#mdMemorandums").modal('show')
         $scope.LoadData();
     };
 
@@ -50,7 +50,7 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
         $scope.sumatoriaOrdenes();
         $scope.sumatoriaOrdenesPorCobrar();
         $scope.sumatoriaProceso();
-        
+
     }
 
     $scope.sumatoriaCitas = function() {
