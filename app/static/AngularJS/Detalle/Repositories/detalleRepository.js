@@ -321,14 +321,15 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario) {
+        restaPresupuestoOrden: function(idPresupuesto, idOrden, idUsuario, idOperacion) {
             return $http({
                 url: detalleUrl + 'presupuestoOrden/',
                 method: "POST",
                 params: {
                     idPresupuesto: idPresupuesto,
                     idOrden: idOrden,
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -347,14 +348,15 @@ registrationModule.factory('detalleRepository', function($http) {
                 headers: { 'Content-Type': 'application/json' }
             });
         },
-        postPreCancelaOrden: function(idUsuario, idOrden) {
+        postPreCancelaOrden: function(idUsuario, idOrden, comentario) {
             debugger;
             return $http({
                 url: detalleUrl + 'preCancelaOrden',
                 method: "POST",
                 params: {
                     idUsuario: idUsuario,
-                    idOrden: idOrden
+                    idOrden: idOrden,
+                    comentario: comentario
                 },
                 header: { 'Content-Type': 'application/json' }
             });

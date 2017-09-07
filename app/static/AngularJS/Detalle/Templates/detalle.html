@@ -19,7 +19,8 @@
                     <div class="ibox-content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="row">
-                                <span class="label label-default mayusculas">{{detalleOrden.nombreEstatusOrden}}</span>
+                                <span class="label label-default mayusculas" ng-show="Precancelacion==false">{{detalleOrden.nombreEstatusOrden}}</span>
+                                <span class="label label-default mayusculas" ng-show="Precancelacion">Pre-Cancelacion</span>
                                 <span class="label label-success mayusculas" ng-show="estadoCompra == true">{{procesarCompra}} </span>
                             </div>
                             <div class="progressPrincipal">
@@ -112,6 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
+<<<<<<< HEAD
                                 <div class="col-md-3">
                                     <div class="ibox">
                                         <div class="ibox-content">
@@ -172,6 +174,21 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+=======
+                                <div class="col-md-8">
+                                    <!-- TEST TILEVIEW -->
+                                    <div class="demo-container" ng-app="registrationModule" ng-controller="detalleController">
+                                        <div dx-tile-view="tileViewOptions" dx-item-alias="home">
+                                            <div class="price" ng-class="{ 'reddi': home.estatusVigencia == 0 }">{{home.descripcion }} <span ng-hide="home.vigencia == null">- {{ home.vigencia |  date:'dd/MM/yy' }}</span> </div>
+
+                                            <a ng-if="home.tipo == 1" href="{{home.foto}}" data-lightbox="roadtrip" data-title="{{home.descrpcion}}">
+                                                <div class="image" ng-style="{'background-image': 'url({{home.foto}})'}"></div>
+                                            </a>
+                                            <a ng-if="home.tipo == 2" ng-click="openPDF(home.foto);" >
+                                                <div class="image" ng-style="{'background-image': 'url(../image/resources/file.png)', 'background-size': '70px',
+                                                'background-repeat': 'no-repeat' }"></div>
+                                            </a>
+>>>>>>> develop
                                         </div>
                                     </div>
                                 </div>
@@ -429,12 +446,12 @@
                         </div>
                         <!-- PREORDEN -->
                         <div class="pull-right">
-                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 4 || userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
+                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="((userData.idRol == 4 || userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1) && Precancelacion== false">
                                 <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
                             </button>
                         </div>
                         <!--Costos totales de las  cotizaciones-->
-                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="estatus==4  && userData.presupuesto == 1 && (rolLogged == 2)">
+                        <div class="col-xs-4 col-md-4 col-sm-4 col-lg-4" ng-show="(estatus==4 || estatus == 5)&& userData.presupuesto == 1 && (rolLogged == 2)">
                             <div>
                                 <h3>Presupuesto</h3>
                                 <p>
@@ -559,10 +576,8 @@
                                                                 <th class="slimCol" ng-show="btnSwitch.showCostoVenta">Costo</th>
                                                                 <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                                                                 <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta</th>
-                                                                <td class="slimCol" ng-show="estatus == 4 || estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">
-                                                                    <th>Usuario Aprobador</th>
-                                                                    <th>Fecha Aprobación</th>
-                                                                </td>
+                                                                <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Usuario Aprobador</th>
+                                                                <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
                                                                 <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
                                                                 <th class="slimCol" ng-show="estatus == 4">Rechazar</th>
                                                                 <th class="slimCol" ng-show="false">&nbsp;</th>
@@ -583,11 +598,8 @@
                                                                 <td class="slimCol" ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
                                                                 <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
-                                                                <td class="slimCol" ng-show="estatus == 4 || estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">
-                                                                    <td>{{partida.usuario}}</td>
-                                                                    <td>{{partida.fechaAprobacion | date:'dd-MM-yyyy HH:mm' :
-                                                                        'UTC' }}</td>
-                                                                </td>
+                                                                <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.usuario}}</td>
+                                                                <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.fechaAprobacion | date:'dd-MM-yyyy HH:mm' : 'UTC' }}</td>
                                                                 <td class="slimCol" ng-show="estatus == 4">
                                                                     <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                         <input type="radio" ng-init="partida.btnDisabled=true;
@@ -603,13 +615,13 @@
                                                                     </div>
                                                                 </td>
                                                                 <td class="slimCol" ng-show="false" center>
-                                                                    <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1" ng-hide="true">
+                                                                    <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
                                                         <tfoot>
                                                             <tr>
-                                                                <td colspan="6">&nbsp;</td>
+                                                                <td colspan="3">&nbsp;</td>
                                                                 <td colspan="3" align="right" ng-hide="userData.idRol ==  4">
                                                                     <a href="#" class="btn btn-success btn-xs pull-right" ng-show="estatus == 4" ng-click="modal_aprobacion( cotizacion.idCotizacion, cotizacion.idEstatusCotizacion )">
                                                                             <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token
@@ -641,14 +653,14 @@
                                                     </table>
                                                     <div>
                                                         <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)"
-                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
+                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
                                                         <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)"
-                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
+                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
                                                             <span></span> Cancelar Cotización
                                                         </button>
-                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right "
+                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3 || Precancelacion" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right "
                                                             ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
                                                             <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
                                                         </button>
@@ -715,7 +727,7 @@
 <br>
 <br>
 <div class="controles-fixed">
-    <div class="contenedor">
+    <div class="contenedor" ng-show="Precancelacion!=true">
         <div class="col-xs-4">
             <table class="table tbl-accion" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (idEstatusOrden != 13)">
                 <tr>

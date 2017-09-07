@@ -233,7 +233,8 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
             var solpe = $scope.txtSolpe == "" ? null : $scope.txtSolpe;
             var especial = $scope.presupuestoEspecial === undefined || $scope.presupuestoEspecial === null ? 0 : $scope.presupuestoEspecial;
             $scope.aplicacion = [];
-            if (($scope.OrdenesAgregarEspecial() > 0 && especial == 1 && $scope.sumaOrdenesAgregar() <= $scope.presupuesto) || (especial == 0)){
+            $scope.sumTraspasoSaldos();
+            if (($scope.OrdenesAgregarEspecial() > 0 && especial == 1 && $scope.sumaOrdenesAgregar() <= $scope.sumTraspaso) || (especial == 0)){
                 presupuestoRepository.putNuevoPresupuesto($scope.presupuesto, $scope.folioPresupuesto, dateStringInicial, dateStringFinal, $scope.selectedcTrabajo.idCentroTrabajo, $scope.userData.idUsuario, solpe, especial).then(function(result) {
                         if (result.data.length > 0) {
                             $scope.insertTraspaso(result.data[0].result);
@@ -400,14 +401,25 @@ registrationModule.controller('presupuestoController', function($scope, $route, 
     }
 
 
-    $scope.sumTraspasoSaldos = function() {
-      $scope.sumTraspaso = parseFloat($scope.presupuesto == '' ? 0 : $scope.presupuesto);
-      $scope.lstPresupuestos.forEach(function(item) {
-            if(item.isChecked == true){
-                $scope.sumTraspaso +=parseFloat(item.saldo) ;
-            }
-        });
+    $scope.sumTraspasoSaldos = function(objPresupuesto) {
+        $scope.sumTraspaso =0.00;
+        $scope.sumTraspaso = parseFloat($scope.presupuesto == '' ? 0 : $scope.presupuesto);
+
+        if (objPresupuesto !== undefined) {
+            presupuestoRepository.hasCompletePayment(objPresupuesto.idPresupuesto).then(function(result) {
+                if (result.data[0].result == 0) {
+                    objPresupuesto.isChecked = false;
+                    alertFactory.info("El saldo del presupuesto especial no se puede seleccionar porque cuenta con ordenes pendientes de cobro.");
+                }
+                $scope.sumSelectedRows();
+            });
+        }else{
+            $scope.sumSelectedRows();
+        }
     }
+
+
+
 
     $scope.change_presupuesto = function(){
       $scope.sumTraspasoSaldos();
