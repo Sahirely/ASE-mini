@@ -19,7 +19,8 @@
                     <div class="ibox-content">
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                             <div class="row">
-                                <span class="label label-default mayusculas">{{detalleOrden.nombreEstatusOrden}}</span>
+                                <span class="label label-default mayusculas" ng-show="Precancelacion==false">{{detalleOrden.nombreEstatusOrden}}</span>
+                                <span class="label label-default mayusculas" ng-show="Precancelacion">Pre-Cancelacion</span>
                                 <span class="label label-success mayusculas" ng-show="estadoCompra == true">{{procesarCompra}} </span>
                             </div>
                             <div class="progressPrincipal">
@@ -382,7 +383,7 @@
                         </div>
                         <!-- PREORDEN -->
                         <div class="pull-right">
-                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="(userData.idRol == 4 || userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1">
+                            <button type="submit" class="btn btn-primary btn-subir" ng-click="irpreordenCotizacion(preorden.idCotizacion);" ng-show="((userData.idRol == 4 || userData.idRol == 3 || userData.idRol == 2) && preorden.hasPart == 1) && Precancelacion== false">
                                 <span class="{{class_buttonCargaFactura}}"></span> Crear cotizaciones desde pre - orden
                             </button>
                         </div>
@@ -589,14 +590,14 @@
                                                     </table>
                                                     <div>
                                                         <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)"
-                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
+                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
                                                         <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)"
-                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)">
+                                                            ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
                                                             <span></span> Cancelar Cotización
                                                         </button>
-                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right "
+                                                        <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3 || Precancelacion" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right "
                                                             ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
                                                             <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
                                                         </button>
@@ -663,7 +664,7 @@
 <br>
 <br>
 <div class="controles-fixed">
-    <div class="contenedor">
+    <div class="contenedor" ng-show="Precancelacion!=true">
         <div class="col-xs-4">
             <table class="table tbl-accion" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (idEstatusOrden != 13)">
                 <tr>

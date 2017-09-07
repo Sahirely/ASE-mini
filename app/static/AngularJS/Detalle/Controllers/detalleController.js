@@ -5,46 +5,48 @@ registrationModule.controller('detalleController', function($scope, $location, $
     // $rootScope.modulo = 'reporteHistorial'
     // Inicializa la pagina
 
-    $scope.IdsCotizacionesPorOrden = []
-    $scope.btn_editarCotizacion = false
-    $scope.idUsuario = 0
-    $scope.numeroOrden = $routeParams.orden
-    $scope.idEstatusOrden = 0
-    $scope.estatus = 0
-    $scope.textoNota = null
-    $scope.notaTrabajo = []
-    $scope.HistoricoOrden = []
-    $scope.x = 0
-    $scope.numCotz = 0
-    $scope.TieneSaldo = true
-    $scope.totalSumaCosto = 0
-    $scope.totalSumaVenta = 0
-    $scope.btnSwitch = {}
-    $scope.userData = {}
-    $scope.centroTrabajo = ''
+    $scope.IdsCotizacionesPorOrden = [];
+    $scope.btn_editarCotizacion = false;
+    $scope.idUsuario = 0;
+    $scope.numeroOrden = $routeParams.orden;
+    $scope.aprovisonamiento = $routeParams.provision; //localStorageService.get('provision');
+    $scope.idEstatusOrden = 0;
+    $scope.estatus = 0;
+    $scope.textoNota = null;
+    $scope.notaTrabajo = [];
+    $scope.HistoricoOrden = [];
+    $scope.x = 0;
+    $scope.numCotz = 0;
+    $scope.TieneSaldo = true;
+    $scope.totalSumaCosto = 0;
+    $scope.totalSumaVenta = 0;
+    $scope.btnSwitch = {};
+    $scope.userData = {};
+    $scope.centroTrabajo = '';
 
-    $scope.facturas_empty = true
-    $scope.facturas_empty = true
-    $scope.Facturas = []
-    $scope.totalfacturas = 0
-    $scope.errores_factura = false
-    $scope.idOrden = 0
-    $scope.show_tokenMargen = false
-    $scope.procesarCompra = ''
-    $scope.estadoCompra = false
-    $scope.estadoProveedor = false
-    $scope.sinTiempoDisponible = 1
-    $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
+    $scope.facturas_empty = true;
+    $scope.facturas_empty = true;
+    $scope.Facturas = [];
+    $scope.totalfacturas = 0;
+    $scope.errores_factura = false;
+    $scope.idOrden = 0;
+    $scope.show_tokenMargen = false;
+    $scope.procesarCompra = '';
+    $scope.estadoCompra = false;
+    $scope.estadoProveedor = false;
+    $scope.sinTiempoDisponible = 1;
+    $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
 
     // Agrega para comentarios
     $scope.comentarios = []
 
     $scope.init = function() {
+        $scope.Precancelacion= false;
         userFactory.ValidaSesion()
         $('#loadModal').modal('show')
         $scope.userData = userFactory.getUserData()
         $scope.rolLogged = $scope.userData.idRol
-        $scope.aprovisonamiento = $routeParams.provision; //localStorageService.get('provision');
+
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.btnSwitch.classCosto = 'btn btn-success'
         $scope.btnSwitch.classVenta = 'btn btn-default'
@@ -59,7 +61,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden)
         $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
         $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
-
+        checkPrecancelation();
         if ($scope.userData.presupuesto == 1) {
             $scope.getSaldos($routeParams.orden)
         }
@@ -132,6 +134,17 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 alertFactory.error('No se pudo recuperar el historico de la cotización.')
             })
         }
+    }
+    function checkPrecancelation(){
+        $scope.userData= userFactory.getUserData();
+        preCancelacionesRepository.GetAllOrdersCanceled($scope.userData.idOperacion).then(function(result) {
+            for(var i=0; i< result.length; i++){
+                if(result[i].numeroOrden === $scope.numeroOrden){
+                    $scope.Precancelacion=true;
+                    break;
+                }
+            }
+        });
     }
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
@@ -1768,6 +1781,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.realizaProvision = function() {
             $scope.promise = detalleRepository.postaproviosionamiento($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function() {
                     swal('Trabajo terminado!', 'La orden se ha provisionado corractamente')
+                    $scope.aprovisonamiento = null;
                         // localStorageService.remove('provision')
                     $('html, body').animate({
                         scrollTop: 0

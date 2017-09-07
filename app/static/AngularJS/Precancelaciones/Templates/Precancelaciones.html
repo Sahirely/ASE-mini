@@ -37,21 +37,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="ordenesCanceladas in TotalOrdenes" ng-click="OrdenURL(ordenesCanceladas)">
-                                <td>{{ordenesCanceladas.nombreCliente}}</td>
-                                <td>{{ordenesCanceladas.consecutivoOrden}}</td>
-                                <td>{{ordenesCanceladas.numeroOrden}}</td>
-                                <td>{{ordenesCanceladas.numeroEconomico}}</td>
-                                <td>{{ordenesCanceladas.zonaNombre}}</td>
-                                <td>{{ordenesCanceladas.nombreTipoDeServicio}}</td>
-                                <td>{{ordenesCanceladas.fechaCreacionOrden| date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenesCanceladas.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenesCanceladas.comentarioOrden}}</td>
-                                <td>{{ordenesCanceladas.nombreEstatusOrden}}</td>
-                                <td>{{ordenesCanceladas.idUsuarioAgendo}}</td>
-                                <td>{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenesCanceladas.usuarioCancelacion}}</td>
-                                <td>{{ordenesCanceladas.comentarios}}</td>
+                            <tr ng-repeat="ordenesCanceladas in TotalOrdenes">
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.nombreCliente}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.consecutivoOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.numeroOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.numeroEconomico}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.zonaNombre}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.nombreTipoDeServicio}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.fechaCreacionOrden| date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.comentarioOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.nombreEstatusOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.idUsuarioAgendo}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.usuarioCancelacion}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.comentarios}}</td>
                                 <td><button ng-click="DissmisOrder(ordenesCanceladas.idOrden)" class="btn btn-success" data-toggle="tooltip" tooltip="Ignorar Cancelación" tooltip-placement="left"><span class="glyphicon glyphicon-repeat"></span></button><button ng-click="CancelOrder(ordenesCanceladas.idOrden)" class="btn btn-cancela" data-toggle="tooltip" tooltip="Cancelar Orden" tooltip-placement="left"><span class="glyphicon glyphicon-remove"></span></button></td>
                             </tr>
                         </tbody>
