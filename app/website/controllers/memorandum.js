@@ -16,7 +16,7 @@ var Memorandum = function (conf) {
     }
 }
 
-//Obtiene los núemeros economicos de la operación
+//ALTA DE MEMORANDUM
 Memorandum.prototype.post_alta = function(req, res, next) {
     var self = this;
     var params = [

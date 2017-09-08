@@ -1,4 +1,4 @@
-﻿registrationModule.controller('mainController', function($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository) {
+﻿registrationModule.controller('mainController', function ($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository, configuradorRepository) {
     $rootScope.showChat = 0;
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Se inicializa variable para activar en que opción del menú se encuentra
@@ -9,41 +9,47 @@
     //*****************************************************************************************************************************//
 
 
+    $scope.selectedItemKeysUsuarios = [];
+    $scope.selectionMode = "all";
+    $scope.selectAllMode = "page";
+
+
     var citaMsg = localStorageService.get('citaMsg');
 
     $scope.descripcion = localStorageService.get('desc');
     $scope.comentarios = '';
     $scope.comentario = '';
 
-    $scope.init = function() {
+    $scope.init = function () {
         $scope.userData = userFactory.getUserData();
-        if ($scope.userData != null){
-          $scope.idUsuario = $scope.userData.idUsuario;
-          if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
-              $scope.busquedaNumEco = localStorageService.get('economico');
-              $rootScope.busqueda = 1;
-              $scope.numeroEconomico = '';
-          }else if (localStorageService.get('orden') != null && localStorageService.get('orden') != '') {
-              $scope.busquedaNumOrden =  localStorageService.get('orden');
-              $rootScope.busqueda = 2;
-              $scope.numeroOrden = '';
-          }else{
-              $rootScope.busqueda = 1;
-              $scope.numeroEconomico = '';
-              $rootScope.busqueda = 1;
-              $scope.busquedaNumEco = '';
-              $scope.busquedaNumOrden = '';
-          }
+        if ($scope.userData != null) {
+            $scope.idUsuario = $scope.userData.idUsuario;
+            $scope.getUsuarios();
+            if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
+                $scope.busquedaNumEco = localStorageService.get('economico');
+                $rootScope.busqueda = 1;
+                $scope.numeroEconomico = '';
+            } else if (localStorageService.get('orden') != null && localStorageService.get('orden') != '') {
+                $scope.busquedaNumOrden = localStorageService.get('orden');
+                $rootScope.busqueda = 2;
+                $scope.numeroOrden = '';
+            } else {
+                $rootScope.busqueda = 1;
+                $scope.numeroEconomico = '';
+                $rootScope.busqueda = 1;
+                $scope.busquedaNumEco = '';
+                $scope.busquedaNumOrden = '';
+            }
 
-          $scope.cargaChatTaller();
-          $scope.cargaChatCliente();
-           //localStorageService.get('userData');
-          $scope.getNumeroEconomico ();
-          $scope.getNumeroOrdenes ();
+            $scope.cargaChatTaller();
+            $scope.cargaChatCliente();
+            //localStorageService.get('userData');
+            $scope.getNumeroEconomico();
+            $scope.getNumeroOrdenes();
         }
     }
 
-    $scope.CambiarOperacion = function(idCont) {
+    $scope.CambiarOperacion = function (idCont) {
         $scope.userData = userFactory.updateSelectedOperation(idCont);
         if ($scope.userData.idRol == 3) {
             location.href = '/dashboardCallCenter';
@@ -54,59 +60,59 @@
         }
     }
 
-    $scope.logOut = function() {
+    $scope.logOut = function () {
         userFactory.logOut();
     }
 
-    $scope.cargaChatTaller = function() {
+    $scope.cargaChatTaller = function () {
         if (citaMsg !== null) {
-            mainRepository.getChat(citaMsg, 1).then(function(result) {
+            mainRepository.getChat(citaMsg, 1).then(function (result) {
                 if (result.data.length > 0) {
                     $scope.chattaller = result.data;
                 }
-            }, function(error) {});
+            }, function (error) { });
         }
     }
 
-    $scope.cargaChatCliente = function() {
+    $scope.cargaChatCliente = function () {
         if (citaMsg !== null) {
-            mainRepository.getChat(citaMsg, 2).then(function(result) {
+            mainRepository.getChat(citaMsg, 2).then(function (result) {
                 if (result.data.length > 0) {
                     $scope.chatcliente = result.data;
                 }
-            }, function(error) {});
+            }, function (error) { });
         }
     }
 
-    $scope.EnviarComentario1 = function(comentarios, idTipoChat) {
-        mainRepository.putMessage($rootScope.userData.idUsuario, comentarios, citaMsg, idTipoChat).then(function(result) {
-                $scope.algo = result.data;
-                $scope.clearComments();
-                $scope.cargaChatTaller();
-            },
-            function(error) {});
+    $scope.EnviarComentario1 = function (comentarios, idTipoChat) {
+        mainRepository.putMessage($rootScope.userData.idUsuario, comentarios, citaMsg, idTipoChat).then(function (result) {
+            $scope.algo = result.data;
+            $scope.clearComments();
+            $scope.cargaChatTaller();
+        },
+            function (error) { });
     }
 
-    $scope.EnviarComentario2 = function(comentario) {
-        mainRepository.putMessage($rootScope.userData.idUsuario, comentario, citaMsg, 2).then(function(result) {
-                $scope.algo = result.data;
-                $scope.BorraComentario();
-                $scope.cargaChatCliente();
-            },
-            function(error) {});
+    $scope.EnviarComentario2 = function (comentario) {
+        mainRepository.putMessage($rootScope.userData.idUsuario, comentario, citaMsg, 2).then(function (result) {
+            $scope.algo = result.data;
+            $scope.BorraComentario();
+            $scope.cargaChatCliente();
+        },
+            function (error) { });
     }
 
-    $scope.clearComments = function() {
+    $scope.clearComments = function () {
         $scope.comentarios = '';
     }
-    $scope.BorraComentario = function() {
+    $scope.BorraComentario = function () {
         $scope.comentario = '';
     };
     //*****************************************************************************************************************************//
     // Funcion para mostrar u ocultar input de busqueda en el header  busqueda = 1 <-- Muestra Busca Unidad
     //                                                                busqueda = 2 <-- Muestra Busca Orden
     //*****************************************************************************************************************************//
-    $scope.botonBusqueda = function(busqueda) {
+    $scope.botonBusqueda = function (busqueda) {
         if (busqueda == 1) {
             $scope.numeroOrden = '';
             $rootScope.busqueda = 2;
@@ -125,10 +131,10 @@
     // $scope.tipoRespuesta = 2 <-- Existe la unidad pero el tipo de operación no le corresponde
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
-    $scope.getDetalleUnidad = function(economico) {
+    $scope.getDetalleUnidad = function (economico) {
         localStorageService.set('economico', economico);
         localStorageService.set('orden', '');
-        busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico, $scope.userData.idOperacion).then(function(result) {
+        busquedaUnidadRepository.getExisteUnidad($scope.idUsuario, economico, $scope.userData.idOperacion).then(function (result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 //
@@ -145,19 +151,19 @@
 
     };
 
-    $scope.getDetalle = function (data){
+    $scope.getDetalle = function (data) {
         if (data == 1) {
-            $scope.getDetalleUnidad ($scope.busquedaNumEco);
-        }else{
-            $scope.getDetalleOrden ($scope.busquedaNumOrden);
+            $scope.getDetalleUnidad($scope.busquedaNumEco);
+        } else {
+            $scope.getDetalleOrden($scope.busquedaNumOrden);
         }
     }
 
 
-    $scope.getNumeroEconomico = function() {
+    $scope.getNumeroEconomico = function () {
         $scope.numEconomicos = [];
-        busquedaUnidadRepository.getNumerosEconomicos($scope.userData.contratoOperacionSeleccionada).then(function(result) {
-            angular.forEach(result.data, function(value, key) {
+        busquedaUnidadRepository.getNumerosEconomicos($scope.userData.contratoOperacionSeleccionada).then(function (result) {
+            angular.forEach(result.data, function (value, key) {
                 $scope.numEconomicos.push(value.numeroEconomico);
             });
         });
@@ -167,11 +173,11 @@
     //*****************************************************************************************************************************//
     // Busca el detalle de la Orden de Servicio
     //*****************************************************************************************************************************//
-    $scope.getDetalleOrden = function(orden) {
+    $scope.getDetalleOrden = function (orden) {
 
         localStorageService.set('orden', orden);
         localStorageService.set('economico', '');
-        consultaCitasRepository.getExisteOrden($scope.idUsuario, orden, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+        consultaCitasRepository.getExisteOrden($scope.idUsuario, orden, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 $('.modal-dialog').css('width', '1050px');
@@ -182,20 +188,66 @@
         });
     };
 
-    $scope.getNumeroOrdenes= function(orden) {
+    $scope.getNumeroOrdenes = function (orden) {
         $scope.numOrdenes = [];
-        consultaCitasRepository.getNumerosOrdenes($scope.userData.contratoOperacionSeleccionada).then(function(result) {
-            angular.forEach(result.data, function(value, key) {
+        consultaCitasRepository.getNumerosOrdenes($scope.userData.contratoOperacionSeleccionada).then(function (result) {
+            angular.forEach(result.data, function (value, key) {
                 $scope.numOrdenes.push(value.numeroOrden);
             });
-         });
+        });
 
     };
 
-    $scope.catalogoUnidad = function() {
+    $scope.catalogoUnidad = function () {
         window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0');
         //location.href = 'http://35.165.2.64:4200/unidades?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada;
     };
+
+    $scope.getUsuarios = function () {
+
+        configuradorRepository.getUsuarios()
+            .then(function successCallback(response) {
+
+                var dataSourceUsuarios = new DevExpress.data.DataSource({
+                    store: response.data,
+                    searchOperation: "contains",
+                    searchExpr: "text"
+                });
+                $scope.listOptionsUsuarios = {
+                    dataSource: dataSourceUsuarios,
+                    itemTemplate: function (data) {
+                        return $("<div>").text(data.text);
+                    },
+                    height: 'auto',
+                    showSelectionControls: true,
+                    bindingOptions: {
+                        selectedItemKeys: "selectedItemKeysUsuarios",
+                        selectionMode: "selectionMode",
+                        selectAllMode: "selectAllMode",
+                    }
+                };
+
+                $scope.searchOptionsUsuarios = {
+                    valueChangeEvent: "keyup",
+                    placeholder: "Buscar...",
+                    mode: "search",
+                    onValueChanged: function (args) {
+                        dataSourceUsuarios.searchValue(args.value);
+                        dataSourceUsuarios.load();
+                    }
+                };
+            }, function errorCallback(response) {
+            });
+
+    }
+
+    $scope.createMeeting = function()
+    {
+        mainRepository.postMeeting("CTDHpgp4ArTRsQp35yUr1iKelcEN","PRUEBA",JSON.stringify($scope.selectedItemKeysUsuarios)).then(function (result) {
+            console.log(result.data)
+        }); 
+
+    }
 
 
 });

@@ -1,88 +1,90 @@
-registrationModule.controller('dashBoardController', function($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository) {
-    $rootScope.modulo            = 'home'; // <<-- Para activar en que opción del menú se encuentra
+registrationModule.controller('dashBoardController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository, configuradorRepository) {
+    $rootScope.modulo = 'home'; // <<-- Para activar en que opción del menú se encuentra
 
-    $scope.tarSelected           = null;
-    $scope.totalCitas            = 0;
-    $scope.totalCotizaciones     = 0;
-    $scope.totalOrdenes          = 0;
-    $scope.totalProceso          = 0;
+    $scope.tarSelected = null;
+    $scope.totalCitas = 0;
+    $scope.totalCotizaciones = 0;
+    $scope.totalOrdenes = 0;
+    $scope.totalProceso = 0;
     $scope.totalOrdenesPorCobrar = 0;
-    $scope.userData              = userFactory.getUserData();
+    $scope.userData = userFactory.getUserData();
 
-    $scope.idOperacion           = $scope.userData.idOperacion;
-    $scope.idUsuario             = $scope.userData.idUsuario;
-    $scope.idRol                 = $scope.userData.idRol;
+    $scope.idOperacion = $scope.userData.idOperacion;
+    $scope.idUsuario = $scope.userData.idUsuario;
+    $scope.idRol = $scope.userData.idRol;
     // $scope.idRol                 = 4;
-    $scope.idContratoOperacion   = $scope.userData.contratoOperacionSeleccionada;
+    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
 
     // $scope.idOperacion           = 2;
     // $scope.idUsuario             = 2;
     // $scope.idContratoOperacion   = 3;
 
     //VARIABLES PARA ZONAS DINAMICAS
-    $scope.x                     = 0;
-    $scope.totalNiveles          = 0;
-    $scope.zonaSelected          = "0";
-    $scope.ZonasSeleccionadas    = {};
-    $scope.NivelesZona           = [];
-    $scope.Zonas                 = [];
+    $scope.x = 0;
+    $scope.totalNiveles = 0;
+    $scope.zonaSelected = "0";
+    $scope.ZonasSeleccionadas = {};
+    $scope.NivelesZona = [];
+    $scope.Zonas = [];
 
 
     //VARIABLES PARA MEMORANDUMS
-    $scope.memorandums           = [];
-    
+    $scope.memorandums = [];
+   
 
-
-    $scope.init = function() {
+    $scope.init = function () {
         userFactory.ValidaSesion();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
         //OBTENEMOS LOS MEMORANDUMS DEL CLIENTE
         //EN CASO DE EXISTIR MEMORANDUMS ENTONCES MOSTRAMOS MODAL DE BLOQUEO
-        $("#mdMemorandums").modal('show')
+        //$("#mdMemorandums").modal('show')
         $scope.LoadData();
     };
 
-    $scope.LoadData = function(){
+    $scope.LoadData = function () {
         $scope.sumatoriaCitas();
         $scope.sumatoriaCotizaciones();
         $scope.sumatoriaOrdenes();
         $scope.sumatoriaOrdenesPorCobrar();
         $scope.sumatoriaProceso();
-        
+
+
     }
 
-    $scope.sumatoriaCitas = function() {
-        $scope.totalCitas       = 0;
-        $scope.totalHorasCitas  = 0;
-        $scope.totalMontoCitas  = 0;
-        $scope.totalCostoCitas  = 0;
+   
 
-        dashBoardRepository.getTotalCitas( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario  ).then(function(datos) {
+    $scope.sumatoriaCitas = function () {
+        $scope.totalCitas = 0;
+        $scope.totalHorasCitas = 0;
+        $scope.totalMontoCitas = 0;
+        $scope.totalCostoCitas = 0;
+
+        dashBoardRepository.getTotalCitas($scope.idOperacion, $scope.zonaSelected, $scope.idUsuario).then(function (datos) {
             var Resultados = datos.data;
 
-            Resultados.forEach(function(item, key) {
-                $scope.totalCitas       = $scope.totalCitas + parseInt( item.total );
-                $scope.totalHorasCitas  = $scope.totalHorasCitas + parseInt( item.promedio );
-                $scope.totalMontoCitas  = $scope.totalMontoCitas + parseInt( item.Monto );
-                $scope.totalCostoCitas  = $scope.totalCostoCitas + parseInt( item.MontoCosto );
+            Resultados.forEach(function (item, key) {
+                $scope.totalCitas = $scope.totalCitas + parseInt(item.total);
+                $scope.totalHorasCitas = $scope.totalHorasCitas + parseInt(item.promedio);
+                $scope.totalMontoCitas = $scope.totalMontoCitas + parseInt(item.Monto);
+                $scope.totalCostoCitas = $scope.totalCostoCitas + parseInt(item.MontoCosto);
             });
 
             $scope.citas = Resultados;
 
             // Grafica
             $('#morris-donut-citas').empty();
-            if( $scope.totalCitas == 0 ){
+            if ($scope.totalCitas == 0) {
                 // console.log( 'Los datos de la grafica estan en 0' );
             }
-            else{
-                if( $scope.idRol == 4 ){
+            else {
+                if ($scope.idRol == 4) {
                     var v1 = $scope.addCommas(Resultados[0].MontoCosto);
                     var v2 = $scope.addCommas(Resultados[1].MontoCosto);
                     var v3 = $scope.addCommas(Resultados[2].MontoCosto);
                 }
-                else{
+                else {
                     var v1 = $scope.addCommas(Resultados[0].Monto);
                     var v2 = $scope.addCommas(Resultados[1].Monto);
                     var v3 = $scope.addCommas(Resultados[2].Monto);
@@ -91,99 +93,99 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 Morris.Donut({
                     element: 'morris-donut-citas',
                     data: [
-                        {label: Resultados[0].estatus + " \n $" + v1, value: Resultados[0].total, idEstatus: Resultados[0].idEstatus },
-                        {label: Resultados[1].estatus + " \n $" + v2, value: Resultados[1].total, idEstatus: Resultados[1].idEstatus },
-                        {label: Resultados[2].estatus + " \n $" + v3, value: Resultados[2].total, idEstatus: Resultados[2].idEstatus }
+                        { label: Resultados[0].estatus + " \n $" + v1, value: Resultados[0].total, idEstatus: Resultados[0].idEstatus },
+                        { label: Resultados[1].estatus + " \n $" + v2, value: Resultados[1].total, idEstatus: Resultados[1].idEstatus },
+                        { label: Resultados[2].estatus + " \n $" + v3, value: Resultados[2].total, idEstatus: Resultados[2].idEstatus }
                     ],
                     resize: true,
-                    colors: [ Resultados[0].color , Resultados[1].color, Resultados[2].color],
-                }).on('click', function(i, row) {
-                    if ( row.idEstatus == 1 || row.idEstatus == 2 )
-                      location.href = '/consultaCitas?e='+ row.idEstatus;
+                    colors: [Resultados[0].color, Resultados[1].color, Resultados[2].color],
+                }).on('click', function (i, row) {
+                    if (row.idEstatus == 1 || row.idEstatus == 2)
+                        location.href = '/consultaCitas?e=' + row.idEstatus;
                 });
             }
 
-        }, function(error) {
+        }, function (error) {
             alertFactory.error('No se pudo recuperar información de las citas');
         });
     };
 
-    $scope.sumatoriaCotizaciones = function() {
-        dashBoardRepository.getTotalCotizaciones( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario  ).then(function( cotizaciones ) {
-            var Resultados  = cotizaciones.data;
+    $scope.sumatoriaCotizaciones = function () {
+        dashBoardRepository.getTotalCotizaciones($scope.idOperacion, $scope.zonaSelected, $scope.idUsuario).then(function (cotizaciones) {
+            var Resultados = cotizaciones.data;
             var valuesDonut = [];
-            var colores     = [];
+            var colores = [];
 
-            $scope.cotizaciones             = Resultados;
-            $scope.totalCotizaciones        = 0;
-            $scope.totalHorasCotizaciones   = 0;
-            $scope.totalMontoCotizaciones   = 0;
-            $scope.totalCostoCotizaciones   = 0;
+            $scope.cotizaciones = Resultados;
+            $scope.totalCotizaciones = 0;
+            $scope.totalHorasCotizaciones = 0;
+            $scope.totalMontoCotizaciones = 0;
+            $scope.totalCostoCotizaciones = 0;
 
-            $scope.cotizaciones.forEach( function( item, key ){
-                item.Monto = ( item.Monto === null ) ? 0 : item.Monto;
+            $scope.cotizaciones.forEach(function (item, key) {
+                item.Monto = (item.Monto === null) ? 0 : item.Monto;
 
-                var v = ( $scope.idRol == 4 ) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
+                var v = ($scope.idRol == 4) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
 
-                valuesDonut.push( { label: item.estatus + "\n$" + v, value: item.total, idEstatus: item.idEstatus } );
-                colores.push( item.color );
+                valuesDonut.push({ label: item.estatus + "\n$" + v, value: item.total, idEstatus: item.idEstatus });
+                colores.push(item.color);
 
-                $scope.totalCotizaciones       = $scope.totalCotizaciones + parseInt( item.total );
-                $scope.totalHorasCotizaciones  = $scope.totalHorasCotizaciones + parseInt( item.promedio );
-                $scope.totalMontoCotizaciones  = $scope.totalMontoCotizaciones + parseInt( item.Monto );
-                $scope.totalCostoCotizaciones  = $scope.totalCostoCotizaciones + parseInt( item.MontoCosto );
+                $scope.totalCotizaciones = $scope.totalCotizaciones + parseInt(item.total);
+                $scope.totalHorasCotizaciones = $scope.totalHorasCotizaciones + parseInt(item.promedio);
+                $scope.totalMontoCotizaciones = $scope.totalMontoCotizaciones + parseInt(item.Monto);
+                $scope.totalCostoCotizaciones = $scope.totalCostoCotizaciones + parseInt(item.MontoCosto);
             });
 
             $('#morris-donut-cotizaciones').empty();
-            if( $scope.totalCotizaciones == 0 ){
+            if ($scope.totalCotizaciones == 0) {
                 // console.log( 'Los datos de la grafica estan en 0' );
             }
-            else{
+            else {
                 Morris.Donut({
                     element: 'morris-donut-cotizaciones',
                     data: valuesDonut,
                     resize: true,
                     colors: colores,
-                }).on('click', function(i, row) {
-                    if( row.idEstatus == 1 || row.idEstatus == 2 )
+                }).on('click', function (i, row) {
+                    if (row.idEstatus == 1 || row.idEstatus == 2)
                         location.href = '/cotizacionconsulta?e=' + row.idEstatus;
                 });
 
             }
-        }, function(error) {
+        }, function (error) {
             alertFactory.error('No se pudo recuperar información de las cotizaciones');
         });
     };
 
-    $scope.sumatoriaProceso = function() {
-        dashBoardRepository.getTotalProceso( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario  ).then(function(proceso) {
-            var Resultados                    = proceso.data;
-            $scope.totalProceso               = 0;
-            $scope.totalHorasOrdenesProceso  = 0;
-            $scope.totalMontoOrdenesProceso  = 0;
-            $scope.totalCostoOrdenesProceso  = 0;
+    $scope.sumatoriaProceso = function () {
+        dashBoardRepository.getTotalProceso($scope.idOperacion, $scope.zonaSelected, $scope.idUsuario).then(function (proceso) {
+            var Resultados = proceso.data;
+            $scope.totalProceso = 0;
+            $scope.totalHorasOrdenesProceso = 0;
+            $scope.totalMontoOrdenesProceso = 0;
+            $scope.totalCostoOrdenesProceso = 0;
 
-            Resultados.forEach(function(item, key) {
-                $scope.totalProceso             = $scope.totalProceso + parseInt( item.total );
-                $scope.totalHorasOrdenesProceso = $scope.totalHorasOrdenesProceso + parseInt( item.promedio );
-                $scope.totalMontoOrdenesProceso = $scope.totalMontoOrdenesProceso + parseInt( item.Monto );
-                $scope.totalCostoOrdenesProceso = $scope.totalCostoOrdenesProceso + parseInt( item.MontoCosto );
+            Resultados.forEach(function (item, key) {
+                $scope.totalProceso = $scope.totalProceso + parseInt(item.total);
+                $scope.totalHorasOrdenesProceso = $scope.totalHorasOrdenesProceso + parseInt(item.promedio);
+                $scope.totalMontoOrdenesProceso = $scope.totalMontoOrdenesProceso + parseInt(item.Monto);
+                $scope.totalCostoOrdenesProceso = $scope.totalCostoOrdenesProceso + parseInt(item.MontoCosto);
             });
 
             $scope.ordenesProceso = Resultados;
 
             // Grafica
             $('#morris-donut-proceso').empty();
-            if( $scope.totalProceso == 0 ){
+            if ($scope.totalProceso == 0) {
                 // console.log( 'Los datos de la grafica estan en 0' );
             }
-            else{
-                if( $scope.idRol == 4 ){
+            else {
+                if ($scope.idRol == 4) {
                     var v1 = $scope.addCommas(Resultados[0].MontoCosto);
                     var v2 = $scope.addCommas(Resultados[1].MontoCosto);
                     //var v3 = $scope.addCommas(Resultados[2].MontoCosto);
                 }
-                else{
+                else {
                     var v1 = $scope.addCommas(Resultados[0].Monto);
                     var v2 = $scope.addCommas(Resultados[1].Monto);
                     //var v3 = $scope.addCommas(Resultados[2].Monto);
@@ -192,52 +194,52 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 Morris.Donut({
                     element: 'morris-donut-proceso',
                     data: [
-                        {label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
-                        {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
+                        { label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
+                        { label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
                         //{label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
                     ],
                     resize: true,
-                    colors: [ Resultados[0].color, Resultados[1].color/*, Resultados[2].color*/],
-                }).on('click', function(i, row) {
+                    colors: [Resultados[0].color, Resultados[1].color/*, Resultados[2].color*/],
+                }).on('click', function (i, row) {
                     // console.log( row );
                     location.href = '/trabajo?e=' + row.id;
                 });
             }
 
-        }, function(error) {
+        }, function (error) {
             alertFactory.error('No se pudo recuperar información de las ordenes');
         });
     };
 
-    $scope.sumatoriaOrdenes = function() {
-        dashBoardRepository.getTotalOrdenes( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario ).then(function(ordenes) {
-            var Resultados                    = ordenes.data;
-            $scope.totalOrdenes               = 0;
-            $scope.totalHorasOrdenesServicio  = 0;
-            $scope.totalMontoOrdenesServicio  = 0;
-            $scope.totalCostoOrdenesServicio  = 0;
+    $scope.sumatoriaOrdenes = function () {
+        dashBoardRepository.getTotalOrdenes($scope.idOperacion, $scope.zonaSelected, $scope.idUsuario).then(function (ordenes) {
+            var Resultados = ordenes.data;
+            $scope.totalOrdenes = 0;
+            $scope.totalHorasOrdenesServicio = 0;
+            $scope.totalMontoOrdenesServicio = 0;
+            $scope.totalCostoOrdenesServicio = 0;
 
-            Resultados.forEach(function(item, key) {
-                $scope.totalOrdenes              = $scope.totalOrdenes + parseInt( item.total );
-                $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt( item.promedio );
-                $scope.totalMontoOrdenesServicio = $scope.totalMontoOrdenesServicio + parseInt( item.Monto );
-                $scope.totalCostoOrdenesServicio = $scope.totalCostoOrdenesServicio + parseInt( item.MontoCosto );
+            Resultados.forEach(function (item, key) {
+                $scope.totalOrdenes = $scope.totalOrdenes + parseInt(item.total);
+                $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt(item.promedio);
+                $scope.totalMontoOrdenesServicio = $scope.totalMontoOrdenesServicio + parseInt(item.Monto);
+                $scope.totalCostoOrdenesServicio = $scope.totalCostoOrdenesServicio + parseInt(item.MontoCosto);
             });
 
             $scope.ordenesServicio = Resultados;
 
             // Grafica
             $('#morris-donut-ordenes').empty();
-            if( $scope.totalOrdenes == 0 ){
+            if ($scope.totalOrdenes == 0) {
                 // console.log( 'Los datos de la grafica estan en 0' );
             }
-            else{
-                if( $scope.idRol == 4 ){
+            else {
+                if ($scope.idRol == 4) {
                     var v1 = $scope.addCommas(Resultados[0].MontoCosto);
                     var v2 = $scope.addCommas(Resultados[1].MontoCosto);
                     //var v3 = $scope.addCommas(Resultados[2].MontoCosto);
                 }
-                else{
+                else {
                     var v1 = $scope.addCommas(Resultados[0].Monto);
                     var v2 = $scope.addCommas(Resultados[1].Monto);
                     //var v3 = $scope.addCommas(Resultados[2].Monto);
@@ -246,67 +248,67 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
                 Morris.Donut({
                     element: 'morris-donut-ordenes',
                     data: [
-                        {label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
-                        {label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
+                        { label: Resultados[0].estatus + "\n$" + v1, value: Resultados[0].total, id: Resultados[0].id },
+                        { label: Resultados[1].estatus + "\n$" + v2, value: Resultados[1].total, id: Resultados[1].id },
                         //{label: Resultados[2].estatus + "\n$" + v3, value: Resultados[2].total, id: Resultados[2].id }
                     ],
                     resize: true,
-                    colors: [ Resultados[0].color , Resultados[1].color/*, Resultados[2].color*/],
-                }).on('click', function(i, row) {
+                    colors: [Resultados[0].color, Resultados[1].color/*, Resultados[2].color*/],
+                }).on('click', function (i, row) {
                     // console.log( row );
                     location.href = '/trabajo?e=' + row.id;
                 });
             }
 
-        }, function(error) {
+        }, function (error) {
             alertFactory.error('No se pudo recuperar información de las ordenes');
         });
     };
 
-    $scope.sumatoriaOrdenesPorCobrar = function() {
-        dashBoardRepository.getTotalOrdenesPorCobrar( $scope.idOperacion, $scope.zonaSelected, $scope.idUsuario ).then(function(ordenesCobrar) {
-            var Resultados  = ordenesCobrar.data;
+    $scope.sumatoriaOrdenesPorCobrar = function () {
+        dashBoardRepository.getTotalOrdenesPorCobrar($scope.idOperacion, $scope.zonaSelected, $scope.idUsuario).then(function (ordenesCobrar) {
+            var Resultados = ordenesCobrar.data;
             var valuesDonut = [];
-            var colores     = [];
+            var colores = [];
 
-            $scope.totalOrdenesPorCobrar      = 0;
-            $scope.totalHorasOrdenesCobrar    = 0;
-            $scope.totalMontoOrdenesCobrar    = 0;
-            $scope.totalCostoOrdenesCobrar    = 0;
+            $scope.totalOrdenesPorCobrar = 0;
+            $scope.totalHorasOrdenesCobrar = 0;
+            $scope.totalMontoOrdenesCobrar = 0;
+            $scope.totalCostoOrdenesCobrar = 0;
 
-            Resultados.forEach(function(item, key) {
-                var v = ( $scope.idRol == 4 ) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
-                valuesDonut.push( { label: item.estatus + "\n$" + v, value: item.total } );
-                colores.push( item.color );
+            Resultados.forEach(function (item, key) {
+                var v = ($scope.idRol == 4) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
+                valuesDonut.push({ label: item.estatus + "\n$" + v, value: item.total });
+                colores.push(item.color);
 
-                $scope.totalOrdenesPorCobrar    = $scope.totalOrdenesPorCobrar + parseInt( item.total );
-                $scope.totalHorasOrdenesCobrar  = $scope.totalHorasOrdenesCobrar + parseInt( item.promedio );
-                $scope.totalMontoOrdenesCobrar  = $scope.totalMontoOrdenesCobrar + parseInt( item.Monto );
-                $scope.totalCostoOrdenesCobrar  = $scope.totalCostoOrdenesCobrar + parseInt( item.MontoCosto );
+                $scope.totalOrdenesPorCobrar = $scope.totalOrdenesPorCobrar + parseInt(item.total);
+                $scope.totalHorasOrdenesCobrar = $scope.totalHorasOrdenesCobrar + parseInt(item.promedio);
+                $scope.totalMontoOrdenesCobrar = $scope.totalMontoOrdenesCobrar + parseInt(item.Monto);
+                $scope.totalCostoOrdenesCobrar = $scope.totalCostoOrdenesCobrar + parseInt(item.MontoCosto);
             });
 
             $scope.ordenesCobrar = Resultados;
 
             $('#morris-donut-cobrar').empty();
-            if( $scope.totalOrdenesPorCobrar == 0 ){
+            if ($scope.totalOrdenesPorCobrar == 0) {
                 // console.log( 'Los datos de la grafica estan en 0' );
             }
-            else{
+            else {
                 Morris.Donut({
                     element: 'morris-donut-cobrar',
                     data: valuesDonut,
                     resize: true,
                     colors: colores,
-                }).on('click', function(i, row) {
+                }).on('click', function (i, row) {
                     location.href = '/ordenesporcobrar';
                 });
             }
-        }, function(error) {
+        }, function (error) {
             alertFactory.error('No se pudo recuperar información de las ordenes por cobrar');
         });
     };
 
-    $scope.addCommas = function(nStr) {
+    $scope.addCommas = function (nStr) {
         nStr += '';
         x = nStr.split('.');
         x1 = x[0];
@@ -320,40 +322,40 @@ registrationModule.controller('dashBoardController', function($scope, alertFacto
 
     // =================================================================================
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
-    $scope.obtieneNivelZona = function() {
+    $scope.obtieneNivelZona = function () {
         // console.log( "idContratoOperacion", $scope.idContratoOperacion );
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
-                $scope.totalNiveles = result.data.length;
-                if (result.data.length > 0) {
-                    $scope.NivelesZona = result.data;
-                    $scope.devuelveZonas();
-                }
-            },
-            function(error) {
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function (result) {
+            $scope.totalNiveles = result.data.length;
+            if (result.data.length > 0) {
+                $scope.NivelesZona = result.data;
+                $scope.devuelveZonas();
+            }
+        },
+            function (error) {
                 alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
             });
     };
 
     //obtiene las zonas por cada nivel con que cuenta el usuario
-    $scope.devuelveZonas = function() {
+    $scope.devuelveZonas = function () {
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function(result) {
+            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function (result) {
                 if (result.data.length > 0) {
-                    var valueToPush      = {};
-                    valueToPush.orden    = result.data[0].orden;
+                    var valueToPush = {};
+                    valueToPush.orden = result.data[0].orden;
                     valueToPush.etiqueta = result.data[0].etiqueta;
-                    valueToPush.data     = result.data;
+                    valueToPush.data = result.data;
                     $scope.Zonas.push(valueToPush);
                     //se establece por default cada zona seleccionada en 0
                     $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
                 }
-            }, function(error) {
+            }, function (error) {
                 alertFactory.error('No se pudo recuperar información de las zonas');
             });
         }
     };
 
-    $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
+    $scope.cambioZona = function (id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
 

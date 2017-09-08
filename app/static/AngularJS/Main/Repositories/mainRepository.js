@@ -32,6 +32,32 @@ registrationModule.factory('mainRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+
+        postMeeting: function(accesToken, objetivo, jsonParticipantes)
+        {
+            var params = {
+                subject: objetivo,
+                starttime: new Date().toISOString(),
+                endtime: new Date().toISOString(),
+                passwordrequired: false,
+                conferencecallinfo: "VoIP",
+                timezonekey: "string",
+                meetingtype: "immediate"
+
+
+            };
+
+            return $http({
+                url: 'https://api.getgo.com/G2M/rest/meetings',
+                method: "POST",
+                data: params,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accesToken
+                }
+            });
+
         }
     };
 });

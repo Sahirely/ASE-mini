@@ -1,52 +1,16 @@
-registrationModule.controller('nuevoMemorandumController', function ($scope, $route, $modal, $rootScope, alertFactory, nuevoMemorandumRepository, configuradorRepository) {
+registrationModule.controller('nuevoMemorandumController', function ($scope, $route, $modal, $rootScope, alertFactory, nuevoMemorandumRepository, configuradorRepository, userFactory) {
 
-    var products = [{
-        id: "1",
-        text: "BAJIO",
-        expanded:true,
-        items: [{
-            id: "1_1",
-            text: "QUERETARO/GUANAJUATO"
-        }]
-    }, {
-        id: "2",
-        text: "CENTRO",
-        expanded: true,
-        items: [{
-            id: "2_1",
-            text: "JALISCO/COLIMA",
-        }, {
-            id: "2_2",
-            text: "NAYARIT",
-            
-        }, {
-            id: "2_3",
-            text: "ZACATECAS/AGUASCALIENTES"
-        }]
-    },{
-        id: "3",
-        text: "HIDALGO",
-        expanded:true,
-        items: [{
-            id: "3_1",
-            text: "HIDALGO"
-        }]
-    },{
-        id: "4",
-        text: "METROPOLITANA",
-        expanded:true,
-        items: [{
-            id: "4_1",
-            text: "ESTADO DE MÉXICO"
-        }]
-    }];
+
+    var Zonas = []
 
     //VARIABLES GLOBALES
     $scope.titulo = ""
     $scope.descripcion = ""
 
-    $scope.catalogoPerfiles = []
-    $scope.catalogoPerfilesTree = []
+    $scope.userData = userFactory.getUserData();
+    $scope.idOperacion = $scope.userData.idOperacion;
+    $scope.idUsuario = $scope.userData.idUsuario;
+    $scope.idRol = $scope.userData.idRol;
 
     // FILE UPLOAD
     $scope.multiple = true;
@@ -71,6 +35,7 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
     $scope.chkShowZonas = false
 
     //LIST WITH SEARCH 
+
     $scope.selectedItemKeysZonas = [];
     $scope.selectedItemKeysPerfiles = [];
     $scope.selectedItemKeysUsuarios = [];
@@ -106,6 +71,100 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
         $scope.getZonas();
     }
 
+    function isParent(data) {
+        return !data.items.length;
+    }
+    function process(zona) {
+        var itemIndex = -1;
+
+        $.each($scope.selectedItemKeysZonas, function (index, item) {
+            if (item.key === zona.key) {
+                itemIndex = index;
+                return false;
+            }
+        });
+
+        if (zona.selected && itemIndex === -1) {
+            $scope.selectedItemKeysZonas.push(zona);
+        } else if (!zona.selected) {
+            $scope.selectedItemKeysZonas.splice(itemIndex, 1);
+        }
+    }
+
+    $scope.getZonas = function () {
+        configuradorRepository.getZonas($scope.idOperacion)
+            .then(function successCallback(response) {
+                //YA QUE TENEMOS LAS ZONAS ARMAMOS EL TREE
+                var JSONResponse = response.data
+                for (let level1 of JSONResponse.filter(data => data.nivel == 1)) {
+                    Zonas.push(
+                        {
+                            "id": level1.idZona,
+                            "text": level1.nombre,
+                            "items": []
+                        }
+                    )
+                    //NIVEL 2
+                    for (let level2 of JSONResponse.filter(data => data.nivel == 2)) {
+                        if (level1.idZona == level2.idPadre) {
+                            Zonas.filter(data => { return data.id == level1.idZona })[0].items.push(
+                                {
+                                    "id": level2.idZona,
+                                    "text": level2.nombre,
+                                    "items": []
+                                }
+                            )
+                        }
+                    }
+                }
+
+
+                $scope.treeViewZonasOptions = {
+                    items: Zonas,
+                    width: 300,
+                    icon: "fa fa-plus",
+                    showCheckBoxesMode: "selectAll",
+                    onItemSelectionChanged: function (e) {
+                        var item = e.node;
+                        if(isParent(item)) {
+                            process($.extend({
+                                category: item.parent.text
+                            }, item));
+                        } else {
+                            $.each(item.items, function(index, product) {
+                                process($.extend({
+                                    category: item.text
+                                }, product));
+                            });
+                        }
+                    },
+                    bindingOptions: {
+                        searchValue: "searchValue"
+                    }
+                };
+
+                $scope.listOptions = {
+                    width: 400,
+                    bindingOptions: {
+                        items: "selectedItemKeysZonas"
+                    }
+                };
+
+                $scope.searchOptions = {
+                    bindingOptions: {
+                        value: "searchValue"
+                    },
+                    placeholder: "Search...",
+                    width: 300,
+                    mode: "search",
+                    valueChangeEvent: "keyup"
+                };
+
+            })
+
+
+
+    }
     $scope.getUsuarios = function () {
 
         configuradorRepository.getUsuarios()
@@ -179,74 +238,26 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
             });
     }
 
-    function isProduct(data) {
-        return !data.items.length;
-    }
-    function processProduct(product) {
-        var itemIndex = -1;
-    
-        $.each($scope.selectedItemKeysZonas, function (index, item) {
-            if (item.key === product.key) {
-                itemIndex = index;
-                return false;
-            }
-        });
-    
-        if(product.selected && itemIndex === -1) {
-            $scope.selectedItemKeysZonas.push(product);
-        } else if (!product.selected){
-            $scope.selectedItemKeysZonas.splice(itemIndex, 1);
-        }
-    }
-
-    $scope.getZonas = function () {
-        $scope.treeViewZonasOptions = {
-            items: products,
-            width: 320,
-            showCheckBoxesMode: "normal",
-            onItemSelectionChanged: function(e) {
-                var item = e.node;
-        
-                if(isProduct(item)) {
-                    processProduct($.extend({
-                        category: item.parent.text
-                    }, item));
-                } else {
-                    $.each(item.items, function(index, product) {
-                        processProduct($.extend({
-                            category: item.text
-                        }, product));
-                    });
-                }
-            },
-            bindingOptions: {
-                searchValue: "searchValue"
-            }
-        };
-
-        $scope.listOptions = {
-            width: 400,
-            bindingOptions: {
-                items: "selectedItemKeysZonas"
-            }
-        };
-
-        $scope.searchOptions = {
-            bindingOptions: {
-                value: "searchValue"
-            },
-            placeholder: "Search",
-            width: 300,
-            mode: "search",
-            valueChangeEvent: "keyup"
-        }; 
-    }
 
     $scope.saveMemo = function () {
         $scope.descripcion = $("#editor").summernote('code');
+        var ZonasArray = []
+        for (let zona of $scope.selectedItemKeysZonas) {
+            ZonasArray.push({"id": zona.key})
+        }
+
         //VALIDAMOS - FALTA LA PROGRAMACION DE VALIDACION
         if (true) {
-            nuevoMemorandumRepository.save($scope.titulo, $scope.descripcion, $scope.chkShowZonas==true?1:0, $scope.chkShowPerfiles == true ? 1 : 0, $scope.chkShowUsuarios == true ? 1 : 0,"", JSON.stringify($scope.selectedItemKeysPerfiles), JSON.stringify($scope.selectedItemKeysUsuarios))
+            nuevoMemorandumRepository.save(
+                $scope.titulo,
+                $scope.descripcion,
+                $scope.chkShowZonas == true ? 1 : 0,
+                $scope.chkShowPerfiles == true ? 1 : 0,
+                $scope.chkShowUsuarios == true ? 1 : 0,
+                JSON.stringify(ZonasArray),
+                JSON.stringify($scope.selectedItemKeysPerfiles),
+                JSON.stringify($scope.selectedItemKeysUsuarios)
+            )
                 .then(function (result) {
                     alertFactory.success('Se generó de forma correcta el Memorandum #' + result.data[0].idMemorandum);
                 })

@@ -366,3 +366,19 @@ body {
 .semaforoAmarillo{
     background-color: #F3FBB5 !important;
 }
+
+.meeting
+{
+    width: 786px;
+}
+
+.list-container {
+    width: 100%;							
+    height: auto;
+    position: relative;
+}
+
+.dx-list-item-content > div {
+    padding: 2px;
+    font-size: 15px;
+}

@@ -1,5 +1,4 @@
 module.exports = {
-  memorandum: require('./controllers/memorandum'),
   aprobacion: require('./controllers/aprobacion'),
   cita: require('./controllers/cita'),
   cotizacion: require('./controllers/cotizacion'),
@@ -23,5 +22,7 @@ module.exports = {
   dashboardCallcenter: require('./controllers/dashboardCallcenter'),
   preordenCotizacion: require('./controllers/preordenCotizacion'), // FAL 15072017
   commonFunctions: require('./controllers/commonFunctions'), // LQMA 11062017
-  analisisflotilla: require('./controllers/analisisflotilla')
+  analisisflotilla: require('./controllers/analisisflotilla'),
+  memorandum: require('./controllers/memorandum'),
+  meeting: require('./controllers/meeting')
 }

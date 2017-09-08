@@ -66,6 +66,14 @@
     margin-top: 5px;
 }
 
+#meeting{
+    position: absolute;
+    right: 0;
+    margin-right: 350px;
+    padding-bottom: 9px;
+    color: white;
+}
+
 #rols{
     position: absolute;
     right: 0;

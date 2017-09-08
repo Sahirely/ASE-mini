@@ -64,6 +64,7 @@
                         </a>
                     </div>
                 </li-->
+
                 <li ng-class="{'active': modulo=='Configurador'}" ng-show="userData.idRol == 5">
                     <a href="configurador"><i class="glyphicon glyphicon-cog" data-toggle="tooltip" tooltip="Configurador" tooltip-placement="right"></i> <span class="nav-label">Configurador</span></a>
                 </li>
@@ -106,15 +107,15 @@
                     </ul>
                 </li>
                 <li ng-class="{'active': modulo=='analisisFlotilla'}">
-                        <a href="#" ><i class="fa fa-pie-chart"></i> <span class="nav-label">Análisis de Flotilla</span><span class="label label-warning pull-right"></span></a>
-                        <ul class="nav nav-second-level">
-                                <li ng-class="{'active': modulo=='analisisFlotillaInversion'}"><a href="/afinversion">Análisis de Inversión</a></li>
-                                <!-- <li ng-class="{'active': modulo=='analisisFlotillaInversionMensual'}"><a href="/afinversionmensual">Inversión Mensual</a></li> -->
-                                <li ng-class="{'active': modulo=='analisisFlotillaAntiguedad'}"><a href="/afantiguedad">Antiguedad Ingreso</a></li>
-                                <li ng-class="{'active': modulo=='analisisFlotillaGastoUnidad'}"><a href="/afgastounidad">Gasto por Vehículo</a></li>
-                                <li ng-class="{'active': modulo=='analisisFlotillaDocumento'}"><a href="/afdocumento">Estatus del Expediente Electrónico</a></li> 
-                        </ul>
-                    </li>
+                    <a href="#"><i class="fa fa-pie-chart"></i> <span class="nav-label">Análisis de Flotilla</span><span class="label label-warning pull-right"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-class="{'active': modulo=='analisisFlotillaInversion'}"><a href="/afinversion">Análisis de Inversión</a></li>
+                        <!-- <li ng-class="{'active': modulo=='analisisFlotillaInversionMensual'}"><a href="/afinversionmensual">Inversión Mensual</a></li> -->
+                        <li ng-class="{'active': modulo=='analisisFlotillaAntiguedad'}"><a href="/afantiguedad">Antiguedad Ingreso</a></li>
+                        <li ng-class="{'active': modulo=='analisisFlotillaGastoUnidad'}"><a href="/afgastounidad">Gasto por Vehículo</a></li>
+                        <li ng-class="{'active': modulo=='analisisFlotillaDocumento'}"><a href="/afdocumento">Estatus del Expediente Electrónico</a></li>
+                    </ul>
+                </li>
                 <li ng-show="userData.idRol == 2 && userData.idOperacion == 3" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-gavel"></i> <span class="nav-label">Reclamación</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
@@ -154,8 +155,7 @@
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
-                <ul class="nav navbar-top-links navbar-right navMain">
-
+                <ul class="nav navbar-top-links navbar-left">
                     <li id="finder">
                         <div class=" radio-info radio-inline singLeft inlineb">
                             <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
@@ -191,57 +191,98 @@
                             <div class="lastSearch"> {{busquedaNumOrden}}</div>
                         </div>
                     </li>
+                </ul>
+                <ul class="nav navbar-top-links navbar-right navMain">
 
-                    <li id="rols">
-                        <div class="singOut right">
-                            <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                                <span> {{userData.Rol}}</span>
-                                <br>
-                                <span class="clear">
-                                    <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
-                                        {{userData.nombreCompleto}}
-                                        </span>
-                            </span>
-                            </div>
-                        </div>
+                    <li>
+                        <a class="right-sidebar-toggle">
+                            <button class="btn btn-default btn-sm"><i class="fa fa-video-camera"></i> Nueva Videoconferencia</button>
+                                    
+                                </a>
                     </li>
 
-                    <li id="switcher">
-                        <div ng-hide="{{userData.idRol == 5}}">
+
+                    <li>
+                        <div ng-hide="{{userData.idRol == 5}}" class="m-r-sm">
                             <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle"
                                 data-toggle="dropdown">{{userData.nombreOperacion}}
-                                <span class="caret"></span>
-                        </button>
+                                                    <span class="caret"></span>
+                                            </button>
                             <ul class="dropdown-menu">
                                 <li><a href="#" ng-repeat="ope in userData.Operaciones" ng-click="CambiarOperacion(ope.idContratoOperacion);">{{ope.nombreOperacion}}</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li id="account">
-                            <li><a href="/" ng-click="logOut()">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
-                                <!-- <div ng-click="logOut()" id="Close" title="Cerrar Sesión">
+                    <li>
+                        <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                            <span> {{userData.Rol}}</span>
+                            <br>
+                            <span class="clear">
+                                            <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
+                                                {{userData.nombreCompleto}}
+                                                </span>
+                            </span>
+                        </div>
+                    </li>
+                    <li><a href="/" ng-click="logOut()">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
+                        <!-- <div ng-click="logOut()" id="Close" title="Cerrar Sesión">
                                     <a href="/" >Cerrar Sesión
                                                             <i class="fa fa-sign-out"></i>
                                                         </a>
                                 </div> -->
-                            </li>
                     </li>
-
-                    <!-- <li>
-                        <div ng-hide="{{userData.idRol == 5}}">
-                            
-                            <button ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" id="CambiarOperacion" type="button"
-                                data-toggle="dropdown">{{userData.nombreOperacion}}
-                                        <span class="caret"></span></button>
-
-                            
-                        </div>
-                    </li> -->
                 </ul>
             </nav>
         </div>
+
+        <div id="right-sidebar">
+            <div class="sidebar-container">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs navs-3">
+                        <li class="active">
+                            <a data-toggle="tab" href="#tab-1">CREAR</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane active">
+                            <div class="sidebar-title">
+                                <h3> <i class="fa fa-comments-o"></i> Nueva Videoconferencia</h3>
+                                <small><i class="fa fa-tim"></i> Caputa la información necesaria.</small>
+                            </div>
+                            <div>
+                                <div class="sidebar-message">
+                                    <h3>DATOS GENERALES</h3>
+                                    <hr>
+                                    <textarea placeholder="Objetivo de la reunión" rows="5" class="form-control" style="resize:none;"></textarea>
+                                </div>
+                                <div class="sidebar-message">
+                                    <h3>PARTICIPANTES</h3>
+                                    <hr>
+                                    <div style="height: 500px; max-height: 500px; overflow-y: scroll;">
+                                        <div class="dx-searchbar">
+                                            <div dx-text-box="searchOptionsUsuarios"></div>
+                                        </div>
+                                        <div>
+                                            <div dx-list="listOptionsUsuarios"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sidebar-message">
+                                    <button class="btn btn-success" style="width:100%;" ng-click="createMeeting()">GENERAR</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div ng-view></div>
     </div>
+
+
+
     <!-- PRUEBA -->
     <div id="wrapper" ng-hide="showChat == 0">
         <div class="small-chat-box fadeInRight animated">
@@ -466,7 +507,7 @@
     <script src="AngularJS/AnalisisFlotilla/Controllers/antiguedadIngresoController.js"></script>
     <script src="AngularJS/AnalisisFlotilla/Controllers/gastoUnidadController.js"></script>
     <script src="AngularJS/AnalisisFlotilla/Controllers/documentosUnidadController.js"></script>
-    
+
 
     <!-- Mainly scripts -->
     <script src="Libraries/js/metisMenu/jquery.metisMenu.js"></script>
