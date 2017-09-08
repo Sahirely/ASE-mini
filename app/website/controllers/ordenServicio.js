@@ -161,9 +161,14 @@ OrdenServicio.prototype.get_getOrdenEvidencias = function(req, res, next) {
         });
     }
     //Obtiene los detalles de las ordenes con status de pre-cancelación
-OrdenServicio.prototype.get_getAllOrdersCanceled = function(req, res, next) {
+OrdenServicio.prototype.post_getAllOrdersCanceled = function(req, res, next) {
         var self = this;
-        this.model.query('SEL_PRE_CANCELA_ORDEN_SP', "", function(error, result) {
+        var params= [{
+            name:'idOperacion',
+            value: req.body.idOperacion,
+            type:self.model.types.INT
+        }];
+        this.model.query('SEL_PRE_CANCELA_ORDEN_SP', params, function(error, result) {
             self.view.expositor(res, {
                 error: error,
                 result: result
@@ -214,7 +219,7 @@ OrdenServicio.prototype.get_getOrdenDetalle = function(req, res, next) {
             });
         }
     });
-} 
+}
 
 OrdenServicio.prototype.get_getOrdenExpediente = function(req, res, next) {
     var self = this;
@@ -291,8 +296,34 @@ OrdenServicio.prototype.get_getPartidasTaller = function(req, res, next) {
         });
     });
 }
+OrdenServicio.prototype.post_getMailCancelaOrden = function(req, res, next) {
 
-//crea nuevo comprobante de recepción
+        var object = {};
+        var self = this;
+        var params = [{
+                name: 'idUsuario',
+                value: req.body.idUsuario,
+                type: self.model.types.INT
+            },
+            {
+                name: 'idOrden',
+                value: req.body.idOrden,
+                type: self.model.types.INT
+            },
+            {
+                name: 'tipoConsulta',
+                value: req.body.tipoConsulta,
+                type: self.model.types.INT
+            }
+        ];
+        this.model.query('SEL_CORREO_PRE_CANCELACIONES', params, function(error, result) {
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            })
+        })
+    }
+    //crea nuevo comprobante de recepción
 OrdenServicio.prototype.post_agregarModuloComprobante = function(req, res, next) {
     //Objeto que almacena la respuesta
     var object = {};

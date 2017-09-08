@@ -817,6 +817,10 @@ Detalle.prototype.post_presupuestoOrden = function(req, res, next) {
         name: 'idUsuario',
         value: req.query.idUsuario,
         type: self.model.types.INT
+    }, {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
     }];
 
 

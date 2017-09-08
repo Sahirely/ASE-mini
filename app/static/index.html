@@ -107,23 +107,23 @@
                     </ul>
                 </li>
                 <li ng-class="{'active': modulo=='analisisFlotilla'}">
-                    <a href="#"><i class="fa fa-pie-chart"></i> <span class="nav-label">Análisis de Flotilla</span><span class="label label-warning pull-right"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li ng-class="{'active': modulo=='analisisFlotillaInversion'}"><a href="/afinversion">Análisis de Inversión</a></li>
-                        <!-- <li ng-class="{'active': modulo=='analisisFlotillaInversionMensual'}"><a href="/afinversionmensual">Inversión Mensual</a></li> -->
-                        <li ng-class="{'active': modulo=='analisisFlotillaAntiguedad'}"><a href="/afantiguedad">Antiguedad Ingreso</a></li>
-                        <li ng-class="{'active': modulo=='analisisFlotillaGastoUnidad'}"><a href="/afgastounidad">Gasto por Vehículo</a></li>
-                        <li ng-class="{'active': modulo=='analisisFlotillaDocumento'}"><a href="/afdocumento">Estatus del Expediente Electrónico</a></li>
-                    </ul>
-                </li>
-                <li ng-show="userData.idRol == 2 && userData.idOperacion == 3" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
+                        <a href="#" ><i class="fa fa-pie-chart"></i> <span class="nav-label">Análisis de Flotilla</span><span class="label label-warning pull-right"></span></a>
+                        <ul class="nav nav-second-level">
+                                <li ng-class="{'active': modulo=='analisisFlotillaInversion'}"><a href="/afinversion">Análisis de Inversión</a></li>
+                                <!-- <li ng-class="{'active': modulo=='analisisFlotillaInversionMensual'}"><a href="/afinversionmensual">Inversión Mensual</a></li> -->
+                                <li ng-class="{'active': modulo=='analisisFlotillaAntiguedad'}"><a href="/afantiguedad">Antiguedad Ingreso</a></li>
+                                <li ng-class="{'active': modulo=='analisisFlotillaGastoUnidad'}"><a href="/afgastounidad">Gasto por Vehículo</a></li>
+                                <li ng-class="{'active': modulo=='analisisFlotillaDocumento'}"><a href="/afdocumento">Estatus del Expediente Electrónico</a></li> 
+                        </ul>
+                    </li>
+<!--                 <li ng-show="userData.idRol == 2 && userData.idOperacion == 3" ng-class="{'active': (modulo=='emisionOficios' || modulo=='rptReclamacion' || modulo=='consultaOficios')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-gavel"></i> <span class="nav-label">Reclamación</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
                         <li ng-class="{'active': modulo=='emisionOficios'}"><a href="/resumenReclamacion">Emisión de Oficios</a></li>
                         <li ng-class="{'active': modulo=='rptReclamacion'}"><a href="/reporteReclamacion">Reporte Reclamación</a></li>
                         <li ng-class="{'active': modulo=='consultaOficios'}"><a href="/historialReclamacion">Consulta de Oficios Emitidos</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <li ng-class="{'active': modulo=='tutorial'}" ng-show="{{userData.idRol != 5}}">
                     <a href="Tutorial" ng-click="showChat = 0"><i class="glyphicon glyphicon-facetime-video" data-toggle="tooltip" tooltip="Tutorial" tooltip-placement="right"></i> <span class="nav-label">Tutorial</span></a>
                 </li>

@@ -3,78 +3,11 @@
 <link rel="stylesheet" href="Libraries/css/nsPopover.css">
 <div ng-init="initPrecancelacion()">
     <div class="headTitlePreCancelaciones">
-        <span class="title">Pre cancelaciones de ordenes por confirmar</span>
+        <span class="title">Ordenes en Pre-Cancelacion</span>
     </div>
     <hr>
     <div class="wrapper wrapper-content fadeIn">
         <div class="row">
-            <div class="contenedorFiltros">
-                <div class="col-xs-12">
-                    <div id="accordion" role="tablist" area-multiselectable="true">
-                        <div class="inbox">
-                            <div class="panel panel-default">
-                                <div class="ibox-title " role="tab" id="headingOne">
-                                    <h5>Filtros de búsqueda</h5>
-                                    <div class="ibox-tools">
-                                        <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <i class="fa fa-chevron-down"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
-                                            <label class="font-noraml">{{zona.etiqueta}}</label>
-                                            <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
-                                                    <option value="0">Seleccione</option>
-                                                    <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
-                                                        {{z.nombre}}
-                                                    </option>
-                                                </select>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
-                                            <label class="font-noraml">Ejecutivo</label>
-                                            <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
-                                                    <option value="">Seleccione un Ejecutivo</option>
-                                                </select>
-                                        </div>
-                                    </div>
-                                    <div class="row espacioInferior">
-                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
-                                            <label class="font-noraml">Mes</label>
-                                            <div class="input-group date">
-                                                <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                            <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
-                                            <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
-                                                <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
-                                                <span class="input-group-addon"> a </span>
-                                                <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
-                                            <label class="font-noraml">Fecha</label>
-                                            <div class="input-group date">
-                                                <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                            <br>
-                                            <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
-                                                    <span class="glyphicon glyphicon-search"></span>
-                                                </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class=" row col-xs-12 col-sm-6 col-md-6 col-lg-6">
         </div>
@@ -83,7 +16,7 @@
                 <br/>
                 <div class="table-responsive">
                     <br/>
-                    <table class="table table-bordered table-hover dataTableOrdenes">
+                    <table class="table table-bordered table-hover dataTablePrecancel">
                         <thead>
                             <tr>
                                 <th>Cliente</th>
@@ -99,27 +32,27 @@
                                 <th>Agendó</th>
                                 <th>Fecha Pre-cancelación</th>
                                 <th>Usuario Pre-cancela</th>
-                                <th></th>
-                                <th></th>
+                                <th>Comentarios Pre-cancelación</th>
+                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr ng-repeat="ordenesCanceladas in TotalOrdenes">
-                                <td>{{ordenesCanceladas.nombreCliente}}</td>
-                                <td>{{ordenesCanceladas.consecutivoOrden}}</td>
-                                <td>{{ordenesCanceladas.numeroOrden}}</td>
-                                <td>{{ordenesCanceladas.numeroEconomico}}</td>
-                                <td>{{ordenesCanceladas.zonaNombre}}</td>
-                                <td>{{ordenesCanceladas.nombreTipoDeServicio}}</td>
-                                <td>{{ordenesCanceladas.fechaCreacionOrden| date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenesCanceladas.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenesCanceladas.comentarioOrden}}</td>
-                                <td>{{ordenesCanceladas.nombreEstatusOrden}}</td>
-                                <td>{{ordenesCanceladas.idUsuarioAgendo}}</td>
-                                <td>{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
-                                <td>{{ordenesCanceladas.usuarioCancelacion}}</td>
-                                <td><button ng-click="DissmisOrder(ordenesCanceladas.idOrden)" class="btn btn-success">Ignorar Cancelación</button></td>
-                                <td><button ng-click="CancelOrder(ordenesCanceladas.idOrden)" class="btn btn-cancela">Cancelar Orden</button></td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.nombreCliente}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.consecutivoOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.numeroOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.numeroEconomico}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.zonaNombre}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.nombreTipoDeServicio}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.fechaCreacionOrden| date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.fechaCita | date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.comentarioOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.nombreEstatusOrden}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.idUsuarioAgendo}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.fechaCancelacion | date:'dd/MM/yyyy hh:mm'}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.usuarioCancelacion}}</td>
+                                <td ng-click="OrdenURL(ordenesCanceladas)">{{ordenesCanceladas.comentarios}}</td>
+                                <td><button ng-click="DissmisOrder(ordenesCanceladas.idOrden)" class="btn btn-success" data-toggle="tooltip" tooltip="Ignorar Cancelación" tooltip-placement="left"><span class="glyphicon glyphicon-repeat"></span></button><button ng-click="CancelOrder(ordenesCanceladas.idOrden)" class="btn btn-cancela" data-toggle="tooltip" tooltip="Cancelar Orden" tooltip-placement="left"><span class="glyphicon glyphicon-remove"></span></button></td>
                             </tr>
                         </tbody>
                     </table>

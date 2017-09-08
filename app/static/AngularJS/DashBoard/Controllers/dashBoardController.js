@@ -49,10 +49,7 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
         $scope.sumatoriaOrdenes();
         $scope.sumatoriaOrdenesPorCobrar();
         $scope.sumatoriaProceso();
-
-
     }
-
    
 
     $scope.sumatoriaCitas = function () {

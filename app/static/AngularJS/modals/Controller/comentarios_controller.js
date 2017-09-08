@@ -13,7 +13,7 @@ registrationModule.controller('comentarios_controller', function($scope, $modalI
     		alertFactory.info('Favor de ingresar comentario')
     	}else{
         callback($scope.comentario);
-        $scope.close();
+        $modalInstance.dismiss('cancel');
     	}
     };
 

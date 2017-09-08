@@ -1,4 +1,4 @@
-var preCancelacionesController = function($scope, $route, $routeParams, userFactory, preCancelacionesRepository, $rootScope, $modal, alertFactory, detalleRepository) {
+var preCancelacionesController = function($scope, $route, $routeParams, userFactory, preCancelacionesRepository, $rootScope, $modal, alertFactory, detalleRepository, commonFunctionRepository, globalFactory) {
     $rootScope.module = 'PreCancelaciones';
     $scope.Zonas = [];
     $scope.TotalOrdenes = [];
@@ -35,13 +35,17 @@ var preCancelacionesController = function($scope, $route, $routeParams, userFact
     function CancelOrderProcess(idOrden) {
         detalleRepository.postCancelaOrden($scope.userData.idUsuario, idOrden).then(function(result) {
             preCancelacionesRepository.postDeleteOrderCancel(idOrden).then(function(result) {
-                swal({
-                    title: "Trabajo terminado",
-                    message: "La cita se ha cancelado",
-                    type: 'success',
-                    showCancelButton: false
-                }, function() {
-                    location.reload();
+                preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, idOrden, 2).then(function(result) {
+                    commonFunctionRepository.sendMail(result.data[0].correoDe, result.data[0].correoPara, 'Cancelación', 'Ordenes', result.data[0].bodyhtml, '', '').then(function(response) {
+                        swal({
+                            title: "Trabajo terminado",
+                            message: "La cita se ha cancelado",
+                            type: 'success',
+                            showCancelButton: false
+                        }, function() {
+                            location.reload();
+                        });
+                    });
                 });
 
             });
@@ -76,6 +80,7 @@ var preCancelacionesController = function($scope, $route, $routeParams, userFact
 
     function dissmisOrderProcess(idOrden) {
         preCancelacionesRepository.postDeleteOrderCancel(idOrden).then(function(result) {
+
             swal({
                 title: "Cancelación rechazada",
                 message: "Se ha rechazado la solicitud de cancelación, ahora puedes ver el registro en consulta",
@@ -85,19 +90,27 @@ var preCancelacionesController = function($scope, $route, $routeParams, userFact
                 location.reload();
             });
 
+
+
         })
     }
 
     function consultaOrdenesCanceladas() {
         $('.dataTableOrdenes').DataTable().destroy();
-        preCancelacionesRepository.GetAllOrdersCanceled().then(function(result) {
+        $scope.userData= userFactory.getUserData();
+        preCancelacionesRepository.GetAllOrdersCanceled($scope.userData.idOperacion).then(function(result) {
             if (result.length > 0) {
                 $scope.TotalOrdenes = result;
+                globalFactory.filtrosTabla("dataTablePrecancel", "PreCancelaciones", 5);
             } else {
                 alertFactory.info('No se encontraron citas canceladas');
             }
         });
 
+    }
+
+    $scope.OrdenURL = function(obj) {
+        location.href = '/detalle?orden=' + obj.numeroOrden;
     }
 
 

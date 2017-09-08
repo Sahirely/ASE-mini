@@ -1,50 +1,52 @@
-registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter) {
+registrationModule.controller('detalleController', function($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository) {
     // *****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     // *****************************************************************************************************************************//
     // $rootScope.modulo = 'reporteHistorial'
     // Inicializa la pagina
 
-    $scope.IdsCotizacionesPorOrden = []
-    $scope.btn_editarCotizacion = false
-    $scope.idUsuario = 0
-    $scope.numeroOrden = $routeParams.orden
-    $scope.idEstatusOrden = 0
-    $scope.estatus = 0
-    $scope.textoNota = null
-    $scope.notaTrabajo = []
-    $scope.HistoricoOrden = []
-    $scope.x = 0
-    $scope.numCotz = 0
-    $scope.TieneSaldo = true
-    $scope.totalSumaCosto = 0
-    $scope.totalSumaVenta = 0
-    $scope.btnSwitch = {}
-    $scope.userData = {}
-    $scope.centroTrabajo = ''
+    $scope.IdsCotizacionesPorOrden = [];
+    $scope.btn_editarCotizacion = false;
+    $scope.idUsuario = 0;
+    $scope.numeroOrden = $routeParams.orden;
+    $scope.aprovisonamiento = $routeParams.provision; //localStorageService.get('provision');
+    $scope.idEstatusOrden = 0;
+    $scope.estatus = 0;
+    $scope.textoNota = null;
+    $scope.notaTrabajo = [];
+    $scope.HistoricoOrden = [];
+    $scope.x = 0;
+    $scope.numCotz = 0;
+    $scope.TieneSaldo = true;
+    $scope.totalSumaCosto = 0;
+    $scope.totalSumaVenta = 0;
+    $scope.btnSwitch = {};
+    $scope.userData = {};
+    $scope.centroTrabajo = '';
 
-    $scope.facturas_empty = true
-    $scope.facturas_empty = true
-    $scope.Facturas = []
-    $scope.totalfacturas = 0
-    $scope.errores_factura = false
-    $scope.idOrden = 0
-    $scope.show_tokenMargen = false
-    $scope.procesarCompra = ''
-    $scope.estadoCompra = false
-    $scope.estadoProveedor = false
-    $scope.sinTiempoDisponible = 1
-    $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
+    $scope.facturas_empty = true;
+    $scope.facturas_empty = true;
+    $scope.Facturas = [];
+    $scope.totalfacturas = 0;
+    $scope.errores_factura = false;
+    $scope.idOrden = 0;
+    $scope.show_tokenMargen = false;
+    $scope.procesarCompra = '';
+    $scope.estadoCompra = false;
+    $scope.estadoProveedor = false;
+    $scope.sinTiempoDisponible = 1;
+    $scope.tiempoTranscurridoDisplay = '00:00 / 00:00';
 
     // Agrega para comentarios
     $scope.comentarios = []
 
     $scope.init = function() {
+        $scope.Precancelacion= false;
         userFactory.ValidaSesion()
         $('#loadModal').modal('show')
         $scope.userData = userFactory.getUserData()
         $scope.rolLogged = $scope.userData.idRol
-        $scope.aprovisonamiento = $routeParams.provision; //localStorageService.get('provision');
+
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.btnSwitch.classCosto = 'btn btn-success'
         $scope.btnSwitch.classVenta = 'btn btn-default'
@@ -59,7 +61,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
         $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden)
         $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
         $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
-
+        checkPrecancelation();
         if ($scope.userData.presupuesto == 1) {
             $scope.getSaldos($routeParams.orden)
         }
@@ -132,6 +134,17 @@ registrationModule.controller('detalleController', function($scope, $location, $
                 alertFactory.error('No se pudo recuperar el historico de la cotización.')
             })
         }
+    }
+    function checkPrecancelation(){
+        $scope.userData= userFactory.getUserData();
+        preCancelacionesRepository.GetAllOrdersCanceled($scope.userData.idOperacion).then(function(result) {
+            for(var i=0; i< result.length; i++){
+                if(result[i].numeroOrden === $scope.numeroOrden){
+                    $scope.Precancelacion=true;
+                    break;
+                }
+            }
+        });
     }
 
     $scope.getOrdenDetalle = function(idUsuario, orden) {
@@ -446,7 +459,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
             }
         })
         if ($scope.saldos != undefined) {
-            if (sumOperacion <= ($scope.saldos.presupuesto - $scope.saldos.utilizado)) {
+            if (sumOperacion <= ($scope.saldos.saldo)) {
                 $scope.TieneSaldo = true
                 return true
             } else {
@@ -1000,7 +1013,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     $scope.cambiaEstatusOrdenTermino = function() {
         if ($scope.userData.presupuesto == 1) {
-            detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(result) {
+            detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
                 if (result.data.length > 0) {
                     detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function(r_token) {
                         if ($scope.hasDetalleModulo(6, 19) === true) {
@@ -1599,7 +1612,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
                     confirmButtonColor: '#67BF11',
                     confirmButtonText: 'Si',
                     cancelButtonText: 'No',
-                    closeOnConfirm: false,
+                    closeOnConfirm: true,
                     closeOnCancel: true
                 },
                 function(isConfirm) {
@@ -1653,6 +1666,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
 
     $scope.cancelarOrden = function() {
+        $scope.tipoComentario = 2
         $('.modal-dialog').css('width', '1050px');
         modal_agregarComentario($scope, $modal, $scope.preCancelaComents, '');
     }
@@ -1663,19 +1677,30 @@ registrationModule.controller('detalleController', function($scope, $location, $
 
     function PreCancelationProcess(rol, comentario) {
         var messageSuccess = (rol !== 2) ? 'Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio.' : 'Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.'
-        detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
-            swal({
-                    title: 'Pre-cancelación',
-                    text: messageSuccess,
-                    type: 'success',
-                    showCancelButton: false
-                },
-                function() {
-                    location.href = '/consultaCitas'
-                })
-        }, function(error) {
-            alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde')
-        })
+        if (comentario !== '') {
+            detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function(result) {
+                preCancelacionesRepository.postGetMailNotification($scope.userData.idUsuario, $scope.detalleOrden.idOrden, 1).then(function(result2) {
+                    var correoDe= result2.data[0].correoDe;
+                    var correoPara= result2.data[0].correoPara;
+                    var bodyHtml= result2.data[0].bodyhtml;
+                    commonFunctionRepository.sendMail(correoDe, correoPara, 'Pre-Cancelación', 'Ordenes', bodyHtml, '', '').then(function(response) {
+                        swal({
+                                title: 'Pre-cancelación',
+                                text: messageSuccess,
+                                type: 'success',
+                                showCancelButton: false
+                            },
+                            function() {
+                                location.href = '/consultaCitas'
+                            });
+
+                    });
+                });
+
+            }, function(error) {
+                alertFactory.error('No se pudo realizar la pre-cancelacion, intentelo más tarde')
+            });
+        }
     }
 
     /*  $scope.validaFacturaCotizacion = function() {
@@ -1759,6 +1784,7 @@ registrationModule.controller('detalleController', function($scope, $location, $
     $scope.realizaProvision = function() {
             $scope.promise = detalleRepository.postaproviosionamiento($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function() {
                     swal('Trabajo terminado!', 'La orden se ha provisionado corractamente')
+                    $scope.aprovisonamiento = null;
                         // localStorageService.remove('provision')
                     $('html, body').animate({
                         scrollTop: 0
