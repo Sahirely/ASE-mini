@@ -9,7 +9,7 @@
     //*****************************************************************************************************************************//
 
 
-    $scope.selectedItemKeysUsuarios = [];
+    $scope.selectedUsuarios = [];
     $scope.selectionMode = "all";
     $scope.selectAllMode = "page";
 
@@ -221,7 +221,7 @@
                     height: 'auto',
                     showSelectionControls: true,
                     bindingOptions: {
-                        selectedItemKeys: "selectedItemKeysUsuarios",
+                        selectedItemKeys: "selectedUsuarios",
                         selectionMode: "selectionMode",
                         selectAllMode: "selectAllMode",
                     }
@@ -241,11 +241,13 @@
 
     }
 
-    $scope.createMeeting = function()
-    {
-        mainRepository.postMeeting("CTDHpgp4ArTRsQp35yUr1iKelcEN","PRUEBA",JSON.stringify($scope.selectedItemKeysUsuarios)).then(function (result) {
-            console.log(result.data)
-        }); 
+    $scope.createMeeting = function () {
+        mainRepository.postCreateMeeting("CTDHpgp4ArTRsQp35yUr1iKelcEN", "PRUEBA", JSON.stringify($scope.selectedItemKeysUsuarios)).then(function (result) {
+            //SI EL MEETING SE CREO DE FORMA CORRECTA, ENTONCES HACEMOS 2 COSAS:
+            //1. ABRIR LA NUEVA VENTANA DEL NAVEGADOR CON LA URL PARA COMENZAR LA VIDEOCONFERENCIA STARTMEETING
+            //2. ABRIR SOCKET PARA INFORMAR A LOS PARTICIPANTES LA URL DE LA REUNION
+            console.log(result);
+        });
 
     }
 
