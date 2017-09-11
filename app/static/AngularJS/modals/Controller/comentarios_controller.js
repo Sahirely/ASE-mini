@@ -10,10 +10,13 @@ registrationModule.controller('comentarios_controller', function($scope, $modalI
     };
     $scope.agregar = function() {
     	if($scope.comentario == '' || $scope.comentario == null || $scope.comentario == undefined){
-    		alertFactory.info('Favor de ingresar comentario')
+    		//alertFactory.info('Favor de ingresar comentario')
+            $scope.comentario = '';
+            callback($scope.comentario);
+            $modalInstance.dismiss('cancel'); 
     	}else{
-        callback($scope.comentario);
-        $modalInstance.dismiss('cancel');
+            callback($scope.comentario);
+            $modalInstance.dismiss('cancel');
     	}
     };
 
