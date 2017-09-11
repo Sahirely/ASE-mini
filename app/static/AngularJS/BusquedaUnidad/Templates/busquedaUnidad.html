@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="AngularJS/BusquedaUnidad/Styles/BusquedaUnidad.css">
+<link rel="stylesheet" href="AngularJS/BusquedaUnidad/Styles/busquedaUnidad.css">
 <div ng-init="init()">
     <div class="headTitleTallerCita">
         <span class="title title-xs"> Ficha Técnica de la Unidad</span>
@@ -84,11 +84,12 @@
                                 </div>
                               </div>
                            </div>
-                            <p ng-show="mostrarMapa">
-                                <label>Localización:</label>
-                                <br>
-                                <div class="google-map" id="map1"></div>
-                            </p>
+                                <p>
+                                    <label>Localización:</label>
+                                    <br>
+                                    <div class="google-map" id="map1">
+                                    </div>
+                                </p>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-show="userData.idRol != 4">
                             <div class="ibox float-e-margins">

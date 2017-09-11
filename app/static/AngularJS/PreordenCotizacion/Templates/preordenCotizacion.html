@@ -63,12 +63,16 @@
                   <table class="table table-bordered table-hover proveedoresTable" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
                       <thead>
                           <tr>
-                              <th>Talleres</th>
+                              <th>Nombre Comercial</th>
+                              <th>Razón Social</th>
+                              <th>Dirección</th>
                           </tr>
                       </thead>
                       <tbody>
-                          <tr ng-repeat="taller in talleres">
-                              <td ng-click="selectTaller(taller);">{{taller.nombreComercial}}</td>
+                          <tr ng-repeat="taller in talleres" ng-click="selectTaller(taller);">
+                              <td>{{taller.nombreComercial}}</td>
+                              <td>{{taller.razonSocial}}</td>
+                              <td>{{taller.direccion}}</td>
                           </tr>
                       </tbody>
                   </table>

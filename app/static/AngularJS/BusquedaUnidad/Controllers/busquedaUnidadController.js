@@ -1,4 +1,4 @@
-registrationModule.controller('busquedaUnidadController', function($scope, $location, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, userFactory, busquedaUnidadRepository) {
+registrationModule.controller('busquedaUnidadController', function($scope, $location, $rootScope, $routeParams, MarkerCreatorService, alertFactory, globalFactory, commonService, localStorageService, userFactory, busquedaUnidadRepository) {
     //*****************************************************************************************************************//
     //SE INICIALIZAN VARIABLES
     //*****************************************************************************************************************//
@@ -13,6 +13,7 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
         userFactory.ValidaSesion();
         $scope.userData = userFactory.getUserData();
         $scope.idUsuario = $scope.userData.idUsuario;
+        $scope.map = {};
         $scope.permisos();
         $scope.permisosUsuario();
         $scope.getDetalleUnidad();
@@ -21,28 +22,50 @@ registrationModule.controller('busquedaUnidadController', function($scope, $loca
 
     };
     $scope.permisos = function() {
-        if ($scope.userData.geolocalizacion == 0) {
-            $scope.mostrarMapa = false;
-        } else if ($scope.userData.geolocalizacion == 1) {
-            $scope.mostrarMapa = true;
-            ////////////////////////////////////////////////////////////
-            //MAPA
-            ///////////////////////////////////////////////////////////
-            var mapOptions1 = {
-                zoom: 14,
-                center: new google.maps.LatLng(19.3269503, -99.2138245)
-                    // Style for Google Maps
-                    //styles: [{ "featureType": "water", "stylers": [{ "saturation": 43 }, { "lightness": -11 }, { "hue": "#0088ff" }] }, { "featureType": "road", "elementType": "geometry.fill", "stylers": [{ "hue": "#ff0000" }, { "saturation": -100 }, { "lightness": 99 }] }, { "featureType": "road", "elementType": "geometry.stroke", "stylers": [{ "color": "#808080" }, { "lightness": 54 }] }, { "featureType": "landscape.man_made", "elementType": "geometry.fill", "stylers": [{ "color": "#ece2d9" }] }, { "featureType": "poi.park", "elementType": "geometry.fill", "stylers": [{ "color": "#ccdca1" }] }, { "featureType": "road", "elementType": "labels.text.fill", "stylers": [{ "color": "#767676" }] }, { "featureType": "road", "elementType": "labels.text.stroke", "stylers": [{ "color": "#ffffff" }] }, { "featureType": "poi", "stylers": [{ "visibility": "off" }] }, { "featureType": "landscape.natural", "elementType": "geometry.fill", "stylers": [{ "visibility": "on" }, { "color": "#b8cb93" }] }, { "featureType": "poi.park", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.sports_complex", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.medical", "stylers": [{ "visibility": "on" }] }, { "featureType": "poi.business", "stylers": [{ "visibility": "simplified" }] }]
-            };
-            // Get all html elements for map
-            var mapElement1 = document.getElementById('map1');
-            // Create the Google Map using elements
-            var map1 = new google.maps.Map(mapElement1, mapOptions1);
 
-            ////////////////////////////////////////////////////////////
-            //MAPA
-            ///////////////////////////////////////////////////////////
+        // configuración de coordenadas por default - aquí se cargará la localización real de las unidades
+        var gps = {};
+        gps.lat = 19.4284700;
+        gps.lng = -99.1276600;
+        $scope.direccion = 'Ciudad de México';
+
+        ////////////////////////////////////////////////////////////
+        //MAPA
+        ///////////////////////////////////////////////////////////
+        var mapOptions1 = {
+            zoom: 15,
+            center: gps,
+            format: 'png',
+            markers: []
+          };
+
+        // Get all html elements for map
+        var mapElement1 = document.getElementById('map1');
+        // Create the Google Map using elements
+        var map1 = new google.maps.Map(mapElement1, mapOptions1);
+        ////////////////////////////////////////////////////////////
+        //MAPA
+        ///////////////////////////////////////////////////////////
+
+        if ($scope.userData.geolocalizacion == 1) {
+              var contentString = '<div><strong>Dirección</strong> : <p>'+$scope.direccion+'</p></div>';
+              var infowindow = new google.maps.InfoWindow({
+                       content: contentString,
+                       position: gps,
+                       map: map1
+                     });
+
+              var marker = new google.maps.Marker({
+                  position: gps,
+                  map: map1
+                });
+
+              infowindow.open(map1);
+              marker.addListener('click', function() {
+                 infowindow.open(map1);
+              });
         }
+
         $scope.mostrarComentarios = false;
         angular.forEach($scope.userData.Modulos, function(value, key) {
             if (value.idCatalogoModulo == 3) {
