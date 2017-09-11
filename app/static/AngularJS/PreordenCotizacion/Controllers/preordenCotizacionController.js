@@ -23,17 +23,19 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
         alertFactory.error('Ocurrio un Error');
     };
 
-    $scope.getTipoUnidad = function(idCotizacion){
-        preordenCotizacionRepository.getTipoUnidadByCotizacion(idCotizacion).then(function(result){
+    $scope.getTipoUnidad = function(idCotizacion) {
+        preordenCotizacionRepository.getTipoUnidadByCotizacion(idCotizacion).then(function(result) {
             var idTipoUnidad = result.data[0].idTipoUnidad;
             $scope.getMostrarCotizacion($scope.idCotizacion);
             $scope.getMostrarTalleres($scope.idUsuario, $scope.idContratoOperacion, idTipoUnidad);
-        }, function(error){
-          $('#loadModal').modal('hide');
-          alertFactory.error('Ocurrio un error.');
+        }, function(error) {
+            $('#loadModal').modal('hide');
+            alertFactory.error('Ocurrio un error.');
         });
     }
-
+    $scope.openPDF = function(str) {
+        window.open(str, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+    }
     $scope.getMostrarCotizacion = function(idCotizacion) {
         preordenCotizacionRepository.getCotizacion(idCotizacion).then(function(result) {
 
@@ -46,7 +48,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
                 $scope.cotizaciones = resCotizaciones;
             } else {
                 alertFactory.info('No tiene partidas esta preorden');
-                location.href = '/detalle?orden='+ $scope.numeroOrden;
+                location.href = '/detalle?orden=' + $scope.numeroOrden;
             }
         }, function(error) {
             $('#loadModal').modal('hide');
@@ -85,12 +87,12 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     };
 
-    $scope.selectTaller = function(tallerSel){
-      $scope.tallerSeleccionado = tallerSel;
+    $scope.selectTaller = function(tallerSel) {
+        $scope.tallerSeleccionado = tallerSel;
     }
 
     $scope.seleccionaPartidas = function() {
-        $scope.cotizaciones.forEach(function(item){
+        $scope.cotizaciones.forEach(function(item) {
             item.idTallertmp = 0;
         });
         if ($scope.tallerSeleccionado == undefined) {
@@ -155,7 +157,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             // });
 
 
-            $scope.cotizaciones.forEach(function(item){
+            $scope.cotizaciones.forEach(function(item) {
                 item.idTallertmp = parseInt($scope.tallerSeleccionado.idTaller);
             });
 
@@ -203,8 +205,8 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.partidaAgregar = function(partida) {
 
-        $scope.cotizaciones.forEach(function(item, key){
-            if (item.idPartida == partida.idPartida){
+        $scope.cotizaciones.forEach(function(item, key) {
+            if (item.idPartida == partida.idPartida) {
                 item.idTallertmp = $scope.tallerSeleccionado.idTaller;
             }
         });
@@ -212,7 +214,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
 
     $scope.irpreordenCotizacion = function() {
         $scope.class_buttonNuevaCotizacion = 'fa fa-spinner fa-spin';
-        location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
+        location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden=' + $scope.numeroOrden;
     }
 
     $scope.guardaFactura = function() {
@@ -224,52 +226,52 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
         });
 
         partidas = partidas.substring(1, partidas.length)
-        //LQMA 15072017 end
+            //LQMA 15072017 end
 
         preordenCotizacionRepository.getGuardarCotizacion($scope.idCotizacion, $scope.idUsuario, $scope.tallerSeleccionado.idTaller, partidas, $scope.tallerSeleccionado.idZona).then(function(result) {
-              var hasDM = false;
-              angular.forEach($scope.userData.Modulos, function (modulo){
-                  if (modulo.idCatalogoModulo == 4) {
-                      angular.forEach(modulo.detalle, function(detalleModulo, key) {
-                          if (detalleModulo.idCatalogoDetalleModulo == 6) {
-                              hasDM = true;
-                          }
-                      });
-                  }
-              });
-
-              if (hasDM){
-                  if (result.data.length > 0){
-                        $scope.idOrden = result.data[0].idOrden;
-                        commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
-                            if (resp.data.length > 0) {
-                                var correoDe = resp.data[0].correoDe;
-                                var correoPara = resp.data[0].correoPara;
-                                var asunto = resp.data[0].asunto;
-                                var texto = resp.data[0].texto;
-                                var bodyhtml = resp.data[0].bodyhtml;
-                                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-                                    if (result.data.length > 0) {}
-                                }, function(error) {
-                                    // alertFactory.error('No se puede enviar el correo');
-                                });
-                            }
-                        }, function(error) {
-                            // alertFactory.error("Error al obtener información para el mail");
-                        });
-
-                    }
+            var hasDM = false;
+            angular.forEach($scope.userData.Modulos, function(modulo) {
+                if (modulo.idCatalogoModulo == 4) {
+                    angular.forEach(modulo.detalle, function(detalleModulo, key) {
+                        if (detalleModulo.idCatalogoDetalleModulo == 6) {
+                            hasDM = true;
+                        }
+                    });
                 }
+            });
 
-                $('#loadModal').modal('hide');
-                location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden='+ $scope.numeroOrden;
+            if (hasDM) {
+                if (result.data.length > 0) {
+                    $scope.idOrden = result.data[0].idOrden;
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function(resp) {
+                        if (resp.data.length > 0) {
+                            var correoDe = resp.data[0].correoDe;
+                            var correoPara = resp.data[0].correoPara;
+                            var asunto = resp.data[0].asunto;
+                            var texto = resp.data[0].texto;
+                            var bodyhtml = resp.data[0].bodyhtml;
+                            commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+                                if (result.data.length > 0) {}
+                            }, function(error) {
+                                // alertFactory.error('No se puede enviar el correo');
+                            });
+                        }
+                    }, function(error) {
+                        // alertFactory.error("Error al obtener información para el mail");
+                    });
+
+                }
+            }
+
+            $('#loadModal').modal('hide');
+            location.href = '/preordenCotizacion?idCotizacion=' + $scope.idCotizacion + '&orden=' + $scope.numeroOrden;
 
 
         });
     }
 
-    $scope.cancelarPartida = function(partida){
-      swal({
+    $scope.cancelarPartida = function(partida) {
+        swal({
             title: '¿Esta seguró de cancelar la partida?',
             text: "se cancelará la partida " + partida.partida + " de la PreOrden.",
             type: 'warning',
@@ -278,18 +280,18 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
             cancelButtonColor: '#d33',
             confirmButtonText: 'Si',
             cancelButtonText: 'Cancelar'
-          },function(isConfirm) {
-              if (isConfirm) {
-                  preordenCotizacionRepository.cancelaPartidaPreorden($scope.idCotizacion, partida.idPartida).then(function(result){
-                      if (result.data.length > 0){
-                          alertFactory.info(result.data[0].msg);
-                      }
-                      $scope.init();
-                  },function(error){
-                      alertFactory.error('Ocurrio un error');
-                  });
-              }
-          });
+        }, function(isConfirm) {
+            if (isConfirm) {
+                preordenCotizacionRepository.cancelaPartidaPreorden($scope.idCotizacion, partida.idPartida).then(function(result) {
+                    if (result.data.length > 0) {
+                        alertFactory.info(result.data[0].msg);
+                    }
+                    $scope.init();
+                }, function(error) {
+                    alertFactory.error('Ocurrio un error');
+                });
+            }
+        });
 
     }
 
