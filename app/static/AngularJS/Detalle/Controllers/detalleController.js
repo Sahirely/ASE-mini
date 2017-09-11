@@ -1812,19 +1812,21 @@ registrationModule.controller('detalleController', function($scope, $location, $
     }
     $scope.resultadoComentario = function(comentarios) {
         if ($scope.tipoComentario == 1) {
+            var comments
+            comentarios == "" ? comments = '' : comments = 'Número de Parte: ' + $scope.partidaComentario.noParte + ' Comentario: ' + comentarios;
             $scope.comentarios.push({
                 id: $scope.partidaComentario.idPartida,
-                comentario: 'Número de Parte: ' + $scope.partidaComentario.noParte + ' Comentario: ' + comentarios
+                comentario: comments
             })
         } else if ($scope.tipoComentario == 2) {
-            if (comentarios != '' && comentarios != null && comentarios != undefined) {
+            //if (comentarios != '' && comentarios != null && comentarios != undefined) {
                 $scope.comentarios.push({
                     comentario: comentarios
                 })
                 $scope.updateComentariosPartidas()
-            } else {
-                $scope.class_buttonTerminaTrabajo = ''
-            }
+            //} else {
+            //    $scope.class_buttonTerminaTrabajo = ''
+            //}
         }
     }
     $scope.verificaComentario = function(tipoComentario, partida) {
