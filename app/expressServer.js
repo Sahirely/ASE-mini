@@ -9,7 +9,7 @@ var path = require('path');
 
 
     //Alta de opciones
-    var done=false;
+    var done = false;
 
     var ExpressServer = function(config){
       this.config = config || {};
