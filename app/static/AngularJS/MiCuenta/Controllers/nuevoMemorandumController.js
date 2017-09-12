@@ -1,6 +1,4 @@
 registrationModule.controller('nuevoMemorandumController', function ($scope, $route, $modal, $rootScope, alertFactory, nuevoMemorandumRepository, configuradorRepository, userFactory) {
-
-
     var Zonas = []
 
     //VARIABLES GLOBALES
@@ -30,18 +28,18 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
         }
     };
     //SHOW CHECKBOXES
-    $scope.chkShowPerfiles = false
-    $scope.chkShowUsuarios = false
-    $scope.chkShowZonas = false
+    $scope.notificaPerfiles = false
+    $scope.notificaUsuarios = false
+    $scope.notificaZonas = false
 
     //LIST WITH SEARCH 
 
-    $scope.selectedItemKeysZonas = [];
-    $scope.selectedItemKeysPerfiles = [];
-    $scope.selectedItemKeysUsuarios = [];
+    $scope.selectedZonas = []
+    $scope.selectedPerfiles = []
+    $scope.selectedUsuarios = []
 
     $scope.selectionMode = "all";
-    $scope.selectAllMode = "page";
+    $scope.selectAllMode = "allPages";
 
     $scope.init = function () {
         $("#editor").summernote(
@@ -74,10 +72,11 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
     function isParent(data) {
         return !data.items.length;
     }
-    function process(zona) {
+
+    function processZona(zona) {
         var itemIndex = -1;
 
-        $.each($scope.selectedItemKeysZonas, function (index, item) {
+        $.each($scope.selectedZonas, function (index, item) {
             if (item.key === zona.key) {
                 itemIndex = index;
                 return false;
@@ -85,9 +84,9 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
         });
 
         if (zona.selected && itemIndex === -1) {
-            $scope.selectedItemKeysZonas.push(zona);
+            $scope.selectedZonas.push(zona);
         } else if (!zona.selected) {
-            $scope.selectedItemKeysZonas.splice(itemIndex, 1);
+            $scope.selectedZonas.splice(itemIndex, 1);
         }
     }
 
@@ -121,41 +120,33 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
 
                 $scope.treeViewZonasOptions = {
                     items: Zonas,
-                    width: 300,
-                    icon: "fa fa-plus",
                     showCheckBoxesMode: "selectAll",
                     onItemSelectionChanged: function (e) {
                         var item = e.node;
-                        if(isParent(item)) {
-                            process($.extend({
+                        if (isParent(item)) {
+                            processZona($.extend({
                                 category: item.parent.text
                             }, item));
                         } else {
-                            $.each(item.items, function(index, product) {
-                                process($.extend({
+                            $.each(item.items, function (index, product) {
+                                processZona($.extend({
                                     category: item.text
                                 }, product));
                             });
                         }
                     },
-                    bindingOptions: {
+                    bindingOptions:{
                         searchValue: "searchValue"
                     }
                 };
 
-                $scope.listOptions = {
-                    width: 400,
-                    bindingOptions: {
-                        items: "selectedItemKeysZonas"
-                    }
-                };
+              
 
-                $scope.searchOptions = {
+                $scope.searchOptionsZonas = {
                     bindingOptions: {
                         value: "searchValue"
                     },
-                    placeholder: "Search...",
-                    width: 300,
+                    placeholder: "Buscar...",
                     mode: "search",
                     valueChangeEvent: "keyup"
                 };
@@ -169,27 +160,25 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
 
         configuradorRepository.getUsuarios()
             .then(function successCallback(response) {
-
                 var dataSourceUsuarios = new DevExpress.data.DataSource({
                     store: response.data,
                     searchOperation: "contains",
                     searchExpr: "text"
                 });
-                $scope.listOptionsUsuarios = {
+                $scope.listOptionsUsers = {
                     dataSource: dataSourceUsuarios,
                     itemTemplate: function (data) {
                         return $("<div>").text(data.text);
                     },
-                    height: 'auto',
                     showSelectionControls: true,
                     bindingOptions: {
-                        selectedItemKeys: "selectedItemKeysUsuarios",
+                        selectedItemKeys: "selectedUsuarios",
                         selectionMode: "selectionMode",
-                        selectAllMode: "selectAllMode",
+                        selectAllMode: "selectAllMode"
                     }
                 };
 
-                $scope.searchOptionsUsuarios = {
+                $scope.searchOptionsUsers = {
                     valueChangeEvent: "keyup",
                     placeholder: "Buscar...",
                     mode: "search",
@@ -203,7 +192,6 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
 
     }
     $scope.getPerfiles = function () {
-
         configuradorRepository.getCatalogoTipoUsuarios()
             .then(function successCallback(response) {
                 var dataSourcePerfiles = new DevExpress.data.DataSource({
@@ -216,15 +204,13 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
                     itemTemplate: function (data) {
                         return $("<div>").text(data.text);
                     },
-                    height: 'auto',
                     showSelectionControls: true,
                     bindingOptions: {
-                        selectedItemKeys: "selectedItemKeysPerfiles",
+                        selectedItemKeys: "selectedPerfiles",
                         selectionMode: "selectionMode",
-                        selectAllMode: "selectAllMode",
+                        selectAllMode: "selectAllMode"
                     }
                 };
-
                 $scope.searchOptionsPerfiles = {
                     valueChangeEvent: "keyup",
                     placeholder: "Buscar...",
@@ -234,34 +220,73 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
                         dataSourcePerfiles.load();
                     }
                 };
+
             }, function errorCallback(response) {
             });
     }
 
 
     $scope.saveMemo = function () {
+        //VALIDACIONES
         $scope.descripcion = $("#editor").summernote('code');
+        $scope.notificaPerfiles = $scope.selectedPerfiles.length == 0 ? false : true;
+        $scope.notificaUsuarios = $scope.selectedUsuarios.length == 0 ? false : true;
+        $scope.notificaZonas = $scope.selectedZonas.length == 0 ? false : true;
+
+
+        if ($scope.descripcion == "" || $scope.titulo == "") {
+            alertFactory.error('El campo Titulo y Descripción son obligatorios.');
+            return;
+        }
+
+
+
+        //VALIDACION DE SELECCION DE PERFILES
+        if ($scope.notificaPerfiles && $scope.selectedPerfiles.length == 0) {
+            alertFactory.error('Si se desea alertar por Perfil, se debe de seleccionar al menos 1 elemento de la lista.');
+            return;
+        }
+        //VALIDACION DE SELECCION DE USUARIOS
+        if ($scope.notificaUsuarios && $scope.selectedUsuarios.length == 0) {
+            alertFactory.error('Si se desea alertar por Usuario, se debe de seleccionar al menos 1 elemento de la lista.');
+            return;
+        }
+        //VALIDACION DE SELECCION DE ZONAS
+        if ($scope.notificaZonas && $scope.selectedZonas.length == 0) {
+            alertFactory.error('Si se desea alertar por Zona, se debe de seleccionar al menos 1 elemento de la lista.');
+            return;
+        }
         var ZonasArray = []
-        for (let zona of $scope.selectedItemKeysZonas) {
-            ZonasArray.push({"id": zona.key})
+        for (let zona of $scope.selectedZonas) {
+            ZonasArray.push({ "id": zona.key })
         }
 
         //VALIDAMOS - FALTA LA PROGRAMACION DE VALIDACION
-        if (true) {
-            nuevoMemorandumRepository.save(
-                $scope.titulo,
-                $scope.descripcion,
-                $scope.chkShowZonas == true ? 1 : 0,
-                $scope.chkShowPerfiles == true ? 1 : 0,
-                $scope.chkShowUsuarios == true ? 1 : 0,
-                JSON.stringify(ZonasArray),
-                JSON.stringify($scope.selectedItemKeysPerfiles),
-                JSON.stringify($scope.selectedItemKeysUsuarios)
-            )
-                .then(function (result) {
-                    alertFactory.success('Se generó de forma correcta el Memorandum #' + result.data[0].idMemorandum);
-                })
-        }
+
+        nuevoMemorandumRepository.save(
+            $scope.titulo,
+            $scope.descripcion,
+            $scope.notificaZonas == true ? 1 : 0,
+            $scope.notificaPerfiles == true ? 1 : 0,
+            $scope.notificaUsuarios == true ? 1 : 0,
+            JSON.stringify(ZonasArray),
+            JSON.stringify($scope.selectedPerfiles),
+            JSON.stringify($scope.selectedUsuarios)
+        )
+            .then(function (result) {
+                alertFactory.success('Se generó de forma correcta el Memorandum #' + result.data[0].idMemorandum);
+                $scope.titulo="";
+                $scope.descripcion="";
+                $scope.notificaZonas=false;
+                $scope.notificaUsuarios=false;
+                $scope.notificaPerfiles=false;
+                $scope.selectedPerfiles = []
+                $scope.selectedUsuarios = []
+                $scope.selectedZonas = []
+                $scope.Zonas = []
+                $('#editor').summernote('code', '')
+            })
+
     }
 
 });

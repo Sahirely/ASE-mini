@@ -76,6 +76,15 @@
     font-weight: 300;
 }
 
-.fondoBlanco{
+.fondoBlanco {
     background: white !important;
+}
+
+.slimCol {
+    width: 60px !important;
+}
+
+.tdDesc {
+    position: relative;
+    padding-right: 40px !important;
 }

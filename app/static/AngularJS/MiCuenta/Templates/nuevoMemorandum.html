@@ -39,17 +39,18 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-1">
                         <div class="row">
-                            <span class="fa fa-key"></span>
-                            <div dx-check-box="{text: 'Notificación por Perfil', value: false, icon: 'fa fa-plus'}"  ng-model="chkShowPerfiles" style="font-weight: bold;"></div>
+                            <h3><span class="fa fa-key"></span> Notificación por Perfiles</h3>
                         </div>
                         <br>
-                        <div class="row" ng-if="chkShowPerfiles">
+                        <div class="row">
                             <div class="dx-viewport demo-container">
-                                <div class="dx-searchbar">
-                                    <div dx-text-box="searchOptionsPerfiles"></div>
-                                </div>
-                                <div>
-                                    <div dx-list="listOptionsPerfiles"></div>
+                                <div class="widget-container">
+                                    <div class="dx-searchbar">
+                                        <div dx-text-box="searchOptionsPerfiles"></div>
+                                    </div>
+                                    <div class="list-container">
+                                        <div dx-list="listOptionsPerfiles"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -60,17 +61,18 @@
                 <div class="row">
                     <div class="col-md-8 col-md-offset-1">
                         <div class="row">
-                                <span class="fa fa-user"></span>
-                            <div dx-check-box="{text: 'Notificación por Usuarios', value: false}" ng-model="chkShowUsuarios" style="font-weight: bold;"></div>
+                            <h3><span class="fa fa-users"></span> Notificación por Usuarios</h3>
                         </div>
                         <br>
-                        <div class="row" ng-if="chkShowUsuarios">
+                        <div class="row">
                             <div class="dx-viewport demo-container">
-                                <div class="dx-searchbar">
-                                    <div dx-text-box="searchOptionsUsuarios"></div>
-                                </div>
-                                <div>
-                                    <div dx-list="listOptionsUsuarios"></div>
+                                <div class="widget-container">
+                                    <div class="dx-searchbar">
+                                        <div dx-text-box="searchOptionsUsers"></div>
+                                    </div>
+                                    <div class="list-container">
+                                        <div dx-list="listOptionsUsers"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -79,14 +81,15 @@
             </div>
             <div class="col-md-4">
                 <div class="row">
-                    <div class="row">
-                        <span class="fa fa-globe"></span>
-                        <div dx-check-box="{text: 'Notificación por Zona', value: false}" ng-model="chkShowZonas" style="font-weight: bold;"></div>
-                    </div>
-                    <br>
-                    <div class="row" ng-if="chkShowZonas">
-                        <div dx-text-box="searchOptions"></div>
-                        <div dx-tree-view="treeViewZonasOptions" dx-item-alias="data">
+                    <div class="col-md-8 col-md-offset-1">
+                        <div class="row">
+                            <h3><span class="fa fa-globe"></span> Notificación por Zonas</h3>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div dx-text-box="searchOptionsZonas"></div>
+                            <div dx-tree-view="treeViewZonasOptions" dx-item-alias="data">
+                            </div>
                         </div>
                     </div>
                 </div>
