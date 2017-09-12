@@ -5,7 +5,7 @@ registrationModule.controller('gastoUnidadController', function ($scope, $modal,
     userFactory.ValidaSesion()
     $scope.userData = userFactory.getUserData()
 
-    analisisFlotillaRepository.getGastoUnidad().then(function (result) {
+    analisisFlotillaRepository.getGastoUnidad($scope.userData.contratoOperacionSeleccionada).then(function (result) {
       // Asigno los datos.
       $scope.employees = result.data
 
@@ -51,10 +51,10 @@ registrationModule.controller('gastoUnidadController', function ($scope, $modal,
           cellTemplate: 'cellTemplate'
         }, {
           dataField: 'sucursal',
-          caption: 'Sucursal'
+          caption: 'Zona'
         }, {
           dataField: 'unidadOperativa',
-          caption: 'Unidad Operativa'
+          caption: 'TAR'
         }, {
           dataField: 'tipoUnidad',
           caption: 'Tipo Vehículo',

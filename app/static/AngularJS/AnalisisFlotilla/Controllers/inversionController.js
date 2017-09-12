@@ -5,7 +5,8 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
     userFactory.ValidaSesion()
     $scope.userData = userFactory.getUserData()
 
-    analisisFlotillaRepository.getInversion().then(function (result) {
+
+    analisisFlotillaRepository.getInversion($scope.userData.contratoOperacionSeleccionada).then(function (result) {
       // Grafica
       $scope.chartOptions = {
         palette: 'ocean',
@@ -82,15 +83,17 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
         },
         dataSource: {
           fields: [{
-            caption: 'Sucursal',
+            caption: 'Zona',
             width: 120,
             dataField: 'sucursal',
-            area: 'row'
+            area: 'row',
+            expanded: 'true'
           }, {
-            caption: 'Unidad Operativa',
+            caption: 'TAR',
             dataField: 'unidadOperativa',
             width: 150,
-            area: 'row'
+            area: 'row',
+            expanded: 'true'
           }, {
             dataField: 'date',
             dataType: 'date',

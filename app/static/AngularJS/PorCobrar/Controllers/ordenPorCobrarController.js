@@ -12,6 +12,8 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.idGrouper = 2
   $scope.option = null
 
+  $scope.total = 0
+
   $scope.changeGrouper = function (type) {
     $scope.idGrouper = type
     switch (type) {
@@ -41,7 +43,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   }
 
   $scope.init = function () {
-    $scope.userData = userFactory.getUserData();
+    $scope.userData = userFactory.getUserData()
     // para obtener las zonas promero se inicializa la primer zona padre.
     userFactory.ValidaSesion()
     $scope.ZonasSeleccionadas[0] = '0'
@@ -53,6 +55,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $('.dataTablePorCobrar').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', { 'idUsuario': 1 }).then(function (result) {
       $scope.porCobrar = result.data
+      $scope.total = 0
+      angular.forEach($scope.porCobrar, function (value, key) {
+        $scope.total = $scope.total + value.montoFacturaCliente
+      })
+
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
     }, function (error) {
       alertFactory.error('No se puenen obtener las órdenes por cobrar')

@@ -5,7 +5,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
     userFactory.ValidaSesion()
     $scope.userData = userFactory.getUserData()
 
-    analisisFlotillaRepository.getIngresoAntiguedad().then(function (result) {
+    analisisFlotillaRepository.getIngresoAntiguedad($scope.userData.contratoOperacionSeleccionada).then(function (result) {
       $scope.filterRow = {
         visible: false,
         applyFilter: 'auto'
@@ -29,10 +29,10 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
         },
         columns: [{
           dataField: 'sucursal',
-          caption: 'Sucursal'
+          caption: 'Zona'
         }, {
           dataField: 'unidadOperativa',
-          caption: 'Unidad Operativa'
+          caption: 'TAR'
         }, {
           dataField: 'total',
           caption: 'Total'

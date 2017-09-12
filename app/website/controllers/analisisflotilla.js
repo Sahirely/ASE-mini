@@ -23,7 +23,9 @@ AnalisisFlotilla.prototype.get_gastounidad = function (req, res, next) {
   var self = this
 
   // Asigno a params el valor de mis variables
-  var params = []
+  var params = [
+    { name: 'idContratoOperacion',  value: req.query.idContratoOperacion, type: self.model.types.INT }
+  ]
 
   this.model.query('SEL_REPORTE_AF_PARQUE_SP', params, function (error, result) {
     self.view.expositor(res, {
@@ -40,7 +42,9 @@ AnalisisFlotilla.prototype.get_documentosunidad = function (req, res, next) {
   var self = this
 
   // Asigno a params el valor de mis variables
-  var params = []
+  var params = [
+    { name: 'idContratoOperacion',  value: req.query.idContratoOperacion, type: self.model.types.INT }
+  ]
 
   this.model.query('SEL_REPORTE_AF_DOCUMENTO_SP', params, function (error, result) {
     self.view.expositor(res, {
@@ -57,7 +61,9 @@ AnalisisFlotilla.prototype.get_ingresoantiguedad = function (req, res, next) {
   var self = this
 
   // Asigno a params el valor de mis variables
-  var params = []
+  var params = [
+    { name: 'idContratoOperacion',  value: req.query.idContratoOperacion, type: self.model.types.INT }
+  ]
 
   this.model.query('SEL_REPORTE_AF_ANTIGUEDAD_INGRESO_SP', params, function (error, result) {
     self.view.expositor(res, {
@@ -74,7 +80,9 @@ AnalisisFlotilla.prototype.get_ingresoantiguedadgrafica = function (req, res, ne
   var self = this
 
   // Asigno a params el valor de mis variables
-  var params = []
+  var params = [
+    { name: 'idContratoOperacion',  value: req.query.idContratoOperacion, type: self.model.types.INT }
+  ]
 
   this.model.query('SEL_GRAFICA_AF_ANTIGUEDAD_INGRESO_SP', params, function (error, result) {
     self.view.expositor(res, {
@@ -91,7 +99,9 @@ AnalisisFlotilla.prototype.get_inversion = function (req, res, next) {
   var self = this
 
   // Asigno a params el valor de mis variables
-  var params = []
+  var params = [
+    { name: 'idContratoOperacion',  value: req.query.idContratoOperacion, type: self.model.types.INT }
+  ]
 
   this.model.query('SEL_REPORTE_AF_INVERSION_SP', params, function (error, result) {
     self.view.expositor(res, {
