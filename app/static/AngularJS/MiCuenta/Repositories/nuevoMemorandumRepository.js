@@ -20,7 +20,20 @@ registrationModule.factory('nuevoMemorandumRepository', function ($http) {
                 'Content-Type': 'application/json'
                 }
             });
+        },
+        getMemoUsuario: function(idUsuario)
+        {
+            return $http({
+                url: nuevoMemorandumUrl + 'consulta/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario
+                  },
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
+
         }
-       
     }
 })

@@ -6,7 +6,7 @@
 // -- Fecha:
 // -- =============================================
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
-    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover","dx"
+    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover", "dx"
 ])
     .config(function ($routeProvider, $locationProvider) {
 
@@ -325,3 +325,9 @@ registrationModule.directive('viewportWidth', function () {
         }
     };
 });
+
+registrationModule.filter("trust", ['$sce', function ($sce) {
+    return function (htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+    }
+}]);

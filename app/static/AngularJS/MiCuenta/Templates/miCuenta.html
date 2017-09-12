@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="AngularJS/MiCuenta/Styles/miCuenta.css">
 <div ng-init="init()">
     <div class="row">
         <div class="col-lg-9">
@@ -5,7 +6,7 @@
                 <div class="ibox">
                     <div class="ibox-content">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-md-12">
                                 <div class="m-b-md">
                                     <a href="#" class="btn btn-primary btn-xs pull-right">Cambiar Password</a>
                                 </div>
@@ -41,7 +42,6 @@
                                 </dl>
                             </div>
                         </div>
-
                         <div class="row m-t-sm">
                             <div class="col-lg-12">
                                 <div class="panel blank-panel">
@@ -51,54 +51,52 @@
                                         </div>
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#tab-1" target="_self" data-toggle="tab">Memorandums</a></li>
-                                                <li class=""><a href="#tab-2" target="_self" data-toggle="tab">Quejas y Sugerencias</a></li>
+                                                <li class="active"><a href="#memorandums" data-toggle="tab" target="_blank">Memorandums</a></li>
+                                                <li class=""><a href="#quejas" data-toggle="tab" target="_blank">Quejas y sugerencias</a></li>
                                             </ul>
                                         </div>
                                     </div>
-
                                     <div class="panel-body">
-
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="tab-1">
+                                            <div class="tab-pane active" id="memorandums">
                                                 <div class="feed-activity-list">
-                                                    <div class="feed-element">
+                                                    <div class="feed-element" ng-repeat="memo in Memorandums">
                                                         <span class="fa fa-user pull-left"></span>
-                                                        <div class="media-body ">
+                                                        <div class="media-body">
                                                             <small class="pull-right">Hace 2 hrs.</small>
-                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #060</strong>.
+                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #{{memo.idMemorandum}}</strong>.
                                                             <br>
                                                             <small class="text-muted">Hace 2 hrs. 30/08/2017 10:05 am</small>
                                                             <div class="well">
-                                                                Se requiere verificar el documento con las Normas de Calidad debido a que se han tenido problemas muy serios con los Talleres.
+                                                                <div ng-bind-html="memo.descripcion | trust"></div>
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
                                                                         <div class="file-box">
                                                                             <div class="file">
                                                                                 <a href="https://checkout.lemonde.fr/glm_onestepcheckout/onestep/downloadPdf/" target="_blank">
-                                                                                            <span class="corner"></span>                                                    
-                                                                                            <div class="icon">
-                                                                                                <i class="fa fa-file-pdf-o"></i>
-                                                                                            </div>
-                                                                                            <div class="file-name">
-                                                                                                AdjuntoPDF.pdf
-                                                                                            </div>
-                                                                                        </a>
+                                                                                                    <span class="corner"></span>                                                    
+                                                                                                    <div class="icon">
+                                                                                                        <i class="fa fa-file-pdf-o"></i>
+                                                                                                    </div>
+                                                                                                    <div class="file-name">
+                                                                                                        AdjuntoPDF.pdf
+                                                                                                    </div>
+                                                                                                </a>
                                                                             </div>
                                                                         </div>
                                                                         <div class="file-box">
                                                                             <div class="file">
                                                                                 <a href="https://images.template.net/wp-content/uploads/2016/04/27133256/Sample-Blank-Memo-Template-Free-Download.jpg" target="_blank">
-                                                                                                <span class="corner"></span>                                                    
-                                                                                                <div class="icon">
-                                                                                                    <i class="fa fa-file-image-o"></i>
-                                                                                                </div>
-                                                                                                <div class="file-name">
-                                                                                                    AdjuntoIMG.jpg
-                                                                                                    <br/>
-                                                                                                    <small>Added: Jan 11, 2014</small>
-                                                                                                </div>
-                                                                                            </a>
+                                                                                                        <span class="corner"></span>                                                    
+                                                                                                        <div class="icon">
+                                                                                                            <i class="fa fa-file-image-o"></i>
+                                                                                                        </div>
+                                                                                                        <div class="file-name">
+                                                                                                            AdjuntoIMG.jpg
+                                                                                                            <br/>
+                                                                                                            <small>Added: Jan 11, 2014</small>
+                                                                                                        </div>
+                                                                                                    </a>
                                                                             </div>
 
                                                                         </div>
@@ -107,37 +105,10 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="feed-element">
-                                                        <span class="fa fa-user pull-left"></span>
-                                                        <div class="media-body ">
-                                                            <small class="pull-right">Hace 2 hrs.</small>
-                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #059</strong>.
-                                                            <br>
-                                                            <small class="text-muted">Hace 2 hrs. 30/08/2017 10:05 am</small>
-                                                            <div class="well">
-                                                                Se requiere verificar el documento con las Normas de Calidad debido a que se han tenido problemas muy serios con los Talleres.
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="feed-element">
-                                                        <span class="fa fa-user pull-left"></span>
-                                                        <div class="media-body ">
-                                                            <small class="pull-right">Hace 2 hrs.</small>
-                                                            <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #058</strong>.
-                                                            <br>
-                                                            <small class="text-muted">Hace 1 dia. 29/08/2017 10:05 am</small>
-                                                            <div class="well">
-                                                                Se requiere verificar el documento con las Normas de Calidad debido a que se han tenido problemas muy serios con los Talleres.
-                                                            </div>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
-
-
-
                                             </div>
-                                            <div class="tab-pane" id="tab-2">
-
+                                            <div class="tab-pane" id="quejas">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="ibox">
@@ -150,8 +121,8 @@
                                                                     <div class="input-group">
                                                                         <input type="text" placeholder="Buscar por # Folio" class=" form-control">
                                                                         <span class="input-group-btn">
-                                                                                                                    <button type="button" class="btn btn-white"> Buscar</button>
-                                                                                                                </span>
+                                                                                                                            <button type="button" class="btn btn-white"> Buscar</button>
+                                                                                                                        </span>
                                                                     </div>
                                                                     <div class="m-t-md">
                                                                         <strong>3 elementos encontrados.</strong>
@@ -202,15 +173,12 @@
                                                                     </table>
                                                                 </div>
                                                             </div>
-
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
                             </div>
                         </div>

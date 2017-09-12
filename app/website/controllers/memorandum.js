@@ -38,4 +38,19 @@ Memorandum.prototype.post_alta = function(req, res, next) {
     });
 }
 
+Memorandum.prototype.get_consulta = function(req, res, next)
+{
+    var self = this;
+    var params = [
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING}
+    ];
+
+    this.model.query('SEL_MEMORANDUM_BY_USUARIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Memorandum;

@@ -46,6 +46,10 @@
 
     <!-- LIGHTBOX -->
     <link href="Libraries/css/lightbox/lightbox.css" rel="stylesheet">
+
+    <!-- SOCKET -->
+    <script src="Libraries/js/socket.io.js"></script>
+
 </head>
 
 <body ng-app="registrationModule" ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
@@ -235,7 +239,7 @@
             </nav>
         </div>
 
-        <div id="right-sidebar">
+        <div id="right-sidebar" style="width: 350px !important;">
             <div class="sidebar-container">
                 <div class="col-md-12">
                     <ul class="nav nav-tabs navs-3">
