@@ -143,7 +143,8 @@
                         <li ng-class="{'active': modulo=='callcenter'}"><a href="/dashboardCallCenter">Orden del día</a></li>
                     </ul>
                 </li>
-                <li ng-show="userData.verificacionVehicular == 1">
+                <!-- <li ng-show="userData.verificacionVehicular == 1"> -->
+                <li>
                     <a ng-click="catalogoUnidad()"><i class="fa fa-car" aria-hidden="true"></i> <span class="nav-label">Unidades </span></a>
                 </li>
                 <li ng-show="{{userData.idRol == 2}}">
@@ -201,7 +202,7 @@
                     <li>
                         <a class="right-sidebar-toggle">
                             <button class="btn btn-default btn-sm"><i class="fa fa-video-camera"></i> Nueva Videoconferencia</button>
-                                    
+
                                 </a>
                     </li>
 
@@ -220,12 +221,12 @@
                     <li>
                         <div class="rol" ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
                             <span> {{userData.Rol}}</span>
-                            <br>
+                            <!-- <br>
                             <span class="clear">
                                             <span ng-class="{'roladmin' : userData.idRol == 2, 'rolcall' : userData.idRol == 3, 'rolcliente' : userData.idRol == 1, 'rolproveedor' : userData.idRol == 4, 'rolConfigurador': userData.idRol == 5}">
                                                 {{userData.nombreCompleto}}
                                                 </span>
-                            </span>
+                            </span> -->
                         </div>
                     </li>
                     <li><a href="/" ng-click="logOut()">Cerrar Sesión <i class="fa fa-sign-out"></i></a>
@@ -383,6 +384,7 @@
     <!--librerias de componenetes-->
     <script src="AngularJS/alertFactory.js"></script>
     <script src="AngularJS/globalFactory.js"></script>
+    <script src="AngularJS/MarkerCreatorService.js"></script>
     <script src="AngularJS/userFactory.js"></script>
     <script src="AngularJS/Servicios/commonService.js"></script>
     <!--//LQMA 09062017-->

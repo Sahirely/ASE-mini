@@ -48,12 +48,36 @@
                               </button>
                                     </td>
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 ">
+            <div class="m-t-lg ">
+                <h3 class="subTitleP ">Talleres</h3>
+            </div>
+            <div class="table-responsive scroll_content partidasSel ">
+                <label for="multipleSelect"> Selecciona el Taller: {{tallerSeleccionado.nombreComercial}}</label><br>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover proveedoresTable" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                      <thead>
+                          <tr>
+                              <th>Nombre Comercial</th>
+                              <th>Razón Social</th>
+                              <th>Dirección</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr ng-repeat="taller in talleres" ng-click="selectTaller(taller);">
+                              <td>{{taller.nombreComercial}}</td>
+                              <td>{{taller.razonSocial}}</td>
+                              <td>{{taller.direccion}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 ">
+                <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 ">
                     <div class="m-t-lg ">
                         <h3 class="subTitleP ">Talleres</h3>
                     </div>
@@ -72,7 +96,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
+                        </div> -->
                         <!-- <select name="multipleSelect" id="multipleSelect" ng-model="tallerSeleccionado" multiple size="15">
                   <option  ng-repeat="taller in talleres"  value="{{taller}}">{{taller.nombreComercial}}</option>
 
@@ -106,7 +130,8 @@
                                         <div><strong>{{partida.partida}}</strong> / Parte <strong> {{partida.noParte}} </strong> / <span class="lblEsp label label-default">{{partida.especialidad}}</span>
                                         </div>
                                         <small>{{partida.descripcion}}</small>
-                                        
+                                        <a class="fotoPartida client-avatar" data-lightbox="image-1" data-title="Foto" href="http://35.165.2.64:4500/uploads/{{ partida.foto }}"> <img src="http://35.165.2.64:4500/uploads/{{ partida.foto }}" alt="foto"> </a>
+                                        <a class="instPartida client-avatar" ng-click="openPDF('http://35.165.2.64:4500/uploads/' + partida.instructivo );"> <img src="../image/resources/file.png" alt="foto"> </a>
                                     </td>
                                     <td class="slimCol text-right">{{partida.cantidad}}</td>
                                     <td class="slimCol text-right">{{partida.venta | currency}}</td>

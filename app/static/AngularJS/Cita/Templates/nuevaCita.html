@@ -1,14 +1,14 @@
 <link rel="stylesheet" href="AngularJS/Cita/Styles/nuevaCita.css">
 <div ng-init="init()" class="animated fadeInRight">
     <div class="headTitleTallerCita">
-        <span class="title title-xs"> Citas</span>
+        <span class="title title-xs"> Nueva Cita / {{detalleUnidad.nombreTipoUnidad}} {{detalleUnidad.numeroEconomico}}</span>
     </div>
     <div class="wrapper wrapper-content animated fadeInRight">
         <div class="ibox-content">
             <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     <div ng-class="{ 'col-xs-12 col-sm-12 col-md-12 col-lg-12': mostrarMapa == false, 'col-xs-12 col-sm-6 col-md-6 col-lg-6': mostrarMapa == true }">
-                        <!-- class="col-xs-12 col-sm-6 col-md-6 col-lg-6" -->
+                
                         <div class="widget-head-color-box navy-bgv2 p-lg text-center" ng-class="{ 'navy-bgv2-mod': mostrarMapa == false}">
                             <div class="row m-b-md">
                                 <h2 class="font-bold no-margins">
@@ -28,7 +28,7 @@
                                             <p><strong>Versión:</strong> {{detalleUnidad.version}}</p>
                                             <p><strong>Modelo:</strong> {{detalleUnidad.modelo}}</p>
                                             <p><strong>Tipo de Unidad:</strong> {{detalleUnidad.nombreTipoUnidad}}</p>
-                                            <!-- <strong>Zona:</strong> {{detalleUnidad.zona}}<br><br> -->
+                                         
                                             <p ng-repeat="z in detalleUnidad.zonasUnidad | orderBy : 'orden'">
                                                 <strong>{{z.etiqueta}}:</strong>{{z.nombre}}
                                             </p>
@@ -50,7 +50,7 @@
                                             <p><strong>Versión:</strong> {{detalleUnidad.version}}</p>
                                             <p><strong>Modelo:</strong> {{detalleUnidad.modelo}}</p>
                                             <p><strong>Tipo de Unidad:</strong> {{detalleUnidad.nombreTipoUnidad}}</p>
-                                            <!-- <strong>Zona:</strong> {{detalleUnidad.zona}}<br><br> -->
+                                       
                                             <p ng-repeat="z in detalleUnidad.zonasUnidad | orderBy : 'orden'">
                                                 <strong>{{z.etiqueta}}:</strong>{{z.nombre}}
                                             </p>
@@ -99,7 +99,7 @@
                             </h2>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                     <div class="m-t-lg">
                         <h3 class="subTitleP"> Datos Generales</h3>
