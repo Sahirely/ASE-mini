@@ -127,3 +127,97 @@ div.controls {
 #agendarCita{
      padding-bottom: 30px;
 }
+
+
+/* NUEVA FICHA */
+#imageCARContent{
+    text-align: center;
+}
+
+#imageCAR{
+    width: 200px;
+    display: inline-block;
+}
+
+#expContent{
+    height: 270px;
+    overflow-y: auto;
+    border-bottom: 2px dashed rgba(128, 128, 128, 0.55);
+}
+
+.slimCol{
+    width: 60px !important;
+}
+
+.fotoPartida{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+}
+
+.instPartida{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-top: 15px;
+    margin-right: -35px;
+}
+
+.tdDesc{
+    position: relative;
+    padding-right: 40px !important;
+}
+
+.lblEsp{
+    font-size: 10px;
+}
+
+/* TILE VIEW */
+.dx-tile-content {
+    height: 100%;
+    padding: 0;
+    position: relative;
+}
+
+.dx-tile-content .image {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    padding: 10px;
+    display: block;
+}
+
+.dx-tile {
+    border: 1px solid #999;
+}
+
+.dx-tile.dx-state-hover {
+    border-color: #EEE;
+}
+
+.dx-tile-content .price {
+    font-size: 12px;
+    position: absolute;
+    background-color: black;
+    color: white;
+    opacity: 0.6;
+    padding: 2px;
+    left: 9px;
+    top: 9px;
+}
+
+.reddi{
+    background-color: rgba(220, 0, 0, 0.84) !important;
+}
+
+.imgNOGPS{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 130px;
+    margin-left: 150%;
+    margin-top: 45%;
+    opacity: 0.40;
+}

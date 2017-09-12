@@ -1,97 +1,25 @@
 <link rel="stylesheet" href="AngularJS/BusquedaUnidad/Styles/busquedaUnidad.css">
 <div ng-init="init()">
     <div class="headTitleTallerCita">
-        <span class="title title-xs"> Ficha Técnica de la Unidad</span>
+        <span class="title title-xs"> Ficha Técnica</span>
     </div>
     <div class="wrapper wrapper-content">
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-content">
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-                            <div class="payment-card">
-                              <div class="row">
-                                  <div class="col-xs-6 col-md-12 col-sm-6 col-lg-6">
-                                      <p>
-                                          <label>No. Ecónomico:</label>
-                                          <span>{{detalleUnidad.numeroEconomico}}</span>
-                                          <!-- <i class="fa fa-check"></i> -->
-                                      </p>
-                                      <p>
-                                          <label>Placas:</label>
-                                          <span>{{detalleUnidad.placas}}</span>
-                                      </p>
-                                      <p>
-                                          <label>VIN:</label>
-                                          <span>{{detalleUnidad.vin}}</span>
-                                      </p>
-                                      <p>
-                                          <label>Marca:</label>
-                                          <span>{{detalleUnidad.marca}}</span>
-                                      </p>
-                                      <p>
-                                          <label>Sub Marca:</label>
-                                          <span>{{detalleUnidad.subMarca}}</span>
-                                      </p>
-                                      <p>
-                                          <label>Versión:</label>
-                                          <span>{{detalleUnidad.version}}</span>
-                                      </p>
-                                      <p>
-                                          <label>Modelo:</label>
-                                          <span>{{detalleUnidad.modelo}}</span>
-                                      </p>
-                                      <p>
-                                          <label>Tipo de Unidad:</label>
-                                          <span>{{detalleUnidad.nombreTipoUnidad}}</span>
-                                      </p>
-                                      <!-- <p>
-                                          <label>Zona:</label>
-                                          <span>{{detalleUnidad.zona}}</span>
-                                      </p> -->
-                                      <p ng-repeat="z in detalleUnidad.zonasUnidad | orderBy : 'orden'">
-                                          <label>{{z.etiqueta}}:</label>
-                                          <span>{{z.nombre}}</span>
-                                      </p>
-                                      <p ng-show="userData.geolocalizacion == 1">
-                                          <label>Ubicación:</label>
-                                          <span>{{detalleUnidad.gps}}</span>
-                                      </p>
-                                  </div>
-                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-show="detalleUnidad.verificada == 1 && userData.verificacionVehicular == 1">
-                                    <div class="widget style1 verde-bg">
-                                        <div class="row vertical-align">
-                                            <div class="col-xs-3">
-                                                <i class="fa fa-check fa-1x"></i>
-                                            </div>
-                                            <div class="col-xs-9 text-right">
-                                                <h2 class="font-bold">Verificada</h2>
-                                            </div>
-                                        </div>
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <div class="row animated fadeInRight">
+                                    <div class="col-md-3">
+                                        <div dx-map="mapOptions"></div>
+                                        <img src="image/resources/noGPS.png" class="imgNOGPS">
                                     </div>
-                                  </div>
-                                  <div class="col-xs-4 col-sm-3 col-md-6 col-lg-3" ng-hide="detalleUnidad.verificada == 1 || userData.verificacionVehicular == 0">
-                                  <div class="widget style1 rojo-bg">
-                                      <div class="row vertical-align">
-                                          <div class="col-xs-2">
-                                              <i class="fa fa-times fa-1x"></i>
-                                          </div>
-                                          <div class="col-xs-10 text-right">
-                                              <h2 class="font-bold">No Verificada</h2>
-                                          </div>
-                                      </div>
-                                  </div>
+
                                 </div>
-                              </div>
-                           </div>
-                                <p>
-                                    <label>Localización:</label>
-                                    <br>
-                                    <div class="google-map" id="map1">
-                                    </div>
-                                </p>
+                            </div>
                         </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" ng-show="userData.idRol != 4">
+                        <div class="col-sm-6" ng-show="userData.idRol != 4">
                             <div class="ibox float-e-margins">
                                 <div class="ibox-title">
                                     <span class="label label-warning pull-right">{{detalleUnidad.numeroOrdenesSerevicio}}</span>
@@ -101,7 +29,7 @@
                                     <h3>Inversión</h3>
                                     <div class="widget style1">
                                         <div class="row">
-                                            <div class="col-xs-12 col-sm-4 text-right" >
+                                            <div class="col-xs-12 col-sm-4 text-right">
                                                 <div ng-show="muestraCosto">
                                                     <span> Costo </span>
                                                     <h2 class="font-bold">{{detalleUnidad.costoTotal | currency}}</h2>
@@ -163,109 +91,158 @@
                                 </div>
                             </div>
                         </div>
-
-
-
-                        <div class="col-xs-12 col-sm-12" ng-show="agendarCita && userData.idRol != 4" id="agendarCita">
-                            <label ng-hide="muestraOrdenActual">{{ordendesActual[0].mensaje}}</label>
-                            <button class="btn btn-primary pull-right" ng-click="btnAgendarCita()">
-                                <i class="fa fa-calendar"></i> Agendar Cita
-                            </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>{{detalleUnidad.nombreTipoUnidad}} {{detalleUnidad.numeroEconomico}}</h5>
+                    </div>
+                    <div>
+                        <div id="imageCARContent" class="ibox-content no-padding border-left-right">
+                            <img id="imageCAR" alt="image" class="img-responsive" src="http://35.165.2.64:4500/uploads/{{ detalleUnidad.foto }}">
                         </div>
-
-                        <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraSwitch">
-                            <div class="btn-group pull-right" ng-show="muestraOrdenActual">
-                                <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
-                                                    btnSwitch.classVenta='btn btn-default';
-                                                    btnSwitch.classCosto='btn btn-success'">Costo</button>
-                                <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
-                                                    btnSwitch.classVenta='btn btn-success';
-                                                    btnSwitch.classCosto='btn btn-default' ">Venta</button>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraOrdenActual">
-                            <h3>Orden de Servicio Actual</h3>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="table-responsive" ng-show="muestraOrdenActual">
-                                <table class="table table-bordered table-hover ordenActual">
-                                    <thead>
-                                        <tr>
-                                            <th>Número de Orden</th>
-                                            <th>Tipo de Orden</th>
-                                            <th>Fecha</th>
-                                            <th ng-show="mostrarComentarios">Comentarios</th>
-                                            <th>Agendó</th>
-                                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
-                                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
-                                            <th>Fecha última modificación</th>
-                                            <th>Estatus</th>
-                                            <!-- <th>Ver Orden</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="orden in ordendesActual" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
-                                            <td>{{ orden.numeroOrden}}</td>
-                                            <td>{{orden.tipoOrden}}</td>
-                                            <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
-                                            <td ng-show="mostrarComentarios">{{orden.descripcion}}</td>
-                                            <td>{{orden.nombreCompleto}}</td>
-                                            <td ng-show="btnSwitch.showCostoVenta">{{orden.costo | currency}}</td>
-                                            <td ng-hide="btnSwitch.showCostoVenta">{{orden.precio | currency}}</td>
-                                            <td>{{orden.ultimaModificacion | date : "dd/MM/y"}}</td>
-                                            <td ng-class="{'rowGris': orden.idEstatusOrden == 1, 'rowAmarillo' : orden.idEstatusOrden >= 2 && orden.idEstatusOrden < 8 , 'rowVerde' : orden.idEstatusOrden == 8 }">{{orden.estatusOrden}}</td>
-                                            <!-- <td class="text-center">
-                                                <button class="btn btn-success" ng-click="detalleOrden(orden)"><i class="fa fa-eye"></i></button>
-                                            </td> -->
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-12 scol-lg-12" ng-show="muestraOrdenActual">
-                            <h3>Histórico de Órdenes</h3>
-                        </div>
-                        <div class="col-sm-12 col-md-12 col-lg-12">
-                            <div class="table-responsive" ng-show="muestraHistorial">
-                                <!--  class="table-responsive" -->
-                                <table class="table table-bordered table-hover historialUnidad">
-                                    <thead>
-                                        <tr>
-                                            <th>Número de Orden</th>
-                                            <th>Tipo de Orden</th>
-                                            <th>Fecha</th>
-                                            <th ng-show="mostrarComentarios">Comentarios</th>
-                                            <th>Agendó</th>
-                                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
-                                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
-                                            <th>Fecha última modificación</th>
-                                            <th>Estatus</th>
-                                            <!-- <th>Ver Orden</th> -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="historialOrden in historialOrdenes" ng-click="detalleOrden(historialOrden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top">
-                                            <td>{{ historialOrden.numeroOrden }}</td>
-                                            <td>{{ historialOrden.tipoOrden}}</td>
-                                            <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
-                                            <td ng-show="mostrarComentarios">{{historialOrden.descripcion}}</td>
-                                            <td>{{historialOrden.nombreCompleto}}</td>
-                                            <td ng-show="btnSwitch.showCostoVenta">{{historialOrden.costo | currency}}</td>
-                                            <td ng-hide="btnSwitch.showCostoVenta">{{historialOrden.precio | currency}}</td>
-                                            <td>{{historialOrden.ultimaModificacion | date : "dd/MM/y"}}</td>
-                                            <td ng-class="{'rowRojo' : historialOrden.idEstatusOrden == 10, 'rowAzul' : historialOrden.idEstatusOrden == 9 }">{{historialOrden.estatusOrden}}</td>
-                                            <!-- <td class="text-center">
-                                                <button class="btn btn-success" ng-click="detalleOrden(historialOrden)"><i class="fa fa-eye"></i></button>
-                                            </td> -->
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="col-xs-12 col-sm-12" ng-hide="muestraHistorial">
-                                <label>{{historialOrdenes[0].mensaje}}</label>
+                        <div class="ibox-content profile-content">
+                            <h4><strong>{{detalleUnidad.marca}}</strong></h4>
+                            <p><i class="fa fa-map-marker"></i> {{detalleUnidad.subMarca}}</p>
+                            <div class="row ">
+                                <div class="col-md-4">
+                                    <div class="client-avatar"> <img src="../image/resources/gsi.png" alt="foto"> </div>
+                                    <h5>{{detalleUnidad.version}}</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="client-avatar"> <img src="../image/resources/ci.png" alt="foto"> </div>
+                                    <h5>{{detalleUnidad.cilindros}}</h5>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="client-avatar"> <img src="../image/resources/mdl.png" alt="foto"> </div>
+                                    <h5><strong>MODELO</strong> {{detalleUnidad.modelo}}</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <!-- TEST TILEVIEW -->
+                <div class="demo-container" ng-app="registrationModule" ng-controller="detalleController">
+                    <div dx-tile-view="tileViewOptions" dx-item-alias="home">
+                        <div class="price" ng-class="{ 'reddi': home.estatusVigencia == 0 }">{{home.descripcion }} <span ng-hide="home.vigencia == null">- {{ home.vigencia |  date:'dd/MM/yy' }}</span>                            </div>
+
+                        <a ng-if="home.tipo == 1" href="{{home.foto}}" data-lightbox="roadtrip" data-title="{{home.descrpcion}}">
+                            <div class="image" ng-style="{'background-image': 'url({{home.foto}})'}"></div>
+                        </a>
+                        <a ng-if="home.tipo == 2" ng-click="openPDF(home.foto);">
+                            <div class="image" ng-style="{'background-image': 'url(../image/resources/file.png)', 'background-size': '70px',
+                                            'background-repeat': 'no-repeat' }"></div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12" ng-show="agendarCita && userData.idRol != 4" id="agendarCita">
+                <label ng-hide="muestraOrdenActual">{{ordendesActual[0].mensaje}}</label>
+                <button class="btn btn-primary pull-right" ng-click="btnAgendarCita()">
+                            <i class="fa fa-calendar"></i> Agendar Cita
+                        </button>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraSwitch">
+                <div class="btn-group pull-right" ng-show="muestraOrdenActual">
+                    <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+                                                btnSwitch.classVenta='btn btn-default';
+                                                btnSwitch.classCosto='btn btn-success'">Costo</button>
+                    <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+                                                btnSwitch.classVenta='btn btn-success';
+                                                btnSwitch.classCosto='btn btn-default' ">Venta</button>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12" ng-show="muestraOrdenActual">
+                <h3>Orden de Servicio Actual</h3>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="table-responsive" ng-show="muestraOrdenActual">
+                    <table class="table table-bordered table-hover ordenActual">
+                        <thead>
+                            <tr>
+                                <th>Número de Orden</th>
+                                <th>Tipo de Orden</th>
+                                <th>Fecha</th>
+                                <th ng-show="mostrarComentarios">Comentarios</th>
+                                <th>Agendó</th>
+                                <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                <th>Fecha última modificación</th>
+                                <th>Estatus</th>
+                                <!-- <th>Ver Orden</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="orden in ordendesActual" ng-click="detalleOrden(orden)" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle"
+                                tooltip-placement="top">
+                                <td>{{ orden.numeroOrden}}</td>
+                                <td>{{orden.tipoOrden}}</td>
+                                <td>{{ orden.fechaCreacionOrden | date : "dd/MM/y"}}</td>
+                                <td ng-show="mostrarComentarios">{{orden.descripcion}}</td>
+                                <td>{{orden.nombreCompleto}}</td>
+                                <td ng-show="btnSwitch.showCostoVenta">{{orden.costo | currency}}</td>
+                                <td ng-hide="btnSwitch.showCostoVenta">{{orden.precio | currency}}</td>
+                                <td>{{orden.ultimaModificacion | date : "dd/MM/y"}}</td>
+                                <td ng-class="{'rowGris': orden.idEstatusOrden == 1, 'rowAmarillo' : orden.idEstatusOrden >= 2 && orden.idEstatusOrden < 8 , 'rowVerde' : orden.idEstatusOrden == 8 }">{{orden.estatusOrden}}</td>
+                                <!-- <td class="text-center">
+                                            <button class="btn btn-success" ng-click="detalleOrden(orden)"><i class="fa fa-eye"></i></button>
+                                        </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 scol-lg-12" ng-show="muestraOrdenActual">
+                <h3>Histórico de Órdenes</h3>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="table-responsive" ng-show="muestraHistorial">
+                    <!--  class="table-responsive" -->
+                    <table class="table table-bordered table-hover historialUnidad">
+                        <thead>
+                            <tr>
+                                <th>Número de Orden</th>
+                                <th>Tipo de Orden</th>
+                                <th>Fecha</th>
+                                <th ng-show="mostrarComentarios">Comentarios</th>
+                                <th>Agendó</th>
+                                <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                <th>Fecha última modificación</th>
+                                <th>Estatus</th>
+                                <!-- <th>Ver Orden</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="historialOrden in historialOrdenes" ng-click="detalleOrden(historialOrden)" class="cursor" data-toggle="tooltip"
+                                tooltip="Ver Detalle" tooltip-placement="top">
+                                <td>{{ historialOrden.numeroOrden }}</td>
+                                <td>{{ historialOrden.tipoOrden}}</td>
+                                <td>{{ historialOrden.fechaCreacionOrden | date : "dd/MM/y" }}</td>
+                                <td ng-show="mostrarComentarios">{{historialOrden.descripcion}}</td>
+                                <td>{{historialOrden.nombreCompleto}}</td>
+                                <td ng-show="btnSwitch.showCostoVenta">{{historialOrden.costo | currency}}</td>
+                                <td ng-hide="btnSwitch.showCostoVenta">{{historialOrden.precio | currency}}</td>
+                                <td>{{historialOrden.ultimaModificacion | date : "dd/MM/y"}}</td>
+                                <td ng-class="{'rowRojo' : historialOrden.idEstatusOrden == 10, 'rowAzul' : historialOrden.idEstatusOrden == 9 }">{{historialOrden.estatusOrden}}</td>
+                                <!-- <td class="text-center">
+                                            <button class="btn btn-success" ng-click="detalleOrden(historialOrden)"><i class="fa fa-eye"></i></button>
+                                        </td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-xs-12 col-sm-12" ng-hide="muestraHistorial">
+                    <label>{{historialOrdenes[0].mensaje}}</label>
                 </div>
             </div>
         </div>

@@ -43,10 +43,9 @@
                                             <span class="fechaTimeLine" ng-show="historico.idOrden>0">
                                             <strong>{{historico.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
                                             </span>
-                                            <br>
-                                            <span class="m-b-xs">
-                                            <strong>{{historico.dias}} Dias</strong>
-                                            </span>
+                                            <div class="dias" ng-hide="historico.idOrden == 0">
+                                                {{historico.dias}}
+                                            </div>
                                             <div class="arrow-right"></div>
                                         </td>
                                     </tr>
@@ -145,8 +144,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="hr-line-dashed"></div>
                         </div>

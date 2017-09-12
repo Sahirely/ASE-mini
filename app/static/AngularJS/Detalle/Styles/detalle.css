@@ -819,3 +819,17 @@ a.documentos:hover{
     margin-top: 25%;
     opacity: 0.40;
 }
+
+.dias{
+    position: absolute;
+    top: 0;
+    margin-top: -18px;
+    font-size: 10px;
+    margin-left: 30%;
+    background-color: #cac7c7;
+    color: white;
+    height: 15px;
+    width: 14px;
+    border-radius: 13px;
+    text-align: center;
+}
