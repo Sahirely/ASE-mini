@@ -59,6 +59,7 @@ registrationModule.factory('mainRepository', function ($http) {
             });
 
         }
+        
     };
 });
 
