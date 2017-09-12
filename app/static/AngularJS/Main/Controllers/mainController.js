@@ -1,4 +1,4 @@
-﻿registrationModule.controller('mainController', function ($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository, configuradorRepository) {
+﻿registrationModule.controller('mainController', function ($scope, $rootScope, $location, $modal, consultaCitasRepository, localStorageService, userFactory, mainRepository, busquedaUnidadRepository, configuradorRepository, alertFactory) {
   $rootScope.showChat = 0
   // *****************************************************************************************************************************//
   // $rootScope.modulo <<-- Se inicializa variable para activar en que opción del menú se encuentra
@@ -8,9 +8,12 @@
   // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
   // *****************************************************************************************************************************//
 
-  $scope.selectedUsuarios = []
+  //MEETING
+  $scope.selectedUsuariosMeeting = []
   $scope.selectionMode = 'all'
   $scope.selectAllMode = 'page'
+
+  $scope.meetingObjetivo = ""
 
   var citaMsg = localStorageService.get('citaMsg')
 
@@ -80,7 +83,7 @@
         if (result.data.length > 0) {
           $scope.chattaller = result.data
         }
-      }, function (error) {})
+      }, function (error) { })
     }
   }
 
@@ -90,7 +93,7 @@
         if (result.data.length > 0) {
           $scope.chatcliente = result.data
         }
-      }, function (error) {})
+      }, function (error) { })
     }
   }
 
@@ -100,7 +103,7 @@
       $scope.clearComments()
       $scope.cargaChatTaller()
     },
-      function (error) {})
+      function (error) { })
   }
 
   $scope.EnviarComentario2 = function (comentario) {
@@ -109,7 +112,7 @@
       $scope.BorraComentario()
       $scope.cargaChatCliente()
     },
-      function (error) {})
+      function (error) { })
   }
 
   $scope.clearComments = function () {
@@ -204,12 +207,12 @@
 
   $scope.catalogoUnidad = function () {
     window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0')
-  // location.href = 'http://35.165.2.64:4200/unidades?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada
+    // location.href = 'http://35.165.2.64:4200/unidades?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada
   }
 
   $scope.getUsuarios = function () {
     configuradorRepository.getUsuarios()
-      .then(function successCallback (response) {
+      .then(function successCallback(response) {
         var dataSourceUsuarios = new DevExpress.data.DataSource({
           store: response.data,
           searchOperation: 'contains',
@@ -223,7 +226,7 @@
           height: 'auto',
           showSelectionControls: true,
           bindingOptions: {
-            selectedItemKeys: 'selectedUsuarios',
+            selectedItemKeys: 'selectedUsuariosMeeting',
             selectionMode: 'selectionMode',
             selectAllMode: 'selectAllMode'
           }
@@ -238,12 +241,44 @@
             dataSourceUsuarios.load()
           }
         }
-      }, function errorCallback (response) {})
+      }, function errorCallback(response) { })
   }
 
   $scope.createMeeting = function () {
-    mainRepository.postCreateMeeting('CTDHpgp4ArTRsQp35yUr1iKelcEN', 'PRUEBA', JSON.stringify($scope.selectedItemKeysUsuarios)).then(function (result) {
+    var joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus
+    mainRepository.postCreateMeeting('CTDHpgp4ArTRsQp35yUr1iKelcEN', $scope.meetingObjetivo).then(function (result) {
       console.log(result.data)
+      joinurl = result.data[0].joinURL
+      meetingid = result.data[0].meetingid
+      maxParticipants = result.data[0].maxParticipants
+      uniqueMeetingId = result.data[0].uniqueMeetingId
+      conferenceCallInfo = result.data[0].conferenceCallInfo
+      estatus = "Activa"
+
+      //YA QUE TENEMOS EL MEETING LO INICIAMOS
+      mainRepository.getStartMeeting('CTDHpgp4ArTRsQp35yUr1iKelcEN', result.data[0].meetingid).then(function (result) {
+        console.log(result.data)
+        hostURL = result.data.hostURL
+        mainRepository.saveMeeting(joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus).then(function (result) {
+          console.log(result.data)
+          $scope.meetingObjetivo = ""
+          $scope.selectedUsuariosMeeting = []
+          swal({
+            title: 'Videoconferencia',
+            text: "La Videoconferencia se creó de forma correcta con el siguiente ID: " + uniqueMeetingId + ".",
+            type: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Iniciar Videoconferencia',
+            cancelButtonText: 'Cerrar esta ventada'
+          }, function (isConfirm) {
+            if (isConfirm) {
+              window.open(hostURL,"_blank","",false)
+            }
+          });
+        })
+      })
     })
   }
 

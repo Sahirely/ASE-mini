@@ -1,4 +1,5 @@
 var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
+var meetingUrl = global_settings.urlCORS + '/api/meeting/';
 
 registrationModule.factory('mainRepository', function ($http) {
     return {
@@ -59,23 +60,15 @@ registrationModule.factory('mainRepository', function ($http) {
             });
 
         },
-        getStartMeeting: function(accesToken, objetivo, jsonParticipantes)
+        getStartMeeting: function(accesToken, meetingId)
         {
-            var params = {
-                subject: objetivo,
-                starttime: new Date().toISOString(),
-                endtime: new Date().toISOString(),
-                passwordrequired: false,
-                conferencecallinfo: "VoIP",
-                timezonekey: "string",
-                meetingtype: "immediate"
-
-
+            var params = {                
+                meetingId: meetingId
             };
 
             return $http({
-                url: 'https://api.getgo.com/G2M/rest/meetings',
-                method: "POST",
+                url: 'https://api.getgo.com/G2M/rest/meetings/' + meetingId + '/start',
+                method: "GET",
                 data: params,
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,6 +76,24 @@ registrationModule.factory('mainRepository', function ($http) {
                 }
             });
 
+        },
+        saveMeeting: function(joinurl, hostURL, meetingid, maxParticipants,uniqueMeetingId,conferenceCallInfo,estatus){
+            return $http({
+                url: meetingUrl + 'alta/',
+                method: "POST",
+                params: {
+                    joinurl: joinurl,
+                    hostURL: hostURL,
+                    meetingid: meetingid, 
+                    maxParticipants: maxParticipants, 
+                    uniqueMeetingId: uniqueMeetingId, 
+                    conferenceCallInfo: conferenceCallInfo,
+                    estatus: estatus
+                  },
+                headers: {
+                'Content-Type': 'application/json'
+                }
+            });
         }
         
     };
