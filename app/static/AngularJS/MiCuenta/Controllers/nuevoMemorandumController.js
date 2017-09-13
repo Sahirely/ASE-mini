@@ -13,7 +13,7 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
     // FILE UPLOAD
     $scope.multiple = true;
     $scope.accept = "application/pdf,image/*";
-    $scope.files = [];
+    $scope.value = [];
     $scope.uploadMode = "useButtons";
 
     $scope.fileUploadOptions = {
@@ -23,8 +23,9 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
         bindingOptions: {
             multiple: "multiple",
             accept: "accept",
-            value: "files",
-            uploadMode: "uploadMode"
+            value: "value",
+            uploadMode: "uploadMode",
+            params: {idMemo: 1}
         }
     };
     //SHOW CHECKBOXES
@@ -232,7 +233,7 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
         $scope.notificaPerfiles = $scope.selectedPerfiles.length == 0 ? false : true;
         $scope.notificaUsuarios = $scope.selectedUsuarios.length == 0 ? false : true;
         $scope.notificaZonas = $scope.selectedZonas.length == 0 ? false : true;
-
+        $scope.contieneEvidencias = false;
 
         if ($scope.descripcion == "" || $scope.titulo == "") {
             alertFactory.error('El campo Titulo y Descripción son obligatorios.');
@@ -269,9 +270,11 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
             $scope.notificaZonas == true ? 1 : 0,
             $scope.notificaPerfiles == true ? 1 : 0,
             $scope.notificaUsuarios == true ? 1 : 0,
+            $scope.contieneEvidencias == true ? 1 : 0,
             JSON.stringify(ZonasArray),
             JSON.stringify($scope.selectedPerfiles),
-            JSON.stringify($scope.selectedUsuarios)
+            JSON.stringify($scope.selectedUsuarios),
+            ""
         )
             .then(function (result) {
                 alertFactory.success('Se generó de forma correcta el Memorandum #' + result.data[0].idMemorandum);

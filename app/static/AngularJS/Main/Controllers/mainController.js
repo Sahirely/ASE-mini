@@ -52,13 +52,14 @@
       // localStorageService.get('userData')
       $scope.getNumeroEconomico()
       $scope.getNumeroOrdenes()
-
+      /*
       setInterval(function () {
         if (!$scope.connected != '') {
           console.log('Intentando reconexión...')
           SocketConnect()
         }
       }, 10000)
+      */
     }
   }
 

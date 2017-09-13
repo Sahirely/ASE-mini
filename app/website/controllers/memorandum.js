@@ -25,9 +25,12 @@ Memorandum.prototype.post_alta = function(req, res, next) {
         { name: 'notificaZona', value: req.query.notificaZona, type: self.model.types.INT},
         { name: 'notificaPerfil', value: req.query.notificaPerfil, type: self.model.types.INT},
         { name: 'notificaUsuario', value: req.query.notificaUsuario, type: self.model.types.INT},
-        { name: 'jsonZonas', value: req.query.jsonZonas, type: self.model.types.STRING},
+        { name: 'contieneEvidencias', value: req.query.contieneEvidencias, type: self.model.types.INT},
+        { name: 'jsonZonas', value:  req.query.jsonZonas, type: self.model.types.STRING},
         { name: 'jsonPerfiles', value: req.query.jsonPerfiles, type: self.model.types.STRING},
-        { name: 'jsonUsuarios', value: req.query.jsonUsuarios, type: self.model.types.STRING}
+        { name: 'jsonUsuarios', value: req.query.jsonUsuarios, type: self.model.types.STRING},
+        { name: 'jsonEvidencias', value: req.query.jsonEvidencias, type: self.model.types.STRING}
+
     ];
 
     this.model.query('INS_MEMORANDUM_SP', params, function(error, result) {
