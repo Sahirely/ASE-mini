@@ -356,23 +356,70 @@
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Documentación de la Orden</h3>
                             <div class="m-t-xl">
-                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
+                                <div class="col-sm-4 col-md-4 col-lg-4 text-center">
                                     <label>Recepción</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="archivoEvidencia(1);" ng-disabled="validaCertificado == 0"
-                                        ng-class="{btn_archivo_yep: validaCertificado != 0 }">
+                                    <div ng-show="validaCertificado == 1" >
+                                        <div class="row">
+                                            <object style="width: 100%; height: 100%" data="{{urlRecepcion}}" type="application/pdf">
+                                                <!-- <embed src="{{urlRecepcion}}" type="application/pdf" /> -->
+                                            </object>
+                                        </div>
+                                        <br>
+                                        <div class="row" >
+                                          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 " tooltip="Ver Documento" ng-click="archivoEvidencia(1)">
+                                            <i class="fa fa-file-pdf-o" style="font-size: 36px;"></i>
+                                          </div>
+                                          <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: left;">
+                                              <p style="margin: 0px;"><i class="fa fa-user" aria-hidden="true"></i> {{userRecepcion}}</p>
+                                              <strong class="fechaTimeLine">{{fechaRecepcion | date:"MM/dd/yyyy h:mma" }}</strong>
+                                              <!-- <p class="fechaTimeLine"><strong>{{fechaRecepcion | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
+                                          </div>
+                                        </div>
+                                    </div>
+                                    <button ng-show="validaCertificado == 0" class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-disabled="true"><!-- ng-click="archivoEvidencia(1);" ng-disabled="validaCertificado == 0" -->
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
+                                <div class="col-sm-4 col-md-4 col-lg-4 text-center">
                                     <label>Hoja Trabajo</label>
                                     <br>
-                                    <button class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="detalleOrden.idEstatusOrden < 6"
+                                    <div ng-show="detalleOrden.idEstatusOrden >= 6">
+                                      <div class="row">
+                                            <object style="width: 100%; height: 100%" data="{{urlTrabajo}}" type="application/pdf">
+                                              <!-- <param name="view" value="FitH,300"> -->
+                                              <!-- <embed src="{{urlTrabajo}}" type="application/pdf" /> -->
+                                          </object>
+                                      </div>
+                                      <br>
+                                      <div class="row" >
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 " tooltip="Ver Documento" ng-click="OpenTrabajo();">
+                                          <i class="fa fa-file-pdf-o" style="font-size: 36px;"></i>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: left;">
+                                            <p style="margin: 0px;"><i class="fa fa-user" aria-hidden="true"></i> {{userTermino}}</p>
+                                            <strong class="fechaTimeLine">{{fechaTermino | date:"MM/dd/yyyy h:mma" }}</strong>
+                                            <!-- <p class="fechaTimeLine"><strong>{{fechaTermino | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
+                                        </div>
+                                      </div>
+                                      <br>
+                                      <div class="row" ng-show="showApruebaTermino">
+                                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2 " tooltip="Ver Documento" ng-click="OpenTrabajo();">
+                                          <i class="fa fa-file-pdf-o" style="font-size: 36px;"></i>
+                                        </div>
+                                        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: left;">
+                                            <p style="margin: 0px;"><i class="fa fa-user" aria-hidden="true"></i> {{userApruebaTermino}}</p>
+                                            <strong class="fechaTimeLine">{{userFechaApruebaTermino | date:"MM/dd/yyyy h:mma" : 'UTC'}}</strong>
+                                            <!-- <p class="fechaTimeLine"><strong>{{userFechaApruebaTermino | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <button ng-show="detalleOrden.idEstatusOrden < 6" class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button" ng-click="OpenTrabajo();" ng-disabled="detalleOrden.idEstatusOrden < 6"
                                         ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
                                         <i class="fa fa-file-pdf-o"></i>
                                     </button>
                                 </div>
-                                <div class="col-sm-3 col-md-3 col-lg-3 text-center">
+                                <div class="col-sm-4 col-md-4 col-lg-4 text-center">
                                     <label>Factura</label>
                                     <br>
                                     <button class="btn btn-archivo  btn-large-dim btn-outline m-t-md" type="button" disabled="disabled">

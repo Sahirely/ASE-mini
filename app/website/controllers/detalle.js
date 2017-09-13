@@ -165,6 +165,19 @@ Detalle.prototype.get_getRFCFactura = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_getUsuarioHojaTrabajo = function(req, res, next){
+    var self = this;
+    var params = [{name: 'numOrden', value: req.query.numOrden, type: self.model.types.STRING},
+                  {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT}];
+
+    this.model.query('SEL_USUARIO_HOJA_TRABAJO_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_insertarFactura = function(req, res, next) {
     var self = this;
     var params = [
