@@ -17,6 +17,21 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        getUsuarioHojaTrabajo: function(numOrden, idContratoOperacion){
+            return $http(
+              {
+                  url: detalleUrl + 'getUsuarioHojaTrabajo',
+                  method: "GET",
+                  params: {
+                      numOrden: numOrden,
+                      idContratoOperacion: idContratoOperacion
+                  },
+                  headers: {
+                      'Content-Type': 'application/json'
+                  }
+              }
+            );
+        },
         getFacturas: function(numeroOrden, estatus, idUsuario, idOperacion) {
             return $http({
                 url: detalleUrl + 'facturasPorOrden/',

@@ -4,7 +4,7 @@ var XLSX = require('xlsx');
 var path = require('path');
 var Load_Files = require('../controllers/load_files');
 //var dirname = 'E:/ASE_Temp/';
-var dirname = 'E:/ASEv2Documentos/public/archivos/';
+var dirname = 'C:/ASEv2Documentos/public/archivos/';
 var fs = require('fs');
 
 var Configurador = function (conf) {

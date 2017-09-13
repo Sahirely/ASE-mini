@@ -3,7 +3,7 @@ var DetalleView = require('../views/ejemploVista'),
 
 var Load_Files = require('../controllers/load_files');
 
-var _PathDocuments = "E:\\ASEv2Documentos\\public\\orden\\"
+var _PathDocuments = "C:\\ASEv2Documentos\\public\\orden\\"
 
 var Detalle = function(conf) {
     this.conf = conf || {};
@@ -158,6 +158,19 @@ Detalle.prototype.get_getRFCFactura = function(req, res, next) {
     ];
 
     this.model.query('SEL_VALIDA_RFC_FACTURA_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Detalle.prototype.get_getUsuarioHojaTrabajo = function(req, res, next){
+    var self = this;
+    var params = [{name: 'numOrden', value: req.query.numOrden, type: self.model.types.STRING},
+                  {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT}];
+
+    this.model.query('SEL_USUARIO_HOJA_TRABAJO_SP', params, function(error, result){
         self.view.expositor(res, {
             error: error,
             result: result
