@@ -1,4 +1,4 @@
-registrationModule.controller('dashBoardController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository, configuradorRepository) {
+registrationModule.controller('dashBoardController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository, configuradorRepository, nuevoMemorandumRepository) {
     $rootScope.modulo = 'home'; // <<-- Para activar en que opción del menú se encuentra
 
     $scope.tarSelected = null;
@@ -28,18 +28,17 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
     $scope.Zonas = [];
 
 
+
     //VARIABLES PARA MEMORANDUMS
-    $scope.memorandums = [];
-   
+    $scope.Memorandums = []
+
 
     $scope.init = function () {
         userFactory.ValidaSesion();
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
-        //OBTENEMOS LOS MEMORANDUMS DEL CLIENTE
-        //EN CASO DE EXISTIR MEMORANDUMS ENTONCES MOSTRAMOS MODAL DE BLOQUEO
-        //$("#mdMemorandums").modal('show')
+        $scope.getMemorandums();
         $scope.LoadData();
     };
 
@@ -50,7 +49,7 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
         $scope.sumatoriaOrdenesPorCobrar();
         $scope.sumatoriaProceso();
     }
-   
+
 
     $scope.sumatoriaCitas = function () {
         $scope.totalCitas = 0;
@@ -362,4 +361,38 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
             $scope.ZonasSeleccionadas[$scope.x] = "0";
         }
     };
+
+    $scope.getMemorandums = function () {
+        nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
+            .then(function successCallback(response) {
+                response.data.forEach(function (element) {
+
+                    if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
+                        $scope.Memorandums.push({
+                            "idMemorandum": element.idMemorandum,
+                            "fecha": new Date(element.fecha).toLocaleDateString() + ' ' + new Date(element.fecha).toLocaleTimeString(),
+                            "titulo": element.titulo,
+                            "descripcion": element.descripcion,
+                            evidencias: [
+                                {
+                                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                                    "idEvidencia": element.idEvidencia,
+                                    "evidencia": element.evidencia
+                                }
+                            ]
+                        })
+                    }
+                    else {
+                        $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
+                            "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                            "idEvidencia": element.idEvidencia,
+                            "evidencia": element.evidencia
+                        })
+                    }
+                }, this);
+                if ($scope.Memorandums.length > 0)
+                    $("#mdMemorandums").modal('show')
+            })
+
+    }
 });

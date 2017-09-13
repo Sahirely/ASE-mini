@@ -11,21 +11,22 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
     $scope.idRol = $scope.userData.idRol;
 
     // FILE UPLOAD
-    $scope.multiple = true;
-    $scope.accept = "application/pdf,image/*";
-    $scope.value = [];
-    $scope.uploadMode = "useButtons";
+    $scope.files = [];
+    $scope.uploadedFiles = []
 
     $scope.fileUploadOptions = {
         selectButtonText: "Selecciona...",
         labelText: "o arrasta aquí",
         uploadUrl: "/api/configurador/uploadMemo",
+        multiple: true,
+        accept: "application/pdf,image/*",
+        uploadMode: "useButtons",
         bindingOptions: {
-            multiple: "multiple",
-            accept: "accept",
-            value: "value",
-            uploadMode: "uploadMode",
-            params: {idMemo: 1}
+            value: "files"
+        },
+        onUploaded: function(e)
+        {
+                $scope.uploadedFiles.push({"evidencia": e.request.responseText})
         }
     };
     //SHOW CHECKBOXES
@@ -233,14 +234,17 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
         $scope.notificaPerfiles = $scope.selectedPerfiles.length == 0 ? false : true;
         $scope.notificaUsuarios = $scope.selectedUsuarios.length == 0 ? false : true;
         $scope.notificaZonas = $scope.selectedZonas.length == 0 ? false : true;
-        $scope.contieneEvidencias = false;
+        $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
+
+        if ($scope.uploadedFiles.length<$scope.files.length) {
+            alertFactory.error('Se deben de cargar las imagenes en el servidor, dando clic en el boton Upload.');
+            return;
+        }
 
         if ($scope.descripcion == "" || $scope.titulo == "") {
             alertFactory.error('El campo Titulo y Descripción son obligatorios.');
             return;
         }
-
-
 
         //VALIDACION DE SELECCION DE PERFILES
         if ($scope.notificaPerfiles && $scope.selectedPerfiles.length == 0) {
@@ -274,7 +278,7 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
             JSON.stringify(ZonasArray),
             JSON.stringify($scope.selectedPerfiles),
             JSON.stringify($scope.selectedUsuarios),
-            ""
+            JSON.stringify($scope.uploadedFiles)
         )
             .then(function (result) {
                 alertFactory.success('Se generó de forma correcta el Memorandum #' + result.data[0].idMemorandum);
@@ -286,6 +290,8 @@ registrationModule.controller('nuevoMemorandumController', function ($scope, $ro
                 $scope.selectedPerfiles = []
                 $scope.selectedUsuarios = []
                 $scope.selectedZonas = []
+                $scope.files = []
+                $scope.uploadedFiles = []
                 $scope.Zonas = []
                 $('#editor').summernote('code', '')
             })

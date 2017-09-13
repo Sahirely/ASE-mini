@@ -659,16 +659,20 @@ Configurador.prototype.post_subirArchivo = function (req, res, next) {
 }
 
 Configurador.prototype.post_uploadMemo = function (req, res, next) {
+    var randomName = ""
     var storage = multer.diskStorage({
         destination: function (req, file, cb) {
             nameFile = 'app/static/image/Memorandums/';
             cb(null, nameFile);
-            res.end('');
+            res.end(randomName);
         },
         filename: function (req, file, cb) {
-            cb(null, file.originalname);
-            nameFile = '';
-            consecutivoArchivo = 0;
+            if (file.mimetype == "image/png")
+                randomName = new Date().getTime().toString() + ".jpg"
+            if (file.mimetype == "application/pdf")
+                randomName = new Date().getTime().toString() + ".pdf"
+            path = nameFile +  randomName
+            cb(null, randomName);            
         }
     });
     var upload = multer({

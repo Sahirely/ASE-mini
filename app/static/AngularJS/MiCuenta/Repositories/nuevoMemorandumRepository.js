@@ -2,7 +2,7 @@ var nuevoMemorandumUrl = global_settings.urlCORS + '/api/memorandum/';
 
 registrationModule.factory('nuevoMemorandumRepository', function ($http) {
     return {
-        save: function(titulo, descripcion, notificaZona, notificaPerfil, notificaUsuario, contieneEvidencia, jsonZonas, jsonPerfiles, jsonUsuarios, jsonEvidencias){
+        save: function(titulo, descripcion, notificaZona, notificaPerfil, notificaUsuario, contieneEvidencias, jsonZonas, jsonPerfiles, jsonUsuarios, jsonEvidencias){
             return $http({
                 url: nuevoMemorandumUrl + 'alta/',
                 method: "POST",
@@ -12,7 +12,7 @@ registrationModule.factory('nuevoMemorandumRepository', function ($http) {
                     notificaZona: notificaZona, 
                     notificaPerfil: notificaPerfil, 
                     notificaUsuario: notificaUsuario, 
-                    contieneEvidencia: contieneEvidencia,
+                    contieneEvidencias: contieneEvidencias,
                     jsonZonas: jsonZonas,
                     jsonPerfiles: jsonPerfiles,
                     jsonUsuarios: jsonUsuarios,
