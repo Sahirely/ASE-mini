@@ -1,8 +1,8 @@
 var OrdenServicioView = require('../views/ejemploVista'),
     OrdenServicioModel = require('../models/dataAccess2');
 
-var dirname = 'C:/ASEv2Documentos/public/orden/';
-var direclamacion = 'C:/ASEv2Documentos/public/reclamacion/';
+var dirname = 'E:/ASEv2Documentos/public/orden/';
+var direclamacion = 'E:/ASEv2Documentos/public/reclamacion/';
 var fs = require('fs');
 //var JSZip = require("jszip");
 //var zip = new JSZip();

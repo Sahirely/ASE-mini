@@ -3,7 +3,7 @@ var DetalleView = require('../views/ejemploVista'),
 
 var Load_Files = require('../controllers/load_files');
 
-var _PathDocuments = "C:\\ASEv2Documentos\\public\\orden\\"
+var _PathDocuments = "E:\\ASEv2Documentos\\public\\orden\\"
 
 var Detalle = function(conf) {
     this.conf = conf || {};
