@@ -669,6 +669,8 @@ Configurador.prototype.post_uploadMemo = function (req, res, next) {
         filename: function (req, file, cb) {
             if (file.mimetype == "image/png")
                 randomName = new Date().getTime().toString() + ".jpg"
+            if (file.mimetype == "image/jpeg")
+                randomName = new Date().getTime().toString() + ".jpg"
             if (file.mimetype == "application/pdf")
                 randomName = new Date().getTime().toString() + ".pdf"
             path = nameFile +  randomName

@@ -58,7 +58,10 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     $scope.saveQueja = function () {
         nuevoMemorandumRepository.saveQueja($scope.userData.idUsuario,$scope.asuntoQueja, $scope.mensajeQueja)
             .then(function successCallback(response) {
+                $scope.asuntoQueja = ""
+                $scope.mensajeQueja = ""
                 alertFactory.success('Queja generada de forma correcta.');
+                $scope.getQuejas()
             });
     }
 });
