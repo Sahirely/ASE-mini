@@ -1,4 +1,6 @@
 registrationModule.controller('dashBoardController', function ($scope, alertFactory, userFactory, $rootScope, localStorageService, $route, dashBoardRepository, cotizacionConsultaRepository, configuradorRepository, nuevoMemorandumRepository) {
+
+
     $rootScope.modulo = 'home'; // <<-- Para activar en que opción del menú se encuentra
 
     $scope.tarSelected = null;
@@ -365,34 +367,62 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
     $scope.getMemorandums = function () {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
+                $scope.Memorandums = []
                 response.data.forEach(function (element) {
-
-                    if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
-                        $scope.Memorandums.push({
-                            "idMemorandum": element.idMemorandum,
-                            "fecha": new Date(element.fecha).toLocaleDateString() + ' ' + new Date(element.fecha).toLocaleTimeString(),
-                            "titulo": element.titulo,
-                            "descripcion": element.descripcion,
-                            evidencias: [
-                                {
-                                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
-                                    "idEvidencia": element.idEvidencia,
-                                    "evidencia": element.evidencia
-                                }
-                            ]
-                        })
-                    }
-                    else {
-                        $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
-                            "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
-                            "idEvidencia": element.idEvidencia,
-                            "evidencia": element.evidencia
-                        })
+                    if (element.leido != 1) {
+                        if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
+                            $scope.Memorandums.push({
+                                "idMemorandum": element.idMemorandum,
+                                "fecha": new Date(element.fecha).toLocaleDateString() + ' ' + new Date(element.fecha).toLocaleTimeString(),
+                                "titulo": element.titulo,
+                                "descripcion": element.descripcion,
+                                "leido": element.leido,
+                                "aceptado": element.aceptado,
+                                "comentarios": element.comentarios,
+                                evidencias: [
+                                    {
+                                        "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                                        "idEvidencia": element.idEvidencia,
+                                        "evidencia": element.evidencia,
+                                        "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+                                    }
+                                ]
+                            })
+                        }
+                        else {
+                            $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
+                                "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                                "idEvidencia": element.idEvidencia,
+                                "evidencia": element.evidencia,
+                                "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+                            })
+                        }
                     }
                 }, this);
                 if ($scope.Memorandums.length > 0)
                     $("#mdMemorandums").modal('show')
+                else
+                    $("#mdMemorandums").modal('hide')
+
             })
 
+    }
+
+    $scope.updateMemo = function (memo, leerMastarde) {
+        if (!leerMastarde) {
+            nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 1, memo.aceptado, memo.comentarios)
+            .then(function successCallback(response) {
+                $scope.getMemorandums();
+            })
+            
+        }
+        else
+            {
+                nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 0, 0, '')
+                .then(function successCallback(response) {
+                    $("#mdMemorandums").modal('hide')
+                })
+            }
+            
     }
 });

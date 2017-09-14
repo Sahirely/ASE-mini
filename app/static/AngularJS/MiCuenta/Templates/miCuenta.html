@@ -67,7 +67,7 @@
                                                             <strong>Adminsitrador</strong> generó un nuevo memorandum <strong>Folio #{{memo.idMemorandum}}</strong>.
                                                             <br>
                                                             <div class="well">
-                                                                Mensaje: 
+                                                                Mensaje:
                                                                 <div ng-bind-html="memo.descripcion | trust"></div>
                                                                 <div class="row">
                                                                     <div class="col-lg-12">
@@ -122,7 +122,7 @@
                                                                                                                         </span>
                                                                     </div>
                                                                     <div class="m-t-md">
-                                                                        <strong>3 elementos encontrados.</strong>
+                                                                        <strong>{{Quejas.length}} elementos encontrados.</strong>
                                                                     </div>
                                                                 </div>
                                                                 <div class="table-responsive">
@@ -137,35 +137,15 @@
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr>
-                                                                                <td><span class="label label-primary"><i class="fa fa-check"></i> Completado</span></td>
-                                                                                <td>Error</td>
-                                                                                <td>30/08/2017 10:05:01 a.m.</td>
-                                                                                <td>30/08/2017 12:05:01 p.m.</td>
+                                                                            <tr ng-repeat="queja in Quejas">
+                                                                                <td><span class="label label-primary"><i class="fa fa-check"></i> {{queja.estatus}}</span></td>
+                                                                                <td>{{queja.asunto}}</td>
+                                                                                <td>{{queja.fechaInicio}}</td>
+                                                                                <td>{{queja.fechaFin}}</td>
                                                                                 <td>
-                                                                                    <p class="small">Error al dar de alta unidades.</p>
+                                                                                    <p class="small">{{queja.mensaje}}</p>
                                                                                 </td>
                                                                             </tr>
-                                                                            <tr>
-                                                                                <td><span class="label label-default"><i class="fa fa-check"></i> Enviado</span></td>
-                                                                                <td>Error</td>
-                                                                                <td>30/08/2017 10:05:01 a.m.</td>
-                                                                                <td>En curso</td>
-                                                                                <td>
-                                                                                    <p class="small">Error al modificar proveedor.</p>
-                                                                                </td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><span class="label label-default"><i class="fa fa-check"></i> Revisado</span></td>
-                                                                                <td>Bug</td>
-                                                                                <td>30/08/2017 10:05:01 a.m.</td>
-                                                                                <td>En Curso</td>
-                                                                                <td>
-                                                                                    <p class="small">Error al generar facturas.</p>
-                                                                                </td>
-                                                                            </tr>
-
-
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
@@ -194,11 +174,11 @@
 
                         <div class="form-group">
                             <label>Asunto</label>
-                            <input type="email" class="form-control" placeholder="Introduce el asunto">
+                            <input type="text" class="form-control" placeholder="Introduce el asunto" ng-model="asuntoQueja" />
                         </div>
                         <div class="form-group">
                             <label>Mensaje</label>
-                            <textarea class="form-control" placeholder="Introduce el mensaje" rows="15"></textarea>
+                            <textarea class="form-control" placeholder="Introduce el mensaje" rows="15" ng-model="mensajeQueja"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Evidencias</label>
@@ -209,7 +189,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-success btn-block">Enviar</button>
+                        <button class="btn btn-success btn-block" ng-click="saveQueja()">Enviar</button>
 
                     </div>
                 </div>

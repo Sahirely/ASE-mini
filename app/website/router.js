@@ -24,5 +24,6 @@ module.exports = {
   commonFunctions: require('./controllers/commonFunctions'), // LQMA 11062017
   analisisflotilla: require('./controllers/analisisflotilla'),
   memorandum: require('./controllers/memorandum'),
-  meeting: require('./controllers/meeting')
+  meeting: require('./controllers/meeting'),
+  quejas: require('./controllers/quejas')
 }

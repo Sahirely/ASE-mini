@@ -251,72 +251,63 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-body">
-                <div class="panel-success">
+                <div class="panel-success" ng-repeat="memo in Memorandums">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-10">
-                                <h2 class="modal-title">Memorandum Folio #1</h2>
+                            <div class="col-md-9">
+                                <h2 class="modal-title">Memorandum Folio #{{memo.idMemorandum}}</h2>
                             </div>
-                            <div class="col-md-2">
-                                <h3>Fecha 29/08/2017 10:07:00</h3>
+                            <div class="col-md-3">
+                                <h3>Fecha {{memo.fecha}}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="panel-body">
-
-                        <h2><strong>Junta Semanal</strong></h2>
-                        <h2>Se requiere presencia en Oficinas Centrales.</h2>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="radio radio-inline">
-                            <input type="radio" name="option" />
-                            <label>He leído, entiendo y <strong>Acepto</strong> el Memorandum</label>
-                        </div>
-                        <div class="radio radio-inline">
-                            <input type="radio" name="option" />
-                            <label>He leído, entiendo y <strong>No Acepto</strong> el Memorandum</label>
-                        </div>
-
-                    </div>
-                </div>
-                <br>
-                <div class="panel-success">
-                    <div class="panel-heading">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <h2 class="modal-title">Memorandum Folio #2</h2>
+                        <h3><strong>{{memo.titulo}}</strong></h3>
+                        <h3>
+                            <div ng-bind-html="memo.descripcion | trust"></div>
+                        </h3>
+                        <div ng-repeat="evidencia in memo.evidencias">
+                            <div ng-if="evidencia.evidencia.indexOf('.jpg')==-1">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1 text-center">
+                                            <!-- <iframe ng-src="{{evidencia.fullPath}} | trustUrl" style="width:100%; height:auto;"></iframe> -->
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-md-2">
-                                <h3>Fecha 29/08/2017 10:07:00</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <h2><strong>Revisión de Planes de Trabajo</strong></h2>
-                        <h2>Se requiere verificar el plan de trabajo para actualizar tiempos.</h2>
-                        <div class="row">
-                            <div class="col-md-8 col-md-offset-2">
-                                <img src="http://www.axia-consulting.co.uk/assets/images/autogen/2015-Sample-Project-Plan-System-Selection.gif" class="img-responsive" />
+                            <div ng-if="evidencia.evidencia.indexOf('.pdf')==-1">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1 text-center">
+                                        <img alt="image" class="img-responsive" src="{{evidencia.rootPath}}/{{evidencia.evidencia}}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="panel-footer">
-                            <div class="radio radio-inline">
-                                <input type="radio" name="option" />
-                                <label>He leído, entiendo y <strong>Acepto</strong> el Memorandum</label>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="option" ng-model="memo.aceptado" value="1" />
+                                    <label>He leído, entiendo y <strong>Acepto</strong> el Memorandum</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="option" ng-model="memo.aceptado" value="0" />
+                                    <label>He leído, entiendo y <strong>No Acepto</strong> el Memorandum</label>
+                                </div>
+                                <input type="input" class="form-control" ng-hide="memo.aceptado!='0'" placeholder="Introduce tus comentarios" ng-model="memo.comentarios"
+                                />
                             </div>
-                            <div class="radio radio-inline">
-                                <input type="radio" name="option" />
-                                <label>He leído, entiendo y <strong>No Acepto</strong> el Memorandum</label>
+                            <div class="col-md-3 text-right">
+                                <button type="button" class="btn btn-default btn-sm" ng-click="updateMemo(memo,true)" ng-if="memo.leido==-1">Leer más tarde...</button>
+                                <button type="button" class="btn btn-lg btn-success" ng-click="updateMemo(memo,false)" ng-disabled="(memo.aceptado!='0' && memo.aceptado!='1') || (memo.aceptado == '0' && memo.comentarios == '')">Continuar</button>
                             </div>
                         </div>
+                    </div>
+                    <br>
                 </div>
-                
+
             </div>
-            <div class="modal-footer">
-                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Leer más tarde...</button>
-                    <button type="button" class="btn btn-success btn-lg" data-dismiss="modal">Continuar</button>
-                </div>
         </div>
     </div>
 

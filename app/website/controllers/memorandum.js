@@ -49,11 +49,7 @@ Memorandum.prototype.post_alta = function (req, res, next) {
                 fs.mkdirSync(dirname + '/memorandum/' + result[0].idMemorandum);
             JSON.parse(evidencias).forEach(function (element) {
                 console.log(element);
-                fs.copyFile(rutaTemp + element.evidencia, dirname + 'Memorandum/' + result[0].idMemorandum + '/' + element.evidencia, {
-                    done: function (err) {
-                        console.log('done');
-                    }
-                });
+                fs.createReadStream($scope.rutaTemp + element.evidencia).pipe(fs.createWriteStream(dirname + '/memorandum/' + result[0].idMemorandum + '/' + element.evidencia));
             }, this);
         }
         self.view.expositor(res, {
@@ -67,10 +63,28 @@ Memorandum.prototype.post_alta = function (req, res, next) {
 Memorandum.prototype.get_consulta = function (req, res, next) {
     var self = this;
     var params = [
-        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.STRING }
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
     this.model.query('SEL_MEMORANDUM_BY_USUARIO_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Memorandum.prototype.post_actualizaLog = function (req, res, next) {
+    var self = this;
+    var params = [
+        { name: 'idMemorandum', value: req.query.idMemorandum, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+        { name: 'leido', value: req.query.leido, type: self.model.types.INT },
+        { name: 'aceptado', value: req.query.aceptado, type: self.model.types.INT },
+        { name: 'comentarios', value: req.query.comentarios, type: self.model.types.STRING },
+    ];
+
+    this.model.query('UPD_MEMORANDUM_LOG_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

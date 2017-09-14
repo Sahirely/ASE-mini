@@ -8,8 +8,12 @@
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
     "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover", "dx"
 ])
-    .config(function ($routeProvider, $locationProvider) {
-
+    .config(function ($routeProvider, $locationProvider, $sceDelegateProvider) {
+        $sceDelegateProvider.resourceUrlWhitelist([
+            // Allow same origin resource loads.
+            'self',
+            // Allow loading from our assets domain.  Notice the difference between * and **.
+            'http://localhost']);
         /*change the routes*/
         $routeProvider.when('/', {
             templateUrl: 'AngularJS/Login/Templates/login.html',
@@ -331,3 +335,11 @@ registrationModule.filter("trust", ['$sce', function ($sce) {
         return $sce.trustAsHtml(htmlCode);
     }
 }]);
+
+registrationModule.filter('trustUrl', function ($sce) {
+  return function(url) {
+    return $sce.trustAsResourceUrl(url);
+  };
+});
+
+    
