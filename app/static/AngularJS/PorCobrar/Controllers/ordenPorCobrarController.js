@@ -53,11 +53,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     // Obtengo la lista de tablas
     $('.dataTablePorCobrar').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', { 'idUsuario': 1 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', { 'idUsuario': 1, 'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada }).then(function (result) {
       $scope.porCobrar = result.data
       $scope.total = 0
       angular.forEach($scope.porCobrar, function (value, key) {
-        $scope.total = $scope.total + value.montoFacturaCliente
+        $scope.total = $scope.total + value.ventasiniva
       })
 
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)

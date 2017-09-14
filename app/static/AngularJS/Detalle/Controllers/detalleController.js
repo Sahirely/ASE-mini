@@ -37,6 +37,28 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.sinTiempoDisponible = 1
   $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
 
+  // Preconfiguración MAPA y Marcadores
+  var markerUrl = 'https://js.devexpress.com/Demos/RealtorApp/images/map-marker.png'
+
+  $scope.markerUrlValue = markerUrl
+  $scope.markers = []
+
+  $scope.mapOptions = {
+    center: { lat: 19.426506611419985, lng: -99.16950187368013 },
+    zoom: 14,
+    height: 300,
+    width: '100%',
+    provider: 'google',
+    type: 'roadmap',
+    controls: true,
+    bindingOptions: {
+      markerIconSrc: 'markerUrlValue',
+      markers: 'markers'
+    }
+  }
+
+  $scope.hasGPS = true
+
   // Agrega para comentarios
   $scope.comentarios = []
 
@@ -49,7 +71,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.idUsuario = $scope.userData.idUsuario
     $scope.btnSwitch.classCosto = 'btn btn-success'
     $scope.btnSwitch.classVenta = 'btn btn-default'
-
 
     $scope.showButtonSwitch($scope.userData.idRol)
     $scope.checkComprobanteRecepcion()
@@ -75,8 +96,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $scope.sinTiempoDisponible = 0
       $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
     }
-
-
   }
 
   // funcion reloj recursiva cada minuto
@@ -166,7 +185,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden
         $scope.idOrdenURL = $scope.detalleOrden.idOrden
-        $scope.creaURLS();
+        $scope.creaURLS()
         var statusCotizacion = 0
         if ($scope.estatus == 1 || $scope.estatus == 2 || $scope.estatus == 3) {
           statusCotizacion = '1'
@@ -180,6 +199,33 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.validaFacturaCotizacionBoton()
 
         $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
+
+        // Epediente y MAPA 
+        // ECG
+        if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
+          $scope.markers = [{
+            location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
+            tooltip: {
+              text: 'Ubicación de la unidad'
+            }
+          }]
+          $scope.mapOptions = {
+            center: { lat: +$scope.detalleOrden.latitud, lng: +$scope.detalleOrden.longitud },
+            zoom: 1,
+            height: 300,
+            width: '100%',
+            provider: 'google',
+            type: 'roadmap',
+            controls: true,
+            bindingOptions: {
+              markerIconSrc: 'markerUrlValue',
+              markers: 'markers'
+            }
+          }
+          $scope.hasGPS = true
+        }else {
+          $scope.hasGPS = false
+        }
 
         consultaCitasRepository.getOrdenExpediente(result.data[0].idUnidad).then(function (result) {
           $scope.tileViewOptions = {
@@ -682,10 +728,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         }).then(function (jsonData) {
           detalleRepository.getGuardaReporteConformidad(jsonData, idOrden).then(function (result) {
             setTimeout(function () {
-                location.href = '/detalle?orden=' + $routeParams.orden;
+              location.href = '/detalle?orden=' + $routeParams.orden
             }, 10000)
           })
-
         })
       }
     }, function (error) {
@@ -1055,10 +1100,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             $('html, body').animate({
               scrollTop: 0
             }, 1000)
-            $('#loadModal').modal('show');
+            $('#loadModal').modal('show')
             $scope.getReporteConformidad($scope.detalleOrden.idOrden)
 
-            //  $scope.init()
+          //  $scope.init()
           })
         }
       })
@@ -1069,9 +1114,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $('html, body').animate({
           scrollTop: 0
         }, 1000)
-        $('#loadModal').modal('show');
+        $('#loadModal').modal('show')
         $scope.getReporteConformidad($scope.detalleOrden.idOrden)
-        // $scope.init()
+      // $scope.init()
       })
     }
   }
@@ -1113,10 +1158,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     scrollTop: 0
                   }, 1000)
                   // $scope.init()
-                  $scope.token_termino = '';
-                  $('#loadModal').modal('show');
+                  $scope.token_termino = ''
+                  $('#loadModal').modal('show')
                   $scope.getReporteConformidad($scope.detalleOrden.idOrden)
-                  // $('#loadModal').modal('hide')
+                // $('#loadModal').modal('hide')
                 })
               } else {
                 $('#loadModal').modal('hide')
@@ -1166,10 +1211,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                       scrollTop: 0
                     }, 1000)
                     // $scope.init()
-                    $scope.token_termino = '';
-                    $('#loadModal').modal('show');
+                    $scope.token_termino = ''
+                    $('#loadModal').modal('show')
                     $scope.getReporteConformidad($scope.detalleOrden.idOrden)
-                    // $('#loadModal').modal('hide')
+                  // $('#loadModal').modal('hide')
                   })
                 } else {
                   $('#loadModal').modal('hide')
@@ -1212,9 +1257,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                         scrollTop: 0
                       }, 1000)
                       // $scope.init()
-                      $scope.token_termino = '';
-                      $('#loadModal').modal('show');
-                      $scope.getReporteConformidad($scope.detalleOrden.idOrden);
+                      $scope.token_termino = ''
+                      $('#loadModal').modal('show')
+                      $scope.getReporteConformidad($scope.detalleOrden.idOrden)
                     }, function (error) {
                       // alertFactory.error('No se puede enviar el correo')
                     })
@@ -1403,52 +1448,51 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     })
   }
 
-  $scope.creaURLS = function (){
-      ////////////////////////// Sección de ComprobanteRecepcion //////////////////////////
-      $scope.urlRecepcion = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/comprobanteRecepcion/ComprobanteRecepcion.pdf';
-      $scope.HistoricoOrden.forEach(function(item){
-          if(item.idEstatusOrden == 3){
-            $scope.userRecepcion = item.nombreCompleto;
-            $scope.fechaRecepcion = item.fecha;
-          }
-      });
+  $scope.creaURLS = function () {
+    // //////////////////////// Sección de ComprobanteRecepcion //////////////////////////
+    $scope.urlRecepcion = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/comprobanteRecepcion/ComprobanteRecepcion.pdf'
+    $scope.HistoricoOrden.forEach(function (item) {
+      if (item.idEstatusOrden == 3) {
+        $scope.userRecepcion = item.nombreCompleto
+        $scope.fechaRecepcion = item.fecha
+      }
+    })
 
-      ////////////////////////// Sección de Hoja de Trabajo //////////////////////////
-      $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf';
-      $scope.HistoricoOrden.forEach(function(item){
-          if(item.idEstatusOrden == 6){
-              $scope.userTermino = item.nombreCompleto;
-              $scope.fechaTermino = item.fecha;
-          }
-      });
+    // //////////////////////// Sección de Hoja de Trabajo //////////////////////////
+    $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
+    $scope.HistoricoOrden.forEach(function (item) {
+      if (item.idEstatusOrden == 6) {
+        $scope.userTermino = item.nombreCompleto
+        $scope.fechaTermino = item.fecha
+      }
+    })
 
-      detalleRepository.getUsuarioHojaTrabajo($scope.numeroOrden, $scope.userData.contratoOperacionSeleccionada).then(function(result){
-          if (result.data.length > 0){
-              $scope.showApruebaTermino = true;
-              $scope.userApruebaTermino = result.data[0].nombreCompleto;
-              $scope.userFechaApruebaTermino = result.data[0].fechaHora;
-          }else{
-              $scope.showApruebaTermino = false;
-              $scope.userApruebaTermino = '';
-              $scope.userFechaApruebaTermino = '';
-          }
-      }, function (error){
-          $scope.showApruebaTermino = false;
-          $scope.userApruebaTermino = '';
-          $scope.userFechaApruebaTermino = '';
-      });
-
+    detalleRepository.getUsuarioHojaTrabajo($scope.numeroOrden, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
+      if (result.data.length > 0) {
+        $scope.showApruebaTermino = true
+        $scope.userApruebaTermino = result.data[0].nombreCompleto
+        $scope.userFechaApruebaTermino = result.data[0].fechaHora
+      }else {
+        $scope.showApruebaTermino = false
+        $scope.userApruebaTermino = ''
+        $scope.userFechaApruebaTermino = ''
+      }
+    }, function (error) {
+      $scope.showApruebaTermino = false
+      $scope.userApruebaTermino = ''
+      $scope.userFechaApruebaTermino = ''
+    })
   }
 
   $scope.archivoEvidencia = function (dato) {
     if (dato == 1)
-      url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/comprobanteRecepcion/ComprobanteRecepcion.pdf';
-     window.open(url);
+      url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/comprobanteRecepcion/ComprobanteRecepcion.pdf'
+    window.open(url)
   }
 
   $scope.OpenTrabajo = function () {
-    var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf';
-    window.open(url);
+    var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
+    window.open(url)
   }
 
   $scope.acciones = function () {
@@ -1971,18 +2015,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   // Abre Instructivo
   $scope.openPDF = function (str) {
-
     window.open(str, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
-
   }
-
-  $scope.mapOptions = {
-    center: { lat: 19.426506611419985, lng: -99.16950187368013 },
-    zoom: 14,
-    height: 300,
-    width: '100%',
-    provider: 'google',
-    type: 'roadmap'
-  }
-
 })

@@ -15,7 +15,8 @@ var Cobrar = function (conf) {
 Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   var self = this
   var params = [
-    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
   ]
   this.query.execute('SEL_PORCOBRAR_SP', params, res)
 }
