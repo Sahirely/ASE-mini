@@ -3,8 +3,8 @@ var MemorandumView = require('../views/ejemploVista'),
     moment = require('moment'),
     fs = require('fs'),
 
-    dirname = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/',
-    rutaTemp = "C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2/app/static/image/Memorandums/"
+    dirname = 'E:/ASEv2Documentos/public/archivos/',
+    rutaTemp = "E:/ASEv2Documentos/public/archivos/Temp/"
 
 
 //configuración para el objeto memorandum
