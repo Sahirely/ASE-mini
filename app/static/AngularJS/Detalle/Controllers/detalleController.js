@@ -191,7 +191,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           statusCotizacion = '1'
         } else if ($scope.estatus == 4) {
           statusCotizacion = '1,2'
-        } else if ($scope.estatus == 5 || $scope.estatus == 6 || $scope.estatus == 7) {
+        } else if ($scope.estatus == 5 || $scope.estatus == 6 || $scope.estatus == 7 || $scope.estatus == 8 || $scope.estatus == 14 || $scope.estatus == 9 || $scope.estatus == 10 || $scope.estatus == 11 || $scope.estatus == 12) {
           statusCotizacion = '3'
         }
 
@@ -2011,6 +2011,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     })
 
     return hasDM
+  }
+
+  $scope.certificado = function () {
+    $('#loadModal').modal('show');
+    $scope.getReporteConformidad($scope.idOrdenURL);
   }
 
   // Abre Instructivo

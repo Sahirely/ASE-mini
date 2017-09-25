@@ -407,6 +407,9 @@
                                                 <!-- <p class="fechaTimeLine"><strong>{{userFechaApruebaTermino | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
                                             </div>
                                         </div>
+                                        <button ng-show="((userData.idRol == 3 || userData.idRol == 2) && detalleOrden.idEstatusOrden >= 6)" class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="certificado()">
+                                            <span class="glyphicon glyphicon-share-alt"></span> Regenerar Hoja Trabajo
+                                        </button>
                                     </div>
                                     <button ng-show="detalleOrden.idEstatusOrden < 6" class="btn btn-archivo btn-large-dim btn-outline m-t-md" type="button"
                                         ng-click="OpenTrabajo();" ng-disabled="detalleOrden.idEstatusOrden < 6" ng-class="{btn_archivo_yep: detalleOrden.idEstatusOrden >= 6 }">
