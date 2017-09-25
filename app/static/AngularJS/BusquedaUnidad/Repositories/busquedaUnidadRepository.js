@@ -2,13 +2,14 @@ var busquedaUnidadUrl = global_settings.urlCORS + '/api/busquedaUnidad/';
 
 registrationModule.factory('busquedaUnidadRepository', function($http) {
     return {
-        getDetalleUnidad: function(idUsuario, economico) {
+        getDetalleUnidad: function(idUsuario, economico, idOperacion) {
             return $http({
                 url: busquedaUnidadUrl + 'detalleUnidad/',
                 method: "GET",
                 params: {
                     idUsuario: idUsuario,
-                    economico: economico
+                    economico: economico,
+                    idOperacion: idOperacion
                 },
                 headers: {
                     'Content-Type': 'application/json'

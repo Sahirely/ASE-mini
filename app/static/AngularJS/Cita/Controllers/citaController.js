@@ -92,7 +92,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function() {
         // debugger;
-        busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico).then(function(result) {
+        busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             $scope.detalleUnidad = result.data[0];
             if ($scope.userData.presupuesto){
                 $scope.centroTrabajo = $scope.detalleUnidad.idCentroTrabajo;

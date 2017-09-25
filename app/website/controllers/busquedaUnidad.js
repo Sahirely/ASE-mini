@@ -27,6 +27,10 @@ busquedaUnidad.prototype.get_detalleUnidad = function(req, res, next) {
         name: 'economico',
         value: req.query.economico,
         type: self.model.types.STRING
+    }, {
+        name: 'idOperacion',
+        value: req.query.idOperacion,
+        type: self.model.types.INT
     }];
 
     self.model.query('SEL_DETALLE_UNIDAD_SP', params, function(error, result) {
