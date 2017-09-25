@@ -40,7 +40,7 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
-        $scope.getMemorandums();
+       // $scope.getMemorandums();
         $scope.LoadData();
     };
 
