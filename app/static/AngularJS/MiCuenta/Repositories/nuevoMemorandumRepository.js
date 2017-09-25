@@ -53,13 +53,14 @@ registrationModule.factory('nuevoMemorandumRepository', function ($http) {
                 }
             });
         },
-        saveQueja: function(idUsuario,asunto,mensaje)
+        saveQueja: function(idUsuario,idCatalogoTipoQueja,asunto,mensaje)
         {
             return $http({
                 url: quejasUrl + 'alta/',
                 method: "POST",
                 params: {
                    idUsuario,
+                   idCatalogoTipoQueja,
                    asunto: asunto,
                    mensaje: mensaje
                 },

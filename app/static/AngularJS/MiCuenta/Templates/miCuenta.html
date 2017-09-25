@@ -26,19 +26,17 @@
                             <div class="col-lg-7" id="cluster_info">
                                 <dl class="dl-horizontal">
                                     <dt>Rol:</dt>
-                                    <dd> Administrador</dd>
-                                    <dt>Usuario:</dt>
-                                    <dd>EDWIN.CRUZ</dd>
-                                    <dt>Ultimo inicio de sesión:</dt>
-                                    <dd>30/08/2017 12:38:05</dd>
+                                    <dd> {{userData.Rol}}</dd>
                                     <dt>Empresa:</dt>
-                                    <dd>Pemex</dd>
+                                    <dd>{{userData.razonSocial}}</dd>
+                                    <dt>Operación:</dt>
+                                    <dd>{{userData.nombreOperacion}}</dd>
+                                    <dt>Correo:</dt>
+                                    <dd>{{userData.Correo}}</dd>
                                     <dt>Telefono:</dt>
-                                    <dd>5555-5555</dd>
+                                    <dd>{{userData.Telefono}}</dd>
                                     <dt>Extensión:</dt>
-                                    <dd>555</dd>
-                                    <dt>Email:</dt>
-                                    <dd>edwin.cruz@empresa.com.mx</dd>
+                                    <dd>{{userData.Telefono}}</dd>
                                 </dl>
                             </div>
                         </div>
@@ -52,7 +50,7 @@
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
                                                 <li class="active"><a href="#memorandums" data-toggle="tab" target="_blank">Memorandums</a></li>
-                                                <li class=""><a href="#quejas" data-toggle="tab" target="_blank">Quejas y sugerencias</a></li>
+                                                <li class="" ng-hide="{{userData.idRol != 2 && userData.idRol != 3}} "><a href="#quejas" data-toggle="tab" target="_blank">Quejas y sugerencias</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -113,44 +111,10 @@
                                                                 <h5>Lista de Quejas y Sugerencias</h5>
                                                             </div>
                                                             <div class="ibox-content">
-                                                                <div class="m-b-lg">
+                                                                <div class="demo-container dx-viewport">
+                                                                    <div id="dtgQuejas" dx-data-grid="gridQuejas"></div>
+                                                                </div>
 
-                                                                    <div class="input-group">
-                                                                        <input type="text" placeholder="Buscar por # Folio" class=" form-control">
-                                                                        <span class="input-group-btn">
-                                                                                                                            <button type="button" class="btn btn-white"> Buscar</button>
-                                                                                                                        </span>
-                                                                    </div>
-                                                                    <div class="m-t-md">
-                                                                        <strong>{{Quejas.length}} elementos encontrados.</strong>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-striped">
-                                                                        <thead>
-                                                                            <tr>
-                                                                                <th>Estatus</th>
-                                                                                <th>Asunto</th>
-                                                                                <th>Fecha Inicio</th>
-                                                                                <th>Fecha Fin</th>
-                                                                                <th>Observaciones</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            <tr ng-repeat="queja in Quejas">                                                                                
-                                                                                <td ng-if="queja.estatus == 'GENERADA'"><span class="label label-default"><i class="fa fa-check"></i> {{queja.estatus}}</span></td>
-                                                                                <td ng-if="queja.estatus == 'EN PROCESO'"><span class="label label-primary"><i class="fa fa-check"></i> {{queja.estatus}}</span></td>
-                                                                                <td ng-if="queja.estatus == 'FINALIZADA'"><span class="label label-success"><i class="fa fa-check"></i> {{queja.estatus}}</span></td>
-                                                                                <td>{{queja.asunto}}</td>
-                                                                                <td>{{queja.fechaInicio}}</td>
-                                                                                <td>{{queja.fechaFin}}</td>
-                                                                                <td>
-                                                                                    <p class="small">{{queja.mensaje}}</p>
-                                                                                </td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -173,7 +137,10 @@
                         <p class="small">
                             Utiliza esta opción para generar una nueva queja o sugerencia.
                         </p>
-
+                        <div class="form-group">
+                            <label>Tipo</label>
+                            <div dx-select-box="selectBoxQuejas"></div>
+                        </div>
                         <div class="form-group">
                             <label>Asunto</label>
                             <input type="text" class="form-control" placeholder="Introduce el asunto" ng-model="asuntoQueja" />
@@ -198,4 +165,42 @@
             </div>
         </div>
     </div>
+</div>
+
+<div id="mdQueja" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-6"></div>
+                
+                <div class="row">
+                    <label>ESTATUS: </label>
+                    <input type="text" disabled ng-model="QuejaInfo.estatus" class="form-control input-sm" />
+                </div>
+                <div class="row">
+                    <label>TIPO: </label>
+                    <input type="text" disabled ng-model="QuejaInfo.tipoQueja" class="form-control input-sm" />
+                </div>
+                <div class="row">
+                    <label>ASUNTO: </label>
+                    <input type="text" disabled ng-model="QuejaInfo.asjunto" class="form-control input-sm" />
+                </div>
+                <div class="row">
+                    <label>MENSAJE: </label>
+                    <textarea disabled ng-model="QuejaInfo.mensaje" class="form-control input-sm" rows="10" />
+                </div>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>

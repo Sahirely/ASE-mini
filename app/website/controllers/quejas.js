@@ -20,6 +20,7 @@ Quejas.prototype.post_alta = function (req, res, next) {
     var self = this;
     var params = [
         { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+        { name: 'idCatalogoTipoQueja', value: req.query.idCatalogoTipoQueja, type: self.model.types.INT },
         { name: 'asunto', value: req.query.asunto, type: self.model.types.STRING },
         { name: 'mensaje', value: req.query.mensaje, type: self.model.types.STRING },
 
@@ -38,6 +39,21 @@ Quejas.prototype.get_consulta = function (req, res, next) {
     var params = [];
 
     this.model.query('SEL_QUEJA_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Quejas.prototype.get_conultaTipoQuejaUsuario = function(req, res, next)
+{
+    var self = this;
+    var params = [
+        { name: 'idTipoUsuario', value: req.query.idTipoUsuario, type: self.model.types.INT },
+    ];
+
+    this.model.query('SEL_QUEJAS_TIPOUSUARIO_SP', params, function (error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
