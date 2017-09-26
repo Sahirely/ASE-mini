@@ -1,20 +1,7 @@
 registrationModule.controller('miCuentaController', function ($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository) {
     $rootScope.modulo = 'miCuenta'; // <<-- Para activar en que opción del menú se encuentra
 
-    var orders = [{
-        "ID": 1,
-        "OrderNumber": 35703,
-        "OrderDate": "2014/04/10",
-        "SaleAmount": 11800,
-        "Terms": "15 Days",
-        "CustomerStoreState": "California",
-        "CustomerStoreCity": "Los Angeles",
-        "Employee": "Harv Mudd"
-    }]
-
-
-
-
+    
     $scope.Memorandums = []
     $scope.asuntoQueja = ""
     $scope.mensajeQueja = ""
@@ -30,6 +17,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     $scope.init = function () {
         $scope.userData = userFactory.getUserData()
         $scope.getMemorandums()
+        
         $scope.getQuejas()
         $scope.getTipoQuejaUsuario($scope.userData.idRol)
     }
@@ -37,8 +25,8 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     $scope.getMemorandums = function () {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
+                $scope.Memorandums = []       
                 response.data.forEach(function (element) {
-
                     if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
                         $scope.Memorandums.push({
                             "idMemorandum": element.idMemorandum,
@@ -68,7 +56,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             })
 
     }
-
+    
     $scope.getQuejas = function () {
         nuevoMemorandumRepository.getQuejas()
             .then(function successCallback(response) {

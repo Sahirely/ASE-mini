@@ -40,7 +40,7 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
         //para obtener las zonas promero se inicializa la primer zona padre.
         $scope.ZonasSeleccionadas[0] = "0";
         $scope.obtieneNivelZona();
-       // $scope.getMemorandums();
+        $scope.getMemorandums();
         $scope.LoadData();
     };
 
@@ -400,10 +400,11 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
                     }
                 }, this);
                 if ($scope.Memorandums.length > 0)
-                    $("#mdMemorandums").modal('show')
-                else
-                    $("#mdMemorandums").modal('hide')
-
+                    {
+                        $rootScope.hasMemo = true
+                        location.href = "/miCuenta"
+                    }
+                    
             })
 
     }
