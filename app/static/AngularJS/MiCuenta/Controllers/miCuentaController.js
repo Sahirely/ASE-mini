@@ -38,9 +38,8 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
 
     $scope.init = function() {
         $scope.userData = userFactory.getUserData()
-        $scope.getMemorandums()
-        
-        $scope.getQuejas()
+        $scope.getMemorandums()        
+        $scope.getQuejas($scope.userData.idUsuario)
         $scope.getTipoQuejaUsuario($scope.userData.idRol)
     }
 
@@ -77,13 +76,12 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                 
                 $scope.MemorandumsLeidosTotal = $scope.Memorandums.filter(X => X.leido == 1)==undefined?0:$scope.Memorandums.filter(X => X.leido == 1).length
                 $scope.MemorandumsSinLeerTotal = $scope.Memorandums.length - $scope.MemorandumsLeidosTotal
-                
             })
 
     }
 
-    $scope.getQuejas = function() {
-        nuevoMemorandumRepository.getQuejas()
+    $scope.getQuejas = function(idUsuario) {
+        miCuentaRepository.getQuejaPorUsuario(idUsuario)
             .then(function successCallback(response) {
                 $scope.Quejas = response.data;
                 $scope.gridQuejas = {
@@ -95,18 +93,25 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                     showBorders: true,
                     allowColumnResizing: true,
                     columnAutoWidth: true,
-                    columns: [{
-                            width: 50,
-                            cellTemplate: function(container, options) {
-                                container.append("<button type='button' class='btn btn-sm btn-default'><span class='fa fa-search'></span></button>")
-                            }
-                        },
+                    columns: [
+                        // {
+                        //     width: 50,
+                        //     cellTemplate: function(container, options) {
+                        //         container.append("<button type='button' class='btn btn-sm btn-default'><span class='fa fa-search'></span></button>")
+                        //     }
+                        // },
                         {
                             dataField: "estatus",
                             dataType: "string",
                             cellTemplate: function(element, info) {
                                 if (info.text == "GENERADA") {
-                                    element.append("<span class='label label-warning'><i class='fa fa-check'></i>" + info.text + "</span></td>");
+                                    element.append("<span class='label label-default'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                }
+                                if (info.text == "EN PROCESO") {
+                                    element.append("<span class='label label-warning'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                }
+                                if (info.text == "FINALIZADA") {
+                                    element.append("<span class='label label-success'><i class='fa fa-check'></i> " + info.text + "</span></td>");
                                 }
                             }
                         },
@@ -144,8 +149,8 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                         width: '400'
                     },
                     onCellClick: function(e) {
-                        if (e.rowType == "data")
-                            $scope.showQuejaInfo(e.row.data)
+                        //if (e.rowType == "data")
+                            //$scope.showQuejaInfo(e.row.data)
                     }
                 }
             });

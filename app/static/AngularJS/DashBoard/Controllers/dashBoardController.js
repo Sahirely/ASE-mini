@@ -399,30 +399,12 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
                         }
                     }
                 }, this);
-                if ($scope.Memorandums.find(X => X.leido !=1 )!=undefined)
-                    {
-                        $rootScope.hasMemo = true
-                        location.href = "/miCuenta"
-                    }
+                if ($scope.Memorandums.find(X => X.leido != 1) != undefined) {
+                    $rootScope.hasMemo = true
+                    location.href = "/miCuenta"
+                }
             })
 
     }
 
-    $scope.updateMemo = function (memo, leerMastarde) {
-        if (!leerMastarde) {
-            nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 1, memo.aceptado, memo.comentarios)
-            .then(function successCallback(response) {
-                $scope.getMemorandums();
-            })
-            
-        }
-        else
-            {
-                nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 0, 0, '')
-                .then(function successCallback(response) {
-                    $("#mdMemorandums").modal('hide')
-                })
-            }
-            
-    }
 });

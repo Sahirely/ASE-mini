@@ -7,7 +7,7 @@
                     <div class="ibox-content">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="m-b-md">
+                                <div class="m-b-md" hidden>
                                     <a href="#" class="btn btn-primary btn-xs pull-right">Cambiar Password</a>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
                                                 <li ng-class="{'active': MemorandumsSinLeerTotal > 0}" ng-hide="MemorandumsSinLeerTotal==0"><a href="#memorandumsSinLeer"  data-toggle="tab" target="_blank"><span class="label label-danger">{{MemorandumsSinLeerTotal}}</span> Memorandums sin Leer</a></li>
-                                                <li ng-hide="MemorandumsLeidos==0"><a href="#memorandumsLeidos" data-toggle="tab" target="_blank"><span class="fa fa-check"></span> Memorandums Leídos</a></li>
+                                                <li ng-hide="MemorandumsLeidosTotal==0"><a href="#memorandumsLeidos" data-toggle="tab" target="_blank"><span class="fa fa-check"></span> Memorandums Leídos</a></li>
                                                 <li ng-class="{'active': MemorandumsSinLeerTotal ==0}"><a href="#quejas" data-toggle="tab" target="_blank"><span class="fa fa-ticket"></span> Mis Tickets</a></li>
                                             </ul>
                                         </div>
@@ -106,15 +106,15 @@
                                                                                 <input type="radio" name="option" ng-model="memo.aceptado" value="1" />
                                                                                 <label>He leído, entiendo y <strong>Acepto</strong> el Memorandum</label>
                                                                             </div>
+                                                                            <br>
                                                                             <div class="radio radio-inline">
                                                                                 <input type="radio" name="option" ng-model="memo.aceptado" value="0" />
                                                                                 <label>He leído, entiendo y <strong>No Acepto</strong> el Memorandum</label>
                                                                             </div>
-                                                                            <input type="input" class="form-control" ng-hide="memo.aceptado!='0'" placeholder="Introduce tus comentarios" ng-model="memo.comentarios"
-                                                                            />
+                                                                            <input type="input" class="form-control" ng-hide="memo.aceptado!='0'" placeholder="Introduce tus comentarios" ng-model="memo.comentarios"/>
                                                                         </div>
                                                                         <div class="col-md-4 text-right">
-                                                                            <button type="button" class="btn btn-default btn-sm" ng-click="updateMemo(memo,true)" ng-if="memo.leido==-1">Leer más tarde...</button>
+                                                                            <button type="button" class="btn btn-default btn-sm" ng-click="updateMemo(memo,true)" ng-if="memo.leido==-1" hidden>Leer más tarde...</button>
                                                                             <button type="button" class="btn btn-lg btn-success" ng-click="updateMemo(memo,false)" ng-disabled="(memo.aceptado!='0' && memo.aceptado!='1') || (memo.aceptado == '0' && memo.comentarios == '')">Continuar</button>
                                                                         </div>
                                                                     </div>
@@ -124,7 +124,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div ng-hide="MemorandumsLeidos==0" class="tab-pane" id="memorandumsLeidos">
+                                            <div ng-hide="MemorandumsLeidosTotal==0" class="tab-pane" id="memorandumsLeidos">
                                                 <div class="feed-activity-list">
                                                     <div class="feed-element" ng-repeat="memo in Memorandums">
                                                         <div ng-if="memo.leido==1">
@@ -178,7 +178,7 @@
                                                     <div class="col-lg-12">
                                                         <div class="ibox">
                                                             <div class="ibox-title">
-                                                                <h5>Lista de Quejas y Sugerencias</h5>
+                                                                <h5>Listado de Tickets</h5>
                                                             </div>
                                                             <div class="ibox-content">
                                                                 <div class="demo-container dx-viewport">
@@ -272,10 +272,6 @@
                         <hr>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" ng-click="updateQueja(QuejaInfo,1)" class="btn btn-sm btn-warning">Guardar Cambios</button>
-                <button type="button" ng-click="updateQueja(QuejaInfo,1)" class="btn btn-lg btn-success">Cerrar Ticket</button>
             </div>
         </div>
     </div>

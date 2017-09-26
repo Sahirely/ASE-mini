@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function ($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository) {
+registrationModule.controller('detalleController', function ($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository, nuevoMemorandumRepository) {
   // *****************************************************************************************************************************//
   // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
   // *****************************************************************************************************************************//
@@ -96,6 +96,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $scope.sinTiempoDisponible = 0
       $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
     }
+
+    $scope.getMemorandums()
   }
 
   // funcion reloj recursiva cada minuto
@@ -157,7 +159,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       })
     }
   }
-  function checkPrecancelation () {
+  function checkPrecancelation() {
     $scope.userData = userFactory.getUserData()
     preCancelacionesRepository.GetAllOrdersCanceled($scope.userData.idOperacion).then(function (result) {
       for (var i = 0; i < result.length; i++) {
@@ -223,7 +225,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             }
           }
           $scope.hasGPS = true
-        }else {
+        } else {
           $scope.hasGPS = false
         }
 
@@ -297,7 +299,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $('#loadModal').modal('hide')
       } else {
         $('#loadModal').modal('hide')
-      // alertFactory.error('No se puede obtener los documentos de la orden')
+        // alertFactory.error('No se puede obtener los documentos de la orden')
       }
     }, function (error) {
       $('#loadModal').modal('hide')
@@ -310,10 +312,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.totalSumaVenta = 0
     if ($scope.cotizaciones != null || $scope.cotizaciones != undefined) {
       $scope.cotizaciones.forEach(function (item) {
-        if (item.idEstatusCotizacion == 4) {} else {
+        if (item.idEstatusCotizacion == 4) { } else {
           if (item.detalle != null || item.detalle != undefined) {
             item.detalle.forEach(function (itemDetail) {
-              if (itemDetail.idEstatusPartida == 3 || itemDetail.idEstatusPartida == 4) {} else {
+              if (itemDetail.idEstatusPartida == 3 || itemDetail.idEstatusPartida == 4) { } else {
                 $scope.totalSumaCosto = $scope.totalSumaCosto + itemDetail.costoTotal
                 $scope.totalSumaVenta = $scope.totalSumaVenta + itemDetail.ventaTotal
               }
@@ -358,14 +360,14 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         text: 'No puede recepcionar la unidad.',
         timer: 3000
       }).then(
-        function () {},
+        function () { },
         // handling the promise rejection
         function (dismiss) {
           if (dismiss === 'timer') {
             console.log('I was closed by the timer')
           }
         }
-      )
+        )
     }
   }
 
@@ -416,7 +418,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             } else {
               var coti = filterFilter($scope.cotizaciones, { idCotizacion: $scope.idCotizacionActive })
               $scope.idUsuarioToken = result.data[0].idUsuario
-            // $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0])
+              // $scope.btnSaveCotizacion(result.data[0].idUsuario, coti[0])
             }
           }, 500)
         } else {
@@ -537,7 +539,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         params.idEstatusPartida = item.selOption
 
         aprobacionRepository.getUpdateStatusPartida(params).then(function (result) {
-          if (result.data.length > 0) {}
+          if (result.data.length > 0) { }
         }, function (error) {
           alertFactory.error('Aprobación getUpdateStatusPartida error.')
         })
@@ -575,7 +577,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   var texto = resp.data[0].texto
                   var bodyhtml = resp.data[0].bodyhtml
                   commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                    if (result.data.length > 0) {}
+                    if (result.data.length > 0) { }
                   }, function (error) {
                     // alertFactory.error('No se puede enviar el correo')
                   })
@@ -819,7 +821,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         })
 
         $('.btn-cerrar').removeAttr('disabled')
-      }, function (error) {})
+      }, function (error) { })
     }
   }
 
@@ -844,7 +846,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
           $('.btn-evidencia').removeAttr('disabled')
         })
-      }, function (error) {})
+      }, function (error) { })
     }
   }
 
@@ -977,7 +979,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                             $scope.FacturaLista()
                             $('#mensaje').text('¡Factura guardada!')
                             $('.errores_factura').append('<tr> <td width="20%"><strong>Info</strong></td> <td>Factura guardada correctamente.</td> </tr>')
-                          // detalleRepository.eliminaFactura(item.PathDB)
+                            // detalleRepository.eliminaFactura(item.PathDB)
                           } else {
                             $scope.FacturaLista()
                             $('#mensaje').text('¡Factura no guardada!')
@@ -998,9 +1000,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                       }
                     }
 
-                  // console.log("Valida RFC Receptor", rfc.RFCCliente, RFC_Receptor)
-                  // console.log("Valida RFC Emisor", rfc.RFCTaller, RFC_Emisor)
-                  // console.log("SubTotal", subTotal, $scope.cotizacionTotal)
+                    // console.log("Valida RFC Receptor", rfc.RFCCliente, RFC_Receptor)
+                    // console.log("Valida RFC Emisor", rfc.RFCTaller, RFC_Emisor)
+                    // console.log("SubTotal", subTotal, $scope.cotizacionTotal)
                   } else {
                     $scope.FacturaLista()
                   }
@@ -1014,7 +1016,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           }
           // detalleRepository.getGuardarFactura(ServerPath, item.Param.idOrden, item.Param.cotizacionFactura).then(function(result) {
 
-        // })
+          // })
         })
       }, function (error) {
         // console.log(error)
@@ -1085,7 +1087,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   var texto = resp.data[0].texto
                   var bodyhtml = resp.data[0].bodyhtml
                   commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                    if (result.data.length > 0) {}
+                    if (result.data.length > 0) { }
                   }, function (error) {
                     // alertFactory.error('No se puede enviar el correo')
                   })
@@ -1103,7 +1105,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             $('#loadModal').modal('show')
             $scope.getReporteConformidad($scope.detalleOrden.idOrden)
 
-          //  $scope.init()
+            //  $scope.init()
           })
         }
       })
@@ -1116,7 +1118,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         }, 1000)
         $('#loadModal').modal('show')
         $scope.getReporteConformidad($scope.detalleOrden.idOrden)
-      // $scope.init()
+        // $scope.init()
       })
     }
   }
@@ -1144,7 +1146,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                         var texto = resp.data[0].texto
                         var bodyhtml = resp.data[0].bodyhtml
                         commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                          if (result.data.length > 0) {}
+                          if (result.data.length > 0) { }
                         }, function (error) {
                           // alertFactory.error('No se puede enviar el correo')
                         })
@@ -1161,7 +1163,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   $scope.token_termino = ''
                   $('#loadModal').modal('show')
                   $scope.getReporteConformidad($scope.detalleOrden.idOrden)
-                // $('#loadModal').modal('hide')
+                  // $('#loadModal').modal('hide')
                 })
               } else {
                 $('#loadModal').modal('hide')
@@ -1197,7 +1199,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                           var texto = resp.data[0].texto
                           var bodyhtml = resp.data[0].bodyhtml
                           commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                            if (result.data.length > 0) {}
+                            if (result.data.length > 0) { }
                           }, function (error) {
                             // alertFactory.error('No se puede enviar el correo')
                           })
@@ -1214,7 +1216,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     $scope.token_termino = ''
                     $('#loadModal').modal('show')
                     $scope.getReporteConformidad($scope.detalleOrden.idOrden)
-                  // $('#loadModal').modal('hide')
+                    // $('#loadModal').modal('hide')
                   })
                 } else {
                   $('#loadModal').modal('hide')
@@ -1295,7 +1297,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_utilidad).then(function (r_token) {
         if (r_token.data[0].Success) {
           $scope.token_utilidad = ''
-          detalleRepository.tokenEstatus($scope.detalleOrden.idOrden).then(function (resp) {})
+          detalleRepository.tokenEstatus($scope.detalleOrden.idOrden).then(function (resp) { })
           detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (result) {
             if ($scope.hasDetalleModulo(5, 14) === true) {
               commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
@@ -1306,7 +1308,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   var texto = resp.data[0].texto
                   var bodyhtml = resp.data[0].bodyhtml
                   commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                    if (result.data.length > 0) {}
+                    if (result.data.length > 0) { }
                   }, function (error) {
                     // alertFactory.error('No se puede enviar el correo')
                   })
@@ -1365,7 +1367,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
               var texto = resp.data[0].texto
               var bodyhtml = resp.data[0].bodyhtml
               commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                if (result.data.length > 0) {}
+                if (result.data.length > 0) { }
               }, function (error) {
                 // alertFactory.error('No se puede enviar el correo')
               })
@@ -1472,7 +1474,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.showApruebaTermino = true
         $scope.userApruebaTermino = result.data[0].nombreCompleto
         $scope.userFechaApruebaTermino = result.data[0].fechaHora
-      }else {
+      } else {
         $scope.showApruebaTermino = false
         $scope.userApruebaTermino = ''
         $scope.userFechaApruebaTermino = ''
@@ -1680,7 +1682,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   var texto = resp.data[0].texto
                   var bodyhtml = resp.data[0].bodyhtml
                   commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                    if (result.data.length > 0) {}
+                    if (result.data.length > 0) { }
                   }, function (error) {
                     // alertFactory.error('No se puede enviar el correo')
                   })
@@ -1776,7 +1778,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     PreCancelationProcess($scope.userData.idRol, comentario)
   }
 
-  function PreCancelationProcess (rol, comentario) {
+  function PreCancelationProcess(rol, comentario) {
     var messageSuccess = (rol !== 2) ? 'Se ha realizado una pre-cancelación, espera hasta que el administrador apruebe el cambio.' : 'Se ha realizado una pre-cancelación, al ser administrador puedes aprobar el cambio en pre-cancelaciones.'
     if (comentario !== '') {
       detalleRepository.postPreCancelaOrden($scope.userData.idUsuario, $scope.detalleOrden.idOrden, comentario).then(function (result) {
@@ -1841,7 +1843,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           if (isConfirm) {
             $scope.cancelarCotizacion(Cotizacion.idCotizacion)
             location.href = '/unidad?economico=' + $scope.detalleOrden.numeroEconomico
-          // location.href = "/detalle?orden=" + $scope.numeroOrden + "&estatus=4"
+            // location.href = "/detalle?orden=" + $scope.numeroOrden + "&estatus=4"
           } else {
             swal('Cotizacion no cancelada')
           }
@@ -1878,9 +1880,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     // tipoComentario=1 <-- Cuando se rechaza una partida
     var repetido = 0
     angular.forEach($scope.comentarios, function (value, key) {
-      if (value.id == partida.idPartida) { repetido++; } else {}
+      if (value.id == partida.idPartida) { repetido++; } else { }
     })
-    if (repetido != 0) {} else {
+    if (repetido != 0) { } else {
       $scope.partidaComentario = []
       $scope.partidaComentario = partida
       $('.modal-dialog').css('width', '1050px')
@@ -1901,9 +1903,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         comentario: comentarios
       })
       $scope.updateComentariosPartidas()
-    // } else {
-    //    $scope.class_buttonTerminaTrabajo = ''
-    // }
+      // } else {
+      //    $scope.class_buttonTerminaTrabajo = ''
+      // }
     }
   }
   $scope.verificaComentario = function (tipoComentario, partida) {
@@ -1911,7 +1913,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     angular.forEach($scope.comentarios, function (value, key) {
       if (value.id == partida.idPartida) {
         $scope.comentarios.splice((key), 1)
-      } else {}
+      } else { }
     })
   }
   $scope.updateComentariosPartidas = function () {
@@ -2021,5 +2023,48 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // Abre Instructivo
   $scope.openPDF = function (str) {
     window.open(str, '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes')
+  }
+
+  $scope.getMemorandums = function () {
+    nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
+      .then(function successCallback(response) {
+        $scope.Memorandums = []
+        response.data.forEach(function (element) {
+          if (element.leido != 1) {
+            if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
+              $scope.Memorandums.push({
+                "idMemorandum": element.idMemorandum,
+                "fecha": new Date(element.fecha).toLocaleDateString() + ' ' + new Date(element.fecha).toLocaleTimeString(),
+                "titulo": element.titulo,
+                "descripcion": element.descripcion,
+                "leido": element.leido,
+                "aceptado": element.aceptado,
+                "comentarios": element.comentarios,
+                evidencias: [
+                  {
+                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                    "idEvidencia": element.idEvidencia,
+                    "evidencia": element.evidencia,
+                    "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+                  }
+                ]
+              })
+            }
+            else {
+              $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
+                "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                "idEvidencia": element.idEvidencia,
+                "evidencia": element.evidencia,
+                "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+              })
+            }
+          }
+        }, this);
+        if ($scope.Memorandums.find(X => X.leido != 1) != undefined) {
+          $rootScope.hasMemo = true
+          location.href = "/miCuenta"
+        }
+      })
+
   }
 })

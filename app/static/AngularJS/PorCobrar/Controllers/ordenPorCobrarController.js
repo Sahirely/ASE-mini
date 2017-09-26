@@ -1,4 +1,4 @@
-registrationModule.controller('ordenPorCobrarController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, ordenPorCobrarRepository, userFactory, cotizacionConsultaRepository) {
+registrationModule.controller('ordenPorCobrarController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, ordenPorCobrarRepository, userFactory, cotizacionConsultaRepository, nuevoMemorandumRepository) {
   $rootScope.modulo = 'ordenxCobrar'
 
   $scope.x = 0
@@ -107,6 +107,8 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Pagadas')
     })
+
+    $scope.getMemorandums()
   }
 
   // obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
@@ -182,11 +184,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       // valida el anio
       if (parseInt(fechaInicial[2]) > parseInt(fechaFinal[2])) {
         isValid = false
-      }else if (parseInt(fechaInicial[2]) == parseInt(fechaFinal[2])) {
+      } else if (parseInt(fechaInicial[2]) == parseInt(fechaFinal[2])) {
         // valida el mes
         if (parseInt(fechaInicial[0]) > parseInt(fechaFinal[0])) {
           isValid = false
-        }else if (parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])) {
+        } else if (parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])) {
           // valida el día
           if (parseInt(fechaInicial[1]) > parseInt(fechaFinal[1])) {
             isValid = false
@@ -262,5 +264,48 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las órdenes por cobrar')
     })
+  }
+
+  $scope.getMemorandums = function () {
+    nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
+      .then(function successCallback(response) {
+        $scope.Memorandums = []
+        response.data.forEach(function (element) {
+          if (element.leido != 1) {
+            if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
+              $scope.Memorandums.push({
+                "idMemorandum": element.idMemorandum,
+                "fecha": new Date(element.fecha).toLocaleDateString() + ' ' + new Date(element.fecha).toLocaleTimeString(),
+                "titulo": element.titulo,
+                "descripcion": element.descripcion,
+                "leido": element.leido,
+                "aceptado": element.aceptado,
+                "comentarios": element.comentarios,
+                evidencias: [
+                  {
+                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                    "idEvidencia": element.idEvidencia,
+                    "evidencia": element.evidencia,
+                    "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+                  }
+                ]
+              })
+            }
+            else {
+              $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
+                "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                "idEvidencia": element.idEvidencia,
+                "evidencia": element.evidencia,
+                "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+              })
+            }
+          }
+        }, this);
+        if ($scope.Memorandums.find(X => X.leido != 1) != undefined) {
+          $rootScope.hasMemo = true
+          location.href = "/miCuenta"
+        }
+      })
+
   }
 })

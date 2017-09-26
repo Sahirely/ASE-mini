@@ -13,6 +13,18 @@ registrationModule.factory('miCuentaRepository', function ($http) {
                 }
             });
 
+        },
+        getQuejaPorUsuario: function(idUsuario){
+            return $http({
+                url: quejasURL + 'consultaPorUsuario/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     }
 })

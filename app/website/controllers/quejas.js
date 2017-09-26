@@ -67,6 +67,21 @@ Quejas.prototype.get_consulta = function(req, res, next) {
     });
 }
 
+Quejas.prototype.get_consultaPorUsuario = function(req, res, next)
+{
+    var self = this;
+    var params = [
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    ];
+
+    this.model.query('SEL_QUEJA_BY_USUARIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Quejas.prototype.get_conultaTipoQuejaUsuario = function(req, res, next) {
     var self = this;
     var params = [
