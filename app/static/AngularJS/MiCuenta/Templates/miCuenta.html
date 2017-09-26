@@ -73,25 +73,25 @@
                                                                             <div ng-repeat="evidencia in memo.evidencias">
                                                                                 <div class="file" ng-if="evidencia.evidencia.indexOf('.jpg')==-1">
                                                                                     <a href="{{evidencia.rootPath}}/{{evidencia.evidencia}}" target="_blank">
-                                                                                                        <span class="corner"></span>
-                                                                                                        <div class="icon">
-                                                                                                                <i class="fa fa-file-pdf-o"></i>
-                                                                                                        </div>
-                                                                                                        <div class="file-name">
-                                                                                                            {{evidencia.evidencia}}
-                                                                                                        </div>
-                                                                                                    </a>
+                                                                                        <span class="corner"></span>
+                                                                                        <div class="icon">
+                                                                                            <i class="fa fa-file-pdf-o"></i>
+                                                                                        </div>
+                                                                                        <div class="file-name">
+                                                                                            {{evidencia.evidencia}}
+                                                                                        </div>
+                                                                                    </a>
                                                                                 </div>
                                                                                 <div class="file" ng-if="evidencia.evidencia.indexOf('.pdf')==-1">
                                                                                     <a href="{{evidencia.rootPath}}/{{evidencia.evidencia}}" target="_blank">
-                                                                                                <span class="corner"></span>
-                                                                                                <div class="image">
-                                                                                                    <img alt="image" class="img-responsive" src="{{evidencia.rootPath}}/{{evidencia.evidencia}}">
-                                                                                                </div>
-                                                                                                <div class="file-name">
-                                                                                                    {{evidencia.evidencia}}
-                                                                                                </div>
-                                                                                            </a>
+                                                                                        <span class="corner"></span>
+                                                                                        <div class="image">
+                                                                                            <img alt="image" class="img-responsive" src="{{evidencia.rootPath}}/{{evidencia.evidencia}}">
+                                                                                        </div>
+                                                                                        <div class="file-name">
+                                                                                            {{evidencia.evidencia}}
+                                                                                        </div>
+                                                                                    </a>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -158,7 +158,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-success btn-block" ng-click="saveQueja()">Enviar</button>
+                        <button class="btn btn-success btn-block" type="button" ng-click="saveQueja()">Enviar</button>
 
                     </div>
                 </div>
@@ -178,7 +178,7 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-6"></div>
-                
+
                 <div class="row">
                     <label>ESTATUS: </label>
                     <input type="text" disabled ng-model="QuejaInfo.estatus" class="form-control input-sm" />

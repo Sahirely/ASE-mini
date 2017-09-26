@@ -1,4 +1,4 @@
-registrationModule.controller('miCuentaController', function ($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository) {
+registrationModule.controller('miCuentaController', function($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository) {
     $rootScope.modulo = 'miCuenta'; // <<-- Para activar en que opción del menú se encuentra
 
     var orders = [{
@@ -13,12 +13,31 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     }]
 
 
+    // FILE UPLOAD
+    $scope.files = [];
+    $scope.uploadedFiles = []
+
+    $scope.fileUploadOptions = {
+        selectButtonText: "Selecciona...",
+        labelText: "o arrasta aquí",
+        uploadUrl: "/api/quejas/uploadQueja",
+        multiple: true,
+        accept: "application/pdf,image/*",
+        uploadMode: "useButtons",
+        bindingOptions: {
+            value: "files"
+        },
+        onUploaded: function(e) {
+            $scope.uploadedFiles.push({ "evidencia": e.request.responseText })
+        }
+    };
 
 
     $scope.Memorandums = []
     $scope.asuntoQueja = ""
     $scope.mensajeQueja = ""
     $scope.Quejas = []
+    $scope.contieneEvidencias = false
     $scope.catalogoTipoQuejaUsuario = []
 
     // DEVEX COMPONENTS
@@ -27,17 +46,17 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     $scope.selectedQueja = ""
     $scope.uploadedEvidenciasQueja = []
 
-    $scope.init = function () {
+    $scope.init = function() {
         $scope.userData = userFactory.getUserData()
         $scope.getMemorandums()
         $scope.getQuejas()
         $scope.getTipoQuejaUsuario($scope.userData.idRol)
     }
 
-    $scope.getMemorandums = function () {
+    $scope.getMemorandums = function() {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
-                response.data.forEach(function (element) {
+                response.data.forEach(function(element) {
 
                     if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
                         $scope.Memorandums.push({
@@ -48,16 +67,13 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                             "leido": element.leido,
                             "aceptado": element.aceptado,
                             "comentarios": element.comentarios,
-                            evidencias: [
-                                {
-                                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
-                                    "idEvidencia": element.idEvidencia,
-                                    "evidencia": element.evidencia
-                                }
-                            ]
+                            evidencias: [{
+                                "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                                "idEvidencia": element.idEvidencia,
+                                "evidencia": element.evidencia
+                            }]
                         })
-                    }
-                    else {
+                    } else {
                         $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
                             "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
                             "idEvidencia": element.idEvidencia,
@@ -69,7 +85,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
 
     }
 
-    $scope.getQuejas = function () {
+    $scope.getQuejas = function() {
         nuevoMemorandumRepository.getQuejas()
             .then(function successCallback(response) {
                 $scope.Quejas = response.data;
@@ -82,14 +98,16 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                     showBorders: true,
                     allowColumnResizing: true,
                     columnAutoWidth: true,
-                    columns: [
-                        {
-                            width: 50, cellTemplate: function (container, options) {
+                    columns: [{
+                            width: 50,
+                            cellTemplate: function(container, options) {
                                 container.append("<button type='button' class='btn btn-sm btn-default'><span class='fa fa-search'></span></button>")
                             }
                         },
                         {
-                            dataField: "estatus", dataType: "string", cellTemplate: function (element, info) {
+                            dataField: "estatus",
+                            dataType: "string",
+                            cellTemplate: function(element, info) {
                                 if (info.text == "GENERADA") {
                                     element.append("<span class='label label-warning'><i class='fa fa-check'></i>" + info.text + "</span></td>");
                                 }
@@ -101,13 +119,11 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         { dataField: "fechaFin", dataType: "date" },
                         { dataField: "mensaje", dataType: "string" }
                     ],
-                    filterRow:
-                    {
+                    filterRow: {
                         visible: true,
                         applyFilter: "auto"
                     },
-                    grouping:
-                    {
+                    grouping: {
                         contextMenuEnabled: true,
                         autoExpandAll: false
                     },
@@ -119,8 +135,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         enabled: true,
                         pageSize: 50
                     },
-                    pager:
-                    {
+                    pager: {
                         visible: true,
                         showInfo: true,
                         showPageSizeSelector: true,
@@ -131,7 +146,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         visible: true,
                         width: '400'
                     },
-                    onCellClick: function (e) {
+                    onCellClick: function(e) {
                         if (e.rowType == "data")
                             $scope.showQuejaInfo(e.row.data)
                     }
@@ -141,47 +156,60 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             });
     }
 
-    $scope.getTipoQuejaUsuario = function (idTipoUsuario) {
+    $scope.getTipoQuejaUsuario = function(idTipoUsuario) {
         miCuentaRepository.getTipoQuejaUsuario(idTipoUsuario)
             .then(function successCallback(response) {
                 $scope.catalogoTipoQuejaUsuario = response.data;
                 //CONFIGURAMOS
                 //DROP BOX QUEJAS
-                $scope.selectBoxQuejas =
-                    {
-                        dataSource: new DevExpress.data.DataSource({
-                            store: $scope.catalogoTipoQuejaUsuario
-                        }),
-                        valueExpr: "idCatalogoTipoQueja",
-                        displayExpr: "tipoQueja",
-                        placeholder: 'Selecciona el tipo de Queja',
-                        searchEnabled: true,
-                        searchExpr: ['tipoQueja'],
-                        onValueChanged: function (e) {
-                            $scope.selectedQueja = e.value;
-                        }
+                $scope.selectBoxQuejas = {
+                    dataSource: new DevExpress.data.DataSource({
+                        store: $scope.catalogoTipoQuejaUsuario
+                    }),
+                    valueExpr: "idCatalogoTipoQueja",
+                    displayExpr: "tipoQueja",
+                    placeholder: 'Selecciona el tipo de Queja',
+                    searchEnabled: true,
+                    searchExpr: ['tipoQueja'],
+                    onValueChanged: function(e) {
+                        $scope.selectedQueja = e.value;
                     }
+                }
             });
     }
 
-    $scope.saveQueja = function () {
+    $scope.saveQueja = function() {
+        $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
 
         if ($scope.selectedQueja == "" || $scope.asuntoQueja == "" || $scope.mensajeQueja == "") {
             alertFactory.error("Todos los datos son obligatorios para generar una queja.")
             return;
         }
 
-        nuevoMemorandumRepository.saveQueja($scope.userData.idUsuario, $scope.selectedQueja, $scope.asuntoQueja, $scope.mensajeQueja)
+        if ($scope.uploadedFiles.length < $scope.files.length) {
+            alertFactory.error('Se deben de cargar las imagenes en el servidor, dando clic en el boton Upload.');
+            return;
+        }
+
+        nuevoMemorandumRepository.saveQueja(
+                $scope.userData.idUsuario,
+                $scope.selectedQueja,
+                $scope.asuntoQueja,
+                $scope.mensajeQueja,
+                $scope.contieneEvidencias == true ? 1 : 0,
+                JSON.stringify($scope.uploadedFiles)
+            )
             .then(function successCallback(response) {
                 $scope.selectedQueja = ""
                 $scope.asuntoQueja = ""
                 $scope.mensajeQueja = ""
+                $scope.uploadedFiles = []
                 alertFactory.success('Queja generada de forma correcta.');
                 $scope.getQuejas()
             });
     }
 
-    $scope.showQuejaInfo = function (data) {
+    $scope.showQuejaInfo = function(data) {
         //OBTENEMOS LAS EVIDENCIAS Y EL HISTORICO DE LA QUEJA
         $scope.QuejaInfo = data
         $("#mdQueja").modal('show')
