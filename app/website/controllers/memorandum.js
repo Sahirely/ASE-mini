@@ -3,15 +3,15 @@ var MemorandumView = require('../views/ejemploVista'),
     moment = require('moment'),
     fs = require('fs'),
 
-    dirname = 'E:/ASEv2Documentos/public/',
-    rutaTemp = "E:/ASEv2Documentos/public/Temp/"
+    dirname = 'E:/ASEv2Documentos/public'
+    //dirname = 'C:/Users/OFICINA/Documents/uno/'
 
-    //dirname = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/',
-    //rutaTemp = "C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/Temp"
+//dirname = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/',
+//rutaTemp = "C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/Temp"
 
 
 //configuración para el objeto memorandum
-var Memorandum = function (conf) {
+var Memorandum = function(conf) {
     this.conf = conf || {};
 
     this.view = new MemorandumView();
@@ -19,14 +19,13 @@ var Memorandum = function (conf) {
         parameters: this.conf.parameters
     });
 
-    this.response = function () {
+    this.response = function() {
         this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next);
     }
 }
 
 //ALTA DE MEMORANDUM
-Memorandum.prototype.post_alta = function (req, res, next) {
-
+Memorandum.prototype.post_alta = function(req, res, next) {
 
     var self = this;
     var params = [
@@ -45,14 +44,15 @@ Memorandum.prototype.post_alta = function (req, res, next) {
 
     let evidencias = req.query.jsonEvidencias;
 
-    this.model.query('INS_MEMORANDUM_SP', params, function (error, result) {
+    this.model.query('INS_MEMORANDUM_SP', params, function(error, result) {
         if (result != undefined) {
             //MOVEMOS A LA NUEVA CARPETA DONDE SE ALOJAN LOS ARCHIVOS DEL SERVIDOR
             if (!fs.existsSync(dirname + '/memorandum/' + result[0].idMemorandum))
                 fs.mkdirSync(dirname + '/memorandum/' + result[0].idMemorandum);
-            JSON.parse(evidencias).forEach(function (element) {
+            JSON.parse(evidencias).forEach(function(element) {
                 console.log(element);
-                fs.createReadStream($scope.rutaTemp + element.evidencia).pipe(fs.createWriteStream(dirname + '/memorandum/' + result[0].idMemorandum + '/' + element.evidencia));
+                fs.writeFileSync(dirname + '/memorandum/' + result[0].idMemorandum + '/' + element.evidencia, fs.readFileSync(dirname + '/Temp/' + element.evidencia));
+                //fs.createReadStream($scope.rutaTemp + element.evidencia).pipe(fs.createWriteStream(dirname + '/memorandum/' + result[0].idMemorandum + '/' + element.evidencia));
             }, this);
         }
         self.view.expositor(res, {
@@ -63,13 +63,13 @@ Memorandum.prototype.post_alta = function (req, res, next) {
     });
 }
 
-Memorandum.prototype.get_consulta = function (req, res, next) {
+Memorandum.prototype.get_consulta = function(req, res, next) {
     var self = this;
     var params = [
         { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
     ];
 
-    this.model.query('SEL_MEMORANDUM_BY_USUARIO_SP', params, function (error, result) {
+    this.model.query('SEL_MEMORANDUM_BY_USUARIO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -77,7 +77,7 @@ Memorandum.prototype.get_consulta = function (req, res, next) {
     });
 }
 
-Memorandum.prototype.post_actualizaLog = function (req, res, next) {
+Memorandum.prototype.post_actualizaLog = function(req, res, next) {
     var self = this;
     var params = [
         { name: 'idMemorandum', value: req.query.idMemorandum, type: self.model.types.INT },
@@ -87,7 +87,7 @@ Memorandum.prototype.post_actualizaLog = function (req, res, next) {
         { name: 'comentarios', value: req.query.comentarios, type: self.model.types.STRING },
     ];
 
-    this.model.query('UPD_MEMORANDUM_LOG_SP', params, function (error, result) {
+    this.model.query('UPD_MEMORANDUM_LOG_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

@@ -4,10 +4,14 @@ var XLSX = require('xlsx');
 var path = require('path');
 var Load_Files = require('../controllers/load_files');
 //var dirname = 'E:/ASE_Temp/';
+
 var dirname = 'E:/ASEv2Documentos/public/archivos/';
+var dirnameTemp = 'E:/ASEv2Documentos/public/Temp/';
+//var dirname = 'E:/ASEv2Documentos/public/archivos/';
+//var dirnameTemp = 'C:/Users/OFICINA/Documents/uno/Temp/';
 var fs = require('fs');
 
-var Configurador = function (conf) {
+var Configurador = function(conf) {
     this.conf = conf || {};
 
     this.view = new ConfiguradorView();
@@ -15,16 +19,16 @@ var Configurador = function (conf) {
         parameters: this.conf.parameters
     });
 
-    this.response = function () {
+    this.response = function() {
         this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next);
     }
 }
 
 //Configuraciones existentes
-Configurador.prototype.get_operaciones = function (req, res, next) {
+Configurador.prototype.get_operaciones = function(req, res, next) {
     var self = this;
     var params = [];
-    this.model.query('SEL_CONFIGURACIONES_SP', params, function (error, result) {
+    this.model.query('SEL_CONFIGURACIONES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -33,14 +37,14 @@ Configurador.prototype.get_operaciones = function (req, res, next) {
 }
 
 //Obtiene los tipos de unidad del sistema de Proveedores
-Configurador.prototype.get_tipoUnidadesProveedores = function (req, res, next) {
+Configurador.prototype.get_tipoUnidadesProveedores = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
         value: req.query.idOperacion,
         type: self.model.types.INT
     }];
-    this.model.query('SEL_TIPOS_UNIDAD_SIS_PROVEEDORES_SP', params, function (error, result) {
+    this.model.query('SEL_TIPOS_UNIDAD_SIS_PROVEEDORES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -49,11 +53,11 @@ Configurador.prototype.get_tipoUnidadesProveedores = function (req, res, next) {
 }
 
 //Tipo Operaciones
-Configurador.prototype.get_tipoOperaciones = function (req, res, next) {
+Configurador.prototype.get_tipoOperaciones = function(req, res, next) {
     var self = this;
     var params = [];
 
-    this.model.query('SEL_FORMA_TIPO_DE_OPERACION_SP', params, function (error, result) {
+    this.model.query('SEL_FORMA_TIPO_DE_OPERACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -62,11 +66,11 @@ Configurador.prototype.get_tipoOperaciones = function (req, res, next) {
 }
 
 //Formas de Pago
-Configurador.prototype.get_formaPago = function (req, res, next) {
+Configurador.prototype.get_formaPago = function(req, res, next) {
     var self = this;
     var params = [];
 
-    this.model.query('SEL_FORMA_DE_PAGO_SP', params, function (error, result) {
+    this.model.query('SEL_FORMA_DE_PAGO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -75,7 +79,7 @@ Configurador.prototype.get_formaPago = function (req, res, next) {
 }
 
 //Inserta nueva Operación
-Configurador.prototype.post_nuevaOperacion = function (req, res, next) {
+Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -131,7 +135,7 @@ Configurador.prototype.post_nuevaOperacion = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_OPERACIONES_SP', params, function (error, result) {
+    this.model.post('INS_OPERACIONES_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -141,7 +145,7 @@ Configurador.prototype.post_nuevaOperacion = function (req, res, next) {
 }
 
 //Licitaciones
-Configurador.prototype.get_licitaciones = function (req, res, next) {
+Configurador.prototype.get_licitaciones = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -149,7 +153,7 @@ Configurador.prototype.get_licitaciones = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_CONTRATOS_SP', params, function (error, result) {
+    this.model.query('SEL_CONTRATOS_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -158,7 +162,7 @@ Configurador.prototype.get_licitaciones = function (req, res, next) {
 }
 
 //Inserta nueva Operación
-Configurador.prototype.post_contratoOperacion = function (req, res, next) {
+Configurador.prototype.post_contratoOperacion = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -174,7 +178,7 @@ Configurador.prototype.post_contratoOperacion = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_CONTRATO_OPERACION_SP', params, function (error, result) {
+    this.model.post('INS_CONTRATO_OPERACION_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -184,7 +188,7 @@ Configurador.prototype.post_contratoOperacion = function (req, res, next) {
 }
 
 //Inserta nueva Unidad
-Configurador.prototype.post_nuevaUnidad = function (req, res, next) {
+Configurador.prototype.post_nuevaUnidad = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -239,7 +243,7 @@ Configurador.prototype.post_nuevaUnidad = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.post('INS_UNIDAD_SP', params, function (error, result) {
+    this.model.post('INS_UNIDAD_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -249,7 +253,7 @@ Configurador.prototype.post_nuevaUnidad = function (req, res, next) {
 }
 
 //Centros De Trabajo
-Configurador.prototype.get_centrosDeTrabajo = function (req, res, next) {
+Configurador.prototype.get_centrosDeTrabajo = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -257,7 +261,7 @@ Configurador.prototype.get_centrosDeTrabajo = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_CENTROS_DE_TRABAJO_SP', params, function (error, result) {
+    this.model.query('SEL_CENTROS_DE_TRABAJO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -266,7 +270,7 @@ Configurador.prototype.get_centrosDeTrabajo = function (req, res, next) {
 }
 
 //unidades
-Configurador.prototype.get_tipoUnidades = function (req, res, next) {
+Configurador.prototype.get_tipoUnidades = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -274,7 +278,7 @@ Configurador.prototype.get_tipoUnidades = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -282,11 +286,11 @@ Configurador.prototype.get_tipoUnidades = function (req, res, next) {
     });
 }
 
-Configurador.prototype.get_getDatosFacturacion = function (req, res, next) {
+Configurador.prototype.get_getDatosFacturacion = function(req, res, next) {
     var self = this;
     var params = [{ name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }];
 
-    self.model.query('SEL_DATOS_FACTURACION_OPERACION_SP', params, function (error, result) {
+    self.model.query('SEL_DATOS_FACTURACION_OPERACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -294,13 +298,14 @@ Configurador.prototype.get_getDatosFacturacion = function (req, res, next) {
     });
 }
 
-Configurador.prototype.get_insContratoFacturacion = function (req, res, next) {
+Configurador.prototype.get_insContratoFacturacion = function(req, res, next) {
     var self = this;
     var params = [{ name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT },
-    { name: 'rfc', value: req.query.rfc, type: self.model.types.STRING },
-    { name: 'razonSocial', value: req.query.razonSocial, type: self.model.types.STRING }];
+        { name: 'rfc', value: req.query.rfc, type: self.model.types.STRING },
+        { name: 'razonSocial', value: req.query.razonSocial, type: self.model.types.STRING }
+    ];
 
-    self.model.query('INS_CONTRATO_OPERACION_FACTURACION_SP', params, function (error, result) {
+    self.model.query('INS_CONTRATO_OPERACION_FACTURACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -309,7 +314,7 @@ Configurador.prototype.get_insContratoFacturacion = function (req, res, next) {
 }
 
 //Modulos
-Configurador.prototype.get_catalogoModulos = function (req, res, next) {
+Configurador.prototype.get_catalogoModulos = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -321,7 +326,7 @@ Configurador.prototype.get_catalogoModulos = function (req, res, next) {
         type: self.model.types.STRING
     }];
 
-    this.model.query('SEL_CATALOGO_MODULOS_SP', params, function (error, result) {
+    this.model.query('SEL_CATALOGO_MODULOS_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -330,7 +335,7 @@ Configurador.prototype.get_catalogoModulos = function (req, res, next) {
 }
 
 //Detalle Modulos
-Configurador.prototype.get_detalleModulo = function (req, res, next) {
+Configurador.prototype.get_detalleModulo = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idModulo',
@@ -342,7 +347,7 @@ Configurador.prototype.get_detalleModulo = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_CATALOGO_DETALLE_MODULO_SP', params, function (error, result) {
+    this.model.query('SEL_CATALOGO_DETALLE_MODULO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -350,7 +355,7 @@ Configurador.prototype.get_detalleModulo = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_moduloPorDertalle = function (req, res, next) {
+Configurador.prototype.post_moduloPorDertalle = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -370,7 +375,7 @@ Configurador.prototype.post_moduloPorDertalle = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_DETALLE_MODULO_SP', params, function (error, result) {
+    this.model.post('INS_DETALLE_MODULO_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -379,7 +384,7 @@ Configurador.prototype.post_moduloPorDertalle = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_moduloAdicional = function (req, res, next) {
+Configurador.prototype.post_moduloAdicional = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -395,7 +400,7 @@ Configurador.prototype.post_moduloAdicional = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_MODULO_ADICIONAL_SP', params, function (error, result) {
+    this.model.post('INS_MODULO_ADICIONAL_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -405,7 +410,7 @@ Configurador.prototype.post_moduloAdicional = function (req, res, next) {
 }
 
 //Datos de la Operación
-Configurador.prototype.get_datosOperacion = function (req, res, next) {
+Configurador.prototype.get_datosOperacion = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idOperacion',
@@ -413,7 +418,7 @@ Configurador.prototype.get_datosOperacion = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_DATOS_OPERACION_SP', params, function (error, result) {
+    this.model.query('SEL_DATOS_OPERACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -422,7 +427,7 @@ Configurador.prototype.get_datosOperacion = function (req, res, next) {
 }
 
 //zonas
-Configurador.prototype.get_zonas = function (req, res, next) {
+Configurador.prototype.get_zonas = function(req, res, next) {
     var self = this;
     var params = [{
         name: 'idContratoOperacion',
@@ -430,7 +435,7 @@ Configurador.prototype.get_zonas = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_ZONAS_OPERACIONES_SP', params, function (error, result) {
+    this.model.query('SEL_ZONAS_OPERACIONES_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -438,7 +443,7 @@ Configurador.prototype.get_zonas = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_numeroUnidades = function (req, res, next) {
+Configurador.prototype.post_numeroUnidades = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -458,7 +463,7 @@ Configurador.prototype.post_numeroUnidades = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_UNIDAD_OPERACION_SP', params, function (error, result) {
+    this.model.post('INS_UNIDAD_OPERACION_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -468,23 +473,23 @@ Configurador.prototype.post_numeroUnidades = function (req, res, next) {
 }
 
 //muestra el numero de unidades por operacion
-Configurador.prototype.get_unidadOperacion = function (req, res, next) {
-    var self = this;
-    var params = [{
-        name: 'idOperacion',
-        value: req.query.idOperacion,
-        type: self.model.types.INT
-    }];
+Configurador.prototype.get_unidadOperacion = function(req, res, next) {
+        var self = this;
+        var params = [{
+            name: 'idOperacion',
+            value: req.query.idOperacion,
+            type: self.model.types.INT
+        }];
 
-    this.model.query('SEL_UNIDAD_OPERACION_SP', params, function (error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
+        this.model.query('SEL_UNIDAD_OPERACION_SP', params, function(error, result) {
+            self.view.expositor(res, {
+                error: error,
+                result: result
+            });
         });
-    });
-}
-//Carga de informacion de unidades en EXCEL
-Configurador.prototype.post_cargararMaxUnidades = function (req, res, next) {
+    }
+    //Carga de informacion de unidades en EXCEL
+Configurador.prototype.post_cargararMaxUnidades = function(req, res, next) {
 
     var self = this;
     var workbook = XLSX.readFile(dirname + req.body.archivo);
@@ -575,7 +580,7 @@ Configurador.prototype.post_cargararMaxUnidades = function (req, res, next) {
 };
 
 //Tipo de unidades por Operación
-Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
+Configurador.prototype.get_tipoUnidades_ = function(req, res, next) {
 
     var self = this;
     var params = [{
@@ -584,7 +589,7 @@ Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_TIPO_DE_UNIDAD_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -592,7 +597,7 @@ Configurador.prototype.get_tipoUnidades_ = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_moduloporFechas = function (req, res, next) {
+Configurador.prototype.post_moduloporFechas = function(req, res, next) {
 
     var object = {};
     var params = {};
@@ -613,7 +618,7 @@ Configurador.prototype.post_moduloporFechas = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_OPERACION_TIEMPO_EN_ESPERA_SP', params, function (error, result) {
+    this.model.post('INS_OPERACION_TIEMPO_EN_ESPERA_SP', params, function(error, result) {
         //Callback;
         object.error = error;
         object.result = result;
@@ -623,7 +628,7 @@ Configurador.prototype.post_moduloporFechas = function (req, res, next) {
 }
 
 //Tipo de unidades por Operación
-Configurador.prototype.get_datosOperacionTiempoEspera = function (req, res, next) {
+Configurador.prototype.get_datosOperacionTiempoEspera = function(req, res, next) {
 
     var self = this;
     var params = [{
@@ -632,7 +637,7 @@ Configurador.prototype.get_datosOperacionTiempoEspera = function (req, res, next
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_OPERACION_TIEMPO_EN_ESPERA_SP', params, function (error, result) {
+    this.model.query('SEL_OPERACION_TIEMPO_EN_ESPERA_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -642,14 +647,14 @@ Configurador.prototype.get_datosOperacionTiempoEspera = function (req, res, next
 
 
 //devuelve los trabajos con estatus iniciados
-Configurador.prototype.post_subirArchivo = function (req, res, next) {
+Configurador.prototype.post_subirArchivo = function(req, res, next) {
     var self = this;
     var Subir = new Load_Files();
     Subir.options({ // Type Options: * / img / xml / pdf / docs / xls
         "myFile2": { "Name": "Unidad", "Path": "E:/ASE_Temp", "Type": "*" }
     });
 
-    Subir.upload(function (respuesta) {
+    Subir.upload(function(respuesta) {
         self.view.expositor(res, {
             error: false,
             result: { success: true, respuesta: respuesta }
@@ -658,35 +663,35 @@ Configurador.prototype.post_subirArchivo = function (req, res, next) {
     // setTimeout( function(){},3000 );
 }
 
-Configurador.prototype.post_uploadMemo = function (req, res, next) {
+Configurador.prototype.post_uploadMemo = function(req, res, next) {
     var randomName = ""
     var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
-            nameFile = 'app/static/image/Memorandums/';
+        destination: function(req, file, cb) {
+            nameFile = dirnameTemp;
             cb(null, nameFile);
             res.end(randomName);
         },
-        filename: function (req, file, cb) {
+        filename: function(req, file, cb) {
             if (file.mimetype == "image/png")
                 randomName = new Date().getTime().toString() + ".jpg"
             if (file.mimetype == "image/jpeg")
                 randomName = new Date().getTime().toString() + ".jpg"
             if (file.mimetype == "application/pdf")
                 randomName = new Date().getTime().toString() + ".pdf"
-            path = nameFile +  randomName
-            cb(null, randomName);            
+            path = nameFile + randomName
+            cb(null, randomName);
         }
     });
     var upload = multer({
         storage: storage
     }).any();
 
-    upload(req, res, function (err) {
+    upload(req, res, function(err) {
         if (err) {
             //console.log(err);
             return res.end("Error al subir el archivo.");
         } else {
-            req.files.forEach(function (f) {
+            req.files.forEach(function(f) {
                 //console.log(f.originalname);
                 // and move file to final destination...
             });
@@ -697,10 +702,10 @@ Configurador.prototype.post_uploadMemo = function (req, res, next) {
 
 
 ////Método para insertar evidencia
-Configurador.prototype.post_uploadfiles = function (req, res, next) {
+Configurador.prototype.post_uploadfiles = function(req, res, next) {
     //res.end("File is uploaded");
     var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
+        destination: function(req, file, cb) {
             idTrabajo = (req.body.idTrabajo).constructor !== Array ? req.body.idTrabajo : req.body.idTrabajo[0];
             var idCotizacion = req.body.idCotizacion.constructor !== Array ? req.body.idCotizacion : req.body.idCotizacion[0];
             var idCategoria = (req.body.idCategoria).constructor != Array ? req.body.idCategoria : req.body.idCategoria[0];
@@ -823,7 +828,7 @@ Configurador.prototype.post_uploadfiles = function (req, res, next) {
                 cb(null, dirCopades);
             }
         },
-        filename: function (req, file, cb) {
+        filename: function(req, file, cb) {
             if (nameFile !== '') {
                 if (nameFile === 'Evidencia') {
                     nameFile = nameFile + obtieneConsecutivo(dirname);
@@ -842,12 +847,12 @@ Configurador.prototype.post_uploadfiles = function (req, res, next) {
         storage: storage
     }).any();
 
-    upload(req, res, function (err) {
+    upload(req, res, function(err) {
         if (err) {
             //console.log(err);
             return res.end("Error al subir el archivo.");
         } else {
-            req.files.forEach(function (f) {
+            req.files.forEach(function(f) {
                 //console.log(f.originalname);
                 // and move file to final destination...
             });
@@ -866,22 +871,22 @@ function guid() {
 };
 
 //Se obtiene la extensión del archivo
-var obtenerExtArchivo = function (file) {
+var obtenerExtArchivo = function(file) {
     return '.' + file.split('.').pop();
 }
 
-var obtieneConsecutivo = function (ruta) {
+var obtieneConsecutivo = function(ruta) {
     var consecutivo = fs.readdirSync(ruta);
     return consecutivo.length + 1;
 }
 
 //Tipos de Niveles
-Configurador.prototype.get_tiposAprobacion = function (req, res, next) {
+Configurador.prototype.get_tiposAprobacion = function(req, res, next) {
 
     var self = this;
     var params = [];
 
-    this.model.query('SEL_TIPO_APROBACION_SP', params, function (error, result) {
+    this.model.query('SEL_TIPO_APROBACION_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -890,21 +895,22 @@ Configurador.prototype.get_tiposAprobacion = function (req, res, next) {
 }
 
 //Partidas Unidad
-Configurador.prototype.get_partidasUnidad = function (req, res, next) {
+Configurador.prototype.get_partidasUnidad = function(req, res, next) {
 
     var self = this;
     var params = [{
-        name: 'idContratoOperacion',
-        value: req.query.idContratoOperacion,
-        type: self.model.types.INT
-    },
-    {
-        name: 'idTipoUnidad',
-        value: req.query.idTipoUnidad,
-        type: self.model.types.INT
-    }];
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idTipoUnidad',
+            value: req.query.idTipoUnidad,
+            type: self.model.types.INT
+        }
+    ];
 
-    this.model.query('SEL_PARTIDAS_UNIDAD_SP', params, function (error, result) {
+    this.model.query('SEL_PARTIDAS_UNIDAD_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -912,7 +918,7 @@ Configurador.prototype.get_partidasUnidad = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_eliminaDetalleModulo = function (req, res, next) {
+Configurador.prototype.post_eliminaDetalleModulo = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -924,7 +930,7 @@ Configurador.prototype.post_eliminaDetalleModulo = function (req, res, next) {
     }];
 
 
-    this.model.post('DEL_DETALLE_MODULO_SP', params, function (error, result) {
+    this.model.post('DEL_DETALLE_MODULO_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -933,7 +939,7 @@ Configurador.prototype.post_eliminaDetalleModulo = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_eliminaModulo = function (req, res, next) {
+Configurador.prototype.post_eliminaModulo = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -945,7 +951,7 @@ Configurador.prototype.post_eliminaModulo = function (req, res, next) {
     }];
 
 
-    this.model.post('DEL_MODULO_SP', params, function (error, result) {
+    this.model.post('DEL_MODULO_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -954,7 +960,7 @@ Configurador.prototype.post_eliminaModulo = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_nivelMonto = function (req, res, next) {
+Configurador.prototype.post_nivelMonto = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -982,7 +988,7 @@ Configurador.prototype.post_nivelMonto = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_DETALLE_APROBACION_MONTO_SP', params, function (error, result) {
+    this.model.post('INS_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -991,12 +997,12 @@ Configurador.prototype.post_nivelMonto = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_EliminaNivelMonto = function (req, res, next) {
+Configurador.prototype.post_EliminaNivelMonto = function(req, res, next) {
     var self = this;
     var object = {};
     var params = [{ name: 'idOperacionContrato', value: req.body.idOperacionContrato, type: self.model.types.INT }];
 
-    self.model.post('DEL_NIVEL_MONTO_SP', params, function (error, result) {
+    self.model.post('DEL_NIVEL_MONTO_SP', params, function(error, result) {
         object.error = error;
         object.result = result;
 
@@ -1005,7 +1011,7 @@ Configurador.prototype.post_EliminaNivelMonto = function (req, res, next) {
 
 }
 
-Configurador.prototype.post_nivelPartida = function (req, res, next) {
+Configurador.prototype.post_nivelPartida = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -1025,7 +1031,7 @@ Configurador.prototype.post_nivelPartida = function (req, res, next) {
     }];
 
 
-    this.model.post('INS_DETALLE_APROBACION_PARTIDA_SP', params, function (error, result) {
+    this.model.post('INS_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -1034,7 +1040,7 @@ Configurador.prototype.post_nivelPartida = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_modificacionNivelMonto = function (req, res, next) {
+Configurador.prototype.post_modificacionNivelMonto = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -1058,7 +1064,7 @@ Configurador.prototype.post_modificacionNivelMonto = function (req, res, next) {
     }];
 
 
-    this.model.post('UPD_DETALLE_APROBACION_MONTO_SP', params, function (error, result) {
+    this.model.post('UPD_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -1067,7 +1073,7 @@ Configurador.prototype.post_modificacionNivelMonto = function (req, res, next) {
     });
 }
 
-Configurador.prototype.post_modificacionNivelPartida = function (req, res, next) {
+Configurador.prototype.post_modificacionNivelPartida = function(req, res, next) {
     var object = {};
     var params = {};
     var self = this;
@@ -1087,7 +1093,7 @@ Configurador.prototype.post_modificacionNivelPartida = function (req, res, next)
     }];
 
 
-    this.model.post('UPD_DETALLE_APROBACION_PARTIDA_SP', params, function (error, result) {
+    this.model.post('UPD_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
         //Callback
         object.error = error;
         object.result = result;
@@ -1096,7 +1102,7 @@ Configurador.prototype.post_modificacionNivelPartida = function (req, res, next)
     });
 }
 
-Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
+Configurador.prototype.get_infoNivelMonto = function(req, res, next) {
 
     var self = this;
     var params = [{
@@ -1105,7 +1111,7 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
         type: self.model.types.INT
     }];
 
-    this.model.query('SEL_DETALLE_APROBACION_MONTO_SP', params, function (error, result) {
+    this.model.query('SEL_DETALLE_APROBACION_MONTO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -1114,14 +1120,14 @@ Configurador.prototype.get_infoNivelMonto = function (req, res, next) {
 }
 
 //Partidas Unidad
-Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
+Configurador.prototype.get_infoNivelPartida = function(req, res, next) {
 
     var self = this;
     var params = [{
-        name: 'idContratoOperacion',
-        value: req.query.idContratoOperacion,
-        type: self.model.types.INT
-    }//,
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
+            type: self.model.types.INT
+        } //,
         //  {
         //      name: 'idTipoUnidad',
         //      value: req.query.idTipoUnidad,
@@ -1129,7 +1135,7 @@ Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
         //  }
     ];
 
-    this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function (error, result) {
+    this.model.query('SEL_DETALLE_APROBACION_PARTIDA_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -1137,11 +1143,11 @@ Configurador.prototype.get_infoNivelPartida = function (req, res, next) {
     });
 }
 
-Configurador.prototype.get_catalogoTipoUsuarios = function (req, res, next) {
+Configurador.prototype.get_catalogoTipoUsuarios = function(req, res, next) {
     var self = this;
     var params = []
 
-    this.model.query('SEL_CATALOGO_TIPO_USUARIOS_SP', params, function (error, result) {
+    this.model.query('SEL_CATALOGO_TIPO_USUARIOS_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -1149,11 +1155,11 @@ Configurador.prototype.get_catalogoTipoUsuarios = function (req, res, next) {
     });
 }
 
-Configurador.prototype.get_usuarios = function (req, res, next) {
+Configurador.prototype.get_usuarios = function(req, res, next) {
     var self = this;
     var params = []
 
-    this.model.query('SEL_USUARIOS_SP', params, function (error, result) {
+    this.model.query('SEL_USUARIOS_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
@@ -1161,13 +1167,13 @@ Configurador.prototype.get_usuarios = function (req, res, next) {
     });
 }
 
-Configurador.prototype.get_zonas = function (req, res, next) {
+Configurador.prototype.get_zonas = function(req, res, next) {
     var self = this;
     var params = [
-        {name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT}
+        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }
     ]
 
-    this.model.query('SEL_ZONA_SP', params, function (error, result) {
+    this.model.query('SEL_ZONA_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result
