@@ -49,15 +49,15 @@
                                         </div>
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#memorandumsSinLeer" data-toggle="tab" target="_blank">Memorandums sin Leer</a></li>
-                                                <li class=""><a href="#memorandumsLeidos" data-toggle="tab" target="_blank">Memorandums Leídos</a></li>
-                                                <li class="" ng-hide="{{userData.idRol != 2 && userData.idRol != 3}} "><a href="#quejas" data-toggle="tab" target="_blank">Quejas y sugerencias</a></li>
+                                                <li ng-class="{'active': MemorandumsSinLeerTotal > 0}" ng-hide="MemorandumsSinLeerTotal==0"><a href="#memorandumsSinLeer"  data-toggle="tab" target="_blank"><span class="label label-danger">{{MemorandumsSinLeerTotal}}</span> Memorandums sin Leer</a></li>
+                                                <li ng-hide="MemorandumsLeidos==0"><a href="#memorandumsLeidos" data-toggle="tab" target="_blank"><span class="fa fa-check"></span> Memorandums Leídos</a></li>
+                                                <li ng-class="{'active': MemorandumsSinLeerTotal ==0}"><a href="#quejas" data-toggle="tab" target="_blank"><span class="fa fa-ticket"></span> Mis Tickets</a></li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="panel-body">
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="memorandumsSinLeer">
+                                            <div ng-hide="MemorandumsSinLeerTotal==0" class="tab-pane" ng-class="{'active': MemorandumsSinLeerTotal > 0}" id="memorandumsSinLeer">
                                                 <div class="feed-activity-list">
                                                     <div class="feed-element" ng-repeat="memo in Memorandums">
                                                         <div ng-if="memo.leido!=1">
@@ -101,7 +101,7 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
-                                                                        <div class="col-md-9">
+                                                                        <div class="col-md-8">
                                                                             <div class="radio radio-inline">
                                                                                 <input type="radio" name="option" ng-model="memo.aceptado" value="1" />
                                                                                 <label>He leído, entiendo y <strong>Acepto</strong> el Memorandum</label>
@@ -113,7 +113,7 @@
                                                                             <input type="input" class="form-control" ng-hide="memo.aceptado!='0'" placeholder="Introduce tus comentarios" ng-model="memo.comentarios"
                                                                             />
                                                                         </div>
-                                                                        <div class="col-md-3 text-right">
+                                                                        <div class="col-md-4 text-right">
                                                                             <button type="button" class="btn btn-default btn-sm" ng-click="updateMemo(memo,true)" ng-if="memo.leido==-1">Leer más tarde...</button>
                                                                             <button type="button" class="btn btn-lg btn-success" ng-click="updateMemo(memo,false)" ng-disabled="(memo.aceptado!='0' && memo.aceptado!='1') || (memo.aceptado == '0' && memo.comentarios == '')">Continuar</button>
                                                                         </div>
@@ -124,7 +124,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane" id="memorandumsLeidos">
+                                            <div ng-hide="MemorandumsLeidos==0" class="tab-pane" id="memorandumsLeidos">
                                                 <div class="feed-activity-list">
                                                     <div class="feed-element" ng-repeat="memo in Memorandums">
                                                         <div ng-if="memo.leido==1">
@@ -173,7 +173,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="tab-pane" id="quejas">
+                                            <div class="tab-pane" ng-class="{'active': MemorandumsSinLeerTotal == 0}" id="quejas">
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <div class="ibox">
@@ -184,7 +184,6 @@
                                                                 <div class="demo-container dx-viewport">
                                                                     <div id="dtgQuejas" dx-data-grid="gridQuejas"></div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>

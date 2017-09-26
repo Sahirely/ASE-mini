@@ -22,6 +22,8 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
 
 
     $scope.Memorandums = []
+    $scope.MemorandumsSinLeerTotal = 0
+    $scope.MemorandumsLeidosTotal = 0
     $scope.asuntoQueja = ""
     $scope.mensajeQueja = ""
     $scope.Quejas = []
@@ -46,6 +48,8 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
                 $scope.Memorandums = []       
+                $scope.MemorandumsLeidosTotal = 0
+                $scope.MemorandumsSinLeerTotal = 0
                 response.data.forEach(function (element) {
                     if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
                         $scope.Memorandums.push({
@@ -70,6 +74,10 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                         })
                     }
                 }, this);
+                
+                $scope.MemorandumsLeidosTotal = $scope.Memorandums.filter(X => X.leido == 1)==undefined?0:$scope.Memorandums.filter(X => X.leido == 1).length
+                $scope.MemorandumsSinLeerTotal = $scope.Memorandums.length - $scope.MemorandumsLeidosTotal
+                
             })
 
     }
@@ -139,9 +147,7 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                         if (e.rowType == "data")
                             $scope.showQuejaInfo(e.row.data)
                     }
-
                 }
-
             });
     }
 
