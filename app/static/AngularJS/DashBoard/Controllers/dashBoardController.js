@@ -399,7 +399,7 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
                         }
                     }
                 }, this);
-                if ($scope.Memorandums.length > 0)
+                if ($scope.Memorandums.find(X => X.leido !=1 )!=undefined)
                     {
                         $rootScope.hasMemo = true
                         location.href = "/miCuenta"
