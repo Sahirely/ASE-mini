@@ -198,9 +198,29 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
             });
     }
 
+    $scope.updateMemo = function (memo, leerMastarde) {
+        if (!leerMastarde) {
+            nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 1, memo.aceptado, memo.comentarios)
+            .then(function successCallback(response) {
+                $scope.getMemorandums();
+            })
+            
+        }
+        else
+            {
+                nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 0, 0, '')
+                .then(function successCallback(response) {
+                    $scope.getMemorandums();
+                })
+            }
+            
+    }
+
     $scope.showQuejaInfo = function(data) {
         //OBTENEMOS LAS EVIDENCIAS Y EL HISTORICO DE LA QUEJA
         $scope.QuejaInfo = data
         $("#mdQueja").modal('show')
     }
+
+
 });

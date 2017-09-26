@@ -6,9 +6,9 @@ var Load_Files = require('../controllers/load_files');
 //var dirname = 'E:/ASE_Temp/';
 
 var dirname = 'E:/ASEv2Documentos/public/archivos/';
-var dirnameTemp = 'E:/ASEv2Documentos/public/Temp/';
+var dirnameTemp = 'E:/ASEv2Documentos/public/temp/';
 //var dirname = 'E:/ASEv2Documentos/public/archivos/';
-//var dirnameTemp = 'C:/Users/OFICINA/Documents/uno/Temp/';
+//var dirnameTemp = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/Temp/';
 var fs = require('fs');
 
 var Configurador = function(conf) {

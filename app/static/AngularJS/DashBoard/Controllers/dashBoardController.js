@@ -404,7 +404,6 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
                         $rootScope.hasMemo = true
                         location.href = "/miCuenta"
                     }
-                    
             })
 
     }

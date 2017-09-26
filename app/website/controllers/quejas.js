@@ -17,8 +17,8 @@ var Quejas = function(conf) {
     }
 }
 
-//var dirname = 'E:/ASEv2Documentos/public/Temp/';
-var dirname = 'C:/Users/OFICINA/Documents/uno/'
+var dirname = 'E:/ASEv2Documentos/public/';
+//var dirname = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/'
 
 Quejas.prototype.post_alta = function(req, res, next) {
     var self = this;

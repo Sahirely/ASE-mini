@@ -60,7 +60,7 @@
                                             <div class="tab-pane active" id="memorandumsSinLeer">
                                                 <div class="feed-activity-list">
                                                     <div class="feed-element" ng-repeat="memo in Memorandums">
-                                                        <div ng-if="memo.leido==-1">
+                                                        <div ng-if="memo.leido!=1">
                                                             <span class="fa fa-user pull-left"></span>
                                                             <div class="media-body">
                                                                 <small class="pull-right">{{memo.fecha}}</small>
@@ -72,8 +72,8 @@
                                                                     <div ng-bind-html="memo.descripcion | trust"></div>
                                                                     <div class="row">
                                                                         <div class="col-lg-12">
-                                                                            <div class="file-box" style="display:inline-flex;">
-                                                                                <div ng-repeat="evidencia in memo.evidencias">
+                                                                            <div ng-repeat="evidencia in memo.evidencias">
+                                                                                <div class="file-box" style="display:inline-flex;">
                                                                                     <div class="file" ng-if="evidencia.evidencia.indexOf('.jpg')==-1">
                                                                                         <a href="{{evidencia.rootPath}}/{{evidencia.evidencia}}" target="_blank">
                                                                                                                 <span class="corner"></span>
@@ -100,6 +100,24 @@
                                                                             </div>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-9">
+                                                                            <div class="radio radio-inline">
+                                                                                <input type="radio" name="option" ng-model="memo.aceptado" value="1" />
+                                                                                <label>He leído, entiendo y <strong>Acepto</strong> el Memorandum</label>
+                                                                            </div>
+                                                                            <div class="radio radio-inline">
+                                                                                <input type="radio" name="option" ng-model="memo.aceptado" value="0" />
+                                                                                <label>He leído, entiendo y <strong>No Acepto</strong> el Memorandum</label>
+                                                                            </div>
+                                                                            <input type="input" class="form-control" ng-hide="memo.aceptado!='0'" placeholder="Introduce tus comentarios" ng-model="memo.comentarios"
+                                                                            />
+                                                                        </div>
+                                                                        <div class="col-md-3 text-right">
+                                                                            <button type="button" class="btn btn-default btn-sm" ng-click="updateMemo(memo,true)" ng-if="memo.leido==-1">Leer más tarde...</button>
+                                                                            <button type="button" class="btn btn-lg btn-success" ng-click="updateMemo(memo,false)" ng-disabled="(memo.aceptado!='0' && memo.aceptado!='1') || (memo.aceptado == '0' && memo.comentarios == '')">Continuar</button>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -109,7 +127,7 @@
                                             <div class="tab-pane" id="memorandumsLeidos">
                                                 <div class="feed-activity-list">
                                                     <div class="feed-element" ng-repeat="memo in Memorandums">
-                                                        <div ng-if="memo.leido!=-1">
+                                                        <div ng-if="memo.leido==1">
                                                             <span class="fa fa-user pull-left"></span>
                                                             <div class="media-body">
                                                                 <small class="pull-right">{{memo.fecha}}</small>
@@ -220,36 +238,45 @@
 </div>
 
 <div id="mdQueja" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
+                <h5>Queja # {{QuejaInfo.idQueja}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
             </div>
             <div class="modal-body">
-                <div class="col-md-6"></div>
-
                 <div class="row">
-                    <label>ESTATUS: </label>
-                    <input type="text" disabled ng-model="QuejaInfo.estatus" class="form-control input-sm" />
-                </div>
-                <div class="row">
-                    <label>TIPO: </label>
-                    <input type="text" disabled ng-model="QuejaInfo.tipoQueja" class="form-control input-sm" />
-                </div>
-                <div class="row">
-                    <label>ASUNTO: </label>
-                    <input type="text" disabled ng-model="QuejaInfo.asjunto" class="form-control input-sm" />
-                </div>
-                <div class="row">
-                    <label>MENSAJE: </label>
-                    <textarea disabled ng-model="QuejaInfo.mensaje" class="form-control input-sm" rows="10" />
+                    <div class="col-md-6">
+                        <h3>DATOS GENERALES</h3>
+                        <div class="row">
+                            <label>ESTATUS: </label>
+                            <input type="text" disabled ng-model="QuejaInfo.estatus" class="form-control input-sm" />
+                        </div>
+                        <div class="row">
+                            <label>TIPO: </label>
+                            <input type="text" disabled ng-model="QuejaInfo.tipoQueja" class="form-control input-sm" />
+                        </div>
+                        <div class="row">
+                            <label>ASUNTO: </label>
+                            <input type="text" disabled ng-model="QuejaInfo.asunto" class="form-control input-sm" />
+                        </div>
+                        <div class="row">
+                            <label>MENSAJE: </label>
+                            <textarea disabled ng-model="QuejaInfo.mensaje" class="form-control input-sm" rows="10" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h3>EVIDENCIAS</h3>
+                        <hr>
+                    </div>
                 </div>
             </div>
-            <div class="modal-body">
-
+            <div class="modal-footer">
+                <button type="button" ng-click="updateQueja(QuejaInfo,1)" class="btn btn-sm btn-warning">Guardar Cambios</button>
+                <button type="button" ng-click="updateQueja(QuejaInfo,1)" class="btn btn-lg btn-success">Cerrar Ticket</button>
             </div>
         </div>
     </div>
