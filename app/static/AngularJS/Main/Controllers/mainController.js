@@ -8,12 +8,12 @@
   // $rootScope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
   // *****************************************************************************************************************************//
 
-  //MEETING
+  // MEETING
   $scope.selectedUsuariosMeeting = []
   $scope.selectionMode = 'all'
   $scope.selectAllMode = 'page'
 
-  $scope.meetingObjetivo = ""
+  $scope.meetingObjetivo = ''
 
   var citaMsg = localStorageService.get('citaMsg')
 
@@ -24,7 +24,6 @@
   // Gestiona la conexión con el socket
   $scope.socket = null
   $scope.connected = false
-
 
   $scope.init = function () {
     $scope.userData = userFactory.getUserData()
@@ -52,14 +51,14 @@
       // localStorageService.get('userData')
       $scope.getNumeroEconomico()
       $scope.getNumeroOrdenes()
-      /*
+
+      // SOCKETS
       setInterval(function () {
         if (!$scope.connected != '') {
           console.log('Intentando reconexión...')
           SocketConnect()
         }
       }, 10000)
-      */
     }
   }
 
@@ -84,7 +83,7 @@
         if (result.data.length > 0) {
           $scope.chattaller = result.data
         }
-      }, function (error) { })
+      }, function (error) {})
     }
   }
 
@@ -94,7 +93,7 @@
         if (result.data.length > 0) {
           $scope.chatcliente = result.data
         }
-      }, function (error) { })
+      }, function (error) {})
     }
   }
 
@@ -104,7 +103,7 @@
       $scope.clearComments()
       $scope.cargaChatTaller()
     },
-      function (error) { })
+      function (error) {})
   }
 
   $scope.EnviarComentario2 = function (comentario) {
@@ -113,7 +112,7 @@
       $scope.BorraComentario()
       $scope.cargaChatCliente()
     },
-      function (error) { })
+      function (error) {})
   }
 
   $scope.clearComments = function () {
@@ -208,12 +207,12 @@
 
   $scope.catalogoUnidad = function () {
     window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0')
-    // location.href = 'http://35.165.2.64:4200/unidades?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada
+  // location.href = 'http://35.165.2.64:4200/unidades?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada
   }
 
   $scope.getUsuarios = function () {
     configuradorRepository.getUsuarios()
-      .then(function successCallback(response) {
+      .then(function successCallback (response) {
         var dataSourceUsuarios = new DevExpress.data.DataSource({
           store: response.data,
           searchOperation: 'contains',
@@ -242,7 +241,7 @@
             dataSourceUsuarios.load()
           }
         }
-      }, function errorCallback(response) { })
+      }, function errorCallback (response) {})
   }
 
   $scope.createMeeting = function () {
@@ -254,19 +253,19 @@
       maxParticipants = result.data[0].maxParticipants
       uniqueMeetingId = result.data[0].uniqueMeetingId
       conferenceCallInfo = result.data[0].conferenceCallInfo
-      estatus = "Activa"
+      estatus = 'Activa'
 
-      //YA QUE TENEMOS EL MEETING LO INICIAMOS
+      // YA QUE TENEMOS EL MEETING LO INICIAMOS
       mainRepository.getStartMeeting('CTDHpgp4ArTRsQp35yUr1iKelcEN', result.data[0].meetingid).then(function (result) {
         console.log(result.data)
         hostURL = result.data.hostURL
         mainRepository.saveMeeting(joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus).then(function (result) {
           console.log(result.data)
-          $scope.meetingObjetivo = ""
+          $scope.meetingObjetivo = ''
           $scope.selectedUsuariosMeeting = []
           swal({
             title: 'Videoconferencia',
-            text: "La Videoconferencia se creó de forma correcta con el siguiente ID: " + uniqueMeetingId + ".",
+            text: 'La Videoconferencia se creó de forma correcta con el siguiente ID: ' + uniqueMeetingId + '.',
             type: 'success',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -275,9 +274,9 @@
             cancelButtonText: 'Cerrar esta ventada'
           }, function (isConfirm) {
             if (isConfirm) {
-              window.open(hostURL,"_blank","",false)
+              window.open(hostURL, '_blank', '', false)
             }
-          });
+          })
         })
       })
     })
@@ -299,7 +298,7 @@
   // Declara los mensajes principales del socket
   var SocketJoin = function () {
     // Envío mis datos de usuario  
-    //HARDCODE CORREGIR ALAN!!!!
+    // HARDCODE CORREGIR ALAN!!!!
     $scope.socket.emit('login', { user: $scope.userData.idUsuario })
 
     $scope.socket.on('hello', function (data) {
@@ -307,16 +306,9 @@
       $scope.connected = true
     })
 
-    $scope.socket.on('pkgNotificacion', function (data) {
+    $scope.socket.on('message', function (data) {
       // Obtiene Notificaciones
-      console.log(data.length + ' dato(s) recibido(s) at: ' + new Date().toString())
-      getNSuccessCallback(data, null, null, null)
-    })
-
-    $scope.socket.on('pkgAprobacion', function (data) {
-      // Obtiene Notificaciones
-      console.log(data.length + ' Aprobacion(es) recibida(s) at: ' + new Date().toString())
-      getASuccessCallback(data, null, null, null)
+      console.log('llegue')
     })
 
     $scope.socket.on('disconnect', function () {
