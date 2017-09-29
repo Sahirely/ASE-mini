@@ -27,6 +27,7 @@ Meeting.prototype.post_alta = function(req, res, next) {
         { name: 'conferenceCallInfo', value: req.query.conferenceCallInfo, type: self.model.types.STRING },
         { name: 'estatus', value: req.query.estatus, type: self.model.types.STRING },
         { name: 'asunto', value: req.query.asunto, type: self.model.types.STRING },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
         { name: 'jsonUsuariosSelected', value: req.query.jsonUsuariosSelected, type: self.model.types.STRING }
     ];
 

@@ -263,7 +263,7 @@
                     mainRepository.getStartMeeting(resultado.data[0].accessToken, result.data[0].meetingid).then(function(result) {
                         console.log(result.data)
                         hostURL = result.data.hostURL
-                        mainRepository.saveMeeting(joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus, $scope.meetingObjetivo, JSON.stringify($scope.selectedUsuariosMeeting)).then(function(result) {
+                        mainRepository.saveMeeting(joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus, $scope.meetingObjetivo, JSON.stringify($scope.selectedUsuariosMeeting), $scope.userData.idUsuario).then(function(result) {
                             console.log(result.data)
 
                             //$scope.selectedUsuariosMeeting = []

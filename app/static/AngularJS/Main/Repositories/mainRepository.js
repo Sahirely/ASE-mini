@@ -75,7 +75,7 @@ registrationModule.factory('mainRepository', function($http) {
             });
 
         },
-        saveMeeting: function(joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus, asunto, jsonUsuariosSelected) {
+        saveMeeting: function(joinurl, hostURL, meetingid, maxParticipants, uniqueMeetingId, conferenceCallInfo, estatus, asunto, jsonUsuariosSelected, idUsuario) {
             return $http({
                 url: meetingUrl + 'alta/',
                 method: "POST",
@@ -88,6 +88,7 @@ registrationModule.factory('mainRepository', function($http) {
                     conferenceCallInfo: conferenceCallInfo,
                     estatus: estatus,
                     asunto: asunto,
+                    idUsuario: idUsuario,
                     jsonUsuariosSelected: jsonUsuariosSelected
                 },
                 headers: {
