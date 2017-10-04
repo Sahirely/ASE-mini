@@ -170,6 +170,38 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        ObtenerOrdenesDeServicioEnProceso: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+            var data = {
+                idContratoOperacion: idContratoOperacion,
+                numeroOrden: numeroOrden,
+                idEjecutivo: idEjecutivo,
+                idUsuario: idUsuario
+            };
+            return $http({
+                url: searchUrl + 'ObtenerOrdenesDeServicioEnProceso',
+                method: "GET",
+                params: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        ObtenerOrdenesDeServicioEnEntrega: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+            var data = {
+                idContratoOperacion: idContratoOperacion,
+                numeroOrden: numeroOrden,
+                idEjecutivo: idEjecutivo,
+                idUsuario: idUsuario
+            };
+            return $http({
+                url: searchUrl + 'ObtenerOrdenesDeServicioEnEntrega',
+                method: "GET",
+                params: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
 
 
