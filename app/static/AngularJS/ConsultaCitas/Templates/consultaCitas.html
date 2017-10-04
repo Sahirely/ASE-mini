@@ -8,79 +8,13 @@
     </div>
     <hr>
     <div class="btn-group pull-right" style="padding:0 10px 10px 0 ;" ng-hide="hideSwitchBtn">
-    <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+        <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
         btnSwitch.classVenta='btn btn-default';
         btnSwitch.classCosto='btn btn-success'">Costo</button>
-    <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+        <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
         btnSwitch.classVenta='btn btn-success';
         btnSwitch.classCosto='btn btn-default'">Venta</button>
     </div>
-    <!--div class="panel panel-default">
-        <div class="panel-heading">
-            Filtros de Búsqueda
-        </div>
-        <div class="panel-body">
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
-                    <label class="font-noraml">{{zona.etiqueta}}</label>
-                    <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
-                        <option value="0">Seleccione</option>
-                        <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
-                            {{z.nombre}}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
-                    <label class="font-noraml">Ejecutivo</label>
-                    <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
-                        <option value="">Seleccione un Ejecutivo</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior">
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
-                    <label class="font-noraml">Mes</label>
-                    <div class="input-group date">
-                        <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                    <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
-                    <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
-                        <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
-                        <span class="input-group-addon"> a </span>
-                        <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
-                    <label class="font-noraml">Fecha</label>
-                    <div class="input-group date">
-                        <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
-                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                    <br>
-                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </div>
-            </div>
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior espacioSuperior" ng-show="false">
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                    <label class="font-noraml">Número de Orden</label>
-                    <input type="text" placeholder="Buscar Orden" class="form-control" id="numeroTrabajo" ng-model="numeroTrabajo" ng-enter="">
-                </div>
-                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                    <br>
-                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary" ng-click="consultaCotizacionesFiltros(1,1)">
-                        <span class="glyphicon glyphicon-search"></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div-->
     <div class="wrapper wrapper-content  fadeIn">
 
         <div class="row">
@@ -88,66 +22,65 @@
                 <div class="col-xs-12">
                     <div id="accordion" role="tablist" aria-multiselectable="true">
                         <div class="ibox">
-                          <div class="panel panel-default">
-                              <div class="ibox-title " role="tab" id="headingOne">
-                                  <h5>Filtros de búsqueda</h5>
-                                  <div class="ibox-tools">
-                                      <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne"
-                                          aria-expanded="true" aria-controls="collapseOne">
-                                          <i class="fa fa-chevron-down"></i>
-                                      </a>
-                                  </div>
-                              </div>
-                              <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
-                              <div class="row">
-                                  <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
-                                      <label class="font-noraml">{{zona.etiqueta}}</label>
-                                      <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
+                            <div class="panel panel-default">
+                                <div class="ibox-title " role="tab" id="headingOne">
+                                    <h5>Filtros de búsqueda</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
+                                            <label class="font-noraml">{{zona.etiqueta}}</label>
+                                            <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
                                           <option value="0">Seleccione</option>
                                           <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
                                               {{z.nombre}}
                                           </option>
                                       </select>
-                                  </div>
-                                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
-                                      <label class="font-noraml">Ejecutivo</label>
-                                      <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
+                                            <label class="font-noraml">Ejecutivo</label>
+                                            <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
                                           <option value="">Seleccione un Ejecutivo</option>
                                       </select>
-                                  </div>
-                              </div>
-                              <div class="row espacioInferior">
-                                  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
-                                      <label class="font-noraml">Mes</label>
-                                      <div class="input-group date">
-                                          <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
-                                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                      <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
-                                      <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
-                                          <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
-                                          <span class="input-group-addon"> a </span>
-                                          <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
-                                      <label class="font-noraml">Fecha</label>
-                                      <div class="input-group date">
-                                          <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
-                                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                      </div>
-                                  </div>
-                                  <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                      <br>
-                                      <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
+                                        </div>
+                                    </div>
+                                    <div class="row espacioInferior">
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
+                                            <label class="font-noraml">Mes</label>
+                                            <div class="input-group date">
+                                                <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                                            <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
+                                            <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
+                                                <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
+                                                <span class="input-group-addon"> a </span>
+                                                <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
+                                            <label class="font-noraml">Fecha</label>
+                                            <div class="input-group date">
+                                                <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                            <br>
+                                            <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
                                           <span class="glyphicon glyphicon-search"></span>
                                       </button>
-                                  </div>
-                              </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
                     </div>
                 </div>
@@ -156,33 +89,19 @@
 
         <div class=" row col-xs-12 col-sm-6 col-md-6 col-lg-6">
         </div>
-        <div class="row col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" >
-            <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-                <input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro('')">
-                <label for="rdTodas"> Todos </label>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <input type="radio" value="2" id="rdConTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro(2)">
-                <label for="rdConTaller"> Nuevas Con Taller </label>
-            </div>
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <input type="radio" value="1" id="rdSinTaller" name="opcionEstatus" ng-model="filtroEstatus" ng-change="cambioFiltro(1)">
-                <label for="rdSinTaller"> Nuevas Sin Taller </label>
-            </div>
-        </div>
-        <div class="row" >
+        <div class="row">
             <div class="panel-body">
                 <tabset>
                     <tab heading="Citas" index="0" active="ConTallerActive">
-                         <br/>
-                        <div class="row sumatorias" >
+                        <br/>
+                        <div class="row sumatorias">
                             <div class="col-xs-3 pull-right">
                                 <div ng-hide="btnSwitch.showCostoVenta">
-                                    <h2 class="no-margins">{{sumatoria_conTaller |  currency: "$"}}</h2>
+                                    <h2 class="no-margins">{{sumatoria_conTaller | currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
                                 </div>
                                 <div ng-show="btnSwitch.showCostoVenta">
-                                    <h2 class="no-margins">{{sumatoria_costo_conTaller |  currency: "$"}}</h2>
+                                    <h2 class="no-margins">{{sumatoria_costo_conTaller | currency: "$"}}</h2>
                                     <small>precio costo s/iva</small>
                                 </div>
                             </div>
@@ -209,15 +128,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenes | filter:{idEstatusOrden: '2'} "  ng-click="seleccionarOrden2(ordenesTaller)">
+                                    <tr title="Ver detalles" ng-repeat="ordenesTaller in totalOrdenesTaller" ng-click="seleccionarOrden(ordenesTaller.numeroOrden,2)">
                                         <td>{{ordenesTaller.nombreCliente}}</td>
                                         <td>{{ordenesTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesTaller.numeroOrden}}</td>
                                         <td>{{ordenesTaller.numeroEconomico}}</td>
                                         <td>{{ordenesTaller.nombreZona}}</td>
 
-                                        <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesTaller.nombreTipoOrdenServicio}}</td>
-                                        <td ng-if="ordenesTaller.idTipoOrden == 2">{{ordenesTaller.nombreTipoORden}}</td>
+                                        <td>{{ordenesTaller.nombreTipoOrdenServicio}}</td>
                                         <td>{{ordenesTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesTaller.comentarioOrden}}</td>
                                         <td>{{ordenesTaller.nombreEstatusOrden}}</td>
@@ -225,7 +143,7 @@
                                         <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesTaller.venta | currency}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
-                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesTaller.tiempoEspera}}</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesTaller.tiempoEspera}} días</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -233,14 +151,14 @@
                     </tab>
                     <tab heading="Citas Sin Taller" index="1" active="SinTallerActive" ng-hide="userData.idRol == 4">
                         <br/>
-                        <div class="row sumatorias" >
+                        <div class="row sumatorias">
                             <div class="col-xs-3 pull-right">
                                 <div ng-hide="btnSwitch.showCostoVenta">
-                                    <h2 class="no-margins">{{sumatoria_sinTaller |  currency: "$"}}</h2>
+                                    <h2 class="no-margins">{{sumatoria_sinTaller | currency: "$"}}</h2>
                                     <small>precio venta s/iva</small>
                                 </div>
                                 <div ng-show="btnSwitch.showCostoVenta">
-                                    <h2 class="no-margins">{{sumatoria_costo_sinTaller |  currency: "$"}}</h2>
+                                    <h2 class="no-margins">{{sumatoria_costo_sinTaller | currency: "$"}}</h2>
                                     <small>precio costo s/iva</small>
                                 </div>
                             </div>
@@ -266,41 +184,22 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr title="Ver detalles" ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} "  ng-click="seleccionarOrden1(ordenesSinTaller)">
+                                    <tr title="Ver detalles" ng-repeat="ordenesSinTaller in totalOrdenesSinTaller " ng-click="seleccionarOrden(ordenesSinTaller.numeroOrden,1)">
                                         <td>{{ordenesSinTaller.nombreCliente}}</td>
                                         <td>{{ordenesSinTaller.consecutivoOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroOrden}}</td>
                                         <td>{{ordenesSinTaller.numeroEconomico}}</td>
                                         <td>{{ordenesSinTaller.nombreZona}}</td>
 
-                                        <td ng-if="ordenesSinTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
-                                        <td ng-if="ordenesSinTaller.idTipoOrden == 2">{{ordenesSinTaller.nombreTipoORden}}</td>
+                                        <td>{{ordenesSinTaller.nombreTipoOrdenServicio}}</td>
                                         <td>{{ordenesSinTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
                                         <td>{{ordenesSinTaller.comentarioOrden}}</td>
                                         <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
                                         <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{ordenesSinTaller.costo | currency}}</td>
                                         <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesSinTaller.venta | currency}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
-                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesSinTaller.tiempoEspera}}</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesSinTaller.tiempoEspera}} días</td>
                                     </tr>
-                                        <!--<tr ng-repeat="ordenesSinTaller in totalOrdenes | filter:{idEstatusOrden: '1'} ">
-                                        <td>{{ordenesSinTaller.nombreCliente}}</td>
-                                        <td>{{ordenesSinTaller.consecutivoOrden}}</td>
-                                        <td>{{ordenesSinTaller.numeroOrden}}</td>
-                                        <td>{{ordenesSinTaller.numeroEconomico}}</td>
-                                        <td>{{ordenesSinTaller.nombreZona}}</td>
-                                        <td ng-if="ordenesTaller.idTipoOrden != 2">{{ordenesSinTaller.nombreTipoORden}}</td>
-                                        <td>{{ordenesSinTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
-                                        <td>{{ordenesSinTaller.comentarioOrden}}</td>
-                                        <td>{{ordenesSinTaller.nombreEstatusOrden}}</td>
-                                        <td>{{ordenesSinTaller.nombreUsuario}}</td>
-                                        <td>{{ordenesSinTaller.tiempoEspera}}</td>
-                                        <td ng-show="userData.idRol == 2 || userData.idRol == 3">{{ordenesSinTaller.venta | currency : "$"}}</td>
-                                        <td ng-hide="userData.idRol == 1">
-                                            <button class="btn btn-info btn-xs" title="Editar" ng-click="actualizarOrden(ordenesSinTaller)" ><i class="glyphicon glyphicon-refresh"></i></button>
-                                            <button class="btn btn-danger btn-xs" title="Cancelar"><i class="glyphicon glyphicon-remove"></i></button>
-                                        </td>
-                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
