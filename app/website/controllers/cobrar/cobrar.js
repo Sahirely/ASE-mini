@@ -15,10 +15,12 @@ var Cobrar = function (conf) {
 Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   var self = this
   var params = [
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
     { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
-    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT }
+    { name: 'numeroOrden', value: "", type: self.model.types.STRING },
+    { name: 'idEjecutivo', value: 0, type: self.model.types.INT }
   ]
-  this.query.execute('SEL_PORCOBRAR_SP', params, res)
+  this.query.execute('SEL_OPE_ORDEN_POR_COBRAR_SP', params, res)
 }
 
 Cobrar.prototype.get_obtenerordenpago = function (req, res, next) {

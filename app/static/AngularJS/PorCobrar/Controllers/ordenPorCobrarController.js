@@ -53,18 +53,17 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     // Obtengo la lista de tablas
     $('.dataTablePorCobrar').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', { 'idUsuario': 1, 'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,'idUsuario': $scope.userData.idUsuario }).then(function (result) {
       $scope.porCobrar = result.data
       $scope.total = 0
       angular.forEach($scope.porCobrar, function (value, key) {
-        $scope.total = $scope.total + value.ventasiniva
+        $scope.total = $scope.total + value.venta
       })
 
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
     }, function (error) {
       alertFactory.error('No se puenen obtener las órdenes por cobrar')
     })
-
     // Obtengo la lista de tablas
     $('.dataTablePrefactura').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': 1 }).then(function (result) {
@@ -73,7 +72,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las prefacturas generadas')
     })
-
+    
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': 1 }).then(function (result) {
@@ -82,16 +81,17 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Enviada al Cliente')
     })
-
+    /*
     // Obtengo la lista de tablas
-    $('.dataTableAbonadas').DataTable().destroy()
+    $('.dataTableAbonadas').DataTable().destroy();
     $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': 1 }).then(function (result) {
-      $scope.abonadas = result.data
-      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 100)
+      $scope.abonadas = result.data;
+      //$scope.data = result.data;
+      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 100);
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Abonadas')
     })
-
+    */
     $('.dataTablePagadas').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', { 'idUsuario': 1 }).then(function (result) {
       $scope.pagadas = result.data
@@ -99,16 +99,19 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Pagadas')
     })
-
+    
+    
+    /*
     $('.dataTableOrdenPago').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerordenpago', { 'idUsuario': 1 }).then(function (result) {
       $scope.ordenPago = result.data
       globalFactory.filtrosTabla('dataTableOrdenPago', 'Ordenes de Pago', 100)
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Pagadas')
-    })
+    })*/
 
     $scope.getMemorandums()
+    
   }
 
   // obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
