@@ -53,11 +53,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     // Obtengo la lista de tablas
     $('.dataTablePorCobrar').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', { 'idUsuario': 1, 'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,'idUsuario': $scope.userData.idUsuario }).then(function (result) {
       $scope.porCobrar = result.data
       $scope.total = 0
       angular.forEach($scope.porCobrar, function (value, key) {
-        $scope.total = $scope.total + value.ventasiniva
+        $scope.total = $scope.total + value.venta
       })
 
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
@@ -65,6 +65,20 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       alertFactory.error('No se puenen obtener las órdenes por cobrar')
     })
 
+    /*// Obtengo la lista de tablas (COBRANZA)
+    $('.dataTableCobrazna').DataTable().destroy()
+    $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': 1 }).then(function (result) {
+      $scope.cobranza = result.data
+     var sumatoria = 0;
+          for(var i=0;i<result.data.length;i++){
+            sumatoria += parseFloat(result.data[i].subTotal);
+        };
+       $scope.total = sumatoria;
+      globalFactory.filtrosTabla('dataTableCobrazna', 'Documento Cobranza', 100)
+    }, function (error) {
+      alertFactory.error('No se puenen obtener los documentos generados')
+    })
+   */
     // Obtengo la lista de tablas
     $('.dataTablePrefactura').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': 1 }).then(function (result) {
@@ -73,7 +87,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las prefacturas generadas')
     })
-
+    
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': 1 }).then(function (result) {
@@ -82,16 +96,17 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Enviada al Cliente')
     })
-
+    /*
     // Obtengo la lista de tablas
-    $('.dataTableAbonadas').DataTable().destroy()
+    $('.dataTableAbonadas').DataTable().destroy();
     $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': 1 }).then(function (result) {
-      $scope.abonadas = result.data
-      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 100)
+      $scope.abonadas = result.data;
+      //$scope.data = result.data;
+      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 100);
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Abonadas')
     })
-
+    */
     $('.dataTablePagadas').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', { 'idUsuario': 1 }).then(function (result) {
       $scope.pagadas = result.data
@@ -99,16 +114,19 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Pagadas')
     })
-
+    
+    
+    /*
     $('.dataTableOrdenPago').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerordenpago', { 'idUsuario': 1 }).then(function (result) {
       $scope.ordenPago = result.data
       globalFactory.filtrosTabla('dataTableOrdenPago', 'Ordenes de Pago', 100)
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Pagadas')
-    })
+    })*/
 
     $scope.getMemorandums()
+    
   }
 
   // obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
@@ -307,5 +325,80 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
         }
       })
 
+  }
+
+  //Busqueda de las mejores coincidencias para los datos Copade
+  $scope.buscaCoincidencia = function (idDatosCopade) {
+    $('.dataTableCoincidencia').DataTable().destroy();
+    $('.dataTableOrdenesPorCobrar').DataTable().destroy();
+    $scope.ordenes = [];
+    $scope.coincidencia = [];
+    $scope.copades.forEach(function (p, i) {
+        if (p.idDatosCopade == idDatosCopade) {
+            $scope.folio = $scope.copades[i].ordenSurtimiento;
+            $scope.monto = $scope.copades[i].subTotal;
+            $scope.numeroCopade = $scope.copades[i].numeroCopade;
+            $scope.numeroCopade == null ? $scope.numeroCopade = 'S/N COPADE' : $scope.copades[i].numeroCopade;
+            $scope.fechacarga = $scope.copades[i].fechaCarga;
+            $scope.fecharecepcion = $scope.copades[i].fechaRecepcionCopade;
+            $scope.numeroestimacion = $scope.copades[i].numeroEstimacion;
+            $scope.idDatosDeCopade = $scope.copades[i].idDatosCopade;
+            //get('obtenerpagadas', { 'idUsuario': 1 })
+            ordenPorCobrarRepository.get('MejorCoincidencia',{'folio':$scope.folio, 'monto':$scope.monto}).then(function (result) {
+                $scope.coincidencia = result.data;
+                $scope.trabajos=[];
+                $('#mejorCoincidencia').modal('show');
+                setTimeout(function () {
+                    $('.dataTableCoincidencia').DataTable();
+                }, 1500);
+            }, function (error) {
+                alertFactory.error("Error al obtener las COPADE");
+            });
+            ordenPorCobrarRepository.get('OrdenesPorCobrar',{'monto':$scope.monto}).then(function (result) {
+                $scope.ordenes = result.data;
+                setTimeout(function () {
+                    $('.dataTableOrdenesPorCobrar').DataTable();
+                }, 1500);
+            }, function (error) {
+                alertFactory.error("No se pudieron obtener las órdenes por cobrar");
+            });
+        }
+    });
+  }
+  //Selecciona una orden en Radio y obtiene idTrabajo
+  $scope.seleccionMejorCoincidencia = function (idTrabajo, montoOrdenSeleccionado, numeroTrabajo) {
+    
+        var trabajo = false;
+      if ($scope.checkedTrabajos.length>0) {
+          for (i = 0; i < $scope.checkedTrabajos.length; i++) {
+              if ($scope.checkedTrabajos[i].idTrabajo == idTrabajo) {
+                  trabajo = true;
+                    if ($scope.checkedTrabajos[i].check ) {
+                      $scope.checkedTrabajos[i].check= false;
+                  }else{
+                      $scope.checkedTrabajos[i].check= true;
+                  } 
+              }
+        
+          } 
+          if (!trabajo) {
+                obj = new Object();
+              obj.idTrabajo= idTrabajo;
+              obj.numeroTrabajo= numeroTrabajo;
+              obj.montoOrdenSeleccionado= montoOrdenSeleccionado;
+              obj.check = true;
+              $scope.checkedTrabajos.push(obj); 
+          }
+      }else{
+          obj = new Object();
+          obj.idTrabajo= idTrabajo;
+          obj.numeroTrabajo= numeroTrabajo;
+          obj.montoOrdenSeleccionado= montoOrdenSeleccionado;
+          obj.check = true;
+          $scope.checkedTrabajos.push(obj); 
+      }
+        
+      // $scope.idDeTrabajo = idTrabajo;
+      // $scope.montoOrdenSeleccionado = montoOrdenSeleccionado;
   }
 })

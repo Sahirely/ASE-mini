@@ -111,9 +111,9 @@
                                 <div class="row">
                                     <div class="col-xs-12">
                                         <div class="btn-group pull-right">
-                                            <label class="btn btn-primary" btn-radio="'cot'" ng-change="changeGrouper(1)" ng-model="option">
+                                            <!--label class="btn btn-primary" btn-radio="'cot'" ng-change="changeGrouper(1)" ng-model="option">
                                                Cotizaciones <span class="fa fa-usd"></span>
-                                            </label>
+                                            </label-->
                                             <label class="btn btn-warning active" btn-radio="'ord'" ng-change="changeGrouper(2)" ng-model="option">
                                                 Órdenes <span class="fa fa-file-text-o"></span>
                                             </label>
@@ -130,38 +130,40 @@
                                                 <th ng-hide=" idGrouper == 3">Número de Órden</th>
                                                 <th ng-hide=" idGrouper != 1">Cotización</th>
                                                 <th ng-hide=" idGrouper == 3">Número Económico</th>
-                                                <th ng-hide=" idGrouper == 3">Placas</th>
-                                                <th ng-hide=" idGrouper != 1">Tipo Orden</th>
-                                                <th ng-hide=" idGrouper == 3">Provisión</th>
+                                                <th ng-hide=" idGrouper == 3">Zona</th>
                                                 <th ng-hide=" idGrouper != 1">Proveedor</th>
+                                                <th ng-hide=" idGrouper != 1">Tipo Orden</th>
+                                                <th ng-hide=" idGrouper == 3">Fecha Creación Orden</th>
                                                 <th ng-hide=" idGrouper != 1">Factura Proveedor</th>
                                                 <th ng-hide=" idGrouper != 1">Monto Factura Proveedor</th>
                                                 <th ng-hide=" idGrouper != 1">Saldo Factura Proveedor</th>
-                                                <th>Centro de Trabajo</th>
-                                                <th>Costo sin IVA</th>
-                                                <th>Venta sin IVA</th>
+                                                <th>Comentarios adicionales</th>
                                                 <th>Estatus</th>
+                                                <th>Costo</th>
+                                                <th>Agendo</th>
+                                                <th>Tiempo Transcurrido Tiempo Asignado</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="(key, value) in porCobrar | groupBy: grouper " ng-click="AbrirOrden(value[0])" class="trTableSelect">
-                                                <td>{{value[0].cliente}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].consecutivo}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].numeroOrden}}</td>
-                                                <td ng-hide=" idGrouper != 1">{{value[0].numeroCotizacion}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].economico}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].placas}}</td>
-                                                <td ng-hide=" idGrouper != 1">{{value[0].tipoOrden}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].provision}}</td>
-                                                <td ng-hide=" idGrouper != 1">{{ value[0].proveedor}}</td>
-                                                <td ng-hide=" idGrouper != 1">{{value[0].facturaProveedor}}</td>
-                                                <td ng-hide=" idGrouper != 1">{{value[0].montoFacturaProveedor}}</td>
-                                                <td ng-hide=" idGrouper != 1">{{value[0].saldoFacturaProveedor}}</td>
-                                                <td>{{value[0].centroTrabajo}}</td>
-                                                <td>{{value[0].costosiniva | currency}}</td>
-                                                <td>{{value[0].ventasiniva | currency}}</td>
-                                                <td>{{value[0].estatus }}</td>
-                                            </tr>
+                                            <tr ng-repeat="value in porCobrar track by value.idOrden | groupBy: grouper " ng-click="AbrirOrden(value)" class="trTableSelect">
+                                                <td>{{value.nombreCliente}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.consecutivoOrden}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.numeroOrden}}</td>
+                                                <td ng-hide=" idGrouper != 1">{{value.numeroCotizacion}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.numeroEconomico}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.nombreZona}}</td>
+                                                <td ng-hide=" idGrouper != 1">{{ value.proveedor}}</td>
+                                                <td ng-hide=" idGrouper != 1">{{value.nombreTipoOrdenServicio}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
+                                                <td ng-hide=" idGrouper != 1">{{value.facturaProveedor}}</td>
+                                                <td ng-hide=" idGrouper != 1">{{value.montoFacturaProveedor}}</td>
+                                                <td ng-hide=" idGrouper != 1">{{value.saldoFacturaProveedor}}</td>
+                                                <td>{{value.comentarioOrden}}</td>
+                                                <td>{{value.nombreEstatusOrden }}</td>
+                                                <td>{{value.costo | currency}}</td>
+                                                <td>{{value.nombreCompleto }}</td>
+                                                <td>{{value.tiempoEsperaTranscurrido }} días</td>
+                                            </tr>   
                                         </tbody>
                                     </table>
                                 </div>
@@ -218,6 +220,61 @@
                                     </table>
                                 </div>
                             </tab> -->
+                            <tab heading="Documento Cobranza" index="1">
+                                <div class="row sumatorias">
+                                    <div class="col-xs-3 pull-right">
+                                        <div>
+                                            <h2 class="no-margins">Precio total: {{ total | currency: "$" }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="btn-group pull-right">
+                                            <label class="btn btn-primary" btn-radio="'cot'" ng-change="changeGrouper(1)" ng-model="option">
+                                               Cotizaciones <span class="fa fa-usd"></span>
+                                            </label>
+                                            <label class="btn btn-warning active" btn-radio="'ord'" ng-change="changeGrouper(2)" ng-model="option">
+                                                Órdenes <span class="fa fa-file-text-o"></span>
+                                            </label>
+                                            <label class="btn btn-success" btn-radio="'pay'" ng-change="changeGrouper(3)" ng-model="option">
+                                                Orden Pago <span class="fa fa-credit-card"></span>
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="table-responsive contenedorTabla">
+                                    <table class="table table-striped table-bordered table-hover dataTableCobrazna">
+                                        <thead>
+                                            <tr>
+                                                <th>Número Copade</th>
+                                                <th>Órden de Surtimiento</th>
+                                                <th>No. Estimación</th>
+                                                <th>Precio venta sin IVA</th>
+                                                <th>Precio venta con IVA</th>
+                                                <th>Fecha Carga de ASE</th>
+                                                <th>Fecha Llegada Copade</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="(key, value) in cobranza | groupBy: grouper " class="trTableSelect">
+                                                <td>{{copade.numeroCopade}}</td>
+                                                <td>{{copade.ordenSurtimiento}}</td>
+                                                <td>{{copade.numeroEstimacion}}</td>
+                                                <td>{{copade.subTotal | currency}}</td>
+                                                <td>{{copade.total | currency}}</td>
+                                                <td>{{copade.fechaCarga | date:'dd-MM-yyyy HH:mm'}}</td>
+                                                <td>{{copade.fechaRecepcionCopade}}</td>
+                                                <td>
+                                                    <button class="btn btn-primary" type="button" ng-click="buscaCoincidencia(copade.idDatosCopade)" data-toggle="tooltip" tooltip="Buscar coincidencias" tooltip-placement="left"><span class="glyphicon glyphicon-search"></span></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </tab>
 
                             <tab heading="PreFactura Generada" index="2">
                                 <div class="row sumatorias">
@@ -568,7 +625,7 @@
         </div>
     </div>
 </div>
-<div class="modal" id="mejorCoincidencia" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal" id="mejorCoincidencia" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content  flipInY">
             <div class="modal-header">
