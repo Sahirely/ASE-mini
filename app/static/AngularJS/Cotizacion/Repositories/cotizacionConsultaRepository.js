@@ -1,29 +1,29 @@
 var searchUrl = global_settings.urlCORS + '/api/cotizacion/';
 
-registrationModule.factory('cotizacionConsultaRepository', function ($http) {
+registrationModule.factory('cotizacionConsultaRepository', function($http) {
     return {
-        getNivelZona: function(idContratoOperacion){
-          return $http({
-              url: searchUrl + 'nivelZona',
-              method: "GET",
-              params: {
-                  idContratoOperacion: idContratoOperacion
-              },
-              headers:{ 'Content-Type': 'application/json' }
-          });
+        getNivelZona: function(idContratoOperacion) {
+            return $http({
+                url: searchUrl + 'nivelZona',
+                method: "GET",
+                params: {
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers: { 'Content-Type': 'application/json' }
+            });
         },
-        cancelaCotizacion: function(idUsuario, idCotizacion){
-          return $http({
-              url: searchUrl + 'cancelaCot',
-              method: "POST",
-              params: {
-                  idUsuario: idUsuario,
-                  idCotizacion: idCotizacion
-              },
-              headers:{ 'Content-Type': 'application/json' }
-          });
+        cancelaCotizacion: function(idUsuario, idCotizacion) {
+            return $http({
+                url: searchUrl + 'cancelaCot',
+                method: "POST",
+                params: {
+                    idUsuario: idUsuario,
+                    idCotizacion: idCotizacion
+                },
+                headers: { 'Content-Type': 'application/json' }
+            });
         },
-        getZonas: function (idContratoOperacion, idNivel, idUsuario) {
+        getZonas: function(idContratoOperacion, idNivel, idUsuario) {
             return $http({
                 url: searchUrl + 'zonas/',
                 method: "GET",
@@ -37,7 +37,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                 }
             });
         },
-        obtieneEjecutivos: function(idContratoOperacion){
+        obtieneEjecutivos: function(idContratoOperacion) {
             return $http({
                 url: searchUrl + 'ejecutivos/',
                 method: "GET",
@@ -45,7 +45,7 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
                     idContratoOperacion: idContratoOperacion
                 },
                 headers: {
-                'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 }
             });
         },
@@ -93,48 +93,81 @@ registrationModule.factory('cotizacionConsultaRepository', function ($http) {
               }
           });
         },*/
-        getOrdenes: function(idContratoOperacion, idZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, porOrden, tipoConsulta){
-          var objConsultaOrden = {
-              idContratoOperacion: idContratoOperacion,
-              idZona: idZona,
-              idEjecutivo: idEjecutivo,
-              fechaMes: fechaMes,
-              fechaInicial: fechaInicial,
-              fechaFin: fechaFin,
-              fechaEspecifico: fechaEspecifico,
-              NumOrden: NumOrden,
-              porOrden: porOrden,
-              tipoConsulta: tipoConsulta
-          };
+        getOrdenes: function(idContratoOperacion, idZona, idEjecutivo, fechaMes, fechaInicial, fechaFin, fechaEspecifico, NumOrden, porOrden, tipoConsulta) {
+            var objConsultaOrden = {
+                idContratoOperacion: idContratoOperacion,
+                idZona: idZona,
+                idEjecutivo: idEjecutivo,
+                fechaMes: fechaMes,
+                fechaInicial: fechaInicial,
+                fechaFin: fechaFin,
+                fechaEspecifico: fechaEspecifico,
+                NumOrden: NumOrden,
+                porOrden: porOrden,
+                tipoConsulta: tipoConsulta
+            };
             return $http({
                 url: searchUrl + 'ObtenerOrdenes/',
                 method: "GET",
                 params: objConsultaOrden,
                 headers: {
-                'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
                 }
             });
         },
 
-        ObtenerOrdenesTipoConsulta: function(fechaInicial, fechaFin, fechaEspecifico, fechaMes, numeroOrden, idZona, idEjecutivo, idUsuario, idContratoOperacion, tipoConsulta){
-          var objConsultaOrden = {
-              fechaInicial: fechaInicial,
-              fechaFin: fechaFin,
-              fechaEspecifico:fechaEspecifico,
-              fechaMes: fechaMes,
-              numeroOrden: numeroOrden,
-              idZona: idZona,
-              idEjecutivo: idEjecutivo,
-              idUsuario: idUsuario,
-              idContratoOperacion: idContratoOperacion,
-              tipoConsulta: tipoConsulta
-          };
+        ObtenerOrdenesTipoConsulta: function(fechaInicial, fechaFin, fechaEspecifico, fechaMes, numeroOrden, idZona, idEjecutivo, idUsuario, idContratoOperacion, tipoConsulta) {
+            var objConsultaOrden = {
+                fechaInicial: fechaInicial,
+                fechaFin: fechaFin,
+                fechaEspecifico: fechaEspecifico,
+                fechaMes: fechaMes,
+                numeroOrden: numeroOrden,
+                idZona: idZona,
+                idEjecutivo: idEjecutivo,
+                idUsuario: idUsuario,
+                idContratoOperacion: idContratoOperacion,
+                tipoConsulta: tipoConsulta
+            };
             return $http({
                 url: searchUrl + 'ObtenerOrdenesTipoConsulta/',
                 method: "GET",
                 params: objConsultaOrden,
                 headers: {
-                'Content-Type': 'application/json'
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        ObtenerOrdenesConTaller: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+            var data = {
+                idContratoOperacion: idContratoOperacion,
+                numeroOrden: numeroOrden,
+                idEjecutivo: idEjecutivo,
+                idUsuario: idUsuario
+            };
+            return $http({
+                url: searchUrl + 'ObtenerOrdenesConTaller',
+                method: "GET",
+                params: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+        },
+        ObtenerOrdenesSinTaller: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+            var data = {
+                idContratoOperacion: idContratoOperacion,
+                numeroOrden: numeroOrden,
+                idEjecutivo: idEjecutivo,
+                idUsuario: idUsuario
+            };
+            return $http({
+                url: searchUrl + 'ObtenerOrdenesSinTaller',
+                method: "GET",
+                params: data,
+                headers: {
+                    'Content-Type': 'application/json'
                 }
             });
         }

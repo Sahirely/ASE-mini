@@ -6,7 +6,8 @@ registrationModule.factory('ordenPorCobrarRepository', function ($http) {
       return $http({
         url: cobrarUrl + method,
         method: 'GET',
-        params: params
+        params: params,
+        timeout: 1000000
       })
     },
     post: function (method, params) {

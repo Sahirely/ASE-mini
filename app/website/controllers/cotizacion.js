@@ -23,17 +23,17 @@ var Cotizacion = function(conf) {
 Cotizacion.prototype.get_ConsultaOrdenes = function(req, res, next) {
     var self = this;
     var params = [
-            {name: 'fechaInicial', value: req.query.fechaInicial, type: self.model.types.STRING },
-            {name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING },
-            {name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-            {name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
-            {name: 'tipoConsulta', value: req.query.tipoConsulta, type: self.model.types.INT },
-            {name: 'fechaEspecifico', value: req.query.fecha, type: self.model.types.STRING },
-            {name: 'fechaMes', value: req.query.fechaMes, type: self.model.types.STRING },
-            {name: 'numeroOrden', value: req.query.numeroTrabajo, type: self.model.types.STRING },
-            {name: 'nivelZona', value: req.query.NivelZona, type: self.model.types.INT },
-            {name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
-        ];
+        { name: 'fechaInicial', value: req.query.fechaInicial, type: self.model.types.STRING },
+        { name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING },
+        { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+        { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+        { name: 'tipoConsulta', value: req.query.tipoConsulta, type: self.model.types.INT },
+        { name: 'fechaEspecifico', value: req.query.fecha, type: self.model.types.STRING },
+        { name: 'fechaMes', value: req.query.fechaMes, type: self.model.types.STRING },
+        { name: 'numeroOrden', value: req.query.numeroTrabajo, type: self.model.types.STRING },
+        { name: 'nivelZona', value: req.query.NivelZona, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    ];
 
     this.model.query('SEL_TOTAL_ORDENES_SERVICIO_SP', params, function(error, result) {
         self.view.expositor(res, {
@@ -96,6 +96,7 @@ Cotizacion.prototype.get_ObtenerOrdenes = function(req, res, next) {
         });
     });
 }
+
 
 //Obtiene las zonas por nivel y padre seleccionado
 Cotizacion.prototype.get_zonas = function(req, res, next) {
@@ -199,11 +200,11 @@ Cotizacion.prototype.post_cotizacionNueva = function(req, res, next) {
         name: 'idOrden',
         value: req.body.idOrden,
         type: self.model.types.STRING
-    },{
+    }, {
         name: 'idCatalogoTipoOrdenServicio',
         value: req.body.idCatalogoTipoOrdenServicio,
         type: self.model.types.INT
-    },{
+    }, {
         name: 'existeTaller',
         value: req.body.existeTaller,
         type: self.model.types.INT
@@ -260,27 +261,27 @@ Cotizacion.prototype.get_ObtenerOrdenesTipoConsulta = function(req, res, next) {
         name: 'fechaInicial',
         value: req.query.fechaInicial,
         type: self.model.types.STRING
-    },  {
+    }, {
         name: 'fechaFin',
         value: req.query.fechaFin,
         type: self.model.types.STRING
-    },  {
+    }, {
         name: 'fechaEspecifico',
         value: req.query.fechaEspecifico,
         type: self.model.types.STRING
-    },  {
+    }, {
         name: 'fechaMes',
         value: req.query.fechaMes,
         type: self.model.types.STRING
-    },  {
+    }, {
         name: 'numeroOrden',
         value: req.query.numeroOrden,
         type: self.model.types.STRING
-    },  {
+    }, {
         name: 'idZona',
         value: req.query.idZona,
         type: self.model.types.INT
-    },  {
+    }, {
         name: 'idEjecutivo',
         value: req.query.idEjecutivo,
         type: self.model.types.INT
@@ -299,12 +300,65 @@ Cotizacion.prototype.get_ObtenerOrdenesTipoConsulta = function(req, res, next) {
     }];
 
     this.model.query('SEL_TOTAL_ORDENES_SERVICIO_SP', params, function(error, result) {
-       
+
         self.view.expositor(res, {
             error: error,
             result: result
         });
     });
+}
+Cotizacion.prototype.get_ObtenerOrdenesConTaller = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'numeroOrden',
+        value: req.query.numeroOrden,
+        type: self.model.types.STRING
+    }, {
+        name: 'idEjecutivo',
+        value: req.query.idEjecutivo,
+        type: self.model.types.INT
+    }];
+    this.model.query('SEL_OPE_CITAS_CON_TALLER_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+Cotizacion.prototype.get_ObtenerOrdenesSinTaller = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'numeroOrden',
+        value: req.query.numeroOrden,
+        type: self.model.types.STRING
+    }, {
+        name: 'idEjecutivo',
+        value: req.query.idEjecutivo,
+        type: self.model.types.INT
+    }];
+    this.model.query('SEL_OPE_CITAS_SIN_TALLER_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+
 }
 
 

@@ -1,4 +1,4 @@
-registrationModule.controller('consultaCitasController', function ($scope, $route, $routeParams, userFactory, $modal, $rootScope, cotizacionConsultaRepository, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository, nuevoMemorandumRepository) {
+registrationModule.controller('consultaCitasController', function($scope, $route, $routeParams, userFactory, $modal, $rootScope, cotizacionConsultaRepository, localStorageService, alertFactory, globalFactory, consultaCitasRepository, ordenServicioRepository, cotizacionRepository, trabajoRepository, uploadRepository, nuevoMemorandumRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
     //*****************************************************************************************************************************//
@@ -19,24 +19,19 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
     $scope.sumatoria_costo_conTaller = 0;
     $scope.sumatoria_costo_sinTaller = 0;
     $scope.btnSwitch = {};
-    // var Zona = 0 //$scope.zonaSelected == '' || $scope.zonaSelected == undefined ? null : $scope.zonaSelected;
-    // var idEjecutivo = 0 //$scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? null : $scope.ejecutivoSelected;
-    // var fechaMes = '' //this.obtieneFechaMes() == '' ? null : this.obtieneFechaMes();
-    // var rInicio = '' //$scope.fechaInicio == '' || $scope.fechaInicio == undefined ? null : $scope.fechaInicio;
-    // var rFin = '' //$scope.fechaFin == '' || $scope.fechaFin == undefined ? null : $scope.fechaFin;
-    // var fecha = '' //$scope.fecha == '' || $scope.fecha == undefined ? null : $scope.fecha;
-    // var numeroOrden = '' //$scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? null : $scope.numeroTrabajo;
-    // var porOrden = 0
+    $scope.totalOrdenesTaller = [];
+    $scope.totalOrdenesSinTaller = [];
+
 
     $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada
     var tipoConsulta = 1
 
-    $scope.init = function () {
+    $scope.init = function() {
         userFactory.ValidaSesion();
     };
 
     //init de la pantalla tallerCita
-    $scope.initTallerCita = function () {
+    $scope.initTallerCita = function() {
         $scope.show_sumatorias = false;
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
@@ -61,8 +56,7 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
             $scope.filtroEstatus = '';
         }
 
-        $scope.cambioFiltro();
-        $scope.consultaCotizacionesFiltros();
+        InitConsultObject();
 
         if ($scope.userData.idRol == 2) {
             $scope.show_sumatorias = true;
@@ -70,30 +64,12 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
         $scope.getMemorandums();
     };
 
-    $scope.cambioFiltro = function (data) {
 
-        if (data != undefined) {
-            $scope.filtroEstatus = data;
-        };
-
-        if ($scope.filtroEstatus == '') {
-            $scope.ConTallerActive = true;
-            $scope.SinTallerActive = false;
-        } else if ($scope.filtroEstatus == 2) {
-            $scope.ConTallerActive = true;
-            $scope.SinTallerActive = false;
-        } else if ($scope.filtroEstatus == 1) {
-            $scope.ConTallerActive = false;
-            $scope.SinTallerActive = true;
+    $scope.seleccionarTodo = function(obj) {
+            console.log(obj)
         }
-
-    }
-
-    $scope.seleccionarTodo = function (obj) {
-        console.log(obj)
-    }
-    //combina la fecha y hora en una cadena
-    var combineDateAndTime = function (date, time) {
+        //combina la fecha y hora en una cadena
+    var combineDateAndTime = function(date, time) {
         timeString = time.getHours() + ':' + time.getMinutes() + ':00';
         var year = date.getFullYear();
         var month = date.getMonth() + 1; // Jan is 0, dec is 11
@@ -103,82 +79,76 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
         return combined;
     };
 
-
-    $scope.getTotalOrdenes = function (idContratoOperacion, Zona, usua, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta) {
+    function getOrdenes(numeroOrden, idEjecutivo) {
         $('.dataTableOrdenes').DataTable().destroy();
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         $scope.sumatoria_conTaller = 0;
         $scope.sumatoria_sinTaller = 0;
         $scope.sumatoria_costo_conTaller = 0;
         $scope.sumatoria_costo_sinTaller = 0;
-        cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.idContratoOperacion, tipoConsulta).then(function (result) {
-            //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
+        cotizacionConsultaRepository.ObtenerOrdenesConTaller($scope.idContratoOperacion, numeroOrden, idEjecutivo, $scope.userData.idUsuario).then(function(result) {
             if (result.data.length > 0) {
-                $scope.totalOrdenes = result.data;
-
-                $scope.totalOrdenes.forEach(function (item) {
-
-                    if (item.idEstatusOrden == 2) {
-                        $scope.sumatoria_conTaller += item.venta;
-                        $scope.sumatoria_costo_conTaller += item.costo;
-                    } else if (item.idEstatusOrden == 1) {
-                        $scope.sumatoria_sinTaller += item.venta;
-                        $scope.sumatoria_costo_sinTaller += item.costo;
-                    }
-
+                $scope.totalOrdenesTaller = result.data;
+                $scope.totalOrdenesTaller.forEach(function(item) {
+                    $scope.sumatoria_conTaller += item.venta;
+                    $scope.sumatoria_costo_conTaller += item.costo;
                 });
-
-                globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
-                globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
-                //globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes");
             } else {
-                $scope.totalOrdenes = [];
-                globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
-                globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
-                alertFactory.info('No se Encontraron Citas.');
+                $scope.totalOrdenesTaller = [];
+                alertFactory.info('No se Encontraron Citas con Talleres.');
             }
-            // globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 10);
-            // globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 10);
-        }, function (error) {
-            alertFactory.error('No se puenen obtener las órdenes');
+            globalFactory.filtrosTabla("dataTableOrdenes", "Ordenes", 100);
+
+        });
+
+        cotizacionConsultaRepository.ObtenerOrdenesSinTaller($scope.idContratoOperacion, numeroOrden, idEjecutivo, $scope.userData.idUsuario).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.totalOrdenesSinTaller = result.data;
+                $scope.totalOrdenesSinTaller.forEach(function(item) {
+                    $scope.sumatoria_sinTaller += item.venta;
+                    $scope.sumatoria_costo_sinTaller += item.costo;
+                });
+            } else {
+                $scope.totalOrdenesSinTaller = [];
+                alertFactory.info('No se Encontraron Citas sin Talleres.');
+            }
+            globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
         });
     }
 
     //despliega el div de las tablas
-    $scope.slideDown = function () {
+    $scope.slideDown = function() {
         $("#borderTop").slideDown(2000);
     };
     //contrae el div de las tablas
-    $scope.slideUp = function () {
+    $scope.slideUp = function() {
         $("#borderTop").slideUp(3000);
     };
 
-    $scope.seleccionarOrden1 = function (obj) {
-        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 1;
+    $scope.seleccionarOrden = function(numeroOrden, status) {
+        location.href = '/detalle?orden=' + numeroOrden + '&estatus=' + status;
     }
 
-    $scope.seleccionarOrden2 = function (obj) {
-        location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 2;
-    }
+
 
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
-    $scope.obtieneNivelZona = function () {
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function (result) {
-            $scope.totalNiveles = result.data.length;
-            if (result.data.length > 0) {
-                $scope.NivelesZona = result.data;
-                $scope.devuelveZonas();
-            }
-        },
-            function (error) {
+    $scope.obtieneNivelZona = function() {
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function(result) {
+                $scope.totalNiveles = result.data.length;
+                if (result.data.length > 0) {
+                    $scope.NivelesZona = result.data;
+                    $scope.devuelveZonas();
+                }
+            },
+            function(error) {
                 alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
             });
     }
 
     //obtiene las zonas por cada nivel con que cuenta el usuario
-    $scope.devuelveZonas = function () {
+    $scope.devuelveZonas = function() {
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-            cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function (result) {
+            cotizacionConsultaRepository.getZonas($scope.userData.contratoOperacionSeleccionada, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function(result) {
                 if (result.data.length > 0) {
                     var valueToPush = {};
                     valueToPush.orden = result.data[0].orden;
@@ -188,13 +158,13 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
                     //se establece por default cada zona seleccionada en 0
                     $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
                 }
-            }, function (error) {
+            }, function(error) {
                 alertFactory.error('No se pudo recuperar información de las zonas');
             });
         }
     };
 
-    $scope.cambioZona = function (id, orden) {
+    $scope.cambioZona = function(id, orden) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
         //se limpian los combos siguientes.
@@ -203,8 +173,26 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
         }
     }
 
+    function InitConsultObject() {
+        $('.dataTableOrdenes').DataTable().destroy();
+        $('.dataTableOrdenesSinDatos').DataTable().destroy();
+        $scope.cotizaciones = [];
+        $scope.cotizacionesSinPresupuesto = [];
+        var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
+        var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
+        var fechaMes = obtieneFechaMes();
+        var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
+        var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
+        var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+        var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
+
+        getOrdenes(numeroOrden, idEjecutivo);
+        //getTotalOrdenes($scope.idContratoOperacion, Zona, $scope.userData.idUsuario, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
+
+    }
+
     //realiza consulta según filtros
-    $scope.consultaCotizacionesFiltros = function () {
+    $scope.consultaCotizacionesFiltros = function() {
         $('.dataTableOrdenes').DataTable().destroy();
         $('.dataTableOrdenesSinDatos').DataTable().destroy();
         $scope.cotizaciones = [];
@@ -217,39 +205,40 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
         var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
 
-        $scope.getTotalOrdenes($scope.idContratoOperacion, Zona, $scope.userData.idUsuario, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
+        PutFilterResult(zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden);
+        //getTotalOrdenes($scope.idContratoOperacion, Zona, $scope.userData.idUsuario, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, tipoConsulta);
     };
 
     //obtiene los usuarios ejecutivos
-    $scope.devuelveEjecutivos = function () {
-        cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.contratoOperacionSeleccionada).then(function (ejecutivos) {
+    $scope.devuelveEjecutivos = function() {
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.userData.contratoOperacionSeleccionada).then(function(ejecutivos) {
             if (ejecutivos.data.length > 0) {
                 $scope.listaEjecutivos = ejecutivos.data;
             }
-        }, function (error) {
+        }, function(error) {
             alertFactory.error('No se pudo recuperar información de los ejecutivos');
         });
     };
 
-    $scope.MesChange = function () {
+    $scope.MesChange = function() {
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
         $scope.fecha = '';
     };
 
-    $scope.RangoChange = function () {
+    $scope.RangoChange = function() {
         $scope.fechaMes = '';
         $scope.fecha = '';
         this.ValidaRangoFechas();
     };
 
-    $scope.FechaChange = function () {
+    $scope.FechaChange = function() {
         $scope.fechaMes = '';
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
     };
 
-    $scope.ValidaRangoFechas = function () {
+    $scope.ValidaRangoFechas = function() {
         var isValid = true;
 
         //valida si están seleccionadas ambas fechas del rango
@@ -280,7 +269,7 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
         }
     };
 
-    $scope.obtieneFechaMes = function () {
+    function obtieneFechaMes() {
         var result = '';
         if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
             var fechaPartida = $scope.fechaMes.split('-');
@@ -346,12 +335,12 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
             return result;
         }*/
 
-    $scope.actualizarOrden = function (obj) {
+    $scope.actualizarOrden = function(obj) {
         location.href = '/nuevacita?economico=' + obj.numeroEconomico + '&estatus=' + 1;
 
     }
 
-    $scope.showButtonSwitch = function (usrRol) {
+    $scope.showButtonSwitch = function(usrRol) {
         switch (Number(usrRol)) {
             case 1: //cliente
                 $scope.hideSwitchBtn = true;
@@ -375,11 +364,11 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
         }
     };
 
-    $scope.getMemorandums = function () {
+    $scope.getMemorandums = function() {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
                 $scope.Memorandums = []
-                response.data.forEach(function (element) {
+                response.data.forEach(function(element) {
                     if (element.leido != 1) {
                         if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
                             $scope.Memorandums.push({
@@ -390,17 +379,14 @@ registrationModule.controller('consultaCitasController', function ($scope, $rout
                                 "leido": element.leido,
                                 "aceptado": element.aceptado,
                                 "comentarios": element.comentarios,
-                                evidencias: [
-                                    {
-                                        "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
-                                        "idEvidencia": element.idEvidencia,
-                                        "evidencia": element.evidencia,
-                                        "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
-                                    }
-                                ]
+                                evidencias: [{
+                                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                                    "idEvidencia": element.idEvidencia,
+                                    "evidencia": element.evidencia,
+                                    "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+                                }]
                             })
-                        }
-                        else {
+                        } else {
                             $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
                                 "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
                                 "idEvidencia": element.idEvidencia,
