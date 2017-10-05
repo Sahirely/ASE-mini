@@ -99,6 +99,19 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     })
 
     /*
+    // Obtengo la lista de tablas (ABONOS)
+    $('.dataTableAbonos').DataTable().destroy()
+    $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': 1 }).then(function (result) {
+      $scope.selectCotizaciones = result.data
+     var sumatoria = 0;
+          for(var i=0;i<result.data.length;i++){
+            sumatoria += parseFloat(result.data[i].subTotal);
+        };
+       $scope.total = sumatoria;
+      globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 100)
+    }, function (error) {
+      alertFactory.error('No se puenen obtener los abonos generados')
+    })
     // Obtengo la lista de tablas
     $('.dataTableAbonadas').DataTable().destroy();
     $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': 1 }).then(function (result) {

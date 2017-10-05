@@ -402,7 +402,118 @@
                                     </table>
                                 </div>
                             </tab>
-                            <tab heading="Facturas Abonadas" index="4">
+                            <tab heading="Selección de Abonos" index="4">
+                                <div class="row sumatorias">
+                                    <div class="col-xs-3 pull-right">
+                                        <div>
+                                            <h2 class="no-margins">Monto COPADE con IVA: {{ montoCopAbonoSelect | currency: "$" }}</h2>
+                                            <h2 class="no-margins">Abono COPADE con IVA: {{ abonoCopAbonoSelect | currency: "$" }}</h2>
+                                            <h2 class="no-margins">Saldo COPADE con IVA: {{ saldoCopAbonoSelect | currency: "$" }}</h2>
+                                            <h2 class="no-margins">Monto Proveedor con IVA: {{ montoProvAbonoSelect | currency: "$" }}</h2>
+                                            <h2 class="no-margins">Saldo Proveedor con IVA: {{ saldoProvAbonoSelect | currency: "$" }}</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row sumatorias">
+                                        <div class="col-xs-3 pull-right">
+                                            <div>
+                                                <h2 class="no-margins">Monto a pagar: {{ totalSeleccionadoSuma | currency: "$" }}</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="btn-group pull-right">
+                                            <label class="btn btn-primary" btn-radio="'cot'" ng-change="changeGrouper(1)" ng-model="option">
+                                                Cotizaciones <span class="fa fa-usd"></span>
+                                            </label>
+                                            <label class="btn btn-warning active" btn-radio="'ord'" ng-change="changeGrouper(2)" ng-model="option">
+                                                Órdenes <span class="fa fa-file-text-o"></span>
+                                            </label>
+                                            <label class="btn btn-success" btn-radio="'pay'" ng-change="changeGrouper(3)" ng-model="option">
+                                                Orden Pago <span class="fa fa-credit-card"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive contenedorTabla">
+                                    <table class="table table-striped table-bordered table-hover dataTableAbonos">
+                                        <thead>
+                                            <tr>
+                                                <th>Elegir Facturas Abonadas</th>
+                                                <th>Cliente</th>
+                                                <th>No. COPADE</th>
+                                                <th>Fecha COPADE</th>
+                                                <th>Orden de Surtimiento</th>
+                                                <th>Consecutivo</th>
+                                                <th>Número de la Orden</th>
+                                                <th>Número de Cotización</th>
+                                                <th>Taller</th>
+                                                <th>Factura Taller</th>
+                                                <th>Monto Factura Taller</th>
+                                                <th>Saldo Factura Taller</th>
+                                                <th>Número Económico</th>
+                                                <th>Zona</th>
+                                                <th>TAR</th>
+                                                <th>Tipo Orden</th>
+                                                <th>Descripción de la Orden</th>
+                                                <th>Precio Cotización con IVA</th>
+                                                <th>Factura COPADE</th>
+                                                <th>Precio COPADE con IVA</th>
+                                                <th>Abono COPADE</th>
+                                                <th>Saldo COPADE</th>
+                                                <th>Fecha Último  Pago</th>
+                                                <th>Fecha Ingreso Unidad</th>
+                                                <th>Fecha Inicio Trabajo</th>
+                                                <th>Fecha Fin Trabajo</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="(key, value) in selectCotizaciones | groupBy: grouper " class="trTableSelect">
+                                                <td>
+                                                    <input type="checkbox" name="name" ng-checked="selectCotizacion.selected" ng-click="seleccionFacturaAbonadaCotizacion( selectCotizacion.idTrabajoAgrupado, selectCotizacion.COP_ORDENGLOBAL, selectCotizacion.saldoProveedor)" data-toggle="tooltip" tooltip="" tooltip-placement="left">&nbsp;Elegir
+                                                </td>
+                                                <td>{{selectCotizacion.cliente}}</td>
+                                                <td>{{selectCotizacion.numeroCopade}}</td>
+                                                <td>{{selectCotizacion.fechaRecepcionCopade | date:'dd-MM-yyyy'}}</td>
+                                                <td>{{selectCotizacion.folio}}</td>
+                                                <td>{{selectCotizacion.idCita}}</td>
+                                                <td>{{selectCotizacion.numeroTrabajo}}</td>
+                                                <td>{{selectCotizacion.numeroCotizacion}}</td>
+                                                <td>{{selectCotizacion.razonSocial}}</td>
+                                                <td>{{selectCotizacion.numFactura}}</td>
+                                                <td>{{selectCotizacion.total | currency}}</td>
+                                                <td>{{selectCotizacion.saldoProveedor | currency}}</td>
+                                                <td>{{selectCotizacion.numEconomico}}</td>
+                                                <td>{{selectCotizacion.zona}}</td>
+                                                <td>{{selectCotizacion.TAR}}</td>
+                                                <td>{{selectCotizacion.idTipoCita == 4 ? "Refacciones" : "Servicio"}}</td>
+                                                <td>{{selectCotizacion.trabajo}}</td>
+                                                <td>{{selectCotizacion.precioCotizacion | currency}}</td>
+                                                <td>{{selectCotizacion.COP_IDDOCTO}}</td>
+                                                <td>{{selectCotizacion.COP_CARGO | currency}}</td>
+                                                <td>{{selectCotizacion.abono | currency}}</td>
+                                                <td>{{selectCotizacion.COP_SALDO | currency}}</td>
+                                                <td>{{selectCotizacion.COP_FECHULTPAG | date:'dd-MM-yyyy HH:mm'}}</td>
+                                                <td>{{selectCotizacion.fechaIngresoUnidad | date:'dd-MM-yyyy HH:mm'}}</td>
+                                                <td>{{selectCotizacion.fechaInicio | date:'dd-MM-yyyy HH:mm'}}</td>
+                                                <td>{{selectCotizacion.fechaFin | date:'dd-MM-yyyy HH:mm'}}</td>
+                                                <td>
+                                                    <div class="alerta"> 
+                                                        <button class="dropdown-toggle alerta-form btn btn-info" tooltip="Ver órden de servicio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="aprobarTrabajo(selectCotizacion, 1)">
+                                                            <i class="glyphicon glyphicon-sunglasses"></i> 
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-messages">
+                                                        </ul>
+                                                    </div> 
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </tab>
+                            <tab heading="Facturas Abonadas" index="5">
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
@@ -490,7 +601,7 @@
 
                             </tab>
 
-                            <tab heading="Facturas Pagadas" index="5">
+                            <tab heading="Facturas Pagadas" index="6">
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
