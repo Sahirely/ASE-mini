@@ -24,7 +24,7 @@
                             <div class="ibox-title " role="tab" id="headingOne">
                                 <h5>Filtros de búsqueda</h5>
                                 <div class="ibox-tools">
-                                    <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne"
+                                    <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" data-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
                                                             <i class="fa fa-chevron-down"></i>
                                                         </a>
@@ -191,7 +191,7 @@
                             <th>Tipo Orden</th>
                             <th>Fecha Creación Orden</th>
                             <th>No. de Aprobación</th>
-                            <th>Marca - Modelo</th>
+                            <!-- <th>Marca - Modelo</th> -->
                             <th>Estatus</th>
                             <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                             <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
@@ -205,24 +205,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
-                            <td>{{cotizacion.nombreCliente}}</td>
-                            <td>{{cotizacion.consecutivoOrden}}</td>
-                            <td>{{cotizacion.numeroOrden}}</td>
-                            <td>{{cotizacion.numeroEconomico}}</td>
-                            <td>{{cotizacion.nombreZona}}</td>
-                            <td>{{cotizacion.nombreTipoORden}}</td>
-                            <td>{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
-                            <td>{{cotizacion.numeroCotizacion}}</td>
-                            <td>{{cotizacion.marcaUnidad}}  {{cotizacion.modeloUnidad}}</td>
-                            <td>{{cotizacion.nombreEstatusCotizacion}}</td>
-                            <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
-                            <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
-                            <td>{{cotizacion.nombreUsuario}}</td>
-                            <td>{{cotizacion.porcentaje}} %</td>
-                            <td>{{cotizacion.estadistica}}</td>
+                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}" >
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroEconomico}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreZona}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreTipoOrdenServicio}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroCotizacion}}</td>
+                            <!-- <td>{{cotizacion.marcaUnidad}}  {{cotizacion.modeloUnidad}}</td> -->
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreEstatusCotizacion}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreUsuario}}</td>
+                            <!-- <td><i class="fa fa-pie-chart" aria-hidden="true"></i></td> -->
+                            <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                             <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}</td>
-                            <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
 
                             <!--td class='center'>
                                 <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
@@ -268,12 +268,12 @@
                                     <th>Tipo Orden</th>
                                     <th>Fecha Creación Orden</th>
                                     <th>No. de Aprobación</th>
-                                    <th>Marca - Modelo</th>
+                                    <!-- <th>Marca - Modelo</th>-->
                                     <th>Estatus</th>
                                     <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                     <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                     <th>Cotizó</th>
-                                    <th>Porcentaje de Aprobación</th>
+                                    <!-- <th>Porcentaje de Aprobación</th> -->
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
@@ -281,24 +281,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1}" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">
-                                    <td>{{cotizacion.nombreCliente}}</td>
-                                    <td>{{cotizacion.consecutivoOrden}}</td>
-                                    <td>{{cotizacion.numeroOrden}}</td>
-                                    <td>{{cotizacion.numeroEconomico}}</td>
-                                    <td>{{cotizacion.nombreZona}}</td>
-                                    <td>{{cotizacion.nombreTipoORden}}</td>
-                                    <td>{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
-                                    <td>{{cotizacion.numeroCotizacion}}</td>
-                                    <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td>
-                                    <td>{{cotizacion.nombreEstatusCotizacion}}</td>
-                                    <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
-                                    <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
-                                    <td>{{cotizacion.nombreUsuario}}</td>
-                                    <td>{{cotizacion.porcentaje}} %</td>
-                                    <td>{{cotizacion.estadistica}}</td>
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1}" >
+                                    <!-- | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1} -->
+                                    <!-- | dateRange : rInicioFilter : rFinFilter -->
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroEconomico}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreZona}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreTipoOrdenServicio}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroCotizacion}}</td>
+                                    <!-- <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td>-->
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreEstatusCotizacion}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreUsuario}}</td>
+                                    <!-- <td><i class="fa fa-pie-chart" aria-hidden="true"></i>''</td> -->
+                                    <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                                     <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
-                                    <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
+                                    <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
                                     <!--td class='center'>
                                         <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>
@@ -341,13 +343,13 @@
                                     <th>Tipo Orden</th>
                                     <th>Fecha Creación Orden</th>
                                     <th>No. de Aprobación</th>
-                                    <th>Marca - Modelo</th>
+                                    <!-- <th>Marca - Modelo</th> -->
                                     <th>Estatus</th>
-                                    <th>Motivo</th>
+                                    <!-- <th>Motivo</th> -->
                                     <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                     <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                     <th>Cotizó</th>
-                                    <th>Porcentaje de Aprobación</th>
+                                    <!-- <th>Porcentaje de Aprobación</th> -->
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
@@ -355,25 +357,25 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles"> <!-- -->
-                                  <td>{{cotizacion.nombreCliente}}</td>
-                                  <td>{{cotizacion.consecutivoOrden}}</td>
-                                  <td>{{cotizacion.numeroOrden}}</td>
-                                  <td>{{cotizacion.numeroEconomico}}</td>
-                                  <td>{{cotizacion.nombreZona}}</td>
-                                  <td>{{cotizacion.nombreTipoORden}}</td>
-                                  <td>{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
-                                  <td>{{cotizacion.numeroCotizacion}}</td>
-                                  <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td>
-                                  <td>{{cotizacion.nombreEstatusCotizacion}}</td>
-                                  <td>{{cotizacion.motivoPresupuesto}}</td>
-                                  <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
-                                    <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
-                                  <td>{{cotizacion.nombreUsuario}}</td>
-                                  <td>{{cotizacion.porcentaje}} %</td>
-                                  <td>{{cotizacion.estadistica}}</td>
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}" > <!-- -->
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroEconomico}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreZona}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreTipoORden}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroCotizacion}}</td>
+                                  <!-- <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td> -->
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreEstatusCotizacion}}</td>
+                                  <!-- <td>{{cotizacion.motivoPresupuesto}}</td> -->
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreUsuario}}</td>
+                                  <!-- <td><i class="fa fa-percent" aria-hidden="true"></i></td> -->
+                                  <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                                   <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
-                                  <td ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
                                   <!--td>
                                     <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
                                         <span class="glyphicon glyphicon-folder-open" aria-hidden="true" data-toggle="modal"></span>

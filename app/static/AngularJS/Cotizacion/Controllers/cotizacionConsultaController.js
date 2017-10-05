@@ -1,3 +1,4 @@
+
 registrationModule.controller('cotizacionConsultaController', function ($scope, $rootScope, $routeParams, userFactory, alertFactory, globalFactory, cotizacionConsultaRepository, nuevoMemorandumRepository) {
     //*****************************************************************************************************************************//
     // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
@@ -103,6 +104,29 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
     }
 
+    $scope.changeFilters = function(){
+      $scope.ZonaFilter = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
+      $scope.fechaMesFilter = this.obtieneFechaMes();
+      $scope.rInicioFilter = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
+      $scope.rFinFilter = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
+      $scope.fechaFilter = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+    }
+
+    $scope.getStatistics = function(numeroCoti){
+        $scope.estadistica = '';
+
+        cotizacionConsultaRepository.obtieneEstadistica(numeroCoti).then(function (result) {
+            if (result.data.length > 0) {
+                
+                $scope.estadistica = result.data[0].estadistica;
+            }
+        }, function (error) {
+            alertFactory.error('No se pudo recuperar información de las estadisticas');
+        });
+
+
+    }
+
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function () {
         $scope.cotizaciones = [];
@@ -115,13 +139,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         // $('.ordenesPresupuesto').DataTable().destroy();
         // $('.ordenesSinPresupuesto').DataTable().destroy();
         var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
-        var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
         var fechaMes = this.obtieneFechaMes();
         var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
         var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
         var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+
+        var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-        $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2).then(function (result) {
+        // $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2).then(function (result) {
+        $scope.promise = cotizacionConsultaRepository.getOrdenesAprobacion($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, numeroOrden, idEjecutivo).then(function (result) {
+
             if (result.data.length > 0) {
 
                 result.data.forEach(function (item) {
@@ -153,6 +180,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                         $scope.sumatoria_costo_conPresupuesto += item.costo;
                     }
                 });
+
                 globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
                 globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
@@ -208,12 +236,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.fechaMes = '';
         $scope.fecha = '';
         this.ValidaRangoFechas();
+
+        $scope.changeFilters();
     };
 
     $scope.FechaChange = function () {
         $scope.fechaMes = '';
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
+
+        $scope.changeFilters();
     };
 
     $scope.ValidaRangoFechas = function () {
@@ -225,15 +257,15 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
             var fechaFinal = $scope.fechaFin.split('/');
 
             //valida el anio
-            if (parseInt(fechaInicial[2]) > parseInt(fechaFinal[2])) {
+            if (parseInt(fechaInicial[0]) > parseInt(fechaFinal[0])) {
                 isValid = false;
-            } else if (parseInt(fechaInicial[2]) == parseInt(fechaFinal[2])) {
+            } else if (parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])) {
                 //valida el mes
-                if (parseInt(fechaInicial[0]) > parseInt(fechaFinal[0])) {
+                if (parseInt(fechaInicial[1]) > parseInt(fechaFinal[1])) {
                     isValid = false;
-                } else if (parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])) {
+                } else if (parseInt(fechaInicial[1]) == parseInt(fechaFinal[1])) {
                     //valida el día
-                    if (parseInt(fechaInicial[1]) > parseInt(fechaFinal[1])) {
+                    if (parseInt(fechaInicial[2]) > parseInt(fechaFinal[2])) {
                         isValid = false;
                     }
                 }

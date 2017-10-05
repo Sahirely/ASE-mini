@@ -50,10 +50,10 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
             });
         },
         /*consultarOrdenes: function(
-          tipoConsulta, 
-          idContratoOperacion, 
-          idZona, 
-          fechaInicial, 
+          tipoConsulta,
+          idContratoOperacion,
+          idZona,
+          fechaInicial,
           fechaFin,
           fecha,
           fechaMes,
@@ -186,6 +186,46 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        obtieneEstadistica: function(numeroCotizacion) {
+            return $http({
+                url: searchUrl + 'estadisticaAprobacion/',
+                method: "GET",
+                params: {
+                    numeroCotizacion: numeroCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        obtienePorcentaje: function(numeroCotizacion) {
+            return $http({
+                url: searchUrl + 'porcentajeAprobacion/',
+                method: "GET",
+                params: {
+                    numeroCotizacion: numeroCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+            getOrdenesAprobacion: function(idContratoOperacion, idUsuario, numeroOrden, idEjecutivo){
+          var objGetOrdenes = {
+            idContratoOperacion: idContratoOperacion,
+            idUsuario: idUsuario,
+            numeroOrden:numeroOrden,
+            idEjecutivo: idEjecutivo
+          };
+          return $http({
+              url: searchUrl + 'OrdenesAprobacion/',
+              method: "GET",
+              params: objGetOrdenes,
+              headers: {
+                  'Content-Type': 'application/json'
+              }
+          });
         },
         ObtenerOrdenesDeServicioEnEntrega: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
             var data = {
