@@ -117,14 +117,23 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
         cotizacionConsultaRepository.obtieneEstadistica(numeroCoti).then(function (result) {
             if (result.data.length > 0) {
-                
                 $scope.estadistica = result.data[0].estadistica;
             }
         }, function (error) {
             alertFactory.error('No se pudo recuperar información de las estadisticas');
         });
+    }
 
+    $scope.getPercentage = function(numeroCoti){
+      $scope.porcentaje = '';
 
+      cotizacionConsultaRepository.obtienePorcentaje(numeroCoti).then(function (result) {
+          if (result.data.length > 0) {
+              $scope.porcentaje = result.data[0].porcentaje;
+          }
+      }, function (error) {
+          alertFactory.error('No se pudo recuperar información de porcentaje');
+      });
     }
 
     //realiza consulta según filtros

@@ -211,7 +211,7 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                 }
             });
         },
-            getOrdenesAprobacion: function(idContratoOperacion, idUsuario, numeroOrden, idEjecutivo){
+        getOrdenesAprobacion: function(idContratoOperacion, idUsuario, numeroOrden, idEjecutivo){
           var objGetOrdenes = {
             idContratoOperacion: idContratoOperacion,
             idUsuario: idUsuario,

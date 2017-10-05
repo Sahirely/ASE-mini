@@ -212,14 +212,14 @@
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroEconomico}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreZona}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreTipoOrdenServicio}}</td>
-                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
+                            <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroCotizacion}}</td>
                             <!-- <td>{{cotizacion.marcaUnidad}}  {{cotizacion.modeloUnidad}}</td> -->
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreEstatusCotizacion}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreUsuario}}</td>
-                            <!-- <td><i class="fa fa-pie-chart" aria-hidden="true"></i></td> -->
+                            <td ng-mouseover="getPercentage(cotizacion.numeroCotizacion)" title="{{porcentaje}}"><i class="fa fa-pie-chart" aria-hidden="true"></i></td>
                             <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                             <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
@@ -273,7 +273,7 @@
                                     <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                     <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                     <th>Cotizó</th>
-                                    <!-- <th>Porcentaje de Aprobación</th> -->
+                                    <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
@@ -297,7 +297,7 @@
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreUsuario}}</td>
-                                    <!-- <td><i class="fa fa-pie-chart" aria-hidden="true"></i>''</td> -->
+                                    <td ng-mouseover="getPercentage(cotizacion.numeroCotizacion)" title="{{porcentaje}}"><i class="fa fa-pie-chart" aria-hidden="true"></i></td>
                                     <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                                     <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
@@ -332,7 +332,7 @@
                       <br>
 
                       <div class="table-responsive">
-                        <table class="table table-bordered table-hover ordenesSinPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}" title="Ver detalles">
+                        <table class="table table-bordered table-hover ordenesSinPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
@@ -349,7 +349,7 @@
                                     <th ng-show="btnSwitch.showCostoVenta">Costo</th>
                                     <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
                                     <th>Cotizó</th>
-                                    <!-- <th>Porcentaje de Aprobación</th> -->
+                                    <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
@@ -363,8 +363,8 @@
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroEconomico}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreZona}}</td>
-                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreTipoORden}}</td>
-                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm'}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreTipoOrdenServicio}}</td>
+                                  <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.fechaCreacionOden | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroCotizacion}}</td>
                                   <!-- <td>{{cotizacion.marcaUnidad}} {{cotizacion.modeloUnidad}}</td> -->
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreEstatusCotizacion}}</td>
@@ -372,7 +372,7 @@
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-show="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.costo | currency}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{cotizacion.venta | currency}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreUsuario}}</td>
-                                  <!-- <td><i class="fa fa-percent" aria-hidden="true"></i></td> -->
+                                  <td ng-mouseover="getPercentage(cotizacion.numeroCotizacion)" title="{{porcentaje}}"><i class="fa fa-pie-chart" aria-hidden="true"></i></td>
                                   <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                                   <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
