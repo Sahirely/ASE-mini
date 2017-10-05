@@ -53,6 +53,39 @@ Cobrar.prototype.get_obtenercoincidencia = function (req, res, next) {
   this.query.execute('SEL_PORCOBRAR_COINCIDENCIA_SP', params, res)
 }
 
+Cobrar.prototype.get_obtenercobranza = function (req, res, next) {
+  // Referencia a la clase para callback
+  var self = this
+  // Obtención de valores de los parámetros del request
+  var params = [
+   // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+  ]
+  // Llamada a SP
+  this.query.execute('SEL_COPADES_SP', params, res)
+}
+
+Cobrar.prototype.get_MejorCoincidencia = function (req, res, next) {
+  // Referencia a la clase para callback
+  var self = this
+  // Obtención de valores de los parámetros del request
+  var params = [
+    { name: 'folio', value: req.query.ordenSurtimiento, type: self.model.types.STRING }
+  ]
+  // Llamada a SP
+  this.query.execute('SEL_MEJOR_COINCIDENCIA_SP', params, res)
+}
+
+Cobrar.prototype.get_getOrden = function (req, res, next) {
+  // Referencia a la clase para callback
+  var self = this
+  // Obtención de valores de los parámetros del request
+  var params = [
+    { name: 'numeroOrden', value: req.query.numeroOrden, type: self.model.types.STRING }
+  ]
+  // Llamada a SP
+  this.query.execute('SEL_ORDEN_SERVICIO_SP', params, res)
+}
+
 Cobrar.prototype.get_obtenerprefactura = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
