@@ -1,4 +1,4 @@
-registrationModule.controller('trabajoController', function ($scope, $modal, userFactory, $rootScope, $routeParams, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository, nuevoMemorandumRepository) {
+registrationModule.controller('trabajoController', function($scope, $modal, userFactory, $rootScope, $routeParams, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository, nuevoMemorandumRepository) {
     $rootScope.modulo = 'ordenServicio'; // <<-- Para activar en que opción del menú se encuentra
 
     // $scope.idOperacion           = 2;
@@ -14,6 +14,8 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
     $scope.zonaSelected = "0";
     $scope.ZonasSeleccionadas = {};
     $scope.NivelesZona = [];
+    $scope.ordenesEnProceso = [];
+    $scope.ordenesEnEntrega = [];
     $scope.Zonas = [];
     $scope.idZona = 0;
     $scope.btnSwitch = {};
@@ -32,7 +34,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
     $scope.sumatoria_costo_entrega = 0;
     $scope.sumatoria_costo_proceso = 0;
 
-    $scope.Init = function () {
+    $scope.Init = function() {
         $scope.userData = userFactory.getUserData();
         userFactory.ValidaSesion();
         $scope.show_proceso = true;
@@ -73,13 +75,13 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
                 $scope.show_proceso = false;
                 $scope.show_entrega = true;
             }
-            $scope.getOrdenesServicioInit(3);
+            getOrdenes();
 
         } else {
             $scope.filtroEstatus = 55
             $scope.show_proceso = true;
             $scope.show_entrega = false;
-            $scope.getOrdenesServicio(3);
+            getOrdenes();
         }
 
         if ($scope.userData.idRol == 2) {
@@ -91,7 +93,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
 
     };
 
-    $scope.cambioFiltro = function () {
+    $scope.cambioFiltro = function() {
         globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
         globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
         if ($scope.filtroEstatus == 55) {
@@ -101,7 +103,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             $scope.estadoGarantia = '';
             $scope.sumatoria_proceso = 0;
             $scope.sumatoria_costo_proceso = 0;
-            $scope.ordenes.forEach(function (item) {
+            $scope.ordenesEnProceso.forEach(function(item) {
                 if (item.idEstatusOrden == 5) {
                     $scope.sumatoria_proceso += item.venta;
                     $scope.sumatoria_costo_proceso += item.costo;
@@ -115,7 +117,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             $scope.estadoGarantia = 1;
             $scope.sumatoria_proceso = 0;
             $scope.sumatoria_costo_proceso = 0;
-            $scope.ordenes.forEach(function (item) {
+            $scope.ordenesEnProceso.forEach(function(item) {
                 if (item.idEstatusOrden == 5 && item.idGarantia == 1) {
                     $scope.sumatoria_proceso += item.venta;
                     $scope.sumatoria_costo_proceso += item.costo;
@@ -129,7 +131,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             $scope.estadoGarantia = 0;
             $scope.sumatoria_proceso = 0;
             $scope.sumatoria_costo_proceso = 0;
-            $scope.ordenes.forEach(function (item) {
+            $scope.ordenesEnProceso.forEach(function(item) {
                 if (item.idEstatusOrden == 5 && item.idGarantia == 0) {
                     $scope.sumatoria_proceso += item.venta;
                     $scope.sumatoria_costo_proceso += item.costo;
@@ -144,7 +146,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             $scope.estadoEstatus = 1;
             $scope.sumatoria_entrega = 0;
             $scope.sumatoria_costo_entrega = 0;
-            $scope.ordenes.forEach(function (item) {
+            $scope.ordenesEnEntrega.forEach(function(item) {
                 if (item.conjuntoEstatus == 1) {
                     $scope.sumatoria_entrega += item.venta;
                     $scope.sumatoria_costo_entrega += item.costo;
@@ -157,7 +159,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             $scope.estatusValidador = $scope.filtroEstatus;
             $scope.sumatoria_entrega = 0;
             $scope.sumatoria_costo_entrega = 0;
-            $scope.ordenes.forEach(function (item) {
+            $scope.ordenesEnEntrega.forEach(function(item) {
                 if (item.idEstatusOrden == 6) {
                     $scope.sumatoria_entrega += item.venta;
                     $scope.sumatoria_costo_entrega += item.costo;
@@ -172,7 +174,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             $scope.estatusValidador = $scope.filtroEstatus;
             $scope.sumatoria_entrega = 0;
             $scope.sumatoria_costo_entrega = 0;
-            $scope.ordenes.forEach(function (item) {
+            $scope.ordenesEnEntrega.forEach(function(item) {
                 if (item.idEstatusOrden == 7) {
                     $scope.sumatoria_entrega += item.venta;
                     $scope.sumatoria_costo_entrega += item.costo;
@@ -188,7 +190,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
         };
       };*/
 
-    $scope.menu = function (data) {
+    $scope.menu = function(data) {
         $scope.show_proceso = false;
         $scope.show_entrega = false;
         globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
@@ -201,7 +203,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
                 $scope.filtroEstatus = 55;
                 $scope.sumatoria_proceso = 0;
                 $scope.sumatoria_costo_proceso = 0;
-                $scope.ordenes.forEach(function (item) {
+                $scope.ordenesEnProceso.forEach(function(item) {
                     if (item.idEstatusOrden == 5) {
                         $scope.sumatoria_proceso += item.venta;
                         $scope.sumatoria_costo_proceso += item.costo;
@@ -216,7 +218,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
                 $scope.filtroEstatus = 67;
                 $scope.sumatoria_entrega = 0;
                 $scope.sumatoria_costo_entrega = 0;
-                $scope.ordenes.forEach(function (item) {
+                $scope.ordenesEnEntrega.forEach(function(item) {
                     if (item.conjuntoEstatus == 1) {
                         $scope.sumatoria_entrega += item.venta;
                         $scope.sumatoria_costo_entrega += item.costo;
@@ -227,7 +229,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
     }
 
     $scope.indiceOrdenes = -1;
-    $scope.OpenModal = function (index, Id) {
+    $scope.OpenModal = function(index, Id) {
         $scope.fecha_inicio = '';
         $scope.hora_inicio = '';
         $scope.indiceOrdenes = index;
@@ -236,35 +238,32 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
     }
 
     $scope.fecha_error = false;
-    $scope.Guardar_Fecha = function () {
+    $scope.Guardar_Fecha = function() {
         if ($scope.indiceOrdenes == -1) {
             //console.log('Esta ocurriendo un error, por algun motivo no se esta seleccionando el indice de ragistro');
-        }
-        else {
+        } else {
             if ($scope.fecha_inicio == '' || $scope.fecha_inicio === undefined) {
                 $scope.fecha_error = true;
                 $scope.msg_error = 'Debes ingresar la fecha de Inicio del Trabajo';
 
-                setTimeout(function (argument) {
+                setTimeout(function(argument) {
                     $scope.fecha_error = false;
                     $scope.msg_error = '';
                 }, 2000);
-            }
-            else if ($scope.hora_inicio == '' || $scope.hora_inicio === undefined) {
+            } else if ($scope.hora_inicio == '' || $scope.hora_inicio === undefined) {
                 $scope.fecha_error = true;
                 $scope.msg_error = 'Debes ingresar la hora de Inicio del Trabajo';
 
-                setTimeout(function (argument) {
+                setTimeout(function(argument) {
                     $scope.fecha_error = false;
                     $scope.msg_error = '';
                 }, 2000);
-            }
-            else {
+            } else {
                 var fechaTrabajo = $scope.fecha_inicio + ' ' + $scope.hora_inicio;
 
-                trabajoRepository.saveFechaTrabajo($scope.idOrden_Temp, fechaTrabajo).then(function (registros) {
+                trabajoRepository.saveFechaTrabajo($scope.idOrden_Temp, fechaTrabajo).then(function(registros) {
                     $scope.ordenes[$scope.indiceOrdenes].fechaInicioTrabajo = fechaTrabajo;
-                }, function (error) {
+                }, function(error) {
                     alertFactory.error('No se pudo recuperar la respuesta');
                 });
 
@@ -276,7 +275,7 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
 
     }
 
-    $scope.cambioZona = function (id, orden, zona, zonaseleccionada) {
+    $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
 
@@ -288,32 +287,56 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
     };
 
     //obtiene los usuarios ejecutivos
-    $scope.devuelveEjecutivos = function () {
-        cotizacionConsultaRepository.obtieneEjecutivos($scope.idContratoOperacion).then(function (ejecutivos) {
+    $scope.devuelveEjecutivos = function() {
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.idContratoOperacion).then(function(ejecutivos) {
             if (ejecutivos.data.length > 0) {
                 $scope.listaEjecutivos = ejecutivos.data;
             }
-        }, function (error) {
+        }, function(error) {
             alertFactory.error('No se pudo recuperar información de los ejecutivos');
         });
     };
 
-    $scope.MesChange = function () {
+    $scope.MesChange = function() {
         var array = $scope.fechaMes.split('-');
         var mes = '';
         switch (array[0]) {
-            case 'Enero': mes = '01'; break;
-            case 'Febrero': mes = '02'; break;
-            case 'Marzo': mes = '03'; break;
-            case 'Abril': mes = '04'; break;
-            case 'Mayo': mes = '05'; break;
-            case 'Junio': mes = '06'; break;
-            case 'Julio': mes = '07'; break;
-            case 'Agosto': mes = '08'; break;
-            case 'Septiembre': mes = '09'; break;
-            case 'Octubre': mes = '10'; break;
-            case 'Noviembre': mes = '11'; break;
-            case 'Diciembre': mes = '12'; break;
+            case 'Enero':
+                mes = '01';
+                break;
+            case 'Febrero':
+                mes = '02';
+                break;
+            case 'Marzo':
+                mes = '03';
+                break;
+            case 'Abril':
+                mes = '04';
+                break;
+            case 'Mayo':
+                mes = '05';
+                break;
+            case 'Junio':
+                mes = '06';
+                break;
+            case 'Julio':
+                mes = '07';
+                break;
+            case 'Agosto':
+                mes = '08';
+                break;
+            case 'Septiembre':
+                mes = '09';
+                break;
+            case 'Octubre':
+                mes = '10';
+                break;
+            case 'Noviembre':
+                mes = '11';
+                break;
+            case 'Diciembre':
+                mes = '12';
+                break;
         }
 
         $scope.fechaMes = array[1] + '/' + mes + '/01';
@@ -323,19 +346,19 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
         $scope.fecha = '';
     };
 
-    $scope.RangoChange = function () {
+    $scope.RangoChange = function() {
         $scope.fechaMes = '';
         $scope.fecha = '';
         this.ValidaRangoFechas();
     };
 
-    $scope.FechaChange = function () {
+    $scope.FechaChange = function() {
         $scope.fechaMes = '';
         $scope.fechaInicio = '';
         $scope.fechaFin = '';
     };
 
-    $scope.getOrdenesServicio = function (tipoConsulta) {
+    $scope.getOrdenesServicio = function(tipoConsulta) {
         $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
         var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
@@ -343,17 +366,17 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
         $scope.numeroTrabajo = '';
         // $('.ordenservicio').DataTable().destroy();
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
-            $scope.fechaInicio,
-            $scope.fechaFin,
-            $scope.fecha,
-            $scope.fechaMes,
-            $scope.numeroTrabajo,
-            $scope.zonaSelected,
-            ejecutivo,
-            $scope.userData.idUsuario,
-            $scope.idContratoOperacion,
-            tipoConsulta) // $scope.idUsuario
-            .then(function (result) {
+                $scope.fechaInicio,
+                $scope.fechaFin,
+                $scope.fecha,
+                $scope.fechaMes,
+                $scope.numeroTrabajo,
+                $scope.zonaSelected,
+                ejecutivo,
+                $scope.userData.idUsuario,
+                $scope.idContratoOperacion,
+                tipoConsulta) // $scope.idUsuario
+            .then(function(result) {
                 $scope.ordenes = result.data;
                 $scope.muestraTabla = true;
                 //if ($scope.estatusDashboard == null || $scope.estatusDashboard == undefined) {
@@ -363,8 +386,28 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
                 //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
             });
     };
+    getOrdenes = function() {
+        $scope.estatusValidador = '!7';
+        $('.clockpicker').clockpicker();
+        var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
 
-    $scope.getOrdenesServicioInit = function (tipoConsulta) {
+        cotizacionConsultaRepository.ObtenerOrdenesDeServicioEnProceso($scope.idContratoOperacion, $scope.numeroTrabajo, ejecutivo, $scope.userData.idUsuario).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.ordenesEnProceso = result.data;
+                //$scope.cambioFiltro();
+                globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
+
+            }
+        });
+        cotizacionConsultaRepository.ObtenerOrdenesDeServicioEnEntrega($scope.idContratoOperacion, $scope.numeroTrabajo, ejecutivo, $scope.userData.idUsuario).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.ordenesEnEntrega = result.data;
+                globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
+            }
+        })
+    }
+
+    $scope.getOrdenesServicioInit = function(tipoConsulta) {
 
         $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
@@ -374,17 +417,17 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
         var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
 
         cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(
-            $scope.fechaInicio,
-            $scope.fechaFin,
-            $scope.fecha,
-            $scope.fechaMes,
-            $scope.numeroTrabajo,
-            $scope.zonaSelected,
-            ejecutivo,
-            $scope.userData.idUsuario,
-            $scope.idContratoOperacion,
-            tipoConsulta) // $scope.idUsuario
-            .then(function (result) {
+                $scope.fechaInicio,
+                $scope.fechaFin,
+                $scope.fecha,
+                $scope.fechaMes,
+                $scope.numeroTrabajo,
+                $scope.zonaSelected,
+                ejecutivo,
+                $scope.userData.idUsuario,
+                $scope.idContratoOperacion,
+                tipoConsulta) // $scope.idUsuario
+            .then(function(result) {
 
                 if (result.data.length > 0) {
                     //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
@@ -427,30 +470,30 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
             }
         };*/
 
-    $scope.detalleOrden = function (orden) {
+    $scope.detalleOrden = function(orden) {
         location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus=5';
     };
 
     // =================================================================================
     //obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
-    $scope.obtieneNivelZona = function () {
+    $scope.obtieneNivelZona = function() {
         // console.log( "idContratoOperacion", $scope.idContratoOperacion );
-        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function (result) {
-            $scope.totalNiveles = result.data.length;
-            if (result.data.length > 0) {
-                $scope.NivelesZona = result.data;
-                $scope.devuelveZonas();
-            }
-        },
-            function (error) {
+        $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.idContratoOperacion).then(function(result) {
+                $scope.totalNiveles = result.data.length;
+                if (result.data.length > 0) {
+                    $scope.NivelesZona = result.data;
+                    $scope.devuelveZonas();
+                }
+            },
+            function(error) {
                 alertFactory.error('No se pudo ontener el nivel de zona, inténtelo más tarde.');
             });
     };
 
     //obtiene las zonas por cada nivel con que cuenta el usuario
-    $scope.devuelveZonas = function () {
+    $scope.devuelveZonas = function() {
         for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
-            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function (result) {
+            cotizacionConsultaRepository.getZonas($scope.idContratoOperacion, $scope.NivelesZona[$scope.x].idNivelZona, $scope.userData.idUsuario).then(function(result) {
                 if (result.data.length > 0) {
                     var valueToPush = {};
                     valueToPush.orden = result.data[0].orden;
@@ -460,14 +503,14 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
                     //se establece por default cada zona seleccionada en 0
                     $scope.ZonasSeleccionadas[result.data[0].orden] = "0";
                 }
-            }, function (error) {
+            }, function(error) {
                 alertFactory.error('No se pudo recuperar información de las zonas');
             });
         }
     };
 
 
-    $scope.showButtonSwitch = function (usrRol) {
+    $scope.showButtonSwitch = function(usrRol) {
         switch (Number(usrRol)) {
             case 1: //cliente
                 $scope.hideSwitchBtn = true;
@@ -502,11 +545,11 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
     //     }
     // };
 
-    $scope.getMemorandums = function () {
+    $scope.getMemorandums = function() {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
                 $scope.Memorandums = []
-                response.data.forEach(function (element) {
+                response.data.forEach(function(element) {
                     if (element.leido != 1) {
                         if ($scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum) == undefined) {
                             $scope.Memorandums.push({
@@ -517,17 +560,14 @@ registrationModule.controller('trabajoController', function ($scope, $modal, use
                                 "leido": element.leido,
                                 "aceptado": element.aceptado,
                                 "comentarios": element.comentarios,
-                                evidencias: [
-                                    {
-                                        "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
-                                        "idEvidencia": element.idEvidencia,
-                                        "evidencia": element.evidencia,
-                                        "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
-                                    }
-                                ]
+                                evidencias: [{
+                                    "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
+                                    "idEvidencia": element.idEvidencia,
+                                    "evidencia": element.evidencia,
+                                    "fullPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/' + element.evidencia
+                                }]
                             })
-                        }
-                        else {
+                        } else {
                             $scope.Memorandums.find(X => X.idMemorandum == element.idMemorandum).evidencias.push({
                                 "rootPath": $rootScope.docServer + '/memorandum/' + element.idMemorandum + '/',
                                 "idEvidencia": element.idEvidencia,
