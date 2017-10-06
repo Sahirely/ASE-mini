@@ -571,11 +571,17 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     $scope.asociarFacturaCotizacion = function () {
       var ordenGlobal='';
-       for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
+      for (var index = 0; index < selectCotizaciones.length; index++) {
+        var element = array[index];
+        if(element.selected == true){
+          ordenGlobal+= element.numeroOrdenGlobal+',';          
+        }
+      }
+       /*for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
            if ($scope.checkedFacturasTotal[i].check ) {
                ordenGlobal+=$scope.checkedFacturasTotal[i].numeroOrdenGlobal+',';
            }
-       };
+       };*/
        if (ordenGlobal != '') {
            $('.btnTerminarTrabajo').ready(function () {
                swal({
@@ -598,6 +604,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
                                         $scope.checkedFacturas=[];
                                         $scope.totalSeleccionadoSuma = 0;
                                    alertFactory.success('Factura abonada correctamente');
+                                   location.href = '/ordenesporcobrar';
                                } else {
                                    alertFactory.info('No se pudo actualizar la Factura');
                                }
@@ -645,7 +652,36 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $scope.fechaRecepcionCopade = '';
   }
   //Carga de archivos
-  $scope.subirCopade = function () {}
+  $scope.subirCopade = function () {
+    var file = $('#myFile1:file')[0].files[0];
+    var name = file.name;
+    var archivo = null;
+    
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      archivo = reader.result;
+      $scope.promise = ordenPorCobrarRepository.post("dcUpload", { 'archivoCopade': archivo,"nombre":name }).then(function (result) {
+          if(result.data > 0){
+            //todo ok
+          }      
+      })
+      
+    };
+
+    
+    
+    
+    /*var ajax = new XMLHttpRequest;
+    
+    var formData = new FormData;
+    formData.append('pdf', file);
+    
+    //ajax.upload.addEventListener("progress", myProgressHandler, false);
+    //ajax.addEventListener('load', myOnLoadHandler, false);
+    ajax.open('POST', '/dcUpload', true);
+    ajax.send(formData);*/
+  }
   
   $scope.seleccionFacturaAbonadaCotizacion= function (idTrabajoAgrupado, ordenGlobal, total) {
     //Marcar seleccionados
@@ -678,4 +714,16 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }
   }
 
+  function getBase64(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      return reader.result;
+      console.log(reader.result);
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+ }
+ 
 })

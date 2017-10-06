@@ -1,9 +1,9 @@
 var Model = require('../../models/dataAccess2'),
+  fs = require('fs'),
   Query = require('./query')
 
-
   var dirname = 'E:/ASEv2Documentos/public/orden/';
-  var dirCopades = 'E:/ASEv2Documentos/public/copade/';
+  var dirCopades = 'C:/ASEv2Documentos/public/copade/';
 
 var Cobrar = function (conf) {
   this.conf = conf || {}
@@ -293,6 +293,46 @@ Cobrar.prototype.post_agregarordenpago = function (req, res, next) {
   ]
   // Llamada a SP
   this.query.execute('INS_ORDEN_PAGO_SP', params, res)
+}
+
+Cobrar.prototype.post_dcUpload = function (req, res, next) {
+  // Referencia a la clase para callback
+  var self = this
+  // Obtención de valores de los parámetros del request
+  var file = req.body.archivoCopade;
+  var nombre = req.body.nombre;
+  if (!fs.existsSync(dirCopades)) {
+    fs.mkdirSync(dirCopades);
+  }
+
+  if (!fs.existsSync(dirCopades + nombre)) {
+    fs.writeFileSync(dirCopades +"10111.sql", file,
+    {
+      encoding :'base64',
+    }
+  );
+    let writeStream = fs.createWriteStream(dirCopades + nombre);
+    
+    // write some data with a base64 encoding
+    writeStream.write(file, 'base64');
+    
+    // the finish event is emitted when all data has been flushed from the stream
+    writeStream.on('finish', () => {  
+        console.log('wrote all data to file');
+    });
+
+    writeStream.end();
+    /*
+    fs.writeFile(dirCopades + "archivo.txt", file, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+
+      console.log("The file was saved!");
+  }); */  
+    //fs.createReadStream(dirCopades + file.nombre).pipe(fs.createWriteStream(file));
+      //fs.renameSync(dirCopades + nombreXmlMinusculas, rutaDestino + '/' + nombreXmlMinusculas);
+  }
 }
 
 module.exports = Cobrar
