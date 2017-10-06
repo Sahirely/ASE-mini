@@ -2,6 +2,7 @@ var Model = require('../../models/dataAccess2'),
   fs = require('fs'),
   Query = require('./query')
 
+  var Load_Files = require('../load_files');
   var dirname = 'E:/ASEv2Documentos/public/orden/';
   var dirCopades = 'C:/ASEv2Documentos/public/copade/';
 
@@ -294,6 +295,22 @@ Cobrar.prototype.post_agregarordenpago = function (req, res, next) {
   // Llamada a SP
   this.query.execute('INS_ORDEN_PAGO_SP', params, res)
 }
+
+Cobrar.prototype.post_subirCopade = function(req, res, next) {
+  
+      // console.log('se quiere subir facturas');
+      var self = this;
+      var lf = new Load_Files();
+  
+      lf.copade(dirCopades, req, res, function(respuesta) {
+          var Resultado = respuesta;
+          // var Parametros = respuesta[0].Param;
+          /*self.view.expositor(res, {
+              error: false,
+              result: { Success: true, Msg: 'Archivos cargados correctamente', data: Resultado }
+          });*/
+      });
+  }
 
 Cobrar.prototype.post_dcUpload = function (req, res, next) {
   // Referencia a la clase para callback

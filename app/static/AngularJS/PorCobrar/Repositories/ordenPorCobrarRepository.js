@@ -77,6 +77,18 @@ registrationModule.factory('ordenPorCobrarRepository', function ($http) {
         }
     });
 },
+postSubirCopade: function() {
+  var form = document.forms.namedItem("frm_copade");
+  var oData = new FormData(form);
+  return $http({
+      url: cobrarUrl + 'subirCopade/',
+      method: "POST",
+      data: oData,
+      headers: {
+          'Content-Type': undefined
+      }
+  });
+},
     delete: function (method, params) {
       return $http({
         url: cobrarUrl + method,

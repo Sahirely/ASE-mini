@@ -506,13 +506,13 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
                               function (isConfirm) {
                                   if (isConfirm) {
                                       $scope.trabajoCobrado(idTrabajos, $scope.idDatosDeCopade);
-                                      /*ordenPorCobrarRepository.putMueveCopade(idTrabajos, $scope.idDatosDeCopade).then(function (resp) {
+                                      ordenPorCobrarRepository.putMueveCopade(idTrabajos, $scope.idDatosDeCopade).then(function (resp) {
                                          if (resp.data > 0) {
                                            alertFactory.success('La copade se copio correctamente');
                                          }
                                       }, function (error) {
                                          alertFactory.error('La copade no se pudo depositar en su carpeta');
-                                      });*/ 
+                                      });
                                       $scope.cleanDatos();
                                       swal("Trabajo terminado!", "La copade se ha asociada", "success");
                                       setTimeout(function () {
@@ -655,7 +655,30 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.subirCopade = function () {
     var file = $('#myFile1:file')[0].files[0];
     var name = file.name;
-    var archivo = null;
+  
+    var copade_file = $('#myFile1').val()
+    if (copade_file == '') {
+      alertFactory.warning('Selecciona un archivo.')
+    } else {
+      $('.btn-copade').attr('disabled', 'disabled')
+
+      ordenPorCobrarRepository.postSubirCopade().then(function (result) {
+        var Respuesta = result
+        document.getElementById('frm_copade').reset()
+        //$('.lbl_evidencia').text('Seleccionar archivo')
+
+        var _nombre = Respuesta.data.data[0].nombre
+        var _descri = ''
+        var _ruta = Respuesta.data.data[0].PathDB
+        //var _orden = Respuesta.data.data[0].Param.idOrden
+
+        /*consultaCitasRepository.agregarEvidencias(_nombre, _descri, _ruta, _orden).then(function (result) {
+          $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
+          $('.btn-evidencia').removeAttr('disabled')
+        })*/
+      }, function (error) { })
+    }
+    /*var archivo = null;
     
     var reader = new FileReader();
     reader.readAsDataURL(file);
@@ -668,7 +691,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       })
       
     };
-
+*/
     
     
     

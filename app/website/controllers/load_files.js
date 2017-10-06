@@ -171,6 +171,85 @@ Load_Files.prototype.evidencia = function( destino, req, res, miCallback ) { // 
     },5000);
 };
 
+Load_Files.prototype.copade = function( destino, req, res, miCallback ) { // Type Options: * / img / xml / pdf / docs / xls
+    var index = 0;    
+    var multer = require('multer');
+    Respuesta        = [];
+
+    var storage = multer.diskStorage({
+        destination: function( req, file, callback ){
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+
+            // var Url_Destino_2 =  "107\\Factura\\1";
+            var Url_Destino = destino //+ req.body.nombre 
+            
+
+            var fs = require("fs");
+            var path = Url_Destino;
+            fs.mkdir(path, function (err) {});
+            
+            callback( null, Url_Destino );
+            Respuesta.push({ 
+                fieldname: fieldname, 
+                success:true, 
+                msg: "Se cargo correctamente",
+                nombre: file.originalname, 
+                Path: Url_Destino + '/' + file.originalname,
+                PathDB: Url_Destino + '/' + file.originalname,
+                Param: req.body
+            });
+
+            index++;
+        },
+        filename: function( req, file, callback ){
+            var files     = req.files;
+            var fieldname = files[ index ].fieldname;
+            var extencion = file.originalname.split('.').pop();
+            var nameFile  = '';
+
+            if( opt_dest_fields === undefined ){
+                nameFile = file.originalname;
+            }
+            else{
+                if( opt_dest_fields[ fieldname ] === undefined || opt_dest_fields[ fieldname ] == '' ){
+                    nameFile = file.originalname;
+                }
+                else{
+                    if( opt_dest_fields[ fieldname ].Name == undefined || opt_dest_fields[ fieldname ].Name == '' ){
+                        nameFile = file.originalname;
+                    }
+                    else{
+                        nameFile = opt_dest_fields[ fieldname ].Name + '.' + extencion;
+                    }
+                }
+            }  
+
+            callback( null, nameFile );
+        }
+    });
+
+    var upload = multer( { storage: storage } ).any();
+    var flag   = true;
+
+    upload( req, res, function( err ){
+        flag   = false;
+        if( err ){
+            miCallback( err );
+            return res.end("Error uploading file.");
+        }
+
+        miCallback( Respuesta );
+    });
+
+    setTimeout( function() {
+        if( flag ){
+            miCallback( Respuesta );
+        }
+    },5000);
+};
+
 Load_Files.prototype.facturas = function( destino, req, res, miCallback ) { // Type Options: * / img / xml / pdf / docs / xls
     var index = 0;    
     var multer = require('multer');
