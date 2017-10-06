@@ -99,7 +99,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">Precio total: {{ total | currency: "$" }}</h2>
+                                            <h2 class="no-margins">Precio total c/iva: {{ total | currency: "$" }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -215,11 +215,11 @@
                                     </table>
                                 </div>
                             </tab> -->
-                            <tab heading="Documento Cobranza" index="1">
+                            <tab heading="Documento Cobranza" index="1" ng-hide="!esPemex" >
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">Precio total: {{ totalCobranza | currency: "$" }}</h2>
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalCobranza | currency: "$" }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -285,12 +285,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">$ 0.00</h2>
-                                            <small>precio venta s/iva</small>
-                                            <div class="stat-percent">12% </div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 12%;" class="progress-bar"></div>
-                                            </div>
+                                            <h2 class="no-margins">Precio total con iva: {{ totalPrefactura | currency: "$" }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -328,13 +323,13 @@
                                             <tr ng-repeat="value in prefactura  track by $index| groupBy: grouper " ng-click="AbrirOrden(value[0])" class="trTableSelect">
                                                 <td>{{value.nombreCliente}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroCopade}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.ordensurtimiento}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.ordenSurtimiento}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.numeroEstimaicon}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.subtotal}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.total | currency}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{ value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm'}}</td>                                                
+                                                <td ng-hide=" idGrouper == 3">{{value.Total | currency}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{ value.fechaCopade | date:'dd-MM-yyyy HH:mm'}}</td>                                                
                                             </tr>
                                         </tbody>
                                     </table>
@@ -344,12 +339,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">$ 0.00</h2>
-                                            <small>precio venta s/iva</small>
-                                            <div class="stat-percent">27% </div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 27%;" class="progress-bar"></div>
-                                            </div>
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalEnviada | currency }}</h2>                                            
                                         </div>
                                     </div>
                                 </div>
@@ -542,12 +532,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">$ 0.00</h2>
-                                            <small>precio venta s/iva</small>
-                                            <div class="stat-percent">5% </div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 5%;" class="progress-bar"></div>
-                                            </div>
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalAbonadas | currency }}</h2>                                                                                        
                                         </div>
                                     </div>
                                 </div>
@@ -608,12 +593,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">$ 0.00</h2>
-                                            <small>precio venta s/iva</small>
-                                            <div class="stat-percent">10% </div>
-                                            <div class="progress progress-mini">
-                                                <div style="width: 10%;" class="progress-bar"></div>
-                                            </div>
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalPagadas | currency }}</h2>                                                                                                                                    
                                         </div>
                                     </div>
                                 </div>

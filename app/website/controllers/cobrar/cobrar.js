@@ -24,6 +24,7 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
     { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
     { name: 'numeroOrden', value: "", type: self.model.types.STRING },
     { name: 'idEjecutivo', value: 0, type: self.model.types.INT }
+    //{ name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   this.query.execute('SEL_OPE_ORDEN_POR_COBRAR_SP', params, res)
 }
@@ -63,7 +64,9 @@ Cobrar.prototype.get_obtenercobranza = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-   // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+    // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
   ]
   // Llamada a SP
   this.query.execute('SEL_COPADES_SP', params, res)
@@ -99,16 +102,20 @@ Cobrar.prototype.post_trabajocobrado = function (req, res, next) {
   //Referencia a la clase para callback
   var self = this;
 
-  var params = [{
-          name: 'idOrden',
-          value: req.body.idTrabajo,
-          type: self.model.types.STRING
-      },
-      {
-          name: 'idDatosCopade',
-          value: req.body.idDatosCopade,
-          type: self.model.types.INT
-      }];
+  var params = [
+    {
+      name: 'idOrden',
+      value: req.body.idTrabajo,
+      type: self.model.types.STRING
+    },
+    {
+      name: 'idDatosCopade',
+      value: req.body.idDatosCopade,
+      type: self.model.types.INT
+    },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+  ];
 
       this.query.execute('INS_TRABAJO_CONCLUIDO_SP', params, res)
 }
@@ -122,17 +129,21 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
   //Referencia a la clase para callback
   var self = this;
 
-  var params = [{
-          name: 'ordenGlobal',
-          value: req.body.ordenGlobal,
-          type: self.model.types.STRING
-      }];
-
-      this.query.execute('INS_ENVIO_ABONADOS', params, res)
-}
-    //Quita la copade de la carpeta 'copades' y la pone en su respectiva orden de servicio 'idTrabajo/documentos/adendaCopade'
-    Cobrar.prototype.post_mueveCopade = function (req, res, next) {
-      //Objeto que almacena la respuesta
+  var params = [
+    {
+      name: 'ordenGlobal',
+      value: req.body.ordenGlobal,
+      type: self.model.types.STRING
+    },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+  ];
+    
+    this.query.execute('INS_ENVIO_ABONADOS', params, res)
+  }
+  //Quita la copade de la carpeta 'copades' y la pone en su respectiva orden de servicio 'idTrabajo/documentos/adendaCopade'
+  Cobrar.prototype.post_mueveCopade = function (req, res, next) {
+    //Objeto que almacena la respuesta
       var object = {};
       //Objeto que envía los parámetros
       var params = {};
@@ -215,7 +226,9 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
         { name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING },
         { name: 'fechaEspecifica', value: req.query.fechaEspecifica, type: self.model.types.STRING },
         { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
-        { name: 'idDatosCopade', value: req.query.idDatosCopade, type: self.model.types.INT }
+        { name: 'idDatosCopade', value: req.query.idDatosCopade, type: self.model.types.INT },
+        { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+        { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
       ];
 
       this.query.execute('SEL_FACTURAS_PAGADAS_SP', params, res)
@@ -228,7 +241,9 @@ Cobrar.prototype.get_obtenerprefactura = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   // Llamada a SP
   this.query.execute('SEL_PREFACTURA_GENERADA_SP', params, res)
@@ -250,7 +265,9 @@ Cobrar.prototype.get_obtenerabonos = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   // Llamada a SP
   this.query.execute('SEL_COTIZACION_ABONADOS_SELECT_SP', params, res)
@@ -261,7 +278,9 @@ Cobrar.prototype.get_obtenerenviadas = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   // Llamada a SP
   this.query.execute('SEL_ENVIADAS_SP', params, res)
@@ -276,7 +295,9 @@ Cobrar.prototype.get_obtenerpagadas = function (req, res, next) {
     { name: 'fechaInicio', value: req.query.fechaInicio, type: self.model.types.STRING },
     { name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING },
     { name: 'fechaEspecifica', value: req.query.fechaEspecifica, type: self.model.types.STRING },
-    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   // Llamada a SP 
   this.query.execute('SEL_FACTURAS_PAGADAS_SP', params, res)

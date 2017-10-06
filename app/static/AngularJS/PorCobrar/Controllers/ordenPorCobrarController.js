@@ -3,6 +3,12 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   $scope.x = 0
   $scope.totalNiveles = 0
+  $scope.total = 0
+  $scope.totalPrefactura = 0
+  $scope.totalAbonadas = 0
+  $scope.totalPagadas = 0
+  $scope.totalCobranza = 0
+  $scope.totalEnviada = 0
   $scope.zonaSelected = '0'
   $scope.ZonasSeleccionadas = []
   $scope.NivelesZona = []
@@ -47,6 +53,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.init = function () {
     $scope.userData = userFactory.getUserData()
     // para obtener las zonas promero se inicializa la primer zona padre.
+    $scope.esPemex = $scope.userData.contratoOperacionSeleccionada == 3;
     userFactory.ValidaSesion()
     $scope.ZonasSeleccionadas[0] = '0'
     $scope.obtieneNivelZona()
@@ -55,46 +62,56 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     // Obtengo la lista de tablas
     $('.dataTablePorCobrar').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
+      'idUsuario': $scope.userData.idUsuario,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.porCobrar = result.data
       $scope.total = 0
       angular.forEach($scope.porCobrar, function (value, key) {
         $scope.total = $scope.total + value.venta
       })
 
-      globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
+      globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener las órdenes por cobrar')
     })
 
     // Obtengo la lista de tablas (COBRANZA)
     $('.dataTableCobrazna').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': $scope.userData.idUsuario, 
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.cobranza = result.data
      var sumatoria = 0;
           for(var i=0;i<result.data.length;i++){
             sumatoria += parseFloat(result.data[i].subTotal);
         };
        $scope.totalCobranza = sumatoria;
-      globalFactory.filtrosTabla('dataTableCobrazna', 'Documento Cobranza', 100)
+      globalFactory.filtrosTabla('dataTableCobrazna', 'Documento Cobranza', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener los documentos generados')
     })
    
     // Obtengo la lista de tablas
     $('.dataTablePrefactura').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': $scope.userData.idUsuario, 
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.prefactura = result.data
-      globalFactory.filtrosTabla('dataTablePrefactura', 'PreFacturas Generadas', 100)
+      angular.forEach($scope.prefactura, function (value, key) {
+        $scope.totalPrefactura = $scope.totalPrefactura + value.Total
+      })
+      globalFactory.filtrosTabla('dataTablePrefactura', 'PreFacturas Generadas', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener las prefacturas generadas')
     })
     
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': $scope.userData.idUsuario, 
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.enviada = result.data
-      globalFactory.filtrosTabla('dataTableEnviada', 'Facturas Enviada al Cliente', 100)
+      angular.forEach($scope.enviada, function (value, key) {
+        $scope.totalEnviada = $scope.totalEnviada + value.total
+      })
+      globalFactory.filtrosTabla('dataTableEnviada', 'Facturas Enviada al Cliente', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Enviada al Cliente')
     })
@@ -116,7 +133,8 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     //Obtengo la lista de tablas (ABONOS)
     $('.dataTableAbonos').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario, 
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.selectCotizaciones = result.data
      var sumatoriaMontoCopade = 0;
      var sumatoriaAbonoCopade = 0;
@@ -135,7 +153,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
        $scope.saldoCopAbonoSelect = sumatoriaSaldoCopade;
        $scope.montoProvAbonoSelect = sumatoriaMontoProveedor;
        $scope.saldoProvAbonoSelect = sumatoriaSaldoProveedor;	   
-      globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 100)
+      globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener los abonos generados')
     })
@@ -143,18 +161,27 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     // Obtengo la lista de tablas
     $('.dataTableAbonadas').DataTable().destroy();
-    $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario, 
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.abonadas = result.data;
       //$scope.data = result.data;
-      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 100);
+      angular.forEach($scope.abonadas, function (value, key) {
+        $scope.totalAbonadas = $scope.totalAbonadas + value.total
+      })
+      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 50);
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Abonadas')
     })
 
     $('.dataTablePagadas').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,'idDatosCopade':0 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
+    'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,
+    'idDatosCopade':0, 'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.pagadas = result.data
-      globalFactory.filtrosTabla('dataTablePagadas', 'Facturas Pagadas', 100)
+      angular.forEach($scope.pagadas, function (value, key) {
+        $scope.totalPagadas = $scope.totalPagadas + value.total
+      })
+      globalFactory.filtrosTabla('dataTablePagadas', 'Facturas Pagadas', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Pagadas')
     })
