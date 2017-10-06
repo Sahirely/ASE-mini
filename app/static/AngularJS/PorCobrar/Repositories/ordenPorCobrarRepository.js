@@ -24,6 +24,59 @@ registrationModule.factory('ordenPorCobrarRepository', function ($http) {
         data: params
       })
     },
+    putTrabajoCobrado: function (idTrabajo, idDatosCopade) {
+      var objTrabajo = {
+          idTrabajo: idTrabajo,
+          idDatosCopade: idDatosCopade
+      };
+
+      return $http({
+          url: cobrarUrl + 'trabajocobrado',
+          method: "POST",
+          data: objTrabajo,
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      });
+    },
+    putMueveCopade: function (idTrabajo, idDatosCopade) {     
+      var objArchivo = {
+          idTrabajo: idTrabajo,
+          idDatosCopade: idDatosCopade
+      };      
+      return $http({        
+          url: cobrarUrl + 'mueveCopade',
+                  method: "POST",
+                  data: objArchivo,
+                  headers: {          
+              'Content-Type': 'application/json'        
+          }      
+      });    
+  },
+  putFacturaAbonada: function (ordenGlobal) {
+    var objTrabajo = {
+        ordenGlobal: ordenGlobal
+    };
+
+    return $http({
+        url: cobrarUrl + 'facturaAbonada',
+        method: "POST",
+        data: objTrabajo,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+},
+  getTrbajoCobrado: function (parametros) {
+    return $http({
+        url: cobrarUrl + 'trbajoCobrado',
+        method: "GET",
+        params: parametros,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+},
     delete: function (method, params) {
       return $http({
         url: cobrarUrl + method,

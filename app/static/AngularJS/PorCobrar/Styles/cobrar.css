@@ -1,3 +1,13 @@
+.totalesInline{
+    display: inline;
+}
+.letraItalic{
+    font-style: italic;
+}
+#frm_copade{
+    margin: 95px;
+    text-align: center;
+}
 
 .sumatorias{
  margin-top: 50px;

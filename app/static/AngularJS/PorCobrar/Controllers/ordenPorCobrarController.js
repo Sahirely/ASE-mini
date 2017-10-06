@@ -8,6 +8,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.NivelesZona = []
   $scope.Zonas = []
   $scope.checkedTrabajos = [];
+  $scope.checkedFacturasTotal = [];
 
   $scope.grouper = 'numeroOrden'
   $scope.idGrouper = 2
@@ -68,7 +69,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     // Obtengo la lista de tablas (COBRANZA)
     $('.dataTableCobrazna').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': 1 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
       $scope.cobranza = result.data
      var sumatoria = 0;
           for(var i=0;i<result.data.length;i++){
@@ -82,7 +83,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
    
     // Obtengo la lista de tablas
     $('.dataTablePrefactura').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': 1 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
       $scope.prefactura = result.data
       globalFactory.filtrosTabla('dataTablePrefactura', 'PreFacturas Generadas', 100)
     }, function (error) {
@@ -91,15 +92,15 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': 1 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
       $scope.enviada = result.data
       globalFactory.filtrosTabla('dataTableEnviada', 'Facturas Enviada al Cliente', 100)
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Enviada al Cliente')
     })
 
-    /*
-    // Obtengo la lista de tablas (ABONOS)
+    
+    /*/ Obtengo la lista de tablas (ABONOS)
     $('.dataTableAbonos').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': 1 }).then(function (result) {
       $scope.selectCotizaciones = result.data
@@ -111,19 +112,47 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 100)
     }, function (error) {
       alertFactory.error('No se puenen obtener los abonos generados')
+    })*/
+
+    //Obtengo la lista de tablas (ABONOS)
+    $('.dataTableAbonos').DataTable().destroy()
+    $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
+      $scope.selectCotizaciones = result.data
+     var sumatoriaMontoCopade = 0;
+     var sumatoriaAbonoCopade = 0;
+     var sumatoriaSaldoCopade = 0;
+     var sumatoriaMontoProveedor = 0;
+     var sumatoriaSaldoProveedor = 0;
+          for(var i=0;i<result.data.length;i++){
+            sumatoriaMontoCopade += parseFloat(result.data[i].COP_CARGO);
+            sumatoriaAbonoCopade += parseFloat(result.data[i].abono);
+            sumatoriaSaldoCopade += parseFloat(result.data[i].COP_SALDO);
+            sumatoriaMontoProveedor += parseFloat(result.data[i].total);
+            sumatoriaSaldoProveedor += parseFloat(result.data[i].saldoProveedor);
+        };
+       $scope.montoCopAbonoSelect = sumatoriaMontoCopade;
+       $scope.abonoCopAbonoSelect = sumatoriaAbonoCopade;
+       $scope.saldoCopAbonoSelect = sumatoriaSaldoCopade;
+       $scope.montoProvAbonoSelect = sumatoriaMontoProveedor;
+       $scope.saldoProvAbonoSelect = sumatoriaSaldoProveedor;	   
+      globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 100)
+    }, function (error) {
+      alertFactory.error('No se puenen obtener los abonos generados')
     })
+    
+
     // Obtengo la lista de tablas
     $('.dataTableAbonadas').DataTable().destroy();
-    $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': 1 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario }).then(function (result) {
       $scope.abonadas = result.data;
       //$scope.data = result.data;
       globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 100);
     }, function (error) {
       alertFactory.error('No se puenen obtener las Facturas Abonadas')
     })
-    */
+
     $('.dataTablePagadas').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', { 'idUsuario': 1 }).then(function (result) {
+    $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,'idDatosCopade':0 }).then(function (result) {
       $scope.pagadas = result.data
       globalFactory.filtrosTabla('dataTablePagadas', 'Facturas Pagadas', 100)
     }, function (error) {
@@ -428,6 +457,20 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     }
   }
 
+  //Inserta a historial proceso y Asocia DatosCopadeOrden
+    $scope.trabajoCobrado = function (idTrabajo, idDatosCopade) {
+        $('.dataTableOrdenesPorCobrar').DataTable().destroy();
+        ordenPorCobrarRepository.putTrabajoCobrado(idTrabajo, idDatosCopade).then(function (result) {
+            if (result.data.length > 0) {
+                alertFactory.success('Trabajo cobrado exitosamente');
+            } else {
+                alertFactory.info('No se pudo actualizar el trabajo cobrado');
+            }
+        }, function (error) {
+            alertFactory.error("Error al actualizar el trabajo cobrado");
+        });
+    }
+
   //Asociamos un idtrabajo con DatosCopade
   $scope.asociarCopade = function () {
     
@@ -442,7 +485,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
           }
       };
 
-      $scope.promise = ordenPorCobrarRepository.getOrden(numeroTrbajos).then(function (result) {
+      $scope.promise = ordenPorCobrarRepository.get("getOrden",numeroTrbajos).then(function (result) {
 
           if (result.data[0].Orden != 0) {
 
@@ -463,13 +506,13 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
                               function (isConfirm) {
                                   if (isConfirm) {
                                       $scope.trabajoCobrado(idTrabajos, $scope.idDatosDeCopade);
-                                      ordenPorCobrarRepository.putMueveCopade(idTrabajos, $scope.idDatosDeCopade).then(function (resp) {
+                                      /*ordenPorCobrarRepository.putMueveCopade(idTrabajos, $scope.idDatosDeCopade).then(function (resp) {
                                          if (resp.data > 0) {
                                            alertFactory.success('La copade se copio correctamente');
                                          }
-                                     }, function (error) {
+                                      }, function (error) {
                                          alertFactory.error('La copade no se pudo depositar en su carpeta');
-                                      }); 
+                                      });*/ 
                                       $scope.cleanDatos();
                                       swal("Trabajo terminado!", "La copade se ha asociada", "success");
                                       setTimeout(function () {
@@ -505,6 +548,134 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
        }, function (error) {
           alertFactory.error("Error al verificar la orden");
       });     
+  }
+
+  //Limpiamos campos idTrabajo
+  $scope.cleanDatos = function () {
+    $scope.idDeTrabajo = '';  
+  }
+
+  $scope.verOrdenes= function(idDatosCopade){
+    $('.dataTableTrabajosCobrados').DataTable().destroy();
+    $('#facturasOrden').appendTo("body").modal('show');
+        ordenPorCobrarRepository.getTrbajoCobrado({'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,'idDatosCopade':idDatosCopade}).then(function (result) {
+            if (result.data.length > 0) {
+                $scope.trabajosCobrados = result.data;
+                 $scope.numeroCopadeOrden = $scope.trabajosCobrados[0].numeroCopade;
+                globalFactory.waitDrawDocument("dataTableTrabajosCobrados", "OrdenporCobrar");
+            }
+        }, function (error) {
+            alertFactory.error("Error al obtener trabajos por cobrar");
+        });
+    }
+
+    $scope.asociarFacturaCotizacion = function () {
+      var ordenGlobal='';
+       for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
+           if ($scope.checkedFacturasTotal[i].check ) {
+               ordenGlobal+=$scope.checkedFacturasTotal[i].numeroOrdenGlobal+',';
+           }
+       };
+       if (ordenGlobal != '') {
+           $('.btnTerminarTrabajo').ready(function () {
+               swal({
+                       title: "¿Esta seguro en guardar la Factura selecionada?",
+                       text: "Se cambiará el estatus a 'Facturas Abonadas'",
+                       type: "warning",
+                       showCancelButton: true,
+                       confirmButtonColor: "#65BD10",
+                       confirmButtonText: "Si",
+                       cancelButtonText: "No",
+                       closeOnConfirm: true,
+                       closeOnCancel: true
+                   },
+                   function (isConfirm) {
+                       if (isConfirm) {
+                           ordenPorCobrarRepository.putFacturaAbonada(ordenGlobal).then(function (result) {
+                               if (result.data.length > 0) {
+                                   swal("Trabajo terminado!", "Las Facturas se han abonado", "success");
+                                        $scope.trabajosAbonados(1);
+                                        $scope.checkedFacturas=[];
+                                        $scope.totalSeleccionadoSuma = 0;
+                                   alertFactory.success('Factura abonada correctamente');
+                               } else {
+                                   alertFactory.info('No se pudo actualizar la Factura');
+                               }
+                           }, function (error) {
+                               alertFactory.error("Error al actualizar la factura");
+                           });
+                       } else {
+                           swal("Factura no asociada", "", "error");
+                           $('#finalizarTrabajoModal').modal('hide');
+                       }
+                   });
+           });
+       } else {
+           alertFactory.error("Debe seleccionar al menos una Factura");
+       }   
+   }
+
+  //Carga Adenda y Copade
+  $scope.subir = function (idTrabajo) {
+    $('#subirAdenda').appendTo('body').modal('show');
+    $scope.idTrabajo = idTrabajo;
+  }
+  $('#fechaTrabajo .input-group.date').datepicker({
+    todayBtn: "linked",
+    keyboardNavigation: true,
+    forceParse: false,
+    calendarWeeks: true,
+    autoclose: true,
+    todayHighlight: true
+  });
+  //Muestra la captura de la fecha
+  $scope.fechaRecepcibeCopade = function () {
+    $('#finalizarTrabajoModal').appendTo("body").modal('show');
+  }
+  //Guardamos la fecha capturable de la copade
+  $scope.saveFecha = function () {
+    if ($scope.fechaRecepcionCopade != '') {
+        localStorageService.set("fechaRecepcion", $scope.fechaRecepcionCopade);
+        $('#finalizarTrabajoModal').modal('hide');
+    } else {
+        alertFactory.info('Debe ingresar una fecha');
+    }
+  }
+  $scope.limpiaFecha = function () {
+    $scope.fechaRecepcionCopade = '';
+  }
+  //Carga de archivos
+  $scope.subirCopade = function () {}
+  
+  $scope.seleccionFacturaAbonadaCotizacion= function (idTrabajoAgrupado, ordenGlobal, total) {
+    //Marcar seleccionados
+     //var factura = false;
+     $scope.totalSeleccionadoSuma = 0;
+    if ($scope.checkedFacturasTotal.length > 0) {
+        for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
+            if ($scope.checkedFacturasTotal[i].ordenGlobal == ordenGlobal) {
+                //factura = true;
+                 if ($scope.checkedFacturasTotal[i].check == false) {
+                    $scope.checkedFacturasTotal[i].check = true;
+                        angular.forEach($scope.selectCotizaciones, function(value, key) {
+                         if(value.COP_ORDENGLOBAL == ordenGlobal)
+                            value.selected = true;
+                        });
+                }else{
+                    $scope.checkedFacturasTotal[i].check = false; 
+                        angular.forEach($scope.selectCotizaciones, function(value, key) {
+                         if(value.COP_ORDENGLOBAL == ordenGlobal)
+                            value.selected = false;
+                        });
+                } 
+            }
+        } 
+    } 
+    for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
+        if ($scope.checkedFacturasTotal[i].check) {
+           $scope.totalSeleccionadoSuma+=parseFloat($scope.checkedFacturasTotal[i].total);
+        }
+    }
   }
 
 })
