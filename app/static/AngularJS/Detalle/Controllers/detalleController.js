@@ -202,7 +202,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         $scope.getMostrarCotizaciones($scope.numeroOrden, statusCotizacion, $scope.idUsuario)
 
-        // Epediente y MAPA 
+        // Epediente y MAPA
         // ECG
         if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
           $scope.markers = [{
@@ -614,24 +614,46 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.setRowColor = function (obj) {
-    switch (Number(obj.nivel)) {
-      case 1:
-        obj.rowColor = 'info'
-        break
-      case 2:
-        obj.rowColor = 'success'
-        break
-      case 3:
-        obj.rowColor = 'warning'
-        break
-      case 4:
-        obj.rowColor = 'danger'
-        break
-      case 5:
-        obj.rowColor = 'active'
-        break
-      default:
-        obj.rowColor = 'info'
+    if ($scope.userData.contratoOperacionSeleccionada == 3){
+        switch (Number(obj.nivel)) {
+          case 1:
+            obj.rowColor = 'rowVerde1'
+            break
+          case 2:
+            obj.rowColor = 'rowAzul2'
+            break
+          case 3:
+            obj.rowColor = 'rowAmarillo3'
+            break
+          case 4:
+            obj.rowColor = 'rowRojo4'
+            break
+          case 5:
+            obj.rowColor = 'rowEtGlobal5'
+            break
+          default:
+            obj.rowColor = 'rowVerde1'
+        }
+    } else {
+        switch (Number(obj.nivel)) {
+          case 1:
+            obj.rowColor = 'info'
+            break
+          case 2:
+            obj.rowColor = 'success'
+            break
+          case 3:
+            obj.rowColor = 'warning'
+            break
+          case 4:
+            obj.rowColor = 'danger'
+            break
+          case 5:
+            obj.rowColor = 'active'
+            break
+          default:
+            obj.rowColor = 'info'
+        }
     }
   }
 

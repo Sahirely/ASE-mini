@@ -576,7 +576,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr ng-repeat="partida in cotizacion.detalle" ng-init="partida.rowColor='info'; setRowColor(partida)" class="{{partida.idEstatusPartida == 3 ? 'rowRojo' : partida.rowColor}}">
+                                                            <tr ng-repeat="partida in cotizacion.detalle" ng-init="partida.rowColor='info'; setRowColor(partida)" class="{{partida.idEstatusPartida == 3 ? 'rowCanceled' : partida.rowColor}}">
                                                                 <td class="tdDesc">
                                                                     <div><strong>{{partida.partida}}</strong> / Parte <strong> {{partida.noParte}} </strong>                                                                        / <span class="lblEsp label label-default">{{partida.especialidad}}</span>
                                                                     </div>
