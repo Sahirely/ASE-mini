@@ -3,8 +3,26 @@
 }
 /*INICIA Estilos para los progress bar*/
 
-
-
+.rowRojo4 {
+    background-color: rgba(255, 80, 80, 0.5);
+}
+.rowVerde1 {
+    background-color: rgba(102, 255, 102, 0.5);
+}
+.rowAmarillo3 {
+    background-color: rgba(255, 255, 0, 0.5);
+}
+.rowAzul2 {
+    background-color: rgba(0, 156, 255, 0.5);
+}
+.rowEtGlobal5 {
+    background-color: rgba(112, 65, 208, 0.22);
+}
+.rowCanceled{
+    background-color: rgba(177, 179, 171, 0.3);
+    opacity: .5;
+    color: #333;
+}
 .reloj{
     font-size: 33px;
     transform: scaleX(-1);
@@ -710,7 +728,7 @@ a.documentos:hover{
 }
 
 .logoOperacion{
-    
+
 }
 
 .idOperacion{
