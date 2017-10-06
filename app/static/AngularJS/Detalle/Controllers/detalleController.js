@@ -69,6 +69,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.userData = userFactory.getUserData()
     $scope.rolLogged = $scope.userData.idRol
     $scope.idUsuario = $scope.userData.idUsuario
+    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
     $scope.btnSwitch.classCosto = 'btn btn-success'
     $scope.btnSwitch.classVenta = 'btn btn-default'
 
@@ -187,6 +188,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         $scope.idEstatusOrden = $scope.detalleOrden.idEstatusOrden
         $scope.idOrdenURL = $scope.detalleOrden.idOrden
+        $scope.migracion = $scope.detalleOrden.migracion
         $scope.creaURLS()
         var statusCotizacion = 0
         if ($scope.estatus == 1 || $scope.estatus == 2 || $scope.estatus == 3) {
@@ -1483,6 +1485,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     })
 
     // //////////////////////// Sección de Hoja de Trabajo //////////////////////////
+    if(($scope.idEstatusOrden <= 7) && ($scope.migracion == 1) && ($scope.idContratoOperacion == 3)){
+       $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/CConformidadOriginal.pdf'
+    }else{
+        $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
+    }
     $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
     $scope.HistoricoOrden.forEach(function (item) {
       if (item.idEstatusOrden == 6) {
@@ -1515,8 +1522,12 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.OpenTrabajo = function () {
-    var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
-    window.open(url)
+    if(($scope.idEstatusOrden <= 7) && ($scope.migracion == 1) && ($scope.idContratoOperacion == 3)){
+      var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/CConformidadOriginal.pdf'
+    }else{
+      var url = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
+    }
+      window.open(url)
   }
 
   $scope.acciones = function () {
