@@ -180,13 +180,8 @@ function getSeleccionDeAbonos(){
       //Obtengo la lista de tablas (ABONOS)
       $('.dataTableAbonos').DataTable().destroy()
       $scope.checkedFacturasTotal = [];
-<<<<<<< HEAD
-      $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario, 
-      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
-=======
       $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario,
       'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
->>>>>>> 05a54656e3be33bb0229938852b1faee144bc3a7
         $scope.selectCotizaciones = result.data
        var sumatoriaMontoCopade = 0;
        var sumatoriaAbonoCopade = 0;
