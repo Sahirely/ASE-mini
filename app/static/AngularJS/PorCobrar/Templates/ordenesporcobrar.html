@@ -158,7 +158,7 @@
                                                 <td>{{value.costo | currency}}</td>
                                                 <td>{{value.nombreCompleto }}</td>
                                                 <td>{{value.tiempoEsperaTranscurrido }} días</td>
-                                            </tr>   
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -220,14 +220,14 @@
                                 <br/><br/><br/><br/>
                                 <div>
                                     <br>
-                                    <div class="ibox-content" ng-show=" fechaRecepcionCopade == '' ">
+                                    <div class="ibox-content" ng-show="showTagFechaRecepcion">
                                         <div class="alert alert-danger">
                                             <strong>Seleccione una FECHA, </strong> para poder subir COPADE.
                                         </div>
                                     </div>
                                     {{fechaRecepcionCopade}}&nbsp;&nbsp;
                                     <button class="btn btn-success" type="button" ng-click="fechaRecepcibeCopade()" data-toggle="tooltip" tooltip="Fecha de Recepcion COPADE" tooltip-placement="up"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Fecha de Recepcion COPADE</button>&nbsp;&nbsp;
-                                    <button class="btn btn-primary" type="button" id="btnEnviar" data-toggle="tooltip" tooltip="Cargar COPADE" tooltip-placement="right" ng-click="subir()" ng-disabled="fechaRecepcionCopade==''">
+                                    <button class="btn btn-primary" type="button" id="btnEnviar" data-toggle="tooltip" tooltip="Cargar COPADE" tooltip-placement="right" ng-click="subir()" ng-mouseover="validarFecha()" > <!-- ng-disabled="fechaRecepcionCopade==''" -->
                                         <span class="fa fa-paperclip" aria-hidden="true" data-toggle="modal">&nbsp;Cargar COPADE</span>
                                     </button>&nbsp;&nbsp;&nbsp;
                                     <br>
@@ -292,15 +292,14 @@
                                     <table class="table table-striped table-bordered table-hover dataTablePrefactura">
                                         <thead>
                                             <tr>
-                                                <th>Cliente</th>                                                
+                                                <th>Cliente</th>
                                                 <th ng-hide=" idGrouper == 3">No. COPADE</th>
                                                 <th ng-hide=" idGrouper == 3">Orden Surtimiento</th>
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
                                                 <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta sin IVA</th>
-                                                <th ng-hide=" idGrouper == 3">Folio Factura</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta con IVA</th>
-                                                <th ng-hide=" idGrouper == 3">Fecha COPADE</th>                                                                                                
+                                                <th ng-hide=" idGrouper == 3">Fecha COPADE</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -311,9 +310,8 @@
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroEstimaicon}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.Total | currency}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{ value.fechaCopade | date:'dd-MM-yyyy HH:mm'}}</td>                                                
+                                                <td ng-hide=" idGrouper == 3">{{ value.fechaCopade | date:'dd-MM-yyyy HH:mm'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -323,7 +321,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">Precio total c/iva: {{ totalEnviada | currency }}</h2>                                            
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalEnviada | currency }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -359,7 +357,7 @@
                                     <table class="table table-striped table-bordered table-hover dataTableEnviada">
                                         <thead>
                                             <tr>
-                                                <th>Cliente</th>                                                
+                                                <th>Cliente</th>
                                                 <th ng-hide=" idGrouper == 3">No. COPADE</th>
                                                 <th ng-hide=" idGrouper == 3">Orden Surtimiento</th>
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
@@ -367,7 +365,7 @@
                                                 <th ng-hide=" idGrouper == 3">Precio venta sin IVA</th>
                                                 <th ng-hide=" idGrouper == 3">Folio Factura</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta con IVA</th>
-                                                <th ng-hide=" idGrouper == 3">Fecha COPADE</th>                                                                                                
+                                                <th ng-hide=" idGrouper == 3">Fecha COPADE</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -380,7 +378,7 @@
                                                 <td ng-hide=" idGrouper == 3">{{value.subtotal}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.total | currency}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{ value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm'}}</td>                                                
+                                                <td ng-hide=" idGrouper == 3">{{ value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm'}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -454,7 +452,7 @@
                                                 <th>Monto Factura Taller</th>
                                                 <th>Saldo Factura Taller</th>
                                                 <th>Número Económico</th>
-                                                <th>Zona</th>                                                
+                                                <th>Zona</th>
                                                 <th>Tipo Orden</th>
                                                 <th>Descripción de la Orden</th>
                                                 <th>Precio Cotización con IVA</th>
@@ -486,7 +484,7 @@
                                                 <td>{{selectCotizacion.total | currency}}</td>
                                                 <td>{{selectCotizacion.saldoProveedor | currency}}</td>
                                                 <td>{{selectCotizacion.numeroEconomico}}</td>
-                                                <td>{{selectCotizacion.nombre}}</td>                                                
+                                                <td>{{selectCotizacion.nombre}}</td>
                                                 <td>{{selectCotizacion.nombreTipoOrden}}</td>
                                                 <td>{{selectCotizacion.trabajo}}</td>
                                                 <td>{{selectCotizacion.precioCotizacion | currency}}</td>
@@ -499,13 +497,13 @@
                                                 <td>{{selectCotizacion.fechaInicio | date:'dd-MM-yyyy HH:mm'}}</td>
                                                 <td>{{selectCotizacion.fechaFin | date:'dd-MM-yyyy HH:mm'}}</td>
                                                 <td>
-                                                    <div class="alerta"> 
+                                                    <div class="alerta">
                                                         <button class="dropdown-toggle alerta-form btn btn-info" tooltip="Ver órden de servicio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="aprobarTrabajo(selectCotizacion, 1)">
-                                                            <i class="glyphicon glyphicon-sunglasses"></i> 
+                                                            <i class="glyphicon glyphicon-sunglasses"></i>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-messages">
                                                         </ul>
-                                                    </div> 
+                                                    </div>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -516,7 +514,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">Precio total c/iva: {{ totalAbonadas | currency }}</h2>                                                                                        
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalAbonadas | currency }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -558,12 +556,12 @@
                                                 <td>{{value.nombreCliente}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroCopade}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.folio}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>                                              
-                                                <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td> 
-                                                <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td> 
-                                                <td ng-hide=" idGrouper == 3">{{value.numFactura}}</td> 
-                                                <td ng-hide=" idGrouper == 3">{{value.total}}</td>                                                                                                                              
-                                                <!--td ng-hide=" idGrouper == 3">{{value[0].abono}}</td--> 
+                                                <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.numFactura}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.total}}</td>
+                                                <!--td ng-hide=" idGrouper == 3">{{value[0].abono}}</td-->
                                                 <!--  <td ng-hide=" idGrouper != 1">{{value[0].saldo}}</td>-->
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_FECHULTPAG}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{ value.COP_FECHOPE}}</td>
@@ -577,7 +575,7 @@
                                 <div class="row sumatorias">
                                     <div class="col-xs-3 pull-right">
                                         <div>
-                                            <h2 class="no-margins">Precio total c/iva: {{ totalPagadas | currency }}</h2>                                                                                                                                    
+                                            <h2 class="no-margins">Precio total c/iva: {{ totalPagadas | currency }}</h2>
                                         </div>
                                     </div>
                                 </div>
@@ -761,14 +759,14 @@
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <h4 class="modal-title">Órdenes relacionadas con COPADE</h4>
-                <div class="row"> 
+                <div class="row">
                     <div class="col-xs-12">
                         <h6 class="modal-title text-navy">
                            <br>
                            Número COPADE: {{numeroCopadeOrden}}
                        </h6>
                    </div>
-               </div> 
+               </div>
            </div>
            <br>
            <div class="modal-body col-md-12">
@@ -779,11 +777,11 @@
                             <th>Consecutivo</th>
                             <th>Número de la Orden</th>
                             <th>Número Económico</th>
-                            <th>Zona</th>                                                        
+                            <th>Zona</th>
                             <th>Tipo Orden</th>
                             <th>Estatus</th>
                             <!--th>Precio venta sin IVA</th-->
-                            <th>Fecha</th>                             
+                            <th>Fecha</th>
                             <th>Acción</th>
                         </tr>
                     </thead>
@@ -792,19 +790,19 @@
                             <td>{{trabajo.idOrden}}</td>
                             <td>{{trabajo.numeroOrden}}</td>
                             <td>{{trabajo.numeroEconomico}}</td>
-                            <td>{{trabajo.nombreZona}}</td>                                                        
+                            <td>{{trabajo.nombreZona}}</td>
                             <td>{{trabajo.nombreTipoORden}}</td>
                             <td>{{trabajo.nombreEstatusOrden}}</td>
                             <!--td>{{cita.montoOrden | currency}}</td-->
-                            <td>{{trabajo.fechaCreacionOrden | date:'dd-MM-yyyy HH:mm'}}</td>                                 
+                            <td>{{trabajo.fechaCreacionOrden | date:'dd-MM-yyyy HH:mm'}}</td>
                             <td>
-                                <div class="alerta"> 
+                                <div class="alerta">
                                     <button class="dropdown-toggle alerta-form btn btn-info" tooltip="Ver órden de servicio" data-toggle="dropdown" href="#" aria-expanded="true" ng-click="aprobarTrabajo(cita, 1)">
                                         <i class="glyphicon glyphicon-sunglasses"></i>  <span ng-hide="cita.numeroNotas == 0" class="letter-labal alerta-color">{{cita.numeroNotas}}</span>
                                     </button>
                                     <ul class="dropdown-menu dropdown-messages">
                                     </ul>
-                                </div> 
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -858,4 +856,3 @@
             </div>
         </div>
     </div>
-    
