@@ -64,9 +64,9 @@ Cobrar.prototype.get_obtenercobranza = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    //{ name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-    //{ name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
-    // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+      { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+      { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+      { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   // Llamada a SP
   this.query.execute('SEL_COPADES_SP', params, res)
@@ -138,7 +138,7 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
     { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
     { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ];
-    
+
     this.query.execute('INS_ENVIO_ABONADOS', params, res)
   }
   //Quita la copade de la carpeta 'copades' y la pone en su respectiva orden de servicio 'idTrabajo/documentos/adendaCopade'
@@ -149,27 +149,27 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
       var params = {};
       //Referencia a la clase para callback
       var self = this;
-    
+
       var idTrabajo = req.body.idTrabajo;
       var idTrabajos = req.body.idTrabajo;
       var idCopade = req.body.idDatosCopade;
-    
+
       var trabajos = idTrabajos.split(',');
-    
+
       var nombreXmlMinusculas = 'COPADE_' + idCopade + '.xml';
       var nombreXmlMayusculas = 'COPADE_' + idCopade + '.XML';
       var nombrePdfMinusculas = 'COPADE_' + idCopade + '.pdf';
       var nombrePdfMayusculas = 'COPADE_' + idCopade + '.PDF';
-    
-    
+
+
       trabajos.forEach(function (idTrabajo) {
           if (idTrabajo != '' && idTrabajo != null && idTrabajo != undefined) {
               var rutaDestino = dirname + idTrabajo + '/copade';
-    
+
               if (!fs.existsSync(rutaDestino)) {
                   fs.mkdirSync(rutaDestino);
               }
-    
+
               if (fs.existsSync(dirCopades + nombreXmlMinusculas)) {
                   fs.createReadStream(dirCopades + nombreXmlMinusculas).pipe(fs.createWriteStream(rutaDestino + '/' + nombreXmlMinusculas));
                   //fs.renameSync(dirCopades + nombreXmlMinusculas, rutaDestino + '/' + nombreXmlMinusculas);
@@ -188,32 +188,32 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
               }
           }
       });
-    
+
       //Elimina la COPADE original
       /*if (fs.existsSync(dirCopades + nombreXmlMinusculas)) {
           fs.unlinkSync(dirCopades + nombreXmlMinusculas);
       }
-    
+
       if (fs.existsSync(dirCopades + nombreXmlMayusculas)) {
           fs.unlinkSync(dirCopades + nombreXmlMayusculas);
       }
-    
+
       if (fs.existsSync(dirCopades + nombrePdfMinusculas)) {
           fs.unlinkSync(dirCopades + nombrePdfMinusculas);
       }
-    
+
       if (fs.existsSync(dirCopades + nombrePdfMayusculas)) {
           fs.unlinkSync(dirCopades + nombrePdfMayusculas);
       } */
-    
-    
+
+
       //Callback
       object.error = null;
       object.result = 1;
-    
+
       self.view.expositor(res, object);
     }
- 
+
     Cobrar.prototype.get_trbajoCobrado = function (req, res, next) {
       //Objeto que almacena la respuesta
       var object = {};
@@ -234,8 +234,8 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
       this.query.execute('SEL_FACTURAS_PAGADAS_SP', params, res)
   }
 
- 
-    
+
+
 Cobrar.prototype.get_obtenerprefactura = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
@@ -299,7 +299,7 @@ Cobrar.prototype.get_obtenerpagadas = function (req, res, next) {
     { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
     { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
-  // Llamada a SP 
+  // Llamada a SP
   this.query.execute('SEL_FACTURAS_PAGADAS_SP', params, res)
 }
 
@@ -318,11 +318,11 @@ Cobrar.prototype.post_agregarordenpago = function (req, res, next) {
 }
 
 Cobrar.prototype.post_subirCopade = function(req, res, next) {
-  
+
       // console.log('se quiere subir facturas');
       var self = this;
       var lf = new Load_Files();
-  
+
       lf.copade(dirCopades, req, res, function(respuesta) {
           var Resultado = respuesta;
           // var Parametros = respuesta[0].Param;
@@ -350,12 +350,12 @@ Cobrar.prototype.post_dcUpload = function (req, res, next) {
     }
   );
     let writeStream = fs.createWriteStream(dirCopades + nombre);
-    
+
     // write some data with a base64 encoding
     writeStream.write(file, 'base64');
-    
+
     // the finish event is emitted when all data has been flushed from the stream
-    writeStream.on('finish', () => {  
+    writeStream.on('finish', () => {
         console.log('wrote all data to file');
     });
 
@@ -367,7 +367,7 @@ Cobrar.prototype.post_dcUpload = function (req, res, next) {
       }
 
       console.log("The file was saved!");
-  }); */  
+  }); */
     //fs.createReadStream(dirCopades + file.nombre).pipe(fs.createWriteStream(file));
       //fs.renameSync(dirCopades + nombreXmlMinusculas, rutaDestino + '/' + nombreXmlMinusculas);
   }
