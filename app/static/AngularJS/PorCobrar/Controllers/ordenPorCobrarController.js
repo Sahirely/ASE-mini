@@ -1,4 +1,4 @@
-registrationModule.controller('ordenPorCobrarController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, ordenPorCobrarRepository, userFactory, cotizacionConsultaRepository, nuevoMemorandumRepository) {
+registrationModule.controller('ordenPorCobrarController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, ordenPorCobrarRepository, userFactory, cotizacionConsultaRepository, nuevoMemorandumRepository, configuradorRepository) {
   $rootScope.modulo = 'ordenxCobrar'
 
   $scope.x = 0
@@ -52,6 +52,10 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   $scope.init = function () {
     $scope.userData = userFactory.getUserData()
+    Dropzone.autoDiscover = false;
+    $scope.dzOptionsOrdenCobrar = configuradorRepository.getDzOptions("application/pdf,text/xml", 2);
+        $scope.fecha = '';
+        $scope.trabajosporCOPADE = '';
     // para obtener las zonas promero se inicializa la primer zona padre.
     $scope.esPemex = $scope.userData.contratoOperacionSeleccionada == 3;
     userFactory.ValidaSesion()
@@ -650,10 +654,90 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
    }
 
   //Carga Adenda y Copade
-  $scope.subir = function (idTrabajo) {
-    $('#subirAdenda').appendTo('body').modal('show');
-    $scope.idTrabajo = idTrabajo;
-  }
+    $scope.subir = function () {
+        $('#subirAdenda').appendTo('body').modal('show');
+    }
+
+    $scope.dzCallbacks = {
+        'addedfile': function (file) {
+            $scope.newFile = file;
+        },
+        'sending': function (file, xhr, formData) {
+            formData.append('idTrabajo', 0);
+            formData.append('idCotizacion', 0);
+            formData.append('idCategoria', 2);
+            formData.append('idNombreEspecial', 0); //adencaCopade
+            formData.append('idDatosCopade', 0);
+        },
+        'completemultiple': function (file, xhr) {
+            var checkErrorFile = file.some(checkExistsError);
+            if (!checkErrorFile) {
+                var allSuccess = file.every(checkAllSuccess);
+                if (allSuccess) {
+                    var nombreCopades = [];
+                    file.forEach(function (archivo) {
+                        nombreCopades.push(archivo.name);
+                    });
+                    ordenPorCobrarRepository.putGeneraDatosCopade(nombreCopades, $scope.fechaRecepcionCopade).then(function (result) {
+                        if (result.data.length > 0) {
+                            ordenPorCobrarRepository.putInsertaDatosCopade(result.data).then(function (resp) {
+                                if (resp.data.length > 0) {
+
+                                    if (resp.data[0].id==0) {
+                                        alertFactory.error('Ya existe un archivo para la COPADE');
+                                    }else{
+                                        ordenPorCobrarRepository.putRenombraCopade(nombreCopades, resp.data).then(function (respuesta) {
+                                            if (respuesta.data > 0) {
+                                                alertFactory.success('Copade cargada satisfactoriamente');
+                                                //$scope.limpiaFecha();
+                                                $scope.cleanDatos();
+                                                $scope.getCopades();
+                                            }
+                                        }, function (error) {
+                                            alertFactory.error('No se pudo cargar la copade');
+                                        }); 
+                                    }
+                                    
+                                } else {
+                                    alertFactory.error('No se pudieron extraer los datos de la copade');
+                                }            
+                            }, function (error) {
+                                alertFactory.error(error);            
+                            }); 
+                        } else {
+                            alertFactory.error('No se pudo procesar la copade');
+                        }                     
+                    }, function (error) {
+                        alertFactory.error(error);          
+                    });
+                    setTimeout(function () {
+                        $scope.dzMethods.removeAllFiles(true);
+                        $('#subirAdenda').appendTo('body').modal('hide');
+                    }, 1000);
+                }
+            }
+        },
+        'error': function (file, xhr) {
+            if (!file.accepted) {
+                $scope.dzMethods.removeFile(file);
+            } else {
+                $scope.dzMethods.removeAllFiles(true);
+                alertFactory.info("No se pudieron subir los archivos");
+            }
+        },
+    };
+
+    //valida si todos son success
+    function checkAllSuccess(file, index, array) {
+        return file.status === 'success';
+    }
+
+    //valida si existe algún error
+    function checkExistsError(file) {
+        return file.status === 'error';
+    }
+
+
   $('#fechaTrabajo .input-group.date').datepicker({
     todayBtn: "linked",
     keyboardNavigation: true,
