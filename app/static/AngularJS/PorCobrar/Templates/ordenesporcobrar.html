@@ -140,7 +140,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="value in porCobrar track by value.idOrden | groupBy: grouper " ng-click="AbrirOrden(value)" class="trTableSelect">
+                                            <tr ng-repeat="value in porCobrar track by $index | groupBy: grouper " ng-click="AbrirOrden(value)" class="trTableSelect">
                                                 <td>{{value.nombreCliente}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.consecutivoOrden}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroOrden}}</td>
@@ -554,19 +554,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="(key, value) in abonadas | groupBy: grouper " ng-click="AbrirOrden(value[0])" class="trTableSelect">
-                                                <td>{{value[0].nombreCliente}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].numeroCopade}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].folio}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value[0].numeroEstimacion}}</td>                                              
-                                                <td ng-hide=" idGrouper == 3">{{value[0].descripcion}}</td> 
-                                                <td ng-hide=" idGrouper == 3">{{value[0].subTotal}}</td> 
-                                                <td ng-hide=" idGrouper == 3">{{value[0].numFactura}}</td> 
-                                                <td ng-hide=" idGrouper == 3">{{value[0].total}}</td>                                                                                                                              
+                                            <tr ng-repeat="value in abonadas track by $index| groupBy: grouper " ng-click="AbrirOrden(value)" class="trTableSelect">
+                                                <td>{{value.nombreCliente}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.numeroCopade}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.folio}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>                                              
+                                                <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td> 
+                                                <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td> 
+                                                <td ng-hide=" idGrouper == 3">{{value.numFactura}}</td> 
+                                                <td ng-hide=" idGrouper == 3">{{value.total}}</td>                                                                                                                              
                                                 <!--td ng-hide=" idGrouper == 3">{{value[0].abono}}</td--> 
                                                 <!--  <td ng-hide=" idGrouper != 1">{{value[0].saldo}}</td>-->
-                                                <td ng-hide=" idGrouper == 3">{{value[0].COP_FECHULTPAG}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{ value[0].COP_FECHOPE}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.COP_FECHULTPAG}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{ value.COP_FECHOPE}}</td>
                                             </tr>
                                         </tbody>
                                     </table>

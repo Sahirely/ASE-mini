@@ -64,8 +64,8 @@ Cobrar.prototype.get_obtenercobranza = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+    //{ name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    //{ name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
     // { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
   ]
   // Llamada a SP

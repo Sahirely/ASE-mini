@@ -137,8 +137,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     //Obtengo la lista de tablas (ABONOS)
     $('.dataTableAbonos').DataTable().destroy()
+    $scope.checkedFacturasTotal = [];
     $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario, 
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
       $scope.selectCotizaciones = result.data
      var sumatoriaMontoCopade = 0;
      var sumatoriaAbonoCopade = 0;
@@ -157,6 +158,16 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
        $scope.saldoCopAbonoSelect = sumatoriaSaldoCopade;
        $scope.montoProvAbonoSelect = sumatoriaMontoProveedor;
        $scope.saldoProvAbonoSelect = sumatoriaSaldoProveedor;	   
+
+       for(var i=0;i< result.data.length;i++){
+            obj = new Object();
+            obj.idTrabajoAgrupado = result.data[i].idTrabajoAgrupado;
+            obj.ordenGlobal = result.data[i].COP_ORDENGLOBAL;
+            obj.total = result.data[i].saldoProveedor;
+            obj.check = false;
+            $scope.checkedFacturasTotal.push(obj); 
+        };
+
       globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 50)
     }, function (error) {
       alertFactory.error('No se puenen obtener los abonos generados')
