@@ -138,58 +138,10 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       alertFactory.error('No se puenen obtener los abonos generados')
     })*/
 
-    //Obtengo la lista de tablas (ABONOS)
-    $('.dataTableAbonos').DataTable().destroy()
-    $scope.checkedFacturasTotal = [];
-    $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario, 
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
-      $scope.selectCotizaciones = result.data
-     var sumatoriaMontoCopade = 0;
-     var sumatoriaAbonoCopade = 0;
-     var sumatoriaSaldoCopade = 0;
-     var sumatoriaMontoProveedor = 0;
-     var sumatoriaSaldoProveedor = 0;
-          for(var i=0;i<result.data.length;i++){
-            sumatoriaMontoCopade += parseFloat(result.data[i].COP_CARGO);
-            sumatoriaAbonoCopade += parseFloat(result.data[i].abono);
-            sumatoriaSaldoCopade += parseFloat(result.data[i].COP_SALDO);
-            sumatoriaMontoProveedor += parseFloat(result.data[i].total);
-            sumatoriaSaldoProveedor += parseFloat(result.data[i].saldoProveedor);
-        };
-       $scope.montoCopAbonoSelect = sumatoriaMontoCopade;
-       $scope.abonoCopAbonoSelect = sumatoriaAbonoCopade;
-       $scope.saldoCopAbonoSelect = sumatoriaSaldoCopade;
-       $scope.montoProvAbonoSelect = sumatoriaMontoProveedor;
-       $scope.saldoProvAbonoSelect = sumatoriaSaldoProveedor;	   
+   getSeleccionDeAbonos();    
 
-       for(var i=0;i< result.data.length;i++){
-            obj = new Object();
-            obj.idTrabajoAgrupado = result.data[i].idTrabajoAgrupado;
-            obj.ordenGlobal = result.data[i].COP_ORDENGLOBAL;
-            obj.total = result.data[i].saldoProveedor;
-            obj.check = false;
-            $scope.checkedFacturasTotal.push(obj); 
-        };
+   getFacturasAbonadas();
 
-      globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 50)
-    }, function (error) {
-      alertFactory.error('No se puenen obtener los abonos generados')
-    })
-    
-
-    // Obtengo la lista de tablas
-    $('.dataTableAbonadas').DataTable().destroy();
-    $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario, 
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
-      $scope.abonadas = result.data;
-      //$scope.data = result.data;
-      angular.forEach($scope.abonadas, function (value, key) {
-        $scope.totalAbonadas = $scope.totalAbonadas + value.total
-      })
-      globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 50);
-    }, function (error) {
-      alertFactory.error('No se puenen obtener las Facturas Abonadas')
-    })
 
     $('.dataTablePagadas').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
@@ -217,6 +169,63 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $scope.getMemorandums()
     
   }
+
+function getFacturasAbonadas(){
+  // Obtengo la lista de tablas
+  $('.dataTableAbonadas').DataTable().destroy();
+  $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario, 
+  'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+    $scope.abonadas = result.data;
+    //$scope.data = result.data;
+    angular.forEach($scope.abonadas, function (value, key) {
+      $scope.totalAbonadas = $scope.totalAbonadas + value.total
+    })
+    globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 50);
+  }, function (error) {
+    alertFactory.error('No se puenen obtener las Facturas Abonadas')
+  })
+}
+
+function getSeleccionDeAbonos(){
+      //Obtengo la lista de tablas (ABONOS)
+      $('.dataTableAbonos').DataTable().destroy()
+      $scope.checkedFacturasTotal = [];
+      $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario, 
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+        $scope.selectCotizaciones = result.data
+       var sumatoriaMontoCopade = 0;
+       var sumatoriaAbonoCopade = 0;
+       var sumatoriaSaldoCopade = 0;
+       var sumatoriaMontoProveedor = 0;
+       var sumatoriaSaldoProveedor = 0;
+            for(var i=0;i<result.data.length;i++){
+              sumatoriaMontoCopade += parseFloat(result.data[i].COP_CARGO);
+              sumatoriaAbonoCopade += parseFloat(result.data[i].abono);
+              sumatoriaSaldoCopade += parseFloat(result.data[i].COP_SALDO);
+              sumatoriaMontoProveedor += parseFloat(result.data[i].total);
+              sumatoriaSaldoProveedor += parseFloat(result.data[i].saldoProveedor);
+          };
+         $scope.montoCopAbonoSelect = sumatoriaMontoCopade;
+         $scope.abonoCopAbonoSelect = sumatoriaAbonoCopade;
+         $scope.saldoCopAbonoSelect = sumatoriaSaldoCopade;
+         $scope.montoProvAbonoSelect = sumatoriaMontoProveedor;
+         $scope.saldoProvAbonoSelect = sumatoriaSaldoProveedor;	   
+  
+         for(var i=0;i< result.data.length;i++){
+              obj = new Object();
+              obj.idTrabajoAgrupado = result.data[i].idOrdenAgrupada;
+              obj.ordenGlobal = result.data[i].COP_ORDENGLOBAL;
+              obj.total = result.data[i].saldoProveedor;
+              obj.check = false;
+              $scope.checkedFacturasTotal.push(obj); 
+          };
+  
+        globalFactory.filtrosTabla('dataTableAbonos', 'Selección de Abonos', 50)
+      }, function (error) {
+        alertFactory.error('No se puenen obtener los abonos generados')
+      })
+  
+}
 
   // obtiene los niveles de zona del usuario y seguidamente obtiene las zonas por nivel.
   $scope.obtieneNivelZona = function () {
@@ -619,17 +628,17 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     $scope.asociarFacturaCotizacion = function () {
       var ordenGlobal='';
-      for (var index = 0; index < $scope.selectCotizaciones.length; index++) {
+      /*for (var index = 0; index < $scope.selectCotizaciones.length; index++) {
         var element = $scope.selectCotizaciones[index];
         if(element.selected == true){
           ordenGlobal+= element.numeroOrdenGlobal+',';          
         }
-      }
-       /*for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
+      }*/
+       for (i = 0; i < $scope.checkedFacturasTotal.length; i++) {
            if ($scope.checkedFacturasTotal[i].check ) {
-               ordenGlobal+=$scope.checkedFacturasTotal[i].numeroOrdenGlobal+',';
+               ordenGlobal+=$scope.checkedFacturasTotal[i].ordenGlobal+',';
            }
-       };*/
+       };
        if (ordenGlobal != '') {
            $('.btnTerminarTrabajo').ready(function () {
                swal({

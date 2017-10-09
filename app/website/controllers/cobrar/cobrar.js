@@ -137,7 +137,7 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
 
   var params = [
     {
-      name: 'ordenGlobal',
+      name: 'string',
       value: req.body.ordenGlobal,
       type: self.model.types.STRING
     }
