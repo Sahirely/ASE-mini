@@ -95,6 +95,50 @@ postSubirCopade: function() {
         method: 'DELETE',
         data: params
       })
-    }
+    },
+    putGeneraDatosCopade: function (archivos, fechaRecepcionCopade, idContratoOperacion) {
+            var objArchivos = {
+                archivos: archivos,
+                fechaRecepcionCopade: fechaRecepcionCopade,
+                idContratoOperacion: idContratoOperacion
+            };
+
+            return $http({
+                url: cobrarUrl + 'generaDatosCopade',
+                method: "POST",
+                data: objArchivos,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        putInsertaDatosCopade: function (copades) {     
+            var objCopades = copades;
+
+                  
+            return $http({        
+                url: cobrarUrl + 'insertaDatosCopade',
+                        method: "POST",
+                        data: objCopades,
+                        headers: {          
+                    'Content-Type': 'application/json'        
+                }      
+            });    
+        },
+        putRenombraCopade: function (nombre, idCopade) {
+            var objRenombre = {
+                nombreCopade: nombre,
+                idCopade: idCopade
+            };
+
+            return $http({        
+                url: cobrarUrl + 'cambiaNombreCopade',
+                        method: "POST",
+                        data: objRenombre,
+                        headers: {          
+                    'Content-Type': 'application/json'        
+                }      
+            }); 
+        }
   }
 })

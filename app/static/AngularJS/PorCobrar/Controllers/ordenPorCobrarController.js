@@ -52,6 +52,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   $scope.init = function () {
     $scope.userData = userFactory.getUserData()
+    $scope.rolLogged = $scope.userData.idRol
+    $scope.idUsuario = $scope.userData.idUsuario
+    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
     Dropzone.autoDiscover = false;
     $scope.dzOptionsOrdenCobrar = configuradorRepository.getDzOptions("application/pdf,text/xml", 2);
         $scope.fecha = '';
@@ -80,19 +83,19 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     })
 
     // Obtengo la lista de tablas (COBRANZA)
-    $('.dataTableCobrazna').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': $scope.userData.idUsuario, 
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
-      $scope.cobranza = result.data
-     var sumatoria = 0;
-          for(var i=0;i<result.data.length;i++){
-            sumatoria += parseFloat(result.data[i].subTotal);
-        };
-       $scope.totalCobranza = sumatoria;
-      globalFactory.filtrosTabla('dataTableCobrazna', 'Documento Cobranza', 50)
-    }, function (error) {
-      alertFactory.error('No se puenen obtener los documentos generados')
-    })
+      $('.dataTableCobrazna').DataTable().destroy()
+      $scope.promise = ordenPorCobrarRepository.get('obtenercobranza', { 'idUsuario': $scope.userData.idUsuario, 
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+        $scope.cobranza = result.data
+       var sumatoria = 0;
+            for(var i=0;i<result.data.length;i++){
+              sumatoria += parseFloat(result.data[i].subTotal);
+          };
+         $scope.totalCobranza = sumatoria;
+        globalFactory.filtrosTabla('dataTableCobrazna', 'Documento Cobranza', 50)
+      }, function (error) {
+        alertFactory.error('No se puenen obtener los documentos generados')
+      })
    
     // Obtengo la lista de tablas
     $('.dataTablePrefactura').DataTable().destroy()
@@ -229,6 +232,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       })
   }
 
+  $scope.getCopades = function () {
+
+    }
   // obtiene las zonas por cada nivel con que cuenta el usuario
   $scope.devuelveZonas = function () {
     for ($scope.x = 0; $scope.x < $scope.totalNiveles; $scope.x++) {
@@ -689,20 +695,19 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
                     file.forEach(function (archivo) {
                         nombreCopades.push(archivo.name);
                     });
-                    ordenPorCobrarRepository.putGeneraDatosCopade(nombreCopades, $scope.fechaRecepcionCopade).then(function (result) {
+                    ordenPorCobrarRepository.putGeneraDatosCopade(nombreCopades, $scope.fechaRecepcionCopade, $scope.idContratoOperacion).then(function (result) {
                         if (result.data.length > 0) {
                             ordenPorCobrarRepository.putInsertaDatosCopade(result.data).then(function (resp) {
                                 if (resp.data.length > 0) {
 
                                     if (resp.data[0].id==0) {
-                                        alertFactory.error('Ya existe un archivo para la COPADE');
+                                        alertFactory.info('Ya existe un archivo para la COPADE');
                                     }else{
                                         ordenPorCobrarRepository.putRenombraCopade(nombreCopades, resp.data).then(function (respuesta) {
                                             if (respuesta.data > 0) {
                                                 alertFactory.success('Copade cargada satisfactoriamente');
                                                 //$scope.limpiaFecha();
-                                                $scope.cleanDatos();
-                                                $scope.getCopades();
+                                                //$scope.getCopades();
                                             }
                                         }, function (error) {
                                             alertFactory.error('No se pudo cargar la copade');

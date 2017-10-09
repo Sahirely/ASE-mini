@@ -6,6 +6,7 @@ var Load_Files = require('../controllers/load_files');
 //var dirname = 'E:/ASE_Temp/';
 
 var dirname = 'E:/ASEv2Documentos/public/archivos/';
+var dirCop = 'E:/ASEv2Documentos/public/copade/';
 var dirnameTemp = 'E:/ASEv2Documentos/public/temp/';
 //var dirname = 'E:/ASEv2Documentos/public/archivos/';
 //var dirnameTemp = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/Temp/';
@@ -711,109 +712,9 @@ Configurador.prototype.post_uploadfiles = function(req, res, next) {
             var idCategoria = (req.body.idCategoria).constructor != Array ? req.body.idCategoria : req.body.idCategoria[0];
             idNombreEspecial = (req.body.idNombreEspecial).constructor != Array ? req.body.idNombreEspecial : req.body.idNombreEspecial[0];
 
-            //LQMA  add 15092016 --idEstatus , define si crea el archivo de forma temporal
-            //if (idNombreEspecial == 3)
-            //  var idEstatus = (req.body.idEstatus).constructor != Array ? req.body.idEstatus : req.body.idEstatus[0];
-
-            var idCotizacionArr = idCotizacion.split('|');
-            carpetaCotizacion = idCotizacionArr[0];
-            nombreFacturaCotizacion = idCotizacionArr[1];
-
-            //LQMA add 15092016 -- cuando sea estatus 12, se guarda el archivo como temporal, y despues de pasar la validacion se
-            //remplaza el original
-            if (idNombreEspecial == 3)
-                nombreFacturaCotizacion = nombreFacturaCotizacion + 'temp';
-
             if (idCategoria == 2) {
-                if (idCotizacion == 0) {
-                    if (!fs.existsSync(dirname + idTrabajo))
-                        fs.mkdirSync(dirname + idTrabajo);
-                    if (!fs.existsSync(dirname + idTrabajo + '/multimedia'))
-                        fs.mkdirSync(dirname + idTrabajo + '/multimedia');
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos');
-                    if (!fs.existsSync(dirname + idTrabajo + '/evidenciaTrabajo'))
-                        fs.mkdirSync(dirname + idTrabajo + '/evidenciaTrabajo');
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos/comprobanteRecepcion'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos/comprobanteRecepcion')
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos/transferenciaCustodia'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos/transferenciaCustodia')
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos/certificadoConformidad'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos/certificadoConformidad');
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos/factura'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos/factura');
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos/adendaCopade'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos/adendaCopade');
-                    if (!fs.existsSync(dirname + idTrabajo + '/documentos/preFactura'))
-                        fs.mkdirSync(dirname + idTrabajo + '/documentos/preFactura');
-                } else {
-                    if (idNombreEspecial == 3 || idNombreEspecial == 7) {
-                        if (!fs.existsSync(dirname + idTrabajo)) {
-                            fs.mkdirSync(dirname + idTrabajo);
-                        }
-                        if (!fs.existsSync(dirname + idTrabajo + '/' + carpetaCotizacion)) {
-                            fs.mkdirSync(dirname + idTrabajo + '/' + carpetaCotizacion)
-                        }
-                        if (!fs.existsSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/multimedia')) {
-                            fs.mkdirSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/multimedia')
-                            fs.mkdirSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos')
-                        }
-                        if (!fs.existsSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos/factura')) {
-                            fs.mkdirSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos/factura')
-                        }
-                        if (!fs.existsSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos/preFactura')) {
-                            fs.mkdirSync(dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos/preFactura')
-                        }
-                    }
-                }
-
-                if (idNombreEspecial == 1) {
-                    nameFile = 'ComprobanteRecepcion';
-                    cb(null, dirname + idTrabajo + '/documentos/comprobanteRecepcion');
-                } else if (idNombreEspecial == 2) {
-                    nameFile = 'TransferenciaCustodia';
-                    cb(null, dirname + idTrabajo + '/documentos/transferenciaCustodia');
-                } else if (idNombreEspecial == 3) {
-                    nameFile = 'Factura_' + nombreFacturaCotizacion;
-                    cb(null, dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos/factura');
-                } else if (idNombreEspecial == 4) {
-                    var extFile = obtenerExtArchivo(file.originalname);
-                    if (extFile === '.xml' || extFile === '.XML') {
-                        nameFile = 'COPADE';
-                    } else {
-                        nameFile = 'Adenda';
-                    }
-                    cb(null, dirname + idTrabajo + '/documentos/adendaCopade');
-                } else if (idNombreEspecial == 5) {
-                    nameFile = 'CertificadoConformidad';
-                    cb(null, dirname + idTrabajo + '/documentos/certificadoConformidad');
-                } else if (idNombreEspecial == 6) {
-                    nameFile = 'CertificadoConformidad';
-                    cb(null, dirname + idTrabajo + '/documentos/certificadoConformidad');
-                } else if (idNombreEspecial == 7) {
-                    nameFile = 'preFactura_' + nombreFacturaCotizacion;
-                    cb(null, dirname + idTrabajo + '/' + carpetaCotizacion + '/documentos/preFactura');
-                } else {
-                    nameFile = 'Evidencia';
-                    cb(null, dirname + idTrabajo + '/evidenciaTrabajo');
-                }
-            } else if (idCategoria == 1) {
-                if (!fs.existsSync(dirname + idTrabajo)) {
-                    fs.mkdirSync(dirname + idTrabajo);
-                }
-                if (!fs.existsSync(dirname + idTrabajo + '/' + idCotizacion)) {
-                    fs.mkdirSync(dirname + idTrabajo + '/' + idCotizacion);
-                    fs.mkdirSync(dirname + idTrabajo + '/' + idCotizacion + '/multimedia');
-                    fs.mkdirSync(dirname + idTrabajo + '/' + idCotizacion + '/documentos');
-                }
-
-                if (file.mimetype == 'image/jpeg' || file.mimetype == 'image/png' || file.mimetype == 'image/gif' || file.mimetype == 'image/jpg' || file.mimetype == 'image/bmp' || file.mimetype == 'video/mp4') {
-                    consecutivoArchivo = obtieneConsecutivo(dirname + idTrabajo + '/' + idCotizacion + '/multimedia');
-                    cb(null, dirname + idTrabajo + '/' + idCotizacion + '/multimedia')
-                } else {
-                    consecutivoArchivo = obtieneConsecutivo(dirname + idTrabajo + '/' + idCotizacion + '/documentos');
-                    cb(null, dirname + idTrabajo + '/' + idCotizacion + '/documentos')
-                }
+                nameFile = '';
+                cb(null, dirCop);
             } else if (idCategoria == 4) {
                 var filename = guid();
                 if (!fs.existsSync(dirname)) {
@@ -834,8 +735,6 @@ Configurador.prototype.post_uploadfiles = function(req, res, next) {
                     nameFile = nameFile + obtieneConsecutivo(dirname);
                 }
                 cb(null, nameFile + obtenerExtArchivo(file.originalname));
-            } else if (consecutivoArchivo > 0) {
-                cb(null, 'Evidencia' + consecutivoArchivo + obtenerExtArchivo(file.originalname));
             } else {
                 cb(null, file.originalname);
             }
