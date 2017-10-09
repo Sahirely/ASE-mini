@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
                                     <label class="font-noraml">Ejecutivo</label>
-                                    <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected"
+                                    <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-change="changeFilters()"
                                     ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
                                         <option value="">Seleccione un Ejecutivo</option>
                                     </select>
@@ -60,15 +60,15 @@
                                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                                     <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
                                     <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
-                                        <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
+                                        <input type="text" id="txtFIni" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
                                         <span class="input-group-addon"> a </span>
-                                        <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
+                                        <input type="text" id="txtFFin" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
                                     <label class="font-noraml">Fecha</label>
                                     <div class="input-group date">
-                                        <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
+                                        <input type="text" id="txtfechaEspecifica" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                     </div>
                                 </div>
@@ -205,7 +205,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus}" >
+                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus} | filtrarZona : ZonaFilter | dateRange : rInicioFilter : rFinFilter | filtrarEjecutivo : idEjecutivo" >
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
@@ -276,14 +276,13 @@
                                     <th>Porcentaje de Aprobación</th>
                                     <th>Estadistica P/A/R/T</th>
                                     <th hidden="hidden">Estatus Filtro</th>
+                                    <th hidden="hidden">Zona Filtro</th>
                                     <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera / Tiempo Transcurrido</th>
                                     <!--th>Abrir</th-->
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1}" >
-                                    <!-- | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1} -->
-                                    <!-- | dateRange : rInicioFilter : rFinFilter -->
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1} | filtrarZona : ZonaFilter | dateRange : rInicioFilter : rFinFilter | filtrarEjecutivo : idEjecutivo" >
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
@@ -300,6 +299,7 @@
                                     <td ng-mouseover="getPercentage(cotizacion.numeroCotizacion)" title="{{porcentaje}}"><i class="fa fa-pie-chart" aria-hidden="true"></i></td>
                                     <td ng-mouseover="getStatistics(cotizacion.numeroCotizacion)" title="{{estadistica}}"><i class="fa fa-bar-chart" aria-hidden="true"></i></td>
                                     <td hidden="hidden">{{cotizacion.idEstatusCotizacion}}}</td>
+                                    <td hidden="hidden">{{cotizacion.idZona}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles" ng-if="userData.tiempoAsignado == 1">{{cotizacion.tiempoEspera}} días</td>
                                     <!--td class='center'>
                                         <button class="btn btn-success" type="button" id="btnEnviar" tooltip="Ver Cotizacion" ng-click="AutorizacionDetalle(cotizacion.numeroOrden)">
@@ -357,7 +357,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}" > <!-- -->
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}  | filtrarZona : ZonaFilter | dateRange : rInicioFilter : rFinFilter | filtrarEjecutivo : idEjecutivo" >
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
