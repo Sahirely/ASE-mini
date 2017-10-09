@@ -191,7 +191,7 @@ function getSeleccionDeAbonos(){
       $('.dataTableAbonos').DataTable().destroy()
       $scope.checkedFacturasTotal = [];
       $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario, 
-      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
         $scope.selectCotizaciones = result.data
        var sumatoriaMontoCopade = 0;
        var sumatoriaAbonoCopade = 0;
@@ -661,7 +661,8 @@ function getSeleccionDeAbonos(){
                                         $scope.checkedFacturas=[];
                                         $scope.totalSeleccionadoSuma = 0;
                                    alertFactory.success('Factura abonada correctamente');
-                                   location.href = '/ordenesporcobrar';
+                                   getSeleccionDeAbonos();
+                                   getFacturasAbonadas();
                                } else {
                                    alertFactory.info('No se pudo actualizar la Factura');
                                }
