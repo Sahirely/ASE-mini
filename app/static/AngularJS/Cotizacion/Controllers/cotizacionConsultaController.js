@@ -7,6 +7,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     $scope.filtroEstatus = '';
     $scope.fechaMes = '';
+    $scope.DatesFlag = 0;
     $scope.message = "Buscando...";
     // $scope.userData = {};
 
@@ -42,6 +43,8 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         } else {
             $scope.filtroEstatus = '';
         }
+
+        $scope.ZonaFilter = '';
 
         $scope.consultaCotizacionesFiltros();
         $scope.btnSwitch.classCosto = 'btn btn-success';
@@ -102,14 +105,38 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
             $scope.ZonasSeleccionadas[$scope.x] = "0";
         }
+
+        $scope.changeFilters();
     }
 
     $scope.changeFilters = function(){
-      $scope.ZonaFilter = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
-      $scope.fechaMesFilter = this.obtieneFechaMes();
-      $scope.rInicioFilter = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
-      $scope.rFinFilter = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
-      $scope.fechaFilter = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+      $scope.ZonaFilter = $scope.ZonasSeleccionadas[$scope.totalNiveles] == '' || $scope.ZonasSeleccionadas[$scope.totalNiveles] == undefined ? 0 : $scope.ZonasSeleccionadas[$scope.totalNiveles];
+      // $scope.fechaMesFilter = this.obtieneFechaMes();
+
+      if (($scope.fechaInicio != '' && $scope.fechaInicio !== undefined && $scope.fechaInicio !== null) && ($scope.fechaFin != '' && $scope.fechaFin !== undefined && $scope.fechaFin !== null)){
+          $scope.rInicioFilter = $scope.fechaInicio + ' 00:00:00';
+          $scope.rFinFilter = $scope.fechaFin + ' 23:59:59';
+      } else if ($scope.fecha != '' && $scope.fecha !== undefined && $scope.fecha !==  null){
+          $scope.rInicioFilter = $scope.fecha + ' 00:00:00';
+          $scope.rFinFilter = $scope.fecha + ' 23:59:59';
+      } else if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined){
+          $scope.rInicioFilter = $scope.obtienePrimerFechaMes();
+          $scope.rFinFilter = $scope.obtieneUltimaFechaMes();
+      } else {
+          $scope.rInicioFilter = '';
+          $scope.rFinFilter = '';
+      }
+
+      $scope.idEjecutivo = $scope.ejecutivoSelected === '' || $scope.ejecutivoSelected === undefined || $scope.ejecutivoSelected === null ? 0 : $scope.ejecutivoSelected;
+
+      $('.ordenesPresupuesto1').DataTable().destroy();
+      $('.ordenesPresupuesto').DataTable().destroy();
+      $('.ordenesSinPresupuesto').DataTable().destroy();
+      globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
+      globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
+      globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
+
+      $scope.DatesFlag = 0;
     }
 
     $scope.getStatistics = function(numeroCoti){
@@ -138,20 +165,12 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
 
     //realiza consulta según filtros
     $scope.consultaCotizacionesFiltros = function () {
-        $scope.cotizaciones = [];
-        $scope.cotizacionesSinPresupuesto = [];
-        $scope.sumatoria_conPresupuesto = 0;
-        $scope.sumatoria_sinPresupuesto = 0;
-        $scope.sumatoria_costo_conPresupuesto = 0;
-        $scope.sumatoria_costo_sinPresupuesto = 0;
-        // $('.ordenesPresupuesto1').DataTable().destroy();
-        // $('.ordenesPresupuesto').DataTable().destroy();
-        // $('.ordenesSinPresupuesto').DataTable().destroy();
-        var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
-        var fechaMes = this.obtieneFechaMes();
-        var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
-        var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
-        var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+
+        // var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
+        // var fechaMes = this.obtieneFechaMes();
+        // var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
+        // var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
+        // var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
 
         var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
@@ -159,8 +178,16 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.promise = cotizacionConsultaRepository.getOrdenesAprobacion($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, numeroOrden, idEjecutivo).then(function (result) {
 
             if (result.data.length > 0) {
+                $scope.cotizaciones = [];
+                $scope.cotizacionesSinPresupuesto = [];
+                $scope.sumatoria_conPresupuesto = 0;
+                $scope.sumatoria_sinPresupuesto = 0;
+                $scope.sumatoria_costo_conPresupuesto = 0;
+                $scope.sumatoria_costo_sinPresupuesto = 0;
+                $scope.cotizacionesRepetidas = [];
 
                 result.data.forEach(function (item) {
+
                     var existe = false;
                     var x = 0;
 
@@ -174,6 +201,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                     if (!existe) {
                         $scope.cotizaciones.push(item);
                     } else {
+                        $scope.cotizacionesRepetidas.push(item);
                         $scope.cotizaciones[x].venta += item.venta;
                         $scope.cotizaciones[x].costo += item.costo;
                     }
@@ -188,13 +216,27 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                         $scope.sumatoria_conPresupuesto += item.venta;
                         $scope.sumatoria_costo_conPresupuesto += item.costo;
                     }
+
+
                 });
 
+                console.log($scope.cotizacionesRepetidas);
+                $('.ordenesPresupuesto1').DataTable().destroy();
+                $('.ordenesPresupuesto').DataTable().destroy();
+                $('.ordenesSinPresupuesto').DataTable().destroy();
                 globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
                 globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
             } else {
                 $scope.cotizaciones = [];
+                $scope.cotizacionesSinPresupuesto = [];
+                $scope.sumatoria_conPresupuesto = 0;
+                $scope.sumatoria_sinPresupuesto = 0;
+                $scope.sumatoria_costo_conPresupuesto = 0;
+                $scope.sumatoria_costo_sinPresupuesto = 0;
+                $('.ordenesPresupuesto1').DataTable().destroy();
+                $('.ordenesPresupuesto').DataTable().destroy();
+                $('.ordenesSinPresupuesto').DataTable().destroy();
                 globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
                 globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
@@ -236,25 +278,44 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     };
 
     $scope.MesChange = function () {
-        $scope.fechaInicio = '';
-        $scope.fechaFin = '';
-        $scope.fecha = '';
+        if ($scope.DatesFlag == 1 || $scope.DatesFlag == 0){
+            $scope.fechaInicio = '';
+            $scope.fechaFin = '';
+            $scope.fecha = '';
+            $scope.DatesFlag = 1;
+            $('#txtFIni').datepicker('setDate', null);
+            $('#txtFFin').datepicker('setDate', null);
+            $('#txtfechaEspecifica').datepicker('setDate', null);
+
+            $scope.changeFilters();
+        }
     };
 
     $scope.RangoChange = function () {
-        $scope.fechaMes = '';
-        $scope.fecha = '';
-        this.ValidaRangoFechas();
+        if ($scope.DatesFlag == 2 || $scope.DatesFlag == 0){
+            $scope.fechaMes = '';
+            $scope.fecha = '';
+            $scope.DatesFlag = 2;
+            $('#txtMes').datepicker('setDate', null);
+            $('#txtfechaEspecifica').datepicker('setDate', null);
+            this.ValidaRangoFechas();
 
-        $scope.changeFilters();
+            $scope.changeFilters();
+        }
     };
 
     $scope.FechaChange = function () {
-        $scope.fechaMes = '';
-        $scope.fechaInicio = '';
-        $scope.fechaFin = '';
+        if ($scope.DatesFlag == 3 || $scope.DatesFlag == 0){
+            $scope.fechaMes = '';
+            $scope.fechaInicio = '';
+            $scope.fechaFin = '';
+            $scope.DatesFlag = 3;
+            $('#txtMes').datepicker('setDate', null);
+            $('#txtFIni').datepicker('setDate', null);
+            $('#txtFFin').datepicker('setDate', null);
 
-        $scope.changeFilters();
+            $scope.changeFilters();
+        }
     };
 
     $scope.ValidaRangoFechas = function () {
@@ -288,35 +349,81 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
     };
 
+    $scope.obtieneUltimaFechaMes = function(){
+        var result = '';
+        if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+            var fechaPartida = $scope.fechaMes.split('-');
+
+            if (fechaPartida[0] == 'Enero') {
+                var date = new Date(fechaPartida[1], 1, 0);
+                result = fechaPartida[1] + '/01/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Febrero') {
+                var date = new Date(fechaPartida[1], 2, 0);
+                result = fechaPartida[1] + '/02/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Marzo') {
+                var date = new Date(fechaPartida[1], 3, 0);
+                result = fechaPartida[1] + '/03/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Abril') {
+                var date = new Date(fechaPartida[1], 4, 0);
+                result = fechaPartida[1] + '/04/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Mayo') {
+                var date = new Date(fechaPartida[1], 5, 0);
+                result = fechaPartida[1] + '/05/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Junio') {
+                var date = new Date(fechaPartida[1], 6, 0);
+                result = fechaPartida[1] + '/06/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Julio') {
+                var date = new Date(fechaPartida[1], 7, 0);
+                result = fechaPartida[1] + '/07/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Agosto') {
+                var date = new Date(fechaPartida[1], 8, 0);
+                result = fechaPartida[1] + '/08/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Septiembre') {
+                var date = new Date(fechaPartida[1], 9, 0);
+                result = fechaPartida[1] + '/09/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Octubre') {
+                var date = new Date(fechaPartida[1], 10, 0);
+                result = fechaPartida[1] + '/10/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Noviembre') {
+                var date = new Date(fechaPartida[1], 11, 0);
+                result = fechaPartida[1] + '/11/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Diciembre') {
+                var date = new Date(fechaPartida[1], 12, 0);
+                result = fechaPartida[1] + '/12/' + date.getDate().toString() + ' 23:59:59' ;
+            }
+        }
+        return result;
+    }
+
     //obtiene el mes en formato de fecha
-    $scope.obtieneFechaMes = function () {
+    $scope.obtienePrimerFechaMes = function () {
         var result = '';
         if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
             var fechaPartida = $scope.fechaMes.split('-');
             if (fechaPartida[0] == 'Enero') {
-                result = fechaPartida[1] + '/01/01';
+                result = fechaPartida[1] + '/01/01 00:00:00';
             } else if (fechaPartida[0] == 'Febrero') {
-                result = fechaPartida[1] + '/02/01';
+                result = fechaPartida[1] + '/02/01 00:00:00';
             } else if (fechaPartida[0] == 'Marzo') {
-                result = fechaPartida[1] + '/03/01';
+                result = fechaPartida[1] + '/03/01 00:00:00';
             } else if (fechaPartida[0] == 'Abril') {
-                result = fechaPartida[1] + '/04/01';
+                result = fechaPartida[1] + '/04/01 00:00:00';
             } else if (fechaPartida[0] == 'Mayo') {
-                result = fechaPartida[1] + '/05/01';
+                result = fechaPartida[1] + '/05/01 00:00:00';
             } else if (fechaPartida[0] == 'Junio') {
-                result = fechaPartida[1] + '/06/01';
+                result = fechaPartida[1] + '/06/01 00:00:00';
             } else if (fechaPartida[0] == 'Julio') {
-                result = fechaPartida[1] + '/07/01';
+                result = fechaPartida[1] + '/07/01 00:00:00';
             } else if (fechaPartida[0] == 'Agosto') {
-                result = fechaPartida[1] + '/08/01';
+                result = fechaPartida[1] + '/08/01 00:00:00';
             } else if (fechaPartida[0] == 'Septiembre') {
-                result = fechaPartida[1] + '/09/01';
+                result = fechaPartida[1] + '/09/01 00:00:00';
             } else if (fechaPartida[0] == 'Octubre') {
-                result = fechaPartida[1] + '/10/01';
+                result = fechaPartida[1] + '/10/01 00:00:00';
             } else if (fechaPartida[0] == 'Noviembre') {
-                result = fechaPartida[1] + '/11/01';
+                result = fechaPartida[1] + '/11/01 00:00:00';
             } else if (fechaPartida[0] == 'Diciembre') {
-                result = fechaPartida[1] + '/12/01';
+                result = fechaPartida[1] + '/12/01 00:00:00';
             }
         }
         return result;

@@ -767,6 +767,11 @@
                         ng-click="CancelarCita()">
                         <span class="{{class_buttonEditarCita}}"></span> Cancelar Cita
                     </button>
+
+                    <button ng-show="(estatus == 1 || estatus == 2 || estatus == 3 || estatus == 4) && (userData.idUsuario ==  158)" data-loading-text="Loading..." class="btn btn-danger btn-movil" type="submit" ng-click="CancelOrder()">
+                        <span class="{{class_buttonEditarCita}}"></span> Finalizar
+                    </button>
+
                     <button ng-hide="btnComprobanteRecepcionIsEnable || estatus == 1 || userData.idRol == 1" data-loading-text="Loading..." ng-disabled="validaCertificado !=0"
                         style="display: {{ validaCertificado !=0 ? 'none' : 'block' }}" class="btn btn-info btn-movil" type="submit"
                         ng-click="comprobante()">

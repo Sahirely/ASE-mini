@@ -2100,4 +2100,39 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       })
 
   }
+
+    $scope.CancelOrder = function() {
+        swal({
+            title: "Cancelar Orden",
+            text: "Cancela la orden",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function(isConfirm) {
+            if (isConfirm) {
+                CancelOrderProcess();
+            } else {
+                swal("Ninguna acción realizada.");
+            }
+
+        });
+    }
+
+    function CancelOrderProcess() {
+        detalleRepository.postCancelaOrden($scope.userData.idUsuario, $scope.idOrdenURL).then(function(result) {
+                        swal({
+                            title: "Trabajo terminado",
+                            message: "La cita se ha cancelado",
+                            type: 'success',
+                            showCancelButton: false
+                        }, function() {
+                            location.reload();
+                        });
+            });
+    }
+
 })

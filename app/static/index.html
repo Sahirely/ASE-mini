@@ -91,10 +91,10 @@
                 <li ng-class="{'active': modulo=='aprobaciones'}" ng-show="{{userData.idRol != 5}}">
                     <a href="cotizacionconsulta" ng-click="showChat = 0"><i class="fa fa-check" data-toggle="tooltip" tooltip="Aprobaciones" tooltip-placement="right"></i> <span class="nav-label">Aprobaciones</span><span class="label label-warning pull-right"></span></a>
                 </li>
-                <li ng-class="{'active': modulo=='ordenServicio'}" ng-show="{{userData.idRol != 5}}">
+                <li ng-class="{'active': modulo=='ordenServicio'}" ng-show="userData.idRol != 5">
                     <a href="trabajo" ng-click="showChat = 0"><i class="fa fa-clipboard" data-toggle="tooltip" tooltip="Órdenes de Servicio" tooltip-placement="right"></i> <span class="nav-label">Órdenes de Servicio</span>  </a>
                 </li>
-                <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="{{userData.idRol != 5}}">
+                <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="userData.idRol != 5 && userData.idRol != 1">
                     <a href="ordenesporcobrar" ng-click="showChat = 0" ng-hide="userData.idTipoUsuario == 3"><i class="fa fa-credit-card" data-toggle="tooltip" tooltip="Cobranza" tooltip-placement="right"></i> <span class="nav-label">Cobranza</span><span class="label label-warning pull-right"></span></a>
                 </li>
                 <li ng-class="{'active': modulo=='presupuesto'}" ng-show="userData.idRol == 2 && userData.presupuesto == 1">
