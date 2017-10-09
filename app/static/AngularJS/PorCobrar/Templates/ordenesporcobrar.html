@@ -216,10 +216,14 @@
                                 </div>
                             </tab> -->
                             <tab heading="Documento Cobranza" index="1">
-                                <div class="row etiquetaTotales">Precio total: <span class="totales">{{sumatoriaCOPADE| currency: "$"}}</span></div>
-                                <br/><br/><br/><br/>
+                                <div class="row sumatorias">
+                                    <div class="col-xs-3 pull-right">
+                                        <div>
+                                            <h2 class="no-margins">Precio total: {{sumatoriaCOPADE| currency: "$"}}</h2>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div>
-                                    <br>
                                     <div class="ibox-content" ng-show="showTagFechaRecepcion">
                                         <div class="alert alert-danger">
                                             <strong>Seleccione una FECHA, </strong> para poder subir COPADE.
