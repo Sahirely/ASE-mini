@@ -619,8 +619,8 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     $scope.asociarFacturaCotizacion = function () {
       var ordenGlobal='';
-      for (var index = 0; index < selectCotizaciones.length; index++) {
-        var element = array[index];
+      for (var index = 0; index < $scope.selectCotizaciones.length; index++) {
+        var element = $scope.selectCotizaciones[index];
         if(element.selected == true){
           ordenGlobal+= element.numeroOrdenGlobal+',';          
         }

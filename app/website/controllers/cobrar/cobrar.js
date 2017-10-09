@@ -140,9 +140,7 @@ Cobrar.prototype.post_facturaAbonada = function (req, res, next) {
       name: 'ordenGlobal',
       value: req.body.ordenGlobal,
       type: self.model.types.STRING
-    },
-    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+    }
   ];
 
     this.query.execute('INS_ENVIO_ABONADOS', params, res)
