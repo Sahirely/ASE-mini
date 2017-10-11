@@ -566,9 +566,9 @@
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.total}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.abono}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.COP_SALDO}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.total | currency}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.abono | currency}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.COP_SALDO | currency}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_FECHULTPAG}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_FECHOPE}}</td>
                                             </tr>
