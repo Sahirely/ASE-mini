@@ -455,7 +455,9 @@ function getSeleccionDeAbonos(){
                 $('#mejorCoincidencia').modal('show');
                 setTimeout(function () {
                     $('.dataTableCoincidencia').DataTable();
+                    globalFactory.filtrosTabla('dataTableCoincidencia', 'Mejor coinciden', 10)
                 }, 1500);
+
             }, function (error) {
                 alertFactory.error("Error al obtener las COPADE");
             });

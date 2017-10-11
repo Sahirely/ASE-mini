@@ -83,7 +83,7 @@ Cobrar.prototype.get_MejorCoincidencia = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    { name: 'folio', value: req.query.ordenSurtimiento, type: self.model.types.STRING }
+    { name: 'folio', value: req.query.folio, type: self.model.types.STRING }
   ]
   // Llamada a SP
   this.query.execute('SEL_MEJOR_COINCIDENCIA_SP', params, res)
