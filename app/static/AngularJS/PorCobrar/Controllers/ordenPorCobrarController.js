@@ -241,7 +241,7 @@ function getSeleccionDeAbonos(){
               for(var i=0;i<result.data.length;i++){
                 sumatoria += parseFloat(result.data[i].subTotal);
             };
-           $scope.totalCobranza = sumatoria;
+          $scope.sumatoriaCOPADE = sumatoria;
           globalFactory.filtrosTabla('dataTableCopades', 'Documento Cobranza', 50);
         }, function (error) {
           alertFactory.error('No se pueden obtener los documentos generados');

@@ -258,7 +258,9 @@ Cobrar.prototype.get_obtenerabonadas = function (req, res, next) {
   var self = this
   // Obtención de valores de los parámetros del request
   var params = [
-    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT }
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
   ]
   // Llamada a SP
   this.query.execute('SEL_FACTURAS_ABONADAS_SELECT_SP', params, res)

@@ -979,4 +979,38 @@ Detalle.prototype.post_aproviosionamiento = function(req, res, next) {
     });
 }
 
+Detalle.prototype.post_updateDetalleCotizacion = function(req, res, next)
+{
+    var self = this;
+    var params = [{
+        name:'idCotizacionDetalle',
+        value: req.query.idCotizacionDetalle,
+        type:self.model.types.INT
+    },
+    {
+        name:'costo',
+        value:req.query.costo,
+        type:self.model.types.DECIMAL
+    },
+    {
+        name:'venta',
+        value:req.query.venta,
+        type:self.model.types.DECIMAL
+    },
+    {
+        name:'idUsuarioUpdate',
+        value:req.query.idUsuario,
+        type:self.model.types.INT
+    }
+]
+
+this.model.query('UPD_DETALLE_COTIZACION_SP', params, function(error, result) {
+    self.view.expositor(res, {
+        error: error,
+        result: result
+    });
+});
+    console.log(params);
+}
+
 module.exports = Detalle;

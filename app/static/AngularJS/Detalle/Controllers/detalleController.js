@@ -36,7 +36,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.estadoProveedor = false
   $scope.sinTiempoDisponible = 1
   $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
-
+  $scope.cotizacionDetalle = {};
   // Preconfiguración MAPA y Marcadores
   var markerUrl = 'https://js.devexpress.com/Demos/RealtorApp/images/map-marker.png'
 
@@ -2133,6 +2133,28 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                             location.reload();
                         });
             });
+    }
+
+    $scope.prb1 = function(CotizacionDetalle) {
+        angular.copy(CotizacionDetalle, $scope.cotizacionDetalle);
+        $('#editorDetalleCotizacion').modal();
+        console.log($scope.cotizacionDetalle);
+    }
+
+    $scope.updateDetalleCotizacion = function()
+    {
+        $('#editorDetalleCotizacion').modal('hide');
+        detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta, $scope.userData.idUsuario)
+        .then(function(response) 
+        {    
+            setTimeout(function() {
+                $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+                //location.href = '/detalle?orden=' + $routeParams.orden;
+            }, 500)
+            swal('Detalle actualizado!', 'Operación realizada corractamente');
+        }, function(error) {
+             alertFactory.error("Error al actualizar la información para el detalle")
+        })
     }
 
 })

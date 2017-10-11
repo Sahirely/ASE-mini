@@ -462,6 +462,21 @@ registrationModule.factory('detalleRepository', function($http) {
                 },
                 headers: { 'Content-Type': 'application/json' }
             });
+        },
+        updateDetalleCotizacion: function(idCotizacionDetalle, costo, venta, idUsuario)
+        {
+            return $http({
+                url: detalleUrl + 'updateDetalleCotizacion/',
+                method:'POST',
+                params:
+                {
+                    idCotizacionDetalle : idCotizacionDetalle,
+                    costo: costo,
+                    venta: venta,
+                    idUsuario:idUsuario
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });
