@@ -166,9 +166,13 @@ function getFacturasAbonadas(){
   $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario,
   'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
     $scope.abonadas = result.data;
+    $scope.totalAbonadasAbono = 0;
+    $scope.totalAbonadasSaldo = 0;
     //$scope.data = result.data;
     angular.forEach($scope.abonadas, function (value, key) {
-      $scope.totalAbonadas = $scope.totalAbonadas + value.total
+      $scope.totalAbonadas = $scope.totalAbonadas + value.total;
+      $scope.totalAbonadasAbono = $scope.totalAbonadasAbono + value.abono;
+      $scope.totalAbonadasSaldo = $scope.totalAbonadasSaldo + value.COP_SALDO;
     })
     globalFactory.filtrosTabla('dataTableAbonadas', 'Facturas Abonadas', 50);
   }, function (error) {

@@ -516,9 +516,11 @@
                             </tab>
                             <tab heading="Facturas Abonadas" index="5">
                                 <div class="row sumatorias">
-                                    <div class="col-xs-3 pull-right">
+                                    <div class="col-xs-7 pull-right">
                                         <div>
-                                            <h2 class="no-margins">Precio total c/iva: {{ totalAbonadas | currency }}</h2>
+                                            <h3 class="no-margins">Precio total c/iva: {{ totalAbonadas | currency }}&nbsp
+                                            Abono: {{ totalAbonadasAbono | currency }}&nbsp
+                                            Saldo: {{ totalAbonadasSaldo | currency }}</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -549,8 +551,8 @@
                                                 <th ng-hide=" idGrouper == 3">Precio Venta sin IVA</th>
                                                 <th ng-hide=" idGrouper == 3">Folio Factura</th>
                                                 <th ng-hide=" idGrouper == 3">Precio Venta con IVA</th>
-                                                <!--th ng-hide=" idGrouper == 3">Abono</th>
-                                                <th ng-hide=" idGrouper == 3">Saldo </th-->
+                                                <th ng-hide=" idGrouper == 3">Abono</th>
+                                                <th ng-hide=" idGrouper == 3">Saldo </th>
                                                 <th ng-hide=" idGrouper == 3">Fecha Último Pago</th>
                                                 <th ng-hide=" idGrouper == 3">Fecha Copade</th>
                                             </tr>
@@ -563,12 +565,12 @@
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.numFactura}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.total}}</td>
-                                                <!--td ng-hide=" idGrouper == 3">{{value[0].abono}}</td-->
-                                                <!--  <td ng-hide=" idGrouper != 1">{{value[0].saldo}}</td>-->
+                                                <td ng-hide=" idGrouper == 3">{{value.abono}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.COP_SALDO}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_FECHULTPAG}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{ value.COP_FECHOPE}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.COP_FECHOPE}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
