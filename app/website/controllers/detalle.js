@@ -996,6 +996,11 @@ Detalle.prototype.post_updateDetalleCotizacion = function(req, res, next)
         name:'venta',
         value:req.query.venta,
         type:self.model.types.DECIMAL
+    },
+    {
+        name:'idUsuarioUpdate',
+        value:req.query.idUsuario,
+        type:self.model.types.INT
     }
 ]
 

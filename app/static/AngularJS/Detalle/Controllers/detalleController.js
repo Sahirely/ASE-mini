@@ -2144,7 +2144,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.updateDetalleCotizacion = function()
     {
         $('#editorDetalleCotizacion').modal('hide');
-        detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta)
+        detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta, $scope.userData.idUsuario)
         .then(function(response) 
         {    
             setTimeout(function() {
