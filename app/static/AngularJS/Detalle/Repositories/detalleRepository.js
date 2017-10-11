@@ -467,7 +467,7 @@ registrationModule.factory('detalleRepository', function($http) {
         {
             return $http({
                 url: detalleUrl + 'updateDetalleCotizacion/',
-                method:'GET',
+                method:'POST',
                 params:
                 {
                     idCotizacionDetalle : idCotizacionDetalle,

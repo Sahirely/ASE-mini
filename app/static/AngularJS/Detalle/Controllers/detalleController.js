@@ -2148,8 +2148,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         .then(function(response) 
         {    
             setTimeout(function() {
-                location.href = '/detalle?orden=' + $routeParams.orden + '&estatus=2'
-            }, 1000)
+                $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+                //location.href = '/detalle?orden=' + $routeParams.orden;
+            }, 500)
             swal('Detalle actualizado!', 'Operación realizada corractamente');
         }, function(error) {
              alertFactory.error("Error al actualizar la información para el detalle")
