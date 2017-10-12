@@ -56,8 +56,8 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
     $scope.sumatoriaCitas = function () {
         $scope.totalCitas = 0;
         $scope.totalHorasCitas = 0;
-        $scope.totalMontoCitas = 0;
-        $scope.totalCostoCitas = 0;
+        $scope.totalMontoCitas = 0.00;
+        $scope.totalCostoCitas = 0.00;
 
         dashBoardRepository.getTotalCitas($scope.idOperacion, $scope.zonaSelected, $scope.idUsuario).then(function (datos) {
             var Resultados = datos.data;
@@ -65,8 +65,8 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
             Resultados.forEach(function (item, key) {
                 $scope.totalCitas = $scope.totalCitas + parseInt(item.total);
                 $scope.totalHorasCitas = $scope.totalHorasCitas + parseInt(item.promedio);
-                $scope.totalMontoCitas = $scope.totalMontoCitas + parseInt(item.Monto);
-                $scope.totalCostoCitas = $scope.totalCostoCitas + parseInt(item.MontoCosto);
+                $scope.totalMontoCitas = $scope.totalMontoCitas + parseFloat(item.Monto);
+                $scope.totalCostoCitas = $scope.totalCostoCitas + parseFloat(item.MontoCosto);
             });
 
             $scope.citas = Resultados;
@@ -117,8 +117,8 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
             $scope.cotizaciones = Resultados;
             $scope.totalCotizaciones = 0;
             $scope.totalHorasCotizaciones = 0;
-            $scope.totalMontoCotizaciones = 0;
-            $scope.totalCostoCotizaciones = 0;
+            $scope.totalMontoCotizaciones = 0.00;
+            $scope.totalCostoCotizaciones = 0.00;
 
             $scope.cotizaciones.forEach(function (item, key) {
                 item.Monto = (item.Monto === null) ? 0 : item.Monto;
@@ -130,8 +130,8 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
 
                 $scope.totalCotizaciones = $scope.totalCotizaciones + parseInt(item.total);
                 $scope.totalHorasCotizaciones = $scope.totalHorasCotizaciones + parseInt(item.promedio);
-                $scope.totalMontoCotizaciones = $scope.totalMontoCotizaciones + parseInt(item.Monto);
-                $scope.totalCostoCotizaciones = $scope.totalCostoCotizaciones + parseInt(item.MontoCosto);
+                $scope.totalMontoCotizaciones = $scope.totalMontoCotizaciones + parseFloat(item.Monto);
+                $scope.totalCostoCotizaciones = $scope.totalCostoCotizaciones + parseFloat(item.MontoCosto);
             });
 
             $('#morris-donut-cotizaciones').empty();
@@ -160,14 +160,14 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
             var Resultados = proceso.data;
             $scope.totalProceso = 0;
             $scope.totalHorasOrdenesProceso = 0;
-            $scope.totalMontoOrdenesProceso = 0;
-            $scope.totalCostoOrdenesProceso = 0;
+            $scope.totalMontoOrdenesProceso = 0.00;
+            $scope.totalCostoOrdenesProceso = 0.00;
 
             Resultados.forEach(function (item, key) {
                 $scope.totalProceso = $scope.totalProceso + parseInt(item.total);
                 $scope.totalHorasOrdenesProceso = $scope.totalHorasOrdenesProceso + parseInt(item.promedio);
-                $scope.totalMontoOrdenesProceso = $scope.totalMontoOrdenesProceso + parseInt(item.Monto);
-                $scope.totalCostoOrdenesProceso = $scope.totalCostoOrdenesProceso + parseInt(item.MontoCosto);
+                $scope.totalMontoOrdenesProceso = $scope.totalMontoOrdenesProceso + parseFloat(item.Monto);
+                $scope.totalCostoOrdenesProceso = $scope.totalCostoOrdenesProceso + parseFloat(item.MontoCosto);
             });
 
             $scope.ordenesProceso = Resultados;
@@ -214,14 +214,14 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
             var Resultados = ordenes.data;
             $scope.totalOrdenes = 0;
             $scope.totalHorasOrdenesServicio = 0;
-            $scope.totalMontoOrdenesServicio = 0;
-            $scope.totalCostoOrdenesServicio = 0;
+            $scope.totalMontoOrdenesServicio = 0.00;
+            $scope.totalCostoOrdenesServicio = 0.00;
 
             Resultados.forEach(function (item, key) {
                 $scope.totalOrdenes = $scope.totalOrdenes + parseInt(item.total);
                 $scope.totalHorasOrdenesServicio = $scope.totalHorasOrdenesServicio + parseInt(item.promedio);
-                $scope.totalMontoOrdenesServicio = $scope.totalMontoOrdenesServicio + parseInt(item.Monto);
-                $scope.totalCostoOrdenesServicio = $scope.totalCostoOrdenesServicio + parseInt(item.MontoCosto);
+                $scope.totalMontoOrdenesServicio = $scope.totalMontoOrdenesServicio + parseFloat(item.Monto);
+                $scope.totalCostoOrdenesServicio = $scope.totalCostoOrdenesServicio + parseFloat(item.MontoCosto);
             });
 
             $scope.ordenesServicio = Resultados;
@@ -271,8 +271,8 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
 
             $scope.totalOrdenesPorCobrar = 0;
             $scope.totalHorasOrdenesCobrar = 0;
-            $scope.totalMontoOrdenesCobrar = 0;
-            $scope.totalCostoOrdenesCobrar = 0;
+            $scope.totalMontoOrdenesCobrar = 0.00;
+            $scope.totalCostoOrdenesCobrar = 0.00;
 
             Resultados.forEach(function (item, key) {
                 var v = ($scope.idRol == 4) ? $scope.addCommas(item.MontoCosto) : $scope.addCommas(item.Monto);
@@ -281,8 +281,8 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
 
                 $scope.totalOrdenesPorCobrar = $scope.totalOrdenesPorCobrar + parseInt(item.total);
                 $scope.totalHorasOrdenesCobrar = $scope.totalHorasOrdenesCobrar + parseInt(item.promedio);
-                $scope.totalMontoOrdenesCobrar = $scope.totalMontoOrdenesCobrar + parseInt(item.Monto);
-                $scope.totalCostoOrdenesCobrar = $scope.totalCostoOrdenesCobrar + parseInt(item.MontoCosto);
+                $scope.totalMontoOrdenesCobrar = $scope.totalMontoOrdenesCobrar + parseFloat(item.Monto);
+                $scope.totalCostoOrdenesCobrar = $scope.totalCostoOrdenesCobrar + parseFloat(item.MontoCosto);
             });
 
             $scope.ordenesCobrar = Resultados;
