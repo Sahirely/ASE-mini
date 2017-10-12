@@ -40,7 +40,16 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.option = null
 
   $scope.total = 0
-
+      var sumatoriaMontoPago = 0;
+      var sumatoriaAbonoPago = 0;
+      var sumatoriaSaldoPago = 0;
+      var sumatoriaMontoPagopx = 0;
+      var sumatoriaSaldoPagopx = 0;
+      var sumatoriaMontoAbon = 0;
+      var sumatoriaAbonoAbon = 0;
+      var sumatoriaSaldoAbon = 0;
+      var sumatoriaMontoAbonax = 0;
+      var sumatoriaSaldoAbonax = 0;
 
   $scope.change_switch = function () {
     if ($scope.showCopade == 2) {
@@ -151,7 +160,6 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     getSeleccionDeAbonos();
 
     getFacturasAbonadas();
-
 
     $('.dataTablePagadas').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
@@ -873,6 +881,122 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
            }
          }
        }
+
+  function getAbonadas(){
+      //Obtengo la lista de tablas (ABONOS)
+      $('.dataTableAbona').DataTable().destroy()
+      $scope.checkedFacturasTotala = [];
+      $scope.selectAbonada = '';
+      $scope.promise = ordenPorCobrarRepository.get('obtenerabonada', { 'idUsuario': $scope.userData.idUsuario,
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+      $scope.selectAbonada = result.data
+      var sumatoriaMontoAbon = 0;
+      var sumatoriaAbonoAbon = 0;
+      var sumatoriaSaldoAbon = 0;
+      var sumatoriaMontoAbonax = 0;
+      var sumatoriaSaldoAbonax = 0;
+      $scope.selectobjAbonada = [];
+      for(var i=0;i<result.data.length;i++){
+        var existe = false;
+        $scope.selectobjAbonada.forEach(function(value){
+          if (value.numeroCopade == result.data[i].numeroCopade){
+            existe = true;
+          }
+        });
+
+        if(!existe){
+          $scope.selectobjAbonada.push(result.data[i]);
+          sumatoriaMontoAbon += parseFloat(result.data[i].COP_CARGO);
+          sumatoriaAbonoAbon += parseFloat(result.data[i].abono);
+          sumatoriaSaldoAbon += parseFloat(result.data[i].COP_SALDO);
+          sumatoriaMontoAbonax += parseFloat(result.data[i].total);
+          sumatoriaSaldoAbonax += parseFloat(result.data[i].saldoProveedor);
+        }
+      };
+      $scope.montoCopAbonoAbon = sumatoriaMontoAbon;
+      $scope.abonoCopAbonoAbon = sumatoriaAbonoAbon;
+      $scope.saldoCopAbonoAbon = sumatoriaSaldoAbon;
+      $scope.montoProvAbonoAbon = sumatoriaMontoAbonax;
+      $scope.saldoProvAbonoAbon = sumatoriaSaldoAbonax;
+
+      for(var i=0;i< result.data.length;i++){
+        obj = new Object();
+        obj.idTrabajoAgrupado = result.data[i].idOrdenAgrupada;
+        obj.ordenGlobal = result.data[i].COP_ORDENGLOBAL;
+        obj.total = result.data[i].saldoProveedor;
+        obj.check = false;
+        $scope.checkedFacturasTotala.push(obj);
+      };
+
+      globalFactory.filtrosTabla('dataTableAbona', 'Facturas Abonadas', 50)
+    }, function (error) {
+      alertFactory.error('No se puenen obtener los abonos generados')
+    })
+
+  }
+
+  function getPagadas(){
+      //Obtengo la lista de tablas (ABONOS)
+      $('.dataTablePago').DataTable().destroy()
+      $scope.checkedFacturasTotalp = [];
+      $scope.selectPgds='';
+      $scope.promise = ordenPorCobrarRepository.get('obtenerPagada', { 'idUsuario': $scope.userData.idUsuario,
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+      $scope.selectPgds = result.data
+      var sumatoriaMontoPago = 0;
+      var sumatoriaAbonoPago = 0;
+      var sumatoriaSaldoPago = 0;
+      var sumatoriaMontoPagopx = 0;
+      var sumatoriaSaldoPagopx = 0;
+      $scope.selectObjPagadas = [];
+      for(var i=0;i<result.data.length;i++){
+        var existe = false;
+        $scope.selectObjPagadas.forEach(function(value){
+          if (value.numeroCopade == result.data[i].numeroCopade){
+            existe = true;
+          }
+        });
+
+        if(!existe){
+          $scope.selectObjPagadas.push(result.data[i]);
+          sumatoriaMontoPago += parseFloat(result.data[i].COP_CARGO);
+          sumatoriaAbonoPago += parseFloat(result.data[i].abono);
+          sumatoriaSaldoPago += parseFloat(result.data[i].COP_SALDO);
+          sumatoriaMontoPagopx += parseFloat(result.data[i].total);
+          sumatoriaSaldoPagopx += parseFloat(result.data[i].saldoProveedor);
+        }
+      };
+      $scope.montoCopAbonoPago = sumatoriaMontoPago;
+      $scope.abonoCopAbonoPago = sumatoriaAbonoPago;
+      $scope.saldoCopAbonoPago = sumatoriaSaldoPago;
+      $scope.montoProvAbonoPago = sumatoriaMontoPagopx;
+      $scope.saldoProvAbonoPago = sumatoriaSaldoPagopx;
+
+      for(var i=0;i< result.data.length;i++){
+        obj = new Object();
+        obj.idTrabajoAgrupado = result.data[i].idOrdenAgrupada;
+        obj.ordenGlobal = result.data[i].COP_ORDENGLOBAL;
+        obj.total = result.data[i].saldoProveedor;
+        obj.check = false;
+        $scope.checkedFacturasTotalp.push(obj);
+      };
+
+      globalFactory.filtrosTabla('dataTablePago', 'Facturas Pagadas', 50)
+    }, function (error) {
+      alertFactory.error('No se puenen obtener los abonos generados')
+    })
+
+  }
+
+  $scope.findAbono = function () {
+      getAbonadas();
+  } 
+  
+   
+  $scope.findFinalizado = function () {
+      getPagadas();
+  }
+
 
        function getBase64(file) {
         var reader = new FileReader();
