@@ -279,6 +279,34 @@ Cobrar.prototype.get_obtenerabonos = function (req, res, next) {
   this.query.execute('SEL_COTIZACION_ABONADOS_SELECT_SP', params, res)
 }
 
+Cobrar.prototype.get_obtenerabonada = function (req, res, next) {
+  // Referencia a la clase para callback
+  var self = this
+  // Obtención de valores de los parámetros del request
+  var params = [
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+  ]
+  // Llamada a SP
+  this.query.execute('SEL_COTIZACION_FACTURAS_ABONADAS_SELECT_SP', params, res)
+}
+
+
+Cobrar.prototype.get_obtenerPagada = function (req, res, next) {
+  // Referencia a la clase para callback
+  var self = this
+  // Obtención de valores de los parámetros del request
+  var params = [
+    { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+  ]
+  // Llamada a SP
+  this.query.execute('SEL_COTIZACION_FACTURAS_PAGADAS_SELECT_SP', params, res)
+}
+
+
 Cobrar.prototype.get_obtenerenviadas = function (req, res, next) {
   // Referencia a la clase para callback
   var self = this
