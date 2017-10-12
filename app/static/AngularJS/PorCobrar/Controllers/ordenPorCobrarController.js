@@ -192,12 +192,23 @@ function getSeleccionDeAbonos(){
        var sumatoriaSaldoCopade = 0;
        var sumatoriaMontoProveedor = 0;
        var sumatoriaSaldoProveedor = 0;
+       $scope.selectPagadas = [];
             for(var i=0;i<result.data.length;i++){
-              sumatoriaMontoCopade += parseFloat(result.data[i].COP_CARGO);
-              sumatoriaAbonoCopade += parseFloat(result.data[i].abono);
-              sumatoriaSaldoCopade += parseFloat(result.data[i].COP_SALDO);
-              sumatoriaMontoProveedor += parseFloat(result.data[i].total);
-              sumatoriaSaldoProveedor += parseFloat(result.data[i].saldoProveedor);
+              var existe = false;
+              $scope.selectPagadas.forEach(function(value){
+                if (value.numeroCopade == result.data[i].numeroCopade){
+                    existe = true;
+                }
+              });
+              
+              if(!existe){
+                $scope.selectPagadas.push(result.data[i]);
+                sumatoriaMontoCopade += parseFloat(result.data[i].COP_CARGO);
+                sumatoriaAbonoCopade += parseFloat(result.data[i].abono);
+                sumatoriaSaldoCopade += parseFloat(result.data[i].COP_SALDO);
+                sumatoriaMontoProveedor += parseFloat(result.data[i].total);
+                sumatoriaSaldoProveedor += parseFloat(result.data[i].saldoProveedor);
+              }
           };
          $scope.montoCopAbonoSelect = sumatoriaMontoCopade;
          $scope.abonoCopAbonoSelect = sumatoriaAbonoCopade;
