@@ -5,8 +5,9 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $rootScope.modulo = 'consultaCitas'; // <<-- Para activar en que opción del menú se encuentra
     $scope.citas = [];
     $scope.filtroEstatus = '';
-    $scope.ConTallerActive = true;
-    $scope.SinTallerActive = false;
+    $scope.ConTallerActive = $routeParams.e == undefined ? true : $routeParams.e == 2;
+    $scope.SinTallerActive = $routeParams.e == undefined ? false :$routeParams.e == 1;
+    $scope.EnTallerActive = $routeParams.e == undefined ? false :$routeParams.e == 3;
     $scope.userData = userFactory.getUserData();
     $scope.x = 0;
     $scope.totalNiveles = 0;
@@ -16,11 +17,14 @@ registrationModule.controller('consultaCitasController', function($scope, $route
     $scope.Zonas = [];
     $scope.sumatoria_conTaller = 0;
     $scope.sumatoria_sinTaller = 0;
+    $scope.sumatoria_enTaller = 0;
     $scope.sumatoria_costo_conTaller = 0;
     $scope.sumatoria_costo_sinTaller = 0;
+    $scope.sumatoria_costo_enTaller = 0;
     $scope.btnSwitch = {};
     $scope.totalOrdenesTaller = [];
     $scope.totalOrdenesSinTaller = [];
+    $scope.totalOrdenesEnTaller = [];
 
 
     $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada
@@ -113,6 +117,20 @@ registrationModule.controller('consultaCitasController', function($scope, $route
                 alertFactory.info('No se Encontraron Citas sin Talleres.');
             }
             globalFactory.filtrosTabla("dataTableOrdenesSinDatos", "Ordenes", 100);
+        });
+
+        cotizacionConsultaRepository.ObtenerOrdenesEnTaller($scope.idContratoOperacion, numeroOrden, idEjecutivo, $scope.userData.idUsuario).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.totalOrdenesEnTaller = result.data;
+                $scope.totalOrdenesEnTaller.forEach(function(item) {
+                    $scope.sumatoria_enTaller += item.venta;
+                    $scope.sumatoria_costo_enTaller += item.costo;
+                });
+            } else {
+                $scope.totalOrdenesEnTaller = [];
+                alertFactory.info('No se Encontraron Citas sin Talleres.');
+            }
+            globalFactory.filtrosTabla("dataTableOrdenesEnTaller", "Ordenes", 100);
         });
     }
 

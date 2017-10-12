@@ -98,7 +98,7 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
                     resize: true,
                     colors: [Resultados[0].color, Resultados[1].color, Resultados[2].color],
                 }).on('click', function (i, row) {
-                    if (row.idEstatus == 1 || row.idEstatus == 2)
+                    if (row.idEstatus == 1 || row.idEstatus == 2 || row.idEstatus == 3)
                         location.href = '/consultaCitas?e=' + row.idEstatus;
                 });
             }

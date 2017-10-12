@@ -415,6 +415,35 @@ Cotizacion.prototype.get_ObtenerOrdenesSinTaller = function(req, res, next) {
     });
 
 }
+
+Cotizacion.prototype.get_ObtenerOrdenesEnTaller = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'idContratoOperacion',
+        value: req.query.idContratoOperacion,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'numeroOrden',
+        value: req.query.numeroOrden,
+        type: self.model.types.STRING
+    }, {
+        name: 'idEjecutivo',
+        value: req.query.idEjecutivo,
+        type: self.model.types.INT
+    }];
+    this.model.query('SEL_OPE_CITAS_EN_TALLER_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+
+}
+
 Cotizacion.prototype.get_ObtenerOrdenesDeServicioEnProceso = function(req, res, next) {
     var self = this;
     var params = [{

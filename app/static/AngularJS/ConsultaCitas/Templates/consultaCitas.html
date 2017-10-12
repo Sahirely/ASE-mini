@@ -204,6 +204,61 @@
                             </table>
                         </div>
                     </tab>
+                    <tab heading="Citas En Taller" index="2" active="EnTallerActive" ng-hide="userData.idRol == 4">
+                        <br/>
+                        <div class="row sumatorias">
+                            <div class="col-xs-3 pull-right">
+                                <div ng-hide="btnSwitch.showCostoVenta">
+                                    <h2 class="no-margins">{{sumatoria_enTaller | currency: "$"}}</h2>
+                                    <small>precio venta s/iva</small>
+                                </div>
+                                <div ng-show="btnSwitch.showCostoVenta">
+                                    <h2 class="no-margins">{{sumatoria_costo_enTaller | currency: "$"}}</h2>
+                                    <small>precio costo s/iva</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <br/>
+                            <table class="table table-bordered table-hover dataTableOrdenesEnTaller">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Consecutivo</th>
+                                        <th>Número de la Orden</th>
+                                        <th>Número Económico</th>
+                                        <th>Zona</th>
+                                        <th>Tipo Servicio</th>
+                                        <th>Fecha Creación Orden</th>
+                                        <th>Comentarios Adicionales</th>
+                                        <th>Estatus</th>
+                                        <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                        <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                        <th>Agendó</th>
+                                        <th ng-show="userData.tiempoAsignado == 1">Tiempo Transcurrido Tiempo Asignado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr title="Ver detalles" ng-repeat="ordenesEnTaller in totalOrdenesEnTaller " ng-click="seleccionarOrden(ordenesEnTaller.numeroOrden,1)">
+                                        <td>{{ordenesEnTaller.nombreCliente}}</td>
+                                        <td>{{ordenesEnTaller.consecutivoOrden}}</td>
+                                        <td>{{ordenesEnTaller.numeroOrden}}</td>
+                                        <td>{{ordenesEnTaller.numeroEconomico}}</td>
+                                        <td>{{ordenesEnTaller.nombre}}</td>
+
+                                        <td>{{ordenesEnTaller.nombreTipoOrdenServicio}}</td>
+                                        <td>{{ordenesEnTaller.fechaCreacionOden | date:'dd/MM/yyyy hh:mm'}}</td>
+                                        <td>{{ordenesEnTaller.comentarioOrden}}</td>
+                                        <td>{{ordenesEnTaller.nombreEstatusOrden}}</td>
+                                        <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{ordenesEnTaller.costo | currency}}</td>
+                                        <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesEnTaller.venta | currency}}</td>
+                                        <td>{{ordenesEnTaller.nombreCompleto}}</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesEnTaller.tiempoEsperaTranscurrido}} días</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </tab>
                 </tabset>
             </div>
         </div>

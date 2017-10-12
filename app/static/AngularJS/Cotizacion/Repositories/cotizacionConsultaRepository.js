@@ -171,6 +171,22 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                 }
             });
         },
+        ObtenerOrdenesEnTaller: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+            var data = {
+                idContratoOperacion: idContratoOperacion,
+                numeroOrden: numeroOrden,
+                idEjecutivo: idEjecutivo,
+                idUsuario: idUsuario
+            };
+            return $http({
+                url: searchUrl + 'ObtenerOrdenesEnTaller',
+                method: "GET",
+                params: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         ObtenerOrdenesDeServicioEnProceso: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
             var data = {
                 idContratoOperacion: idContratoOperacion,
