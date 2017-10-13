@@ -15,6 +15,9 @@
                   <input type="password" ng-model="password" name="password" id="password" class="form-control " ng-model="vm.password" required ng-enter="login(user, password)"/>
                   <span ng-show="password.$dirty && password.$error.required" class="help-block">Password is required</span>
           </div>
+          <div id="contrasena">
+                <p style="color:#23527c">El usuario es único. (No compartir)</p>        
+            </div>
       </div>
       <div ng-show="UserIsValid">
         <div id="nombreUsuarioLogin">
