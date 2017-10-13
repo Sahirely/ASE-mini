@@ -128,7 +128,7 @@ registrationModule.controller('consultaCitasController', function($scope, $route
                 });
             } else {
                 $scope.totalOrdenesEnTaller = [];
-                alertFactory.info('No se Encontraron Citas sin Talleres.');
+                alertFactory.info('No se Encontraron Citas en Talleres.');
             }
             globalFactory.filtrosTabla("dataTableOrdenesEnTaller", "Ordenes", 100);
         });
