@@ -1490,7 +1490,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     }else{
         $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
     }
-    $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
+    // $scope.urlTrabajo = $rootScope.docServer + '/orden/' + $scope.idOrdenURL + '/hojaTrabajo/Recibo_Comprobante.pdf'
     $scope.HistoricoOrden.forEach(function (item) {
       if (item.idEstatusOrden == 6) {
         $scope.userTermino = item.nombreCompleto
@@ -2145,8 +2145,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     {
         $('#editorDetalleCotizacion').modal('hide');
         detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta, $scope.userData.idUsuario)
-        .then(function(response) 
-        {    
+        .then(function(response)
+        {
             setTimeout(function() {
                 $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
                 //location.href = '/detalle?orden=' + $routeParams.orden;
