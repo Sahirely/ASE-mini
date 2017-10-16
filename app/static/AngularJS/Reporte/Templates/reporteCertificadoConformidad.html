@@ -90,8 +90,9 @@
                                 <th>Folio de Certificado</th>
                                 <th>Estatus de la Orden</th>
                                 <th>Fecha de Emisión</th>
-                                <th>Numero Presupuesto</th>
+                                <th>Número Presupuesto</th>
                                 <th ng-show="userData.idOperacion == 3">Solpe</th>
+                                <th>Número COPADE</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,6 +110,7 @@
                                 <td>{{orden.fechaTerminoTrabajo | date:'dd-MM-yyyy HH:mm': 'UTC'}}</td>
                                 <td>{{orden.folioPresupuesto}}</td>
                                 <td ng-show="userData.idOperacion == 3">{{orden.solpe}}</td>
+                                <td>{{orden.numeroCopade}}</td>
                             </tr>
                         </tbody>
                     </table>
