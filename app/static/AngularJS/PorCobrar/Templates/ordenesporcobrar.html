@@ -131,7 +131,7 @@
                                                 <th ng-hide=" idGrouper != 1">Saldo Factura Proveedor</th>
                                                 <th>Comentarios adicionales</th>
                                                 <th>Estatus</th>
-                                                <th>Costo</th>
+                                                <th>Venta</th>
                                                 <th>Agendo</th>
                                                 <th>Tiempo Transcurrido Tiempo Asignado</th>
                                             </tr>
@@ -152,7 +152,7 @@
                                                 <td ng-hide=" idGrouper != 1">{{value.saldoFacturaProveedor}}</td>
                                                 <td>{{value.comentarioOrden}}</td>
                                                 <td>{{value.nombreEstatusOrden }}</td>
-                                                <td>{{value.costo | currency: "$"}}</td>
+                                                <td>{{value.venta | currency: "$"}}</td>
                                                 <td>{{value.nombreCompleto }}</td>
                                                 <td>{{value.tiempoEsperaTranscurrido }} días</td>
                                             </tr>
@@ -222,14 +222,14 @@
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th ng-hide="!esPemex">No. COPADE</th>
-                                                <th ng-hide="esPemex">No. >></th>
+                                                <th ng-hide="esPemex">No. de Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Orden Surtimiento</th>
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
                                                 <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta sin IVA</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta con IVA</th>
                                                 <th ng-hide="!esPemex">Fecha COPADE</th>
-                                                <th ng-hide="esPemex">Fecha >></th>
+                                                <th ng-hide="esPemex">Fecha de Entrega</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -260,7 +260,7 @@
                                             <tr>
                                                 <th>Cliente</th>
                                                 <th ng-hide="!esPemex">No. COPADE</th>
-                                                <th ng-hide="esPemex">No. >></th>
+                                                <th ng-hide="esPemex">No. de Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Orden Surtimiento</th>
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
                                                 <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
@@ -268,7 +268,7 @@
                                                 <th ng-hide=" idGrouper == 3">Folio Factura</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta con IVA</th>
                                                 <th ng-hide="!esPemex">Fecha COPADE</th>
-                                                <th ng-hide="esPemex">Fecha >></th>
+                                                <th ng-hide="esPemex">Fecha de Entrega</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -359,9 +359,9 @@
                                                 <th>Elegir Facturas Abonadas</th>
                                                 <th>Cliente</th>
                                                 <th ng-show="esPemex">No. COPADE</th>
-                                                <th ng-hide="esPemex">No. >></th>
+                                                <th ng-hide="esPemex">No. de Orden</th>
                                                 <th ng-show="esPemex">Fecha COPADE</th>
-                                                <th ng-hide="esPemex">Fecha >></th>
+                                                <th ng-hide="esPemex">Fecha de Entrega</th>
                                                 <th>Orden de Surtimiento</th>
                                                 <th>Consecutivo</th>
                                                 <th>Número de la Orden</th>
@@ -376,13 +376,13 @@
                                                 <th>Descripción de la Orden</th>
                                                 <th>Precio Cotización con IVA</th>
                                                 <th ng-show="esPemex">Factura COPADE</th>
-                                                <th ng-hide="esPemex">Factura >></th>
+                                                <th ng-hide="esPemex">Factura </th>
                                                 <th ng-show="esPemex">Precio COPADE con IVA</th>
-                                                <th ng-hide="esPemex">Precio >> con IVA</th>
+                                                <th ng-hide="esPemex">Precio Factura con IVA</th>
                                                 <th ng-show="esPemex">Abono COPADE</th>
-                                                <th ng-hide="esPemex">Abono >></th>
+                                                <th ng-hide="esPemex">Abono Factura</th>
                                                 <th ng-show="esPemex">Saldo COPADE</th>
-                                                <th ng-hide="esPemex">Saldo >></th>
+                                                <th ng-hide="esPemex">Saldo Factura</th>
                                                 <th>Fecha Último  Pago</th>
                                                 <th>Fecha Ingreso Unidad</th>
                                                 <th>Fecha Inicio Trabajo</th>
@@ -468,7 +468,7 @@
                                                 <tr>
                                                     <th>Cliente</th>
                                                     <th ng-show="esPemex">No.Copade</th>
-                                                    <th ng-hide="esPemex">No.>></th>
+                                                    <th ng-hide="esPemex">No. de Orden</th>
                                                     <th ng-hide=" idGrouper == 3">Orden de Resurtimiento</th>
                                                     <th ng-hide=" idGrouper == 3">No. Estimacion</th>
                                                     <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
@@ -479,7 +479,7 @@
                                                     <th ng-hide=" idGrouper == 3">Saldo </th>
                                                     <th ng-hide=" idGrouper == 3">Fecha Último Pago</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
-                                                    <th ng-hide="esPemex">Fecha >></th>
+                                                    <th ng-hide="esPemex">Fecha de Entrega</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -566,9 +566,9 @@
                                                 <tr>
                                                     <th>Cliente</th>
                                                     <th ng-show="esPemex">No.Copade</th>
-                                                    <th ng-hide="esPemex">No.>></th>
+                                                    <th ng-hide="esPemex">No. de Orden</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
-                                                    <th ng-hide="esPemex">Fecha >></th>
+                                                    <th ng-hide="esPemex">Fecha de Entrega</th>
                                                     <th>Orden de Surtimiento</th>
                                                     <th>Consecutivo</th>
                                                     <th>Número de la Orden</th>
@@ -583,13 +583,13 @@
                                                     <th>Descripción de la Orden</th>
                                                     <th>Precio Cotización con IVA</th>
                                                     <th ng-show="esPemex">Factura COPADE</th>
-                                                    <th ng-hide="esPemex">Factura >></th>
+                                                    <th ng-hide="esPemex">Factura </th>
                                                     <th ng-show="esPemex">Precio COPADE con IVA</th>
-                                                    <th ng-hide="esPemex">Precio >> con IVA</th>
+                                                    <th ng-hide="esPemex">Precio Factura con IVA</th>
                                                     <th ng-show="esPemex">Abono COPADE</th>
-                                                    <th ng-hide="esPemex">Abono >></th>
+                                                    <th ng-hide="esPemex">Abono Factura</th>
                                                     <th ng-show="esPemex">Saldo COPADE</th>
-                                                    <th ng-hide="esPemex">Saldo >></th>
+                                                    <th ng-hide="esPemex">Saldo Factura</th>
                                                     <th>Fecha Último  Pago</th>
                                                     <th>Fecha Ingreso Unidad</th>
                                                     <th>Fecha Inicio Trabajo</th>
@@ -713,7 +713,7 @@
                                                 <tr>
                                                     <th>Cliente</th>
                                                     <th ng-show="esPemex">No.Copade</th>
-                                                    <th ng-hide="esPemex">No.>></th>                                                    
+                                                    <th ng-hide="esPemex">No. de Orden</th>                                                    
                                                     <th>Orden de Surtimiento</th>
                                                     <th>No. Estimación</th>
                                                     <th>Descripción de la Orden</th>
@@ -721,7 +721,7 @@
                                                     <th>Folio Factura</th>
                                                     <th>Precio Venta con IVA</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
-                                                    <th ng-hide="esPemex">Fecha >></th>
+                                                    <th ng-hide="esPemex">Fecha de Entrega</th>
                                                     <th>Acción</th>
                                                 </tr>
                                             </thead>
@@ -752,9 +752,9 @@
                                                     
                                                     <th>Cliente</th>
                                                     <th ng-show="esPemex">No.Copade</th>
-                                                    <th ng-hide="esPemex">No.>></th>
+                                                    <th ng-hide="esPemex">No. de Orden</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
-                                                    <th ng-hide="esPemex">Fecha >></th>
+                                                    <th ng-hide="esPemex">Fecha de Entrega</th>
                                                     <th>Orden de Surtimiento</th>
                                                     <th>Consecutivo</th>
                                                     <th>Número de la Orden</th>
@@ -769,13 +769,13 @@
                                                     <th>Descripción de la Orden</th>
                                                     <th>Precio Cotización con IVA</th>
                                                     <th ng-show="esPemex">Factura COPADE</th>
-                                                    <th ng-hide="esPemex">Factura >></th>
+                                                    <th ng-hide="esPemex">Factura </th>
                                                     <th ng-show="esPemex">Precio COPADE con IVA</th>
-                                                    <th ng-hide="esPemex">Precio >> con IVA</th>
+                                                    <th ng-hide="esPemex">Precio Factura con IVA</th>
                                                     <th ng-show="esPemex">Abono COPADE</th>
-                                                    <th ng-hide="esPemex">Abono >></th>
+                                                    <th ng-hide="esPemex">Abono Factura</th>
                                                     <th ng-show="esPemex">Saldo COPADE</th>
-                                                    <th ng-hide="esPemex">Saldo >></th>
+                                                    <th ng-hide="esPemex">Saldo Factura</th>
                                                     <th>Fecha Último  Pago</th>
                                                     <th>Fecha Ingreso Unidad</th>
                                                     <th>Fecha Inicio Trabajo</th>
