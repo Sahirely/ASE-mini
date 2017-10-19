@@ -15,7 +15,7 @@
                                 <div class="ibox-title " role="tab" id="headingOne">
                                     <h5>Filtros de búsqueda</h5>
                                     <div class="ibox-tools">
-                                        <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                                             <i class="fa fa-chevron-down"></i>
                                                         </a>
                                     </div>
@@ -111,12 +111,15 @@
                                 <th>Consecutivo</th>
                                 <th>Número Órden</th>
                                 <th>Número Económico</th>
-                                <th>Zona</th>
+                                <th>{{Zonas[0].etiqueta}}</th>
+                                <th>{{Zonas[1].etiqueta}}</th>
                                 <th>Taller</th>
                                 <th>Costo de la Orden</th>
                                 <th>Precio de la Orden</th>
                                 <th>Descripción de la Orden</th>
                                 <th>Estatus</th>
+                                <th>Tipo Unidad </th>
+                                <th>Tipo Combustible</th>
                                 <th>Fecha Creación Orden</th>
                                 <th>Fecha Cotización</th>
                                 <th>Fecha Aprobación</th>
@@ -131,17 +134,20 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="orden in ordenes" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{orden.zonasConcatenadas}}" ng-click="redirectTo(orden.numeroOrden)">
+                            <tr ng-repeat="orden in ordenes track by orden.numeroOrden" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{orden.zonasConcatenadas}}" ng-click="redirectTo(orden.numeroOrden)">
                                 <td>{{orden.Cliente}}</td>
                                 <td>{{orden.consecutivoOrden}}</td>
                                 <td>{{orden.numeroOrden}}</td>
                                 <td>{{orden.numeroEconomico}}</td>
+                                <td>{{orden.nombrePadre}}</td>
                                 <td>{{orden.nombreZona}}</td>
                                 <td>{{orden.talleres}}</td>
                                 <td>{{orden.costo| currency: "$"}}</td>
                                 <td>{{orden.venta| currency: "$"}}</td>
                                 <td>{{orden.descripcion}}</td>
                                 <td>{{orden.estatus}}</td>
+                                <td>{{orden.tipoUnidad}}</td>
+                                <td>{{orden.tipoCombustible}}</td>
                                 <td>{{orden.fechaCreacionOrden | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
                                 <td>{{orden.fechaCotizacion | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
                                 <td>{{orden.fechaAprobacion | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
