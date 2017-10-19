@@ -261,7 +261,8 @@
                                                 <th>Cliente</th>
                                                 <th ng-hide="!esPemex">No. COPADE</th>
                                                 <th ng-hide="esPemex">No. de Orden</th>
-                                                <th ng-hide=" idGrouper == 3">Orden Surtimiento</th>
+                                                <th ng-show="esPemex">Orden Surtimiento</th>
+                                                <th ng-hide="esPemex">Presupuesto</th>
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
                                                 <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta sin IVA</th>
@@ -276,7 +277,8 @@
                                                 <td>{{value.nombreCliente}}</td>
                                                 <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                 <td ng-hide="esPemex">{{value.numeroCopade}}</td>
-                                                <td ng-hide=" idGrouper == 3">{{value.ordensurtimiento}}</td>
+                                                <td ng-show="esPemex">{{value.ordensurtimiento}}</td>
+                                                <td ng-hide="esPemex">{{value.ordensurtimiento}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.subtotal  | currency: "$"}}</td>
@@ -362,7 +364,8 @@
                                                 <th ng-hide="esPemex">No. de Orden</th>
                                                 <th ng-show="esPemex">Fecha COPADE</th>
                                                 <th ng-hide="esPemex">Fecha de Entrega</th>
-                                                <th>Orden de Surtimiento</th>
+                                                <th ng-show="esPemex">Orden de Surtimiento</th>
+                                                <th ng-hide="esPemex">Presupuesto</th>
                                                 <th>Consecutivo</th>
                                                 <th>Número de la Orden</th>
                                                 <th>Número de Cotización</th>
@@ -400,7 +403,8 @@
                                                 <td ng-hide="esPemes">{{selectCotizacion.numeroCopade}}</td>
                                                 <td ng-show="esPemes">{{selectCotizacion.fechaRecepcionCopade | date:'dd-MM-yyyy'}}</td>
                                                 <td ng-hide="esPemes">{{selectCotizacion.fechaRecepcionCopade | date:'dd-MM-yyyy'}}</td>
-                                                <td>{{selectCotizacion.folio}}</td>
+                                                <td ng-show="esPemes">{{selectCotizacion.folio}}</td>
+                                                <td ng-hide="esPemes">{{selectCotizacion.folio}}</td>
                                                 <td>{{selectCotizacion.idOrden}}</td>
                                                 <td>{{selectCotizacion.numeroOrden}}</td>
                                                 <td>{{selectCotizacion.numeroCotizacion}}</td>
@@ -469,7 +473,8 @@
                                                     <th>Cliente</th>
                                                     <th ng-show="esPemex">No.Copade</th>
                                                     <th ng-hide="esPemex">No. de Orden</th>
-                                                    <th ng-hide=" idGrouper == 3">Orden de Resurtimiento</th>
+                                                    <th ng-show="esPemex">Orden de Resurtimiento</th>
+                                                    <th ng-hide="esPemex">Presupuesto</th>
                                                     <th ng-hide=" idGrouper == 3">No. Estimacion</th>
                                                     <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                     <th ng-hide=" idGrouper == 3">Precio Venta sin IVA</th>
@@ -487,7 +492,8 @@
                                                     <td>{{value.nombreCliente}}</td>
                                                     <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                     <td ng-hide="esPemex">{{value.numeroCopade}}</td>
-                                                    <td ng-hide=" idGrouper == 3">{{value.folio}}</td>
+                                                    <td ng-show="esPemex">{{value.folio}}</td>
+                                                    <td ng-hide="esPemex">{{value.folio}}</td>
                                                     <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
                                                     <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                     <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
@@ -569,7 +575,8 @@
                                                     <th ng-hide="esPemex">No. de Orden</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
                                                     <th ng-hide="esPemex">Fecha de Entrega</th>
-                                                    <th>Orden de Surtimiento</th>
+                                                    <th ng-show="esPemex">Orden de Surtimiento</th>
+                                                    <th ng-hide="esPemex">Presupuesto</th>
                                                     <th>Consecutivo</th>
                                                     <th>Número de la Orden</th>
                                                     <th>Número de Cotización</th>
@@ -714,7 +721,8 @@
                                                     <th>Cliente</th>
                                                     <th ng-show="esPemex">No.Copade</th>
                                                     <th ng-hide="esPemex">No. de Orden</th>                                                    
-                                                    <th>Orden de Surtimiento</th>
+                                                    <th ng-show="esPemex">Orden de Surtimiento</th>
+                                                    <th ng-hide="esPemex">Presupuesto</th>
                                                     <th>No. Estimación</th>
                                                     <th>Descripción de la Orden</th>
                                                     <th>Precio Venta sin IVA</th>
@@ -730,7 +738,8 @@
                                                     <td>{{value.nombreCliente}}</td>
                                                     <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                     <td ng-hide="esPemex">{{value.numeroCopade}}</td>
-                                                    <td>{{value.ordensurtimiento}}</td>
+                                                    <td ng-show="esPemex">{{value.ordensurtimiento}}</td>
+                                                    <td ng-hide="esPemex">{{value.ordensurtimiento}}</td>
                                                     <td>{{value.numeroEstimacion}}</td>
                                                     <td>{{value.descripcion}}</td>
                                                     <td>{{value.subTotal | currency: "$"}}</td>
@@ -755,7 +764,8 @@
                                                     <th ng-hide="esPemex">No. de Orden</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
                                                     <th ng-hide="esPemex">Fecha de Entrega</th>
-                                                    <th>Orden de Surtimiento</th>
+                                                    <th ng-show="esPemex">Orden de Surtimiento</th>
+                                                    <th ng-hide="esPemex">Presupuesto</th>
                                                     <th>Consecutivo</th>
                                                     <th>Número de la Orden</th>
                                                     <th>Número de Cotización</th>
@@ -791,7 +801,8 @@
                                                     <td ng-hide="esPemex">{{selectCotizacion.numeroCopade}}</td>
                                                     <td ng-show="esPemex">{{selectCotizacion.fechaRecepcionCopade | date:'dd-MM-yyyy'}}</td>
                                                     <td ng-hide="esPemex">{{selectCotizacion.fechaRecepcionCopade | date:'dd-MM-yyyy'}}</td>
-                                                    <td>{{selectCotizacion.folio}}</td>
+                                                    <td ng-show="esPemex">{{selectCotizacion.folio}}</td>
+                                                    <td ng-hide="esPemex">{{selectCotizacion.folio}}</td>
                                                     <td>{{selectCotizacion.idOrden}}</td>
                                                     <td>{{selectCotizacion.numeroOrden}}</td>
                                                     <td>{{selectCotizacion.numeroCotizacion}}</td>
