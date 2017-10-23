@@ -465,7 +465,7 @@
                                 <!--h3>Utilidad</h3-->
                                 <p>
                                     <label>Utilidad Minima de la Operación: </label>
-                                    <span>{{userData.porcentajeUtilidad | currency: 2}} %</span>
+                                    <span>{{userData.porcentajeUtilidad | number: 2}} %</span>
                                 </p>
                                 <p>
                                     <label>Utilidad de la Orden: </label>
@@ -543,8 +543,7 @@
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
                                                     </button> -->
-                                                <span class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="cotizacion.showFacturaCargada" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip"
-                                                    data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
+                                                <span class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="cotizacion.showFacturaCargada" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip" data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
                                                 FACTURA CARGADA
                                                 </span>
                                             </div>
@@ -882,7 +881,7 @@
                         animation-iteration-count: infinite;
                         animation-timing-function: linear;
                     }
-
+                    
                     @keyframes rotate {
                         from {
                             transform: rotate(0deg);
@@ -1104,7 +1103,7 @@
 <div class="modal fade" id="editorDetalleCotizacion" tabindex="-1" role="dialog" aria-labelledby="editor-title">
     <style scoped>
         /* provides a red astrix to denote required fields - this should be included in common stylesheet */
-
+        
         .form-group.required .control-label:after {
             content: "*";
             color: red;
