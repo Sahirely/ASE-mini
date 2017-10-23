@@ -537,13 +537,13 @@
                                                         btnSwitch.classVenta='btn btn-success';
                                                         btnSwitch.classCosto='btn btn-default'">Venta</button>
                                                 </div>
-                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="(estatus == 5 || estatus == 6 || estatus == 7 || estatus==8) && cotizacion.factura == 0 && userData.idRol != 1" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
+                                                <button class="btn btn-primary pull-right cargar-factura" ng-show="cotizacion.showCargarFactura" ng-click="OpenModalFactura( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
                                                     Cargar Factura {{ }}
                                                 </button>
                                                 <!-- <button class="btn btn-success pull-right cargar-factura" ng-show="estatus == 5 && cotizacion.factura != 0">
                                                     Factura Cargada
                                                     </button> -->
-                                                <span class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="(estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8) && cotizacion.factura != 0" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip"
+                                                <span class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="cotizacion.showFacturaCargada" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip"
                                                     data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
                                                 FACTURA CARGADA
                                                 </span>
@@ -882,7 +882,7 @@
                         animation-iteration-count: infinite;
                         animation-timing-function: linear;
                     }
-                    
+
                     @keyframes rotate {
                         from {
                             transform: rotate(0deg);
@@ -1104,7 +1104,7 @@
 <div class="modal fade" id="editorDetalleCotizacion" tabindex="-1" role="dialog" aria-labelledby="editor-title">
     <style scoped>
         /* provides a red astrix to denote required fields - this should be included in common stylesheet */
-        
+
         .form-group.required .control-label:after {
             content: "*";
             color: red;

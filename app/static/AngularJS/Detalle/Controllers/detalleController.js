@@ -289,23 +289,42 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     })
   }
 
+  $scope.getShowFacturas = function (){
+    angular.forEach($scope.cotizaciones, function(item){
+
+          if (($scope.estatus == 5 || $scope.estatus == 6 || $scope.estatus == 7 || $scope.estatus == 8 || $scope.estatus == 9 || $scope.estatus == 10 || $scope.estatus == 11 || $scope.estatus == 12 || $scope.estatus == 14) && item.factura != 0) {
+              item.showFacturaCargada = true;
+          }else{
+              item.showFacturaCargada = false;
+          }
+
+          if (($scope.estatus == 5 || $scope.estatus == 6 || $scope.estatus == 7 || $scope.estatus == 8) && item.factura == 0 && $scope.userData.idRol != 1){
+              item.showCargarFactura = true;
+          }else{
+              item.showCargarFactura = false;
+          }
+
+    });
+  }
+
   $scope.getMostrarCotizaciones = function (numeroOrden, estatus, idUsuario) {
     cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
-      console.log('--------------------------------------')
-      console.log(result)
-      console.log('--------------------------------------')
+      console.log('--------------------------------------');
+      console.log(result);
+      console.log('--------------------------------------');
       if (result.data.success == true) {
-        $scope.cotizaciones = result.data.data
-        $scope.getTotales()
-        $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo
-        $('#loadModal').modal('hide')
+        $scope.cotizaciones = result.data.data;
+        $scope.getTotales();
+        $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
+        $scope.getShowFacturas();
+        $('#loadModal').modal('hide');
       } else {
-        $('#loadModal').modal('hide')
+        $('#loadModal').modal('hide');
         // alertFactory.error('No se puede obtener los documentos de la orden')
       }
     }, function (error) {
-      $('#loadModal').modal('hide')
-      alertFactory.error('Ocurrio un error')
+      $('#loadModal').modal('hide');
+      alertFactory.error('Ocurrio un error');
     })
   }
 
