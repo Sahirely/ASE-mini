@@ -465,11 +465,11 @@
                                 <!--h3>Utilidad</h3-->
                                 <p>
                                     <label>Utilidad Minima de la Operación: </label>
-                                    <span>{{userData.porcentajeUtilidad | currency:"%": 2}}</span>
+                                    <span>{{userData.porcentajeUtilidad | currency: 2}} %</span>
                                 </p>
                                 <p>
                                     <label>Utilidad de la Orden: </label>
-                                    <span ng-class="((totalSumaVenta - totalSumaCosto)*100)/ totalSumaVenta < (userData.porcentajeUtilidad) ?  'sinPresupuesto' : ''">{{((totalSumaVenta - totalSumaCosto)*100)/ totalSumaVenta | currency:"%": 2}}</span>
+                                    <span ng-class="((totalSumaVenta - totalSumaCosto)*100)/ totalSumaVenta <= (userData.porcentajeUtilidad) ?  'sinPresupuesto' : ''">{{((totalSumaVenta - totalSumaCosto)*100)/ totalSumaVenta | dropDigitsFilter}}%</span>
                                 </p>
                                 <p>
                                     <label>Monto de la Utilidad: </label>
