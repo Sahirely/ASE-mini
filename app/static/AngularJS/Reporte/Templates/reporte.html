@@ -118,23 +118,24 @@
                                 <th>Precio de la Orden</th>
                                 <th>Descripción de la Orden</th>
                                 <th>Estatus</th>
-                                <th>Tipo Unidad </th>
-                                <th>Tipo Combustible</th>
+                                <th>{{nombre1}}</th>
+                                <th>{{nombre2}}</th>
+                                <th>Orden Surtimiento</th>
                                 <th>Fecha Creación Orden</th>
                                 <th>Fecha Cotización</th>
                                 <th>Fecha Aprobación</th>
                                 <th>Fecha Proceso</th>
                                 <th>Fecha Termino Trabajo</th>
                                 <th>Fecha Salida</th>
-                                <th>Días 0-30</th>
+                                <!--<th>Días 0-30</th>
                                 <th>Días 31-45</th>
                                 <th>Días 46-60</th>
-                                <th>Días más de 60</th>
+                                <th>Días más de 60</th>-->
                                 <th>Días</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="orden in ordenes track by orden.numeroOrden" title='Zonas' data-toggle="popover" data-placement="top" data-trigger="hover" data-content="{{orden.zonasConcatenadas}}" ng-click="redirectTo(orden.numeroOrden)">
+                            <tr ng-repeat="orden in ordenes track by orden.numeroOrden" ng-click="redirectTo(orden.numeroOrden)">
                                 <td>{{orden.Cliente}}</td>
                                 <td>{{orden.consecutivoOrden}}</td>
                                 <td>{{orden.numeroOrden}}</td>
@@ -146,19 +147,20 @@
                                 <td>{{orden.venta| currency: "$"}}</td>
                                 <td>{{orden.descripcion}}</td>
                                 <td>{{orden.estatus}}</td>
-                                <td>{{orden.tipoUnidad}}</td>
-                                <td>{{orden.tipoCombustible}}</td>
+                                <td>{{orden.numeroCopade}}</td>
+                                <td>{{orden.folioPreuspuesto}}</td>
+                                <td>{{orden.ordenSurtimiento}}</td>
                                 <td>{{orden.fechaCreacionOrden | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
-                                <td>{{orden.fechaCotizacion | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
+                                <td>{{orden.fechaFinaliza | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
                                 <td>{{orden.fechaAprobacion | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
                                 <td>{{orden.fechaProceso | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
                                 <td>{{orden.fechaTerminoTrabajo | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
                                 <td>{{orden.fechaSalida | date:'dd-MM-yyyy HH:mm' :'UTC'}}</td>
-                                <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_0_30==1}"></span></td>
+                                <!--<td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_0_30==1}"></span></td>
                                 <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_31_45==1}"></span></td>
                                 <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_46_60==1}"></span></td>
-                                <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_mas_60==1}"></span></td>
-                                <td>{{orden.dias}}</td>
+                                <td class="center"><span ng-class="{'glyphicon glyphicon-remove': orden.dias_mas_60==1}"></span></td>-->
+                                <td>{{orden.Dias}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -20,10 +20,8 @@
         $scope.rptParams = [];
         $scope.sumatoriaCosto = 0;
         $scope.sumatoriaVenta = 0;
-
-
-
-        $scope.Zonas = [];
+        $scope.nombre1='';
+        $scope.nombre2='';
 
         $scope.init = function() {
             $scope.userData = userFactory.getUserData();
@@ -33,7 +31,14 @@
 
             $scope.rptParams = $scope.getEmptyFilterParams();
             $scope.rptParams.idOperacion = $scope.userData.idOperacion;
-
+            if($scope.rptParams.idOperacion==3){
+                $scope.nombre1='Numero de Copade';
+                $scope.nombre2='Hoja de Trabajo';
+            }
+            else{
+                $scope.nombre1='Numero de Orden';
+                $scope.nombre2='Presupuesto';
+            }
             $scope.getReporteAntiguedad($scope.rptParams);
             $scope.getEjecutivos();
             $scope.estatusOrdenes();
