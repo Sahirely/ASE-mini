@@ -836,6 +836,15 @@
                 </div>
             </div>
             <!-- / -->
+            <div ng-show="idEstatusOrden==8">
+                <div class="col-xs-12" ng-hide="userData.idRol == 4">
+                    <!--PROCESA COMPRA-->
+                    <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
+                        Procesar compra
+                    </button>
+                </div>
+            </div>
+            <!-- / -->
         </div>
     </div>
 </div>
@@ -881,7 +890,7 @@
                         animation-iteration-count: infinite;
                         animation-timing-function: linear;
                     }
-                    
+
                     @keyframes rotate {
                         from {
                             transform: rotate(0deg);
@@ -1103,7 +1112,7 @@
 <div class="modal fade" id="editorDetalleCotizacion" tabindex="-1" role="dialog" aria-labelledby="editor-title">
     <style scoped>
         /* provides a red astrix to denote required fields - this should be included in common stylesheet */
-        
+
         .form-group.required .control-label:after {
             content: "*";
             color: red;

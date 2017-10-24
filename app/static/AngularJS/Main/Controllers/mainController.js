@@ -306,7 +306,7 @@
     // Conecta el socket
     var SocketConnect = function() {
         // Inicio sesión en el socket para recibir actualizaciones
-        $scope.socket = io.connect('http://localhost:5100/')
+        $scope.socket = io.connect(global_settings.urlCORS)
         if ($scope.socket != null) {
             SocketJoin()
         }
@@ -314,7 +314,7 @@
 
     // Declara los mensajes principales del socket
     var SocketJoin = function() {
-        // Envío mis datos de usuario  
+        // Envío mis datos de usuario
         // HARDCODE CORREGIR ALAN!!!!
         $scope.socket.emit('login', { user: $scope.userData.idUsuario })
 
