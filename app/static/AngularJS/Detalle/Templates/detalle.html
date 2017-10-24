@@ -484,15 +484,15 @@
                                     <tbody>
                                         <tr>
                                             <td><strong>SUBTOTAL :</strong></td>
-                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto : totalSumaVenta | currency}}</td>
+                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto : totalSumaVenta | dropDigitsFilter:'$'}}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>I.V.A :</strong></td>
-                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 0.16 : totalSumaVenta * 0.16 | currency}}</td>
+                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 0.16 : totalSumaVenta * 0.16 | dropDigitsFilter: '$'}}</td>
                                         </tr>
                                         <tr>
                                             <td><strong>TOTAL :</strong></td>
-                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 1.16 : totalSumaVenta * 1.16 | currency}}</td>
+                                            <td>{{btnSwitch.showCostoVenta == true ? totalSumaCosto * 1.16 : totalSumaVenta * 1.16 | dropDigitsFilter: '$'}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
