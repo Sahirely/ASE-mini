@@ -5,8 +5,10 @@ var dropDigits = function($filter) {
             .split('.')
             .map(function(d, i) { return i ? d.substr(0, 2) : d; })
             .join('.');
-
-        return $filter('currency')(value, symbol, 2);
+        if (typeof symbol == "undefined")
+            return $filter('number')(value, 2)
+        else
+            return $filter('currency')(value, symbol, 2);
     };
 
 };
