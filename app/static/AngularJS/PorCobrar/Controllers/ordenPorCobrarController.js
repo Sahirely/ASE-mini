@@ -17,7 +17,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.showCopadeFacturas = 1;
   $scope.totalSeleccionadoSuma = 0;
   $scope.sumatoriaAbonoSelect = 0;
-  //////////////////////////////////  
+  //////////////////////////////////
   $scope.x = 0
   $scope.totalNiveles = 0
   $scope.total = 0
@@ -104,7 +104,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $scope.dzOptionsOrdenCobrar = configuradorRepository.getDzOptions("application/pdf,text/xml", 2);
     $scope.fecha = '';
     $scope.trabajosporCOPADE = '';
-    
+
     // para obtener las zonas promero se inicializa la primer zona padre.
     $scope.esPemex = $scope.userData.contratoOperacionSeleccionada == 3;
     userFactory.ValidaSesion()
@@ -118,10 +118,10 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
       'idUsuario': $scope.userData.idUsuario,'isProduction':$scope.userData.isProduction }).then(function (result) {
         $scope.porCobrar = result.data
-        $scope.total = 0        
+        $scope.total = 0
         angular.forEach($scope.porCobrar, function (value, key) {
           $scope.total = $scope.total + value.venta
-        });      
+        });
 
         globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 50)
       }, function (error) {
@@ -131,18 +131,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     // Obtengo la lista de tablas (COBRANZA)
     $scope.getCopades();
 
-    // Obtengo la lista de tablas
-    $('.dataTablePrefactura').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': $scope.userData.idUsuario,
-      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
-        $scope.prefactura = result.data
-        angular.forEach($scope.prefactura, function (value, key) {
-          $scope.totalPrefactura = $scope.totalPrefactura + value.Total
-        })
-        globalFactory.filtrosTabla('dataTablePrefactura', 'PreFacturas Generadas', 50)
-      }, function (error) {
-        alertFactory.error('No se puenen obtener las prefacturas generadas')
-      })
+    $scope.getPrefacturaGenerada();
 
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
@@ -281,6 +270,21 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
           alertFactory.error('No se pueden obtener los documentos generados');
         });
       }
+
+  $scope.getPrefacturaGenerada = function() {
+      // Obtengo la lista de tablas
+      $('.dataTablePrefactura').DataTable().destroy()
+      $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': $scope.userData.idUsuario,
+        'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+          $scope.prefactura = result.data
+          angular.forEach($scope.prefactura, function (value, key) {
+            $scope.totalPrefactura = $scope.totalPrefactura + value.Total
+          })
+          globalFactory.filtrosTabla('dataTablePrefactura', 'PreFacturas Generadas', 50)
+        }, function (error) {
+          alertFactory.error('No se puenen obtener las prefacturas generadas')
+        })
+  }
 
   // obtiene las zonas por cada nivel con que cuenta el usuario
   $scope.devuelveZonas = function () {
@@ -605,12 +609,17 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
               swal("Trabajo terminado!", "La copade se ha asociada", "success");
               setTimeout(function () {
                 $scope.getCopades();
+                $scope.getPrefacturaGenerada();
+                $scope.checkedTrabajos=[];
+                $('#finalizarTrabajoModal').modal('hide');
+                $('#mejorCoincidencia').modal('hide');
               //location.href = '/ordenesporcobrar';
              }, 1500);
             } else {
               swal("Copade no asociada", "", "error");
               $scope.cleanDatos();
               $('#finalizarTrabajoModal').modal('hide');
+              $('#mejorCoincidencia').modal('hide');
             }
           });
         });
@@ -642,6 +651,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   //Limpiamos campos idTrabajo
   $scope.cleanDatos = function () {
     $scope.idDeTrabajo = '';
+    $scope.checkedTrabajos = [];
   }
 
   $scope.verOrdenes= function(idDatosCopade){
@@ -992,9 +1002,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   $scope.findAbono = function () {
       getAbonadas();
-  } 
-  
-   
+  }
+
+
   $scope.findFinalizado = function () {
       getPagadas();
   }
