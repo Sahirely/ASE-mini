@@ -133,4 +133,19 @@ Quejas.prototype.post_uploadQueja = function(req, res, next) {
     });
 }
 
+Quejas.prototype.get_consultaPorTipoUsuario = function(req, res, next)
+{
+    var self = this;
+    var params = [
+        { name: 'idTipoUsuario', value: req.query.idTipoUsuario, type: self.model.types.INT }
+    ];
+
+    this.model.query('SEL_QUEJA_BY_TIPOUSUARIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error, 
+            result: result
+        });
+    });
+}
+
 module.exports = Quejas;

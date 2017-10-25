@@ -244,6 +244,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'miCuentaController'
         })
 
+        $routeProvider.when('/seguimientoTickets', {
+            templateUrl: 'AngularJS/seguimientoTickets/Templates/seguimientoTickets.html',
+            controller: 'seguimientoTicketsController'
+        })
+
         $routeProvider.when('/nuevoMemorandum', {
             templateUrl: 'AngularJS/MiCuenta/Templates/nuevoMemorandum.html',
             controller: 'nuevoMemorandumController'
