@@ -72,8 +72,7 @@
                 <li ng-class="{'active': modulo=='Configurador'}" ng-show="userData.idRol == 5">
                     <a href="configurador"><i class="glyphicon glyphicon-cog" data-toggle="tooltip" tooltip="Configurador" tooltip-placement="right"></i> <span class="nav-label">Configurador</span></a>
                 </li>
-                <li class="homelink" ng-class="{'active': modulo=='home'}" ng-hide="{{userData.idRol == 5 || userData.idRol == 3}}" tooltip="Inicio"
-                    tooltip-placement="right">
+                <li class="homelink" ng-class="{'active': modulo=='home'}" ng-hide="{{userData.idRol == 5 || userData.idRol == 3}}" tooltip="Inicio" tooltip-placement="right">
                     <a href="dashboardgeneral" class="homelink"><i class="glyphicon glyphicon-home casita" data-toggle="tooltip"></i> <span class="nav-label">Inicio</span></a>
                 </li>
                 <li class="active homelink" ng-show="userData.idRol == 3">
@@ -178,14 +177,12 @@
                         </div>
                         <div class="txtFinder" ng-hide="userData.idRol == 5 || busqueda == 2">
                             <div class="form-group ">
-                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue"
-                                    ng-enter=" getDetalleUnidad(numeroEconomico)">
+                                <input type="text" placeholder="Buscar Unidad" ng-model="numeroEconomico" class="form-control p-t-xs" autofocus typeahead="state for state in numEconomicos | filter:$viewValue" ng-enter=" getDetalleUnidad(numeroEconomico)">
                             </div>
                         </div>
                         <div class="txtFinder" ng-hide="userData.idRol == 5 || busqueda == 1">
                             <div class="form-group ">
-                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue"
-                                    ng-enter="getDetalleOrden(numeroOrden)">
+                                <input type="text" placeholder="Buscar Orden" ng-model="numeroOrden" class="form-control" autofocus typeahead="state for state in numOrdenes | filter:$viewValue" ng-enter="getDetalleOrden(numeroOrden)">
                             </div>
                         </div>
                         <div class="inlineb" ng-hide="userData.idRol == 5">
@@ -209,14 +206,13 @@
                         <a class="right-sidebar-toggle">
                             <button class="btn btn-default btn-sm"><i class="fa fa-video-camera"></i> Nueva Videoconferencia</button>
 
-                                </a>
+                        </a>
                     </li>
 
 
                     <li>
                         <div ng-hide="{{userData.idRol == 5}}" class="m-r-sm">
-                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle"
-                                data-toggle="dropdown">{{userData.nombreOperacion}}
+                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{userData.nombreOperacion}}
                                                     <span class="caret"></span>
                                             </button>
                             <ul class="dropdown-menu">
@@ -489,6 +485,7 @@
     <script src="AngularJS/Detalle/Controllers/detalleController.js"></script>
     <script src="AngularJS/Detalle/Repositories/detalleRepository.js"></script>
     <script src="AngularJS/Detalle/Repositories/aprobacionRepository.js"></script>
+    <script src="AngularJS/Detalle/Filters/dropDigits.js"></script>
     <script src="AngularJS/BusquedaUnidad/Controllers/busquedaUnidadController.js"></script>
     <script src="AngularJS/ConsultaCitas/Controllers/editarCotizacionController.js"></script>
     <script src="AngularJS/BusquedaUnidad/Repositories/busquedaUnidadRepository.js"></script>

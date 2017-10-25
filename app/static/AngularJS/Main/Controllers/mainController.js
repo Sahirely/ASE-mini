@@ -314,7 +314,7 @@
 
     // Declara los mensajes principales del socket
     var SocketJoin = function() {
-        // Envío mis datos de usuario  
+        // Envío mis datos de usuario
         // HARDCODE CORREGIR ALAN!!!!
         $scope.socket.emit('login', { user: $scope.userData.idUsuario })
 

@@ -1955,6 +1955,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         comentario: comentarios
       })
       $scope.updateComentariosPartidas()
+      $scope.cambiaEstatusOrdenTermino()
       // } else {
       //    $scope.class_buttonTerminaTrabajo = ''
       // }
@@ -1983,7 +1984,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       detalleRepository.insNota($scope.comentarios[0].comentario, $scope.numeroOrden, $scope.userData.idUsuario, 6).then(function (result) {
         if (result.data.length > 0) {
           $scope.notaTrabajo = result.data
-          $scope.cambiaEstatusOrdenTermino()
         }
       }, function (error) {
         alertFactory.error('No se pudieron obtener las notas')
