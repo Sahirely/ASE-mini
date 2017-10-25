@@ -575,6 +575,39 @@ OrdenServicio.prototype.get_getRecepcionInfo = function(req, res, next) {
     });
 }
 
+OrdenServicio.prototype.post_newOrderFolders = function(req, res, next){
+    var http = require('http'),
+        fs = require('fs');
+    var idOrden = req.query.idOrden;
+
+    try{
+          if (idOrden != undefined || idOrden != null) {
+              if (!fs.existsSync(dirname + idOrden))
+                  fs.mkdirSync(dirname + idOrden);
+              if (!fs.existsSync(dirname + idOrden + '/evidencia'))
+                  fs.mkdirSync(dirname + idOrden + '/evidencia');
+              if (!fs.existsSync(dirname + idOrden + '/hojaTrabajo'))
+                  fs.mkdirSync(dirname + idOrden + '/hojaTrabajo');
+              if (!fs.existsSync(dirname + idOrden + '/factura'))
+                  fs.mkdirSync(dirname + idOrden + '/factura');
+              if (!fs.existsSync(dirname + idOrden + '/comprobanteRecepcion'))
+                  fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion')
+          }
+
+          this.view.expositor(res, {
+              error: null,
+              result: 'Se crearon exitosamente las carpetas de la orden'
+          });
+
+      } catch (err){
+          this.view.expositor(res, {
+              error: err,
+              result: 'No se pudieron gerenar las carpetas de la orden'
+          });
+      }
+
+}
+
 OrdenServicio.prototype.post_newpdf = function(req, res, next) {
 
     var http = require('http'),

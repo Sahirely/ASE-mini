@@ -395,7 +395,6 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
             $scope.idZonaTaller = $scope.ZonasSeleccionadas[$scope.Zonas.length];
         // }
         if ( $scope.idZonaTaller != 0 && $scope.idZonaTaller != null && $scope.idZonaTaller != undefined ){
-            debugger;
 
               citaRepository.putAgendarCita($scope.detalleUnidad.idUnidad, $scope.idUsuario, $scope.tipoDeCita.idTipoCita, $scope.estadoDeUnidad.idEstadoUnidad, $scope.grua, $scope.fechaCita + ' ' + $scope.horaCita + ':00.000', $scope.comentarios, $scope.idZonaTaller, $scope.idTaller, $scope.idServicios, $scope.centroTrabajo).then(function(result) {
 
@@ -403,6 +402,9 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
                       $scope.numeroOrden = result.data[0].numeroOrden;
                       $scope.idOrden = result.data[0].idOrden;
 
+                      consultaCitasRepository.newOrderFolders($scope.idOrden).then(function(result){
+                          console.log(result.data);
+                      });
 
                       if ($scope.hasDetalleModulo() === true) {
 
