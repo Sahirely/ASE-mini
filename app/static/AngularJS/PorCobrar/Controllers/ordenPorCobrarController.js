@@ -604,7 +604,8 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
               $scope.cleanDatos();
               swal("Trabajo terminado!", "La copade se ha asociada", "success");
               setTimeout(function () {
-               location.href = '/ordenesporcobrar';
+                $scope.getCopades();
+              //location.href = '/ordenesporcobrar';
              }, 1500);
             } else {
               swal("Copade no asociada", "", "error");
