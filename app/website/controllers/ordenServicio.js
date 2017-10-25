@@ -575,6 +575,38 @@ OrdenServicio.prototype.get_getRecepcionInfo = function(req, res, next) {
     });
 }
 
+OrdenServicio.prototype.post_createFolders = function(req, res, next){
+    var http = require('http'),
+        fs = require('fs');
+    var params = [];
+    var self = this;
+
+    this.model.query('SEL_ORDENES_NUEVAS_SIN_CARPETAS_SP', params, function(error, result) {
+        if (result.length > 0){
+            result.forEach(function(item){
+                var idOrden = item.idOrden;
+                if (idOrden != undefined || idOrden != null) {
+                    if (!fs.existsSync(dirname + idOrden))
+                        fs.mkdirSync(dirname + idOrden);
+                    if (!fs.existsSync(dirname + idOrden + '/evidencia'))
+                        fs.mkdirSync(dirname + idOrden + '/evidencia');
+                    if (!fs.existsSync(dirname + idOrden + '/hojaTrabajo'))
+                        fs.mkdirSync(dirname + idOrden + '/hojaTrabajo');
+                    if (!fs.existsSync(dirname + idOrden + '/factura'))
+                        fs.mkdirSync(dirname + idOrden + '/factura');
+                    if (!fs.existsSync(dirname + idOrden + '/comprobanteRecepcion'))
+                        fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion');
+                    if (!fs.existsSync(dirname + idOrden + '/copade'))
+                        fs.mkdirSync(dirname + idOrden + '/copade');
+                    if (!fs.existsSync(dirname + idOrden + '/custodia'))
+                        fs.mkdirSync(dirname + idOrden + '/custodia');
+                }
+
+            });
+        }
+    });
+}
+
 OrdenServicio.prototype.post_newOrderFolders = function(req, res, next){
     var http = require('http'),
         fs = require('fs');
@@ -591,10 +623,14 @@ OrdenServicio.prototype.post_newOrderFolders = function(req, res, next){
               if (!fs.existsSync(dirname + idOrden + '/factura'))
                   fs.mkdirSync(dirname + idOrden + '/factura');
               if (!fs.existsSync(dirname + idOrden + '/comprobanteRecepcion'))
-                  fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion')
+                  fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion');
+              if (!fs.existsSync(dirname + idOrden + '/copade'))
+                  fs.mkdirSync(dirname + idOrden + '/copade');
+              if (!fs.existsSync(dirname + idOrden + '/custodia'))
+                  fs.mkdirSync(dirname + idOrden + '/custodia');
           }
 
-          this.view.expositor(res, {
+          this.view.expositor(res,{
               error: null,
               result: 'Se crearon exitosamente las carpetas de la orden'
           });
@@ -627,7 +663,11 @@ OrdenServicio.prototype.post_newpdf = function(req, res, next) {
         if (!fs.existsSync(dirname + idOrden + '/factura'))
             fs.mkdirSync(dirname + idOrden + '/factura');
         if (!fs.existsSync(dirname + idOrden + '/comprobanteRecepcion'))
-            fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion')
+            fs.mkdirSync(dirname + idOrden + '/comprobanteRecepcion');
+        if (!fs.existsSync(dirname + idOrden + '/copade'))
+            fs.mkdirSync(dirname + idOrden + '/copade');
+        if (!fs.existsSync(dirname + idOrden + '/custodia'))
+            fs.mkdirSync(dirname + idOrden + '/custodia');
     }
 
     var options = {

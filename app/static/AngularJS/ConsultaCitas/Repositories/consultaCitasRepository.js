@@ -261,6 +261,16 @@ registrationModule.factory('consultaCitasRepository', function($http, $q) {
                 }
             });
         },
+        generaFolders: function(){
+            return $http({
+                url:  consultaCitaUrl + 'createFolders',
+                method: "POST",
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         callExternalPdf: function (jsonData, idOrden) {
             return $http({
                 url: consultaCitaUrl + 'newpdf/',
