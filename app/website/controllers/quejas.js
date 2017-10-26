@@ -19,6 +19,7 @@ var Quejas = function(conf) {
 
 var dirname = 'E:/ASEv2Documentos/public/';
 //var dirname = 'C:/Desarrollo de Software/Grupo Andrade/Software/ASEv2Documentos/public/'
+//var dirname = 'E:/AlanRosales/Nueva carpeta/Images'
 
 Quejas.prototype.post_alta = function(req, res, next) {
     var self = this;
@@ -143,6 +144,82 @@ Quejas.prototype.get_consultaPorTipoUsuario = function(req, res, next)
     this.model.query('SEL_QUEJA_BY_TIPOUSUARIO_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error, 
+            result: result
+        });
+    });
+}
+
+Quejas.prototype.get_consultaLogQueja = function(req, res, next){
+    var self = this;
+    var params = [
+        {name: 'idQueja', value: req.query.idQueja, type: self.model.types.INT }
+    ];
+
+    this.model.query('SEL_LOG_QUEJA_BYID_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Quejas.prototype.get_consultaQuejaEvidencia = function(req, res, next){
+    var self = this;
+    var params = [
+        { name: 'idQueja', value: req.query.idQueja, type: self.model.types.INT }
+    ];
+
+    this.model.query('SEL_QUEJAEVIDENCIA_BYID_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+Quejas.prototype.put_cerrarTicket = function(req, res, body){
+    var self = this;
+    var params = [
+        { name: 'idQueja', value: req.query.idQueja, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+        { name: 'Observaciones', value: req.query.Observaciones, type: self.model.types.STRING },
+        { name: 'estatus', value:req.query.estatus, type: self.model.types.STRING }
+    ];
+
+    this.model.query('UPD_QUEJA_CERRAR_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Quejas.prototype.post_saveLogQueja = function(req, res, next){
+    var self = this;
+    var params = [
+        { name: 'idQueja', value: req.query.idQueja, type: self.model.types.INT },
+        { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
+        { name: 'Observaciones', value: req.query.Observaciones, type: self.model.types.STRING },
+        { name: 'jsonEvidencias', value: req.query.jsonEvidencias, type: self.model.types.STRING },
+        { name: 'contieneEvidencias', value: req.query.contieneEvidencias, type: self.model.types.INT },
+        { name: 'estatus', value: req.query.estatus, type: self.model.types.STRING }
+    ];
+
+    let evidencias = req.query.jsonEvidencias;
+    
+    this.model.query('INS_LOG_QUEJA_SP', params, function(error, result){
+        if (result != undefined) {
+            //MOVEMOS A LA NUEVA CARPETA DONDE SE ALOJAN LOS ARCHIVOS DEL SERVIDOR
+            if (!fs.existsSync(dirname + '/queja/' + result[0].idQueja))
+                fs.mkdirSync(dirname + '/queja/' + result[0].idQueja);
+            JSON.parse(evidencias).forEach(function(element) {
+                console.log(element);
+                fs.writeFileSync(dirname + '/queja/' + result[0].idQueja + '/' + element.evidencia, fs.readFileSync(dirname + '/temp/' + element.evidencia));
+                //fs.createReadStream($scope.rutaTemp + element.evidencia).pipe(fs.createWriteStream(dirname + '/memorandum/' + result[0].idMemorandum + '/' + element.evidencia));
+            }, this);
+        }
+        
+        self.view.expositor(res, {
+            error: error,
             result: result
         });
     });

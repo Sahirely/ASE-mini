@@ -81,7 +81,7 @@
                 <li ng-class="{'active': modulo=='miCuenta'}" tooltip="Mi Cuenta" tooltip-placement="right">
                     <a href="miCuenta"><i class="glyphicon glyphicon-user" data-toggle="tooltip"></i> <span class="nav-label">Mi Cuenta</span></a>
                 </li>
-                <li ng-class="{'active': modulo=='seguimientoTickets'}" tooltip="Tickets" tooltip-placement="right">
+                <li ng-class="{'active': modulo=='seguimientoTickets'}" ng-hide="{{userData.idRol != 2 && userData.idRol != 3}}" tooltip="Tickets" tooltip-placement="right">
                     <a href="seguimientoTickets"><i class="fa fa-ticket" data-toggle="tooltip"></i> <span class="nav-label">Tickets</span></a>
                 </li>
                 <li tooltip="Sobre Nosotros" tooltip-placement="right">

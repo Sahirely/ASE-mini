@@ -85,7 +85,9 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
             .then(function successCallback(response) {
                 $scope.Quejas = response.data;
                 $scope.gridQuejas = {
-                    dataSource: $scope.Quejas,
+                    bindingOptions:{
+                        dataSource: 'Quejas'
+                    },
                     allowSorting: true,
                     showRowLines: true,
                     rowAlternationEnabled: true,
@@ -205,7 +207,7 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                 $scope.mensajeQueja = ""
                 $scope.uploadedFiles = []
                 alertFactory.success('Queja generada de forma correcta.');
-                $scope.getQuejas()
+                $scope.getQuejas($scope.userData.idUsuario)
             });
     }
 
