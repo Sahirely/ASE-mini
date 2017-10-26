@@ -422,5 +422,9 @@ registrationModule.controller('consultaCitasController', function($scope, $route
 
     }
 
+    $scope.createFolders = function(){
+        consultaCitasRepository.generaFolders();
+    }
+
 
 });

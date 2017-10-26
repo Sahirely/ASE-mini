@@ -146,7 +146,7 @@
                         <!-- </div> -->
                         <div class="col-sm-12 col-md-6 col-lg-6">
                             <h3>Catálogo de Evidencias</h3>
-                            <carousel interval="'-1'" ng-hide="validaCertificado == 0">
+                            <carousel interval="'-1'" >
                                 <slide class="itemCarousel" ng-repeat="evidencia in detalleEvidencias">
                                     <!-- active="!$index" -->
                                     <a href="{{evidencia.ruta}}" ng-show="evidencia.tipo == 'jpg'
@@ -324,7 +324,7 @@
                                     </tr>
                                 </table>
                             </div>
-                            <div class="wrapper wrapper-content" ng-hide="validaCertificado == 0">
+                            <div class="wrapper wrapper-content">
                                 <br/>
                                 <form id="frm_evidencia" name="frm_evidencia" enctype="multipart/form-data" method="post">
                                     <label>Carga Evidencia</label>
