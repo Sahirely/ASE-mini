@@ -1221,7 +1221,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         }
       })
     } else {
-      if ($scope.validaProcesoProvisionamiento == 2) {
+      // if ($scope.validaProcesoProvisionamiento == 2) {
         detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function (result) {
           if (result.data[0].RealizarOperacion) {
             if ($scope.token_termino == '' || $scope.token_termino === undefined) {
@@ -1273,10 +1273,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             alertFactory.error('Aun quedan cotizaciones pendientes por revisar')
           }
         })
-      } else {
-        $('#loadModal').modal('hide')
-        swal('Advertencia!', 'La orden se debe provisionar')
-      }
+      // } else {
+      //   $('#loadModal').modal('hide')
+      //   swal('Advertencia!', 'La orden se debe provisionar')
+      // }
     }
   }
 

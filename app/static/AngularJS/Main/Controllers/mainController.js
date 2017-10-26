@@ -276,7 +276,7 @@
                             llamarMeeting(joinurl, $scope.userData.idUsuario, $scope.userData.nombreCompleto, JSON.stringify($scope.selectedUsuariosMeeting), meetingid, $scope.meetingObjetivo)
                             swal({
                                 title: 'Videoconferencia',
-                                text: 'La Videoconferencia se creó de forma correcta con el siguiente ID: ' + uniqueMeetingId + '.',
+                                text: 'La Videoconferencia se creó de forma correcta con el siguiente ID: ' + uniqueMeetingId,
                                 type: 'success',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',

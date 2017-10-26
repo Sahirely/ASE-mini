@@ -19,6 +19,11 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
           filterRow: 'filterRow',
           headerFilter: 'headerFilter'
         },
+        export: {
+          enabled: true,
+          fileName: 'AntiguedadIngreso',
+          allowExportSelectedData: false
+        },
         searchPanel: {
           visible: true,
           width: 240,
@@ -32,7 +37,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
           caption: 'Zona'
         }, {
           dataField: 'unidadOperativa',
-          caption: 'TAR'
+          caption: 'SUB'
         }, {
           dataField: 'total',
           caption: 'Total'
@@ -90,7 +95,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
           }]
         }
       }
-      analisisFlotillaRepository.getIngresoAntiguedadGrafica().then(function (result) {
+      analisisFlotillaRepository.getIngresoAntiguedadGrafica($scope.userData.contratoOperacionSeleccionada).then(function (result) {
         $scope.chartOptions = {
           palette: 'ocean',
           dataSource: result.data,
@@ -119,7 +124,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
               },
               position: 'columns',
               customizeText: function (arg) {
-                return arg.valueText + ' (' + arg.argument + ' días)'
+                return Number(arg.valueText).toLocaleString() + ' (' + arg.argument + ' días)'
               }
             }
           }]

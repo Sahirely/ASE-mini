@@ -1,4 +1,4 @@
-registrationModule.controller('miCuentaController', function($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository) {
+registrationModule.controller('miCuentaController', function ($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository) {
     $rootScope.modulo = 'miCuenta'; // <<-- Para activar en que opción del menú se encuentra
 
     // FILE UPLOAD
@@ -15,7 +15,7 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
         bindingOptions: {
             value: "files"
         },
-        onUploaded: function(e) {
+        onUploaded: function (e) {
             $scope.uploadedFiles.push({ "evidencia": e.request.responseText })
         }
     };
@@ -36,17 +36,18 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
     $scope.selectedQueja = ""
     $scope.uploadedEvidenciasQueja = []
 
-    $scope.init = function() {
+    $scope.init = function () {
         $scope.userData = userFactory.getUserData()
-        $scope.getMemorandums()        
+        $scope.getMemorandums()
         $scope.getQuejas($scope.userData.idUsuario)
         $scope.getTipoQuejaUsuario($scope.userData.idRol)
+        $scope.getMeetings($scope.userData.idUsuario)
     }
 
-    $scope.getMemorandums = function() {
+    $scope.getMemorandums = function () {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)
             .then(function successCallback(response) {
-                $scope.Memorandums = []       
+                $scope.Memorandums = []
                 $scope.MemorandumsLeidosTotal = 0
                 $scope.MemorandumsSinLeerTotal = 0
                 response.data.forEach(function (element) {
@@ -73,14 +74,14 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                         })
                     }
                 }, this);
-                
-                $scope.MemorandumsLeidosTotal = $scope.Memorandums.filter(X => X.leido == 1)==undefined?0:$scope.Memorandums.filter(X => X.leido == 1).length
+
+                $scope.MemorandumsLeidosTotal = $scope.Memorandums.filter(X => X.leido == 1) == undefined ? 0 : $scope.Memorandums.filter(X => X.leido == 1).length
                 $scope.MemorandumsSinLeerTotal = $scope.Memorandums.length - $scope.MemorandumsLeidosTotal
             })
 
     }
 
-    $scope.getQuejas = function(idUsuario) {
+    $scope.getQuejas = function (idUsuario) {
         miCuentaRepository.getQuejaPorUsuario(idUsuario)
             .then(function successCallback(response) {
                 $scope.Quejas = response.data;
@@ -105,7 +106,7 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                         {
                             dataField: "estatus",
                             dataType: "string",
-                            cellTemplate: function(element, info) {
+                            cellTemplate: function (element, info) {
                                 if (info.text == "GENERADA") {
                                     element.append("<span class='label label-default'><i class='fa fa-check'></i> " + info.text + "</span></td>");
                                 }
@@ -150,15 +151,15 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                         visible: true,
                         width: '400'
                     },
-                    onCellClick: function(e) {
+                    onCellClick: function (e) {
                         //if (e.rowType == "data")
-                            //$scope.showQuejaInfo(e.row.data)
+                        //$scope.showQuejaInfo(e.row.data)
                     }
                 }
             });
     }
 
-    $scope.getTipoQuejaUsuario = function(idTipoUsuario) {
+    $scope.getTipoQuejaUsuario = function (idTipoUsuario) {
         miCuentaRepository.getTipoQuejaUsuario(idTipoUsuario)
             .then(function successCallback(response) {
                 $scope.catalogoTipoQuejaUsuario = response.data;
@@ -173,14 +174,38 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
                     placeholder: 'Selecciona el tipo de Queja',
                     searchEnabled: true,
                     searchExpr: ['tipoQueja'],
-                    onValueChanged: function(e) {
+                    onValueChanged: function (e) {
                         $scope.selectedQueja = e.value;
                     }
                 }
             });
     }
 
-    $scope.saveQueja = function() {
+    $scope.getMeetings = function (idUsuario) {
+        miCuentaRepository.getMeetingPorUsuario(idUsuario)
+            .then(function successCallback(response) {
+                if (response.data.length>0)
+                {
+                    $scope.Meetings = response.data[0];
+                    swal({
+                        title: 'Videoconferencia: ' + $scope.Meetings.asunto,
+                        text: "Has sido invitado a una videoconferencia, puede unirte a través de la siguiente URL: https://www.gotomeeting.com/es-mx/meeting/join-meeting" + " con el siguiente ID: " + $scope.Meetings.meetingid + " o dando Click en el botón Unirme." ,
+                        type: 'success',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Unirme',
+                        cancelButtonText: 'Cerrar esta ventana'
+                    }, function(isConfirm) {
+                        if (isConfirm) {
+                            window.open($scope.Meetings.joinURL, '_blank', '', false)
+                        }
+                    })
+                }
+            });
+    }
+
+    $scope.saveQueja = function () {
         $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
 
         if ($scope.selectedQueja == "" || $scope.asuntoQueja == "" || $scope.mensajeQueja == "") {
@@ -194,13 +219,13 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
         }
 
         nuevoMemorandumRepository.saveQueja(
-                $scope.userData.idUsuario,
-                $scope.selectedQueja,
-                $scope.asuntoQueja,
-                $scope.mensajeQueja,
-                $scope.contieneEvidencias == true ? 1 : 0,
-                JSON.stringify($scope.uploadedFiles)
-            )
+            $scope.userData.idUsuario,
+            $scope.selectedQueja,
+            $scope.asuntoQueja,
+            $scope.mensajeQueja,
+            $scope.contieneEvidencias == true ? 1 : 0,
+            JSON.stringify($scope.uploadedFiles)
+        )
             .then(function successCallback(response) {
                 $scope.selectedQueja = ""
                 $scope.asuntoQueja = ""
@@ -213,23 +238,22 @@ registrationModule.controller('miCuentaController', function($scope, $route, $mo
 
     $scope.updateMemo = function (memo, leerMastarde) {
         if (!leerMastarde) {
-            nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 1, memo.aceptado, memo.comentarios)
-            .then(function successCallback(response) {
-                $scope.getMemorandums();
-            })
-            
-        }
-        else
-            {
-                nuevoMemorandumRepository.actualizaLog(memo.idMemorandum,$scope.userData.idUsuario, 0, 0, '')
+            nuevoMemorandumRepository.actualizaLog(memo.idMemorandum, $scope.userData.idUsuario, 1, memo.aceptado, memo.comentarios)
                 .then(function successCallback(response) {
                     $scope.getMemorandums();
                 })
-            }
-            
+
+        }
+        else {
+            nuevoMemorandumRepository.actualizaLog(memo.idMemorandum, $scope.userData.idUsuario, 0, 0, '')
+                .then(function successCallback(response) {
+                    $scope.getMemorandums();
+                })
+        }
+
     }
 
-    $scope.showQuejaInfo = function(data) {
+    $scope.showQuejaInfo = function (data) {
         //OBTENEMOS LAS EVIDENCIAS Y EL HISTORICO DE LA QUEJA
         $scope.QuejaInfo = data
         $("#mdQueja").modal('show')

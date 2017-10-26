@@ -25,13 +25,13 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
             }
             else if (args.seriesName.indexOf('Prom.') != -1) {
               valueText = $filter('currency')(args.originalValue, '$', 2)
-            }else {
+            } else {
               valueText = args.originalValue
             }
 
             return {
               html: args.seriesName + "<div class='currency'>"
-                + valueText + '</div>'
+              + valueText + '</div>'
             }
           }
         },
@@ -89,29 +89,30 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
             area: 'row',
             expanded: 'true'
           }, {
-            caption: 'TAR',
+            caption: 'Sub',
             dataField: 'unidadOperativa',
             width: 150,
             area: 'row',
             expanded: 'true'
           }, {
-            dataField: 'date',
+            caption: 'Fecha',
+            dataField: 'fechaCita',
             dataType: 'date',
             area: 'column'
           }, {
-            caption: 'Ordenes',
+            caption: '# Ordenes',
             summaryType: 'count',
             area: 'data'
           }, {
             caption: 'Total',
-            dataField: 'amount',
+            dataField: 'monto',
             dataType: 'number',
             summaryType: 'sum',
             format: 'currency',
             area: 'data'
           }, {
             caption: 'Prom.',
-            dataField: 'amount',
+            dataField: 'monto',
             dataType: 'number',
             summaryType: 'avg',
             format: 'currency',
@@ -128,12 +129,69 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
             deep: false
           }
         },
-        columns: ['tipo', 'numeroEconomico', 'placas', 'date', 'amount']
+        "export": {
+          enabled: true,
+          fileName: "Detalle_Ordenes",
+          allowExportSelectedData: false
+        },
+        width: 'auto',
+        height: 600,
+        headerFilter:
+        {
+          visible: true
+        },
+        filterRow: {
+          visible: true,
+          applyFilter: 'auto'
+        },
+        searchPanel: {
+          visible: true,
+          width: 240,
+          placeholder: "Buscar..."
+        },
+        columns: [
+          {
+            caption: 'Tipo Unidad',
+            dataField: 'tipoUnidad',
+            width: 300
+          },
+          {
+            caption: 'No. Económico',
+            dataField: 'numeroEconomico'
+          },
+          {
+            caption: 'Placas',
+            dataField: 'placas'
+          },
+          {
+            caption: 'No. Orden',
+            dataField: 'numeroOrden'
+          },
+          {
+            caption: 'Fecha',
+            dataField: 'fechaCita',
+            dataType: 'date',
+            format: 'dd/MM/yyyy'
+          },
+          {
+            caption: 'Total',
+            dataField: 'monto',
+            dataType: 'number',
+            format: 'currency'
+          },
+          {
+            caption: 'Estatus',
+            dataField: 'estatus',
+            width: 100
+          }
+
+        ]
+
       }
 
       $scope.popupOptions = {
         width: 1000,
-        height: 400,
+        height: 700,
         bindingOptions: {
           title: 'salesPopupTitle',
           visible: 'salesPopupVisible'

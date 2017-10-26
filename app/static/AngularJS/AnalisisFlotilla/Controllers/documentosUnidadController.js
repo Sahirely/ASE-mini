@@ -91,7 +91,8 @@ registrationModule.controller('documentosUnidadController', function ($scope, $m
           }, {
             dataField: 'vencimiento',
             caption: 'Vencimiento',
-            dataType: 'date'
+            dataType: 'date',
+            format: 'dd/MM/yyyy'
           }
         ],
         onRowClick: function (e) {
