@@ -32,7 +32,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
           caption: 'Zona'
         }, {
           dataField: 'unidadOperativa',
-          caption: 'TAR'
+          caption: 'SUB'
         }, {
           dataField: 'total',
           caption: 'Total'
@@ -90,7 +90,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
           }]
         }
       }
-      analisisFlotillaRepository.getIngresoAntiguedadGrafica().then(function (result) {
+      analisisFlotillaRepository.getIngresoAntiguedadGrafica($scope.userData.contratoOperacionSeleccionada).then(function (result) {
         $scope.chartOptions = {
           palette: 'ocean',
           dataSource: result.data,

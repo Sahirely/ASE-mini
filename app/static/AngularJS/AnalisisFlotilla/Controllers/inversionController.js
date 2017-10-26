@@ -89,7 +89,7 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
             area: 'row',
             expanded: 'true'
           }, {
-            caption: 'TAR',
+            caption: 'Sub',
             dataField: 'unidadOperativa',
             width: 150,
             area: 'row',
