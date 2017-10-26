@@ -46,7 +46,7 @@
                                     <div class="panel-heading">
                                         <div class="pull-right">
                                             <a class="btn btn-warning btn-xs" ng-hide="{{userData.idRol != 2}}" href="nuevoMemorandum">NUEVO MEMORANDUM</a>
-                                            <a class="btn btn-success btn-xs"  href="{{Meetings.joinURL}}" target="_blank">UNIRSE A MEETING {{Meetings.meetingid}}</a>
+                                            <a class="btn btn-success btn-xs" ng-hide="{{Meetings == undefined}}"  href="{{Meetings.joinURL}}" target="_blank">UNIRSE A MEETING {{Meetings.meetingid}}</a>
                                         </div>
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">
