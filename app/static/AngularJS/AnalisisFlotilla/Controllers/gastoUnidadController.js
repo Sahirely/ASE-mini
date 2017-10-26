@@ -51,12 +51,11 @@ registrationModule.controller('gastoUnidadController', function ($scope, $modal,
           cellTemplate: 'cellTemplate'
         },  {
           dataField: 'unidadOperativa',
-          width: 350,
-          caption: 'Zona'
+          caption: 'Zona',
+          width: 250
         }, {
           dataField: 'tipoUnidad',
           caption: 'Tipo Vehículo',
-          width: 500
         }, {
           dataField: 'numeroEconomico',
           caption: 'Económico',

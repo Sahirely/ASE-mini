@@ -19,6 +19,11 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
           filterRow: 'filterRow',
           headerFilter: 'headerFilter'
         },
+        export: {
+          enabled: true,
+          fileName: 'AntiguedadIngreso',
+          allowExportSelectedData: false
+        },
         searchPanel: {
           visible: true,
           width: 240,
