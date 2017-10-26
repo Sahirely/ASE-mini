@@ -54,7 +54,7 @@ registrationModule.factory('analisisFlotillaRepository', function ($http) {
       return $http({
         url: analisisFlotillaUrl + 'inversion/',
         method: 'GET',
-        params: {
+        params: { 
           idContratoOperacion: idContratoOperacion
         },
         headers: {

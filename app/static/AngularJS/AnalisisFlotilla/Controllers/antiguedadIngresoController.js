@@ -119,7 +119,7 @@ registrationModule.controller('antiguedadIngresoController', function ($scope, $
               },
               position: 'columns',
               customizeText: function (arg) {
-                return arg.valueText + ' (' + arg.argument + ' días)'
+                return Number(arg.valueText).toLocaleString() + ' (' + arg.argument + ' días)'
               }
             }
           }]
