@@ -49,12 +49,10 @@ registrationModule.controller('gastoUnidadController', function ($scope, $modal,
           allowFiltering: false,
           allowSorting: false,
           cellTemplate: 'cellTemplate'
-        }, {
-          dataField: 'sucursal',
-          caption: 'Zona'
-        }, {
+        },  {
           dataField: 'unidadOperativa',
-          caption: 'TAR'
+          width: 350,
+          caption: 'Zona'
         }, {
           dataField: 'tipoUnidad',
           caption: 'Tipo Vehículo',
@@ -81,8 +79,9 @@ registrationModule.controller('gastoUnidadController', function ($scope, $modal,
             width: 100,
             sortOrder: 'desc'
           }, {
+            caption: 'Ir',
             dataField: 'numeroEconomico',
-            width: 40,
+            width: 30,
             allowFiltering: false,
             allowSorting: false,
             cellTemplate: 'viewTemplate'

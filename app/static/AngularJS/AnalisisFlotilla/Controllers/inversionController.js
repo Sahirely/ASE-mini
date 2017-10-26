@@ -129,6 +129,11 @@ registrationModule.controller('inversionController', function ($scope, $filter, 
             deep: false
           }
         },
+        "export": {
+          enabled: true,
+          fileName: "Detalle_Ordenes",
+          allowExportSelectedData: false
+        },
         width: 'auto',
         height: 600,
         headerFilter:
