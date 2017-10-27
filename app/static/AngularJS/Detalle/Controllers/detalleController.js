@@ -5,6 +5,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // $rootScope.modulo = 'reporteHistorial'
   // Inicializa la pagina
 
+  $('[data-toggle="tooltip"]').tooltip();
   $scope.IdsCotizacionesPorOrden = []
   $scope.btn_editarCotizacion = false
   $scope.idUsuario = 0
@@ -175,6 +176,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.getOrdenDetalle = function (idUsuario, orden) {
     consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function (result) {
       if (result.data.length > 0) {
+
+        //-------------------------------------Validacion del token doble para PEMEX
+        $scope.estatusToken = result.data[0].estatusToken.split(',')[0];
+        $scope.estatusTokenMensaje = result.data[0].estatusToken.split(',')[1];
+
         $scope.idOrden = result.data[0].idOrden
         $scope.nombreCentroTrabajo = result.data[0].nombreCentroTrabajo
         $scope.detalleOrden = result.data[0]
@@ -763,11 +769,20 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             'firma': rptReporteConformidadData.firma,
             'zona': rptReporteConformidadData.zona
           }
-          var jsonData = {
-            'template': {
-              'name': 'hojaTrabajo_rpt'
-            },
-            'data': rptReporteConformidad //
+          if($scope.userData.contratoOperacionSeleccionada == 3){
+            var jsonData = {
+              'template': {
+                'name': 'hojaConformidad_rpt'
+              },
+              'data': rptReporteConformidad //
+            }
+          }else{
+              var jsonData = {
+                'template': {
+                  'name': 'hojaTrabajo_rpt'
+                },
+                'data': rptReporteConformidad //
+              }
           }
           resolve(jsonData)
         }).then(function (jsonData) {
@@ -1288,31 +1303,64 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         } else {
           detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function (r_token) {
             if (r_token.data[0].Success) {
-              detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (c_token) {
-                alertFactory.success('Se ha pasado a Orden por Cobrar')
-                commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                  if (resp.data.length > 0) {
-                    var correoDe = resp.data[0].correoDe
-                    var correoPara = resp.data[0].correoPara
-                    var asunto = resp.data[0].asunto
-                    var texto = resp.data[0].texto
-                    var bodyhtml = resp.data[0].bodyhtml
-                    commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                      $('html, body').animate({
-                        scrollTop: 0
-                      }, 1000)
-                      // $scope.init()
-                      $scope.token_termino = ''
-                      $('#loadModal').modal('show')
-                      $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+              if(idContratoOperacion==3){
+                if($scope.estatusToken == '1'){
+                  detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (c_token) {
+                    alertFactory.success('Se ha pasado a Orden por Cobrar')
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                      if (resp.data.length > 0) {
+                        var correoDe = resp.data[0].correoDe
+                        var correoPara = resp.data[0].correoPara
+                        var asunto = resp.data[0].asunto
+                        var texto = resp.data[0].texto
+                        var bodyhtml = resp.data[0].bodyhtml
+                        commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                          $('html, body').animate({
+                            scrollTop: 0
+                          }, 1000)
+                          // $scope.init()
+                          $scope.token_termino = ''
+                          $('#loadModal').modal('show')
+                          $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+                        }, function (error) {
+                          // alertFactory.error('No se puede enviar el correo')
+                        })
+                      }
                     }, function (error) {
-                      // alertFactory.error('No se puede enviar el correo')
+                      // alertFactory.error("Error al obtener información para el mail")
                     })
-                  }
-                }, function (error) {
-                  // alertFactory.error("Error al obtener información para el mail")
-                })
-              })
+                  })
+                }else{
+                  alertFactory.success('Se ha validado un token, es necesario agregar el token faltante.')
+                }
+              }else{
+                  detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (c_token) {
+                    alertFactory.success('Se ha pasado a Orden por Cobrar')
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                      if (resp.data.length > 0) {
+                        var correoDe = resp.data[0].correoDe
+                        var correoPara = resp.data[0].correoPara
+                        var asunto = resp.data[0].asunto
+                        var texto = resp.data[0].texto
+                        var bodyhtml = resp.data[0].bodyhtml
+                        commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                          $('html, body').animate({
+                            scrollTop: 0
+                          }, 1000)
+                          // $scope.init()
+                          $scope.token_termino = ''
+                          $('#loadModal').modal('show')
+                          $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+                        }, function (error) {
+                          // alertFactory.error('No se puede enviar el correo')
+                        })
+                      }
+                    }, function (error) {
+                      // alertFactory.error("Error al obtener información para el mail")
+                    })
+                  })
+              }
+              
             } else {
               alertFactory.error(r_token.data[0].Msg)
               $scope.token_termino = ''
