@@ -49,6 +49,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                     allowColumnResizing: true,
                     columnAutoWidth: true,
                     columns: [
+                        { dataField: "idQueja", dataType: "number", caption: "Número de Ticket"},
                         {
                             dataField: "estatus",
                             dataType: "string",
@@ -143,10 +144,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                 $scope.asunto = data.asunto
                 
                 $scope.gridLogQueja = {
-                    bindingOptions:{
-                        dataSource: 'LogQueja'
-                    },
-                    
+                    rowHeight: '80',
                     rowAlternationEnabled: true,
                     showColumnLines: false,
                     showBorders: true,
@@ -154,10 +152,14 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                     allowSorting: false,
 
                     columns: [
-                        { dataField: "nombreCompleto", caption:"Nombre", dataType: "int" },
-                        { dataField: "fecha", dataType: "date" },
-                        { dataField: "Observaciones", dataType: "string" }
-                    ]
+                        { dataField: "nombreCompleto", caption:"Nombre", dataType: "int"},
+                        { dataField: "fecha", dataType: "date"},
+                        { dataField: "Observaciones", dataType: "string"}
+                    ],
+
+                    bindingOptions:{
+                        dataSource: 'LogQueja'
+                    }
                 }
                 
                 //$scope.gridLogQueja.refresh()
@@ -219,7 +221,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
         seguimientoTicketsRepository.cerrarTicket(
             $scope.idQueja,
             $scope.userData.idUsuario,
-            'Ha cerrado el ticket',
+            $scope.myModel.observacionQueja,
             'FINALIZADA'
         ).then(
             function successCallback(response){

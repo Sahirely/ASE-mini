@@ -278,4 +278,92 @@
     </div>
 </div>
 
-</div>
+<div id="loadModal" class="modal fade" role="dialog" >
+        <div class="modal-dialog" style="width:80%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Queja</h4>
+                    <h4 class="modal-title">Estatus: {{estatus}}</h4>
+                    <h4 class="modal-title">Asunto: {{asunto}}</h4>
+                </div>
+    
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6" style="overflow-y: auto;">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="dtgLogQuejas" dx-data-grid="gridLogQueja"></div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div ng-repeat="evidencia in Evidencias">
+                                        <div class="file-box" style="display:inline-flex;">
+                                            <div class="file" ng-if="evidencia.evidencia.indexOf('.jpg')==-1">
+                                                <a href="{{evidencia.rootPath}}/{{evidencia.evidencia}}" target="_blank">
+                                                    <span class="corner"></span>
+                                                    <div class="icon">
+                                                        <i class="fa fa-file-pdf-o"></i>
+                                                    </div>
+                                                    <div class="file-name">
+                                                        {{evidencia.evidencia}}
+                                                    </div>
+                                                </a>
+                                            </div>
+                
+                                            <div class="file" ng-if="evidencia.evidencia.indexOf('.pdf')==-1">
+                                                <a href="{{evidencia.rootPath}}/{{evidencia.evidencia}}" target="_blank">
+                                                    <span class="corner"></span>
+                                                    <div class="image">
+                                                        <img alt="image" class="img-responsive" src="{{evidencia.rootPath}}/{{evidencia.evidencia}}">
+                                                    </div>
+                                                    <div class="file-name">
+                                                        {{evidencia.evidencia}}
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>     
+                        
+                        <div class="col-md-6">
+                            <div class="ibox" style="border-left: 1px solid #d4d4d4">
+                                <div class="ibox-content">
+                                    <div class="row" ng-if="estatus != 'FINALIZADA'">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label>Observaciones</label>
+                                                <textarea class="form-control" placeholder="Introduce una observación" rows="7" ng-model="myModel.observacionQueja" style="resize: none; width:100%;"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div id="fileuploader" ng-if="estatus != 'FINALIZADA'">
+                                                <label>Evidencias</label>
+                                                <div class="widget-container">
+                                                    <div dx-file-uploader="fileUploadOptionsDetalle" class="pull-left">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12" >
+                                            <button type="button" class="btn btn-success" ng-click="saveLogQueja()" ng-if="estatus != 'FINALIZADA'"><i class='fa fa-floppy-o'></i> Guardar</button>
+                                            <dx-button type="button" class="btn btn-primary" ng-click="cerrarTicket()" ng-if="estatus != 'FINALIZADA'"><i class='fa fa-check'></i> Cerrar Ticket</dx-button>
+                                            <button type="button" class="btn btn-default" ng-click="cancelar()"><i class='fa fa-close'></i> Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+    
+                        </div>
+                    </div>     
+                </div>           
+            </div>
+        </div>
+    </div>

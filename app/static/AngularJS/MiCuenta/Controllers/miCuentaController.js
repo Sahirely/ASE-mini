@@ -1,9 +1,12 @@
-registrationModule.controller('miCuentaController', function ($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository) {
+registrationModule.controller('miCuentaController', function ($scope, $route, $modal, $rootScope, userFactory, nuevoMemorandumRepository, alertFactory, miCuentaRepository, seguimientoTicketsRepository) {
     $rootScope.modulo = 'miCuenta'; // <<-- Para activar en que opción del menú se encuentra
 
     // FILE UPLOAD
     $scope.files = [];
     $scope.uploadedFiles = []
+
+    $scope.filesDetalle = [];
+    $scope.uploadedFilesDetalle = []
 
     $scope.fileUploadOptions = {
         selectButtonText: "Selecciona...",
@@ -103,6 +106,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         //         container.append("<button type='button' class='btn btn-sm btn-default'><span class='fa fa-search'></span></button>")
                         //     }
                         // },
+                        { dataField: "idQueja", dataType: "number", displayName: "Número de Ticket" },
                         {
                             dataField: "estatus",
                             dataType: "string",
@@ -151,9 +155,9 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         visible: true,
                         width: '400'
                     },
-                    onCellClick: function (e) {
-                        //if (e.rowType == "data")
-                        //$scope.showQuejaInfo(e.row.data)
+                    onCellClick: function(e) {
+                        if (e.rowType == "data")
+                            $scope.getQueja(e.row.data)
                     }
                 }
             });
@@ -231,8 +235,23 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.asuntoQueja = ""
                 $scope.mensajeQueja = ""
                 $scope.uploadedFiles = []
-                alertFactory.success('Queja generada de forma correcta.');
+                //alertFactory.success('Queja generada de forma correcta.');
                 $scope.getQuejas($scope.userData.idUsuario)
+
+                swal({
+                    title: 'Ticket',
+                    text: 'El ticket se creó de forma correcta',
+                    type: 'success',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Aceptar',
+                    cancelButtonText: 'Cerrar esta ventana'
+                }, function(isConfirm) {
+                    if (isConfirm) {
+                        
+                    }
+                })
             });
     }
 
@@ -259,5 +278,146 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         $("#mdQueja").modal('show')
     }
 
+
+
+    $scope.saveLogQueja = function(){
+        
+        $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
+
+        seguimientoTicketsRepository.saveLogQueja(
+            $scope.idQueja,
+            $scope.userData.idUsuario,
+            $scope.myModel.observacionQueja,
+            JSON.stringify($scope.uploadedFiles),
+            $scope.contieneEvidencias == true ? 1 : 0,
+            'EN PROCESO'
+        ).then(
+            function successCallback(response){
+                alertFactory.success('Queja actualizada.');
+                $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
+                $scope.myModel.observacionQueja = ""
+                $scope.Evidencias = []
+                $scope.files = [];
+                $scope.uploadedFiles = []
+                $scope.LogQueja = []
+                $scope.gridLogQueja = {}
+                $('#loadModal').modal('hide')
+            },
+            function(error){
+                alertFactory.error('Ocurrio un error al guardar el Ticket.');
+            }
+        );
+    }
+
+    $scope.cerrarTicket = function(){
+        seguimientoTicketsRepository.cerrarTicket(
+            $scope.idQueja,
+            $scope.userData.idUsuario,
+            $scope.myModel.observacionQueja,
+            'FINALIZADA'
+        ).then(
+            function successCallback(response){
+                alertFactory.success('Ticket cerrado.');
+                $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
+                $scope.myModel.observacionQueja = ""
+                $scope.Evidencias = []
+                $scope.files = [];
+                $scope.uploadedFiles = []
+                $scope.LogQueja = []
+                $scope.gridLogQueja = {}
+                $('#loadModal').modal('hide')
+             
+            },
+            function(error){
+                alertFactory.error('Ocurrio un error al cerrar el Ticket.');
+            }
+        );
+    }
+
+    $scope.getQueja = function(data)
+    {
+        console.log(data)
+        //alertFactory.success('Ocurrio unos error al obtener los Tickets.' + data.estatus)
+        $('#loadModal').modal('show')
+        $scope.idQueja = data.idQueja
+        
+        seguimientoTicketsRepository.getLogQuejaPorId(data.idQueja).then(
+            function successCallback(response) {
+                //$scope.LogQueja = {}
+                
+                $scope.LogQueja = response.data
+                $scope.estatus = data.estatus
+                $scope.asunto = data.asunto
+                
+                $scope.gridLogQueja = {
+                    rowHeight: '80',
+                    rowAlternationEnabled: true,
+                    showColumnLines: false,
+                    showBorders: true,
+                    columnAutoWidth: true,
+                    allowSorting: false,
+
+                    columns: [
+                        { dataField: "nombreCompleto", caption:"Nombre", dataType: "int"},
+                        { dataField: "fecha", dataType: "date"},
+                        { dataField: "Observaciones", dataType: "string"}
+                    ],
+
+                    bindingOptions:{
+                        dataSource: 'LogQueja'
+                    }
+                }
+                
+                //$scope.gridLogQueja.refresh()
+                
+                seguimientoTicketsRepository.getEvidenciaQuejaPorId(data.idQueja).then(
+                    function successCallback(response){
+                        $scope.Evidencias = []
+                        $scope.estatus = data.estatus
+                        $scope.asunto = data.asunto
+                        response.data.forEach(function(element){
+                            $scope.Evidencias.push(
+                                { 'idQuejaEvidencia': element.idQuejaEvidencia,
+                                  'idQueja': element.idQueja,
+                                  'evidencia': element.evidencia,
+                                  'rootPath': $rootScope.docServer + '/queja/' + element.idQueja + '/'
+                                }
+                            )
+                        });
+                    }, function (error) {
+                        alertFactory.error('Ocurrio un error al obtener los Tickets.');
+                    }
+                )
+            }, function (error) {
+                alertFactory.error('Ocurrio un error al obtener los Tickets.');
+            }
+        )
+    } 
+
+    $scope.cancelar = function(){
+        $scope.myModel.observacionQueja = ""
+        $scope.Evidencias = []
+        $scope.files = [];
+        $scope.uploadedFiles = []
+        $scope.LogQueja = []
+        $scope.gridLogQueja = {}
+        $('#loadModal').modal('hide')
+        
+    }
+
+    $scope.fileUploadOptionsDetalle = {
+        selectButtonText: "Selecciona...",
+        labelText: "o arrasta aquí",
+        uploadUrl: "/api/quejas/uploadQueja",
+        multiple: true,
+        accept: "application/pdf,image/*",
+        uploadMode: "useButtons",
+        bindingOptions: {
+            value: "filesDetalle"
+        },
+        onUploaded: function(e) {
+            $scope.uploadedFilesDetalle.push({ "evidencia": e.request.responseText })
+        }
+    };
 
 });
