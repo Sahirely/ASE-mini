@@ -190,6 +190,11 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     
     $scope.saveLogQueja = function(){
         
+        if ($scope.myModel.observacionQueja == "") {
+            alertFactory.error("Es necesario agregar una observacion.")
+            return;
+        }
+
         $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
 
         seguimientoTicketsRepository.saveLogQueja(

@@ -23,6 +23,11 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         }
     };
 
+    $scope.myModel = {}
+    $scope.myModel.observacionQueja = ""
+    $scope.LogQueja = []
+    $scope.Evidencias = []
+
 
     $scope.Memorandums = []
     $scope.MemorandumsSinLeerTotal = 0
@@ -282,6 +287,11 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
 
     $scope.saveLogQueja = function(){
         
+        if ($scope.myModel.observacionQueja == "") {
+            alertFactory.error("Es necesario agregar una observacion.")
+            return;
+        }
+
         $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
 
         seguimientoTicketsRepository.saveLogQueja(
@@ -294,11 +304,11 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         ).then(
             function successCallback(response){
                 alertFactory.success('Queja actualizada.');
-                $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
+                $scope.getQuejas($scope.userData.idUsuario)
                 $scope.myModel.observacionQueja = ""
                 $scope.Evidencias = []
-                $scope.files = [];
-                $scope.uploadedFiles = []
+                $scope.filesDetalle = [];
+                $scope.uploadedFilesDetalle = []
                 $scope.LogQueja = []
                 $scope.gridLogQueja = {}
                 $('#loadModal').modal('hide')
@@ -318,18 +328,18 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         ).then(
             function successCallback(response){
                 alertFactory.success('Ticket cerrado.');
-                $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
+                $scope.getQuejas($scope.userData.idUsuario)
                 $scope.myModel.observacionQueja = ""
                 $scope.Evidencias = []
-                $scope.files = [];
-                $scope.uploadedFiles = []
+                $scope.filesDetalle = [];
+                $scope.uploadedFilesDetalle = []
                 $scope.LogQueja = []
                 $scope.gridLogQueja = {}
                 $('#loadModal').modal('hide')
              
             },
             function(error){
-                alertFactory.error('Ocurrio un error al cerrar el Ticket.');
+                alertFactory.error('Ocurrió un error al cerrar el Ticket.');
             }
         );
     }
@@ -385,11 +395,11 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                             )
                         });
                     }, function (error) {
-                        alertFactory.error('Ocurrio un error al obtener los Tickets.');
+                        alertFactory.error('Ocurrió un error al obtener los Tickets.');
                     }
                 )
             }, function (error) {
-                alertFactory.error('Ocurrio un error al obtener los Tickets.');
+                alertFactory.error('Ocurrió un error al obtener los Tickets.');
             }
         )
     } 
@@ -397,8 +407,8 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     $scope.cancelar = function(){
         $scope.myModel.observacionQueja = ""
         $scope.Evidencias = []
-        $scope.files = [];
-        $scope.uploadedFiles = []
+        $scope.filesDetalle = [];
+        $scope.uploadedFilesDetalle = []
         $scope.LogQueja = []
         $scope.gridLogQueja = {}
         $('#loadModal').modal('hide')
