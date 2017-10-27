@@ -5,6 +5,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // $rootScope.modulo = 'reporteHistorial'
   // Inicializa la pagina
 
+  $('[data-toggle="tooltip"]').tooltip();
   $scope.IdsCotizacionesPorOrden = []
   $scope.btn_editarCotizacion = false
   $scope.idUsuario = 0
@@ -175,6 +176,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.getOrdenDetalle = function (idUsuario, orden) {
     consultaCitasRepository.getOrdenDetalle(idUsuario, orden).then(function (result) {
       if (result.data.length > 0) {
+
+        //-------------------------------------Validacion del token doble para PEMEX
+        $scope.estatusToken = result.data[0].estatusToken.split(',')[0];
+        $scope.estatusTokenMensaje = result.data[0].estatusToken.split(',')[1];
+
         $scope.idOrden = result.data[0].idOrden
         $scope.nombreCentroTrabajo = result.data[0].nombreCentroTrabajo
         $scope.detalleOrden = result.data[0]
@@ -1287,7 +1293,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           alertFactory.error('Introduce el Token de Verificación')
         } else {
           detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function (r_token) {
-            if (r_token.data[0].Success) {
+            if (r_token.data[0].Success && $scope.estatusToken == '1') {
               detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (c_token) {
                 alertFactory.success('Se ha pasado a Orden por Cobrar')
                 commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
