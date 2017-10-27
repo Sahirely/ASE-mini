@@ -1302,7 +1302,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           alertFactory.error('Introduce el Token de Verificación')
         } else {
           detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function (r_token) {
-            if (r_token.data[0].Success && $scope.estatusToken == '1') {
+            if (r_token.data[0].Success) {
+              if($scope.estatusToken == '1'){
               detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (c_token) {
                 alertFactory.success('Se ha pasado a Orden por Cobrar')
                 commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
@@ -1328,6 +1329,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   // alertFactory.error("Error al obtener información para el mail")
                 })
               })
+            }else{
+              alertFactory.success('Se ha validado un token, es necesario agregar el token faltante.')
+            }
             } else {
               alertFactory.error(r_token.data[0].Msg)
               $scope.token_termino = ''
