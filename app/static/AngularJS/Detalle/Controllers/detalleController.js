@@ -769,11 +769,20 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             'firma': rptReporteConformidadData.firma,
             'zona': rptReporteConformidadData.zona
           }
-          var jsonData = {
-            'template': {
-              'name': 'hojaTrabajo_rpt'
-            },
-            'data': rptReporteConformidad //
+          if($scope.userData.contratoOperacionSeleccionada == 3){
+            var jsonData = {
+              'template': {
+                'name': 'hojaConformidad_rpt'
+              },
+              'data': rptReporteConformidad //
+            }
+          }else{
+              var jsonData = {
+                'template': {
+                  'name': 'hojaTrabajo_rpt'
+                },
+                'data': rptReporteConformidad //
+              }
           }
           resolve(jsonData)
         }).then(function (jsonData) {
