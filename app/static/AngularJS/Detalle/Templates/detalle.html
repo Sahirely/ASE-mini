@@ -35,7 +35,7 @@
                                             </span>{{historico.nombreCompleto}}
                                             <br>
                                             <span class="fechaTimeLine" ng-show="historico.idOrden>0">
-                                            <strong>{{historico.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
+                                            <strong>{{historico.fecha | date:"MM/dd/yyyy h:mma" : 'UTC' }}</strong>
                                             </span>
                                             <div class="dias" ng-hide="historico.idOrden == 0">
                                                 {{historico.dias}}
@@ -59,7 +59,7 @@
                                                     </span>{{cot.nombreCompleto}}
                                                     <br>
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
-                                                    <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
+                                                    <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" : 'UTC'}}</strong>
                                                     </span>
                                                     <div class="arrow-right-sub"></div>
                                                 </td>
