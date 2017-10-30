@@ -86,12 +86,14 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $('.dataTableEnviada').DataTable().destroy()
     $('.dataTableAbonadas').DataTable().destroy()
     $('.dataTablePagadas').DataTable().destroy()
+    $('.dataTableDetalleOrdenes').DataTable().destroy();
     setTimeout(function () {
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
       globalFactory.filtrosTabla('dataTablePrefactura', 'PreFactura Generada', 100)
       globalFactory.filtrosTabla('dataTableEnviada', 'PreFactura Generada', 100)
       globalFactory.filtrosTabla('dataTableAbonadas', 'PreFactura Generada', 100)
       globalFactory.filtrosTabla('dataTablePagadas', 'PreFactura Generada', 100)
+      globalFactory.filtrosTabla('dataTableDetalleOrdenes', 'Detalle de ordenes', 10)
     }, 200)
   }
 
@@ -399,9 +401,39 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     return result
   }
 
-  $scope.AbrirOrden = function (obj) {
-    location.href = '/detalle?orden=' + obj.numeroOrden + '&estatus=' + 8
+  $scope.AbrirOrden = function (numeroOrden, estatus) {
+    location.href = '/detalle?orden=' + numeroOrden + '&estatus=' + estatus
   }
+
+    //-------------------------------------------------------------Muestra la lista de ordenes para la COPADE
+    $('.dataTableDetalleOrdenes').DataTable().destroy()
+    $scope.ShowOrdenCopade = function (idCopade) {
+      console.log('entro al metod');
+      console.log(idCopade);
+      if(!angular.isUndefined(idCopade)){
+  
+        $scope.promise = ordenPorCobrarRepository.get('obtenerOrdenesPorCopade', 
+        {'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
+        'idCopade': idCopade })
+        .then(function (result) {
+          $scope.idCopadeOrdenes = idCopade;
+          $scope.ordenesDeCopade = result.data;
+          
+          globalFactory.filtrosTabla('dataTableDetalleOrdenes', 'Detalle de ordenes', 10);
+
+          console.log('deberia de mostrarlo');
+          $('#ordenesCopade').modal('show');
+  
+        }, function (error) {
+          alertFactory.error('No se puede obtener las ordenes.')
+        });
+      }
+    }
+  
+    //Abrir detalle de orden sin estatus POR EL MOMENTO
+    $scope.AbrirOrdenSinEstatus = function (numeroOrden) {
+      location.href = '/detalle?orden=' + numeroOrden
+    }
 
   $scope.AbrirCoincidencias = function () {
     $('#mejorCoincidencia').modal.show()
