@@ -407,21 +407,18 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
     //-------------------------------------------------------------Muestra la lista de ordenes para la COPADE
     $('.dataTableDetalleOrdenes').DataTable().destroy()
-    $scope.ShowOrdenCopade = function (idCopade) {
-      console.log('entro al metod');
-      console.log(idCopade);
+    $scope.ShowOrdenCopade = function (idCopade, numeroCopade) {
       if(!angular.isUndefined(idCopade)){
   
         $scope.promise = ordenPorCobrarRepository.get('obtenerOrdenesPorCopade', 
         {'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
         'idCopade': idCopade })
         .then(function (result) {
-          $scope.idCopadeOrdenes = idCopade;
+          $scope.numeroCopadeModal = numeroCopade;
           $scope.ordenesDeCopade = result.data;
           
           globalFactory.filtrosTabla('dataTableDetalleOrdenes', 'Detalle de ordenes', 10);
 
-          console.log('deberia de mostrarlo');
           $('#ordenesCopade').modal('show');
   
         }, function (error) {

@@ -233,7 +233,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="value in prefactura  track by $index| groupBy: grouper " ng-click="ShowOrdenCopade(value.idCopade)" class="trTableSelect">
+                                            <tr ng-repeat="value in prefactura  track by $index| groupBy: grouper " ng-click="ShowOrdenCopade(value.idCopade,value.numeroCopade)" class="trTableSelect">
                                                 <td>{{value.nombreCliente}}</td>
                                                 <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                 <td ng-hide="esPemex">{{value.numeroCopade}}</td>
@@ -273,7 +273,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="value in enviada  track by $index| groupBy: grouper " ng-click="ShowOrdenCopade(value.idCopade)" class="trTableSelect">
+                                            <tr ng-repeat="value in enviada  track by $index| groupBy: grouper " ng-click="ShowOrdenCopade(value.idCopade,value.numeroCopade)" class="trTableSelect">
                                                 <td>{{value.nombreCliente}}</td>
                                                 <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                 <td ng-hide="esPemex">{{value.numeroCopade}}</td>
@@ -394,7 +394,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr ng-repeat="selectCotizacion in selectCotizaciones track by $index | groupBy: grouper "  ng-click="ShowOrdenCopade(value.idCopade)" class="trTableSelect">
+                                            <tr ng-repeat="selectCotizacion in selectCotizaciones track by $index | groupBy: grouper "  ng-click="ShowOrdenCopade(selectCotizacion.idCopade,selectCotizacion.numeroCopade)" class="trTableSelect">
                                                 <td>
                                                     <input type="checkbox" name="name" ng-checked="selectCotizacion.selected" ng-click="seleccionFacturaAbonadaCotizacion( selectCotizacion.idOrdenAgrupado, selectCotizacion.COP_ORDENGLOBAL, selectCotizacion.saldoProveedor)" data-toggle="tooltip" tooltip="" tooltip-placement="left">&nbsp;Elegir
                                                 </td>
@@ -488,7 +488,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="value in abonadas track by $index| groupBy: grouper " ng-click="ShowOrdenCopade(value.idDatosCopade)" class="trTableSelect">
+                                                <tr ng-repeat="value in abonadas track by $index| groupBy: grouper " ng-click="ShowOrdenCopade(value.idDatosCopade,value.numeroCopade)" class="trTableSelect">
                                                     <td>{{value.nombreCliente}}</td>
                                                     <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                     <td ng-hide="esPemex">{{value.numeroCopade}}</td>
@@ -605,7 +605,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="selectCotizacion in selectAbonada track by $index | groupBy: grouper " ng-click="ShowOrdenCopade(selectCotizacion.idDatosCopade)" class="trTableSelect">
+                                                <tr ng-repeat="selectCotizacion in selectAbonada track by $index | groupBy: grouper " ng-click="ShowOrdenCopade(selectCotizacion.idDatosCopade,selectCotizacion.numeroCopade)" class="trTableSelect">
                                                     <td>{{selectCotizacion.nombreCliente}}</td>
                                                     <td ng-show="esPemex">{{selectCotizacion.numeroCopade}}</td>
                                                     <td ng-hide="esPemex">{{selectCotizacion.numeroCopade}}</td>
@@ -734,7 +734,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="value in pagadas track by $index | groupBy: grouper "  ng-click="ShowOrdenCopade(value.idDatosCopade)"  class="trTableSelect">
+                                                <tr ng-repeat="value in pagadas track by $index | groupBy: grouper "  ng-click="ShowOrdenCopade(value.idDatosCopade,value.numeroCopade)"  class="trTableSelect">
                                                     <td>{{value.nombreCliente}}</td>
                                                     <td ng-show="esPemex">{{value.numeroCopade}}</td>
                                                     <td ng-hide="esPemex">{{value.numeroCopade}}</td>
@@ -794,7 +794,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="selectCotizacion in selectPgds track by $index | groupBy: grouper " ng-click="ShowOrdenCopade(selectCotizacion.idDatosCopade)" class="trTableSelect">
+                                                <tr ng-repeat="selectCotizacion in selectPgds track by $index | groupBy: grouper " ng-click="ShowOrdenCopade(selectCotizacion.idDatosCopade,selectCotizacion.numeroCopade)" class="trTableSelect">
 
                                                     <td>{{selectCotizacion.nombreCliente}}</td>
                                                     <td ng-show="esPemex">{{selectCotizacion.numeroCopade}}</td>
@@ -860,7 +860,7 @@
                     <div class="col-xs-12">
                         <h6 class="modal-title text-navy">
                          <br>
-                         Número COPADE: {{idCopadeOrdenes}}
+                         Número COPADE: {{numeroCopadeModal}}
                      </h6>
                  </div>
              </div>
