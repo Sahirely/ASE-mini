@@ -741,7 +741,7 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right botoneses3" role="group" style="margin-right: 10px; ">
-                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1 || userData.idRol ==  4" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil"
+                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil"
                         type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
                         <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
                     </button>
@@ -787,7 +787,7 @@
                     <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                         <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
-                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1 || userData.idRol ==  4" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
+                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
                         <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
                     </button>
                 </div>

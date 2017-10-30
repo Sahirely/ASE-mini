@@ -443,7 +443,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     /*    $scope.getOrdenesByNumero = function(tipoConsulta) {
             debugger;
             $('.clockpicker').clockpicker();
-    
+
             if( $scope.numeroTrabajo == '' ){
                 $("#numeroTrabajo").focus();
                 // alert('Numero de Orden vacío');
@@ -463,7 +463,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                     0) // $scope.idUsuario
                 .then(function(result) {
                     $scope.ordenes = result.data;
-    
+
                     $scope.muestraTabla = true;
                     globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
                 });
@@ -471,7 +471,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         };*/
 
     $scope.detalleOrden = function(orden) {
-        location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus=5';
+        location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus=' + orden.idEstatusOrden;
     };
 
     // =================================================================================
