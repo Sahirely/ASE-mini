@@ -363,7 +363,7 @@
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: left;">
                                                 <p style="margin: 0px;"><i class="fa fa-user" aria-hidden="true"></i> {{userRecepcion}}</p>
-                                                <strong class="fechaTimeLine">{{fechaRecepcion | date:"MM/dd/yyyy h:mma" }}</strong>
+                                                <strong class="fechaTimeLine">{{fechaRecepcion | date:"MM/dd/yyyy h:mma" : 'UTC' }}</strong>
                                                 <!-- <p class="fechaTimeLine"><strong>{{fechaRecepcion | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
                                             </div>
                                         </div>
@@ -389,7 +389,7 @@
                                             </div>
                                             <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: left;">
                                                 <p style="margin: 0px;"><i class="fa fa-user" aria-hidden="true"></i> {{userTermino}}</p>
-                                                <strong class="fechaTimeLine">{{fechaTermino | date:"MM/dd/yyyy h:mma" }}</strong>
+                                                <strong class="fechaTimeLine">{{fechaTermino | date:"MM/dd/yyyy h:mma" : 'UTC' }}</strong>
                                                 <!-- <p class="fechaTimeLine"><strong>{{fechaTermino | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
                                             </div>
                                         </div>
