@@ -815,7 +815,7 @@
             <!-- / -->
             <!-- Seccion para el token de cliente -->
             <div ng-show="idEstatusOrden==7">
-                <div class="col-xs-12" ng-hide="userData.idRol == 4">
+                <div class="col-xs-12">
                     <!--PROCESA COMPRA-->
                     <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
                         Procesar compra
@@ -836,14 +836,14 @@
                         </div>
                     </div>
                     <div ng-show="idContratoOperacion==3">
-                            <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                            <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                                     <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                                     <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                                 </div>
                     </div>
                     </div>
                     <div ng-show="idContratoOperacion!=3">
-                    <div ng-hide="userData.idRol ==  4 " style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                    <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                             <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                             <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                         </div>
@@ -861,7 +861,7 @@
             </div>
             <!-- / -->
             <div ng-show="idEstatusOrden==8">
-                <div class="col-xs-12" ng-hide="userData.idRol == 4">
+                <div class="col-xs-12">
                     <!--PROCESA COMPRA-->
                     <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
                         Procesar compra
@@ -881,7 +881,7 @@
                         </div>
                         </div>
                         <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idUsuario == 122 || userData.idUsuario == 131 || userData.idUsuario == 123 || userData.idUsuario == 144)">
-                            <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                            <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                                 <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                                 <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(8);">Aceptar</button>
                             </div>
