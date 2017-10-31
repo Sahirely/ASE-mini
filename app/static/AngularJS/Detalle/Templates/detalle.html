@@ -35,7 +35,7 @@
                                             </span>{{historico.nombreCompleto}}
                                             <br>
                                             <span class="fechaTimeLine" ng-show="historico.idOrden>0">
-                                            <strong>{{historico.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
+                                            <strong>{{historico.fecha | date:"MM/dd/yyyy h:mma" : 'UTC' }}</strong>
                                             </span>
                                             <div class="dias" ng-hide="historico.idOrden == 0">
                                                 {{historico.dias}}
@@ -59,7 +59,7 @@
                                                     </span>{{cot.nombreCompleto}}
                                                     <br>
                                                     <span class="fechaTimeLine" ng-show="cot.idCotizacion>0">
-                                                    <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" }}</strong>
+                                                    <strong>{{cot.fecha | date:"MM/dd/yyyy h:mma" : 'UTC'}}</strong>
                                                     </span>
                                                     <div class="arrow-right-sub"></div>
                                                 </td>
@@ -404,7 +404,7 @@
                                                 <!-- <p class="fechaTimeLine"><strong>{{userFechaApruebaTermino | date:"MM/dd/yyyy h:mma" }}</strong></p> -->
                                             </div>
                                         </div>
-                                        <button ng-show="((userData.idUsuario == 155 || userData.idUsuario == 513) && detalleOrden.idEstatusOrden >= 6)" class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="certificado()">
+                                        <button ng-show="((userData.idUsuario == 155 || userData.idUsuario == 513 || userData.idUsuario == 510 || userData.idUsuario == 509 || userData.idUsuario == 570) && detalleOrden.idEstatusOrden >= 6)" class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="certificado()">
                                             <span class="glyphicon glyphicon-share-alt"></span> Regenerar Hoja Trabajo
                                         </button>
                                     </div>
@@ -741,7 +741,7 @@
                     </div>
                 </div>
                 <div class="btn-group pull-right botoneses3" role="group" style="margin-right: 10px; ">
-                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1 || userData.idRol ==  4" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil"
+                    <button ng-hide="btnMoradoIsEnable || userData.idRol ==  1" data-loading-text="Loading..." ng-disabled="detalleOrden.idEstatusOrden == 4" style="display: {{ detalleOrden.idEstatusOrden == 4 ? 'none' : 'block' }}" class="btn btn-morado btn-movil"
                         type="submit" ng-click="validateEstatusAprobacion()" ng-show="!show_tokenMargen">
                         <span class="{{class_buttonEnviaAprobacion}}"></span> Enviar a Aprobación
                     </button>
@@ -787,7 +787,7 @@
                     <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
                         <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
-                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1 || userData.idRol ==  4" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
+                    <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
                         <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
                     </button>
                 </div>
@@ -820,15 +820,34 @@
                     <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
                         Procesar compra
                     </button>
+                    <div>
                     <div ng-show="idContratoOperacion==3" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
-                        <span style="font-size:24px;" ng-hide="estatusToken == 2" class="text-warning glyphicon glyphicon-lock"></span>
-                        <span style="font-size:24px;" ng-show="estatusToken == 0" class="text-warning glyphicon glyphicon-lock"></span>
+                        <div ng-show="estatusToken == 2">
+                                <span style="font-size:34px; color:#006600; margin-right:5px;" class="fa fa-unlock-alt"></span>
+                                <span style="font-size:34px; color:#006600;" class="fa fa-unlock-alt"></span>
+                        </div>
+                        <div ng-show="estatusToken == 1">
+                                <span style="font-size:34px; margin-right:5px; color:#006600;" class="fa fa-unlock-alt"></span>
+                                <span style="color: #e60000; font-size:34px;" class="fa fa-lock"></span>
+                        </div>
+                        <div ng-show="estatusToken == 0">
+                                <span style="color: #e60000; font-size:34px; margin-right:5px;" class="fa fa-lock"></span>
+                                <span style="color: #e60000; font-size:34px;" class="text-danger fa fa-lock"></span>
+                        </div>
                     </div>
-                    <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
-                        <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
-                        <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
+                    <div ng-show="idContratoOperacion==3">
+                            <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                                    <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
+                                    <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
+                                </div>
                     </div>
-
+                    </div>
+                    <div ng-show="idContratoOperacion!=3">
+                    <div ng-hide="userData.idRol ==  4 " style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                            <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
+                            <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
+                        </div>
+                        </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
                         <!-- <button class="btn btn-success btn-movil" type="button" ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2">
@@ -847,6 +866,26 @@
                     <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
                         Procesar compra
                     </button>
+                    <div data-toggle="tooltip" title="{{estatusTokenMensaje}}">
+                    <div ng-show="idContratoOperacion==3 && estatusToken == 0 && (userData.idUsuario == 122 || userData.idUsuario == 131 || userData.idUsuario == 123 || userData.idUsuario == 144)" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
+                            <div>
+                                    <span style="font-size:34px; color:#006600; margin-right:5px;" class=" fa fa-unlock-alt"></span>
+                                    <span style="font-size:34px; color:#006600;" class=" fa fa-unlock-altfa fa-lock"></span>
+                            </div>
+                        </div>
+                    <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idUsuario == 122 || userData.idUsuario == 131 || userData.idUsuario == 123 || userData.idUsuario == 144)" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
+                            <div>
+                                    <span style="font-size:34px; color:#006600; margin-right:5px;" class=" fa fa-unlock-alt"></span>
+                                    <span style="color: #e60000; font-size:34px;" class="fa fa-lock"></span>
+                            </div>
+                        </div>
+                        </div>
+                        <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idUsuario == 122 || userData.idUsuario == 131 || userData.idUsuario == 123 || userData.idUsuario == 144)">
+                            <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                                <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
+                                <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(8);">Aceptar</button>
+                            </div>
+                        </div>
                 </div>
             </div>
             <!-- / -->

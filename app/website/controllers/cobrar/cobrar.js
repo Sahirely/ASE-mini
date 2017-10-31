@@ -35,6 +35,15 @@ Cobrar.prototype.get_obtenerporcobrar = function (req, res, next) {
   this.query.execute('SEL_OPE_ORDEN_POR_COBRAR_SP', params, res)
 }
 
+Cobrar.prototype.get_obtenerOrdenesPorCopade = function (req, res, next) {
+    var self = this
+    var params = [
+      { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
+      { name: 'idCopade', value: req.query.idCopade, type: self.model.types.INT }
+    ]
+    this.query.execute('SEL_ORDEN_X_COPADE_SP', params, res)
+  }
+
 Cobrar.prototype.get_obtenerordenpago = function (req, res, next) {
   var self = this
   var params = [
