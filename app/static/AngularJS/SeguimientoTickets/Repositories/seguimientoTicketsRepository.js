@@ -13,6 +13,19 @@ registrationModule.factory('seguimientoTicketsRepository', function ($http) {
                 }
             });
         },
+        
+        getQuejaSeguimientoUsuario: function(idTipoUsuario){
+            return $http({
+                url: quejasURL + 'consultaSeguimientoQuejaUsuario/',
+                method: 'GET',
+                params: {
+                    idTipoUsuario: idTipoUsuario                        
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
 
         getLogQuejaPorId: function(idQueja){
             return $http({
@@ -68,6 +81,17 @@ registrationModule.factory('seguimientoTicketsRepository', function ($http) {
                     Observaciones: Observaciones,
                     estatus: estatus
                 },
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        getEstatusQueja: function(){
+            return $http({
+                url: quejasURL + 'consultaEstatusQueja/',
+                method: 'GET',
+                params: {},
                 headers:{
                     'Content-Type': 'application/json'
                 }

@@ -97,6 +97,20 @@ Quejas.prototype.get_conultaTipoQuejaUsuario = function(req, res, next) {
     });
 }
 
+Quejas.prototype.get_consultaSeguimientoQuejaUsuario = function(req, res, next) {
+    var self = this;
+    var params = [
+        { name: 'idTipoUsuario', value: req.query.idTipoUsuario, type: self.model.types.INT },
+    ];
+
+    this.model.query('SEL_QUEJA_SEGUIMIENTO_BY_TIPOUSUARIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Quejas.prototype.post_uploadQueja = function(req, res, next) {
     var randomName = ""
     var storage = multer.diskStorage({
@@ -163,6 +177,18 @@ Quejas.prototype.get_consultaLogQueja = function(req, res, next){
     });
 }
 
+Quejas.prototype.get_consultaEstatusQueja = function(req, res, next){
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_ESTATUS_QUEJA_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Quejas.prototype.get_consultaQuejaEvidencia = function(req, res, next){
     var self = this;
     var params = [
@@ -182,7 +208,7 @@ Quejas.prototype.put_cerrarTicket = function(req, res, body){
         { name: 'idQueja', value: req.query.idQueja, type: self.model.types.INT },
         { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
         { name: 'Observaciones', value: req.query.Observaciones, type: self.model.types.STRING },
-        { name: 'estatus', value:req.query.estatus, type: self.model.types.STRING }
+        { name: 'estatus', value:req.query.estatus, type: self.model.types.INT }
     ];
 
     this.model.query('UPD_QUEJA_CERRAR_SP', params, function(error, result){
