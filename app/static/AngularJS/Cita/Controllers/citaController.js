@@ -49,18 +49,18 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         if ($scope.userData.geolocalizacion == 0) {
             $scope.mostrarMapa = false;
         } else if ($scope.userData.geolocalizacion == 1) {
-            $scope.mostrarMapa = true;
-            ////////////////////////////////////////////////////////////
-            //MAPA
-            ///////////////////////////////////////////////////////////
-            var mapOptions1 = {
-                zoom: 14,
-                center: new google.maps.LatLng(19.3269503, -99.2138245)
-            };
-            // Get all html elements for map
-            var mapElement1 = document.getElementById('map1');
-            // Create the Google Map using elements
-            var map1 = new google.maps.Map(mapElement1, mapOptions1);
+            // $scope.mostrarMapa = true;
+            // ////////////////////////////////////////////////////////////
+            // //MAPA
+            // ///////////////////////////////////////////////////////////
+            // var mapOptions1 = {
+            //     zoom: 14,
+            //     center: new google.maps.LatLng(19.3269503, -99.2138245)
+            // };
+            // // Get all html elements for map
+            // var mapElement1 = document.getElementById('map1');
+            // // Create the Google Map using elements
+            // var map1 = new google.maps.Map(mapElement1, mapOptions1);
 
             ////////////////////////////////////////////////////////////
             //MAPA
@@ -92,7 +92,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function() {
         // debugger;
-        busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
+        busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.userData.idOperacion).then(function(result) {
             $scope.detalleUnidad = result.data[0];
             if ($scope.userData.presupuesto){
                 $scope.centroTrabajo = $scope.detalleUnidad.idCentroTrabajo;
@@ -215,7 +215,7 @@ registrationModule.controller('citaController', function($scope, $route, $modal,
         // debugger;
         $scope.tipoCita = [];
         citaRepository.getTipoOrdenesServicio().then(function(result) {
-            // debugger;
+            debugger;
             $scope.tipoCita = result.data;
         });
     };

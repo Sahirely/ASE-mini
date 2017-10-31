@@ -70,7 +70,7 @@ registrationModule.controller('busquedaUnidadController', function ($scope, $loc
     }
   }
   $scope.getDetalleUnidad = function () {
-    busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.idContratoOperacion).then(function (result) {
+    busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.userData.idOperacion).then(function (result) {
       $scope.detalleUnidad = result.data[0]
       // Obtengo el detalle de la unidad
       consultaCitasRepository.getOrdenExpediente(result.data[0].idUnidad).then(function (result) {
