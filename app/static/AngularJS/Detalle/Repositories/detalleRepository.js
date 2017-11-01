@@ -92,7 +92,6 @@ registrationModule.factory('detalleRepository', function($http) {
             });
         },
         rechazaTrabajo: function(idOrden, idUsuario, motivo) {
-            // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
             return $http({
                 url: detalleUrl + 'rechazaTrabajo/',
                 method: "GET",

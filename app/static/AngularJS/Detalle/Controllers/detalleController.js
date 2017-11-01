@@ -44,21 +44,21 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.markerUrlValue = markerUrl
   $scope.markers = []
 
-  $scope.mapOptions = {
-    center: { lat: 19.426506611419985, lng: -99.16950187368013 },
-    zoom: 14,
-    height: 300,
-    width: '100%',
-    provider: 'google',
-    type: 'roadmap',
-    controls: true,
-    bindingOptions: {
-      markerIconSrc: 'markerUrlValue',
-      markers: 'markers'
-    }
-  }
+  $scope.hasGPS = true;
 
-  $scope.hasGPS = true
+  var mapCanvas = document.getElementById("map");
+  var mapOptions = {
+    center: new google.maps.LatLng(51.508742, -0.120850),
+    zoom: 7,
+    panControl: true,
+    zoomControl: true,
+    mapTypeControl: true,
+    scaleControl: true,
+    streetViewControl: true,
+    overviewMapControl: true,
+    rotateControl: true   
+  };
+  var map = new google.maps.Map(mapCanvas, mapOptions);
 
   // Agrega para comentarios
   $scope.comentarios = []
@@ -85,6 +85,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden)
     $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+    //$scope.getGps($scope.userData.idUsuario, $scope.numeroOrden);
+    
     checkPrecancelation()
     if ($scope.userData.presupuesto == 1) {
       $scope.getSaldos($routeParams.orden)
@@ -215,27 +217,50 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         // Epediente y MAPA
         // ECG
-        if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
-          $scope.markers = [{
-            location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
-            tooltip: {
-              text: 'Ubicación de la unidad'
-            }
-          }]
-          $scope.mapOptions = {
-            center: { lat: +$scope.detalleOrden.latitud, lng: +$scope.detalleOrden.longitud },
-            zoom: 1,
-            height: 300,
-            width: '100%',
-            provider: 'google',
-            type: 'roadmap',
-            controls: true,
-            bindingOptions: {
-              markerIconSrc: 'markerUrlValue',
-              markers: 'markers'
-            }
-          }
-          $scope.hasGPS = true
+        console.log('antes de que se invoque');
+        console.log($scope.detalleOrden);
+        //if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
+        if ($scope.detalleOrden.Latitud != 0) {
+          console.log($scope.detalleOrden.Latitud);
+          // $scope.markers = [{
+          //   location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
+          //   tooltip: {
+          //     text: 'Ubicación de la unidad'
+          //   }
+          // }]
+          // $scope.mapOptions = {
+          //   center: { lat: $scope.detalleOrden.latitud, lng: $scope.detalleOrden.longitud },
+          //   zoom: 1,
+          //   height: 300,
+          //   width: '100%',
+          //   provider: 'google',
+          //   type: 'roadmap',
+          //   controls: true,
+          //   bindingOptions: {
+          //     markerIconSrc: 'markerUrlValue',
+          //     markers: 'markers'
+          //   }
+          // };
+
+          var mapCanvas = document.getElementById("map");
+          var myCenter = new google.maps.LatLng($scope.detalleOrden.Latitud,$scope.detalleOrden.Longitud);
+          var mapOptions = {
+            center: myCenter,
+            zoom: 12,
+            panControl: true,
+            zoomControl: true,
+            mapTypeControl: true,
+            scaleControl: true,
+            streetViewControl: true,
+            overviewMapControl: true,
+            rotateControl: true   
+          };
+          var map = new google.maps.Map(mapCanvas, mapOptions);
+          var marker = new google.maps.Marker({position:myCenter});
+          marker.setMap(map);
+
+          $scope.hasGPS = true;
+          console.log($scope.mapOptions);
         } else {
           $scope.hasGPS = false
         }
