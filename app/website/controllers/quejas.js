@@ -111,6 +111,18 @@ Quejas.prototype.get_consultaSeguimientoQuejaUsuario = function(req, res, next) 
     });
 }
 
+Quejas.prototype.get_consultaTags = function(req, res, next) {
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_TAGS_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Quejas.prototype.post_uploadQueja = function(req, res, next) {
     var randomName = ""
     var storage = multer.diskStorage({
@@ -202,6 +214,19 @@ Quejas.prototype.get_consultaQuejaEvidencia = function(req, res, next){
         });
     });
 }
+
+Quejas.prototype.get_consultaTagPorQueja = function(req, res, body){
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_QUEJATAG_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Quejas.prototype.put_cerrarTicket = function(req, res, body){
     var self = this;
     var params = [
@@ -227,7 +252,8 @@ Quejas.prototype.post_saveLogQueja = function(req, res, next){
         { name: 'Observaciones', value: req.query.Observaciones, type: self.model.types.STRING },
         { name: 'jsonEvidencias', value: req.query.jsonEvidencias, type: self.model.types.STRING },
         { name: 'contieneEvidencias', value: req.query.contieneEvidencias, type: self.model.types.INT },
-        { name: 'estatus', value: req.query.estatus, type: self.model.types.STRING }
+        { name: 'estatus', value: req.query.estatus, type: self.model.types.STRING },
+        { name: 'jsonTags', value: req.query.jsonTags, type: self.model.types.STRING }
     ];
 
     let evidencias = req.query.jsonEvidencias;
