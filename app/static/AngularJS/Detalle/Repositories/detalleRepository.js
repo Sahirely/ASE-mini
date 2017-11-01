@@ -477,6 +477,22 @@ registrationModule.factory('detalleRepository', function($http) {
                 },
                 headers:{'Content-Type':'application/json' }
             });
+        },
+        postCorreoSaldoPresupuesto : function(idOrden, idUsuario, idCotizacion, saldo, idPresupuesto)
+        {
+            return $http({
+                url: detalleUrl + 'correoSaldoPresupuesto/',
+                method:'POST',
+                params:
+                {
+                    idOrden : idOrden,
+                    idUsuario: idUsuario,
+                    idCotizacion: idCotizacion,
+                    saldo: saldo,
+                    idPresupuesto : idPresupuesto
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });

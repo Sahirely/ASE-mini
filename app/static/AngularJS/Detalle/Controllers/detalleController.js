@@ -524,6 +524,24 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       } else {
         $('#loadModal').modal('hide')
         $('.modal-dialog').css('width', '1050px')
+        detalleRepository.postCorreoSaldoPresupuesto(cotizacion.idOrden, idUsuario, cotizacion.idCotizacion, $scope.saldos.saldo, $scope.saldos.idPresupuesto)
+        .then(function(resp)
+        {
+          if (resp.data.length > 0) {
+            var correoDe = resp.data[0].correoDe
+            var correoPara = resp.data[0].correoPara
+            var asunto = resp.data[0].asunto
+            var texto = resp.data[0].texto
+            var bodyhtml = resp.data[0].bodyhtml
+            commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+              if (result.data.length > 0) { }
+            }, function (error) {
+              // alertFactory.error('No se puede enviar el correo')
+            })
+          }
+        }, function(error) {
+             alertFactory.error("Error correo saldo presupuesto.")
+        })
         modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '')
         $scope.class_buttonGuardaCotizacion = ''
       }
