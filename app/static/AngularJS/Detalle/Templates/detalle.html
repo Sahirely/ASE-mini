@@ -640,7 +640,7 @@
                                                         </tbody>
                                                     </table>
                                                     <div>
-                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 || cotizacion.hasApprovedParts == true)||Precancelacion">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
                                                         <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">

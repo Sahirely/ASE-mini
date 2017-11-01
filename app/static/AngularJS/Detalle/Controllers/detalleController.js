@@ -351,6 +351,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.getTotales();
         $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
         $scope.getShowFacturas();
+        $scope.getHasApprovedParts();
         $('#loadModal').modal('hide');
       } else {
         $('#loadModal').modal('hide');
@@ -360,6 +361,18 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $('#loadModal').modal('hide');
       alertFactory.error('Ocurrio un error');
     })
+  }
+
+  $scope.getHasApprovedParts = function (){
+
+      $scope.cotizaciones.forEach(function(coti){
+          coti.hasApprovedParts = false;
+          coti.detalle.forEach(function(part){
+              if (part.idEstatusPartida != 1){
+                  coti.hasApprovedParts = true;
+              }
+          });
+      });      
   }
 
   $scope.getTotales = function () {
