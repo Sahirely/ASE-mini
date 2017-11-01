@@ -66,7 +66,7 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
                 $('.dataTableUnidad').DataTable().destroy();
                 $scope.unidades = unidadInfo.data;
                 if (unidadInfo.data.length > 0) {
-                    globalFactory.waitDrawDocumentLength("dataTableUnidad", "Unidad", 5);
+                    globalFactory.filtrosTabla("dataTableUnidad", "Unidad", 5);
                     alertFactory.success('Datos encontrados');
                     $('#btnBuscar').button('reset');
                 } else {
@@ -90,7 +90,7 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
                 $('.dataTableSustituto').DataTable().destroy();
                 $scope.sustitutos = Info.data;
                 if (Info.data.length > 0) {
-                    globalFactory.waitDrawDocumentLength("dataTableSustituto", "Sustituto", 5);
+                    globalFactory.filtrosTabla("dataTableSustituto", "Sustituto", 5);
                     alertFactory.success('Datos encontrados');
                     $('#btnSustituto').button('reset');
                 } else {
@@ -112,19 +112,19 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
         $scope.map.markers=[];
          $scope.show_mapSustituto = true;
          $scope.select_unidad=unidad.idUnidad;
-         $scope.obtieneUbicacionUnidad ($scope.select_unidad, 'Unidad');
+         //$scope.obtieneUbicacionUnidad ($scope.select_unidad, 'Unidad');
          $('#modal_sustituto').appendTo("body").modal('show');
     }
 
     $scope.selsustituto = function (sustituto) {
         $scope.show_mapSustituto = true;
         $scope.select_sustituto=sustituto.idUnidad;
-        $scope.obtieneUbicacionUnidad ($scope.select_sustituto, 'Sustituto');
+        //$scope.obtieneUbicacionUnidad ($scope.select_sustituto, 'Sustituto');
     }
     
     // OBTENEMOS LA UBICACION ACTUAL DE LA UNIDAD Y DE NO TENERLA MANDAMOS UN ALERTA EN BOOTSTRAP
     $scope.obtieneUbicacionUnidad = function (idUnidad, tipo) {
-        citaRepository.ubicaUnidad(idUnidad).then(function (result) {  
+        sustitutoRepository.ubicaUnidad(idUnidad).then(function (result) {  
              if (result.data.length > 0) {
                alertFactory.info('La unidad ha sido ubicada exitosamente');
                $scope.latitud = result.data[0].lat;
@@ -202,7 +202,7 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
          if ($scope.select_sustituto == '') {
             sustituto = 0;
          }
-        sustitutoRepository.addUnidadSustituto($scope.select_unidad, sustituto, $scope.selectedMotivo.idMotivo, $scope.userData.idUsuario, orden).then(function (result) {
+        sustitutoRepository.addUnidadSustituto($scope.select_unidad, sustituto, $scope.selectedMotivo.idMotivo, $scope.userData.idUsuario, orden, $scope.idContratoOperacion).then(function (result) {
            if (result.data.length > 0) {
                alertFactory.info('Las unidades fueron asociadas correctamente'); 
                 $scope.dataSustituto = '';

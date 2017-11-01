@@ -163,6 +163,12 @@ var Sustituto = function (conf) {
                 name: 'numeroOrden',
                 value: req.body.numeroOrden,
                 type: self.model.types.STRING 
+            },
+            {
+                name: 'idContratoOperacion',
+                value: req.body.idContratoOperacion,
+                type: self.model.types.INT
+                            
             }];
 
         this.model.post('[Sustituto].[INS_UNIDAD_SUSTITUTO_SP]', params, function (error, result) {
@@ -186,7 +192,12 @@ var Sustituto = function (conf) {
             {
                 name: 'idMotivo',
                 value: req.query.idMotivo,
-                type: self.model.types.STRING
+                type: self.model.types.INT
+                            
+            },{
+                name: 'idContratoOperacion',
+                value: req.query.idContratoOperacion,
+                type: self.model.types.INT
                             
             }];
 

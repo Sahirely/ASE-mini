@@ -58,7 +58,7 @@ registrationModule.controller('reporteSustitutoController', function (MarkerCrea
     $scope.getReporteSustituto = function () {
         $('.dataTableReporteSustituto').DataTable().destroy();
         $scope.reporteSustituto=[];
-                sustitutoRepository.getReporte($scope.idMotivoUnidad).then(function (reporte) {//va a mi repository y entra a function getReporte [.then(function (reporte)  es para que devuelva repuesta]
+                sustitutoRepository.getReporte($scope.idMotivoUnidad, $scope.idContratoOperacion).then(function (reporte) {//va a mi repository y entra a function getReporte [.then(function (reporte)  es para que devuelva repuesta]
                     if (reporte.data.length > 0) { //valida que tenga una caden amayor de cero sino es porque no tiene registros
                         $scope.reporteSustituto = reporte.data;
                         // globalFactory.waitDrawDocument("dataTableReporteSustituto", "ReporteSustituto");

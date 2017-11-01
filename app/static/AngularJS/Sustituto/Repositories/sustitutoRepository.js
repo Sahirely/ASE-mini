@@ -57,13 +57,14 @@ var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
                     }
                 })
             },
-            addUnidadSustituto: function (idUnidad, idSustituto, idMotivo, idUsuario, numeroOrden) {
+            addUnidadSustituto: function (idUnidad, idSustituto, idMotivo, idUsuario, numeroOrden, idContratoOperacion) {
                 var msgObj = {
                     idUnidad: idUnidad,
                     idSustituto: idSustituto,
                     idMotivo:idMotivo,
                     idUsuario: idUsuario,
-                    numeroOrden: numeroOrden
+                    numeroOrden: numeroOrden,
+                    idContratoOperacion: idContratoOperacion
 
                 }
                 return $http({
@@ -76,12 +77,13 @@ var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
                 });
             },
 
-            getReporte:function(idMotivo){
+            getReporte:function(idMotivo, idContratoOperacion){
                 return $http({
                         url: sustitutoUrl + 'reportesustituto',//va al controller de node
                         method:"GET", 
                     params: {
-                        idMotivo: idMotivo
+                        idMotivo: idMotivo,
+                        idContratoOperacion: idContratoOperacion
                     },                      //el metodo get es porque se realizara una consulta
                         headers:{'Content-Type':'application/json'
                     }
