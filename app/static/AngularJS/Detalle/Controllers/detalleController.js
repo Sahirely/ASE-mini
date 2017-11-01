@@ -372,7 +372,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                   coti.hasApprovedParts = true;
               }
           });
-      });      
+      });
   }
 
   $scope.getTotales = function () {
@@ -671,6 +671,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
               }, function (error) {
                 // alertFactory.error("Error al obtener información para el mail")
               })
+            }
+            if($scope.userData.presupuesto == 1){
+              detalleRepository.restaPresupuestoOrden($scope.saldos.idPresupuesto, $scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion).then(function (result){
+                  if (result.data.length > 0){}
+              });
             }
             setTimeout(function () {
               $('#loadModal').modal('hide')
@@ -1192,7 +1197,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   $scope.cambiaEstatusOrdenTermino = function () {
     if ($scope.userData.presupuesto == 1) {
-      detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
+      detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion).then(function (result) {
         if (result.data.length > 0) {
           detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
             if ($scope.hasDetalleModulo(6, 19) === true) {
