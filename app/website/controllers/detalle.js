@@ -1013,4 +1013,43 @@ this.model.query('UPD_DETALLE_COTIZACION_SP', params, function(error, result) {
     console.log(params);
 }
 
+Detalle.prototype.post_correoSaldoPresupuesto = function(req, res, next)
+{
+    var self = this;
+    var params = [{
+        name:'idOrden',
+        value: req.query.idOrden,
+        type:self.model.types.INT
+    },
+    {
+        name:'idUsuario',
+        value:req.query.idUsuario,
+        type:self.model.types.idUsuario
+    },
+    {
+        name:'idCotizacion',
+        value:req.query.idCotizacion,
+        type:self.model.types.INT
+    },
+    {
+        name:'saldo',
+        value:req.query.saldo,
+        type:self.model.types.DECIMAL
+    },
+    {
+        name:'idPresupuesto',
+        value:req.query.idPresupuesto,
+        type:self.model.types.INT
+    }
+]
+
+this.model.query('SEL_CORREO_SALDO_PRESUPUESTO_SP', params, function(error, result) {
+    self.view.expositor(res, {
+        error: error,
+        result: result
+    });
+});
+    console.log(params);
+}
+
 module.exports = Detalle;
