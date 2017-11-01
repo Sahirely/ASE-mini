@@ -1,4 +1,4 @@
-registrationModule.controller('asignacionSustitutoController', function (MarkerCreatorService, $scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, sustitutoRepository, uploadRepository, citaRepository, commonService, ordenAnticipoRepository, trabajoRepository ) {
+registrationModule.controller('asignacionSustitutoController', function (MarkerCreatorService, userFactory, $scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, sustitutoRepository, uploadRepository, commonService ) {
 	$rootScope.modulo = 'asignacionSustituto';
 	$scope.motivos= [];
     $scope.address = '';
@@ -57,17 +57,12 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
                 $scope.show_orden=false;
             }
         }
-
     }
-  
 
     $scope.getUnidad = function (datoUnidad) {
-
         if ($scope.datoUnidad != '' ) {
-
             $('#btnBuscar').button('Buscando...');
-           // $scope.promise = citaRepository.getUnidadInformation(datoUnidad, $scope.userData.idUsuario).then(function (unidadInfo) {
-            sustitutoRepository.getSustituto(datoUnidad, 0).then(function (unidadInfo) {
+            sustitutoRepository.getSustituto(datoUnidad, 0, $scope.idContratoOperacion).then(function (unidadInfo) {
                 $('.dataTableUnidad').DataTable().destroy();
                 $scope.unidades = unidadInfo.data;
                 if (unidadInfo.data.length > 0) {
@@ -89,10 +84,9 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
     }
 
     $scope.getSustituto = function (dataSustituto) {
-
         if ($scope.dataSustituto != '' ) {;
             $('#btnSustituto').button('Buscando...');
-            sustitutoRepository.getSustituto(dataSustituto, 1).then(function (Info) {
+            sustitutoRepository.getSustituto(dataSustituto, 1, $scope.idContratoOperacion).then(function (Info) {
                 $('.dataTableSustituto').DataTable().destroy();
                 $scope.sustitutos = Info.data;
                 if (Info.data.length > 0) {
@@ -119,21 +113,15 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
          $scope.show_mapSustituto = true;
          $scope.select_unidad=unidad.idUnidad;
          $scope.obtieneUbicacionUnidad ($scope.select_unidad, 'Unidad');
-
-         
          $('#modal_sustituto').appendTo("body").modal('show');
-
-
     }
 
     $scope.selsustituto = function (sustituto) {
         $scope.show_mapSustituto = true;
         $scope.select_sustituto=sustituto.idUnidad;
         $scope.obtieneUbicacionUnidad ($scope.select_sustituto, 'Sustituto');
-
     }
     
-
     // OBTENEMOS LA UBICACION ACTUAL DE LA UNIDAD Y DE NO TENERLA MANDAMOS UN ALERTA EN BOOTSTRAP
     $scope.obtieneUbicacionUnidad = function (idUnidad, tipo) {
         citaRepository.ubicaUnidad(idUnidad).then(function (result) {  
@@ -150,16 +138,10 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
                         marker.options.icon=  $rootScope.vIpServer + '/image/green-dot.png';
                     };
                     $scope.autentiaMarker = marker;
-
                 });
-
-
-             
                 $scope.map.center.latitude=$scope.autentiaMarker.latitude;
                 $scope.map.center.longitude=$scope.autentiaMarker.longitude;
                 $scope.map.markers.push($scope.autentiaMarker);  
-                
-
             }else{
                 alertFactory.info('La unidad aun no tiene ubicacion GPS');
                 $scope.bandera = 1
@@ -171,19 +153,13 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
  
 
     $scope.validateSustituto = function (){
-
-        //$scope.select_sustituto != '' &&
-
         if ($scope.select_unidad != '' && $scope.selectedMotivo != '') {
-
             if ($scope.selectedMotivo.idMotivo == 1 ) {
-
                 if ($scope.numOrden != '') {
                     return true;  
                 }else{
                     return false;
                 }
-
             }else{
               return true; 
             }             
@@ -193,13 +169,9 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
     }
 
     $scope.addUnidadSusituto = function () {
-
         if ($scope.selectedMotivo.idMotivo == 1) {
-
-            sustitutoRepository.getValidaOrden($scope.numOrden).then(function (result) {
-               
+            sustitutoRepository.getValidaOrden($scope.numOrden, $scope.idContratoOperacion).then(function (result) {
                 if (result.data.length > 0) {
-
                     if (result.data[0].estatus == 0) {
                          alertFactory.error("No es válido el número de orden");
                     }else if (result.data[0].estatus == 1) {  
@@ -207,23 +179,19 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
                         $scope.unidadSustito();
                     }else if (result.data[0].estatus == 2) {
                          alertFactory.error("El estatus del número de orden no es válido");
-                    } 
-                    
+                    }  
                 } else {
                     alertFactory.info("No se encontraron datos");
                 }
             }, function (error) {
                 alertFactory.error("Error al validar orden");
             });
-
         }else{
             $scope.unidadSustito();
         }
-        
     }
 
     $scope.unidadSustito = function (){
-
          $('#btnLigar').button('Buscando...');
          var orden = 0
          var sustituto= $scope.select_sustituto;

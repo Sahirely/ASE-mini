@@ -1,4 +1,4 @@
-registrationModule.controller('reporteSustitutoController', function (MarkerCreatorService, citaRepository,$scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, sustitutoRepository,ordenServicioRepository, uploadRepository, ordenPorCobrarRepository, commonService, ordenAnticipoRepository, trabajoRepository ) {
+registrationModule.controller('reporteSustitutoController', function (MarkerCreatorService, userFactory, $scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, sustitutoRepository, uploadRepository, commonService) {
   $rootScope.modulo = 'reporteSustituto';
         	
     $scope.init = function (){

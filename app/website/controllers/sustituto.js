@@ -15,18 +15,12 @@ var Sustituto = function (conf) {
 }
 // Obtiene los datos de los presupuestos por el centro de trabajo
     Sustituto.prototype.get_motivo = function (req, res, next) {
-        //Con req.query se obtienen los parametros de la url
-        //Ejemplo: ?p1=a&p2=b
-        //Retorna {p1:'a',p2:'b'}
-        //Objeto que envía los parámetros
+
         var params = [];
-        //Referencia a la clase para callback
+
         var self = this;
 
-        //asignación de valores mediante parámetros del request
-        
-
-        this.model.query('SEL_MOTIVO_SUSTITUTO_SP', params, function (error, result) {
+        this.model.query('[Sustituto].[SEL_MOTIVO_SUSTITUTO_SP]', params, function (error, result) {
             self.view.expositor(res, {
                 error: error,
                 result: result
@@ -52,10 +46,16 @@ var Sustituto = function (conf) {
                 value: req.query.tipo,
                 type: self.model.types.INT
                             
+            },
+            {
+                name: 'idContratoOperacion',
+                value: req.query.idContratoOperacion,
+                type: self.model.types.INT
+                            
             }
         ];
 
-        this.model.query('SEL_UNIDAD_SUSTITUTO_SP', params, function (error, result) {
+        this.model.query('[Sustituto].[SEL_UNIDAD_SUSTITUTO_SP]', params, function (error, result) {
             //Callback
             object.error = error;
             object.result = result;
@@ -67,21 +67,26 @@ var Sustituto = function (conf) {
 
     //valida la orden para sustituto
     Sustituto.prototype.get_validaorden = function (req, res, next) {
-        //Objeto que almacena la respuesta
         var object = {};
         //Referencia a la clase para callback
         var self = this;
         //Asigno a params el valor de mis variables    
         var params = [
             {
-                name: 'numeroTrabajo',
-                value: req.query.numeroTrabajo,
+                name: 'numeroOrden',
+                value: req.query.numeroOrden,
+                type: self.model.types.STRING
+                            
+            },
+            {
+                name: 'idContratoOperacion',
+                value: req.query.idContratoOperacion,
                 type: self.model.types.INT
                             
             }
         ];
 
-        this.model.query('SEL_VALIDA_ORDEN_SP', params, function (error, result) {
+        this.model.query('[Sustituto].[SEL_VALIDA_ORDEN_SP]', params, function (error, result) {
             //Callback
             object.error = error;
             object.result = result;
@@ -121,7 +126,7 @@ var Sustituto = function (conf) {
                             
             }];
 
-        this.model.query('SEL_UNIDAD_NOTIFICACION_SP', params, function (error, result) {
+        this.model.query('[Sustituto].[SEL_UNIDAD_NOTIFICACION_SP]', params, function (error, result) {
             //Callback
             object.error = error;
             object.result = result;
@@ -155,12 +160,12 @@ var Sustituto = function (conf) {
                 type: self.model.types.INT 
             },
             {
-                name: 'numeroTrabajo',
-                value: req.body.numeroTrabajo,
-                type: self.model.types.INT 
+                name: 'numeroOrden',
+                value: req.body.numeroOrden,
+                type: self.model.types.STRING 
             }];
 
-        this.model.post('INS_UNIDAD_SUSTITUTO_SP', params, function (error, result) {
+        this.model.post('[Sustituto].[INS_UNIDAD_SUSTITUTO_SP]', params, function (error, result) {
             //Callback
             self.view.expositor(res, {
                 error: error,
@@ -185,7 +190,7 @@ var Sustituto = function (conf) {
                             
             }];
 
-        this.model.query('SEL_REPORTE_SUSTITUTO_SP', params, function (error, result) {
+        this.model.query('[Sustituto].[SEL_REPORTE_SUSTITUTO_SP]', params, function (error, result) {
             self.view.expositor(res, {
                 error: error,
                 result: result
@@ -193,7 +198,6 @@ var Sustituto = function (conf) {
         });
     }
 
-        //Actualiza el estatus de la unidad para sustituto (Desvincula)
     Sustituto.prototype.put_unidadDesvinculada = function(req,res,next){
         //Objeto que almacena la respuesta
         var object = {};
@@ -209,7 +213,7 @@ var Sustituto = function (conf) {
             type: self.model.types.INT
         }];
 
-        this.model.post('UPD_ESTATUS_UNIDAD_SUSTITUTO_SP',params, function (error,result){
+        this.model.post('[Sustituto].[UPD_ESTATUS_UNIDAD_SUSTITUTO_SP]',params, function (error,result){
             self.view.expositor(res,{
                 error:error,
                 result:result

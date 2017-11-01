@@ -13,25 +13,27 @@ var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
                     }
                 })
             },
-            getSustituto: function (numEconomico, tipo) {
+            getSustituto: function (numEconomico, tipo, idContratoOperacion) {
                 return $http({
                     url: sustitutoUrl + 'sustituto/',
                     method: "GET",
                     params: {
                         numEconomico: numEconomico,
-                        tipo: tipo
+                        tipo: tipo,
+                        idContratoOperacion: idContratoOperacion
                     },
                     headers: {
                         'Content-Type': 'application/json'
                     }
                 })
             },
-            getValidaOrden: function (numeroTrabajo) {
+            getValidaOrden: function (numeroOrden, idContratoOperacion) {
                 return $http({
                     url: sustitutoUrl + 'validaorden/',
                     method: "GET",
                     params: {
-                        numeroTrabajo: numeroTrabajo
+                        numeroOrden: numeroOrden,
+                        idContratoOperacion: idContratoOperacion
                     },
                     headers: {
                         'Content-Type': 'application/json'
@@ -55,13 +57,13 @@ var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
                     }
                 })
             },
-            addUnidadSustituto: function (idUnidad, idSustituto, idMotivo, idUsuario, numeroTrabajo) {
+            addUnidadSustituto: function (idUnidad, idSustituto, idMotivo, idUsuario, numeroOrden) {
                 var msgObj = {
                     idUnidad: idUnidad,
                     idSustituto: idSustituto,
                     idMotivo:idMotivo,
                     idUsuario: idUsuario,
-                    numeroTrabajo: numeroTrabajo
+                    numeroOrden: numeroOrden
 
                 }
                 return $http({
