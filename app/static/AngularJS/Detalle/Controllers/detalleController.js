@@ -56,7 +56,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     scaleControl: true,
     streetViewControl: true,
     overviewMapControl: true,
-    rotateControl: true   
+    rotateControl: true
   };
   var map = new google.maps.Map(mapCanvas, mapOptions);
 
@@ -86,7 +86,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
     //$scope.getGps($scope.userData.idUsuario, $scope.numeroOrden);
-    
+
     checkPrecancelation()
     if ($scope.userData.presupuesto == 1) {
       $scope.getSaldos($routeParams.orden)
@@ -253,7 +253,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             scaleControl: true,
             streetViewControl: true,
             overviewMapControl: true,
-            rotateControl: true   
+            rotateControl: true
           };
           var map = new google.maps.Map(mapCanvas, mapOptions);
           var marker = new google.maps.Marker({position:myCenter});
@@ -748,7 +748,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.btn_editarCotizacion = true
         break
       case 4: // proveedor
-        $scope.hideSwitchBtn = true
+        $scope.hideSwitchBtn = false
         $scope.btnSwitch.showCostoVenta = true
         break
       default:
@@ -1453,7 +1453,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     }, function (error) {
                       // alertFactory.error("Error al obtener información para el mail")
                     })
-                  }) 
+                  })
             } else {
               alertFactory.error(r_token.data[0].Msg)
               $scope.token_termino = ''

@@ -64,7 +64,7 @@ registrationModule.controller('busquedaUnidadController', function ($scope, $loc
         break
       case 4:
         $scope.btnSwitch.showCostoVenta = true
-        $scope.muestraSwitch = false
+        $scope.muestraSwitch = true
         break
 
     }

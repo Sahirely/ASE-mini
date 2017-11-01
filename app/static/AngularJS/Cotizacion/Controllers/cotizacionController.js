@@ -64,7 +64,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
                 $scope.btn_editarCotizacion = true;
                 break;
             case 4: //proveedor
-                $scope.hideSwitchBtn = true;
+                $scope.hideSwitchBtn = false;
                 $scope.btnSwitch.showCostoVenta = true;
                 break;
             default:
