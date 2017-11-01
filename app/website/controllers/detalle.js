@@ -1024,7 +1024,7 @@ Detalle.prototype.post_correoSaldoPresupuesto = function(req, res, next)
     {
         name:'idUsuario',
         value:req.query.idUsuario,
-        type:self.model.types.idUsuario
+        type:self.model.types.INT
     },
     {
         name:'idCotizacion',
