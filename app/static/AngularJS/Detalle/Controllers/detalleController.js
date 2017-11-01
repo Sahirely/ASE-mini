@@ -182,10 +182,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         //-------------------------------------Validacion del token doble para PEMEX
         $scope.estatusToken = result.data[0].estatusToken.split(',')[0];
         $scope.estatusTokenMensaje = result.data[0].estatusToken.split(',')[1];
-
-        console.log($scope.estatusToken);
-        console.log($scope.estatusTokenMensaje);
-
+        
         $scope.idOrden = result.data[0].idOrden
         $scope.nombreCentroTrabajo = result.data[0].nombreCentroTrabajo
         $scope.detalleOrden = result.data[0]
@@ -217,11 +214,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         // Epediente y MAPA
         // ECG
-        console.log('antes de que se invoque');
-        console.log($scope.detalleOrden);
         //if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
-        if ($scope.detalleOrden.Latitud != 0) {
-          console.log($scope.detalleOrden.Latitud);
+        if ($scope.detalleOrden.Latitud != 0) {          
           // $scope.markers = [{
           //   location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
           //   tooltip: {
