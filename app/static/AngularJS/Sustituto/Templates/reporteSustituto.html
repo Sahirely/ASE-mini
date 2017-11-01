@@ -1,0 +1,106 @@
+  <link href="../../css/inspinia/sweetalert/sweetalert.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/tutorial.css">
+  <div ng-init="init()" class="animated bounceInRight ">
+      <div class="headTitleTallerCita">
+          <span class="title">Reporte Unidad Fuera de Operación</span>   
+      </div>
+      <br>
+      <div class="wrapper wrapper-content center_content {{class_width}}">
+      
+        <div class="ibox-content"> </br>
+        <div class="row col-md-5 pull-left" >
+                <div class="form-group row">
+                <label class="col-sm-3 control-label">Motivo: </label>
+                <div class="col-sm-9">
+                    <select class="form-control" name="motivo" ng-model="selectedMotivo" ng-options="motivo.Descripcion for motivo in motivos" ng-change="validaMotivo(selectedMotivo)">
+                        <option value=''>Selecionar  motivo</option><!--default option -->
+                    </select>
+                </div>
+            </div>
+        </div>
+          <div class="row">
+              <div class="col-lg-12">
+                  <div class="ibox float-e-margins">
+                      <!--div class="ibox-content"-->                       
+                          <br/>
+                          <div class="row">
+
+                              <div class="col-md-12">
+
+                                  <table class="table table-striped table-bordered table-hover dataTableReporteSustituto">
+                                        <thead>
+                                            <tr>
+                                                <th>Unidad Fuera de Operación</th>
+                                                <th>Ubicación</th>
+                                                <th>Unidad Sustituto</th>
+                                                <th>Ubicación</th>
+                                                <th>Motivo</th>
+                                                <th>Numero de la Orden</th>
+                                                <th>Estatus Orden</th>
+                                                <th>Fecha de Registro</th>
+                                                <th>Tiempo Transcurrido</th>
+                                                <th>Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="sustituto in reporteSustituto">
+                                              <td><!--{{sustituto.numEconomico}}-->
+                                              <div>
+                                              <p><strong>VIN: &nbsp;</strong> {{sustituto.vin}}</p>
+                                              <p><strong>Factura: &nbsp;</strong>{{sustituto.factura}}</p>
+                                              <p><strong>Unidad: &nbsp;</strong>
+                                              {{sustituto.marca}} &nbsp;
+                                              {{sustituto.modeloMarca}}&nbsp;
+                                              {{sustituto.modelo}}</p>
+                                              <div>
+                                              </td>
+                                              <td>
+                                                        <button type="button" class="btn btn-success"
+                                                        tooltip-placement="top" tooltip="Posicionar" ng-click= "posicionUnidad(sustituto.idUnidad)">
+                                                        <span class="glyphicon glyphicon-map-marker"></span>
+                                                        </button>                                                     
+                                              </td>
+                                              <td>
+                                              <div ng-hide="sustituto.idSustitutoUni==0">
+                                              <p><strong>VIN: &nbsp;</strong>{{sustituto.vinSustituto}}</p>
+                                              <p><strong>Factura: &nbsp;</strong>{{sustituto.facturaSustituto}}</p>
+                                              <p><strong>Unidad: &nbsp;</strong>
+                                              {{sustituto.marcaSustituto}}&nbsp;
+                                              {{sustituto.modeloMarcaSustituto}}&nbsp;
+                                              {{sustituto.modeloSustituto}}</p>
+                                              
+                                              </div>
+                                              </td>
+                                              <td>
+                                                        <button type="button" class="btn btn-success" ng-hide="sustituto.idSustitutoUni==0"
+                                                         tooltip-placement="top" tooltip="Posicionar" ng-click= "posicionUnidad(sustituto.idSustitutoUni)">
+                                                        <span class="glyphicon glyphicon-map-marker"></span>
+                                                        </button>
+                                              </td>
+                                              <td>{{sustituto.Descripcion}}</td>
+                                              <td ng-if="sustituto.numeroTrabajo != 0">{{sustituto.numeroTrabajo}}</td>
+                                              <td ng-if="sustituto.numeroTrabajo == 0"></td>
+                                              <td>{{sustituto.descripcionLarga}}</td>
+                                              <td>{{sustituto.fecha}}</td>
+                                              <td>{{sustituto.tiempoTranscurrido}}</td>
+                                              <td>
+                                                        <button type="button" class="btn btn-primary" tooltip-placement="top" tooltip="Liberar" ng-click="Desvinculacion(sustituto.idUnidadSustituto)" >
+                                                        <span class="fa fa-chain-broken"></span>
+                                                        </button>
+                                                        <button type="button" class="dropdown-toggle alerta-form btn btn-info" tooltip-placement="top" tooltip="Ver Orden"
+                                                        ng-show = "sustituto.idMotivo== 1" ng-click="aprobarTrabajo(sustituto.idTrabajo)">
+                                                        <span class="glyphicon glyphicon-sunglasses"></span>
+                                                        </button>                                                    
+                                              </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                              </div>
+                          </div>                       
+                      </div>
+                  </div>
+              </div>
+          </div>
+        <!--/div-->
+      </div>     
+  </div>

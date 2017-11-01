@@ -25,5 +25,6 @@ module.exports = {
   analisisflotilla: require('./controllers/analisisflotilla'),
   memorandum: require('./controllers/memorandum'),
   meeting: require('./controllers/meeting'),
-  quejas: require('./controllers/quejas')
+  quejas: require('./controllers/quejas'),
+  sustituto: require('./controllers/sustituto')
 }

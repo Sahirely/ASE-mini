@@ -275,6 +275,14 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/AnalisisFlotilla/Templates/documentosUnidad.html',
             controller: 'documentosUnidadController'
         })
+        $routeProvider.when('/asignacionSustituto', {
+            templateUrl: 'AngularJS/Sustituto/Templates/asignacionSustituto.html',
+            controller: 'asignacionSustitutoController'
+        })
+        $routeProvider.when('/reporteSustituto', {
+            templateUrl: 'AngularJS/Sustituto/Templates/reporteSustituto.html',
+            controller: 'reporteSustitutoController'
+        })
 
 
         $locationProvider.html5Mode({

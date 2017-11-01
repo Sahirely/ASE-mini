@@ -115,6 +115,13 @@
                         <li ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
                     </ul>
                 </li>
+                <li ng-show="userData.idRol == 2 && userData.contratoOperacionSeleccionada == 1" ng-class="{'active': (modulo=='asignacionSustituto' || modulo=='reporteSustituto')}">
+                    <a href="#" ng-click="showChat = 0"><i class="glyphicon glyphicon-alert"></i> <span class="nav-label">Unidades Sutituto</span><span class="label label-warning pull-right"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-class="{'active': modulo=='asignacionSustituto'}"><a href="/asignacionSustituto">Unidad Fuera de Operación</a></li>
+                        <li ng-class="{'active': modulo=='reporteSustituto'}"><a href="/reporteSustituto">Reporte Unidad Fuera de Operación</a></li>
+                    </ul>
+                </li>
                 <li ng-class="{'active': modulo=='analisisFlotilla'}">
                     <a href="#"><i class="fa fa-pie-chart"></i> <span class="nav-label">Análisis de Flotilla</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
@@ -445,6 +452,9 @@
     <script src="AngularJS/Reporte/Controllers/reporteController.js"></script>
     <script src="AngularJS/Presupuesto/Repositories/presupuestoRepository.js"></script>
     <script src="AngularJS/Presupuesto/Controllers/presupuestoController.js"></script>
+    <script src="AngularJS/Sustituto/Repositories/sustitutoRepository.js"></script>
+    <script src="AngularJS/Sustituto/Controllers/asignacionSustitutoController.js"></script>
+    <script src="AngularJS/Sustituto/Controllers/reporteSustitutoController.js"></script>
     <script src="AngularJS/UploadFiles/Repositories/uploadRepository.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionOrdenController.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionMemorandumController.js"></script>
