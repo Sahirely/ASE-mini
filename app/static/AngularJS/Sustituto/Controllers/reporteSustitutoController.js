@@ -113,9 +113,8 @@ registrationModule.controller('reporteSustitutoController', function (MarkerCrea
         }
 
     //Visualiza la órden de servicio
-    $scope.aprobarTrabajo = function (sustituto) {
-        localStorageService.set('objTrabajo', sustituto);
-        location.href = '/ordenservicio';
+    $scope.aprobarTrabajo = function (numeroOrden) {
+        location.href = '/detalle?orden=' + numeroOrden;
     }
 
 

@@ -47,7 +47,7 @@
                                               <p><strong>VIN: &nbsp;</strong> {{sustituto.vin}}</p>
                                               <p><strong>Unidad: &nbsp;</strong>
                                               {{sustituto.marca}} &nbsp;
-                                              {{sustituto.modeloMarca}}&nbsp;
+                                              {{sustituto.submarca}}&nbsp;
                                               {{sustituto.modelo}}</p>
                                               <div>
                                               </td>
@@ -62,7 +62,7 @@
                                               <p><strong>VIN: &nbsp;</strong>{{sustituto.vinSustituto}}</p>
                                               <p><strong>Unidad: &nbsp;</strong>
                                               {{sustituto.marcaSustituto}}&nbsp;
-                                              {{sustituto.modeloMarcaSustituto}}&nbsp;
+                                              {{sustituto.submarcaSustituto}}&nbsp;
                                               {{sustituto.modeloSustituto}}</p>
                                               
                                               </div>
@@ -74,9 +74,9 @@
                                                         </button>
                                               </td>
                                               <td>{{sustituto.Descripcion}}</td>
-                                              <td ng-if="sustituto.numeroTrabajo != 0">{{sustituto.numeroTrabajo}}</td>
-                                              <td ng-if="sustituto.numeroTrabajo == 0"></td>
-                                              <td>{{sustituto.descripcionLarga}}</td>
+                                              <td ng-if="sustituto.numeroOrden != 0">{{sustituto.numeroOrden}}</td>
+                                              <td ng-if="sustituto.numeroOrden == 0"></td>
+                                              <td>{{sustituto.nombreEstatusOrden}}</td>
                                               <td>{{sustituto.fecha}}</td>
                                               <td>{{sustituto.tiempoTranscurrido}}</td>
                                               <td>
@@ -84,7 +84,7 @@
                                                         <span class="fa fa-chain-broken"></span>
                                                         </button>
                                                         <button type="button" class="dropdown-toggle alerta-form btn btn-info" tooltip-placement="top" tooltip="Ver Orden"
-                                                        ng-show = "sustituto.idMotivo== 1" ng-click="aprobarTrabajo(sustituto.idTrabajo)">
+                                                        ng-show = "sustituto.idMotivo== 1" ng-click="aprobarTrabajo(sustituto.numeroOrden)">
                                                         <span class="glyphicon glyphicon-sunglasses"></span>
                                                         </button>                                                    
                                               </td>
