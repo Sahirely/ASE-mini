@@ -17,6 +17,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.userData = userFactory.getUserData();
     $scope.show_nuevaCotizacion = true;
     $scope.btnSwitch = {};
+    $scope.statusIgual = 0;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
@@ -267,33 +268,61 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         $("#borderTop").slideUp(3000);
     };
 
+    $scope.igualaSubtotal = function(subtotal) 
+    {
+        angular.copy(subtotal, $scope.statusIgual)
+    }
+
     $scope.nuevaCotizacion = function() {
         $('#loadModal').modal('show');
-        cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.userData.idUsuario, 1, $scope.numeroOrden, $scope.idTipoCita,0).then(function(result) {
-                                                //idTaller, idUsuario, idEstatusCotizacion, idOrden,idCatalogoTipoOrdenServicio
-            if (result.data[0].idCotizacion > 0) {
-                $scope.idCotizacion = result.data[0].idCotizacion;
-                $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
-                    cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.costoUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
-                        if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
-                        }
+        cotizacionRepository.insPresupuestoOrdenEstatus($scope.numeroOrden).then(function(result)
+        {
+            if(result.data[0].idEstatusOrden == 5)
+            {
+                cotizacionRepository.presupuestoAprobacion($scope.numeroOrden).then(function(result) 
+                {
+                    if(result.data[0].saldo < $scope.subTotalCosto)
+                    {
+                        alertFactory.error('No se puede cargar la cotizacion');
+                    }else
+                    {
+                        $scope.insCotizaciNueva();
+                    }
+                })
+            }else
+            {
+                $scope.insCotizaciNueva();
+            }
+        })
+    }
+
+    $scope.insCotizaciNueva = function()
+    {
+    cotizacionRepository.insCotizacionNueva($scope.idTaller, $scope.userData.idUsuario, 1, $scope.numeroOrden, $scope.idTipoCita,0).then(function(result) {
+                                                    //idTaller, idUsuario, idEstatusCotizacion, idOrden,idCatalogoTipoOrdenServicio
+                if (result.data[0].idCotizacion > 0) {
+                    $scope.idCotizacion = result.data[0].idCotizacion;
+                    $scope.lstPartidaSeleccionada.forEach(function(detalleCotizacion) {
+                        cotizacionRepository.inCotizacionDetalle($scope.idCotizacion, detalleCotizacion.costoUnitario, detalleCotizacion.cantidad, detalleCotizacion.precioUnitario, detalleCotizacion.idPartida, detalleCotizacion.estatus).then(function(nuevos) {
+                            if (nuevos.data[0].idCotizacionDetalle > 0) {} else {
+                            }
+                        });
                     });
-                });
-                alertFactory.success('se creo nueva cotización');
-                $scope.limpiarParametros();
-                $('#loadModal').modal('hide');
-                location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + $scope.estatusActual;
-            } else {
+                    alertFactory.success('se creo nueva cotización');
+                    $scope.limpiarParametros();
+                    $('#loadModal').modal('hide');
+                    location.href = '/detalle?orden=' + $scope.numeroOrden + '&estatus=' + $scope.estatusActual;
+                } else {
+            
+                    $('#loadModal').modal('hide');
+                    alertFactory.error('No se pudo crear cotización');
+                    $scope.limpiarParametros();
+                }
+            }, function(error) {
                 $('#loadModal').modal('hide');
                 alertFactory.error('No se pudo crear cotización');
                 $scope.limpiarParametros();
-
-            }
-        }, function(error) {
-            $('#loadModal').modal('hide');
-            alertFactory.error('No se pudo crear cotización');
-            $scope.limpiarParametros();
-        });
+            });
     }
 
     $scope.actulizacionDetalle = function (){

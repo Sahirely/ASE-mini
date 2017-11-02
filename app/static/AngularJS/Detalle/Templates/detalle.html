@@ -785,8 +785,8 @@
                     <!--<button class="btn btn-inf btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
                     Aprobación Provisión
                     </button> -->
-                    <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
-                        <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
+                    <button ng-hide="(userData.idRol == 1  || saldos.saldo < totalSumaCosto)" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion();">
+                        <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva CotizaciónP
                     </button>
                     <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
                         <span class="{{class_buttonTerminaTrabajo}}"></span> Terminar Trabajo
