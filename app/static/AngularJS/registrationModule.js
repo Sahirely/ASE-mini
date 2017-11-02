@@ -6,7 +6,7 @@
 // -- Fecha:
 // -- =============================================
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
-    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover", "dx"
+    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover", "dx", "google-maps"
 ])
     .config(function ($routeProvider, $locationProvider, $sceDelegateProvider) {
         $sceDelegateProvider.resourceUrlWhitelist([

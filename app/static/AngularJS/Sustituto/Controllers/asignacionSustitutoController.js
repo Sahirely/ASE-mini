@@ -112,14 +112,14 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
         $scope.map.markers=[];
          $scope.show_mapSustituto = true;
          $scope.select_unidad=unidad.idUnidad;
-         //$scope.obtieneUbicacionUnidad ($scope.select_unidad, 'Unidad');
+         $scope.obtieneUbicacionUnidad ($scope.select_unidad, 'Unidad');
          $('#modal_sustituto').appendTo("body").modal('show');
     }
 
     $scope.selsustituto = function (sustituto) {
         $scope.show_mapSustituto = true;
         $scope.select_sustituto=sustituto.idUnidad;
-        //$scope.obtieneUbicacionUnidad ($scope.select_sustituto, 'Sustituto');
+        $scope.obtieneUbicacionUnidad ($scope.select_sustituto, 'Sustituto');
     }
     
     // OBTENEMOS LA UBICACION ACTUAL DE LA UNIDAD Y DE NO TENERLA MANDAMOS UN ALERTA EN BOOTSTRAP
@@ -135,7 +135,7 @@ registrationModule.controller('asignacionSustitutoController', function (MarkerC
                 MarkerCreatorService.createByCoords(parseFloat($scope.latitud), parseFloat($scope.longitud), function (marker) {
                     marker.options.labelContent = $scope.direccion + ' - ' + tipo;
                     if (tipo=='Unidad') {
-                        marker.options.icon=  $rootScope.vIpServer + '/image/green-dot.png';
+                        marker.options.icon =  $rootScope.docServer + '/img/logo/puntero.png';                         
                     };
                     $scope.autentiaMarker = marker;
                 });

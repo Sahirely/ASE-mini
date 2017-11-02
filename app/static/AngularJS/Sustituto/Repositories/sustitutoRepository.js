@@ -102,6 +102,18 @@ var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
                          'Content-Type': 'application/json'
                     }
                 });
+            },
+            ubicaUnidad: function (idUnidad) {
+                return $http({
+                    url: sustitutoUrl + 'unidadUbicacion/',
+                    method: "GET",
+                    params: {
+                        idUnidad: idUnidad
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
             }
 
 
