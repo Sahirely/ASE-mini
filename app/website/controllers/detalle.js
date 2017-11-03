@@ -165,6 +165,19 @@ Detalle.prototype.get_getRFCFactura = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_ordenDescontada = function(req, res, next){
+
+    var self = this;
+    var params = [{name: 'idOrden', value: req.query.idOrden, type: self.model.types.INT}];
+
+    self.model.query('SEL_ORDEN_DESCONTADA_OSUR_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_getUsuarioHojaTrabajo = function(req, res, next){
     var self = this;
     var params = [{name: 'numOrden', value: req.query.numOrden, type: self.model.types.STRING},

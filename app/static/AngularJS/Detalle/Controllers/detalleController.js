@@ -182,7 +182,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         //-------------------------------------Validacion del token doble para PEMEX
         $scope.estatusToken = result.data[0].estatusToken.split(',')[0];
         $scope.estatusTokenMensaje = result.data[0].estatusToken.split(',')[1];
-        
+
         $scope.idOrden = result.data[0].idOrden
         $scope.nombreCentroTrabajo = result.data[0].nombreCentroTrabajo
         $scope.detalleOrden = result.data[0]
@@ -215,7 +215,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         // Epediente y MAPA
         // ECG
         //if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
-        if ($scope.detalleOrden.Latitud != 0) {          
+        if ($scope.detalleOrden.Latitud != 0) {
           // $scope.markers = [{
           //   location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
           //   tooltip: {
@@ -1154,24 +1154,43 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     if ($scope.userData.presupuesto == 1) {
       detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function (result) {
         if (result.data[0].RealizarOperacion) {
-          aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function (result) {
-            if (result.data.length > 0) {
-              $scope.saldosTermino = result.data[0]
-              if (result.data[0].presupuestoVenta >= 0) {
-                $scope.idPresupuesto = result.data[0].idPresupuesto
 
-                $scope.addComentarioTermino()
-              } else {
-                $('.modal-dialog').css('width', '1050px')
-                modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
-                $scope.class_buttonTerminaTrabajo = ''
-              }
-            } else {
-              $('.modal-dialog').css('width', '1050px')
-              modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
-              $scope.class_buttonTerminaTrabajo = ''
-            }
-          })
+            detalleRepository.getOrdenesDescontadas($scope.detalleOrden.idOrden).then(function (result){
+                if(result.data.length > 0){
+                    $scope.descontado = result.data[0].descontado;
+
+                    if ($scope.descontado == 1){
+                        $scope.addComentarioTermino()
+                    }else{
+                        aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function (result) {
+                          if (result.data.length > 0) {
+                            $scope.saldosTermino = result.data[0]
+                            if (result.data[0].presupuestoVenta >= 0) {
+                              $scope.idPresupuesto = result.data[0].idPresupuesto
+
+                              $scope.addComentarioTermino()
+                            } else {
+                              $('.modal-dialog').css('width', '1050px')
+                              modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
+                              $scope.class_buttonTerminaTrabajo = ''
+                            }
+                          } else {
+                            $('.modal-dialog').css('width', '1050px')
+                            modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
+                            $scope.class_buttonTerminaTrabajo = ''
+                          }
+                        })
+                    }
+
+
+                }else{
+                    $('.modal-dialog').css('width', '1050px')
+                    modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
+                    $scope.class_buttonTerminaTrabajo = ''
+                }
+
+            });
+
         } else {
           $scope.class_buttonTerminaTrabajo = ''
           alertFactory.info('Aún quedan cotizaciones pendientes por revisar')
@@ -1191,40 +1210,73 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   $scope.cambiaEstatusOrdenTermino = function () {
     if ($scope.userData.presupuesto == 1) {
-      detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion).then(function (result) {
-        if (result.data.length > 0) {
-          detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
-            if ($scope.hasDetalleModulo(6, 19) === true) {
-              commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                if (resp.data.length > 0) {
-                  var correoDe = resp.data[0].correoDe
-                  var correoPara = resp.data[0].correoPara
-                  var asunto = resp.data[0].asunto
-                  var texto = resp.data[0].texto
-                  var bodyhtml = resp.data[0].bodyhtml
-                  commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                    if (result.data.length > 0) { }
-                  }, function (error) {
-                    // alertFactory.error('No se puede enviar el correo')
-                  })
-                }
-              }, function (error) {
-                // alertFactory.error("Error al obtener información para el mail")
-              })
-            }
+      if ($scope.descontado == 0){
+          detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion).then(function (result) {
+            if (result.data.length > 0) {
+                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
+                  if ($scope.hasDetalleModulo(6, 19) === true) {
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                      if (resp.data.length > 0) {
+                        var correoDe = resp.data[0].correoDe
+                        var correoPara = resp.data[0].correoPara
+                        var asunto = resp.data[0].asunto
+                        var texto = resp.data[0].texto
+                        var bodyhtml = resp.data[0].bodyhtml
+                        commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                          if (result.data.length > 0) { }
+                        }, function (error) {
+                          // alertFactory.error('No se puede enviar el correo')
+                        })
+                      }
+                    }, function (error) {
+                      // alertFactory.error("Error al obtener información para el mail")
+                    })
+                  }
 
-            $scope.class_buttonTerminaTrabajo = ''
-            alertFactory.success('Se ha terminado el trabajo')
-            $('html, body').animate({
-              scrollTop: 0
-            }, 1000)
-            $('#loadModal').modal('show')
-            $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+                  $scope.class_buttonTerminaTrabajo = ''
+                  alertFactory.success('Se ha terminado el trabajo')
+                  $('html, body').animate({
+                    scrollTop: 0
+                  }, 1000)
+                  $('#loadModal').modal('show')
+                  $scope.getReporteConformidad($scope.detalleOrden.idOrden)
 
-            //  $scope.init()
-          })
-        }
-      })
+                  //  $scope.init()
+                })
+              }
+            })
+      }else{
+        detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
+          if ($scope.hasDetalleModulo(6, 19) === true) {
+            commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+              if (resp.data.length > 0) {
+                var correoDe = resp.data[0].correoDe
+                var correoPara = resp.data[0].correoPara
+                var asunto = resp.data[0].asunto
+                var texto = resp.data[0].texto
+                var bodyhtml = resp.data[0].bodyhtml
+                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                  if (result.data.length > 0) { }
+                }, function (error) {
+                  // alertFactory.error('No se puede enviar el correo')
+                })
+              }
+            }, function (error) {
+              // alertFactory.error("Error al obtener información para el mail")
+            })
+          }
+
+          $scope.class_buttonTerminaTrabajo = ''
+          alertFactory.success('Se ha terminado el trabajo')
+          $('html, body').animate({
+            scrollTop: 0
+          }, 1000)
+          $('#loadModal').modal('show')
+          $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+
+          //  $scope.init()
+        })
+      }
     } else {
       detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
         $scope.class_buttonTerminaTrabajo = ''
