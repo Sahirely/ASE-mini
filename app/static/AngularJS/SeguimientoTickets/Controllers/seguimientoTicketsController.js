@@ -6,9 +6,11 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
         $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
         $scope.getEstatusQueja()
         $scope.getTags()
+        $scope.getTipoQuejaPorUsuario()
     }
 
     $scope.myModel = {}
+    $scope.usersTag = []
     $scope.myModel.observacionQueja = ""
     $scope.idQueja = 0
     $scope.files = [];
@@ -26,7 +28,8 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     $scope.QuejasAux = []
     $scope.Quejas = []
     $scope.tagAux = []
-    $scope.children = []
+    $scope.users = []
+    $scope.usersSelected = []
     
 
     $scope.fileUploadOptions = {
@@ -63,6 +66,16 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                         hideSelectedItems: true,
                         searchEnabled: true
                     },
+
+                    user: {
+                        bindingOptions:{
+                            items: 'users',
+                            value: 'usersSelected'
+                        },
+                        hideSelectedItems: true,
+                        searchEnabled: true
+                    },
+
                     base: {
                         bindingOptions: {
                             items: 'items',
@@ -75,15 +88,14 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                                 $scope.Quejas = []
                                 $scope.QuejasAux = $scope.seguimientoQuejas
                                 args.value.forEach(function(element){
-                                    $scope.Quejas = []
                                     for(let tipo of $scope.QuejasAux.filter(X => X.tags.find(Y => Y == element))){
                                         if($scope.Quejas.find(X => X.idQueja == tipo.idQueja) == undefined){
                                             $scope.Quejas.push(tipo)
                                         }
                                     }
-                                    $scope.QuejasAux = $scope.Quejas
+                                
                                 })                                
-                                $scope.Quejas = $scope.QuejasAux
+                                
                             }else{
                                 $scope.Quejas = $scope.seguimientoQuejas
                             }     
@@ -92,6 +104,16 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                 }
             },function(error){
                 alertFactory.error('Ocurrio un error al obtener los tags.');
+            }
+        )
+    }
+
+    $scope.getTipoQuejaPorUsuario = function(){
+        seguimientoTicketsRepository.getTipoQuejaPorUsuario().then(
+            function successCallback(response){
+                $scope.usersTag = response.data
+            }, function (error){
+                alertFactory.error("Ocurrió un error al obtener los usuarios.")
             }
         )
     }
@@ -107,113 +129,139 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     }
 
     $scope.getQuejasPorTipoUsuario = function (idTipousuario) {
-        seguimientoTicketsRepository.getQuejaSeguimientoUsuario(idTipousuario).then(
+        seguimientoTicketsRepository.getQuejaSeguimientoUsuario($scope.userData.idUsuario).then(
             function successCallback(response) {
                 $scope.QuejasAux = response.data
                 seguimientoTicketsRepository.getTagPorQueja().then(
                     function successCallback(response){
-                        $scope.QuejasAux.forEach(function(element){
-                            $scope.tagAux.push({
-                                'idQueja': element.idQueja,
-                                'estatusqueja': element.estatusqueja,
-                                'nombreCompleto': element.nombreCompleto,
-                                'tipoQueja': element.tipoQueja,
-                                'asunto': element.asunto,
-                                'fechaInicio': element.fechaInicio,
-                                'fechaRespuesta': element.fechaRespuesta,
-                                'mensaje': element.mensaje,
-                                'tags': []
-                            })
-                            
-                            for(let tipo of response.data.filter(X => X.idQueja == element.idQueja)){
-                                $scope.tagAux[$scope.tagAux.length -1].tags.push(tipo.Descripcion)
-                            }
-                            
-                        })
-                        $scope.seguimientoQuejas = $scope.tagAux
+                        $scope.tagsAux = response.data
+                        seguimientoTicketsRepository.getTipoQuejaPorUsuario().then(
+                            function successCallback(response){
+                                $scope.quejaUsers = response.data
+                                seguimientoTicketsRepository.getQuejaResponsable().then(
+                                    function successCallback(response){
+                                        $scope.quejaUsersSelected = response.data
 
-                        $scope.Quejas = $scope.seguimientoQuejas
-                        $scope.gridQuejas = {
-                            bindingOptions: {
-                                dataSource: 'Quejas'
-                            },
-                            allowSorting: true,
-                            showRowLines: true,
-                            rowAlternationEnabled: true,
-                            showColumnLines: false,
-                            showBorders: true,
-                            allowColumnResizing: true,
-                            columnAutoWidth: true,
-                            columns: [
-                                { dataField: "idQueja", dataType: "number", caption: "Número de Ticket"},
-                                {
-                                    dataField: "estatusqueja",
-                                    dataType: "string",
-                                    cellTemplate: function (element, info) {
-                                        if (info.text == "GENERADO") {
-                                            element.append("<span class='label label-default'><i class='fa fa-check'></i> " + info.text + "</span></td>");
-                                        }
-                                        if (info.text == "EN PROCESO") {
-                                            element.append("<span class='label label-warning'><i class='fa fa-check'></i> " + info.text + "</span></td>");
-                                        }
-                                        if(info.text == "VALIDACION"){
-                                            element.append("<span class='label label-danger'><i class='fa fa-check'></i> " + info.text + "</span></td>");
-                                        }
-                                        if (info.text == "FINALIZADO") {
-                                            element.append("<span class='label label-success'><i class='fa fa-check'></i> " + info.text + "</span></td>");
-                                        }
-                                    }
-                                },
-                                
-                                { dataField: "nombreCompleto", caption:"Usuario Solicitante", dataType: "string" },
-                                { dataField: "tipoQueja", dataType: "string" },
-                                { dataField: "asunto", dataType: "string" },
-                                { dataField: "fechaInicio", dataType: "date" },
-                                { dataField: "fechaRespuesta", caption:"Fecha Última Respuesta", dataType: "date" },
-                                { dataField: "mensaje", dataType: "string" },
-                                {
-                                    cellTemplate: function (element, info) {
-                                        element.append("<md-button type='button' class='btn btn-primary' ng-click='dtgQuejas.appScope.getQueja($event)'><i class='fa fa-list' aria-hidden='true'></i></md-button>")
-                                    }
-                                   
-                                }
-                            ],
-                            filterRow: {
-                                visible: true,
-                                applyFilter: "auto"
-                            },
-                            grouping: {
-                                contextMenuEnabled: true,
-                                autoExpandAll: false
-                            },
-                            groupPanel: {
-                                visible: true,
-                                emptyPanelText: "Arrastra aqui la columna que deseas agrupar"
-                            },
-                            paging: {
-                                enabled: true,
-                                pageSize: 50
-                            },
-                            pager: {
-                                visible: true,
-                                showInfo: true,
-                                showPageSizeSelector: true,
-                                infoText: "Página {0} de {1}: ({2} Registros encontrados)",
-                                allowedPageSizes: true
-                            },
-                            searchPanel: {
-                                visible: true,
-                                width: '400'
-                            },
+                                        $scope.tagAux = []
+                                        $scope.QuejasAux.forEach(function(element){
+                                            $scope.tagAux.push({
+                                                'idQueja': element.idQueja,
+                                                'estatus': element.estatus,
+                                                'estatusqueja': element.estatusqueja,
+                                                'nombreCompleto': element.nombreCompleto,
+                                                'idCatalogoTipoQueja': element.idCatalogoTipoQueja,
+                                                'tipoQueja': element.tipoQueja,
+                                                'asunto': element.asunto,
+                                                'fechaInicio': element.fechaInicio,
+                                                'fechaRespuesta': element.fechaRespuesta,
+                                                'mensaje': element.mensaje,
+                                                'tags': [],
+                                                'users': [],
+                                                'usersSelected': []
+                                            })
+                                            
+                                            for(let tipo of $scope.tagsAux.filter(X => X.idQueja == element.idQueja)){
+                                                $scope.tagAux[$scope.tagAux.length -1].tags.push(tipo.Descripcion)
+                                            }
         
-                            onCellClick: function(e) {
-                                if (e.rowType == "data"){
-                                    $scope.salesPopupVisible=true
-                                    $scope.getQueja(e.row.data)
-                                }
-                                    
+                                            for(let tipo of $scope.quejaUsers.filter(X => X.idCatalogoTipoQueja == element.idCatalogoTipoQueja)){
+                                                $scope.tagAux[$scope.tagAux.length - 1].users.push(tipo.nombreCompleto)
+                                            }
+                                            
+                                            for(let tipo of $scope.quejaUsersSelected.filter(X => X.idQueja == element.idQueja)){
+                                                $scope.tagAux[$scope.tagAux.length - 1].usersSelected.push(tipo.nombreCompleto)
+                                            }
+                                        })
+                                        $scope.seguimientoQuejas = $scope.tagAux
+                
+                                        $scope.Quejas = $scope.seguimientoQuejas
+                                        $scope.gridQuejas = {
+                                            bindingOptions: {
+                                                dataSource: 'Quejas'
+                                            },
+                                            allowSorting: true,
+                                            showRowLines: true,
+                                            rowAlternationEnabled: true,
+                                            showColumnLines: false,
+                                            showBorders: true,
+                                            allowColumnResizing: true,
+                                            columnAutoWidth: true,
+                                            columns: [
+                                                { dataField: "idQueja", dataType: "number", caption: "ID"},
+                                                {
+                                                    dataField: "estatusqueja",
+                                                    dataType: "string",
+                                                    cellTemplate: function (element, info) {
+                                                        if (info.text == "GENERADO") {
+                                                            element.append("<span class='label label-default'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                                        }
+                                                        if (info.text == "EN PROCESO") {
+                                                            element.append("<span class='label label-warning'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                                        }
+                                                        if(info.text == "VALIDACION"){
+                                                            element.append("<span class='label label-danger'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                                        }
+                                                        if (info.text == "FINALIZADO") {
+                                                            element.append("<span class='label label-success'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                                        }
+                                                    }
+                                                },
+                                                
+                                                { dataField: "nombreCompleto", caption:"Usuario Solicitante", dataType: "string" },
+                                                { dataField: "tipoQueja", dataType: "string" },
+                                                { dataField: "asunto", dataType: "string" },
+                                                { dataField: "fechaInicio", dataType: "date" },
+                                                { dataField: "fechaRespuesta", caption:"Fecha Última Respuesta", dataType: "date" },
+                                                { dataField: "mensaje", dataType: "string" },
+                                                {
+                                                    cellTemplate: function (element, info) {
+                                                        element.append("<md-button type='button' class='btn btn-primary' ng-click='dtgQuejas.appScope.getQueja($event)'><i class='fa fa-list' aria-hidden='true'></i></md-button>")
+                                                    }
+                                                   
+                                                }
+                                            ],
+                                            filterRow: {
+                                                visible: true,
+                                                applyFilter: "auto"
+                                            },
+                                            grouping: {
+                                                contextMenuEnabled: true,
+                                                autoExpandAll: false
+                                            },
+                                            groupPanel: {
+                                                visible: true,
+                                                emptyPanelText: "Arrastra aqui la columna que deseas agrupar"
+                                            },
+                                            paging: {
+                                                enabled: true,
+                                                pageSize: 50
+                                            },
+                                            pager: {
+                                                visible: true,
+                                                showInfo: true,
+                                                showPageSizeSelector: true,
+                                                infoText: "Página {0} de {1}: ({2} Registros encontrados)",
+                                                allowedPageSizes: true
+                                            },
+                                            searchPanel: {
+                                                visible: true,
+                                                width: '400'
+                                            },
+                        
+                                            onCellClick: function(e) {
+                                                if (e.rowType == "data"){
+                                                    $scope.salesPopupVisible=true
+                                                    $scope.getQueja(e.row.data)
+                                                }
+                                                    
+                                            }
+                                        }
+                                    }
+                                )
+                                
                             }
-                        }
+                        )
+                        
                     }
                 )
             }, function (error) {
@@ -240,8 +288,6 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
 
     $scope.getQueja = function(data)
     {
-        console.log(data)
-        //alertFactory.success('Ocurrio unos error al obtener los Tickets.' + data.estatus)
         $scope.idQueja = data.idQueja
         
         seguimientoTicketsRepository.getLogQuejaPorId(data.idQueja).then(
@@ -253,7 +299,19 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                 $scope.selectedEstatus = data.estatusqueja
                 $scope.selectedEstatusId = data.estatus
                 $scope.asunto = data.asunto
-                
+
+                $scope.users = []
+                for(let tipo of $scope.usersTag.filter(X => X.idCatalogoTipoQueja == data.idCatalogoTipoQueja)){
+                    $scope.users.push(tipo.nombreCompleto)
+                }
+
+                $scope.usersSelected = []
+                for(let tipo of $scope.Quejas.filter(X => X.idQueja == data.idQueja)){
+                    for(let tag of tipo.usersSelected){
+                        $scope.usersSelected.push(tag)
+                    }
+                }
+
                 $scope.itemsSelected = []
                 let tipo = $scope.Quejas.find(X => X.idQueja == data.idQueja)
                 for(let tag of tipo.tags){
@@ -318,6 +376,11 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
             $scope.itemsSelected.forEach(function(element){
                 $scope.jsonItem.push({'tag': element})
             })
+
+            $scope.jsonUser = []
+            $scope.usersSelected.forEach(function(element){
+                $scope.jsonUser.push({'user': element})
+            })
             
             $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
             
@@ -329,7 +392,10 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                 JSON.stringify($scope.uploadedFiles),
                 $scope.contieneEvidencias == true ? 1 : 0,
                 $scope.selectedEstatusId,
-                JSON.stringify($scope.jsonItem)
+                1,
+                JSON.stringify($scope.jsonItem),
+                1,
+                JSON.stringify($scope.jsonUser)
             ).then(
                 function successCallback(response){
                     alertFactory.success('Queja actualizada.');

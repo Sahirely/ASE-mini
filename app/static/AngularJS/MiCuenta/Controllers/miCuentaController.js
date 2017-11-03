@@ -142,6 +142,9 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                                 if (info.text == "EN PROCESO") {
                                     element.append("<span class='label label-warning'><i class='fa fa-check'></i> " + info.text + "</span></td>");
                                 }
+                                if(info.text == "VALIDACION"){
+                                    element.append("<span class='label label-danger'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                }
                                 if (info.text == "FINALIZADO") {
                                     element.append("<span class='label label-success'><i class='fa fa-check'></i> " + info.text + "</span></td>");
                                 }
@@ -320,9 +323,13 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             return;
         }
 
-        if($scope.selectedEstatusId == 3){
+        if($scope.selectedEstatusId == 4){
             $scope.cerrarTicket()
         }else{
+            $scope.jsonItem = []
+            $scope.itemsSelected.forEach(function(element){
+                $scope.jsonItem.push({'tag': element})
+            })
 
             $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
 
@@ -332,7 +339,11 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.myModel.observacionQueja,
                 JSON.stringify($scope.uploadedFiles),
                 $scope.contieneEvidencias == true ? 1 : 0,
-                'EN PROCESO'
+                $scope.selectedEstatusId,
+                0,
+                '',
+                0,
+                ''
             ).then(
                 function successCallback(response){
                     alertFactory.success('Queja actualizada.');
