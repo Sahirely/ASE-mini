@@ -802,8 +802,9 @@
                         Procesar compra
                     </button>
                     <div ng-hide="userData.idRol ==  4" class="token-group pull-right" role="group" aria-label="...">
-                        <input type="text" ng-model="token_termino" placeholder="Token de Administrador">
-                        <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(0);">Aceptar</button>
+                    <input type="text" ng-model="token_termino" placeholder="Token de Administrador" ng-show="idContratoOperacion!=3">
+                    <input type="text" ng-model="token_termino" placeholder="Token de ASE" ng-show="idContratoOperacion == 3">
+                    <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(0);">Aceptar</button>
                     </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
@@ -838,7 +839,8 @@
                     </div>
                     <div ng-show="idContratoOperacion==3">
                             <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
-                                    <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
+                            <input type="text" ng-model="token_termino" placeholder="Token de Cliente" ng-show="idContratoOperacion!=3">
+                            <input type="text" ng-model="token_termino" placeholder="Token de PEMEX" ng-show="idContratoOperacion == 3">
                                     <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                                 </div>
                     </div>
