@@ -65,8 +65,8 @@
         <div class="row">
             <div class=" col-lg-8 "></div>
             <div class=" col-lg-2 ">
-                <h2 class="no-margins">{{sumatoriaCosto |  currency: "$"}}</h2>
-                <small>precio costo s/iva</small>
+                <h2 class="no-margins" ng-hide="userData.idRol == 1">{{sumatoriaCosto |  currency: "$"}}</h2>
+                <small ng-hide="userData.idRol == 1">precio costo s/iva</small>
             </div>
             <div class=" col-lg-2 ">
                 <h2 class="no-margins">{{sumatoriaVenta |  currency: "$"}}</h2>
@@ -85,7 +85,7 @@
                                 <th>Número Económico</th>
                                 <th>Zona</th>
                                 <th>Taller</th>
-                                <th>Costo de la Orden</th>
+                                <th ng-hide="userData.idRol == 1">Costo de la Orden</th>
                                 <th>Precio de la Orden</th>
                                 <th>Folio de Certificado</th>
                                 <th>Estatus de la Orden</th>
@@ -103,7 +103,7 @@
                                 <td>{{orden.numeroEconomico}}</td>
                                 <td>{{orden.nombreZona}}</td>
                                 <td>{{orden.talleres}}</td>
-                                <td>{{orden.costo| currency: "$"}}</td>
+                                <td ng-hide="userData.idRol == 1">{{orden.costo| currency: "$"}}</td>
                                 <td>{{orden.venta| currency: "$"}}</td>
                                 <td>{{orden.folioCertificado}}</td>
                                 <td>{{orden.estatus}}</td>
