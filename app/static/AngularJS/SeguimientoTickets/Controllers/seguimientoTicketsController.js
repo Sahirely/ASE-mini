@@ -54,12 +54,12 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     $scope.Evidencias = []
 
     $scope.getUsersQueja = function(){
-        configuradorRepository.getUsuarios().then(
+        seguimientoTicketsRepository.getUsuariosResponsablesQueja().then(
             function successCallback(response){
                 $scope.users = []
                 $scope.allUsers = response.data
                 $scope.allUsers.forEach(function(element){
-                    $scope.users.push(element.text)
+                    $scope.users.push(element.nombreCompleto)
                 })
             }
         )
@@ -161,7 +161,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
         });
 
         $scope.usersBaseSelected.forEach(function(element){
-            for(let tipo of $scope.myQuejasAux.filter(X => X.users.find(Y => Y == element))){
+            for(let tipo of $scope.myQuejasAux.filter(X => X.usersSelected.find(Y => Y == element))){
                 if($scope.Quejas.find(X => X.idQueja == tipo.idQueja) == undefined){
                     $scope.Quejas.push(tipo)
                 }
@@ -256,6 +256,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                                                 {
                                                     dataField: "estatusqueja",
                                                     dataType: "string",
+                                                    caption: "Estatus",
                                                     cellTemplate: function (element, info) {
                                                         if (info.text == "GENERADO") {
                                                             element.append("<span class='label label-default'><i class='fa fa-check'></i> " + info.text + "</span></td>");
@@ -494,7 +495,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
 
     $scope.popupOptions = {
         width: 1000,
-        height: 500,
+        height: 700,
         
         bindingOptions: {          
             title: 'salesPopupTitle',

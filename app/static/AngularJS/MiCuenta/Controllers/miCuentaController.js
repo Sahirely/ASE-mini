@@ -23,12 +23,27 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         }
     };
 
+    $scope.fileUploadOptionsDetalle = {
+        selectButtonText: "Selecciona...",
+        labelText: "o arrasta aquí",
+        uploadUrl: "/api/quejas/uploadQueja",
+        multiple: true,
+        accept: "application/pdf,image/*",
+        uploadMode: "useButtons",
+        bindingOptions: {
+            value: "filesDetalle"
+        },
+        onUploaded: function(e) {
+            $scope.uploadedFilesDetalle.push({ "evidencia": e.request.responseText })
+        }
+    };
+
     $scope.myModel = {}
     $scope.myModel.observacionQueja = ""
     $scope.LogQueja = []
     $scope.Evidencias = []
 
-
+    $scope.itemsSelected = []
     $scope.Memorandums = []
     $scope.MemorandumsSinLeerTotal = 0
     $scope.MemorandumsLeidosTotal = 0
@@ -131,7 +146,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         //         container.append("<button type='button' class='btn btn-sm btn-default'><span class='fa fa-search'></span></button>")
                         //     }
                         // },
-                        { dataField: "idQueja", dataType: "number", displayName: "Número de Ticket" },
+                        { dataField: "idQueja", caption:"ID", dataType: "number", displayName: "Número de Ticket" },
                         {
                             dataField: "estatusqueja",
                             dataType: "string",
@@ -265,6 +280,9 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.asuntoQueja = ""
                 $scope.mensajeQueja = ""
                 $scope.uploadedFiles = []
+                $scope.files = []
+                $scope.uploadedFilesDetalle = []
+                $scope.filesDetalle = []
                 //alertFactory.success('Queja generada de forma correcta.');
                 $scope.getQuejas($scope.userData.idUsuario)
 
@@ -272,10 +290,8 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                     title: 'Ticket',
                     text: 'El ticket se creó de forma correcta',
                     type: 'success',
-                    showCancelButton: true,
                     confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar'
+                    cancelButtonColor: '#d33'
                 }, function(isConfirm) {
                     if (isConfirm) {
                         
@@ -330,13 +346,13 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.jsonItem.push({'tag': element})
             })
 
-            $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
+            $scope.contieneEvidencias = $scope.uploadedFilesDetalle.length == 0 ? false : true;
 
             seguimientoTicketsRepository.saveLogQueja(
                 $scope.idQueja,
                 $scope.userData.idUsuario,
                 $scope.myModel.observacionQueja,
-                JSON.stringify($scope.uploadedFiles),
+                JSON.stringify($scope.uploadedFilesDetalle),
                 $scope.contieneEvidencias == true ? 1 : 0,
                 $scope.selectedEstatusId,
                 0,
@@ -346,15 +362,17 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             ).then(
                 function successCallback(response){
                     alertFactory.success('Queja actualizada.');
-                    $scope.getQuejas($scope.userData.idUsuario)
+                    
                     $scope.myModel.observacionQueja = ""
                     $scope.Evidencias = []
-                    $scope.filesDetalle = [];
+                    $scope.uploadedFiles = []
+                    $scope.files = []
                     $scope.uploadedFilesDetalle = []
+                    $scope.filesDetalle = []
                     $scope.LogQueja = []
                     $scope.gridLogQueja = {}
-                    $('#loadModal').modal('hide')
                     $scope.salesPopupVisible = false
+                    $scope.getQuejas($scope.userData.idUsuario)
                 },
                 function(error){
                     alertFactory.error('Ocurrio un error al guardar el Ticket.');
@@ -388,15 +406,16 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 ).then(
                     function successCallback(response){
                         alertFactory.success('Ticket cerrado.');
-                        $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
                         $scope.myModel.observacionQueja = ""
                         $scope.Evidencias = []
-                        $scope.files = [];
                         $scope.uploadedFiles = []
+                        $scope.files = []
+                        $scope.uploadedFilesDetalle = []
+                        $scope.filesDetalle = []
                         $scope.LogQueja = []
                         $scope.gridLogQueja = {}
-                        $('#loadModal').modal('hide')
                         $scope.salesPopupVisible = false
+                        $scope.getQuejas($scope.userData.idUsuario)
                     },
                     function(error){
                         alertFactory.error('Ocurrio un error al cerrar el Ticket.');
@@ -410,7 +429,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     {
         console.log(data)
         //alertFactory.success('Ocurrio unos error al obtener los Tickets.' + data.estatus)
-        $('#loadModal').modal('show')
+        
         $scope.idQueja = data.idQueja
         
         seguimientoTicketsRepository.getLogQuejaPorId(data.idQueja).then(
@@ -421,6 +440,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.estatus = data.estatus
                 $scope.asunto = data.asunto
                 $scope.selectedEstatus = data.estatusqueja
+                $scope.selectedEstatusId = data.estatus
 
                 $scope.salesPopupTitle = 'Detalle del ticket: ' + data.asunto
                 
@@ -489,20 +509,5 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         $('#loadModal').modal('hide')
         $scope.salesPopupVisible = false
     }
-
-    $scope.fileUploadOptionsDetalle = {
-        selectButtonText: "Selecciona...",
-        labelText: "o arrasta aquí",
-        uploadUrl: "/api/quejas/uploadQueja",
-        multiple: true,
-        accept: "application/pdf,image/*",
-        uploadMode: "useButtons",
-        bindingOptions: {
-            value: "filesDetalle"
-        },
-        onUploaded: function(e) {
-            $scope.uploadedFilesDetalle.push({ "evidencia": e.request.responseText })
-        }
-    };
 
 });

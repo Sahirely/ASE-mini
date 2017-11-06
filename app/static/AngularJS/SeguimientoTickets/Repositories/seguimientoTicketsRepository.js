@@ -25,6 +25,17 @@ registrationModule.factory('seguimientoTicketsRepository', function ($http) {
             });
         },
 
+        getUsuariosResponsablesQueja: function(){
+            return $http({
+                url: quejasURL + 'consultaUsuariosResponsablesQueja',
+                method: 'GET',
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
         getTipoQuejaPorUsuario: function(){
             return $http({
                 url: quejasURL + 'consultaTipoQuejaUsuario',

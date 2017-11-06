@@ -68,6 +68,18 @@ Quejas.prototype.get_consulta = function(req, res, next) {
     });
 }
 
+Quejas.prototype.get_consultaUsuariosResponsablesQueja = function(req, res, next) {
+    var self = this;
+    var params = [];
+
+    this.model.query('SEL_USUARIOS_RESPONSABLES_QUEJA_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Quejas.prototype.get_consultaPorUsuario = function(req, res, next)
 {
     var self = this;
