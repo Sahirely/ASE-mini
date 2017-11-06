@@ -1,13 +1,15 @@
-registrationModule.controller('respuestaBusqueda_controller', function($scope, $modalInstance, $modal, userFactory, tipobusqueda, respuesta, callback, error, $http, $sce, $window, ordenServicioRepository, alertFactory, busquedaUnidadRepository) {
+registrationModule.controller('respuestaBusqueda_controller', function($scope, $modalInstance, $modal, userFactory, tipobusqueda, respuesta, callback, error, $http, $sce, $window, ordenServicioRepository, alertFactory, busquedaUnidadRepository, localStorageService) {
     //*****************************************************************************************************************************//
     // $scope.busqueda <<-- si es 1 sera "Buscar Unidad" si es 2 sera "Buscar Orden"
     //*****************************************************************************************************************************//
     $scope.busqueda = tipobusqueda;
     $scope.idUsuarioPruebas = 0;
     $scope.numeroEconomico = '';
+    $scope.userData = {};
 
     $scope.init = function() {
         userFactory.ValidaSesion();
+        $scope.userData = userFactory.getUserData();
         $scope.mensaje = respuesta.mensaje;
     };
     $scope.close = function() {
@@ -23,7 +25,9 @@ registrationModule.controller('respuestaBusqueda_controller', function($scope, $
     // $scope.tipoRespuesta = 3 <-- Existe la unidad pero el rol no tiene permisos para visualizar la información
     //*****************************************************************************************************************************//
     $scope.getDetalleUnidad = function(economico) {
-        busquedaUnidadRepository.getExisteUnidad($scope.idUsuarioPruebas, economico).then(function(result) {
+      localStorageService.set('economico', economico);
+      localStorageService.set('orden', '');
+        busquedaUnidadRepository.getExisteUnidad($scope.userData.idUsuario, economico, $scope.userData.idOperacion).then(function(result) {
             $scope.tipoRespuesta = result.data[0];
             if ($scope.tipoRespuesta.respuesta == 0) {
                 $modalInstance.dismiss('cancel');
