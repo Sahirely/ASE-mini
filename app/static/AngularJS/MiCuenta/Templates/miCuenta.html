@@ -231,7 +231,7 @@
                                                                                 <div class="col-md-6">
                                                                                     <div class="ibox" style="border-left: 1px solid #d4d4d4">
                                                                                         <div class="ibox-content">
-                                                                                            <div class="row" ng-if="estatus != 3">
+                                                                                            <div class="row" ng-if="estatus != 4">
                                                                                                 <div class="col-md-12">
                                                                                                     <div class="form-group">
                                                                                                         <label>Observaciones</label>
@@ -241,7 +241,7 @@
                                                                                             </div>
                                                                                             <div class="row">
                                                                                                 <div class="col-md-12">
-                                                                                                    <div id="fileuploader" ng-if="estatus != 3">
+                                                                                                    <div id="fileuploader" ng-if="estatus != 4">
                                                                                                         <label>Evidencias</label>
                                                                                                         <div class="widget-container">
                                                                                                             <div dx-file-uploader="fileUploadOptions" class="pull-left">
@@ -250,7 +250,7 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="row" ng-if="estatus != 3">
+                                                                                            <div class="row" ng-if="estatus != 4">
                                                                                                 <div class="col-md-12">
                                                                                                     Estatus Ticket <button id="SeleccionarEstatus" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{selectedEstatus}}
                                                                                                         <span class="caret"></span>
@@ -263,9 +263,9 @@
                                                                                             <br>
                                                                                             <div class="row">
                                                                                                 <div class="col-md-12" >
-                                                                                                    <button type="button" class="btn btn-success" ng-click="saveLogQueja()" ng-if="estatus != 3"><i class='fa fa-floppy-o'></i> Guardar</button>
-                                                                                                    <dx-button type="button" class="btn btn-primary" ng-click="cerrarTicket()" ng-if="estatus != 3"><i class='fa fa-check'></i> Cerrar Ticket</dx-button>
-                                                                                                    <button type="button" class="btn btn-default" ng-click="cancelar()"><i class='fa fa-close'></i> Close</button>
+                                                                                                    <button type="button" class="btn btn-success" ng-click="saveLogQueja()" ng-if="estatus != 4"><i class='fa fa-floppy-o'></i> Guardar</button>
+                                                                                                    <dx-button type="button" class="btn btn-primary" ng-click="cerrarTicket()" ng-if="estatus != 4"><i class='fa fa-check'></i> Cerrar Ticket</dx-button>
+                                                                                                    <button type="button" class="btn btn-default" ng-click="cancelar()"><i class='fa fa-close'></i> Cerrar</button>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>

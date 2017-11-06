@@ -1,4 +1,4 @@
-registrationModule.controller('seguimientoTicketsController', function ($scope, $route, $modal, $rootScope, userFactory, alertFactory, seguimientoTicketsRepository) {
+registrationModule.controller('seguimientoTicketsController', function ($scope, $route, $modal, $rootScope, userFactory, alertFactory, seguimientoTicketsRepository, configuradorRepository) {
     $rootScope.modulo = 'seguimientoTickets'; // <<-- Para activar en que opción del menú se encuentra
 
     $scope.init = function () {
@@ -7,6 +7,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
         $scope.getEstatusQueja()
         $scope.getTags()
         $scope.getTipoQuejaPorUsuario()
+        $scope.getUsersQueja()
     }
 
     $scope.myModel = {}
@@ -24,12 +25,14 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     $scope.items = []
     $scope.itemsSelected = []
     $scope.itemsBaseSelected = []
+    $scope.usersBaseSelected = []
     $scope.jsonItem = []
     $scope.QuejasAux = []
     $scope.Quejas = []
     $scope.tagAux = []
     $scope.users = []
     $scope.usersSelected = []
+    $scope.selectedEstatus = ""
     
 
     $scope.fileUploadOptions = {
@@ -50,6 +53,18 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     $scope.LogQueja = []
     $scope.Evidencias = []
 
+    $scope.getUsersQueja = function(){
+        configuradorRepository.getUsuarios().then(
+            function successCallback(response){
+                $scope.users = []
+                $scope.allUsers = response.data
+                $scope.allUsers.forEach(function(element){
+                    $scope.users.push(element.text)
+                })
+            }
+        )
+    }
+
     $scope.getTags = function(){
         seguimientoTicketsRepository.getTags().then(
             function successCallback(response){
@@ -69,7 +84,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
 
                     user: {
                         bindingOptions:{
-                            items: 'users',
+                            items: 'usersTipoQueja',
                             value: 'usersSelected'
                         },
                         hideSelectedItems: true,
@@ -84,21 +99,45 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                         hideSelectedItems: true,
                         searchEnabled: true,
                         onValueChanged: function(args){
-                            if(args.value.length > 0){
+                            $scope.filtrarTickets()
+                            /*if(args.value.length > 0){
+                                $scope.QuejasAux = $scope.Quejas
                                 $scope.Quejas = []
-                                $scope.QuejasAux = $scope.seguimientoQuejas
                                 args.value.forEach(function(element){
                                     for(let tipo of $scope.QuejasAux.filter(X => X.tags.find(Y => Y == element))){
                                         if($scope.Quejas.find(X => X.idQueja == tipo.idQueja) == undefined){
                                             $scope.Quejas.push(tipo)
                                         }
-                                    }
-                                
-                                })                                
-                                
+                                    }                                
+                                })
                             }else{
                                 $scope.Quejas = $scope.seguimientoQuejas
-                            }     
+                            }   */  
+                        }
+                    },
+                    baseUser:{
+                        bindingOptions: {
+                            items: 'users',
+                            value: 'usersBaseSelected'
+                        },
+                        hideSelectedItems: true,
+                        searchEnabled: true,
+                        onValueChanged: function(args){
+                            $scope.filtrarTickets()
+                            /*
+                            if(args.value.length > 0){
+                                $scope.QuejasAux = $scope.Quejas
+                                $scope.Quejas = []
+                                args.value.forEach(function(element){
+                                    for(let tipo of $scope.QuejasAux.filter(X => X.tags.find(Y => Y == element))){
+                                        if($scope.Quejas.find(X => X.idQueja == tipo.idQueja) == undefined){
+                                            $scope.Quejas.push(tipo)
+                                        }
+                                    }                                
+                                })
+                            }else{
+                                $scope.Quejas = $scope.seguimientoQuejas
+                            } */    
                         }
                     }
                 }
@@ -106,6 +145,32 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                 alertFactory.error('Ocurrio un error al obtener los tags.');
             }
         )
+    }
+
+    $scope.filtrarTickets = function(){
+        $scope.Quejas = []
+        $scope.myQuejasAux = $scope.seguimientoQuejas
+        
+        
+        $scope.itemsBaseSelected.forEach(function(element){
+            for(let tipo of $scope.myQuejasAux.filter(X => X.tags.find(Y => Y == element))){
+                if($scope.Quejas.find(X => X.idQueja == tipo.idQueja) == undefined){
+                    $scope.Quejas.push(tipo)
+                }
+            }
+        });
+
+        $scope.usersBaseSelected.forEach(function(element){
+            for(let tipo of $scope.myQuejasAux.filter(X => X.users.find(Y => Y == element))){
+                if($scope.Quejas.find(X => X.idQueja == tipo.idQueja) == undefined){
+                    $scope.Quejas.push(tipo)
+                }
+            }
+        });
+
+        if($scope.itemsBaseSelected.length == 0 && $scope.usersBaseSelected.length == 0){
+            $scope.Quejas = $scope.seguimientoQuejas
+        }
     }
 
     $scope.getTipoQuejaPorUsuario = function(){
@@ -300,9 +365,9 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                 $scope.selectedEstatusId = data.estatus
                 $scope.asunto = data.asunto
 
-                $scope.users = []
-                for(let tipo of $scope.usersTag.filter(X => X.idCatalogoTipoQueja == data.idCatalogoTipoQueja)){
-                    $scope.users.push(tipo.nombreCompleto)
+                $scope.usersTipoQueja = []
+                for(let tipo of $scope.quejaUsers.filter(X => X.idCatalogoTipoQueja == data.idCatalogoTipoQueja)){
+                    $scope.usersTipoQueja.push(tipo.nombreCompleto)
                 }
 
                 $scope.usersSelected = []
@@ -324,6 +389,17 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
                     showBorders: true,
                     columnAutoWidth: true,
                     allowSorting: false,
+
+                    paging: {
+                        enabled: true,
+                        pageSize: 10
+                    },
+                    pager: {
+                        visible: true,
+                        showInfo: true,
+                        infoText: "Página {0} de {1}: ({2} Registros encontrados)",
+                        allowedPageSizes: true
+                    },
                     
 
                     columns: [
@@ -419,10 +495,11 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
     $scope.popupOptions = {
         width: 1000,
         height: 500,
+        
         bindingOptions: {          
             title: 'salesPopupTitle',
             visible: 'salesPopupVisible'
-        }
+        },
     }
 
 
@@ -441,7 +518,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Cerrar ticket',
-            cancelButtonText: 'Cerrar esta ventana'
+            cancelButtonText: 'Cancelar'
         }, function(isConfirm) {
             if (isConfirm) {
                 seguimientoTicketsRepository.cerrarTicket(

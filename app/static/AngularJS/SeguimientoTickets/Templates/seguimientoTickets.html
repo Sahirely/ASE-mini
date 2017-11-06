@@ -14,11 +14,19 @@
                 <div class="ibox-content">
                     <div class="demo-container dx-viewport">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="dx-fieldset">
                                     <div class="dx-field-label">Filtrar por tema: </div>
                                     <div class="dx-field-value">
                                         <div dx-tag-box="tagBox.base"></div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="col-md-6">
+                                <div class="dx-fieldset">
+                                    <div class="dx-field-label">Filtrar por usuario responsable: </div>
+                                    <div class="dx-field-value">
+                                        <div dx-tag-box="tagBox.baseUser"></div>
                                     </div>
                                 </div>                                
                             </div>
@@ -28,13 +36,11 @@
                         <div dx-popup="popupOptions">
                             <div id="scrollview" dx-scroll-view="">
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label>Tema: </label>
                                         <div dx-tag-box="tagBox.simple"></div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <label>Responsable: </label>
                                         <div dx-tag-box="tagBox.user"></div>
                                     </div>

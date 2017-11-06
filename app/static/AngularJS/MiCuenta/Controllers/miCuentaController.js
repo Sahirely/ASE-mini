@@ -275,8 +275,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonText: 'Cerrar esta ventana'
+                    confirmButtonText: 'Aceptar'
                 }, function(isConfirm) {
                     if (isConfirm) {
                         
@@ -310,10 +309,10 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
 
     $scope.popupOptions = {
         width: 1000,
-        height: 500,
-        title: 'salesPopupTitle',
+        height: 500,        
         bindingOptions: {          
-          visible: 'salesPopupVisible'
+          visible: 'salesPopupVisible',
+          title: 'salesPopupTitle'
         }
     }
 
@@ -378,7 +377,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Cerrar ticket',
-            cancelButtonText: 'Cerrar esta ventana'
+            cancelButtonText: 'Cancelar'
         }, function(isConfirm) {
             if (isConfirm) {
                 seguimientoTicketsRepository.cerrarTicket(
@@ -422,6 +421,8 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.estatus = data.estatus
                 $scope.asunto = data.asunto
                 $scope.selectedEstatus = data.estatusqueja
+
+                $scope.salesPopupTitle = 'Detalle del ticket: ' + data.asunto
                 
                 $scope.gridLogQueja = {
                     rowHeight: '80',
@@ -430,6 +431,16 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                     showBorders: true,
                     columnAutoWidth: true,
                     allowSorting: false,
+                    paging: {
+                        enabled: true,
+                        pageSize: 10
+                    },
+                    pager: {
+                        visible: true,
+                        showInfo: true,
+                        infoText: "Página {0} de {1}: ({2} Registros encontrados)",
+                        allowedPageSizes: true
+                    },
 
                     columns: [
                         { dataField: "nombreCompleto", caption:"Nombre", dataType: "int"},
