@@ -608,6 +608,28 @@ Detalle.prototype.get_obtenerIdCotzPorOrden = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_reenvioHojaUtilidad = function(req, res, next) {
+    var self = this;
+    var params = [{
+            name: 'numOrden',
+            value: req.query.numOrden,
+            type: self.model.types.STRING
+        },
+        {
+            name: 'idOperacion',
+            value: req.query.idOperacion,
+            type: self.model.types.INT
+        }
+    ];
+
+    this.model.query('SEL_CORREO_UTILIDAD_SOPORTE_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_obtenerHistoricoCotizacion = function(req, res, next) {
     var self = this;
     var params = [{

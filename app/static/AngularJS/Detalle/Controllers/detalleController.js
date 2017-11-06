@@ -2381,4 +2381,23 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         })
     }
 
+    $scope.reenviarHojaUtilidad = function(){
+      console.log('DATOS ENVIADOS AL ENVIO DE CORREO');
+      console.log($scope.numeroOrden);
+      console.log($scope.userData.contratoOperacionSeleccionada);
+      detalleRepository.getReenvioHojaUtilidad($scope.numeroOrden, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
+        if (result.data.length > 0) {
+          $scope.IdsCotizacionesPorOrden = result.data;
+
+          commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
+            if (result.data.length > 0) {}
+        }, function(error) {
+            // alertFactory.error('No se puede enviar el correo');
+        });
+        
+        }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al enviar el correo.')
+      });
+    };
 })

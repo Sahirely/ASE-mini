@@ -183,6 +183,19 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        getReenvioHojaUtilidad: function(numOrden, idOperacion) {
+            return $http({
+                url: detalleUrl + 'reenvioHojaUtilidad/',
+                method: "GET",
+                params: {
+                    numOrden: numOrden,
+                    idOperacion: idOperacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         getHistoricoCotizacion: function(idCotizacion) {
             return $http({
                 url: detalleUrl + 'obtenerHistoricoCotizacion/',

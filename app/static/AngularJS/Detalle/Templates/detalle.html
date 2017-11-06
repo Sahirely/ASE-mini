@@ -703,6 +703,62 @@
                             </div>
                         </div>
                         <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
+                        <!-- 571 destajador 534 luis-->
+                        <div ng-show="userData.idUsuario == 571 || userData.idUsuario == 534 " class="col-xs-12 col-md-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Soporte
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-success" style="width: 100%" ng-click="reenviarHojaUtilidad()">Correo de utilidad <span class="fa fa-paper-plane-o"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                        <button class="btn btn-danger" style="width: 100%" ng-click="reenviarHojaUtilidad()">Eliminar provisión <span class="fa fa-times"></span></button>
+                                                    </div>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-xs-6">
+                                                            <button class="btn btn-success" style="width: 100%" ng-click="reenviarHojaUtilidad()">Hoja de trabajo <span class="fa fa-file-word-o"></span></button>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                                <button class="btn btn-danger" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Cancelar orden <span class="fa fa-ban"></span></button>
+                                                            </div>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-info" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Carga factura <span class="fa fa-upload"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                        <button class="btn btn-danger" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Cancelar cotización <span class="fa fa-ban"></span></button>
+                                                    </div>
+                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-info" style="width: 100%" ng-click="reenviarHojaUtilidad()">Mover presupuesto <span class="fa fa-arrows-alt"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                        <button class="btn btn-default" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Disponible <span class=""></span></button>
+                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-xs-6">
+                                                            <button class="btn btn-info" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Integar cotizaciones <span class="fa fa-puzzle-piece"></span></button>
+                                                        </div>
+                                                    
+                                                    <div class="col-xs-6">
+                                                            <button class="btn btn-default" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Disponible 2 <span class="fa fa-puzzle-piece"></span></button>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -1154,6 +1210,58 @@
         </div>
     </div>
 </div>
+
+<!-- Modal disponible -->
+<div class="modal fade" id="Modal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Plan de Acción</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Acciones -->
+                    <!--12072017 agre FAL plan de acción -->
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <label>Plan de acción</label>
+                        </div>
+                        <div class="col-sm-9 col-md-9 col-lg-9">
+                            <textarea name="message" placeholder="Escriba su plan de acción" style="width: 352px; height: 82px;" ng-model="comentaAccion" capitalize></textarea>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+                            <label>Fecha</label>
+                        </div>
+                        <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+                            <div class="input-group date">
+                                <input type="text" class="form-control calendarControl" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)" calendar>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+                                    <label>Hora</label>
+                                </div>
+                                <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+                                    <div class="input-group horaAsignada" data-autoclose="true">
+                                        <input type="text" class="form-control" value="" ng-model="horaAccion" ng-change="NoHoraAntigua(horaAccion)">
+                                        <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary pull-right" ng-click="acciones()">Agregar Acción</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <div class="modal fade" id="editorDetalleCotizacion" tabindex="-1" role="dialog" aria-labelledby="editor-title">
     <style scoped>
