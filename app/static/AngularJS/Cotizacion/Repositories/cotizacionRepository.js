@@ -56,6 +56,32 @@ registrationModule.factory('cotizacionRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        presupuestoAprobacion: function(numeroOrden) {
+            var msgObj = {
+                numeroOrden: numeroOrden
+            }
+            return $http({
+                url: searchUrl + 'presupuestoAprobacion',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        insPresupuestoOrdenEstatus: function(numeroOrden) {
+            var msgObj = {
+                numeroOrden: numeroOrden
+            }
+            return $http({
+                url: searchUrl + 'presupuestoOrdenEstatus',
+                method: "POST",
+                data: msgObj,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

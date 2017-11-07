@@ -23,12 +23,27 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         }
     };
 
+    $scope.fileUploadOptionsDetalle = {
+        selectButtonText: "Selecciona...",
+        labelText: "o arrasta aquí",
+        uploadUrl: "/api/quejas/uploadQueja",
+        multiple: true,
+        accept: "application/pdf,image/*",
+        uploadMode: "useButtons",
+        bindingOptions: {
+            value: "filesDetalle"
+        },
+        onUploaded: function(e) {
+            $scope.uploadedFilesDetalle.push({ "evidencia": e.request.responseText })
+        }
+    };
+
     $scope.myModel = {}
     $scope.myModel.observacionQueja = ""
     $scope.LogQueja = []
     $scope.Evidencias = []
 
-
+    $scope.itemsSelected = []
     $scope.Memorandums = []
     $scope.MemorandumsSinLeerTotal = 0
     $scope.MemorandumsLeidosTotal = 0
@@ -131,7 +146,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                         //         container.append("<button type='button' class='btn btn-sm btn-default'><span class='fa fa-search'></span></button>")
                         //     }
                         // },
-                        { dataField: "idQueja", dataType: "number", displayName: "Número de Ticket" },
+                        { dataField: "idQueja", caption:"ID", dataType: "number", displayName: "Número de Ticket" },
                         {
                             dataField: "estatusqueja",
                             dataType: "string",
@@ -141,6 +156,9 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                                 }
                                 if (info.text == "EN PROCESO") {
                                     element.append("<span class='label label-warning'><i class='fa fa-check'></i> " + info.text + "</span></td>");
+                                }
+                                if(info.text == "VALIDACION"){
+                                    element.append("<span class='label label-danger'><i class='fa fa-check'></i> " + info.text + "</span></td>");
                                 }
                                 if (info.text == "FINALIZADO") {
                                     element.append("<span class='label label-success'><i class='fa fa-check'></i> " + info.text + "</span></td>");
@@ -262,6 +280,9 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.asuntoQueja = ""
                 $scope.mensajeQueja = ""
                 $scope.uploadedFiles = []
+                $scope.files = []
+                $scope.uploadedFilesDetalle = []
+                $scope.filesDetalle = []
                 //alertFactory.success('Queja generada de forma correcta.');
                 $scope.getQuejas($scope.userData.idUsuario)
 
@@ -269,11 +290,8 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                     title: 'Ticket',
                     text: 'El ticket se creó de forma correcta',
                     type: 'success',
-                    showCancelButton: true,
                     confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonText: 'Cerrar esta ventana'
+                    cancelButtonColor: '#d33'
                 }, function(isConfirm) {
                     if (isConfirm) {
                         
@@ -307,10 +325,10 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
 
     $scope.popupOptions = {
         width: 1000,
-        height: 500,
-        title: 'salesPopupTitle',
+        height: 500,        
         bindingOptions: {          
-          visible: 'salesPopupVisible'
+          visible: 'salesPopupVisible',
+          title: 'salesPopupTitle'
         }
     }
 
@@ -320,31 +338,41 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             return;
         }
 
-        if($scope.selectedEstatusId == 3){
+        if($scope.selectedEstatusId == 4){
             $scope.cerrarTicket()
         }else{
+            $scope.jsonItem = []
+            $scope.itemsSelected.forEach(function(element){
+                $scope.jsonItem.push({'tag': element})
+            })
 
-            $scope.contieneEvidencias = $scope.uploadedFiles.length == 0 ? false : true;
+            $scope.contieneEvidencias = $scope.uploadedFilesDetalle.length == 0 ? false : true;
 
             seguimientoTicketsRepository.saveLogQueja(
                 $scope.idQueja,
                 $scope.userData.idUsuario,
                 $scope.myModel.observacionQueja,
-                JSON.stringify($scope.uploadedFiles),
+                JSON.stringify($scope.uploadedFilesDetalle),
                 $scope.contieneEvidencias == true ? 1 : 0,
-                'EN PROCESO'
+                $scope.selectedEstatusId,
+                0,
+                '',
+                0,
+                ''
             ).then(
                 function successCallback(response){
                     alertFactory.success('Queja actualizada.');
-                    $scope.getQuejas($scope.userData.idUsuario)
+                    
                     $scope.myModel.observacionQueja = ""
                     $scope.Evidencias = []
-                    $scope.filesDetalle = [];
+                    $scope.uploadedFiles = []
+                    $scope.files = []
                     $scope.uploadedFilesDetalle = []
+                    $scope.filesDetalle = []
                     $scope.LogQueja = []
                     $scope.gridLogQueja = {}
-                    $('#loadModal').modal('hide')
                     $scope.salesPopupVisible = false
+                    $scope.getQuejas($scope.userData.idUsuario)
                 },
                 function(error){
                     alertFactory.error('Ocurrio un error al guardar el Ticket.');
@@ -367,7 +395,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Cerrar ticket',
-            cancelButtonText: 'Cerrar esta ventana'
+            cancelButtonText: 'Cancelar'
         }, function(isConfirm) {
             if (isConfirm) {
                 seguimientoTicketsRepository.cerrarTicket(
@@ -378,15 +406,16 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 ).then(
                     function successCallback(response){
                         alertFactory.success('Ticket cerrado.');
-                        $scope.getQuejasPorTipoUsuario($scope.userData.idRol)
                         $scope.myModel.observacionQueja = ""
                         $scope.Evidencias = []
-                        $scope.files = [];
                         $scope.uploadedFiles = []
+                        $scope.files = []
+                        $scope.uploadedFilesDetalle = []
+                        $scope.filesDetalle = []
                         $scope.LogQueja = []
                         $scope.gridLogQueja = {}
-                        $('#loadModal').modal('hide')
                         $scope.salesPopupVisible = false
+                        $scope.getQuejas($scope.userData.idUsuario)
                     },
                     function(error){
                         alertFactory.error('Ocurrio un error al cerrar el Ticket.');
@@ -400,7 +429,7 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
     {
         console.log(data)
         //alertFactory.success('Ocurrio unos error al obtener los Tickets.' + data.estatus)
-        $('#loadModal').modal('show')
+        
         $scope.idQueja = data.idQueja
         
         seguimientoTicketsRepository.getLogQuejaPorId(data.idQueja).then(
@@ -411,6 +440,9 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                 $scope.estatus = data.estatus
                 $scope.asunto = data.asunto
                 $scope.selectedEstatus = data.estatusqueja
+                $scope.selectedEstatusId = data.estatus
+
+                $scope.salesPopupTitle = 'Detalle del ticket: ' + data.asunto
                 
                 $scope.gridLogQueja = {
                     rowHeight: '80',
@@ -419,6 +451,16 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
                     showBorders: true,
                     columnAutoWidth: true,
                     allowSorting: false,
+                    paging: {
+                        enabled: true,
+                        pageSize: 10
+                    },
+                    pager: {
+                        visible: true,
+                        showInfo: true,
+                        infoText: "Página {0} de {1}: ({2} Registros encontrados)",
+                        allowedPageSizes: true
+                    },
 
                     columns: [
                         { dataField: "nombreCompleto", caption:"Nombre", dataType: "int"},
@@ -467,20 +509,5 @@ registrationModule.controller('miCuentaController', function ($scope, $route, $m
         $('#loadModal').modal('hide')
         $scope.salesPopupVisible = false
     }
-
-    $scope.fileUploadOptionsDetalle = {
-        selectButtonText: "Selecciona...",
-        labelText: "o arrasta aquí",
-        uploadUrl: "/api/quejas/uploadQueja",
-        multiple: true,
-        accept: "application/pdf,image/*",
-        uploadMode: "useButtons",
-        bindingOptions: {
-            value: "filesDetalle"
-        },
-        onUploaded: function(e) {
-            $scope.uploadedFilesDetalle.push({ "evidencia": e.request.responseText })
-        }
-    };
 
 });

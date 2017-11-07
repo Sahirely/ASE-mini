@@ -1,0 +1,148 @@
+.utlidad {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color :red;
+}
+
+.aprobacion{
+      margin-bottom: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.circle{
+    /*background: red;*/
+    border-radius: 25px;
+    color: white;
+    height: 25px;
+    font-weight: bold;
+    width: 25px;
+    margin-left: 30%;
+}
+
+.block{
+    text-align: center;
+    vertical-align: middle;
+    margin: 15px;
+}
+
+.center{
+  text-align: center;
+}
+
+#mapaSutituto{
+  padding: 2%;
+}
+
+#id_mapaCita{
+  margin-right: 6%;
+}
+
+.scroll_noti{
+  height: 900px;
+  overflow-y: auto;
+  margin: 0 auto;
+}
+
+#lis_notificaciones li{
+  height: 170px;
+}
+
+    
+
+/***CONTACTO**/
+
+.content_width{
+  width: 80%;
+    float: left;
+    animation-duration: 4s;
+}
+
+.content_info{
+  width: 100%;
+  animation-duration: 4s;
+}
+
+.info_width{
+  width: 20%;
+    float: right;
+    animation-duration: 4s;
+    padding-top: 30px;
+}
+
+.btn_info{
+  color: #FFD700;
+  float: right;
+  font-size: 40px;
+  padding-right: 50px;
+  cursor:pointer;
+}
+
+.title_info{
+  text-align: center;
+}
+
+.etiqueta{
+    font-size: 15px;
+    font-weight: 100;
+    padding: 20px;
+    font-weight: 600;
+}
+
+.paddingTwenty{
+  padding: 20px;
+}
+
+.img_info{
+  width: 180px;
+    margin-left: 30px;
+    cursor: pointer;
+}
+
+html, body, div.map_container {
+   /* height: 100%;
+    width: 100%;
+    margin: 0px;
+    font-family: comic Sans MS, verdana, sans-serif;*/
+
+}
+
+div.map_container {
+    position: fixed;
+    /*float: left;*/
+    width: 450px;
+    height: 450px;
+}
+
+.angular-google-map-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;    
+}
+
+div.controls {
+    float: right;
+    width: 30%;
+}
+
+.markerlabel {
+    font-weight: bold;
+    font-size: 13px;
+    border: 1px solid #333;
+    padding: 2px;
+    background: #fff;
+    color: #333;
+}
+
+/*h3 {
+    margin: 0 20px;
+}
+
+p {    
+    margin-top: 20px;
+    padding: 0 0 50px 20px;
+}*/
+

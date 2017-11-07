@@ -91,8 +91,17 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
+        getOrdenesDescontadas: function(idOrden){
+            return $http({
+                url: detalleUrl + 'ordenDescontada/',
+                method: "GET",
+                params: { idOrden: idOrden},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         rechazaTrabajo: function(idOrden, idUsuario, motivo) {
-            // localhost:5300/api/trabajo/cambiarStatusOrden?idOrden=11&idUsuario=2
             return $http({
                 url: detalleUrl + 'rechazaTrabajo/',
                 method: "GET",
@@ -476,6 +485,38 @@ registrationModule.factory('detalleRepository', function($http) {
                     idUsuario:idUsuario
                 },
                 headers:{'Content-Type':'application/json' }
+            });
+        },
+        postCorreoSaldoPresupuesto : function(idOrden, idUsuario, idCotizacion, saldo, idPresupuesto) {
+            return $http({
+                url: detalleUrl + 'correoSaldoPresupuesto/',
+                method:'POST',
+                params:
+                {
+                    idOrden : idOrden,
+                    idUsuario: idUsuario,
+                    idCotizacion: idCotizacion,
+                    saldo: saldo,
+                    idPresupuesto : idPresupuesto
+                },
+                headers:{'Content-Type':'application/json' }
+            });
+        },
+        getRealizaSoporte: function(idOrden, idCotizacion, idUsuario, idContratoOperacion, isProduction, idSoporte) {
+            return $http({
+                url: detalleUrl + 'realizaSoporte/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idCotizacion: idCotizacion,
+                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion,
+                    isProduction: isProduction,
+                    idSoporte: idSoporte
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
         }
     };

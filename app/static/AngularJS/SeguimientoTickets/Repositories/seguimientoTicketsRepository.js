@@ -13,6 +13,39 @@ registrationModule.factory('seguimientoTicketsRepository', function ($http) {
                 }
             });
         },
+
+        getTags: function(){
+            return $http({
+                url: quejasURL + 'consultaTags/',
+                method: 'GET',
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        getUsuariosResponsablesQueja: function(){
+            return $http({
+                url: quejasURL + 'consultaUsuariosResponsablesQueja',
+                method: 'GET',
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        getTipoQuejaPorUsuario: function(){
+            return $http({
+                url: quejasURL + 'consultaTipoQuejaUsuario',
+                method: 'GET',
+                params: {},
+                headers:{
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
         
         getQuejaSeguimientoUsuario: function(idTipoUsuario){
             return $http({
@@ -53,7 +86,29 @@ registrationModule.factory('seguimientoTicketsRepository', function ($http) {
             });
         },
 
-        saveLogQueja: function(idQueja, idUsuario, Observaciones, jsonEvidencias, contieneEvidencias, estatus){
+        getTagPorQueja: function(){
+            return $http({
+                url: quejasURL + 'consultaTagPorQueja/',
+                method: 'GET',
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        getQuejaResponsable: function(){
+            return $http({
+                url: quejasURL + 'consultaQuejaResponsable/',
+                method: 'GET',
+                params: {},
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+
+        saveLogQueja: function(idQueja, idUsuario, Observaciones, jsonEvidencias, contieneEvidencias, estatus, contieneTags, jsonTags, contieneUsers, jsonUsers){
             return $http({
                 url: quejasURL + 'saveLogQueja/',
                 method: 'POST',
@@ -63,7 +118,11 @@ registrationModule.factory('seguimientoTicketsRepository', function ($http) {
                     Observaciones: Observaciones,
                     jsonEvidencias: jsonEvidencias,
                     contieneEvidencias: contieneEvidencias,
-                    estatus: estatus
+                    estatus: estatus,
+                    contieneTags: contieneTags,
+                    jsonTags: jsonTags,
+                    contieneUsers: contieneUsers,
+                    jsonUsers: jsonUsers
                 },
                 headers: {
                     'Content-Type': 'application/json'

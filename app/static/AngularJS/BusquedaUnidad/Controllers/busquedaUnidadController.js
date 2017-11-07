@@ -24,14 +24,21 @@ registrationModule.controller('busquedaUnidadController', function ($scope, $loc
 
   $scope.permisos = function () {
     // MAPA
-    $scope.mapOptions = {
-      center: { lat: 19.426506611419985, lng: -99.16950187368013 },
-      zoom: 14,
-      height: 300,
-      width: '600',
-      provider: 'google',
-      type: 'roadmap'
-    }
+    $scope.hasGPS = false
+
+    var mapCanvas = document.getElementById("map");
+  var mapOptions = {
+    center: new google.maps.LatLng(51.508742, -0.120850),
+    zoom: 7,
+    panControl: true,
+    zoomControl: true,
+    mapTypeControl: true,
+    scaleControl: true,
+    streetViewControl: true,
+    overviewMapControl: true,
+    rotateControl: true
+  };
+  var map = new google.maps.Map(mapCanvas, mapOptions);
 
     $scope.mostrarComentarios = false
     angular.forEach($scope.userData.Modulos, function (value, key) {
@@ -64,13 +71,13 @@ registrationModule.controller('busquedaUnidadController', function ($scope, $loc
         break
       case 4:
         $scope.btnSwitch.showCostoVenta = true
-        $scope.muestraSwitch = false
+        $scope.muestraSwitch = true
         break
 
     }
   }
   $scope.getDetalleUnidad = function () {
-    busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.idContratoOperacion).then(function (result) {
+    busquedaUnidadRepository.getDetalleUnidad($scope.idUsuario, $routeParams.economico, $scope.userData.idOperacion).then(function (result) {
       $scope.detalleUnidad = result.data[0]
       // Obtengo el detalle de la unidad
       consultaCitasRepository.getOrdenExpediente(result.data[0].idUnidad).then(function (result) {
@@ -85,6 +92,32 @@ registrationModule.controller('busquedaUnidadController', function ($scope, $loc
         $('#loadModal').modal('hide')
         alertFactory.error('No se puede obtener los detalles de la orden')
       })
+
+      if ($scope.detalleUnidad.Latitud != 0) {
+        console.log($scope.detalleUnidad.Latitud);
+        var mapCanvas = document.getElementById("map");
+        var myCenter = new google.maps.LatLng($scope.detalleUnidad.Latitud,$scope.detalleUnidad.Longitud);
+        var mapOptions = {
+          center: myCenter,
+          zoom: 12,
+          panControl: true,
+          zoomControl: true,
+          mapTypeControl: true,
+          scaleControl: true,
+          streetViewControl: true,
+          overviewMapControl: true,
+          rotateControl: true
+        };
+        var map = new google.maps.Map(mapCanvas, mapOptions);
+        var marker = new google.maps.Marker({position:myCenter});
+        marker.setMap(map);
+
+        $scope.hasGPS = true;
+        console.log($scope.mapOptions);
+      } else {
+        $scope.hasGPS = false
+      }
+
     })
   }
   $scope.btnAgendarCita = function () {

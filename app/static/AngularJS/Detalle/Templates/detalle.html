@@ -86,7 +86,8 @@
                         <div class="row">
                             <div class="row animated fadeInRight">
                                 <div class="col-md-3">
-                                    <div dx-map="mapOptions"></div>
+                                    <div id="map" style="width:100%;height:300px"></div>
+                                    <!-- <div dx-map="mapOptions"></div> -->
                                     <img ng-hide="hasGPS" src="image/resources/noGPS.png" class="imgNOGPS">
                                 </div>
                                 <div class="col-md-4">
@@ -639,7 +640,7 @@
                                                         </tbody>
                                                     </table>
                                                     <div>
-                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
+                                                        <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 || cotizacion.hasApprovedParts == true)||Precancelacion">
                                                             <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                         </button>
                                                         <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
@@ -702,6 +703,57 @@
                             </div>
                         </div>
                         <!-- Seccion es para los estatus de procesos, termino trabajo y entrega de la Orden -->
+                        <div ng-show="userData.idUsuario == 509 || userData.idUsuario == 510 " class="col-xs-12 col-md-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        Soporte
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="col-xs-12">
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-success" style="width: 100%" ng-click="reenviarHojaUtilidad()">Correo de Utilidad &nbsp;&nbsp;<span class="fa fa-paper-plane-o"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-danger" style="width: 100%" ng-click="deleteProvision()">Eliminar Provisión &nbsp;&nbsp;<span class="fa fa-times"></span></button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button ng-disabled="idEstatusOrden < 6" class="btn btn-success" style="width: 100%" ng-click="certificado()">Regenerar Hoja de Trabajo &nbsp;&nbsp;<span class="fa fa-file-word-o"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-danger" style="width: 100%" ng-click="cancelacionOrden()">Cancelar Orden &nbsp;&nbsp;<span class="fa fa-ban"></span></button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-info" ng-click="detalleCotizacionFactura();" style="width: 100%">Re-Carga Factura &nbsp;&nbsp;<span class="fa fa-upload"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-danger" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Cancelar Cotización &nbsp;&nbsp;<span class="fa fa-ban"></span></button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-info" style="width: 100%" ng-click="reenviarHojaUtilidad()">Mover Presupuesto &nbsp;&nbsp;<span class="fa fa-arrows-alt"></span></button>
+                                                </div>
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-info" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Avanza Orden &nbsp;&nbsp;<span class=""></span></button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-info" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Integar Cotizaciones &nbsp;&nbsp;<span class="fa fa-puzzle-piece"></span></button>
+                                                </div>   
+                                                <div class="col-xs-6">
+                                                    <button class="btn btn-default" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Disponible 2 &nbsp;&nbsp;<span class="fa fa-puzzle-piece"></span></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -784,7 +836,7 @@
                     <!--<button class="btn btn-inf btn-movil" type="button"  ng-click="aprobarProvision(provision)" ng-show="userData.idRol == 2" >
                     Aprobación Provisión
                     </button> -->
-                    <button ng-hide="userData.idRol == 1" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion()">
+                    <button ng-hide="(userData.idRol == 1  || saldos.saldo < totalSumaCosto)" data-loading-text="Loading..." class="btn btn-success btn-movil" type="submit" ng-click="nuevaCotizacion();">
                         <span class="{{class_buttonNuevaCotizacion}}"></span> Nueva Cotización
                     </button>
                     <button class="btn btn-primary btn-movil " ng-hide="userData.idRol == 1" data-loading-text="Loading..." type="button" ng-click="ValidaTerminoTrabajo();">
@@ -801,8 +853,9 @@
                         Procesar compra
                     </button>
                     <div ng-hide="userData.idRol ==  4" class="token-group pull-right" role="group" aria-label="...">
-                        <input type="text" ng-model="token_termino" placeholder="Token de Administrador">
-                        <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(0);">Aceptar</button>
+                    <input type="text" ng-model="token_termino" placeholder="Token de Administrador" ng-show="idContratoOperacion!=3">
+                    <input type="text" ng-model="token_termino" placeholder="Token de ASE" ng-show="idContratoOperacion == 3">
+                    <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(0);">Aceptar</button>
                     </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
                         <!--VALIDAR USUARIO PARA PROVISIONES-->
@@ -815,7 +868,7 @@
             <!-- / -->
             <!-- Seccion para el token de cliente -->
             <div ng-show="idEstatusOrden==7">
-                <div class="col-xs-12" ng-hide="userData.idRol == 4">
+                <div class="col-xs-12">
                     <!--PROCESA COMPRA-->
                     <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
                         Procesar compra
@@ -836,14 +889,14 @@
                         </div>
                     </div>
                     <div ng-show="idContratoOperacion==3">
-                            <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
-                                    <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
+                            <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                            <input type="text" ng-model="token_termino" placeholder="Token de PEMEX">
                                     <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                                 </div>
                     </div>
                     </div>
                     <div ng-show="idContratoOperacion!=3">
-                    <div ng-hide="userData.idRol ==  4 " style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                    <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                             <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                             <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                         </div>
@@ -861,7 +914,7 @@
             </div>
             <!-- / -->
             <div ng-show="idEstatusOrden==8">
-                <div class="col-xs-12" ng-hide="userData.idRol == 4">
+                <div class="col-xs-12">
                     <!--PROCESA COMPRA-->
                     <button class="btn btn-info btn-movil" type="button" ng-click="validaFacturaCotizacion()" ng-show="(userData.idRol == 2 || userData.idRol ==  3) && (botonProcesarCompra)">
                         Procesar compra
@@ -881,7 +934,7 @@
                         </div>
                         </div>
                         <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idUsuario == 122 || userData.idUsuario == 131 || userData.idUsuario == 123 || userData.idUsuario == 144)">
-                            <div ng-hide="userData.idRol ==  4" style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
+                            <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                                 <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                                 <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(8);">Aceptar</button>
                             </div>
@@ -1153,6 +1206,58 @@
     </div>
 </div>
 
+<!-- Modal disponible -->
+<div class="modal fade" id="Modal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Plan de Acción</h4>
+                </div>
+                <div class="modal-body">
+                    <!-- Acciones -->
+                    <!--12072017 agre FAL plan de acción -->
+                    <div class="row">
+                        <div class="col-sm-3 col-md-3 col-lg-3">
+                            <label>Plan de acción</label>
+                        </div>
+                        <div class="col-sm-9 col-md-9 col-lg-9">
+                            <textarea name="message" placeholder="Escriba su plan de acción" style="width: 352px; height: 82px;" ng-model="comentaAccion" capitalize></textarea>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+                            <label>Fecha</label>
+                        </div>
+                        <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+                            <div class="input-group date">
+                                <input type="text" class="form-control calendarControl" value="" ng-model="fechaAccion" ng-change="NoFechaAntigua(fechaAccion)" calendar>
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="col-sm-3 col-md-3 col-lg-3 m-t">
+                                    <label>Hora</label>
+                                </div>
+                                <div class="col-sm-5 col-md-5 col-lg-5 m-t">
+                                    <div class="input-group horaAsignada" data-autoclose="true">
+                                        <input type="text" class="form-control" value="" ng-model="horaAccion" ng-change="NoHoraAntigua(horaAccion)">
+                                        <span class="input-group-addon">
+                                <span class="fa fa-clock-o"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-primary pull-right" ng-click="acciones()">Agregar Acción</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <div class="modal fade" id="editorDetalleCotizacion" tabindex="-1" role="dialog" aria-labelledby="editor-title">
     <style scoped>
         /* provides a red astrix to denote required fields - this should be included in common stylesheet */
@@ -1208,6 +1313,176 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
             </div>
         </form>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalCotizaciones" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modulo Cotizacion</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12 smallerFont panelCotizaciones">
+                    <div class="row" ng-show="(orden.IdTipoOrden == 2 || orden.IdTipoOrden == 1)" ng-repeat="cotizacion in cotizaciones">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="pestania">
+                                        <h3>{{ cotizacion.numeroCotizacion }}</h3>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"></div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5">
+                                        <h4 ng-hide="cotizacion.idTaller[0] == 0">Detalle de la Cotización</h4>
+                                        <h4 ng-show="cotizacion.idTaller[0] == 0">Detalle de la Pre Orden</h4>
+                                        <address>
+                                            <strong>Estatus: </strong>
+                                            <span class="label label-success mayusculas">{{cotizacion.nombreEstatusCotizacion}} </span>
+                                            <br/>
+                                            <br/><strong>Usuario Creador: </strong> <span>{{cotizacion.nombreCompleto}}</span>
+                                            <br><strong>Fecha de Creación: </strong> <span>{{cotizacion.fechaCotizacion | date:"dd/MM/yyyy"}}</span>
+                                        </address>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2"></div>
+                                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-5" ng-hide="cotizacion.idTaller[0] == 0">
+                                        <h4>Detalle de Proveedor</h4>
+                                        <address>
+                                            <strong>Taller: </strong><span>{{cotizacion.razonSocial}}</span>
+                                            <br><strong>Dirección: </strong> <span>{{cotizacion.direccion}}</span>
+                                        </address>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="btn-group pull-right" ng-hide="hideSwitchBtn">
+                                            <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+                                                btnSwitch.classVenta='btn btn-default';
+                                                btnSwitch.classCosto='btn btn-success'">Costo</button>
+                                            <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+                                                btnSwitch.classVenta='btn btn-success';
+                                                btnSwitch.classCosto='btn btn-default'">Venta</button>
+                                        </div>
+                                        <button class="btn btn-primary pull-right cargar-factura" ng-click="OpenModalFacturaRecarga( cotizacion.idOrden,cotizacion.consecutivoCotizacion,cotizacion.sumaCosto,cotizacion.numeroCotizacion );">
+                                            Cargar Factura
+                                        </button>
+                                        <!-- <span class="label label-primary pull-right cargar-factura labelFacturaCargada" ng-show="cotizacion.showFacturaCargada" ng-click="OpenModalShowFactura(cotizacion.numeroCotizacion)" data-toggle="tooltip" data-placement="bottom" title="Ver facturas de la cotización {{cotizacion.numeroCotizacion}}">
+                                        FACTURA CARGADA
+                                        </span> -->
+                                    </div>
+                                    <br>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="cotizacion.detalle.length > 0">
+                                        <div class="table-responsive m-t">
+                                            <table class="table invoice-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Item</th>
+                                                        <th class="slimCol">Cantidad</th>
+                                                        <th class="slimCol" ng-show="btnSwitch.showCostoVenta">Costo Unitario</th>
+                                                        <th class="slimCol" ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                                        <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
+                                                        <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                                        <th class="slimCol" ng-show="(userData.idUsuario == 155 || userData.idUsuario == 156) && estadoCompra == false">
+                                                            Modificar</th>
+                                                        <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Usuario Aprobador</th>
+                                                        <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
+                                                        <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
+                                                        <th class="slimCol" ng-show="estatus == 4">Rechazar</th>
+                                                        <th class="slimCol" ng-show="false">&nbsp;</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="partida in cotizacion.detalle" ng-init="partida.rowColor='info'; setRowColor(partida)" class="{{partida.idEstatusPartida == 3 ? 'rowCanceled' : partida.rowColor}}">
+                                                        <td class="tdDesc">
+                                                            <div><strong>{{partida.partida}}</strong> / Parte <strong> {{partida.noParte}} </strong> / <span class="lblEsp label label-default">{{partida.especialidad}}</span>
+                                                            </div>
+                                                            <small>{{partida.descripcion}}</small>
+                                                            <a class="fotoPartida client-avatar" data-lightbox="image-1" data-title="Foto" href="http://35.165.2.64:4500/uploads/{{ partida.foto }}"> <img src="http://35.165.2.64:4500/uploads/{{ partida.foto }}" alt="foto"> </a>
+                                                            <a class="instPartida client-avatar" ng-click="openPDF('http://35.165.2.64:4500/uploads/' + partida.instructivo );"> <img src="../image/resources/file.png" alt="foto"> </a>
+
+                                                        </td>
+                                                        <td class="slimCol">{{partida.cantidad}}</td>
+                                                        <td class="slimCol" ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
+                                                        <td class="slimCol" ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
+                                                        <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
+                                                        <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
+                                                        <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 155 || userData.idUsuario == 156) && estadoCompra == false">
+                                                            <a href="">
+                                                                <span class="glyphicon glyphicon-edit fa-2x center" ng-click="prb1(partida)"></span>
+                                                            </a>
+
+                                                        </td>
+                                                        <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.usuario}}</td>
+                                                        <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.fechaAprobacion | date:'dd-MM-yyyy HH:mm' : 'UTC' }}
+                                                        </td>
+                                                        <td class="slimCol" ng-show="estatus == 4">
+                                                            <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                                                                <input type="radio" ng-init="partida.btnDisabled=true;
+                                                                        partida.selOption=1;
+                                                                        initApproveButtons(partida,cotizacion.idCotizacion);" ng-disabled="partida.btnDisabled" ng-model="partida.selOption" value="2" ng-click="verificaComentario(1,partida)">
+                                                            </div>
+                                                        </td>
+                                                        <td class="slimCol" ng-show="estatus == 4">
+                                                            <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
+                                                                <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="3" ng-click=agregarComentario(1,partida)>
+                                                            </div>
+                                                        </td>
+                                                        <td class="slimCol" ng-show="false" center>
+                                                            <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="3">&nbsp;</td>
+                                                        <td colspan="3" align="right" ng-hide="userData.idRol ==  4">
+                                                            <a href="#" class="btn btn-success btn-xs pull-right" ng-show="estatus == 4" ng-click="modal_aprobacion( cotizacion.idCotizacion, cotizacion.idEstatusCotizacion )">
+                                                                <i class="fa fa-key" aria-hidden="true"></i> Aprobación por Token
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+                                            <table class="table invoice-total">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>SUBTOTAL :</strong></td>
+                                                        <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto : cotizacion.sumaVenta | currency}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>I.V.A :</strong></td>
+                                                        <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto * 0.16 : cotizacion.sumaVenta * 0.16 | currency}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>TOTAL :</strong></td>
+                                                        <td>{{ btnSwitch.showCostoVenta == true ? cotizacion.sumaCosto * 1.16 : cotizacion.sumaVenta * 1.16 | currency}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div>
+                                                <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 || cotizacion.hasApprovedParts == true)||Precancelacion">
+                                                    <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
+                                                </button>
+                                                <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
+                                                    <span></span> Cancelar Cotización
+                                                </button>
+                                                <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3 || Precancelacion" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
+                                                    <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="consulta" style="padding: 15px;text-align: right;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
     </div>
 </div>
 

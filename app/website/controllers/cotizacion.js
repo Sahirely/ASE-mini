@@ -497,5 +497,40 @@ Cotizacion.prototype.get_ObtenerOrdenesDeServicioEnEntrega = function(req, res, 
     });
 }
 
+Cotizacion.prototype.post_presupuestoAprobacion = function(req, res, next) {
+    var self = this;
+
+    var params = [{
+        name: 'numeroOrden',
+        value: req.body.numeroOrden,
+        type: self.model.types.STRING
+    }];
+
+    this.model.query('SEL_PRESUPUESTO_SP', params, function(error, result) {
+
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Cotizacion.prototype.post_presupuestoOrdenEstatus = function(req, res, next) {
+    var self = this;
+
+    var params = [{
+        name: 'numeroOrden',
+        value: req.body.numeroOrden,
+        type: self.model.types.STRING
+    }];
+console.log(req.query);
+    this.model.query('SEL_OSTATUS_SP', params, function(error, result) {
+
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 
 module.exports = Cotizacion;

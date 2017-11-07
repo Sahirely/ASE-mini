@@ -53,12 +53,12 @@
             $scope.getNumeroOrdenes()
 
             // SOCKETS
-            setInterval(function() {
+         /* setInterval(function() {
                 if (!$scope.connected != '') {
                     console.log('Intentando reconexión...')
                     SocketConnect()
                 }
-            }, 10000)
+            }, 10000)*/
         }
     }
 

@@ -216,8 +216,8 @@ div.controls {
     position: absolute;
     top: 0;
     left: 0;
-    width: 130px;
-    margin-left: 150%;
-    margin-top: 45%;
+    
+    margin-left: 40%;
+    margin-top: 15%;
     opacity: 0.40;
 }

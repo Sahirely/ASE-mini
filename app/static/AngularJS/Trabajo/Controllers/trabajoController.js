@@ -526,7 +526,7 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 $scope.btnSwitch.showCostoVenta = true;
                 break;
             case 4: //proveedor
-                $scope.hideSwitchBtn = true;
+                $scope.hideSwitchBtn = false;
                 $scope.btnSwitch.showCostoVenta = true;
                 break;
             default:

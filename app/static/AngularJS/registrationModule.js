@@ -6,7 +6,7 @@
 // -- Fecha:
 // -- =============================================
 var registrationModule = angular.module("registrationModule", ["ngRoute", "LocalStorageModule", "angular.filter",
-    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover", "dx"
+    "ui.bootstrap", "angularUtils.directives.dirPagination", "cgBusy", "frapontillo.bootstrap-switch", "thatisuday.dropzone", "nsPopover", "dx", "google-maps"
 ])
     .config(function ($routeProvider, $locationProvider, $sceDelegateProvider) {
         $sceDelegateProvider.resourceUrlWhitelist([
@@ -274,6 +274,14 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
         $routeProvider.when('/afdocumento', {
             templateUrl: 'AngularJS/AnalisisFlotilla/Templates/documentosUnidad.html',
             controller: 'documentosUnidadController'
+        })
+        $routeProvider.when('/asignacionSustituto', {
+            templateUrl: 'AngularJS/Sustituto/Templates/asignacionSustituto.html',
+            controller: 'asignacionSustitutoController'
+        })
+        $routeProvider.when('/reporteSustituto', {
+            templateUrl: 'AngularJS/Sustituto/Templates/reporteSustituto.html',
+            controller: 'reporteSustitutoController'
         })
 
 

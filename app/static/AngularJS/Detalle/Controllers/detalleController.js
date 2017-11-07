@@ -44,21 +44,21 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.markerUrlValue = markerUrl
   $scope.markers = []
 
-  $scope.mapOptions = {
-    center: { lat: 19.426506611419985, lng: -99.16950187368013 },
-    zoom: 14,
-    height: 300,
-    width: '100%',
-    provider: 'google',
-    type: 'roadmap',
-    controls: true,
-    bindingOptions: {
-      markerIconSrc: 'markerUrlValue',
-      markers: 'markers'
-    }
-  }
+  $scope.hasGPS = true;
 
-  $scope.hasGPS = true
+  var mapCanvas = document.getElementById("map");
+  var mapOptions = {
+    center: new google.maps.LatLng(51.508742, -0.120850),
+    zoom: 7,
+    panControl: true,
+    zoomControl: true,
+    mapTypeControl: true,
+    scaleControl: true,
+    streetViewControl: true,
+    overviewMapControl: true,
+    rotateControl: true
+  };
+  var map = new google.maps.Map(mapCanvas, mapOptions);
 
   // Agrega para comentarios
   $scope.comentarios = []
@@ -85,6 +85,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden)
     $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
     $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+    //$scope.getGps($scope.userData.idUsuario, $scope.numeroOrden);
+
     checkPrecancelation()
     if ($scope.userData.presupuesto == 1) {
       $scope.getSaldos($routeParams.orden)
@@ -181,9 +183,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.estatusToken = result.data[0].estatusToken.split(',')[0];
         $scope.estatusTokenMensaje = result.data[0].estatusToken.split(',')[1];
 
-        console.log($scope.estatusToken);
-        console.log($scope.estatusTokenMensaje);
-
         $scope.idOrden = result.data[0].idOrden
         $scope.nombreCentroTrabajo = result.data[0].nombreCentroTrabajo
         $scope.detalleOrden = result.data[0]
@@ -215,27 +214,47 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         // Epediente y MAPA
         // ECG
-        if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
-          $scope.markers = [{
-            location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
-            tooltip: {
-              text: 'Ubicación de la unidad'
-            }
-          }]
-          $scope.mapOptions = {
-            center: { lat: +$scope.detalleOrden.latitud, lng: +$scope.detalleOrden.longitud },
-            zoom: 1,
-            height: 300,
-            width: '100%',
-            provider: 'google',
-            type: 'roadmap',
-            controls: true,
-            bindingOptions: {
-              markerIconSrc: 'markerUrlValue',
-              markers: 'markers'
-            }
-          }
-          $scope.hasGPS = true
+        //if ($scope.userData.contratoOperacionSeleccionada == 1 && $scope.detalleOrden.longitud != null) {
+        if ($scope.detalleOrden.Latitud != 0) {
+          // $scope.markers = [{
+          //   location: [+$scope.detalleOrden.latitud, +$scope.detalleOrden.longitud],
+          //   tooltip: {
+          //     text: 'Ubicación de la unidad'
+          //   }
+          // }]
+          // $scope.mapOptions = {
+          //   center: { lat: $scope.detalleOrden.latitud, lng: $scope.detalleOrden.longitud },
+          //   zoom: 1,
+          //   height: 300,
+          //   width: '100%',
+          //   provider: 'google',
+          //   type: 'roadmap',
+          //   controls: true,
+          //   bindingOptions: {
+          //     markerIconSrc: 'markerUrlValue',
+          //     markers: 'markers'
+          //   }
+          // };
+
+          var mapCanvas = document.getElementById("map");
+          var myCenter = new google.maps.LatLng($scope.detalleOrden.Latitud,$scope.detalleOrden.Longitud);
+          var mapOptions = {
+            center: myCenter,
+            zoom: 12,
+            panControl: true,
+            zoomControl: true,
+            mapTypeControl: true,
+            scaleControl: true,
+            streetViewControl: true,
+            overviewMapControl: true,
+            rotateControl: true
+          };
+          var map = new google.maps.Map(mapCanvas, mapOptions);
+          var marker = new google.maps.Marker({position:myCenter});
+          marker.setMap(map);
+
+          $scope.hasGPS = true;
+          console.log($scope.mapOptions);
         } else {
           $scope.hasGPS = false
         }
@@ -326,6 +345,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.getTotales();
         $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
         $scope.getShowFacturas();
+        $scope.getHasApprovedParts();
         $('#loadModal').modal('hide');
       } else {
         $('#loadModal').modal('hide');
@@ -335,6 +355,18 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $('#loadModal').modal('hide');
       alertFactory.error('Ocurrio un error');
     })
+  }
+
+  $scope.getHasApprovedParts = function (){
+
+      $scope.cotizaciones.forEach(function(coti){
+          coti.hasApprovedParts = false;
+          coti.detalle.forEach(function(part){
+              if (part.idEstatusPartida != 1){
+                  coti.hasApprovedParts = true;
+              }
+          });
+      });
   }
 
   $scope.getTotales = function () {
@@ -524,6 +556,24 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       } else {
         $('#loadModal').modal('hide')
         $('.modal-dialog').css('width', '1050px')
+        detalleRepository.postCorreoSaldoPresupuesto(cotizacion.idOrden, idUsuario, cotizacion.idCotizacion, $scope.saldos.saldo, $scope.saldos.idPresupuesto)
+        .then(function(resp)
+        {
+          if (resp.data.length > 0) {
+            var correoDe = resp.data[0].correoDe
+            var correoPara = resp.data[0].correoPara
+            var asunto = resp.data[0].asunto
+            var texto = resp.data[0].texto
+            var bodyhtml = resp.data[0].bodyhtml
+            commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+              if (result.data.length > 0) { }
+            }, function (error) {
+              // alertFactory.error('No se puede enviar el correo')
+            })
+          }
+        }, function(error) {
+             alertFactory.error("Error correo saldo presupuesto.")
+        })
         modal_saldos($scope, $modal, $scope.saldos, $scope.nombreCentroTrabajo, '', '')
         $scope.class_buttonGuardaCotizacion = ''
       }
@@ -616,6 +666,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 // alertFactory.error("Error al obtener información para el mail")
               })
             }
+            if($scope.userData.presupuesto == 1){
+              detalleRepository.restaPresupuestoOrden($scope.saldos.idPresupuesto, $scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion).then(function (result){
+                  if (result.data.length > 0){}
+              });
+            }
             setTimeout(function () {
               $('#loadModal').modal('hide')
               $scope.class_buttonGuardaCotizacion = ''
@@ -705,7 +760,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.btn_editarCotizacion = true
         break
       case 4: // proveedor
-        $scope.hideSwitchBtn = true
+        $scope.hideSwitchBtn = false
         $scope.btnSwitch.showCostoVenta = true
         break
       default:
@@ -1099,24 +1154,43 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     if ($scope.userData.presupuesto == 1) {
       detalleRepository.validaCotizacionesRevisadas($scope.detalleOrden.idOrden).then(function (result) {
         if (result.data[0].RealizarOperacion) {
-          aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function (result) {
-            if (result.data.length > 0) {
-              $scope.saldosTermino = result.data[0]
-              if (result.data[0].presupuestoVenta >= 0) {
-                $scope.idPresupuesto = result.data[0].idPresupuesto
 
-                $scope.addComentarioTermino()
-              } else {
-                $('.modal-dialog').css('width', '1050px')
-                modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
-                $scope.class_buttonTerminaTrabajo = ''
-              }
-            } else {
-              $('.modal-dialog').css('width', '1050px')
-              modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
-              $scope.class_buttonTerminaTrabajo = ''
-            }
-          })
+            detalleRepository.getOrdenesDescontadas($scope.detalleOrden.idOrden).then(function (result){
+                if(result.data.length > 0){
+                    $scope.descontado = result.data[0].descontado;
+
+                    if ($scope.descontado == 1){
+                        $scope.addComentarioTermino()
+                    }else{
+                        aprobacionRepository.getPresupuesto($scope.numeroOrden).then(function (result) {
+                          if (result.data.length > 0) {
+                            $scope.saldosTermino = result.data[0]
+                            if (result.data[0].presupuestoVenta >= 0) {
+                              $scope.idPresupuesto = result.data[0].idPresupuesto
+
+                              $scope.addComentarioTermino()
+                            } else {
+                              $('.modal-dialog').css('width', '1050px')
+                              modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
+                              $scope.class_buttonTerminaTrabajo = ''
+                            }
+                          } else {
+                            $('.modal-dialog').css('width', '1050px')
+                            modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
+                            $scope.class_buttonTerminaTrabajo = ''
+                          }
+                        })
+                    }
+
+
+                }else{
+                    $('.modal-dialog').css('width', '1050px')
+                    modal_saldos($scope, $modal, $scope.saldosTermino, $scope.nombreCentroTrabajo, '', '')
+                    $scope.class_buttonTerminaTrabajo = ''
+                }
+
+            });
+
         } else {
           $scope.class_buttonTerminaTrabajo = ''
           alertFactory.info('Aún quedan cotizaciones pendientes por revisar')
@@ -1136,40 +1210,73 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   $scope.cambiaEstatusOrdenTermino = function () {
     if ($scope.userData.presupuesto == 1) {
-      detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
-        if (result.data.length > 0) {
-          detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
-            if ($scope.hasDetalleModulo(6, 19) === true) {
-              commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
-                if (resp.data.length > 0) {
-                  var correoDe = resp.data[0].correoDe
-                  var correoPara = resp.data[0].correoPara
-                  var asunto = resp.data[0].asunto
-                  var texto = resp.data[0].texto
-                  var bodyhtml = resp.data[0].bodyhtml
-                  commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                    if (result.data.length > 0) { }
-                  }, function (error) {
-                    // alertFactory.error('No se puede enviar el correo')
-                  })
-                }
-              }, function (error) {
-                // alertFactory.error("Error al obtener información para el mail")
-              })
-            }
+      if ($scope.descontado == 0){
+          detalleRepository.restaPresupuestoOrden($scope.idPresupuesto, $scope.detalleOrden.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion).then(function (result) {
+            if (result.data.length > 0) {
+                detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
+                  if ($scope.hasDetalleModulo(6, 19) === true) {
+                    commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+                      if (resp.data.length > 0) {
+                        var correoDe = resp.data[0].correoDe
+                        var correoPara = resp.data[0].correoPara
+                        var asunto = resp.data[0].asunto
+                        var texto = resp.data[0].texto
+                        var bodyhtml = resp.data[0].bodyhtml
+                        commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                          if (result.data.length > 0) { }
+                        }, function (error) {
+                          // alertFactory.error('No se puede enviar el correo')
+                        })
+                      }
+                    }, function (error) {
+                      // alertFactory.error("Error al obtener información para el mail")
+                    })
+                  }
 
-            $scope.class_buttonTerminaTrabajo = ''
-            alertFactory.success('Se ha terminado el trabajo')
-            $('html, body').animate({
-              scrollTop: 0
-            }, 1000)
-            $('#loadModal').modal('show')
-            $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+                  $scope.class_buttonTerminaTrabajo = ''
+                  alertFactory.success('Se ha terminado el trabajo')
+                  $('html, body').animate({
+                    scrollTop: 0
+                  }, 1000)
+                  $('#loadModal').modal('show')
+                  $scope.getReporteConformidad($scope.detalleOrden.idOrden)
 
-            //  $scope.init()
-          })
-        }
-      })
+                  //  $scope.init()
+                })
+              }
+            })
+      }else{
+        detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
+          if ($scope.hasDetalleModulo(6, 19) === true) {
+            commonFunctionRepository.dataMail($scope.idOrden, $scope.userData.idUsuario).then(function (resp) {
+              if (resp.data.length > 0) {
+                var correoDe = resp.data[0].correoDe
+                var correoPara = resp.data[0].correoPara
+                var asunto = resp.data[0].asunto
+                var texto = resp.data[0].texto
+                var bodyhtml = resp.data[0].bodyhtml
+                commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                  if (result.data.length > 0) { }
+                }, function (error) {
+                  // alertFactory.error('No se puede enviar el correo')
+                })
+              }
+            }, function (error) {
+              // alertFactory.error("Error al obtener información para el mail")
+            })
+          }
+
+          $scope.class_buttonTerminaTrabajo = ''
+          alertFactory.success('Se ha terminado el trabajo')
+          $('html, body').animate({
+            scrollTop: 0
+          }, 1000)
+          $('#loadModal').modal('show')
+          $scope.getReporteConformidad($scope.detalleOrden.idOrden)
+
+          //  $scope.init()
+        })
+      }
     } else {
       detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.userData.idUsuario).then(function (r_token) {
         $scope.class_buttonTerminaTrabajo = ''
@@ -1410,7 +1517,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     }, function (error) {
                       // alertFactory.error("Error al obtener información para el mail")
                     })
-                  }) 
+                  })
             } else {
               alertFactory.error(r_token.data[0].Msg)
               $scope.token_termino = ''
@@ -2258,8 +2365,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         console.log($scope.cotizacionDetalle);
     }
 
-    $scope.updateDetalleCotizacion = function()
-    {
+    $scope.updateDetalleCotizacion = function(){
         $('#editorDetalleCotizacion').modal('hide');
         detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta, $scope.userData.idUsuario)
         .then(function(response)
@@ -2273,5 +2379,85 @@ registrationModule.controller('detalleController', function ($scope, $location, 
              alertFactory.error("Error al actualizar la información para el detalle")
         })
     }
+
+    $scope.reenviarHojaUtilidad = function(){
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 1).then(function (resp) {
+          if (resp.data.length > 0) {
+              var correoDe = resp.data[0].correoDe
+              var correoPara = resp.data[0].correoPara
+              var asunto = resp.data[0].asunto
+              var texto = resp.data[0].texto
+              var bodyhtml = resp.data[0].bodyhtml
+              commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                if (result.data.length > 0) { 
+                    $('#loadModal').modal('hide')
+                    $('.modal-dialog').css('width', '1050px')
+                    swal('El correo de utlidad se envio exitosamente.')
+                }
+              }, function (error) {
+                 alertFactory.error('No se puede enviar el correo.')
+              })
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al enviar el correo.')
+      });
+    };
+
+  $scope.detalleCotizacionFactura = function () {
+    $('#ModalCotizaciones').modal();
+  }
+
+    $scope.OpenModalFacturaRecarga = function (no, cf, ct, nc) {
+      $('#ModalCotizaciones').modal('hide');
+      $scope.idOrden = no
+      $scope.cotizacionFactura = cf
+      $scope.numeroCotizacion = nc
+      $scope.cotizacionTotal = ct
+      $scope.alert_respuesta = false
+
+      $('.alert-warning').hide()
+      $('#myModal').modal()
+      $('.archivos').show()
+      $('.uploading').hide()
+      $('.btn-cerrar').removeAttr('disabled')
+      $('.btn-subir').removeAttr('disabled')
+
+      document.getElementById('frm_subir_factura').reset()
+
+      var inputs = document.querySelectorAll('.inputfile')
+      Array.prototype.forEach.call(inputs, function (input) {
+        var label = input.nextElementSibling
+        label.querySelector('span').innerHTML = 'Seleccionar archivo'
+      })
+    }
+
+    $scope.deleteProvision = function(){
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              swal('La provision se elimino exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al enviar el correo.')
+      });
+    };
+
+    $scope.cancelacionOrden = function(){
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 3).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              swal('La Orden se cancelo exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al enviar el correo.')
+      });
+    };
 
 })

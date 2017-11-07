@@ -10,7 +10,7 @@
     <meta name="author" content="name" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Libreria de Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900italic' rel='stylesheet' type='text/css'>
     <!--Hojas de estilos-->
     <link href="AngularJS/Main/Styles/main.css" rel="stylesheet" type="text/css">
     <link href="Libraries/css/bootstrap.css" rel="stylesheet" />
@@ -105,14 +105,21 @@
                         <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
                     </ul>
                 </li>
-                <li ng-show="userData.idRol == 2" ng-class="{'active': (modulo=='reporteAntiguedad' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
+                <li ng-class="{'active': (modulo=='reporteAntiguedad' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
-                        <li ng-class="{'active': modulo=='reporteAntiguedad'}"><a href="/reporte">Reporte Antigüedad de Saldos</a></li>
-                        <li ng-class="{'active': modulo=='reporteMargenUtilidad'}"><a href="/reporteutilidad">Reporte Márgenes de Utilidad</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteAntiguedad'}"><a href="/reporte">Reporte Antigüedad de Saldos</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteMargenUtilidad'}"><a href="/reporteutilidad">Reporte Márgenes de Utilidad</a></li>
                         <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteHojaTrabajo">Hoja de Trabajo</a></li>
-                        <li ng-class="{'active': modulo=='reporteParqueVehicular'}"><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
-                        <li ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteParqueVehicular'}"><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
+                    </ul>
+                </li>
+                <li ng-show="userData.idRol == 2 && userData.contratoOperacionSeleccionada == 1" ng-class="{'active': (modulo=='asignacionSustituto' || modulo=='reporteSustituto')}">
+                    <a href="#" ng-click="showChat = 0"><i class="glyphicon glyphicon-alert"></i> <span class="nav-label">Unidades Sutituto</span><span class="label label-warning pull-right"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-class="{'active': modulo=='asignacionSustituto'}"><a href="/asignacionSustituto">Unidad Fuera de Operación</a></li>
+                        <li ng-class="{'active': modulo=='reporteSustituto'}"><a href="/reporteSustituto">Reporte Unidad Fuera de Operación</a></li>
                     </ul>
                 </li>
                 <li ng-class="{'active': modulo=='analisisFlotilla'}">
@@ -398,6 +405,7 @@
     <!--Modals -->
     <script src="AngularJS/modals/modal.js"></script>
     <script src="AngularJS/modals/controller/token_controller.js"></script>
+    <script src="AngularJS/modals/controller/ubicacionDetalle_controller.js"></script>
     <script src="AngularJS/modals/controller/cotizacionDetalle_controller.js"></script>
     <script src="AngularJS/modals/controller/respuestaBusqueda_controller.js"></script>
     <script src="AngularJS/modals/controller/saldos_controller.js"></script>
@@ -445,6 +453,9 @@
     <script src="AngularJS/Reporte/Controllers/reporteController.js"></script>
     <script src="AngularJS/Presupuesto/Repositories/presupuestoRepository.js"></script>
     <script src="AngularJS/Presupuesto/Controllers/presupuestoController.js"></script>
+    <script src="AngularJS/Sustituto/Repositories/sustitutoRepository.js"></script>
+    <script src="AngularJS/Sustituto/Controllers/asignacionSustitutoController.js"></script>
+    <script src="AngularJS/Sustituto/Controllers/reporteSustitutoController.js"></script>
     <script src="AngularJS/UploadFiles/Repositories/uploadRepository.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionOrdenController.js"></script>
     <script src="AngularJS/Administracion/Controllers/administracionMemorandumController.js"></script>
@@ -558,6 +569,7 @@
 
     <!-- LIGHTBOX -->
     <script src="Libraries/js/lightbox/lightbox.js"></script>
+    <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBg0auoVDvCu2CXmtJenNSm7Gp7FgnPcs"></script> -->
 </body>
 
 </html>
