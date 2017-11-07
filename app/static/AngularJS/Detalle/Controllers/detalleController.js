@@ -2390,7 +2390,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     $scope.reenviarHojaUtilidadSoporte = function(){
       $('#loadModal').modal('show');
-      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 1).then(function (resp) {
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 1, 0).then(function (resp) {
           if (resp.data.length > 0) {
               var correoDe = resp.data[0].correoDe
               var correoPara = resp.data[0].correoPara
@@ -2401,7 +2401,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 if (result.data.length > 0) { 
                     $('#loadModal').modal('hide')
                     $('.modal-dialog').css('width', '1050px')
-                    swal('El correo de utlidad se envio exitosamente.')
+                    swal('El correo de utlidad se envío exitosamente.')
                 }
               }, function (error) {
                   $('#loadModal').modal('hide')
@@ -2491,7 +2491,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     $scope.deleteProvisionSoporte = function(){
       $('#loadModal').modal('show');
-      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2).then(function (resp) {
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2, 0).then(function (resp) {
           if (resp.data.length > 0) {
               $('#loadModal').modal('hide')
               $('.modal-dialog').css('width', '1050px')
@@ -2530,7 +2530,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     $scope.cancelacionOrdenSoporte = function(){
       $('#loadModal').modal('show');
-      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 3).then(function (resp) {
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 3, 0).then(function (resp) {
           if (resp.data.length > 0) {
               $('#loadModal').modal('hide')
               $('.modal-dialog').css('width', '1050px')
@@ -2546,7 +2546,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
           if (resp.data.length > 0) {
             if(resp.data.length == 1){
-               swal('Para cancelar una cotizacion al menos debes tener mas de 2 cotizaciones de lo contrario debes cancelar la orden.')
+               swal('Para cancelar una cotización al menos debes tener mas de 2 cotizaciones de lo contrario debes cancelar la orden.')
             }else{
               $scope.cotizacionSoporte = resp.data;
                $('#cencelCotizaciones').modal();
@@ -2582,7 +2582,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.cancelacionCotizacionSoporte = function(cotizaSoporte){
       $('#cencelCotizaciones').modal('hide')
       $('#loadModal').modal('show');
-      detalleRepository.getRealizaSoporte($scope.idOrdenURL, cotizaSoporte, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 4).then(function (resp) {
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, cotizaSoporte, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 4, 0).then(function (resp) {
           if (resp.data.length > 0) {
               $('#loadModal').modal('hide')
               $('.modal-dialog').css('width', '1050px')
@@ -2594,6 +2594,109 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       });
     };
 
+  $scope.presupuestoOrden = function () {
+    $scope.presupuestoOrdAct='';
+    $scope.presupuestoCNTB='';
+    $scope.getPresupuestoOrdenActivo();
+    $scope.getPresupuestoCentroTrabajo();
+    $('#modalPresupuestoOrden').modal();
+  }
+
+  $scope.getPresupuestoOrdenActivo = function () {
+      $('.presupuestoOrdActiv').DataTable().destroy();
+      detalleRepository.getpresupuestobyOrden($scope.idOrdenURL, 1).then(function (resp) {
+          if (resp.data.length > 0) {
+              globalFactory.filtrosTabla("presupuestoOrdActiv", "Presupuesto Orden", 5);
+              $scope.presupuestoOrdAct = resp.data;
+          }else{
+            swal('No se encontro Orden relacionada con presupuesto.')
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al buscar los registros en Presupuesto Orden.')
+      });    
+    }
+
+  $scope.getPresupuestoCentroTrabajo = function () {
+      $('.presupuestoCT').DataTable().destroy();
+      detalleRepository.getpresupuestobyOrden($scope.idOrdenURL, 2).then(function (resp) {
+          if (resp.data.length > 0) {
+              globalFactory.filtrosTabla("presupuestoCT", "Presupuesto CT", 100);
+              $scope.presupuestoCNTB = resp.data;
+          }else{
+            swal('No se encontro presupuesto para este Centro de Trabajo.')
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al buscar los presupuesto por centro de trabajo.')
+      });    
+    }
+
+  $scope.sendIdPresupuesto = function(idPresupuesto) {
+        swal({
+            title: "¿Esta seguro de cambiar el Presupuesto Orden?",
+            text: "Presupuesto Orden",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.sendIdPresupuestoSoporte(idPresupuesto);
+            } else {
+                swal("Operacion cancelada.");
+            }
+        });
+    }
+
+  $scope.sendIdPresupuestoSoporte = function (idPresupuesto) {
+    $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 6, idPresupuesto).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              alertFactory.success('La Orden se actualizo exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al avanzar la Orden.')
+      });
+  }
+
+  $scope.avanzaOrden = function() {
+        swal({
+            title: "¿Esta seguro de avanzar la Orden?",
+            text: "Avanza la Orden",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.avanzaOrdenSoporte();
+            } else {
+                swal("Operacion cancelada.");
+            }
+        });
+    }
+
+    $scope.avanzaOrdenSoporte = function(){
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 5, 0).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              alertFactory.success('La Orden se avanzo exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al avanzar la Orden.')
+      });
+    };
 
 
 })

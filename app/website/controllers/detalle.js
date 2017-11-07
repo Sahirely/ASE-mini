@@ -1095,6 +1095,11 @@ Detalle.prototype.get_realizaSoporte = function(req, res, next) {
             name: 'idSoporte',
             value: req.query.idSoporte,
             type: self.model.types.INT
+        },
+        {
+            name: 'idPresupuesto',
+            value: req.query.idPresupuesto,
+            type: self.model.types.INT
         }
     ];
 
@@ -1115,6 +1120,26 @@ Detalle.prototype.get_cotizacionbyOrden = function(req, res, next) {
         }];
 
     this.model.query('SEL_COTIZACIONES_BY_ORDEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Detalle.prototype.get_presupuestobyOrden = function(req, res, next) {
+    var self = this;
+    var params = [{
+            name: 'idOrden',
+            value: req.query.idOrden,
+            type: self.model.types.INT
+        },{
+            name: 'consulta',
+            value: req.query.consulta,
+            type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_PRESUPUESTO_BY_ORDEN_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
             result: result

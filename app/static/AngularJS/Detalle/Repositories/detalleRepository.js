@@ -502,7 +502,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 headers:{'Content-Type':'application/json' }
             });
         },
-        getRealizaSoporte: function(idOrden, idCotizacion, idUsuario, idContratoOperacion, isProduction, idSoporte) {
+        getRealizaSoporte: function(idOrden, idCotizacion, idUsuario, idContratoOperacion, isProduction, idSoporte, idPresupuesto) {
             return $http({
                 url: detalleUrl + 'realizaSoporte/',
                 method: "GET",
@@ -512,7 +512,8 @@ registrationModule.factory('detalleRepository', function($http) {
                     idUsuario: idUsuario,
                     idContratoOperacion: idContratoOperacion,
                     isProduction: isProduction,
-                    idSoporte: idSoporte
+                    idSoporte: idSoporte,
+                    idPresupuesto: idPresupuesto
                 },
                 headers: {
                     'Content-Type': 'application/json'
@@ -525,6 +526,19 @@ registrationModule.factory('detalleRepository', function($http) {
                 method: "GET",
                 params: {
                     idOrden: idOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+        },
+        getpresupuestobyOrden: function(idOrden, consulta) {
+            return $http({
+                url: detalleUrl + 'presupuestobyOrden/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    consulta: consulta
                 },
                 headers: {
                     'Content-Type': 'application/json'
