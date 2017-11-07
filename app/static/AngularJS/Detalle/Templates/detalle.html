@@ -574,8 +574,8 @@
                                                                     <div><strong>{{partida.partida}}</strong> / Parte <strong> {{partida.noParte}} </strong> / <span class="lblEsp label label-default">{{partida.especialidad}}</span>
                                                                     </div>
                                                                     <small>{{partida.descripcion}}</small>
-                                                                    <a class="fotoPartida client-avatar" data-lightbox="image-1" data-title="Foto" href="http://35.165.2.64:4500/uploads/{{ partida.foto }}"> <img src="http://35.165.2.64:4500/uploads/{{ partida.foto }}" alt="foto"> </a>
-                                                                    <a class="instPartida client-avatar" ng-click="openPDF('http://35.165.2.64:4500/uploads/' + partida.instructivo );"> <img src="../image/resources/file.png" alt="foto"> </a>
+                                                                    <a class="fotoPartida client-avatar" data-lightbox="image-1" data-title="Foto" href="http://35.165.2.64:4500/uploads/{{ partida.foto }}"> <img src="http://35.165.2.64:4500/uploads/{{ partida.foto }}" alt="foto" ng-hide="{{partida.foto=='' || partida.foto == undefined}}"> </a>
+                                                                    <a class="instPartida client-avatar" ng-click="openPDF('http://35.165.2.64:4500/uploads/' + partida.instructivo );"> <img src="../image/resources/file.png" alt="foto" ng-hide="{{partida.instructivo=='' || partida.instructivo == undefined}}"> </a>
 
                                                                 </td>
                                                                 <td class="slimCol">{{partida.cantidad}}</td>
