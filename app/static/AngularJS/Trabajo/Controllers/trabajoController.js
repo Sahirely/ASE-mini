@@ -191,10 +191,13 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
       };*/
 
     $scope.menu = function(data) {
+        // console.log('click de tabla');
+        // console.log(data);
         $scope.show_proceso = false;
         $scope.show_entrega = false;
-        globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
-        globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
+        // codigo de sobra
+        //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
+        //globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
         switch (data) {
             case 0:
                 $scope.show_proceso = true;
