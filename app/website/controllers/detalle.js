@@ -608,28 +608,6 @@ Detalle.prototype.get_obtenerIdCotzPorOrden = function(req, res, next) {
     });
 }
 
-Detalle.prototype.get_reenvioHojaUtilidad = function(req, res, next) {
-    var self = this;
-    var params = [{
-            name: 'numOrden',
-            value: req.query.numOrden,
-            type: self.model.types.STRING
-        },
-        {
-            name: 'idOperacion',
-            value: req.query.idOperacion,
-            type: self.model.types.INT
-        }
-    ];
-
-    this.model.query('SEL_CORREO_UTILIDAD_SOPORTE_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
-    });
-}
-
 Detalle.prototype.get_obtenerHistoricoCotizacion = function(req, res, next) {
     var self = this;
     var params = [{
@@ -1048,8 +1026,7 @@ this.model.query('UPD_DETALLE_COTIZACION_SP', params, function(error, result) {
     console.log(params);
 }
 
-Detalle.prototype.post_correoSaldoPresupuesto = function(req, res, next)
-{
+Detalle.prototype.post_correoSaldoPresupuesto = function(req, res, next){
     var self = this;
     var params = [{
         name:'idOrden',
@@ -1085,6 +1062,48 @@ this.model.query('SEL_CORREO_SALDO_PRESUPUESTO_SP', params, function(error, resu
     });
 });
     console.log(params);
+}
+
+Detalle.prototype.get_realizaSoporte = function(req, res, next) {
+    var self = this;
+    var params = [{
+            name: 'idOrden',
+            value: req.query.idOrden,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idCotizacion',
+            value: req.query.idCotizacion,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idUsuario',
+            value: req.query.idUsuario,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
+            type: self.model.types.INT
+        },
+        {
+            name: 'isProduction',
+            value: req.query.isProduction,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idSoporte',
+            value: req.query.idSoporte,
+            type: self.model.types.INT
+        }
+    ];
+
+    this.model.query('EXT_SOPORTE_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
 }
 
 module.exports = Detalle;

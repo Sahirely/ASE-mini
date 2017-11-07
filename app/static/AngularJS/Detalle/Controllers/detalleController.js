@@ -2365,8 +2365,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         console.log($scope.cotizacionDetalle);
     }
 
-    $scope.updateDetalleCotizacion = function()
-    {
+    $scope.updateDetalleCotizacion = function(){
         $('#editorDetalleCotizacion').modal('hide');
         detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta, $scope.userData.idUsuario)
         .then(function(response)
@@ -2382,22 +2381,83 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     }
 
     $scope.reenviarHojaUtilidad = function(){
-      console.log('DATOS ENVIADOS AL ENVIO DE CORREO');
-      console.log($scope.numeroOrden);
-      console.log($scope.userData.contratoOperacionSeleccionada);
-      detalleRepository.getReenvioHojaUtilidad($scope.numeroOrden, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
-        if (result.data.length > 0) {
-          $scope.IdsCotizacionesPorOrden = result.data;
-
-          commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function(result) {
-            if (result.data.length > 0) {}
-        }, function(error) {
-            // alertFactory.error('No se puede enviar el correo');
-        });
-        
-        }
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 1).then(function (resp) {
+          if (resp.data.length > 0) {
+              var correoDe = resp.data[0].correoDe
+              var correoPara = resp.data[0].correoPara
+              var asunto = resp.data[0].asunto
+              var texto = resp.data[0].texto
+              var bodyhtml = resp.data[0].bodyhtml
+              commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
+                if (result.data.length > 0) { 
+                    $('#loadModal').modal('hide')
+                    $('.modal-dialog').css('width', '1050px')
+                    swal('El correo de utlidad se envio exitosamente.')
+                }
+              }, function (error) {
+                 alertFactory.error('No se puede enviar el correo.')
+              })
+          }
       }, function (error) {
         alertFactory.error('Ocurrio un error al enviar el correo.')
       });
     };
+
+  $scope.detalleCotizacionFactura = function () {
+    $('#ModalCotizaciones').modal();
+  }
+
+    $scope.OpenModalFacturaRecarga = function (no, cf, ct, nc) {
+      $('#ModalCotizaciones').modal('hide');
+      $scope.idOrden = no
+      $scope.cotizacionFactura = cf
+      $scope.numeroCotizacion = nc
+      $scope.cotizacionTotal = ct
+      $scope.alert_respuesta = false
+
+      $('.alert-warning').hide()
+      $('#myModal').modal()
+      $('.archivos').show()
+      $('.uploading').hide()
+      $('.btn-cerrar').removeAttr('disabled')
+      $('.btn-subir').removeAttr('disabled')
+
+      document.getElementById('frm_subir_factura').reset()
+
+      var inputs = document.querySelectorAll('.inputfile')
+      Array.prototype.forEach.call(inputs, function (input) {
+        var label = input.nextElementSibling
+        label.querySelector('span').innerHTML = 'Seleccionar archivo'
+      })
+    }
+
+    $scope.deleteProvision = function(){
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              swal('La provision se elimino exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al enviar el correo.')
+      });
+    };
+
+    $scope.cancelacionOrden = function(){
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 3).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              swal('La Orden se cancelo exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al enviar el correo.')
+      });
+    };
+
 })

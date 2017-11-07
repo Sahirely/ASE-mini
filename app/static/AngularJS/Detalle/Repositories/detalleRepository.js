@@ -183,19 +183,6 @@ registrationModule.factory('detalleRepository', function($http) {
                 }
             });
         },
-        getReenvioHojaUtilidad: function(numOrden, idOperacion) {
-            return $http({
-                url: detalleUrl + 'reenvioHojaUtilidad/',
-                method: "GET",
-                params: {
-                    numOrden: numOrden,
-                    idOperacion: idOperacion
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-        },
         getHistoricoCotizacion: function(idCotizacion) {
             return $http({
                 url: detalleUrl + 'obtenerHistoricoCotizacion/',
@@ -500,8 +487,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 headers:{'Content-Type':'application/json' }
             });
         },
-        postCorreoSaldoPresupuesto : function(idOrden, idUsuario, idCotizacion, saldo, idPresupuesto)
-        {
+        postCorreoSaldoPresupuesto : function(idOrden, idUsuario, idCotizacion, saldo, idPresupuesto) {
             return $http({
                 url: detalleUrl + 'correoSaldoPresupuesto/',
                 method:'POST',
@@ -514,6 +500,23 @@ registrationModule.factory('detalleRepository', function($http) {
                     idPresupuesto : idPresupuesto
                 },
                 headers:{'Content-Type':'application/json' }
+            });
+        },
+        getRealizaSoporte: function(idOrden, idCotizacion, idUsuario, idContratoOperacion, isProduction, idSoporte) {
+            return $http({
+                url: detalleUrl + 'realizaSoporte/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden,
+                    idCotizacion: idCotizacion,
+                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion,
+                    isProduction: isProduction,
+                    idSoporte: idSoporte
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
         }
     };
