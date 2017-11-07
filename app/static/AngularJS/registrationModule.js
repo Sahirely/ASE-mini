@@ -13,7 +13,7 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             // Allow same origin resource loads.
             'self',
             // Allow loading from our assets domain.  Notice the difference between * and **.
-            'http://localhost']);
+            global_settings.urlDOCS + '/**']);
         /*change the routes*/
         $routeProvider.when('/', {
             templateUrl: 'AngularJS/Login/Templates/login.html',
