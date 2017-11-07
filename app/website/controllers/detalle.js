@@ -1106,4 +1106,20 @@ Detalle.prototype.get_realizaSoporte = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_cotizacionbyOrden = function(req, res, next) {
+    var self = this;
+    var params = [{
+            name: 'idOrden',
+            value: req.query.idOrden,
+            type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_COTIZACIONES_BY_ORDEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;

@@ -518,6 +518,18 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getcotizacionbyOrden: function(idOrden) {
+            return $http({
+                url: detalleUrl + 'cotizacionbyOrden/',
+                method: "GET",
+                params: {
+                    idOrden: idOrden
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

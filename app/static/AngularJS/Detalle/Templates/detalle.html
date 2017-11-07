@@ -720,7 +720,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-6">
-                                                    <button ng-disabled="idEstatusOrden < 6" class="btn btn-success" style="width: 100%" ng-click="certificado()">Regenerar Hoja de Trabajo &nbsp;&nbsp;<span class="fa fa-file-word-o"></span></button>
+                                                    <button ng-disabled="idEstatusOrden < 6" class="btn btn-success" style="width: 100%" ng-click="regeneraCertificadoConf()">Regenerar Hoja de Trabajo &nbsp;&nbsp;<span class="fa fa-file-word-o"></span></button>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <button class="btn btn-danger" style="width: 100%" ng-click="cancelacionOrden()">Cancelar Orden &nbsp;&nbsp;<span class="fa fa-ban"></span></button>
@@ -731,7 +731,7 @@
                                                     <button class="btn btn-info" ng-click="detalleCotizacionFactura();" style="width: 100%">Re-Carga Factura &nbsp;&nbsp;<span class="fa fa-upload"></span></button>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <button class="btn btn-danger" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Cancelar Cotización &nbsp;&nbsp;<span class="fa fa-ban"></span></button>
+                                                    <button class="btn btn-danger" style="width: 100%" ng-click="cancelaCotizacion()">Cancelar Cotización &nbsp;&nbsp;<span class="fa fa-ban"></span></button>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1480,11 +1480,44 @@
                 </div> 
             </div>
             <div class="consulta" style="padding: 15px;text-align: right;">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="cencelCotizaciones" role="dialog">
+    <div class="modal-dialog moda-sm">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cancela Cotizaciones</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row col-md-12">
+                    <div class="col-md-6">
+                        <label class="font-noraml">Cotización</label>
+                            <select class="form-control m-b" id="cotizaSoporte" ng-model="cotizaSoporte" 
+                            ng-options="cotizaSoporte.idCotizacion as cotizaSoporte.numeroCotizacion for cotizaSoporte in cotizacionSoporte">
+                                <option value="">Seleccione una Cotización</option>
+                            </select>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-2">
+                    <label class="font-noraml">Acción</label><br>
+                        <button id="btnBuscar" busy="Buscando.." data-loading-text="Loading..." type="button" tooltip="Cancelación de Cotización" class="btn btn-success" ng-click="cancelacionCotizacion(cotizaSoporte)"><span class="{{class_buttonReclamacion}}"></span> Cancela Cotización </button>
+                    </div>
+                </div>
+            </div>
+            <div class="consulta" style="padding: 15px;text-align: right;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).ready(function() {

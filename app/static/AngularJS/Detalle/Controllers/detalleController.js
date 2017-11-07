@@ -2380,7 +2380,28 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         })
     }
 
-    $scope.reenviarHojaUtilidad = function(){
+    $scope.reenviarHojaUtilidad = function() {
+        swal({
+            title: "¿Esta seguro de enviar la hoja de utilidad?",
+            text: "Correo de Utilidad",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.reenviarHojaUtilidadSoporte();
+            } else {
+                swal("Operacion cancelada.");
+            }
+
+        });
+    }
+
+    $scope.reenviarHojaUtilidadSoporte = function(){
       $('#loadModal').modal('show');
       detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 1).then(function (resp) {
           if (resp.data.length > 0) {
@@ -2396,6 +2417,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     swal('El correo de utlidad se envio exitosamente.')
                 }
               }, function (error) {
+                  $('#loadModal').modal('hide')
+                  $('.modal-dialog').css('width', '1050px')
                  alertFactory.error('No se puede enviar el correo.')
               })
           }
@@ -2403,6 +2426,32 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         alertFactory.error('Ocurrio un error al enviar el correo.')
       });
     };
+
+    $scope.regeneraCertificadoConf = function() {
+        swal({
+            title: "¿Esta seguro de regenerar la Hoja de Trabajo?",
+            text: "Hoja de Trabajo",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.regeneraCertificadoConfSoporte();
+            } else {
+                swal("Operacion cancelada.");
+            }
+
+        });
+    }
+
+  $scope.regeneraCertificadoConfSoporte = function () {
+    $('#loadModal').modal('show');
+    $scope.getReporteConformidad($scope.idOrdenURL);
+  }
 
   $scope.detalleCotizacionFactura = function () {
     $('#ModalCotizaciones').modal();
@@ -2432,7 +2481,28 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       })
     }
 
-    $scope.deleteProvision = function(){
+    $scope.deleteProvision = function() {
+        swal({
+            title: "¿Esta seguro de cancelar la Provisión?",
+            text: "Cancelar la Provisión",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.deleteProvisionSoporte();
+            } else {
+                swal("Operacion cancelada.");
+            }
+
+        });
+    }
+
+    $scope.deleteProvisionSoporte = function(){
       $('#loadModal').modal('show');
       detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2).then(function (resp) {
           if (resp.data.length > 0) {
@@ -2446,18 +2516,97 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       });
     };
 
-    $scope.cancelacionOrden = function(){
+    $scope.cancelacionOrden = function() {
+      if ($scope.validaProcesoProvisionamiento == 2) {
+        swal({
+            title: "¿Esta seguro de cancelar la Orden?",
+            text: "Cancelar la Orden",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.cancelacionOrdenSoporte();
+            } else {
+                swal("Operacion cancelada.");
+            }
+
+        });
+        } else {
+          swal('Advertencia!', 'La orden se debe provisionar')
+        }
+    }
+
+    $scope.cancelacionOrdenSoporte = function(){
       $('#loadModal').modal('show');
       detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 3).then(function (resp) {
           if (resp.data.length > 0) {
               $('#loadModal').modal('hide')
               $('.modal-dialog').css('width', '1050px')
-              swal('La Orden se cancelo exitosamente.')
+              alertFactory.success('La Orden se cancelo exitosamente.')
               location.href = '/detalle?orden=' + $routeParams.orden;
           }
       }, function (error) {
         alertFactory.error('Ocurrio un error al enviar el correo.')
       });
     };
+
+    $scope.cancelaCotizacion = function () {
+      detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
+          if (resp.data.length > 0) {
+            if(resp.data.length == 1){
+               swal('Para cancelar una cotizacion al menos debes tener mas de 2 cotizaciones de lo contrario debes cancelar la orden.')
+            }else{
+              $scope.cotizacionSoporte = resp.data;
+               $('#cencelCotizaciones').modal();
+            } 
+          }else{
+            swal('No se encontro ninguna Cotización.')
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al buscar las cotizaciones.')
+      });    
+    }
+
+    $scope.cancelacionCotizacion = function(cotizaSoporte) {
+        swal({
+            title: "¿Esta seguro de cancelar la Cotización?",
+            text: "Cancelar la Cotización",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.cancelacionCotizacionSoporte(cotizaSoporte);
+            } else {
+                swal("Operacion cancelada.");
+            }
+        });
+    }
+
+    $scope.cancelacionCotizacionSoporte = function(cotizaSoporte){
+      $('#cencelCotizaciones').modal('hide')
+      $('#loadModal').modal('show');
+      detalleRepository.getRealizaSoporte($scope.idOrdenURL, cotizaSoporte, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 4).then(function (resp) {
+          if (resp.data.length > 0) {
+              $('#loadModal').modal('hide')
+              $('.modal-dialog').css('width', '1050px')
+              alertFactory.success('La Cotización se cancelo exitosamente.')
+              location.href = '/detalle?orden=' + $routeParams.orden;
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al cancelar la Cotización.')
+      });
+    };
+
+
 
 })
