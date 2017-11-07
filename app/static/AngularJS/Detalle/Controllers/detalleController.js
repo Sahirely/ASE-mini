@@ -254,7 +254,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           marker.setMap(map);
 
           $scope.hasGPS = true;
-          console.log($scope.mapOptions);
         } else {
           $scope.hasGPS = false
         }
@@ -337,9 +336,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   $scope.getMostrarCotizaciones = function (numeroOrden, estatus, idUsuario) {
     cotizacionRepository.getMostrarCotizaciones(numeroOrden, estatus, idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
-      console.log('--------------------------------------');
-      console.log(result);
-      console.log('--------------------------------------');
+
       if (result.data.success == true) {
         $scope.cotizaciones = result.data.data;
         $scope.getTotales();
@@ -426,7 +423,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         // handling the promise rejection
         function (dismiss) {
           if (dismiss === 'timer') {
-            console.log('I was closed by the timer')
+
           }
         }
         )
@@ -635,7 +632,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     aprobacionRepository.getUpdateStatusCotizacion(idCotizacion, idUsuario).then(function (result) {
       if (result.data.length > 0) {
         var valor = result.data[0].idEstatusCotizacion
-        console.log(valor)
 
         switch (Number(valor)) {
           case 2: // cliente
@@ -880,8 +876,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.cotizacionTotal = ct
     $scope.alert_respuesta = false
 
-    console.log('numeroCotizacion', $scope.numeroCotizacion)
-
     $('.alert-warning').hide()
     $('#myModal').modal()
     $('.archivos').show()
@@ -1063,7 +1057,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                       detalleRepository.eliminaFactura(item.PathDB)
                     } else {
                       if ($scope.cotizacionTotal >= (parseInt(subTotal) - 1) && $scope.cotizacionTotal <= (parseInt(subTotal) + 1)) {
-                        console.log('Todas las validaciones son correctas')
+                        
                         var parametros = {
                           idCotizacion: rfc.idCotizacion,
                           numFactura: Folio,
@@ -1079,12 +1073,12 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                         }
 
                         detalleRepository.insertarFactura(parametros).then(function (result) {
-                          console.log(result.data)
+                          
                           if (result.data.length != 0) {
                             Respuesta.data.forEach(function (archivo, key) {
                               var ServerPath = archivo.Param.docServer + '/orden/' + archivo.PathDB
                               detalleRepository.getGuardarFactura(ServerPath, archivo.Param.idOrden, archivo.Param.cotizacionFactura).then(function (result) {
-                                console.log(result)
+                                
                               })
                             })
 
@@ -1115,19 +1109,13 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                         detalleRepository.eliminaFactura(item.PathDB)
                       }
                     }
-
-                    // console.log("Valida RFC Receptor", rfc.RFCCliente, RFC_Receptor)
-                    // console.log("Valida RFC Emisor", rfc.RFCTaller, RFC_Emisor)
-                    // console.log("SubTotal", subTotal, $scope.cotizacionTotal)
                   } else {
                     $scope.FacturaLista()
                   }
                 }, function (error) {
-                  // console.log(error)
                 })
               }
             }, function (error) {
-              console.log(error)
             })
           }
           // detalleRepository.getGuardarFactura(ServerPath, item.Param.idOrden, item.Param.cotizacionFactura).then(function(result) {
@@ -1135,7 +1123,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           // })
         })
       }, function (error) {
-        // console.log(error)
       })
     }
   }
@@ -2063,7 +2050,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   $scope.validaFacturaCotizacionBoton = function () {
     detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function (result) {
-      console.log(result)
+
       if (result.data[0].success == 1) {
         $scope.botonProcesarCompra = true
         $scope.estadoProveedor = true
@@ -2362,7 +2349,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.prb1 = function(CotizacionDetalle) {
         angular.copy(CotizacionDetalle, $scope.cotizacionDetalle);
         $('#editorDetalleCotizacion').modal();
-        console.log($scope.cotizacionDetalle);
+        
     }
 
     $scope.updateDetalleCotizacion = function(){
