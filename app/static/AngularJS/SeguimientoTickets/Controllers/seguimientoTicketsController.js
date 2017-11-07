@@ -495,7 +495,7 @@ registrationModule.controller('seguimientoTicketsController', function ($scope, 
 
     $scope.popupOptions = {
         width: 1000,
-        height: 700,
+        height: 600,
         
         bindingOptions: {          
             title: 'salesPopupTitle',
