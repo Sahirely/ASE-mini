@@ -2517,7 +2517,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     };
 
     $scope.cancelacionOrden = function() {
-      if ($scope.validaProcesoProvisionamiento == 2) {
+      if ($scope.validaProcesoProvisionamiento != 2) {
         swal({
             title: "¿Esta seguro de cancelar la Orden?",
             text: "Cancelar la Orden",
@@ -2537,7 +2537,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
         });
         } else {
-          swal('Advertencia!', 'La orden se debe provisionar')
+          swal('Advertencia!', 'La orden se encuentra provisionada')
         }
     }
 
