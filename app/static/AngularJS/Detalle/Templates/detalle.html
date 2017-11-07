@@ -715,7 +715,7 @@
                                                     <button class="btn btn-success" style="width: 100%" ng-click="reenviarHojaUtilidad()">Correo de Utilidad &nbsp;&nbsp;<span class="fa fa-paper-plane-o"></span></button>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <button class="btn btn-danger" style="width: 100%" ng-click="deleteProvision()">Eliminar Provisión &nbsp;&nbsp;<span class="fa fa-times"></span></button>
+                                                    <button class="btn btn-danger" disabled style="width: 100%" ng-click="deleteProvision()">Eliminar Provisión &nbsp;&nbsp;<span class="fa fa-times"></span></button>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -1385,9 +1385,9 @@
                                                             Modificar</th>
                                                         <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Usuario Aprobador</th>
                                                         <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
-                                                        <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
-                                                        <th class="slimCol" ng-show="estatus == 4">Rechazar</th>
-                                                        <th class="slimCol" ng-show="false">&nbsp;</th>
+<!--                                                         <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
+                                                        <th class="slimCol" ng-show="estatus == 4">Rechazar</th> 
+                                                         <th class="slimCol" ng-show="false">&nbsp;</th> -->
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1414,7 +1414,7 @@
                                                         <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.usuario}}</td>
                                                         <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.fechaAprobacion | date:'dd-MM-yyyy HH:mm' : 'UTC' }}
                                                         </td>
-                                                        <td class="slimCol" ng-show="estatus == 4">
+<!--                                                         <td class="slimCol" ng-show="estatus == 4">
                                                             <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                 <input type="radio" ng-init="partida.btnDisabled=true;
                                                                         partida.selOption=1;
@@ -1425,13 +1425,13 @@
                                                             <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                 <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="3" ng-click=agregarComentario(1,partida)>
                                                             </div>
-                                                        </td>
+                                                        </td> 
                                                         <td class="slimCol" ng-show="false" center>
                                                             <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1">
-                                                        </td>
+                                                        </td> -->
                                                     </tr>
                                                 </tbody>
-                                                <tfoot>
+<!--                                                 <tfoot>
                                                     <tr>
                                                         <td colspan="3">&nbsp;</td>
                                                         <td colspan="3" align="right" ng-hide="userData.idRol ==  4">
@@ -1440,7 +1440,7 @@
                                                             </a>
                                                         </td>
                                                     </tr>
-                                                </tfoot>
+                                                </tfoot> -->
                                             </table>
                                         </div>
                                         <div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
@@ -1461,7 +1461,7 @@
                                                 </tbody>
                                             </table>
                                             <div>
-                                                <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 || cotizacion.hasApprovedParts == true)||Precancelacion">
+<!--                                                 <button class="btn btn-primary pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="editarCotizacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 || cotizacion.hasApprovedParts == true)||Precancelacion">
                                                     <span class="{{class_buttonEditarCotizacion}}"></span> Editar Cotización
                                                 </button>
                                                 <button class="btn btn-danger pull-right btn-movil" data-loading-text="Loading..." type="submit" ng-click="cancelarAprobacion(cotizacion)" ng-hide="cotizacion.idTaller[0] == 0 || (cotizacion.idEstatusCotizacion != 1 && cotizacion.idEstatusCotizacion != 2)||Precancelacion">
@@ -1469,7 +1469,7 @@
                                                 </button>
                                                 <button ng-hide="btnGuardaCotizacionIsEnable || userData.idRol == 3 || Precancelacion" data-loading-text="Loading..." type="submit" class="btn btn-success btn-movil pull-right " ng-click="btnSaveCotizacion( idUsuario, cotizacion)">
                                                     <span class="{{class_buttonGuardaCotizacion}}"></span> Guarda Cotización
-                                                </button>
+                                                </button> -->
                                             </div>
                                         </div>
                                     </div>
