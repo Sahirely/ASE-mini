@@ -41,6 +41,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // Preconfiguración MAPA y Marcadores
   var markerUrl = 'https://js.devexpress.com/Demos/RealtorApp/images/map-marker.png'
 
+  // alcance local
+  $scope.urldocs = global_settings.urlDOCS;
+
   $scope.markerUrlValue = markerUrl
   $scope.markers = []
 
