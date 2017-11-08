@@ -14,6 +14,14 @@
     $scope.selectAllMode = 'page'
 
     $scope.meetingObjetivo = ''
+     // evita mostar las llaves en el inicio
+    $scope.busquedaNumEco = '';
+    $scope.busquedaNumOrden = '';
+    $rootScope.busqueda = 0;
+
+    $scope.ShowbusquedaNumEco = false;
+    $scope.ShowbusquedaNumOrden = false;
+    $scope.principal = false;
 
     var citaMsg = localStorageService.get('citaMsg')
 
@@ -34,10 +42,12 @@
                 $scope.busquedaNumEco = localStorageService.get('economico')
                 $rootScope.busqueda = 1
                 $scope.numeroEconomico = ''
+                $scope.ShowbusquedaNumEco = true;
             } else if (localStorageService.get('orden') != null && localStorageService.get('orden') != '') {
                 $scope.busquedaNumOrden = localStorageService.get('orden')
                 $rootScope.busqueda = 2
                 $scope.numeroOrden = ''
+                $scope.ShowbusquedaNumOrden = true;
             } else {
                 $rootScope.busqueda = 1
                 $scope.numeroEconomico = ''
@@ -74,6 +84,9 @@
     }
 
     $scope.logOut = function() {
+        $scope.ShowbusquedaNumEco = false;
+        $scope.ShowbusquedaNumOrden = false;
+        $scope.principal = false;
         userFactory.logOut()
     }
 
@@ -176,6 +189,7 @@
             angular.forEach(result.data, function(value, key) {
                 $scope.numEconomicos.push(value.numeroEconomico)
             })
+            $scope.principal = true;
         })
     }
 
@@ -185,6 +199,7 @@
     $scope.getDetalleOrden = function(orden) {
         localStorageService.set('orden', orden)
         localStorageService.set('economico', '')
+
         consultaCitasRepository.getExisteOrden($scope.idUsuario, orden, $scope.userData.contratoOperacionSeleccionada).then(function(result) {
             $scope.tipoRespuesta = result.data[0]
             if ($scope.tipoRespuesta.respuesta == 0) {

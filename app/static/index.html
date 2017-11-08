@@ -52,7 +52,7 @@
 
 </head>
 
-<body ng-app="registrationModule" ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
+<body ng-app="registrationModule" ng-cloak ng-controller="mainController" ng-init="init()" ng-class="{ 'white': sesion == 0 }" class="mini-navbar">
     <nav class="navbar-default navbar-static-side" role="navigation" ng-hide="sesion == 0">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
@@ -168,7 +168,7 @@
     <!-- PRUEBA -->
     <div id="page-wrapper" class="gray-bg">
         <div class="row border-bottom" ng-hide="sesion == 0">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <nav ng-show="principal" class="ng-hide navbar navbar-static-top" role="navigation" style="margin-bottom: 0;">
                 <div class="navbar-header">
                     <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
@@ -176,11 +176,11 @@
                     <li id="finder">
                         <div class=" radio-info radio-inline singLeft inlineb">
                             <input type="radio" id="busqueda1" value="2" name="busqueda1" checked="" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                            <label for="utilidad1" class="labelLight"> Orden </label>
+                            <label for="busqueda1" class="labelLight"> Orden </label>
                         </div>
                         <div id="chkUnidad" class=" radio-info radio-inline singLeft">
                             <input type="radio" id="busqueda2" value="1" name="busqueda2" ng-model="busqueda" ng-click="botonBusqueda(busqueda)">
-                            <label for="utilidad2" class="labelLight"> Unidad </label>
+                            <label for="busqueda2" class="labelLight"> Unidad </label>
                         </div>
                         <div class="txtFinder" ng-hide="userData.idRol == 5 || busqueda == 2">
                             <div class="form-group ">
@@ -196,18 +196,18 @@
                             <button class="btn btn-primary" type="submit" ng-click="(busqueda == 1 ? getDetalleUnidad(numeroEconomico) : getDetalleOrden(numeroOrden))"><i class="fa fa-search"></i></button>
                         </div>
                     </li>
-                    <li id="currentSearch">
-                        <div class="singOut right colorDetalle" ng-hide="busqueda == 2" ng-click="getDetalle(1)">
+                    <li id="currentSearch" ng-cloak ng-show="principal">
+                        <div class="singOut right colorDetalle" ng-show="busqueda == 1" ng-click="getDetalle(1)">
                             <div class="fa fa-car car"></div>
-                            <div class="lastSearch">{{busquedaNumEco}}</div>
+                            <div ng-show="ShowbusquedaNumEco && principal" class="lastSearch ng-hide" ng-cloak>{{busquedaNumEco}}</div>
                         </div>
-                        <div class="singOut right colorDetalle" ng-hide="busqueda == 1" ng-click="getDetalle(2)">
+                        <div class="singOut right colorDetalle" ng-show="busqueda == 2" ng-click="getDetalle(2)">
                             <div class="fa fa-edit car"></div>
-                            <div class="lastSearch"> {{busquedaNumOrden}}</div>
+                            <div ng-show="ShowbusquedaNumOrden && principal" class="lastSearch ng-hide" ng-cloak> {{busquedaNumOrden}}</div>
                         </div>
                     </li>
                 </ul>
-                <ul class="nav navbar-top-links navbar-right navMain">
+                <ul class="nav navbar-top-links navbar-right navMain" ng-cloak ng-show="principal">
 
                     <li ng-hide="{{userData.idRol != 2 && userData.idRol != 3}}">
                         <a class="right-sidebar-toggle">
@@ -218,8 +218,8 @@
 
 
                     <li>
-                        <div ng-hide="{{userData.idRol == 5}}" class="m-r-sm">
-                            <button id="CambiarOperacion" type="button" ng-show="{{userData.Operaciones.length > 1}}" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">{{userData.nombreOperacion}}
+                        <div ng-hide="{{userData.idRol == 5}}" class="m-r-sm ng-hide">
+                            <button id="CambiarOperacion" type="button" ng-show="userData.Operaciones.length > 1 && userData.nombreOperacion.length > 0 && principal" class="btn btn-primary dropdown-toggle ng-hide" ng-cloak data-toggle="dropdown">{{userData.nombreOperacion}}
                                                     <span class="caret"></span>
                                             </button>
                             <ul class="dropdown-menu">
