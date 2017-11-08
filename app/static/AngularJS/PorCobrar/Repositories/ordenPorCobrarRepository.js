@@ -24,10 +24,12 @@ registrationModule.factory('ordenPorCobrarRepository', function ($http) {
         data: params
       })
     },
-    putTrabajoCobrado: function (idTrabajo, idDatosCopade) {
+    putTrabajoCobrado: function (idTrabajo, idDatosCopade, idContratoOperacion, isProduction) {
       var objTrabajo = {
           idTrabajo: idTrabajo,
-          idDatosCopade: idDatosCopade
+          idDatosCopade: idDatosCopade,
+          idContratoOperacion: idContratoOperacion,
+          isProduction: isProduction
       };
 
       return $http({

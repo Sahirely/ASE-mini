@@ -128,8 +128,16 @@ Cobrar.prototype.post_trabajocobrado = function (req, res, next) {
       value: req.body.idDatosCopade,
       type: self.model.types.INT
     },
-    { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+    {
+      name: 'idContratoOperacion',
+      value: req.body.idContratoOperacion,
+      type: self.model.types.INT
+    },
+    {
+      name: 'isProduction',
+      value: req.body.isProduction,
+      type: self.model.types.INT
+    }
   ];
 
       this.query.execute('INS_TRABAJO_CONCLUIDO_SP', params, res)
