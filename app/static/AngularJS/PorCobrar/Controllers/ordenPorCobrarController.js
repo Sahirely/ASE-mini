@@ -983,7 +983,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       $scope.checkedFacturasTotalp = [];
       $scope.selectPgds='';
       $scope.promise = ordenPorCobrarRepository.get('obtenerPagada', { 'idUsuario': $scope.userData.idUsuario,
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction': $scope.userData.isProduction }).then(function (result) {
       $scope.selectPgds = result.data
       var sumatoriaMontoPago = 0;
       var sumatoriaAbonoPago = 0;
