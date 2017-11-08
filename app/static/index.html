@@ -209,9 +209,9 @@
                 </ul>
                 <ul class="nav navbar-top-links navbar-right navMain">
 
-                    <li>
+                    <li ng-hide="{{userData.idRol != 2 && userData.idRol != 3}}">
                         <a class="right-sidebar-toggle">
-                            <button class="btn btn-default btn-sm"><i class="fa fa-video-camera"></i> Nueva Videoconferencia</button>
+                            <button class="btn btn-default btn-sm" ><i class="fa fa-video-camera"></i> Nueva Videoconferencia</button>
 
                         </a>
                     </li>
@@ -565,7 +565,7 @@
     <!-- wysiwyg -->
     <script src="Libraries/js/wysiwyg/summernote.min.js"></script>
     <!-- devextreme -->
-    <script src="Libraries/js/devextreme/dx.all.debug.js"></script>
+    <script src="Libraries/js/devextreme/dx.all.js"></script>
 
     <!-- LIGHTBOX -->
     <script src="Libraries/js/lightbox/lightbox.js"></script>
