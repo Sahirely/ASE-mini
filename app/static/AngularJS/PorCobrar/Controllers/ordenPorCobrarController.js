@@ -81,6 +81,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       break
     }
     $scope.idGrouper = type
+    $('.dataTableCoincidencia').DataTable()
     $('.dataTablePorCobrar').DataTable().destroy()
     $('.dataTablePrefactura').DataTable().destroy()
     $('.dataTableEnviada').DataTable().destroy()
@@ -88,6 +89,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $('.dataTablePagadas').DataTable().destroy()
     $('.dataTableDetalleOrdenes').DataTable().destroy();
     setTimeout(function () {
+      globalFactory.filtrosTabla('dataTableCoincidencia', 'Mejor coinciden', 10)
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
       globalFactory.filtrosTabla('dataTablePrefactura', 'PreFactura Generada', 100)
       globalFactory.filtrosTabla('dataTableEnviada', 'PreFactura Generada', 100)
@@ -499,10 +501,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   }
 
+  $('.dataTableCoincidencia').DataTable().destroy();
   //Busqueda de las mejores coincidencias para los datos Copade
   $scope.buscaCoincidencia = function (idDatosCopade) {
-    $('.dataTableCoincidencia').DataTable().destroy();
-    $('.dataTableOrdenesPorCobrar').DataTable().destroy();
+    $('#mejorCoincidencia').modal('show');
+    
     $scope.ordenes = [];
     $scope.coincidencia = [];
     $scope.cobranza.forEach(function (p, i) {
@@ -519,9 +522,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
             ordenPorCobrarRepository.get('MejorCoincidencia',{'folio':$scope.folio}).then(function (result) {
               $scope.coincidencia = result.data;
               $scope.trabajos=[];
-              $('#mejorCoincidencia').modal('show');
               setTimeout(function () {
-                $('.dataTableCoincidencia').DataTable();
                 globalFactory.filtrosTabla('dataTableCoincidencia', 'Mejor coinciden', 10)
               }, 1500);
 
