@@ -254,6 +254,11 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'nuevoMemorandumController'
         })
 
+        $routeProvider.when('/estadocuenta', {
+            templateUrl: 'AngularJS/Proveedor/Templates/estadoCuenta.html',
+            controller: 'estadoCuentaController'
+        });
+
         // Análsis de Inversión
         $routeProvider.when('/afinversion', {
             templateUrl: 'AngularJS/AnalisisFlotilla/Templates/inversion.html',

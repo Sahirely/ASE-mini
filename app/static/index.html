@@ -105,6 +105,16 @@
                         <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
                     </ul>
                 </li>
+                <li ng-class="{'active': (modulo=='estadoCuenta' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}" ng-hide="{{userData.idRol != 2}}"> 
+                    <a href="#" ng-click="showChat = 0"><i class="fa fa-area-chart"></i> <span class="nav-label">Proveedor</span><span class="label label-warning pull-right"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='proveedor'}"><a href="/estadocuenta">Estado de Cuenta</a></li>
+                        <!-- <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteMargenUtilidad'}"><a href="/reporteutilidad">Reporte Márgenes de Utilidad</a></li>
+                        <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteHojaTrabajo">Hoja de Trabajo</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteParqueVehicular'}"><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li> -->
+                    </ul>
+                </li>
                 <li ng-class="{'active': (modulo=='reporteAntiguedad' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-line-chart"></i> <span class="nav-label">Reporte</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
@@ -516,6 +526,8 @@
     <script src="AngularJS/MiCuenta/Controllers/miCuentaController.js"></script>
     <script src="AngularJS/MiCuenta/Repositories/miCuentaRepository.js"></script>
     <script src="AngularJS/SeguimientoTickets/Controllers/seguimientoTicketsController.js"></script>
+    <script src="AngularJS/Proveedor/Controllers/estadoCuentaController.js"></script>
+    <script src="AngularJS/Proveedor/Repositories/estadoCuentaRepository.js"></script>
     <script src="AngularJS/SeguimientoTickets/Repositories/seguimientoTicketsRepository.js"></script>
     <script src="AngularJS/MiCuenta/Controllers/nuevoMemorandumController.js"></script>
     <script src="AngularJS/MiCuenta/Repositories/nuevoMemorandumRepository.js"></script>
