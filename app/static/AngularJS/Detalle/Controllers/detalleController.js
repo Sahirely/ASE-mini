@@ -2499,11 +2499,15 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.deleteProvisionSoporte = function(){
       $('#loadModal').modal('show');
       detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2, 0).then(function (resp) {
-          if (resp.data.length > 0) {
+          if (resp.data[0].Success == 1) {
               $('#loadModal').modal('hide')
               $('.modal-dialog').css('width', '1050px')
-              swal('La provision se elimino exitosamente.')
-              location.href = '/detalle?orden=' + $routeParams.orden;
+              alertFactory.success(resp.data[0].Msg)
+              $scope.validaFacturaCotizacionBoton();
+          }else{
+            $('#loadModal').modal('hide')
+            $('.modal-dialog').css('width', '1050px')
+            alertFactory.info(resp.data[0].Msg)
           }
       }, function (error) {
         alertFactory.error('Ocurrio un error al enviar el correo.')
