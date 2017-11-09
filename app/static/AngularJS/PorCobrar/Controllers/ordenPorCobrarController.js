@@ -504,6 +504,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $('.dataTableCoincidencia').DataTable().destroy();
   //Busqueda de las mejores coincidencias para los datos Copade
   $scope.buscaCoincidencia = function (idDatosCopade) {
+    $('.dataTableCoincidencia').DataTable().destroy();
+    $('.dataTableOrdenesPorCobrar').DataTable().destroy();
+    
     $('#mejorCoincidencia').modal('show');
 
     $scope.ordenes = [];
