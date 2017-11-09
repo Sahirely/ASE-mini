@@ -221,6 +221,7 @@
                                             <th>Fecha Creación Orden</th>
                                             <th>Fecha inicio real de trabajos</th>
                                             <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera/ Tiempo Transcurrido</th>
+                                            <th>Estatus de token</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -243,6 +244,7 @@
                                                 <!-- <button ng-if="trabajo.estatus == 'Iniciado' || trabajo.estatus == 'OrdenGarantia'" ng-hide="userData.idTipoUsuario == 4" class="btn btn-success" type="button" ng-click="cargaFecha(trabajo.idTrabajo)" data-toggle="tooltip" tooltip="Fecha Inicio real de trabajos" tooltip-placement="up"><span class="glyphicon glyphicon-calendar"></span></button> -->
                                             </td>
                                             <td ng-if="userData.tiempoAsignado == 1">{{orden.tiempoEspera}} días</td>
+                                            <td>{{orden.estatusToken}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
