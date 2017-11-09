@@ -81,6 +81,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       break
     }
     $scope.idGrouper = type
+    $('.dataTableCoincidencia').DataTable()
     $('.dataTablePorCobrar').DataTable().destroy()
     $('.dataTablePrefactura').DataTable().destroy()
     $('.dataTableEnviada').DataTable().destroy()
@@ -88,6 +89,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $('.dataTablePagadas').DataTable().destroy()
     $('.dataTableDetalleOrdenes').DataTable().destroy();
     setTimeout(function () {
+      globalFactory.filtrosTabla('dataTableCoincidencia', 'Mejor coinciden', 10)
       globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 100)
       globalFactory.filtrosTabla('dataTablePrefactura', 'PreFactura Generada', 100)
       globalFactory.filtrosTabla('dataTableEnviada', 'PreFactura Generada', 100)
@@ -154,7 +156,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     getFacturasAbonadas();
 
     $('.dataTablePagadas').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerpagadas', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
+    $scope.promise = ordenPorCobrarRepository.get('trbajoCobrado', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
       'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,
       'idDatosCopade':0, 'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
         $scope.pagadas = result.data
@@ -195,7 +197,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       $('.dataTableAbonos').DataTable().destroy()
       $scope.checkedFacturasTotal = [];
       $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario,
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.selectCotizaciones = result.data
       var sumatoriaMontoCopade = 0;
       var sumatoriaAbonoCopade = 0;
@@ -409,24 +411,24 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $('.dataTableDetalleOrdenes').DataTable().destroy()
     $scope.ShowOrdenCopade = function (idCopade, numeroCopade) {
       if(!angular.isUndefined(idCopade)){
-  
-        $scope.promise = ordenPorCobrarRepository.get('obtenerOrdenesPorCopade', 
+
+        $scope.promise = ordenPorCobrarRepository.get('obtenerOrdenesPorCopade',
         {'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
         'idCopade': idCopade })
         .then(function (result) {
           $scope.numeroCopadeModal = numeroCopade;
           $scope.ordenesDeCopade = result.data;
-          
+
           globalFactory.filtrosTabla('dataTableDetalleOrdenes', 'Detalle de ordenes', 10);
 
           $('#ordenesCopade').modal('show');
-  
+
         }, function (error) {
           alertFactory.error('No se puede obtener las ordenes.')
         });
       }
     }
-  
+
     //Abrir detalle de orden sin estatus POR EL MOMENTO
     $scope.AbrirOrdenSinEstatus = function (numeroOrden) {
       location.href = '/detalle?orden=' + numeroOrden
@@ -499,10 +501,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   }
 
+  $('.dataTableCoincidencia').DataTable().destroy();
   //Busqueda de las mejores coincidencias para los datos Copade
   $scope.buscaCoincidencia = function (idDatosCopade) {
-    $('.dataTableCoincidencia').DataTable().destroy();
-    $('.dataTableOrdenesPorCobrar').DataTable().destroy();
+    $('#mejorCoincidencia').modal('show');
+
     $scope.ordenes = [];
     $scope.coincidencia = [];
     $scope.cobranza.forEach(function (p, i) {
@@ -519,9 +522,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
             ordenPorCobrarRepository.get('MejorCoincidencia',{'folio':$scope.folio}).then(function (result) {
               $scope.coincidencia = result.data;
               $scope.trabajos=[];
-              $('#mejorCoincidencia').modal('show');
               setTimeout(function () {
-                $('.dataTableCoincidencia').DataTable();
                 globalFactory.filtrosTabla('dataTableCoincidencia', 'Mejor coinciden', 10)
               }, 1500);
 
@@ -581,7 +582,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   //Inserta a historial proceso y Asocia DatosCopadeOrden
   $scope.trabajoCobrado = function (idTrabajo, idDatosCopade) {
     $('.dataTableOrdenesPorCobrar').DataTable().destroy();
-    ordenPorCobrarRepository.putTrabajoCobrado(idTrabajo, idDatosCopade).then(function (result) {
+    ordenPorCobrarRepository.putTrabajoCobrado(idTrabajo, idDatosCopade, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction).then(function (result) {
       if (result.data.length > 0) {
         alertFactory.success('Trabajo cobrado exitosamente');
       } else {
@@ -686,7 +687,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.verOrdenes= function(idDatosCopade){
     $('.dataTableTrabajosCobrados').DataTable().destroy();
     $('#facturasOrden').appendTo("body").modal('show');
-    ordenPorCobrarRepository.getTrbajoCobrado({'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,'idDatosCopade':idDatosCopade}).then(function (result) {
+    ordenPorCobrarRepository.getTrbajoCobrado({'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,'idDatosCopade':idDatosCopade, 'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada, 'isProduction': $scope.userData.isProduction}).then(function (result) {
       if (result.data.length > 0) {
         $scope.trabajosCobrados = result.data;
         $scope.numeroCopadeOrden = $scope.trabajosCobrados[0].numeroCopade;
@@ -929,7 +930,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       $scope.checkedFacturasTotala = [];
       $scope.selectAbonada = '';
       $scope.promise = ordenPorCobrarRepository.get('obtenerabonada', { 'idUsuario': $scope.userData.idUsuario,
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
       $scope.selectAbonada = result.data
       var sumatoriaMontoAbon = 0;
       var sumatoriaAbonoAbon = 0;
@@ -982,7 +983,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       $scope.checkedFacturasTotalp = [];
       $scope.selectPgds='';
       $scope.promise = ordenPorCobrarRepository.get('obtenerPagada', { 'idUsuario': $scope.userData.idUsuario,
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':1/*$scope.userData.isProduction*/ }).then(function (result) {
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction': $scope.userData.isProduction }).then(function (result) {
       $scope.selectPgds = result.data
       var sumatoriaMontoPago = 0;
       var sumatoriaAbonoPago = 0;

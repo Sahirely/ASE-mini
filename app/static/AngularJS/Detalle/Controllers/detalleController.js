@@ -2444,7 +2444,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.detalleCotizacionFactura = function () {
-    $('#ModalCotizaciones').modal();
+    if ($scope.validaProcesoProvisionamiento != 2) {
+      $('#ModalCotizaciones').modal();
+    } else {
+      swal('Advertencia!', 'La orden se encuentra provisionada')
+    }
   }
 
     $scope.OpenModalFacturaRecarga = function (no, cf, ct, nc) {
@@ -2495,11 +2499,15 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.deleteProvisionSoporte = function(){
       $('#loadModal').modal('show');
       detalleRepository.getRealizaSoporte($scope.idOrdenURL, 0, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction, 2, 0).then(function (resp) {
-          if (resp.data.length > 0) {
+          if (resp.data[0].Success == 1) {
               $('#loadModal').modal('hide')
               $('.modal-dialog').css('width', '1050px')
-              swal('La provision se elimino exitosamente.')
-              location.href = '/detalle?orden=' + $routeParams.orden;
+              alertFactory.success(resp.data[0].Msg)
+              $scope.validaFacturaCotizacionBoton();
+          }else{
+            $('#loadModal').modal('hide')
+            $('.modal-dialog').css('width', '1050px')
+            alertFactory.info(resp.data[0].Msg)
           }
       }, function (error) {
         alertFactory.error('Ocurrio un error al enviar el correo.')
@@ -2600,36 +2608,35 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.presupuestoOrden = function () {
     $scope.presupuestoOrdAct='';
     $scope.presupuestoCNTB='';
+    $('.presupuestoCT').DataTable().destroy();
+    $('.presupuestoOrdActiv').DataTable().destroy();
     $scope.getPresupuestoOrdenActivo();
-    $scope.getPresupuestoCentroTrabajo();
+    //$scope.getPresupuestoCentroTrabajo();
     $('#modalPresupuestoOrden').modal();
   }
 
-  $scope.getPresupuestoOrdenActivo = function () {
-      $('.presupuestoOrdActiv').DataTable().destroy();
+  $scope.getPresupuestoOrdenActivo = function () {  
       detalleRepository.getpresupuestobyOrden($scope.idOrdenURL, 1).then(function (resp) {
           if (resp.data.length > 0) {
               globalFactory.filtrosTabla("presupuestoOrdActiv", "Presupuesto Orden", 5);
               $scope.presupuestoOrdAct = resp.data;
+                    //$scope.getPresupuestoCentroTrabajo = function () {
+                      detalleRepository.getpresupuestobyOrden($scope.idOrdenURL, 2).then(function (resp) {
+                          if (resp.data.length > 0) {
+                              globalFactory.filtrosTabla("presupuestoCT", "Presupuesto CT", 100);
+                              $scope.presupuestoCNTB = resp.data;
+                          }else{
+                            swal('No se encontro presupuesto para este Centro de Trabajo.')
+                          }
+                      }, function (error) {
+                        alertFactory.error('Ocurrio un error al buscar los presupuesto por centro de trabajo.')
+                      });    
+                    //}
           }else{
             swal('No se encontro Orden relacionada con presupuesto.')
           }
       }, function (error) {
         alertFactory.error('Ocurrio un error al buscar los registros en Presupuesto Orden.')
-      });    
-    }
-
-  $scope.getPresupuestoCentroTrabajo = function () {
-      $('.presupuestoCT').DataTable().destroy();
-      detalleRepository.getpresupuestobyOrden($scope.idOrdenURL, 2).then(function (resp) {
-          if (resp.data.length > 0) {
-              globalFactory.filtrosTabla("presupuestoCT", "Presupuesto CT", 100);
-              $scope.presupuestoCNTB = resp.data;
-          }else{
-            swal('No se encontro presupuesto para este Centro de Trabajo.')
-          }
-      }, function (error) {
-        alertFactory.error('Ocurrio un error al buscar los presupuesto por centro de trabajo.')
       });    
     }
 
