@@ -1,0 +1,17 @@
+<div ng-init="init()">
+    <div class="headTitleTallerCita">
+        <span class="title"> Estado de Cuenta <span class="subtitle"></span></span>
+    </div>
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class=" col-lg-12 ">
+                <div id="dtgEstadoGeneral" dx-data-grid="gridEstadoGeneral"></div>
+                <div dx-popup="popupOptions">
+                        <div id="scrollview" dx-scroll-view="">
+                            <div id="dtgDetalle" dx-data-grid="gridDetalle"></div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -715,7 +715,7 @@
                                                     <button class="btn btn-success" style="width: 100%" ng-click="reenviarHojaUtilidad()">Correo de Utilidad &nbsp;&nbsp;<span class="fa fa-paper-plane-o"></span></button>
                                                 </div>
                                                 <div class="col-xs-6">
-                                                    <button class="btn btn-danger" disabled style="width: 100%" ng-click="deleteProvision()">Eliminar Provisión &nbsp;&nbsp;<span class="fa fa-times"></span></button>
+                                                    <button class="btn btn-danger" ng-disabled="validaProcesoProvisionamiento != 2" style="width: 100%" ng-click="deleteProvision()">Eliminar Provisión &nbsp;&nbsp;<span class="fa fa-times"></span></button>
                                                 </div>
                                             </div>
                                             <div class="row">
