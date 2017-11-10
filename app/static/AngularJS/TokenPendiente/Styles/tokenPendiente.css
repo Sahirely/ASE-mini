@@ -1,0 +1,37 @@
+.totalesInline{
+    display: inline;
+}
+.letraItalic{
+    font-style: italic;
+}
+#frm_copade{
+    margin: 95px;
+    text-align: center;
+}
+
+.sumatorias{
+ margin-top: 50px;
+  margin-bottom: 60px;
+}
+
+.bottomBorder {
+    border-bottom: 1px solid rgb(231, 234, 236) !important;
+}
+
+.searchContent{
+    margin-top: 23px;
+}
+
+.trTableSelect{
+    cursor: pointer;
+}
+
+.trTableSelect:hover{
+    cursor: pointer;
+    background-color: rgba(14, 69, 121, 0.09) !important;
+}
+
+.altaOrdenPago{
+    margin-top: 50px;
+     margin-bottom: 50px;
+}

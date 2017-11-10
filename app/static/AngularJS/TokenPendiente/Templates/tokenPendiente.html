@@ -1,0 +1,155 @@
+<!-- <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
+<link rel="stylesheet" href="AngularJS/Administracion/Styles/administracionOrden.css">
+<link rel="stylesheet" href="Libraries/css/nsPopover.css"> -->
+<link rel="stylesheet" href="AngularJS/Trabajo/Styles/tokenPendiente.css">
+<div ng-init="Init()">
+    <div class="headTitleTallerCita">
+        <span class="title"> Órdenes pendientes de TOKEN </span>
+    </div>
+
+    <div class="wrapper wrapper-content">
+        <div class="btn-group pull-right" style="padding:0 10px 10px 0 ;" ng-hide="hideSwitchBtn">
+            <button type="button" ng-class="btnSwitch.classCosto" ng-click="btnSwitch.showCostoVenta=true;
+        btnSwitch.classVenta='btn btn-default';
+        btnSwitch.classCosto='btn btn-success'">Costo</button>
+            <button type="button" ng-class="btnSwitch.classVenta" ng-click="btnSwitch.showCostoVenta=false;
+        btnSwitch.classVenta='btn btn-success';
+        btnSwitch.classCosto='btn btn-default'">Venta</button>
+        </div>
+        <div class="row">
+            <div class="contenedorFiltros">
+                <div class="col-xs-12">
+                    <div id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="ibox">
+                            <div class="panel panel-default">
+                                <div class="ibox-title " role="tab" id="headingOne">
+                                    <h5>Filtros de búsqueda</h5>
+                                    <div class="ibox-tools">
+                                        <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            <i class="fa fa-chevron-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
+                                    <div class="row ">
+                                        <div class="col-xs-12 col-sm-2" ng-repeat="zona in Zonas | orderBy:'orden'">
+                                            <label class="font-noraml">{{zona.etiqueta}}</label>
+                                            <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
+                                          <option value="0">Seleccione</option>
+                                          <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
+                                            {{z.nombre}}
+                                          </option>
+                                      </select>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3" ng-show="userData.idRol == 2">
+                                            <label class="font-noraml">Ejecutivo</label>
+                                            <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected" ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
+                                          <option value="">Seleccione un Ejecutivo</option>
+                                      </select>
+                                        </div>
+                                    </div>
+                                    <div class="row espacioInferior">
+                                        <div class="col-xs-12 col-sm-4" id="divfechaMes">
+                                            <label class="font-noraml">Mes</label>
+                                            <div class="input-group date">
+                                                <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-4">
+                                            <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
+                                            <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
+                                                <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
+                                                <span class="input-group-addon"> a </span>
+                                                <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-3" id="calendar">
+                                            <label class="font-noraml">Fecha</label>
+                                            <div class="input-group date">
+                                                <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12 col-sm-1 ">
+                                            <br>
+                                            <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar" class="btn btn-primary pull-right">
+                                          <span class="glyphicon glyphicon-search"></span>
+                                      </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- / Filtros -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div ng-show="show_proceso">
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                            </div>
+                            <br><br><br><br>
+                            <div class="row sumatorias">
+                                <div class="col-xs-3 pull-right">
+                                    <div ng-hide="btnSwitch.showCostoVenta">
+                                        <h2 class="no-margins">{{sumatoria_proceso | currency: "$"}}</h2>
+                                        <small>precio venta s/iva</small>
+                                    </div>
+                                    <div ng-show="btnSwitch.showCostoVenta">
+                                        <h2 class="no-margins">{{sumatoria_costo_proceso | currency: "$"}}</h2>
+                                        <small>precio costo s/iva</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover ordenservicio" cg-busy="{promise:promise,message:message}">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Consecutivo</th>
+                                            <th>Número de la Orden</th>
+                                            <th>Número Económico</th>
+                                            <th>Zona</th>
+                                            <th>Tipo Orden</th>
+                                            <th>Comentarios</th>
+                                            <th>Estatus</th>
+                                            <th>Estatus provisión</th>
+                                            <th ng-show="btnSwitch.showCostoVenta">Costo</th>
+                                            <th ng-hide="btnSwitch.showCostoVenta">Venta</th>
+                                            <th>Fecha Creación Orden</th>
+                                            <th ng-if="userData.tiempoAsignado == 1">Tiempo en Espera/ Tiempo Transcurrido</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="orden in ordenesEnProceso | filter : { idEstatusOrden : estatusValidador, idGarantia: estadoGarantia }" class="cursor" data-toggle="tooltip" tooltip="Ver Detalle" tooltip-placement="top" ng-click="detalleOrden(orden)">
+                                            <td>{{orden.nombreCliente}}</td>
+                                            <td>{{orden.idOrden}}</td>
+                                            <td>{{orden.numeroOrden}}</td>
+                                            <td>{{orden.numeroEconomico}}</td>
+                                            <td>{{orden.nombreZona}}</td>
+                                            <td>{{orden.nombreTipoOrdenServicio}}</td>
+                                            <td>{{orden.comentarioOrden}}</td>
+                                            <td>{{orden.nombreEstatusOrden}}</td>
+                                            <td>{{'BPRO'}}</td>
+                                            <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{orden.costo | currency}}</td>
+                                            <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{orden.venta | currency}}</td>
+                                            <td> {{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}} </td>
+                                            <td ng-if="userData.tiempoAsignado == 1">{{orden.tiempoEspera}} días</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
