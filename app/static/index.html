@@ -166,7 +166,7 @@
                     </ul>
                 </li>
                 <!-- <li ng-show="userData.verificacionVehicular == 1"> -->
-                <li>
+                <li ng-hide="userData.idOperacion!=1">
                     <a ng-click="catalogoUnidad()"><i class="fa fa-car" aria-hidden="true"></i> <span class="nav-label">Unidades </span></a>
                 </li>
                 <li ng-show="{{userData.idRol == 2}}">
