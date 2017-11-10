@@ -537,21 +537,22 @@ registrationModule.factory('configuradorRepository', function ($http, $q) {
                     'Content-Type': 'application/json'
                 }
             })
-        },
-        getZonas: function(idOperacionContrato)
-        {
-            return $http({
-                url: onfiguradorUrl + 'zonas/',
-                method: "GET",
-                params: {
-                    idOperacion: idOperacionContrato
-                  
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
         }
+        //,
+        // getZonas: function(idOperacionContrato)
+        // {
+        //     return $http({
+        //         url: onfiguradorUrl + 'zonas/',
+        //         method: "GET",
+        //         params: {
+        //             idOperacion: idOperacionContrato
+        //
+        //         },
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+        // }
 
     }
 });
