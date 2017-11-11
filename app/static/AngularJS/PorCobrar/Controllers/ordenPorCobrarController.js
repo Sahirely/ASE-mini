@@ -117,26 +117,62 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     // termina el cargado de las Zonas del usuario.
     $scope.devuelveEjecutivos()
 
-    // Obtengo la lista de tablas
-    $('.dataTablePorCobrar').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
-      'idUsuario': $scope.userData.idUsuario,'isProduction':$scope.userData.isProduction }).then(function (result) {
-        $scope.porCobrar = result.data
-        $scope.total = 0
-        angular.forEach($scope.porCobrar, function (value, key) {
-          $scope.total = $scope.total + value.venta
-        });
+    // //obtener la pestaña Ordenes Por Cobrar
+    // $scope.getPorCobrar();
+    //
+    // // obtener la pestaña Documento Cobranza
+    // $scope.getCopades();
+    //
+    // // obtener la pestaña Prefactura Generada
+    // $scope.getPrefacturaGenerada();
+    //
+    // // obtener la pestaña Factura Enviada al Cliente
+    // $scope.getEnviadasCliente();
+    //
+    // $scope.getSeleccionDeAbonos();
+    //
+    // $scope.getFacturasAbonadas();
+    //
+    // // obtener la pestaña Facturas Pagadas
+    // $scope.getFacturasPagadas();
 
-        globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 50)
-      }, function (error) {
-        alertFactory.error('No se puenen obtener las órdenes por cobrar')
-      })
+    $scope.getMemorandums()
 
-    // Obtengo la lista de tablas (COBRANZA)
-    $scope.getCopades();
+  }
 
-    $scope.getPrefacturaGenerada();
+  $scope.getPorCobrar = function (){
+      // Obtengo la lista de tablas
+      $('.dataTablePorCobrar').DataTable().destroy()
+      $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
+        'idUsuario': $scope.userData.idUsuario,'isProduction':$scope.userData.isProduction }).then(function (result) {
+          $scope.porCobrar = result.data
+          $scope.total = 0
+          angular.forEach($scope.porCobrar, function (value, key) {
+            $scope.total = $scope.total + value.venta
+          });
 
+          globalFactory.filtrosTabla('dataTablePorCobrar', 'Ordenes Por Cobrar', 50)
+        }, function (error) {
+          alertFactory.error('No se puenen obtener las órdenes por cobrar')
+        })
+  }
+
+  $scope.getFacturasPagadas = function(){
+      $('.dataTablePagadas').DataTable().destroy()
+      $scope.promise = ordenPorCobrarRepository.get('trbajoCobrado', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
+        'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,
+        'idDatosCopade':0, 'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+          $scope.pagadas = result.data
+          angular.forEach($scope.pagadas, function (value, key) {
+            $scope.totalPagadas = $scope.totalPagadas + value.total
+          })
+          globalFactory.filtrosTabla('dataTablePagadas', 'Facturas Pagadas', 50)
+        }, function (error) {
+          alertFactory.error('No se puenen obtener las Facturas Pagadas')
+        })
+  }
+
+  $scope.getEnviadasCliente = function(){
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': $scope.userData.idUsuario,
@@ -149,30 +185,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       }, function (error) {
         alertFactory.error('No se puenen obtener las Facturas Enviada al Cliente')
       })
-
-
-    getSeleccionDeAbonos();
-
-    getFacturasAbonadas();
-
-    $('.dataTablePagadas').DataTable().destroy()
-    $scope.promise = ordenPorCobrarRepository.get('trbajoCobrado', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
-      'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,
-      'idDatosCopade':0, 'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
-        $scope.pagadas = result.data
-        angular.forEach($scope.pagadas, function (value, key) {
-          $scope.totalPagadas = $scope.totalPagadas + value.total
-        })
-        globalFactory.filtrosTabla('dataTablePagadas', 'Facturas Pagadas', 50)
-      }, function (error) {
-        alertFactory.error('No se puenen obtener las Facturas Pagadas')
-      })
-
-    $scope.getMemorandums()
-
   }
 
-  function getFacturasAbonadas(){
+  $scope.getFacturasAbonadas = function (){
   // Obtengo la lista de tablas
   $('.dataTableAbonadas').DataTable().destroy();
   $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario,
@@ -192,7 +207,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   })
   }
 
-  function getSeleccionDeAbonos(){
+  $scope.getSeleccionDeAbonos = function (){
       //Obtengo la lista de tablas (ABONOS)
       $('.dataTableAbonos').DataTable().destroy()
       $scope.checkedFacturasTotal = [];
@@ -506,7 +521,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.buscaCoincidencia = function (idDatosCopade) {
     $('.dataTableCoincidencia').DataTable().destroy();
     $('.dataTableOrdenesPorCobrar').DataTable().destroy();
-    
+
     $('#mejorCoincidencia').modal('show');
 
     $scope.ordenes = [];
@@ -731,8 +746,8 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
                  $scope.checkedFacturas=[];
                  $scope.totalSeleccionadoSuma = 0;
                  alertFactory.success('Factura abonada correctamente');
-                 getSeleccionDeAbonos();
-                 getFacturasAbonadas();
+                 $scope.getSeleccionDeAbonos();
+                 $scope.getFacturasAbonadas();
                } else {
                  alertFactory.info('No se pudo actualizar la Factura');
                }

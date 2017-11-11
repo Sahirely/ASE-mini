@@ -14,6 +14,11 @@
   margin-bottom: 60px;
 }
 
+.btnCarga{
+  margin-left: 1px;
+  margin-top: 5px;
+}
+
 .bottomBorder {
     border-bottom: 1px solid rgb(231, 234, 236) !important;
 }
@@ -34,4 +39,17 @@
 .altaOrdenPago{
     margin-top: 50px;
      margin-bottom: 50px;
+}
+
+.topSpace80{
+  padding-top: 80px;
+}
+
+.topSpace30{
+  padding-top: 30px;
+}
+
+.paddingBtnSearch{
+  padding-top: 35px;
+  padding-left: 10px;
 }
