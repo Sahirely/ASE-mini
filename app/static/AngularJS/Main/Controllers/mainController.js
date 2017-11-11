@@ -221,7 +221,7 @@
     }
 
     $scope.catalogoUnidad = function() {
-        window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0')
+        window.open('http://189.204.141.193:5600/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.idOperacion)
             // location.href = 'http://35.165.2.64:4200/unidades?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada
     }
 

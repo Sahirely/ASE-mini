@@ -8,6 +8,9 @@ registrationModule.controller('busquedaUnidadController', function ($scope, $loc
   $scope.btnSwitch.classCosto = 'btn btn-success'
   $scope.btnSwitch.showCostoVenta = true
   $scope.btnSwitch.classVenta = 'btn btn-default'
+
+  $scope.urldocs = global_settings.urlDOCS;
+  
   // Inicializa la pagina
   $scope.init = function () {
     userFactory.ValidaSesion()

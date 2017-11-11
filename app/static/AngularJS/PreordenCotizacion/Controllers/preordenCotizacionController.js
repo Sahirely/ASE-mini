@@ -8,6 +8,7 @@ registrationModule.controller('preordenCotizacionController', function($scope, $
     $scope.talleres = [];
     $scope.cotizacionesSeleccionadas = [];
 
+    $scope.urldocs = global_settings.urlDOCS;
 
     $scope.init = function() {
         userFactory.ValidaSesion();
