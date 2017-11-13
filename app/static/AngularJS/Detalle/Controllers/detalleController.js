@@ -361,11 +361,13 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
       $scope.cotizaciones.forEach(function(coti){
           coti.hasApprovedParts = false;
+          if (coti.detalle != null || coti.detalle != undefined) {
           coti.detalle.forEach(function(part){
               if (part.idEstatusPartida != 1){
                   coti.hasApprovedParts = true;
               }
           });
+        }
       });
   }
 
@@ -409,7 +411,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.enviaVerificacion = function () {
-    window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0' + $scope.detalleOrden.numeroEconomico)
+    //window.open('http://35.165.2.64:4200/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0' + $scope.detalleOrden.numeroEconomico)
+    window.open('http://189.204.141.193:5600/alta?idUsuario=' + $scope.userData.idUsuario + '&idOperacion=' + $scope.userData.contratoOperacionSeleccionada + '&numeroEconomico=0' + $scope.detalleOrden.numeroEconomico)
   }
 
   $scope.comprobante = function () {
