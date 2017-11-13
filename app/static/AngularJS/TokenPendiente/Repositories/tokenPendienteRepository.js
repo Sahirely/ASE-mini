@@ -542,6 +542,18 @@ registrationModule.factory('tokenPendienteRepository', function ($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        getinfoUser: function (idUsuario) {
+            return $http({
+                url: detalleUrl + 'infoUser/',
+                method: "GET",
+                params: {
+                    idUsuario: idUsuario
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

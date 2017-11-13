@@ -1147,4 +1147,25 @@ Detalle.prototype.get_presupuestobyOrden = function(req, res, next) {
     });
 }
 
+//Devuelve los trabajos cobrados y listos para facturar
+Detalle.prototype.get_infoUser = function (req, res, next) {
+        //Objeto que almacena la respuesta
+        var object = {};
+        //Referencia a la clase para callback
+        var self = this;
+        //Objeto que envía los parámetros
+        var params = [{
+            name: 'idUsuario',
+            value: req.query.idUsuario,
+            type: self.model.types.INT
+        }];
+
+    this.model.query('SEL_VALIDA_USUARIO_SP', params, function (error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;

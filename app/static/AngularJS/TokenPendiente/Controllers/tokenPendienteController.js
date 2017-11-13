@@ -1,4 +1,4 @@
-registrationModule.controller('tokenPendienteController', function($scope, $modal, userFactory, $rootScope, $routeParams, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository, tokenPendienteRepository) {
+registrationModule.controller('tokenPendienteController', function($scope, $modal, userFactory, $rootScope, $routeParams, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository, tokenPendienteRepository, loginRepository) {
     $rootScope.modulo = 'tokenPendiente'; // <<-- Para activar en que opción del menú se encuentra
 
     $scope.x = 0;
@@ -22,18 +22,18 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
     $scope.sumatoria_costo_proceso = 0;
 
     $scope.Init = function() {
-        $scope.userData = userFactory.getUserData();
-        $scope.idOperacion = $scope.userData.idOperacion;
-        $scope.idUsuario = $scope.userData.idUsuario;
-        $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
-
-        userFactory.ValidaSesion();
+        $scope.obtieneDatoUrl();
         $scope.show_proceso = true;
         $scope.show_entrega = false;
         $scope.muestraTabla = false;
         $scope.show_sumatorias = false;
-
         $scope.ZonasSeleccionadas[0] = "0";
+        $scope.userData = userFactory.getUserData();
+            if($scope.userData != undefined){
+                $scope.idOperacion = $scope.userData.idOperacion;
+                $scope.idUsuario = $scope.userData.idUsuario;
+                $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;  
+            }
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
 
@@ -45,6 +45,99 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
             $scope.show_sumatorias = true;
         };
     };
+
+    $scope.obtieneDatoUrl = function () {
+        var url = location.search.replace("?", "");
+        var arrUrl = url.split("&");
+        var urlObj = {};
+        for (var i = 0; i < arrUrl.length; i++) {
+            var x = arrUrl[i].split("=");
+            urlObj[x[0]] = x[1]
+        }
+        $scope.user = urlObj.user;
+        //urlObj.user == 'null' ? $scope.user = 0 : $scope.user = urlObj.user; 
+            if(url == ''){
+                userFactory.ValidaSesion();
+                //alertFactory.info('Variable not defined.');
+            }else{
+                //alertFactory.info('Variable por URL.');
+                var idUsuario = parseInt($scope.user);
+                $scope.obtieneUsuario(idUsuario);
+            }
+    }
+
+    $scope.obtieneUsuario = function(idUsuario) {
+        tokenPendienteRepository.getinfoUser(idUsuario).then(function(result) {
+                if (result.data.length > 0) {
+                    $scope.usernombre = result.data[0].nombreUsuario;
+                    $scope.userpasword = result.data[0].contrasenia;
+                    $scope.login($scope.usernombre, $scope.userpasword);
+                }
+            },
+            function(error) {
+                alertFactory.error('No se pudo ontener el usuario, inténtelo más tarde.');
+            });
+    };
+
+ $scope.login = function (username, password) {
+    loginRepository.login(username, password).then(function (result) {
+      if (result.data.data.length > 0) {
+        if (result.data.data[0].HasSession == 'False') {
+          $scope.userData = userFactory.saveUserData(result.data.data[0]);
+          //if ($scope.userData.Operaciones.length > 1) {
+          //  $scope.UserIsValid = true;
+          //  alertFactory.info('Seleccione una operación para ingresar.');
+          // } else {
+            var contOpe = 3;//$scope.userData.Operaciones[0].idContratoOperacion;
+            var rolUser = 1;//$scope.userData.Operaciones[0].idRol;
+           // if (contOpe == 0 && rolUser == 5) {
+           //  $scope.userData = userFactory.updateSelectedOperation(contOpe);
+           //   $scope.Home();
+           // } else
+             if (contOpe != 0) {
+              $scope.userData = userFactory.updateSelectedOperation(contOpe);
+              //location.href = '/tokenPendiente';
+              $scope.Home();
+            } else {
+              alertFactory.info('El usuario no tiene una operación asignada.')
+            }
+         // }
+        } else {
+/*          swal({
+            title: '¿Deseas cerrar la sesión anterior?',
+            text: "El usuario ya cuenta con una sesión activa.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+          }, function (isConfirm) {
+            if (isConfirm) {*/
+              loginRepository.cierraSesionHistorial(result.data.data[0].idUsuario).then(function () {
+             // });
+              $scope.login($scope.usernombre, $scope.userpasword);
+          //  }
+          });
+          }
+      } else {
+        alertFactory.info('Usuario y/o contraseña no válidos');
+      }
+    }, function (error) {
+      alertFactory.error('Ocurrio un error al validar sus datos.');
+    });
+  }
+
+  $scope.Home = function () {
+    loginRepository.iniciaSesionHistorial($scope.userData.idUsuario).then(function (result) {
+      var sesion = result.data[0].idSesion;
+      $scope.userData = userFactory.setActiveSesion(sesion);
+      if ($scope.userData.idRol == 1) {
+        //alertFactory.info('Bienvenido: ' + $scope.usernombre);
+        location.href = '/tokenPendiente';
+      }
+    });
+  }
 
     $scope.OpenModal = function(index, Id) {
         $scope.fecha_inicio = '';
