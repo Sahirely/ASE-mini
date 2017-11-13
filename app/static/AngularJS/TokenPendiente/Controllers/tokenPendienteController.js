@@ -22,25 +22,29 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
     $scope.sumatoria_costo_proceso = 0;
 
     $scope.Init = function() {
-        $scope.obtieneDatoUrl();
-        $scope.show_proceso = true;
-        $scope.show_entrega = false;
-        $scope.muestraTabla = false;
-        $scope.show_sumatorias = false;
-        $scope.ZonasSeleccionadas[0] = "0";
         $scope.userData = userFactory.getUserData();
             if($scope.userData != undefined){
                 $scope.idOperacion = $scope.userData.idOperacion;
                 $scope.idUsuario = $scope.userData.idUsuario;
                 $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;  
-            }
+                if (localStorageService.get('ord') != undefined && localStorageService.get('ord') != null) {
+                    var orden = localStorageService.get('ord')
+                    $scope.getOrdenesURL(orden, $scope.idUsuario);
+                    localStorageService.remove('ord');
+                }
+            }     
+        $scope.show_proceso = true;
+        $scope.show_entrega = false;
+        $scope.muestraTabla = false;
+        $scope.show_sumatorias = false;
+        $scope.ZonasSeleccionadas[0] = "0";
+        $scope.obtieneDatoUrl();
         $scope.obtieneNivelZona();
         $scope.devuelveEjecutivos();
 
         $scope.btnSwitch.classCosto = 'btn btn-success';
         $scope.btnSwitch.classVenta = 'btn btn-default';
         $scope.showButtonSwitch($scope.userData.idRol);
-        $scope.getOrdenes();
         if ($scope.userData.idRol == 2) {
             $scope.show_sumatorias = true;
         };
@@ -55,6 +59,7 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
             urlObj[x[0]] = x[1]
         }
         $scope.user = urlObj.user;
+        $scope.orden = urlObj.orden;
         //urlObj.user == 'null' ? $scope.user = 0 : $scope.user = urlObj.user; 
             if(url == ''){
                 userFactory.ValidaSesion();
@@ -65,6 +70,10 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
                 $scope.obtieneUsuario(idUsuario);
             }
     }
+    $scope.buscaInfo = function () {
+        $scope.getOrdenes();
+    }
+
 
     $scope.obtieneUsuario = function(idUsuario) {
         tokenPendienteRepository.getinfoUser(idUsuario).then(function(result) {
@@ -134,7 +143,9 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
       $scope.userData = userFactory.setActiveSesion(sesion);
       if ($scope.userData.idRol == 1) {
         //alertFactory.info('Bienvenido: ' + $scope.usernombre);
+        localStorageService.set('ord', $scope.orden);
         location.href = '/tokenPendiente';
+        //$scope.getOrdenesURL($scope.orden, $scope.user);
       }
     });
   }
@@ -291,6 +302,20 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
         var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
 
         tokenPendienteRepository.getObtenerOrdenesToken($scope.idContratoOperacion, $scope.numeroTrabajo, ejecutivo, $scope.userData.idUsuario).then(function(result) {
+            if (result.data.length > 0) {
+                $scope.ordenesEnProceso = result.data;
+                //$scope.cambioFiltro();
+                globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
+
+            }
+        });
+    }
+
+    $scope.getOrdenesURL = function(numeroTrabajo, idUsuario) {
+        $('.clockpicker').clockpicker();
+        var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
+
+        tokenPendienteRepository.getObtenerOrdenesToken($scope.idContratoOperacion, numeroTrabajo, ejecutivo, idUsuario).then(function(result) {
             if (result.data.length > 0) {
                 $scope.ordenesEnProceso = result.data;
                 //$scope.cambioFiltro();
