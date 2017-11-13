@@ -99,7 +99,7 @@
                 <li ng-class="{'active': modulo=='ordenxCobrar'}" ng-show="userData.idRol != 5 && userData.idRol != 1">
                     <a href="ordenesporcobrar" ng-click="showChat = 0" ng-hide="userData.idTipoUsuario == 3"><i class="fa fa-credit-card" data-toggle="tooltip" tooltip="Cobranza" tooltip-placement="right"></i> <span class="nav-label">Cobranza</span><span class="label label-warning pull-right"></span></a>
                 </li>
-                <li ng-class="{'active': modulo=='tokenPendiente'}">
+                <li ng-class="{'active': modulo=='tokenPendiente'}"  ng-show="userData.idRol != 5 && userData.idRol != 4 && userData.idRol != 3 && idContratoOperacion == 3">
                     <a href="#"><i class="fa fa-key"></i> <span class="nav-label">Administración de Token</span></a>
                     <ul class="nav nav-second-level">
                         <li ng-class="{'active': modulo=='tokenPendiente'}"><a href="/tokenPendiente">Token Pendeintes</a></li>

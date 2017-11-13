@@ -36,7 +36,9 @@
     $scope.init = function() {
         $scope.userData = userFactory.getUserData()
         if ($scope.userData != null) {
-            $scope.idUsuario = $scope.userData.idUsuario
+        $scope.idRol = $scope.userData.idRol
+        $scope.idUsuario = $scope.userData.idUsuario
+        $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
             $scope.getUsuarios()
             if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
                 $scope.busquedaNumEco = localStorageService.get('economico')
