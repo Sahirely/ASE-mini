@@ -2710,6 +2710,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         alertFactory.error('Ocurrio un error al avanzar la Orden.')
       });
     };
+    
+    $scope.apptoken = function () {
+      window.open('http://189.204.141.193:5300')
+    }
 
 
 })

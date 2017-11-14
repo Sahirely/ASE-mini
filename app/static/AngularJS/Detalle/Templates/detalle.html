@@ -881,11 +881,11 @@
                         </div>
                         <div ng-show="estatusToken == 1">
                                 <span style="font-size:34px; margin-right:5px; color:#006600;" class="fa fa-unlock-alt"></span>
-                                <span style="color: #e60000; font-size:34px;" class="fa fa-lock"></span>
+                                <span style="color: #e60000; font-size:34px;" class="fa fa-lock" ng-click="apptoken()"></span>
                         </div>
                         <div ng-show="estatusToken == 0">
-                                <span style="color: #e60000; font-size:34px; margin-right:5px;" class="fa fa-lock"></span>
-                                <span style="color: #e60000; font-size:34px;" class="text-danger fa fa-lock"></span>
+                                <span style="color: #e60000; font-size:34px; margin-right:5px;" class="fa fa-lock" ng-click="apptoken()"></span>
+                                <span style="color: #e60000; font-size:34px;" class="text-danger fa fa-lock" ng-click="apptoken()"></span>
                         </div>
                     </div>
                     <div ng-show="idContratoOperacion==3">
