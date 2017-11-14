@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function ($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository, nuevoMemorandumRepository) {
+registrationModule.controller('detalleController', function ($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository, nuevoMemorandumRepository, loginRepository, tokenPendienteRepository) {
   // *****************************************************************************************************************************//
   // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
   // *****************************************************************************************************************************//
@@ -67,44 +67,146 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.comentarios = []
 
   $scope.init = function () {
-    $scope.Precancelacion = false
-    userFactory.ValidaSesion()
-    $('#loadModal').modal('show')
-    $scope.userData = userFactory.getUserData()
-    $scope.rolLogged = $scope.userData.idRol
-    $scope.idUsuario = $scope.userData.idUsuario
-    $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
-    $scope.btnSwitch.classCosto = 'btn btn-success'
-    $scope.btnSwitch.classVenta = 'btn btn-default'
+    $scope.obtieneDatoUrl();
+    if($scope.userData != undefined){
+        $scope.Precancelacion = false
+        userFactory.ValidaSesion()
+        $('#loadModal').modal('show')
+        $scope.userData = userFactory.getUserData()
+        $scope.rolLogged = $scope.userData.idRol
+        $scope.idUsuario = $scope.userData.idUsuario
+        $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
+        $scope.btnSwitch.classCosto = 'btn btn-success'
+        $scope.btnSwitch.classVenta = 'btn btn-default'
 
-    $scope.showButtonSwitch($scope.userData.idRol)
-    $scope.checkComprobanteRecepcion()
-    $scope.checkHojaTrabajo()
-    $scope.HistoricoCotizaciones = []
-    $scope.getHistoricos()
+        $scope.showButtonSwitch($scope.userData.idRol)
+        $scope.checkComprobanteRecepcion()
+        $scope.checkHojaTrabajo()
+        $scope.HistoricoCotizaciones = []
+        $scope.getHistoricos()
 
-    $scope.enviaNota()
-    $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden)
-    $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden)
-    $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
-    $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
-    //$scope.getGps($scope.userData.idUsuario, $scope.numeroOrden);
+        $scope.enviaNota()
+        $scope.getOrdenCliente($scope.userData.idUsuario, $scope.numeroOrden)
+        $scope.getOrdenDocumentos($scope.userData.idUsuario, $scope.numeroOrden)
+        $scope.getOrdenEvidencias($scope.userData.idUsuario, $scope.numeroOrden)
+        $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+        //$scope.getGps($scope.userData.idUsuario, $scope.numeroOrden);
 
-    checkPrecancelation()
-    if ($scope.userData.presupuesto == 1) {
-      $scope.getSaldos($routeParams.orden)
+        checkPrecancelation()
+        if ($scope.userData.presupuesto == 1) {
+          $scope.getSaldos($routeParams.orden)
+        }
+        $('.horaAsignada').clockpicker()
+        $scope.ShowFacturas()
+        if ($scope.userData.tiempoAsignado == 1) {
+          // inicia reloj
+          $scope.iniTime()
+        } else {
+          $scope.sinTiempoDisponible = 0
+          $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
+        }
+
+        $scope.getMemorandums()
     }
-    $('.horaAsignada').clockpicker()
-    $scope.ShowFacturas()
-    if ($scope.userData.tiempoAsignado == 1) {
-      // inicia reloj
-      $scope.iniTime()
-    } else {
-      $scope.sinTiempoDisponible = 0
-      $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
+  }
+
+    $scope.obtieneDatoUrl = function () {
+        var url = location.search.replace("?", "");
+        var arrUrl = url.split("&");
+        var urlObj = {};
+        for (var i = 0; i < arrUrl.length; i++) {
+            var x = arrUrl[i].split("=");
+            urlObj[x[0]] = x[1]
+        }
+        $scope.user = urlObj.user;
+        $scope.numordenURl = urlObj.orden;
+        //urlObj.user == 'null' ? $scope.user = 0 : $scope.user = urlObj.user;
+        if($scope.user != undefined){
+            if(url == ''){
+                userFactory.ValidaSesion();
+                //alertFactory.info('Variable not defined.');
+            }else{
+                //alertFactory.info('Variable por URL.');
+                var idUsuario = parseInt($scope.user);
+                $scope.obtieneUsuario(idUsuario);
+            }
+        } 
     }
 
-    $scope.getMemorandums()
+    $scope.obtieneUsuario = function(idUsuario) {
+        tokenPendienteRepository.getinfoUser(idUsuario).then(function(result) {
+                if (result.data.length > 0) {
+                    $scope.usernombre = result.data[0].nombreUsuario;
+                    $scope.userpasword = result.data[0].contrasenia;
+                    $scope.login($scope.usernombre, $scope.userpasword);
+                }
+            },
+            function(error) {
+                alertFactory.error('No se pudo ontener el usuario, inténtelo más tarde.');
+            });
+    };
+
+ $scope.login = function (username, password) {
+    loginRepository.login(username, password).then(function (result) {
+      if (result.data.data.length > 0) {
+        if (result.data.data[0].HasSession == 'False') {
+          $scope.userData = userFactory.saveUserData(result.data.data[0]);
+          //if ($scope.userData.Operaciones.length > 1) {
+          //  $scope.UserIsValid = true;
+          //  alertFactory.info('Seleccione una operación para ingresar.');
+          // } else {
+            var contOpe = 3;//$scope.userData.Operaciones[0].idContratoOperacion;
+            var rolUser = 1;//$scope.userData.Operaciones[0].idRol;
+           // if (contOpe == 0 && rolUser == 5) {
+           //  $scope.userData = userFactory.updateSelectedOperation(contOpe);
+           //   $scope.Home();
+           // } else
+             if (contOpe != 0) {
+              $scope.userData = userFactory.updateSelectedOperation(contOpe);
+              //location.href = '/tokenPendiente';
+              $scope.Home();
+            } else {
+              alertFactory.info('El usuario no tiene una operación asignada.')
+            }
+         // }
+        } else {
+      /*   swal({
+            title: '¿Deseas cerrar la sesión anterior?',
+            text: "El usuario ya cuenta con una sesión activa.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+          }, function (isConfirm) {
+            if (isConfirm) {*/
+              loginRepository.cierraSesionHistorial(result.data.data[0].idUsuario).then(function () {
+              });
+              $scope.login($scope.usernombre, $scope.userpasword);
+          //  }
+         // });
+          }
+      } else {
+        alertFactory.info('Usuario y/o contraseña no válidos');
+      }
+    }, function (error) {
+      alertFactory.error('Ocurrio un error al validar sus datos.');
+    });
+  }
+
+  $scope.Home = function () {
+    loginRepository.iniciaSesionHistorial($scope.userData.idUsuario).then(function (result) {
+      var sesion = result.data[0].idSesion;
+      $scope.userData = userFactory.setActiveSesion(sesion);
+      if ($scope.userData.idRol == 1) {
+        //alertFactory.info('Bienvenido: ' + $scope.usernombre);
+        //localStorageService.set('ord', $scope.orden);
+        //location.href = '/detalle?';
+        location.href = '/detalle?orden=' + $scope.numordenURl;
+        //$scope.getOrdenesURL($scope.orden, $scope.user);
+      }
+    });
   }
 
   // funcion reloj recursiva cada minuto
