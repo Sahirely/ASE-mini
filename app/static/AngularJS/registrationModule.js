@@ -317,17 +317,17 @@ angular.module('frapontillo.bootstrap-switch', []);
 registrationModule.run(function ($rootScope, userFactory, loginRepository) {
     $rootScope.vIpServer = global_settings.urlCORS;
     $rootScope.docServer = global_settings.urlDOCS;
-    var lastDigestRun = new Date();
-    loginRepository.getTiempoInactividad().then(function (result) {
-        var minutos = result.data;
-        $rootScope.$watch(function detectIdle() {
-            var now = new Date();
-            if (now - lastDigestRun > (minutos * 1000 * 60)) {
-                userFactory.logOut();
-            }
-            lastDigestRun = now;
-        });
-    });
+    // var lastDigestRun = new Date();
+    // loginRepository.getTiempoInactividad().then(function (result) {
+    //     var minutos = result.data;
+    //     $rootScope.$watch(function detectIdle() {
+    //         var now = new Date();
+    //         if (now - lastDigestRun > (minutos * 1000 * 60)) {
+    //             userFactory.logOut();
+    //         }
+    //         lastDigestRun = now;
+    //     });
+    // });
 });
 
 registrationModule.directive('viewportWidth', function () {

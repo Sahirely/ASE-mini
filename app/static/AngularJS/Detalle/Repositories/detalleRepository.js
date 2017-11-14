@@ -32,7 +32,7 @@ registrationModule.factory('detalleRepository', function($http) {
               }
             );
         },
-        getFacturas: function(numeroOrden, estatus, idUsuario, idOperacion) {
+        getFacturas: function(numeroOrden, estatus, idUsuario, idOperacion, pathSend) {
             return $http({
                 url: detalleUrl + 'facturasPorOrden/',
                 method: "GET",
@@ -40,7 +40,8 @@ registrationModule.factory('detalleRepository', function($http) {
                     numeroOrden: numeroOrden,
                     estatus: estatus,
                     idUsuario: idUsuario,
-                    idOperacion: idOperacion
+                    idOperacion: idOperacion,
+                    pathSend: pathSend
                 },
                 headers: {
                     'Content-Type': 'application/json'

@@ -1063,7 +1063,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                       detalleRepository.eliminaFactura(item.PathDB)
                     } else {
                       if ($scope.cotizacionTotal >= (parseInt(subTotal) - 1) && $scope.cotizacionTotal <= (parseInt(subTotal) + 1)) {
-                        
+
                         var parametros = {
                           idCotizacion: rfc.idCotizacion,
                           numFactura: Folio,
@@ -1079,12 +1079,12 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                         }
 
                         detalleRepository.insertarFactura(parametros).then(function (result) {
-                          
+
                           if (result.data.length != 0) {
                             Respuesta.data.forEach(function (archivo, key) {
                               var ServerPath = archivo.Param.docServer + '/orden/' + archivo.PathDB
                               detalleRepository.getGuardarFactura(ServerPath, archivo.Param.idOrden, archivo.Param.cotizacionFactura).then(function (result) {
-                                
+
                               })
                             })
 
@@ -1644,7 +1644,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.ShowFacturas = function () {
-    detalleRepository.getFacturas($scope.numeroOrden, 3, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (respuesta) {
+    detalleRepository.getFacturas($scope.numeroOrden, 3, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, global_settings.urlDOCS).then(function (respuesta) {
       $scope.Facturas = respuesta.data
       if ($scope.Facturas.success) {
         $scope.facturas_empty = false
@@ -2355,7 +2355,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.prb1 = function(CotizacionDetalle) {
         angular.copy(CotizacionDetalle, $scope.cotizacionDetalle);
         $('#editorDetalleCotizacion').modal();
-        
+
     }
 
     $scope.updateDetalleCotizacion = function(){
@@ -2404,7 +2404,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
               var texto = resp.data[0].texto
               var bodyhtml = resp.data[0].bodyhtml
               commonFunctionRepository.sendMail(correoDe, correoPara, asunto, texto, bodyhtml, '', '').then(function (result) {
-                if (result.data.length > 0) { 
+                if (result.data.length > 0) {
                     $('#loadModal').modal('hide')
                     $('.modal-dialog').css('width', '1050px')
                     swal('El correo de utlidad se envío exitosamente.')
@@ -2564,13 +2564,13 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             }else{
               $scope.cotizacionSoporte = resp.data;
                $('#cencelCotizaciones').modal();
-            } 
+            }
           }else{
             swal('No se encontro ninguna Cotización.')
           }
       }, function (error) {
         alertFactory.error('Ocurrio un error al buscar las cotizaciones.')
-      });    
+      });
     }
 
     $scope.cancelacionCotizacion = function(cotizaSoporte) {
@@ -2618,7 +2618,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $('#modalPresupuestoOrden').modal();
   }
 
-  $scope.getPresupuestoOrdenActivo = function () {  
+  $scope.getPresupuestoOrdenActivo = function () {
       detalleRepository.getpresupuestobyOrden($scope.idOrdenURL, 1).then(function (resp) {
           if (resp.data.length > 0) {
               globalFactory.filtrosTabla("presupuestoOrdActiv", "Presupuesto Orden", 5);
@@ -2633,14 +2633,14 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                           }
                       }, function (error) {
                         alertFactory.error('Ocurrio un error al buscar los presupuesto por centro de trabajo.')
-                      });    
+                      });
                     //}
           }else{
             swal('No se encontro Orden relacionada con presupuesto.')
           }
       }, function (error) {
         alertFactory.error('Ocurrio un error al buscar los registros en Presupuesto Orden.')
-      });    
+      });
     }
 
   $scope.sendIdPresupuesto = function(idPresupuesto) {

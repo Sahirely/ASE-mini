@@ -276,7 +276,9 @@ Detalle.prototype.get_facturasPorOrden = function(req, res, next) {
         result.forEach(function(item, key) {
             var params_factura = [
                 { name: 'idOrden', value: item.idOrden, type: self.model.types.INT },
-                { name: 'idCotizacion', value: item.consecutivoCotizacion, type: self.model.types.INT }
+                { name: 'idCotizacion', value: item.consecutivoCotizacion, type: self.model.types.INT },
+                { name: 'path', value: _PathDocuments, type: self.model.types.STRING },
+                { name: 'pathSend', value: req.query.pathSend, type: self.model.types.STRING }
             ];
 
             self.model.query('SEL_FACTURAS_SP', params_factura, function(fac_error, fac_result) {
