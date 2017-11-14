@@ -26,12 +26,19 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
             if($scope.userData != undefined){
                 $scope.idOperacion = $scope.userData.idOperacion;
                 $scope.idUsuario = $scope.userData.idUsuario;
-                $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;  
+                $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada; 
+                        $scope.showButtonSwitch($scope.userData.idRol);
+                        if ($scope.userData.idRol == 2) {
+                            $scope.show_sumatorias = true;
+                        }; 
                 if (localStorageService.get('ord') != undefined && localStorageService.get('ord') != null) {
                     var orden = localStorageService.get('ord')
                     $scope.getOrdenesURL(orden, $scope.idUsuario);
                     localStorageService.remove('ord');
                 }
+            }else{
+                $scope.showButtonSwitch(1);
+                $scope.show_sumatorias = true;
             }     
         $scope.show_proceso = true;
         $scope.show_entrega = false;
@@ -44,10 +51,6 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
 
         $scope.btnSwitch.classCosto = 'btn btn-success';
         $scope.btnSwitch.classVenta = 'btn btn-default';
-        $scope.showButtonSwitch($scope.userData.idRol);
-        if ($scope.userData.idRol == 2) {
-            $scope.show_sumatorias = true;
-        };
     };
 
     $scope.obtieneDatoUrl = function () {
@@ -112,7 +115,7 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
             }
          // }
         } else {
-/*          swal({
+      /*   swal({
             title: '¿Deseas cerrar la sesión anterior?',
             text: "El usuario ya cuenta con una sesión activa.",
             type: 'warning',
@@ -124,10 +127,10 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
           }, function (isConfirm) {
             if (isConfirm) {*/
               loginRepository.cierraSesionHistorial(result.data.data[0].idUsuario).then(function () {
-             // });
+              });
               $scope.login($scope.usernombre, $scope.userpasword);
           //  }
-          });
+         // });
           }
       } else {
         alertFactory.info('Usuario y/o contraseña no válidos');
