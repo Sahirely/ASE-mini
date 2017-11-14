@@ -139,7 +139,7 @@
                                             <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{orden.costo | currency}}</td>
                                             <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{orden.venta | currency}}</td>
                                             <td> {{orden.fechaCreacionOden | date:"dd-MM-yy HH:mm"}} </td>
-                                            <td ng-if="userData.tiempoAsignado == 1">{{orden.tiempoEspera}} días</td>
+                                            <td ng-if="userData.tiempoAsignado == 1">{{orden.tiempoEspera}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -146,7 +146,7 @@
                                         <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesTaller.venta | currency}}</td>
                                         <td>{{ordenesTaller.nombreUsuario}}</td>
                                         <!-- <td>{{ordenesTaller.nombreTipoORden}}</td> -->
-                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesTaller.tiempoEspera}} días</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesTaller.tiempoEspera}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -201,7 +201,7 @@
                                         <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{ordenesSinTaller.costo | currency}}</td>
                                         <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesSinTaller.venta | currency}}</td>
                                         <td>{{ordenesSinTaller.nombreUsuario}}</td>
-                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesSinTaller.tiempoEspera}} días</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesSinTaller.tiempoEspera}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -256,7 +256,7 @@
                                         <td ng-show="btnSwitch.showCostoVenta" class="text-right">{{ordenesEnTaller.costo | currency}}</td>
                                         <td ng-hide="btnSwitch.showCostoVenta" class="text-right">{{ordenesEnTaller.venta | currency}}</td>
                                         <td>{{ordenesEnTaller.nombreCompleto}}</td>
-                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesEnTaller.tiempoEsperaTranscurrido}} días</td>
+                                        <td ng-show="userData.tiempoAsignado == 1">{{ordenesEnTaller.tiempoEsperaTranscurrido}}</td>
                                     </tr>
                                 </tbody>
                             </table>
