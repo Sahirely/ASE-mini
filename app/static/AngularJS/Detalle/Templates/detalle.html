@@ -933,7 +933,7 @@
                             </div>
                         </div>
                         </div>
-                        <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idRol ==  2)">
+                        <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)">
                             <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                                 <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                                 <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(8);">Aceptar</button>
