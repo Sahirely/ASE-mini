@@ -70,7 +70,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.obtieneDatoUrl();
     if($scope.userData != undefined){
         $scope.Precancelacion = false
-        userFactory.ValidaSesion()
+        //userFactory.ValidaSesion()
         $('#loadModal').modal('show')
         $scope.userData = userFactory.getUserData()
         $scope.rolLogged = $scope.userData.idRol
