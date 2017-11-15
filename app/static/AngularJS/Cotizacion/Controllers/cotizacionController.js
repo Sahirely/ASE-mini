@@ -20,23 +20,8 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.statusIgual = 0;
 
     $scope.init = function() {
-        userFactory.ValidaSesion();
-        $scope.btnSwitch.classCosto = 'btn btn-success';
-        $scope.btnSwitch.classVenta = 'btn btn-default';
-        $scope.showButtonSwitch($scope.userData.idRol);
-        $scope.idCotizacion = $routeParams.idCotizacion;
+        $('#loadModal').modal('show');
         $scope.numeroOrden = $routeParams.orden;
-        $scope.estatus = $routeParams.estatus;
-         //LQMA add 11072017
-        $scope.idZona = $routeParams.idZona;
-        console.log('idZona: ' + $scope.idZona);
-
-        $scope.getTipoOrdenesServicio()
-        $scope.mostrarTalleres = true;
-        $scope.mostrarPartida = false;
-        $scope.getCotizacionDetalle();
-
-        //if ($scope.idCotizacion != undefined ) { //LQMA comment 10072017
         if($scope.numeroOrden != undefined) {  //LQMA add 10072017
             console.log('entro a obtener detalle')
             $scope.getOrdenDetalle();
@@ -44,6 +29,23 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
             if ($scope.idCotizacion != undefined ) //LQMA add 10072017
                 $scope.show_nuevaCotizacion = false;
         };
+        userFactory.ValidaSesion();
+        $scope.btnSwitch.classCosto = 'btn btn-success';
+        $scope.btnSwitch.classVenta = 'btn btn-default';
+        $scope.showButtonSwitch($scope.userData.idRol);
+        $scope.idCotizacion = $routeParams.idCotizacion;
+        
+        $scope.estatus = $routeParams.estatus;
+         //LQMA add 11072017
+        $scope.idZona = $routeParams.idZona;
+
+        $scope.mostrarTalleres = true;
+        $scope.mostrarPartida = false;
+
+        setTimeout(function () {
+          $scope.getTipoOrdenesServicio()
+          $scope.getCotizacionDetalle();
+        }, 500);
 
     }
 
@@ -153,7 +155,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
         }
 
     $scope.getOrdenDetalle = function() {
-        consultaCitasRepository.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden).then(function(result) {
+        consultaCitasRepository.getOrdenDetalle($scope.userData.idUsuario, $routeParams.orden).then(function(result) {
             if (result.data.length > 0) {
                 $scope.detalleOrden = result.data[0];
                 $scope.estatusActual = result.data[0].idEstatusOrden;
@@ -186,7 +188,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
     $scope.getPartidasTaller = function(idTaller) {
         var partidas = [];
-        $('#loadModal').modal('show');
+        
         $scope.idTaller = idTaller;
         //LQMA 110702017 se comento
         //$('.dataTablePartidasTalleres').DataTable().destroy();
