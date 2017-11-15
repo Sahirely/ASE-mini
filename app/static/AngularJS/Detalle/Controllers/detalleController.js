@@ -138,13 +138,24 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 if (result.data.length > 0) {
                     $scope.usernombre = result.data[0].nombreUsuario;
                     $scope.userpasword = result.data[0].contrasenia;
-                    $scope.login($scope.usernombre, $scope.userpasword);
+                    $scope.usernombreCompleto = result.data[0].nombreCompleto;
+                    $('#validaContrasena').modal();
+                    //$scope.login($scope.usernombre, $scope.userpasword);
                 }
             },
             function(error) {
                 alertFactory.error('No se pudo ontener el usuario, inténtelo más tarde.');
             });
     };
+
+    $scope.checkContrasea = function () {
+      if($scope.supuestaContrasena == $scope.userpasword){
+        $scope.login($scope.usernombre, $scope.userpasword);
+      }else{
+        alertFactory.info('La contraseña que ha introducido es incorrecta!')
+        //location.href = '/';
+      }
+    }
 
  $scope.login = function (username, password) {
     loginRepository.login(username, password).then(function (result) {
@@ -207,6 +218,16 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         //$scope.getOrdenesURL($scope.orden, $scope.user);
       }
     });
+  }
+
+  $scope.mouseoverPass = function(obj){
+    var obj = document.getElementById('myPassword');
+    obj.type = "text";
+  }
+
+  $scope.mouseoutPass = function(obj){
+    var obj = document.getElementById('myPassword');
+    obj.type = "password";
   }
 
   // funcion reloj recursiva cada minuto
