@@ -20,7 +20,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.statusIgual = 0;
 
     $scope.init = function() {
-        $('#loadModal').modal('show');
+        
         $scope.numeroOrden = $routeParams.orden;
         if($scope.numeroOrden != undefined) {  //LQMA add 10072017
             console.log('entro a obtener detalle')
@@ -188,7 +188,7 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
     $scope.getPartidasTaller = function(idTaller) {
         var partidas = [];
-        
+        $('#loadModal').modal('show');
         $scope.idTaller = idTaller;
         //LQMA 110702017 se comento
         //$('.dataTablePartidasTalleres').DataTable().destroy();
