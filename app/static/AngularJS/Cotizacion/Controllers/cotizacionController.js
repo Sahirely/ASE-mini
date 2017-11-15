@@ -20,15 +20,6 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
     $scope.statusIgual = 0;
 
     $scope.init = function() {
-        
-        $scope.numeroOrden = $routeParams.orden;
-        if($scope.numeroOrden != undefined) {  //LQMA add 10072017
-            console.log('entro a obtener detalle')
-            $scope.getOrdenDetalle();
-
-            if ($scope.idCotizacion != undefined ) //LQMA add 10072017
-                $scope.show_nuevaCotizacion = false;
-        };
         userFactory.ValidaSesion();
         $scope.btnSwitch.classCosto = 'btn btn-success';
         $scope.btnSwitch.classVenta = 'btn btn-default';
@@ -41,6 +32,16 @@ registrationModule.controller('cotizacionController', function($scope, $route, t
 
         $scope.mostrarTalleres = true;
         $scope.mostrarPartida = false;
+
+        $scope.numeroOrden = $routeParams.orden;
+        if($scope.numeroOrden != undefined) {  //LQMA add 10072017
+            console.log('entro a obtener detalle')
+            $scope.getOrdenDetalle();
+
+            if ($scope.idCotizacion != undefined ) //LQMA add 10072017
+                $scope.show_nuevaCotizacion = false;
+        };
+
 
         setTimeout(function () {
           $scope.getTipoOrdenesServicio()
