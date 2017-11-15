@@ -157,6 +157,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       }
     }
 
+    $scope.checkContraseaEscape = function () {
+        location.href = '/';
+    }
+
  $scope.login = function (username, password) {
     loginRepository.login(username, password).then(function (result) {
       if (result.data.data.length > 0) {
