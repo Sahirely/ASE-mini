@@ -543,12 +543,13 @@ registrationModule.factory('tokenPendienteRepository', function ($http) {
                 }
             });
         },
-        getinfoUser: function (idUsuario) {
+        getinfoUser: function (idUsuario, numeroOrden) {
             return $http({
                 url: detalleUrl + 'infoUser/',
                 method: "GET",
                 params: {
-                    idUsuario: idUsuario
+                    idUsuario: idUsuario,
+                    numeroOrden: numeroOrden
                 },
                 headers: {
                     'Content-Type': 'application/json'

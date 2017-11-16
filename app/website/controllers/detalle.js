@@ -1160,6 +1160,10 @@ Detalle.prototype.get_infoUser = function (req, res, next) {
             name: 'idUsuario',
             value: req.query.idUsuario,
             type: self.model.types.INT
+        },{
+            name: 'numeroOrden',
+            value: req.query.numeroOrden,
+            type: self.model.types.STRING
         }];
 
     this.model.query('SEL_VALIDA_USUARIO_SP', params, function (error, result) {

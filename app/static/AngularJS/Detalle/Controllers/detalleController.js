@@ -68,11 +68,12 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   $scope.init = function () {
     $scope.obtieneDatoUrl();
+    $scope.userData = userFactory.getUserData()
     if($scope.userData != undefined){
         $scope.Precancelacion = false
         //userFactory.ValidaSesion()
         $('#loadModal').modal('show')
-        $scope.userData = userFactory.getUserData()
+        
         $scope.rolLogged = $scope.userData.idRol
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
@@ -134,10 +135,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     }
 
     $scope.obtieneUsuario = function(idUsuario) {
-        tokenPendienteRepository.getinfoUser(idUsuario).then(function(result) {
+        tokenPendienteRepository.getinfoUser(idUsuario, $scope.numordenURl).then(function(result) {
                 if (result.data.length > 0) {
                     $scope.usernombre = result.data[0].nombreUsuario;
                     $scope.userpasword = result.data[0].contrasenia;
+                    $scope.userestado = result.data[0].estado;
                     $scope.usernombreCompleto = result.data[0].nombreCompleto;
                     $('#validaContrasena').modal();
                     //$scope.login($scope.usernombre, $scope.userpasword);
@@ -218,7 +220,12 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         //alertFactory.info('Bienvenido: ' + $scope.usernombre);
         //localStorageService.set('ord', $scope.orden);
         //location.href = '/detalle?';
-        location.href = '/detalle?orden=' + $scope.numordenURl;
+        if($scope.userestado == 5){
+          location.href = '/detalle?orden=' + $scope.numordenURl + '&estatus=4';
+        }else{
+          location.href = '/detalle?orden=' + $scope.numordenURl;
+        }
+        
         //$scope.getOrdenesURL($scope.orden, $scope.user);
       }
     });
