@@ -111,7 +111,7 @@
                         <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
                     </ul>
                 </li>
-                <li ng-class="{'active': (modulo=='estadoCuenta' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}" ng-hide="{{userData.idRol != 2}}"> 
+                <li ng-class="{'active': (modulo=='estadoCuenta' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}" ng-hide="{{userData.idRol != 2}}">
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-area-chart"></i> <span class="nav-label">Proveedor</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
                         <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='proveedor'}"><a href="/estadocuenta">Estado de Cuenta</a></li>
@@ -265,7 +265,7 @@
                         <div class="btn-group" ng-hide="hideSwitchBoton">
                             <button type="button" ng-class="btnSwitch.classPro" ng-click="showButtonSwitchClick(1)">PRO</button>
                             <button type="button" ng-class="btnSwitch.classLite" ng-click="showButtonSwitchClick(2)">Lite</button>
-                            
+
                         </div>
                     </li>
                 </ul>
@@ -419,6 +419,8 @@
     <script src="AngularJS/MarkerCreatorService.js"></script>
     <script src="AngularJS/userFactory.js"></script>
     <script src="AngularJS/Servicios/commonService.js"></script>
+    <!--Filtros Personalizados -->
+    <script src="AngularJS/filters.js"></script>
     <!--//LQMA 09062017-->
     <script src="AngularJS/CommonFunction/Repository/CommonFunctionRepository.js"></script>
     <!--Librería de Switch -->
