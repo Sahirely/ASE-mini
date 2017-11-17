@@ -10,12 +10,13 @@
         $scope.sumatoriaVenta = 0;
         $scope.Detalle = []
         $scope.EstadoCuenta = []
+        $scope.gridDetalle = {}
 
 
         $scope.init = function(){
             $scope.userData = userFactory.getUserData();
             userFactory.ValidaSesion();
-
+            $('#loadModal').modal('show')
             $scope.getEstadoCuenta();
         }
 
@@ -30,6 +31,11 @@
                         bindingOptions: {
                             dataSource: 'EstadoCuenta'
                         },
+                        "export": {
+                            enabled: true,
+                            fileName: "EstadoCuentaProveedor",
+                            allowExportSelectedData: false
+                          },
                         allowSorting: true,
                         showRowLines: true,
                         rowAlternationEnabled: true,
@@ -110,15 +116,18 @@
     
                         onCellClick: function(e) {
                             if (e.rowType == "data"){
-                                if(e.column.dataField != "razonSocial" && e.column.dataField != "idProveedor"){
+                                if(e.column.dataField != "razonSocial" && e.column.dataField != "idProveedor" && e.value != 0){
                                     $scope.salesPopupVisible=true
                                     $scope.Detalle = []
+                                    $('#loadModal').modal('show')
                                     $scope.getEstadoCuentaDetalle(e.row.data, e.column.dataField)
                                 }
                             }   
                         },
                     }
+                    $('#loadModal').modal('hide')
                 }, function(error){
+                    $('#loadModal').modal('hide')
                     alertFactory.error('Ocurrio un error al cargar estado de cuenta.');
                 }
             )
@@ -139,7 +148,7 @@
                         },
                         "export": {
                           enabled: true,
-                          fileName: "EstadoCuentaProveedor",
+                          fileName: "EstadoCuentaProveedorDetalle",
                           allowExportSelectedData: false
                         },
 
@@ -161,7 +170,7 @@
                             { dataField: "numeroOrden", dataType: "string" },
                             { dataField: "fechaCreacionOden", dataType: "date" },
                             { dataField: "total", dataType: "number", format:"currency" },
-                            { dataField: "nombreEstatusOrden", dataType: "string" }
+                            { dataField: "nombreEstatusOrden", caption:"Estatus Orden", dataType: "string" }
                         ],
                         summary:{
                             totalItems:[{
@@ -199,8 +208,9 @@
                             width: '400'
                         },
                     }
-
+                    $('#loadModal').modal('hide')
                 }, function(error){
+                    $('#loadModal').modal('hide')
                     alertFactory.error('Ocurrió un error al cargar el detalle.');
                 }
             )

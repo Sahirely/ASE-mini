@@ -111,10 +111,12 @@
                         <li ng-class="{'active': modulo=='presupuesto'}"><a href="/presupuesto">Presupuestos</a></li>
                     </ul>
                 </li>
-                <li ng-class="{'active': (modulo=='estadoCuenta' || modulo=='reporteParqueVehicular' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}" ng-hide="{{userData.idRol != 2}}"> 
+                <li ng-class="{'active': (modulo=='estadoCuenta' || modulo=='proveedorUtilidad' || modulo=='reporteMargenUtilidad' || modulo=='reporteHistorial' || modulo=='certificado')}" ng-hide="{{userData.idRol != 2}}"> 
                     <a href="#" ng-click="showChat = 0"><i class="fa fa-area-chart"></i> <span class="nav-label">Proveedor</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
-                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='proveedor'}"><a href="/estadocuenta">Estado de Cuenta</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='estadoCuenta'}"><a href="/estadocuenta">Estado de Cuenta del Proveedor</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='proveedorUtilidad'}"><a href="/proveedorutilidad">Utilidad del Proveedor</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='proveedorDispersion'}"><a href="/proveedordispersion">Dispersión por Proveedor</a></li>
                         <!-- <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteMargenUtilidad'}"><a href="/reporteutilidad">Reporte Márgenes de Utilidad</a></li>
                         <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteHojaTrabajo">Hoja de Trabajo</a></li>
                         <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteParqueVehicular'}"><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
@@ -536,6 +538,10 @@
     <script src="AngularJS/SeguimientoTickets/Controllers/seguimientoTicketsController.js"></script>
     <script src="AngularJS/Proveedor/Controllers/estadoCuentaController.js"></script>
     <script src="AngularJS/Proveedor/Repositories/estadoCuentaRepository.js"></script>
+    <script src="AngularJS/Proveedor/Controllers/utilidadController.js"></script>
+    <script src="AngularJS/Proveedor/Repositories/utilidadRepository.js"></script>
+    <script src="AngularJS/Proveedor/Controllers/dispersionController.js"></script>
+    <script src="AngularJS/Proveedor/Repositories/dispersionRepository.js"></script>
     <script src="AngularJS/SeguimientoTickets/Repositories/seguimientoTicketsRepository.js"></script>
     <script src="AngularJS/MiCuenta/Controllers/nuevoMemorandumController.js"></script>
     <script src="AngularJS/MiCuenta/Repositories/nuevoMemorandumRepository.js"></script>

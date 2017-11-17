@@ -259,6 +259,16 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'estadoCuentaController'
         });
 
+        $routeProvider.when('/proveedorutilidad', {
+            templateUrl: 'AngularJS/Proveedor/Templates/utilidad.html',
+            controller: 'utilidadController'
+        });
+
+        $routeProvider.when('/proveedordispersion', {
+            templateUrl: 'AngularJS/Proveedor/Templates/dispersion.html',
+            controller: 'dispersionController'
+        });
+
         // Análsis de Inversión
         $routeProvider.when('/afinversion', {
             templateUrl: 'AngularJS/AnalisisFlotilla/Templates/inversion.html',

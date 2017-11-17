@@ -46,4 +46,48 @@ Proveedor.prototype.get_consultaEstadoCuentaPorProveedor = function(req, res, bo
     });
 }
 
+Proveedor.prototype.get_consultaUtilidad = function(req, res, body){
+    var self = this;
+    var params = [
+        
+    ];
+
+    this.model.query('SEL_REPORTE_PROVEEDOR_UTILIDAD_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Proveedor.prototype.get_consultaUtilidad = function(req, res, body){
+    var self = this;
+    var params = [
+        { name: 'fechaInicial', value: req.query.fechaInicial, type: self.model.types.STRING },
+        { name: 'fechaFinal', value: req.query.fechaFinal, type: self.model.types.STRING }
+    ];
+
+    this.model.query('SEL_REPORTE_PROVEEDOR_UTILIDAD_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Proveedor.prototype.get_consultaDispersion = function(req, res, body){
+    var self = this;
+    var params = [
+        { name: 'fechaInicial', value: req.query.fechaInicial, type: self.model.types.STRING },
+        { name: 'fechaFinal', value: req.query.fechaFinal, type: self.model.types.STRING }
+    ];
+
+    this.model.query('SEL_REPORTE_PROVEEDOR_DISPERSION_SP', params, function(error, result){
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Proveedor;
