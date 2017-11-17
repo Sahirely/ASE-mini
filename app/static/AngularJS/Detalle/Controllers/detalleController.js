@@ -66,14 +66,19 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // Agrega para comentarios
   $scope.comentarios = []
 
-  $scope.init = function () {
-    $scope.obtieneDatoUrl();
-    $scope.userData = userFactory.getUserData()
-    if($scope.userData != undefined){
+//Variables para versionSystem light
+  //$scope.versionSystem = 1;
+  $scope.userData = userFactory.getUserData();
+  $scope.versionSystem = $scope.userData.versionSystem;
+  $scope.init = function () 
+  {
+      $scope.obtieneDatoUrl();
+      $scope.userData = userFactory.getUserData()
+      if ($scope.userData != undefined) {
         $scope.Precancelacion = false
         //userFactory.ValidaSesion()
         $('#loadModal').modal('show')
-        
+
         $scope.rolLogged = $scope.userData.idRol
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
@@ -106,7 +111,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           $scope.sinTiempoDisponible = 0
           $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
         }
-
         $scope.getMemorandums()
     }
   }
@@ -2849,5 +2853,55 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       window.open('http://189.204.141.193:5300')
     }
 
+    $scope.mostrarTipoUnidadVS2 = function()
+    {
+      var imageCar = "";
 
+      $scope.detalleOrden;
+       if($scope.detalleOrden != undefined)
+         if($scope.detalleOrden.foto != '')
+           imageCar = $scope.urldocs + '/partidas/' + $scope.detalleOrden.foto;
+
+      var cuerpoModal = 
+        "<div class='form-group'>" +
+          "<div class='ibox float-e-margins'>"+
+            "<div class='ibox-title'>"+
+              "<h5>"+ $scope.detalleOrden.tipoUnidad + " " + $scope.detalleOrden.numeroEconomico+"</h5>"+
+                "<div>"+
+                  "<div id='imageCARContent' class='ibox-content no-padding border-left-right'>"+
+                    "<img id='imageCAR' alt='image' class='img-responsive' src='"+ imageCar +"'>"+
+                  "</div>"+
+                    "<div class='ibox-content profile-content'>"+
+                      "<h4><strong>"+$scope.detalleOrden.marca+"</strong></h4>"+
+                      "<p><i class='fa fa-map-marker'></i>"+ $scope.detalleOrden.subMarca+"</p>"+
+                        "<div class='row'>"+
+                          "<div class='col-md-4'>"+
+                            "<div class='client-avatar'><img src='../image/resources/gsi.png' alt='foto'></div>"+
+                            "<h5>"+$scope.detalleOrden.tipoCombustible+"</h5>"+
+                          "</div>"+
+                          "<div class='col-md-4'>"+
+                            "<div class='client-avatar'> <img src='../image/resources/ci.png' alt='foto'> </div>"+
+                            "<h5>"+$scope.detalleOrden.cilindros+"</h5>"+
+                          "</div>"+
+                          "<div class='col-md-4'>"+
+                            "<div class='client-avatar'> <img src='../image/resources/mdl.png' alt='foto'> </div>"+
+                            "<h5><strong>MODELO</strong>"+$scope.detalleOrden.modelo+"</h5>"+
+                          "</div>"+
+                        "</div>"+
+                    "</div>"+
+                "</div>"+
+            "</div>"
+          "</div>"+
+        "</div>"
+      $('#idPadreMuestraTipoUnidadVS2').append(
+        cuerpoModal
+      );
+      $('#muestraTipoUnidadVS2').modal('show');
+    }
+
+    $scope.destruirMuestraTipoUnidadVS2 = function()
+    {
+      $('#idPadreMuestraTipoUnidadVS2').empty();
+      $('#muestraTipoUnidadVS2').modal('hide');
+    }
 })
