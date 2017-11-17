@@ -39,6 +39,8 @@ registrationModule.factory('userFactory', function($window, localStorageService,
       userData.Modulos = ObjetoOperacionSelected.modulos;
       userData.idRol = ObjetoOperacionSelected.idRol;
       userData.Rol = ObjetoOperacionSelected.nombreRol;
+      userData.nombreCompleto = ObjetoOperacionSelected.nombreCompleto;
+      userData.versionSystem = ObjetoOperacionSelected.versionSystem;
       userData.formaPago = ObjetoOperacionSelected.formaPago;
       userData.idLicitacion = ObjetoOperacionSelected.idLicitacion;
       userData.nombreLicitacion = ObjetoOperacionSelected.nombreLicitacion;
@@ -73,6 +75,41 @@ registrationModule.factory('userFactory', function($window, localStorageService,
             }
         });
       }
+    },
+    updateSelectedVersion: function(data, version){
+      var userData = this.getUserData();
+
+      /*for (var i = 0; i < userData.Operaciones.length; i++) {
+        if(userData.Operaciones[i].idContratoOperacion == data){
+          ObjetoOperacionSelected = userData.Operaciones[i];
+        }
+      }*/
+
+      /*userData.contratoOperacionSeleccionada = ObjetoOperacionSelected.idContratoOperacion;
+      userData.idOperacion = ObjetoOperacionSelected.idOperacion;
+      userData.nombreOperacion = ObjetoOperacionSelected.nombreOperacion;
+      userData.manejoUtilidad = ObjetoOperacionSelected.manejoUtilidad;
+      userData.porcentajeUtilidad = ObjetoOperacionSelected.porcentajeUtilidad;
+      userData.presupuesto = ObjetoOperacionSelected.presupuesto;
+      userData.geolocalizacion = ObjetoOperacionSelected.geolocalizacion;
+      userData.tiempoAsignado = ObjetoOperacionSelected.tiempoAsignado;
+      userData.verificacionVehicular = ObjetoOperacionSelected.verificacionVehicular;
+      userData.Modulos = ObjetoOperacionSelected.modulos;
+      userData.idRol = ObjetoOperacionSelected.idRol;
+      userData.Rol = ObjetoOperacionSelected.nombreRol;
+      userData.nombreCompleto = ObjetoOperacionSelected.nombreCompleto;*/
+      userData.versionSystem = version;
+      /*userData.formaPago = ObjetoOperacionSelected.formaPago;
+      userData.idLicitacion = ObjetoOperacionSelected.idLicitacion;
+      userData.nombreLicitacion = ObjetoOperacionSelected.nombreLicitacion;
+      userData.idContrato = ObjetoOperacionSelected.idContrato;
+      userData.razonSocial = ObjetoOperacionSelected.razonSocial;
+      userData.fechaInicio = ObjetoOperacionSelected.fechaInicio;
+      userData.fechafin = ObjetoOperacionSelected.fechafin;*/
+
+      //localStorageService.clearAll();
+      $window.sessionStorage.setItem(userData,JSON.stringify(userData));
+      return (this.getUserData());
     }
   }
 });

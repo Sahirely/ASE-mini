@@ -83,13 +83,28 @@ registrationModule.controller('tokenPendienteController', function($scope, $moda
                 if (result.data.length > 0) {
                     $scope.usernombre = result.data[0].nombreUsuario;
                     $scope.userpasword = result.data[0].contrasenia;
-                    $scope.login($scope.usernombre, $scope.userpasword);
+                    $scope.userestado = result.data[0].estado;
+                    $scope.usernombreCompleto = result.data[0].nombreCompleto;
+                    $('#validaContrasena').modal();
                 }
             },
             function(error) {
                 alertFactory.error('No se pudo ontener el usuario, inténtelo más tarde.');
             });
     };
+
+    $scope.checkContrasea = function () {
+      if($scope.supuestaContrasena == $scope.userpasword){
+        $scope.login($scope.usernombre, $scope.userpasword);
+      }else{
+        alertFactory.info('La contraseña que ha introducido es incorrecta!')
+        //location.href = '/';
+      }
+    }
+
+    $scope.checkContraseaEscape = function () {
+        location.href = '/';
+    }
 
  $scope.login = function (username, password) {
     loginRepository.login(username, password).then(function (result) {

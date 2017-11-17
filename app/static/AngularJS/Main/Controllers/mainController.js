@@ -12,7 +12,6 @@
     $scope.selectedUsuariosMeeting = []
     $scope.selectionMode = 'all'
     $scope.selectAllMode = 'page'
-
     $scope.meetingObjetivo = ''
      // evita mostar las llaves en el inicio
     $scope.busquedaNumEco = '';
@@ -32,6 +31,9 @@
     // Gestiona la conexión con el socket
     $scope.socket = null
     $scope.connected = false
+    $scope.btn_editarVersion = false
+    $scope.btnSwitch = {}
+
 
     $scope.init = function() {
         $scope.userData = userFactory.getUserData()
@@ -39,6 +41,18 @@
         $scope.idRol = $scope.userData.idRol
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
+        $scope.versionSystem = $scope.userData.versionSystem;
+
+        if($scope.versionSystem == 1){
+            $scope.btnSwitch.classPro = 'btn btn-success'
+            $scope.btnSwitch.classLite = 'btn btn-default'
+        }else if($scope.versionSystem == 2){
+            $scope.btnSwitch.classLite = 'btn btn-success'
+            $scope.btnSwitch.classPro = 'btn btn-default' 
+        }
+        $scope.showButtonSwitch($scope.userData.idRol);
+
+
             $scope.getUsuarios()
             if (localStorageService.get('economico') != null && localStorageService.get('economico') != '') {
                 $scope.busquedaNumEco = localStorageService.get('economico')
@@ -380,4 +394,47 @@
         $scope.socket.emit('createMeeting', { meeting: joinurl, idUsuario: idUsuario, nombre: nombre, users: UsersInMeeting, meetingId: meetingId, asunto: asunto })
     }
 
+  $scope.showButtonSwitch = function (usrRol) {
+    switch (Number(usrRol)) {
+      case 1: // cliente
+        $scope.hideSwitchBoton = true
+        $scope.btnSwitch.showVersionSystem = false
+        $scope.btn_editarVersion = false
+        break
+      case 2: // admin
+        $scope.hideSwitchBoton = false
+        $scope.btnSwitch.showVersionSystem = true
+        $scope.btn_editarVersion = true
+        break
+      case 3: // callcenter
+        $scope.hideSwitchBoton = false
+        $scope.btnSwitch.showVersionSystem = true
+        $scope.btn_editarVersion = true
+        break
+      case 4: // proveedor
+        $scope.hideSwitchBoton = false
+        $scope.btnSwitch.showVersionSystem = true
+        $scope.btn_editarVersion = true
+        break
+      default:
+        $scope.hideSwitchBoton = true
+    }
+  }
+
+    $scope.showButtonSwitchClick = function (value) {
+        if(value == 1){
+            $scope.btnSwitch.showVersionSystem=false;
+            $scope.btnSwitch.classPro='btn btn-success';
+            $scope.btnSwitch.classLite='btn btn-default'
+            $scope.userData = userFactory.updateSelectedVersion($scope.idContratoOperacion, 1)
+        }else if(value == 2){
+            $scope.btnSwitch.showVersionSystem=true;
+            $scope.btnSwitch.classPro='btn btn-default';
+            $scope.btnSwitch.classLite='btn btn-success'
+            $scope.userData = userFactory.updateSelectedVersion($scope.idContratoOperacion, 2)
+        }
+    }
+
+
 })
+

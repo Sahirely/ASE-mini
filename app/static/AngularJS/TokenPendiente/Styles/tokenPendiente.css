@@ -35,3 +35,52 @@
     margin-top: 50px;
      margin-bottom: 50px;
 }
+
+#myPassword{
+  color: #da6969;
+}
+
+#myPassword:focus{
+  border-color: #da6969 !important;
+}
+
+.inputDiv{
+  padding-right: 0px;
+}
+
+.iconDiv{
+  border: 1px solid #e5e6e7;
+  height: 33.99px;
+}
+
+.myIcon{
+  padding-top: 3px;
+}
+.myModalHeader{
+  background-color: #da6969;
+}
+
+.myModalTitle{
+  color: white;
+  font-size: 18px;
+}
+
+.myModalLabel{
+  font-size: 20px;
+}
+
+.myModalTag{
+  font-size: 13px;
+}
+
+.myModalBtn{
+  background: #da6969;
+  border-color: #da6969;
+  color: white;
+}
+
+.myModalBtn:hover, .myModalBtn:active, .myModalBtn:active:hover, .myModalBtn:focus, .myModalBtn:active:focus{
+  background: #f77e7e !important;
+  border-color: #f77e7e !important;
+  color: white;
+}

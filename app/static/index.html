@@ -263,6 +263,13 @@
                                                         </a>
                                 </div> -->
                     </li>
+                    <li>
+                        <div class="btn-group" ng-hide="hideSwitchBoton">
+                            <button type="button" ng-class="btnSwitch.classPro" ng-click="showButtonSwitchClick(1)">PRO</button>
+                            <button type="button" ng-class="btnSwitch.classLite" ng-click="showButtonSwitchClick(2)">Lite</button>
+
+                        </div>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -414,6 +421,8 @@
     <script src="AngularJS/MarkerCreatorService.js"></script>
     <script src="AngularJS/userFactory.js"></script>
     <script src="AngularJS/Servicios/commonService.js"></script>
+    <!--Filtros Personalizados -->
+    <script src="AngularJS/filters.js"></script>
     <!--//LQMA 09062017-->
     <script src="AngularJS/CommonFunction/Repository/CommonFunctionRepository.js"></script>
     <!--Librería de Switch -->
