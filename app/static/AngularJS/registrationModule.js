@@ -259,6 +259,16 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             controller: 'estadoCuentaController'
         });
 
+        $routeProvider.when('/proveedorutilidad', {
+            templateUrl: 'AngularJS/Proveedor/Templates/utilidad.html',
+            controller: 'utilidadController'
+        });
+
+        $routeProvider.when('/proveedordispersion', {
+            templateUrl: 'AngularJS/Proveedor/Templates/dispersion.html',
+            controller: 'dispersionController'
+        });
+
         // Análsis de Inversión
         $routeProvider.when('/afinversion', {
             templateUrl: 'AngularJS/AnalisisFlotilla/Templates/inversion.html',
@@ -362,60 +372,3 @@ registrationModule.filter('trustUrl', function ($sce) {
     return $sce.trustAsResourceUrl(url);
   };
 });
-
-registrationModule.filter('filtrarZona', function(){
-    return function (items, idZona){
-        var filtered = [];
-
-        if (idZona === null || idZona === undefined || idZona === '0' || idZona === '' || idZona === 0){
-            return items;
-        } else {
-            angular.forEach(items, function(item){
-                if(item.idZona == idZona){
-                  filtered.push(item);
-                }
-            });
-
-            return filtered;
-        }
-    }
-});
-
-registrationModule.filter('filtrarEjecutivo', function(){
-    return function (items, idEjecutivo){
-        var filtered = [];
-
-        if (idEjecutivo === 0 || idEjecutivo === undefined || idEjecutivo === null || idEjecutivo === '0' || idEjecutivo === ''){
-            return items;
-        } else {
-            angular.forEach(items, function(item){
-                if(item.idUsuario == idEjecutivo){
-                  filtered.push(item);
-                }
-            });
-
-            return filtered;
-        }
-    }
-});
-
-registrationModule.filter('dateRange', function() {
-        return function( items, fromDate, toDate ) {
-            var filtered = [];
-
-            if (fromDate === null || fromDate === undefined || fromDate === '' || toDate === null || toDate === undefined || toDate === ''){
-                return items;
-            }else {
-
-                var from_date = Date.parse(fromDate);
-                var to_date = Date.parse(toDate);
-                angular.forEach(items, function(item) {
-                    var date = Date.parse(item.fechaCreacionOden.toString());
-                    if(date > from_date && date < to_date) {
-                        filtered.push(item);
-                    }
-                });
-                return filtered;
-            }
-        };
-    });
