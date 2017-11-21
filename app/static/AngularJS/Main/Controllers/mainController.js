@@ -421,7 +421,9 @@
     }
   }
 
-    $scope.showButtonSwitchClick = function (value) {
+  $scope.showButtonSwitchClick = function (value) 
+  {
+        $rootScope.$emit('cambiaVersion');
         if(value == 1){
             $scope.btnSwitch.showVersionSystem=false;
             $scope.btnSwitch.classPro='btn btn-success';
@@ -434,7 +436,5 @@
             $scope.userData = userFactory.updateSelectedVersion($scope.idContratoOperacion, 2)
         }
     }
-
-
 })
 

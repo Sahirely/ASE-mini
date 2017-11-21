@@ -2904,4 +2904,18 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $('#idPadreMuestraTipoUnidadVS2').empty();
       $('#muestraTipoUnidadVS2').modal('hide');
     }
+
+    $scope.prueba = function(url)
+    {
+      window.open(url);
+    }
+
+    $rootScope.$on('cambiaVersion', function() {
+        //console.log(mass);
+        location.href = '/detalle?orden=' + $routeParams.orden;
+    }); 
+
+   $scope.openCatEvidencia = function(urlEvidencia){
+      window.open(urlEvidencia)
+    }
 })
