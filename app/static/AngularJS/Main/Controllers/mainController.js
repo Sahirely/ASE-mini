@@ -50,7 +50,7 @@
             $scope.btnSwitch.classLite = 'btn btn-success'
             $scope.btnSwitch.classPro = 'btn btn-default' 
         }
-        $scope.showButtonSwitch($scope.userData.idRol);
+        $scope.showButtonSwitch($scope.userData.idUsuario, $scope.userData.idRol, $scope.userData.contratoOperacionSeleccionada);
 
 
             $scope.getUsuarios()
@@ -394,30 +394,63 @@
         $scope.socket.emit('createMeeting', { meeting: joinurl, idUsuario: idUsuario, nombre: nombre, users: UsersInMeeting, meetingId: meetingId, asunto: asunto })
     }
 
-  $scope.showButtonSwitch = function (usrRol) {
-    switch (Number(usrRol)) {
-      case 1: // cliente
-        $scope.hideSwitchBoton = true
-        $scope.btnSwitch.showVersionSystem = false
-        $scope.btn_editarVersion = false
-        break
-      case 2: // admin
-        $scope.hideSwitchBoton = false
-        $scope.btnSwitch.showVersionSystem = true
-        $scope.btn_editarVersion = true
-        break
-      case 3: // callcenter
-        $scope.hideSwitchBoton = false
-        $scope.btnSwitch.showVersionSystem = true
-        $scope.btn_editarVersion = true
-        break
-      case 4: // proveedor
-        $scope.hideSwitchBoton = false
-        $scope.btnSwitch.showVersionSystem = true
-        $scope.btn_editarVersion = true
-        break
-      default:
-        $scope.hideSwitchBoton = true
+  $scope.showButtonSwitch = function (idUsuario, usrRol, idContratoOperacion) {
+    if(idContratoOperacion == 3){
+        switch (Number(usrRol)) {
+          case 1: // cliente
+                if(idUsuario == 220 || idUsuario == 221){
+                    $scope.hideSwitchBoton = false
+                    $scope.btnSwitch.showVersionSystem = true
+                    $scope.btn_editarVersion = true
+                }else{
+                    $scope.hideSwitchBoton = true
+                    $scope.btnSwitch.showVersionSystem = false
+                    $scope.btn_editarVersion = false
+                }
+            break
+          case 2: // admin
+            $scope.hideSwitchBoton = false
+            $scope.btnSwitch.showVersionSystem = true
+            $scope.btn_editarVersion = true
+            break
+          case 3: // callcenter
+            $scope.hideSwitchBoton = true
+            $scope.btnSwitch.showVersionSystem = false
+            $scope.btn_editarVersion = false
+            break
+          case 4: // proveedor
+            $scope.hideSwitchBoton = true
+            $scope.btnSwitch.showVersionSystem = false
+            $scope.btn_editarVersion = false
+            break
+          default:
+            $scope.hideSwitchBoton = true
+        }
+    }else{
+        switch (Number(usrRol)) {
+          case 1: // cliente
+            $scope.hideSwitchBoton = true
+            $scope.btnSwitch.showVersionSystem = false
+            $scope.btn_editarVersion = false
+            break
+          case 2: // admin
+            $scope.hideSwitchBoton = false
+            $scope.btnSwitch.showVersionSystem = true
+            $scope.btn_editarVersion = true
+            break
+          case 3: // callcenter
+            $scope.hideSwitchBoton = true
+            $scope.btnSwitch.showVersionSystem = false
+            $scope.btn_editarVersion = false
+            break
+          case 4: // proveedor
+            $scope.hideSwitchBoton = true
+            $scope.btnSwitch.showVersionSystem = false
+            $scope.btn_editarVersion = false
+            break
+          default:
+            $scope.hideSwitchBoton = true
+        }
     }
   }
 

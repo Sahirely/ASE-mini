@@ -2912,8 +2912,23 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     $rootScope.$on('cambiaVersion', function() {
         //console.log(mass);
-        location.href = '/detalle?orden=' + $routeParams.orden;
+        //location.href = '/detalle?orden=' + $routeParams.orden;
+        $scope.HomeBasic();
     }); 
+
+    $scope.HomeBasic = function () {
+    loginRepository.iniciaSesionHistorial($scope.userData.idUsuario).then(function (result) {
+      var sesion = result.data[0].idSesion;
+      $scope.userData = userFactory.setActiveSesion(sesion);
+      if ($scope.userData.idRol == 3) {
+        location.href = '/dashboardCallCenter';
+      } else if ($scope.userData.idRol == 5) {
+        location.href = '/configurador';
+      } else {
+        location.href = '/dashboardgeneral';
+      }
+    });
+  }
 
    $scope.openCatEvidencia = function(urlEvidencia){
       window.open(urlEvidencia)
