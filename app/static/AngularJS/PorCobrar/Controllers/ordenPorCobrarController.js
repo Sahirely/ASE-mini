@@ -1,6 +1,7 @@
 registrationModule.controller('ordenPorCobrarController', function ($scope, $rootScope, localStorageService, alertFactory, globalFactory, ordenPorCobrarRepository, userFactory, cotizacionConsultaRepository, nuevoMemorandumRepository, configuradorRepository) {
   $rootScope.modulo = 'ordenxCobrar'
   //////////////////////////////////
+  $scope.DatesFlag = 0;
   $scope.message = "Buscando...";
   $scope.stories= [];
   $scope.checkedTrabajos=[];
@@ -30,6 +31,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.ZonasSeleccionadas = []
   $scope.NivelesZona = []
   $scope.Zonas = []
+  // $scope.ZonaFilter = '';
   $scope.checkedTrabajos = [];
   $scope.checkedFacturasTotal = [];
   $scope.fechaRecepcionCopade = '';
@@ -38,6 +40,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.grouper = 'numeroOrden'
   $scope.idGrouper = 2
   $scope.option = null
+  $scope.selectedTab = 1;
 
   $scope.total = 0
       var sumatoriaMontoPago = 0;
@@ -140,11 +143,64 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   }
 
+  $scope.changeSelectedTab = function (data){
+          $scope.selectedTab = data;
+
+          if ($scope.selectedTab == 2){
+            $scope.getCopades();
+          }
+  }
+
+  $scope.cleanSearch = function(){
+
+    swal({
+          title: '¿Desea realizar la búsqueda sin criterios de selección?',
+          text: "Al realizar la búsqueda sin criterios, se traerán todos los resultados.",
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si',
+          cancelButtonText: 'Cancelar'
+        }, function (isConfirm) {
+          if (isConfirm) {
+            //se limpia el filtro de zonas
+            for ($scope.x = 0; $scope.x <= $scope.totalNiveles; $scope.x++) {
+                $scope.ZonasSeleccionadas[$scope.x] = "0";
+            }
+
+            //se limpia el filtro de ejecutivo
+            $scope.ejecutivoSelected = 0;
+
+            //se limpia el filtro de estatus
+            $scope.filtroEstatus = '';
+
+            //bandera temporal para evitar filtro en fechas y poder limpiar
+            $scope.DatesFlag = 4;
+
+            //limpiar filtros de fechas
+            $scope.fechaMes = '';
+            $scope.fecha = '';
+            $scope.fechaInicio = '';
+            $scope.fechaFin = '';
+            $('#txtMes').datepicker('setDate', null);
+            $('#txtfechaEspecifica').datepicker('setDate', null);
+            $('#txtFIni').datepicker('setDate', null);
+            $('#txtFFin').datepicker('setDate', null);
+
+            //aplicar el cambio con filtros limpios
+            $scope.changeFilters();
+            $scope.consultaPestania();
+         }
+       });
+
+  }
+
   $scope.getPorCobrar = function (){
       // Obtengo la lista de tablas
       $('.dataTablePorCobrar').DataTable().destroy()
       $scope.promise = ordenPorCobrarRepository.get('obtenerporcobrar', {  'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada,
-        'idUsuario': $scope.userData.idUsuario,'isProduction':$scope.userData.isProduction }).then(function (result) {
+        'idUsuario': $scope.userData.idUsuario, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
           $scope.porCobrar = result.data
           $scope.total = 0
           angular.forEach($scope.porCobrar, function (value, key) {
@@ -159,9 +215,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   $scope.getFacturasPagadas = function(){
       $('.dataTablePagadas').DataTable().destroy()
-      $scope.promise = ordenPorCobrarRepository.get('trbajoCobrado', {'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",
-        'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,
-        'idDatosCopade':0, 'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+      $scope.promise = ordenPorCobrarRepository.get('trbajoCobrado', {'idUsuario': $scope.userData.idUsuario,'idDatosCopade':0, 'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
           $scope.pagadas = result.data
           angular.forEach($scope.pagadas, function (value, key) {
             $scope.totalPagadas = $scope.totalPagadas + value.total
@@ -176,7 +230,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     // Obtengo la lista de tablas
     $('.dataTableEnviada').DataTable().destroy()
     $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': $scope.userData.idUsuario,
-      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
         $scope.enviada = result.data
         angular.forEach($scope.enviada, function (value, key) {
           $scope.totalEnviada = $scope.totalEnviada + value.total
@@ -187,11 +241,13 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       })
   }
 
+
+
   $scope.getFacturasAbonadas = function (){
   // Obtengo la lista de tablas
   $('.dataTableAbonadas').DataTable().destroy();
   $scope.promise = ordenPorCobrarRepository.get('obtenerabonadas', { 'idUsuario': $scope.userData.idUsuario,
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
       $scope.abonadas = result.data;
       $scope.totalAbonadasAbono = 0;
       $scope.totalAbonadasSaldo = 0;
@@ -212,7 +268,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       $('.dataTableAbonos').DataTable().destroy()
       $scope.checkedFacturasTotal = [];
       $scope.promise = ordenPorCobrarRepository.get('obtenerabonos', { 'idUsuario': $scope.userData.idUsuario,
-      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
       $scope.selectCotizaciones = result.data
       var sumatoriaMontoCopade = 0;
       var sumatoriaAbonoCopade = 0;
@@ -294,7 +350,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       // Obtengo la lista de tablas
       $('.dataTablePrefactura').DataTable().destroy()
       $scope.promise = ordenPorCobrarRepository.get('obtenerprefactura', { 'idUsuario': $scope.userData.idUsuario,
-        'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+        'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
           $scope.prefactura = result.data
           angular.forEach($scope.prefactura, function (value, key) {
             $scope.totalPrefactura = $scope.totalPrefactura + value.Total
@@ -335,87 +391,248 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     })
   }
 
-  $scope.MesChange = function () {
-    $scope.fechaInicio = ''
-    $scope.fechaFin = ''
-    $scope.fecha = ''
+  $scope.changeFilters = function(){
+    $scope.ZonaFilter = $scope.ZonasSeleccionadas[$scope.totalNiveles] == '' || $scope.ZonasSeleccionadas[$scope.totalNiveles] == undefined || $scope.ZonasSeleccionadas[$scope.totalNiveles] == 0 || $scope.ZonasSeleccionadas[$scope.totalNiveles] == '0' ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles];
+
+    if (($scope.fechaInicio != '' && $scope.fechaInicio !== undefined && $scope.fechaInicio !== null) && ($scope.fechaFin != '' && $scope.fechaFin !== undefined && $scope.fechaFin !== null)){
+        $scope.rInicioFilter = $scope.fechaInicio + ' 00:00:00';
+        $scope.rFinFilter = $scope.fechaFin + ' 23:59:59';
+    } else if ($scope.fecha != '' && $scope.fecha !== undefined && $scope.fecha !==  null){
+        $scope.rInicioFilter = $scope.fecha + ' 00:00:00';
+        $scope.rFinFilter = $scope.fecha + ' 23:59:59';
+    } else if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined){
+        $scope.rInicioFilter = $scope.obtienePrimerFechaMes();
+        $scope.rFinFilter = $scope.obtieneUltimaFechaMes();
+    } else {
+        $scope.rInicioFilter = null;
+        $scope.rFinFilter = null;
+    }
+
+    $scope.idEjecutivo = $scope.ejecutivoSelected === '' || $scope.ejecutivoSelected === undefined || $scope.ejecutivoSelected === null || $scope.ejecutivoSelected === 0 || $scope.ejecutivoSelected === '0' ? null : $scope.ejecutivoSelected;
+
+    $scope.DatesFlag = 0;
   }
+
+  $scope.consultaPestaniaConfirm = function(){
+
+    if (($scope.ZonaFilter ===  null || $scope.ZonaFilter === undefined) && ($scope.idEjecutivo === null || $scope.idEjecutivo === undefined) && ($scope.rInicioFilter == null || $scope.rInicioFilter == undefined) && ($scope.rFinFilter === null || $scope.rFinFilter === undefined)){
+
+          swal({
+                title: '¿Desea realizar la búsqueda sin criterios de selección?',
+                text: "Al realizar la búsqueda sin criterios, se traerán todos los resultados.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si',
+                cancelButtonText: 'Cancelar'
+              }, function (isConfirm) {
+                if (isConfirm) {
+                  //aplicar el cambio con filtros limpios
+                  $scope.changeFilters();
+                  $scope.consultaPestania();
+               }
+             });
+    }else{
+        $scope.changeFilters();
+        $scope.consultaPestania();
+    }
+  }
+
+  $scope.consultaPestania = function(){
+
+        switch ($scope.selectedTab) {
+            case 1:
+                $scope.getPorCobrar();
+                break;
+            case 2:
+                $scope.getCopades();
+                break;
+            case 3:
+                $scope.getPrefacturaGenerada();
+                break;
+            case 4:
+                $scope.getEnviadasCliente();
+                break;
+            case 5:
+                $scope.getSeleccionDeAbonos();
+                break;
+            case 6:
+                $scope.getFacturasAbonadas();
+                break;
+            case 7:
+                $scope.getFacturasPagadas();
+                break;
+
+            default:
+
+        }
+
+  }
+
+  $scope.cambioZona = function (id, orden) {
+      //al cambiar de zona se establece como zona seleccionada.
+      $scope.zonaSelected = id;
+      //se limpian los combos siguientes.
+      for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
+          $scope.ZonasSeleccionadas[$scope.x] = "0";
+      }
+
+      $scope.changeFilters();
+  };
+
+  $scope.MesChange = function () {
+      if ($scope.DatesFlag == 1 || $scope.DatesFlag == 0){
+          $scope.fechaInicio = '';
+          $scope.fechaFin = '';
+          $scope.fecha = '';
+          $scope.DatesFlag = 1;
+          $('#txtFIni').datepicker('setDate', null);
+          $('#txtFFin').datepicker('setDate', null);
+          $('#txtfechaEspecifica').datepicker('setDate', null);
+
+          $scope.changeFilters();
+      }
+  };
 
   $scope.RangoChange = function () {
-    $scope.fechaMes = ''
-    $scope.fecha = ''
-    this.ValidaRangoFechas()
-  }
+      if ($scope.DatesFlag == 2 || $scope.DatesFlag == 0){
+          $scope.fechaMes = '';
+          $scope.fecha = '';
+          $scope.DatesFlag = 2;
+          $('#txtMes').datepicker('setDate', null);
+          $('#txtfechaEspecifica').datepicker('setDate', null);
+          this.ValidaRangoFechas();
+
+          $scope.changeFilters();
+      }
+  };
 
   $scope.FechaChange = function () {
-    $scope.fechaMes = ''
-    $scope.fechaInicio = ''
-    $scope.fechaFin = ''
-  }
+      if ($scope.DatesFlag == 3 || $scope.DatesFlag == 0){
+          $scope.fechaMes = '';
+          $scope.fechaInicio = '';
+          $scope.fechaFin = '';
+          $scope.DatesFlag = 3;
+          $('#txtMes').datepicker('setDate', null);
+          $('#txtFIni').datepicker('setDate', null);
+          $('#txtFFin').datepicker('setDate', null);
+
+          $scope.changeFilters();
+      }
+  };
 
   $scope.ValidaRangoFechas = function () {
-    var isValid = true
+      var isValid = true;
 
-    // valida si están seleccionadas ambas fechas del rango
-    if ($scope.fechaInicio != '' && $scope.fechaFin != '') {
-      var fechaInicial = $scope.fechaInicio.split('/')
-      var fechaFinal = $scope.fechaFin.split('/')
+      //valida si están seleccionadas ambas fechas del rango
+      if ($scope.fechaInicio != '' && $scope.fechaFin != '') {
+          var fechaInicial = $scope.fechaInicio.split('/');
+          var fechaFinal = $scope.fechaFin.split('/');
 
-      // valida el anio
-      if (parseInt(fechaInicial[2]) > parseInt(fechaFinal[2])) {
-        isValid = false
-      } else if (parseInt(fechaInicial[2]) == parseInt(fechaFinal[2])) {
-        // valida el mes
-        if (parseInt(fechaInicial[0]) > parseInt(fechaFinal[0])) {
-          isValid = false
-        } else if (parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])) {
-          // valida el día
-          if (parseInt(fechaInicial[1]) > parseInt(fechaFinal[1])) {
-            isValid = false
+          //valida el anio
+          if (parseInt(fechaInicial[0]) > parseInt(fechaFinal[0])) {
+              isValid = false;
+          } else if (parseInt(fechaInicial[0]) == parseInt(fechaFinal[0])) {
+              //valida el mes
+              if (parseInt(fechaInicial[1]) > parseInt(fechaFinal[1])) {
+                  isValid = false;
+              } else if (parseInt(fechaInicial[1]) == parseInt(fechaFinal[1])) {
+                  //valida el día
+                  if (parseInt(fechaInicial[2]) > parseInt(fechaFinal[2])) {
+                      isValid = false;
+                  }
+              }
           }
-        }
-      }
 
-      if (isValid == false) {
-        $scope.fechaInicio = ''
-        $scope.fechaFin = ''
-        alertFactory.info('La Fecha de Fin Debe Ser Posterior a la Fecha de Inicio.')
+          if (isValid == false) {
+              $scope.fechaInicio = '';
+              $scope.fechaFin = '';
+              alertFactory.info('La Fecha de Fin Debe Ser Posterior a la Fecha de Inicio.');
+          }
       }
-    }
+  };
+
+
+  //obtiene la fecha del último día del mes seleccionado
+  $scope.obtieneUltimaFechaMes = function(){
+      var result = '';
+      if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+          var fechaPartida = $scope.fechaMes.split('-');
+
+          if (fechaPartida[0] == 'Enero') {
+              var date = new Date(fechaPartida[1], 1, 0);
+              result = fechaPartida[1] + '/01/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Febrero') {
+              var date = new Date(fechaPartida[1], 2, 0);
+              result = fechaPartida[1] + '/02/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Marzo') {
+              var date = new Date(fechaPartida[1], 3, 0);
+              result = fechaPartida[1] + '/03/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Abril') {
+              var date = new Date(fechaPartida[1], 4, 0);
+              result = fechaPartida[1] + '/04/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Mayo') {
+              var date = new Date(fechaPartida[1], 5, 0);
+              result = fechaPartida[1] + '/05/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Junio') {
+              var date = new Date(fechaPartida[1], 6, 0);
+              result = fechaPartida[1] + '/06/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Julio') {
+              var date = new Date(fechaPartida[1], 7, 0);
+              result = fechaPartida[1] + '/07/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Agosto') {
+              var date = new Date(fechaPartida[1], 8, 0);
+              result = fechaPartida[1] + '/08/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Septiembre') {
+              var date = new Date(fechaPartida[1], 9, 0);
+              result = fechaPartida[1] + '/09/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Octubre') {
+              var date = new Date(fechaPartida[1], 10, 0);
+              result = fechaPartida[1] + '/10/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Noviembre') {
+              var date = new Date(fechaPartida[1], 11, 0);
+              result = fechaPartida[1] + '/11/' + date.getDate().toString() + ' 23:59:59' ;
+          } else if (fechaPartida[0] == 'Diciembre') {
+              var date = new Date(fechaPartida[1], 12, 0);
+              result = fechaPartida[1] + '/12/' + date.getDate().toString() + ' 23:59:59' ;
+          }
+      }
+      return result;
   }
 
-  // obtiene el mes en formato de fecha
-  $scope.obtieneFechaMes = function () {
-    var result = ''
-    if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
-      var fechaPartida = $scope.fechaMes.split('-')
-      if (fechaPartida[0] == 'Enero') {
-        result = fechaPartida[1] + '/01/01'
-      } else if (fechaPartida[0] == 'Febrero') {
-        result = fechaPartida[1] + '/02/01'
-      } else if (fechaPartida[0] == 'Marzo') {
-        result = fechaPartida[1] + '/03/01'
-      } else if (fechaPartida[0] == 'Abril') {
-        result = fechaPartida[1] + '/04/01'
-      } else if (fechaPartida[0] == 'Mayo') {
-        result = fechaPartida[1] + '/05/01'
-      } else if (fechaPartida[0] == 'Junio') {
-        result = fechaPartida[1] + '/06/01'
-      } else if (fechaPartida[0] == 'Julio') {
-        result = fechaPartida[1] + '/07/01'
-      } else if (fechaPartida[0] == 'Agosto') {
-        result = fechaPartida[1] + '/08/01'
-      } else if (fechaPartida[0] == 'Septiembre') {
-        result = fechaPartida[1] + '/09/01'
-      } else if (fechaPartida[0] == 'Octubre') {
-        result = fechaPartida[1] + '/10/01'
-      } else if (fechaPartida[0] == 'Noviembre') {
-        result = fechaPartida[1] + '/11/01'
-      } else if (fechaPartida[0] == 'Diciembre') {
-        result = fechaPartida[1] + '/12/01'
+  //obtiene la fecha del primer día del mes seleccionado
+  $scope.obtienePrimerFechaMes = function () {
+      var result = '';
+      if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+          var fechaPartida = $scope.fechaMes.split('-');
+          if (fechaPartida[0] == 'Enero') {
+              result = fechaPartida[1] + '/01/01 00:00:00';
+          } else if (fechaPartida[0] == 'Febrero') {
+              result = fechaPartida[1] + '/02/01 00:00:00';
+          } else if (fechaPartida[0] == 'Marzo') {
+              result = fechaPartida[1] + '/03/01 00:00:00';
+          } else if (fechaPartida[0] == 'Abril') {
+              result = fechaPartida[1] + '/04/01 00:00:00';
+          } else if (fechaPartida[0] == 'Mayo') {
+              result = fechaPartida[1] + '/05/01 00:00:00';
+          } else if (fechaPartida[0] == 'Junio') {
+              result = fechaPartida[1] + '/06/01 00:00:00';
+          } else if (fechaPartida[0] == 'Julio') {
+              result = fechaPartida[1] + '/07/01 00:00:00';
+          } else if (fechaPartida[0] == 'Agosto') {
+              result = fechaPartida[1] + '/08/01 00:00:00';
+          } else if (fechaPartida[0] == 'Septiembre') {
+              result = fechaPartida[1] + '/09/01 00:00:00';
+          } else if (fechaPartida[0] == 'Octubre') {
+              result = fechaPartida[1] + '/10/01 00:00:00';
+          } else if (fechaPartida[0] == 'Noviembre') {
+              result = fechaPartida[1] + '/11/01 00:00:00';
+          } else if (fechaPartida[0] == 'Diciembre') {
+              result = fechaPartida[1] + '/12/01 00:00:00';
+          }
       }
-    }
-    return result
+      return result;
   }
 
   $scope.AbrirOrden = function (numeroOrden, estatus) {
@@ -705,7 +922,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.verOrdenes= function(idDatosCopade){
     $('.dataTableTrabajosCobrados').DataTable().destroy();
     $('#facturasOrden').appendTo("body").modal('show');
-    ordenPorCobrarRepository.getTrbajoCobrado({'idZona':0,'fechaInicio':"0001-01-01 00:00:00.000",'fechaFin':"0001-01-01 00:00:00.000",'fechaEspecifica':"0001-01-01 00:00:00.000", 'idUsuario': $scope.userData.idUsuario,'idDatosCopade':idDatosCopade, 'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada, 'isProduction': $scope.userData.isProduction}).then(function (result) {
+    ordenPorCobrarRepository.getTrbajoCobrado({'idUsuario': $scope.userData.idUsuario,'idDatosCopade':idDatosCopade, 'idContratoOperacion': $scope.userData.contratoOperacionSeleccionada, 'isProduction': $scope.userData.isProduction}).then(function (result) {
       if (result.data.length > 0) {
         $scope.trabajosCobrados = result.data;
         $scope.numeroCopadeOrden = $scope.trabajosCobrados[0].numeroCopade;
