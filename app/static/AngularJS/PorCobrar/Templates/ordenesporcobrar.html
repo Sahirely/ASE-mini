@@ -610,8 +610,8 @@
                                                       <td ng-hide=" idGrouper == 3">{{value.abono | currency}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.COP_SALDO | currency}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.COP_FECHULTPAG | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
-                                                      <td ng-show="esPemex">{{value.COP_FECHOPE | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
-                                                      <td ng-hide="esPemex">{{value.COP_FECHOPE | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
+                                                      <td ng-show="esPemex">{{value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
+                                                      <td ng-hide="esPemex">{{value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
                                                   </tr>
                                               </tbody>
                                           </table>
