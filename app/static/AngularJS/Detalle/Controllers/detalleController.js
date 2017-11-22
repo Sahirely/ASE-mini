@@ -68,8 +68,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
 //Variables para versionSystem light
   //$scope.versionSystem = 1;
-  $scope.userData = userFactory.getUserData();
-  $scope.versionSystem = $scope.userData.versionSystem;
+ // $scope.userData = userFactory.getUserData();
+  
   $scope.init = function () 
   {
       $scope.obtieneDatoUrl();
@@ -82,6 +82,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.rolLogged = $scope.userData.idRol
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
+        $scope.versionSystem = $scope.userData.versionSystem;
         $scope.btnSwitch.classCosto = 'btn btn-success'
         $scope.btnSwitch.classVenta = 'btn btn-default'
 
