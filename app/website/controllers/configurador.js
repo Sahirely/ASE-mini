@@ -1070,19 +1070,19 @@ Configurador.prototype.get_usuarios = function(req, res, next) {
     });
 }
 
-Configurador.prototype.get_zonas = function(req, res, next) {
-    var self = this;
-    var params = [
-        { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }
-    ]
-
-    this.model.query('SEL_ZONA_SP', params, function(error, result) {
-        self.view.expositor(res, {
-            error: error,
-            result: result
-        });
-    });
-}
+// Configurador.prototype.get_zonas = function(req, res, next) {
+//     var self = this;
+//     var params = [
+//         { name: 'idOperacion', value: req.query.idOperacion, type: self.model.types.INT }
+//     ]
+//
+//     this.model.query('SEL_ZONA_SP', params, function(error, result) {
+//         self.view.expositor(res, {
+//             error: error,
+//             result: result
+//         });
+//     });
+// }
 
 
 module.exports = Configurador;
