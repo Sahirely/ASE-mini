@@ -753,11 +753,11 @@
                                                                                     <!-- <a href="#" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'">
                                                                                         <img alt="image" class="img-circle" src="image/profile/man2.jpg">
                                                                                     </a> -->
-                                                                                    <i ng-click="accionComentario(notasC.idComentarioCotizacion, 1)" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-delete-variant mdi-24px"></i>
-                                                                                    <i  ng-click="accionComentario(notasC.idComentarioCotizacion, 2)" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-lead-pencil mdi-24px"></i>
-                                                                                    <i ng-show="editaComentario == 1" ng-click="actualizaComentario()" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-check-circle-outline mdi-24px"></i>
-                                                                                    <i ng-show="editaComentario == 1" ng-click="cancelaProceso()" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-close-circle-outline mdi-24px"></i>
-                                                                                    <div class="media-body">
+                                                                                    <i ng-click="accionComentario(notasC.idComentarioCotizacion, 1, cotizacion.numeroCotizacion)" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-delete-variant mdi-24px"></i>
+                                                                                    <i  ng-click="accionComentario(notasC.idComentarioCotizacion, 2, cotizacion.numeroCotizacion)" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-lead-pencil mdi-24px"></i>
+                                                                                    <i ng-show="editaComentario == 1" ng-click="actualizaComentario(cotizacion.numeroCotizacion)" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-check-circle-outline mdi-24px"></i>
+                                                                                    <i ng-show="editaComentario == 1" ng-click="cancelaProceso(cotizacion.numeroCotizacion)" ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'" class="mdi mdi-close-circle-outline mdi-24px"></i>
+                                                                                    <div class="media-body" id="c{{notasC.idComentarioCotizacion}}">
                                                                                         <small ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-right' : 'pull-left'">{{notasC.tiempoTranscurrido}}</small>
                                                                                         <div ng-class="notasC.idUsuario===userData.idUsuario ? 'pull-left' : 'pull-right'">
                                                                                             <strong>{{notasC.nombreCompleto}}</strong>
@@ -775,12 +775,12 @@
                                                                     <div class="chat-form">
                                                                         <form role="form">
                                                                             <div class="form-group">
-                                                                                <textarea class="form-control nota-input" placeholder="Escriba un comentario" ng-model="$parent.textoComentario" ng-hide="editaComentario == 1"></textarea>
-                                                                                <textarea class="form-control nota-input" id="comment" placeholder="Modifica tu comentario" ng-show="editaComentario == 1" ng-model="comentarioNuevo.texto"></textarea>
+                                                                                <textarea class="form-control nota-input" id="pc{{cotizacion.numeroCotizacion}}" placeholder="Escriba un comentario" ng-model="$parent.textoComentario"></textarea>
+                                                                                <textarea class="form-control nota-input" id="comment{{cotizacion.numeroCotizacion}}" placeholder="Modifica tu comentario" ng-model="comentarioNuevo.texto" style="display:none;"></textarea>
                                                                             </div>
                                                                             <div class="text-right">
                                                                                 <button type="submit" class="btn btn-sm btn-primary m-t-n-xs" ng-click="enviaComentario(cotizacion.idCotizacion)" ng-hide="editaComentario == 1">Publicar comentario</button>
-                                                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs" ng-click="actualizaComentario()" ng-show="editaComentario == 1">Modifica comentario</button>
+                                                                                <button type="submit" class="btn btn-sm btn-primary m-t-n-xs" ng-click="actualizaComentario(cotizacion.numeroCotizacion)" ng-show="editaComentario == 1">Modifica comentario</button>
                                                                             </div>
                                                                         </form>
                                                                     </div>

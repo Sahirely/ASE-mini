@@ -2961,7 +2961,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $scope.textoComentario = null
     }
 
-    $scope.accionComentario = function (idComentarioCotizacion, tipo) {
+    $scope.accionComentario = function (idComentarioCotizacion, tipo, numeroCotizacion) {
       if(tipo == 1){
         swal({
             title: "¿Esta seguro de cancelar el comentario?",
@@ -3005,17 +3005,21 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       }else if(tipo == 2){
         $scope.editaComentario = 1;
         angular.copy(Enumerable.From($scope.notaComentario).Where("$.idComentarioCotizacion == " + idComentarioCotizacion).FirstOrDefault(),$scope.comentarioNuevo);
-        //$('#cometarioEdit').focus();
-        //$('#cometarioEdit').select();    
+        $('#pc'+numeroCotizacion).hide();
+        $('#comment'+numeroCotizacion).show();
+        $('#comment'+numeroCotizacion).focus();
+        $('#comment'+numeroCotizacion).select();    
       }
     }
 
-    $scope.cancelaProceso = function () {
+    $scope.cancelaProceso = function (numeroCotizacion) {
         $scope.editaComentario = 0;
         $scope.comentarioNuevo = {};
+        $('#comment'+numeroCotizacion).hide();
+        $('#pc'+numeroCotizacion).show();
     }
 
-    $scope.actualizaComentario = function()
+    $scope.actualizaComentario = function(numeroCotizacion)
     {
       swal({
             title: "¿Esta seguro de modificar el comentario?",
@@ -3037,6 +3041,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                       $scope.comentarioNuevo = {};
                       alertFactory.success('El comentario se modificó exitosamente.');
                       $scope.editaComentario = 0;
+                      $('#comment'+numeroCotizacion).hide();
+                      $('#pc'+numeroCotizacion).show();
                     }
                   }, function (error) {
                     alertFactory.error('Ocurrio un error al modificar comentario.');
