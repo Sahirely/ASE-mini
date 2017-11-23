@@ -227,12 +227,16 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                 }
             });
         },
-        getOrdenesAprobacion: function(idContratoOperacion, idUsuario, numeroOrden, idEjecutivo){
+        getOrdenesAprobacion: function(idContratoOperacion, idUsuario, numeroOrden, idZona, idEjecutivoFiltro, fechaIni, fechaFin, estatus){
           var objGetOrdenes = {
             idContratoOperacion: idContratoOperacion,
             idUsuario: idUsuario,
             numeroOrden:numeroOrden,
-            idEjecutivo: idEjecutivo
+            idZona: idZona,
+            idEjecutivoFiltro: idEjecutivoFiltro,
+            fechaIni: fechaIni,
+            fechaFin: fechaFin,
+            estatus: estatus
           };
           return $http({
               url: searchUrl + 'OrdenesAprobacion/',

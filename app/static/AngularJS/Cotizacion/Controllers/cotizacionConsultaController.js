@@ -22,6 +22,9 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
     $scope.btnSwitch = {};
     $scope.cotizaciones = [];
 
+    //para ocultar la tabla hasta que se realize la primera búsqueda
+    $scope.show_grids = false;
+
     $scope.show_sumatorias = false;
 
     $scope.sumatoria_conPresupuesto = 0;
@@ -40,13 +43,15 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
             $scope.filtroEstatus = $scope.estatusDashboard;
+            $scope.consultaCotizacionesFiltros();
         } else {
             $scope.filtroEstatus = '';
         }
 
         $scope.ZonaFilter = '';
 
-        $scope.consultaCotizacionesFiltros();
+        // $scope.consultaCotizacionesFiltros();
+
         $scope.btnSwitch.classCosto = 'btn btn-success';
         $scope.btnSwitch.classVenta = 'btn btn-default';
         $scope.showButtonSwitch($scope.userData.idRol);
@@ -107,11 +112,14 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
 
         $scope.changeFilters();
-    }
+    };
 
     $scope.changeFilters = function(){
-      $scope.ZonaFilter = $scope.ZonasSeleccionadas[$scope.totalNiveles] == '' || $scope.ZonasSeleccionadas[$scope.totalNiveles] == undefined ? 0 : $scope.ZonasSeleccionadas[$scope.totalNiveles];
-      // $scope.fechaMesFilter = this.obtieneFechaMes();
+      $scope.ZonaFilter = $scope.ZonasSeleccionadas[$scope.totalNiveles] == '' || $scope.ZonasSeleccionadas[$scope.totalNiveles] == undefined || $scope.ZonasSeleccionadas[$scope.totalNiveles] == '0' ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles];
+
+      $scope.idEjecutivo = $scope.ejecutivoSelected === '' || $scope.ejecutivoSelected === undefined || $scope.ejecutivoSelected === null || $scope.ejecutivoSelected === '0' || $scope.ejecutivoSelected === 0 ? null : $scope.ejecutivoSelected;
+
+      $scope.EstatusValue = $scope.filtroEstatus === '' || $scope.filtroEstatus === null || $scope.filtroEstatus === undefined ? null : $scope.filtroEstatus;
 
       if (($scope.fechaInicio != '' && $scope.fechaInicio !== undefined && $scope.fechaInicio !== null) && ($scope.fechaFin != '' && $scope.fechaFin !== undefined && $scope.fechaFin !== null)){
           $scope.rInicioFilter = $scope.fechaInicio + ' 00:00:00';
@@ -123,18 +131,40 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
           $scope.rInicioFilter = $scope.obtienePrimerFechaMes();
           $scope.rFinFilter = $scope.obtieneUltimaFechaMes();
       } else {
-          $scope.rInicioFilter = '';
-          $scope.rFinFilter = '';
+          $scope.rInicioFilter = null;
+          $scope.rFinFilter = null;
       }
 
-      $scope.idEjecutivo = $scope.ejecutivoSelected === '' || $scope.ejecutivoSelected === undefined || $scope.ejecutivoSelected === null ? 0 : $scope.ejecutivoSelected;
+      // $('.ordenesPresupuesto1').DataTable().destroy();
+      // $('.ordenesPresupuesto').DataTable().destroy();
+      // $('.ordenesSinPresupuesto').DataTable().destroy();
+      // globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
+      // globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
+      // globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
 
-      $('.ordenesPresupuesto1').DataTable().destroy();
-      $('.ordenesPresupuesto').DataTable().destroy();
-      $('.ordenesSinPresupuesto').DataTable().destroy();
-      globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
-      globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
-      globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
+      // $scope.sumatoria_conPresupuesto = 0;
+      // $scope.sumatoria_sinPresupuesto = 0;
+      // $scope.sumatoria_costo_conPresupuesto = 0;
+      // $scope.sumatoria_costo_sinPresupuesto = 0;
+
+      // $scope.filtrado = ZonaFilter($scope.cotizaciones, $scope.ZonaFilter);
+      // $scope.filtrado = EstatusFilter($scope.filtrado, $scope.filtroEstatus);
+      // $scope.filtrado = dateRangeFilter($scope.filtrado, $scope.rInicioFilter, $scope.rFinFilter);
+      // $scope.filtrado = EjecutivoFilter($scope.filtrado, $scope.idEjecutivo);
+
+      // $scope.filtrado.forEach(function(item){
+      //     if (item.tienePresupuesto == 1) {
+      //         $scope.sumatoria_conPresupuesto += item.venta;
+      //         $scope.sumatoria_costo_conPresupuesto += item.costo;
+      //     } else if (item.tienePresupuesto == 2) {
+      //         $scope.sumatoria_sinPresupuesto += item.venta;
+      //         $scope.sumatoria_costo_sinPresupuesto += item.costo;
+      //     } else if (item.tienePresupuesto == 0) {
+      //         $scope.sumatoria_conPresupuesto += item.venta;
+      //         $scope.sumatoria_costo_conPresupuesto += item.costo;
+      //     }
+      //
+      // });
 
       $scope.DatesFlag = 0;
     }
@@ -163,19 +193,44 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
       });
     }
 
-    //realiza consulta según filtros
+
+
     $scope.consultaCotizacionesFiltros = function () {
+        $scope.changeFilters();
 
-        // var Zona = $scope.zonaSelected == '' || $scope.zonaSelected == undefined ? 0 : $scope.zonaSelected;
-        // var fechaMes = this.obtieneFechaMes();
-        // var rInicio = $scope.fechaInicio == '' || $scope.fechaInicio == undefined ? '' : $scope.fechaInicio;
-        // var rFin = $scope.fechaFin == '' || $scope.fechaFin == undefined ? '' : $scope.fechaFin;
-        // var fecha = $scope.fecha == '' || $scope.fecha == undefined ? '' : $scope.fecha;
+        if ($scope.ZonaFilter === null && $scope.idEjecutivo === null && $scope.rInicioFilter === null && $scope.rFinFilter === null && $scope.EstatusValue === null){
+            $scope.consultaCotizacionesSinFiltrosBusqueda();
+        }else{
+            $scope.consultaCotizacionesFiltrosBusqueda();
+        }
 
-        var idEjecutivo = $scope.ejecutivoSelected == '' || $scope.ejecutivoSelected == undefined ? 0 : $scope.ejecutivoSelected;
+    }
+
+    $scope.consultaCotizacionesSinFiltrosBusqueda = function () {
+      swal({
+            title: '¿Desea realizar la búsqueda sin criterios de selección?',
+            text: "Al realizar la búsqueda sin criterios, se traerán todos los resultados.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+          }, function (isConfirm) {
+            if (isConfirm) {
+              $scope.cleanSearch();
+              $scope.consultaCotizacionesFiltrosBusqueda();
+           }
+         });
+    }
+
+    //realiza consulta según filtros
+    $scope.consultaCotizacionesFiltrosBusqueda = function () {
+        $('#loadModal').modal('show');
+        $scope.show_grids = true;
         var numeroOrden = $scope.numeroTrabajo == '' || $scope.numeroTrabajo == undefined ? '' : $scope.numeroTrabajo;
-        // $scope.promise = cotizacionConsultaRepository.ObtenerOrdenesTipoConsulta(rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2).then(function (result) {
-        $scope.promise = cotizacionConsultaRepository.getOrdenesAprobacion($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, numeroOrden, idEjecutivo).then(function (result) {
+
+        $scope.promise = cotizacionConsultaRepository.getOrdenesAprobacion($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, numeroOrden, $scope.ZonaFilter, $scope.idEjecutivo, $scope.rInicioFilter, $scope.rFinFilter, $scope.EstatusValue).then(function (result) {
 
             if (result.data.length > 0) {
                 $scope.cotizaciones = [];
@@ -217,7 +272,6 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                         $scope.sumatoria_costo_conPresupuesto += item.costo;
                     }
 
-
                 });
 
                 console.log($scope.cotizacionesRepetidas);
@@ -227,6 +281,10 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                 globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
                 globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
+
+                $('#loadModal').modal('hide');
+
+                // $scope.changeFilters();
             } else {
                 $scope.cotizaciones = [];
                 $scope.cotizacionesSinPresupuesto = [];
@@ -240,10 +298,14 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
                 globalFactory.filtrosTabla("ordenesPresupuesto1", "Ordenes", 100);
                 globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 100);
                 globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 100);
+                $('#loadModal').modal('hide');
+
                 alertFactory.info('No se Encontraron Ordenes en Aprobación.');
+
             }
 
         }, function (error) {
+            $('#loadModal').modal('hide');
             alertFactory.error('No se encontraron cotizaciones, inténtelo más tarde.')
         });
         // $scope.promise = cotizacionConsultaRepository.get($scope.idUsuario, Zona, idEjecutivo, fechaMes, rInicio, rFin, fecha, numeroOrden, PorOrden, presupuesto)
@@ -290,6 +352,36 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
             $scope.changeFilters();
         }
     };
+
+    $scope.cleanSearch = function(){
+        //se limpia el filtro de zonas
+        for ($scope.x = 0; $scope.x <= $scope.totalNiveles; $scope.x++) {
+            $scope.ZonasSeleccionadas[$scope.x] = "0";
+        }
+
+        //se limpia el filtro de ejecutivo
+        $scope.ejecutivoSelected = 0;
+
+        //se limpia el filtro de estatus
+        $scope.filtroEstatus = '';
+
+        //bandera temporal para evitar filtro en fechas y poder limpiar
+        $scope.DatesFlag = 4;
+
+        //limpiar filtros de fechas
+        $scope.fechaMes = '';
+        $scope.fecha = '';
+        $scope.fechaInicio = '';
+        $scope.fechaFin = '';
+        $('#txtMes').datepicker('setDate', null);
+        $('#txtfechaEspecifica').datepicker('setDate', null);
+        $('#txtFIni').datepicker('setDate', null);
+        $('#txtFFin').datepicker('setDate', null);
+
+        //aplicar el cambio con filtros limpios
+        $scope.changeFilters();
+
+    }
 
     $scope.RangoChange = function () {
         if ($scope.DatesFlag == 2 || $scope.DatesFlag == 0){
@@ -349,6 +441,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         }
     };
 
+    //obtiene la fecha del último día del mes seleccionado
     $scope.obtieneUltimaFechaMes = function(){
         var result = '';
         if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
@@ -395,7 +488,7 @@ registrationModule.controller('cotizacionConsultaController', function ($scope, 
         return result;
     }
 
-    //obtiene el mes en formato de fecha
+    //obtiene la fecha del primer día del mes seleccionado
     $scope.obtienePrimerFechaMes = function () {
         var result = '';
         if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {

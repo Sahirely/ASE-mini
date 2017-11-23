@@ -1,5 +1,6 @@
 <link href="Libraries/css/sweetalert/sweetalert.css" rel="stylesheet">
 <link href="AngularJS/Cotizacion/Styles/cotizacionConsulta.css" rel="stylesheet">
+
 <div ng-init="init()">
     <div class="headTitleTallerCita">
         <span class="title"> Aprobaciones</span>
@@ -22,7 +23,7 @@
                         <!-- Filtros -->
                         <div class="panel panel-default">
                             <div class="ibox-title " role="tab" id="headingOne">
-                                <h5>Filtros de búsqueda</h5>
+                                <h5>Criterios de búsqueda</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" data-target="#collapseOne"
                                         aria-expanded="true" aria-controls="collapseOne">
@@ -30,7 +31,7 @@
                                                         </a>
                                 </div>
                             </div>
-                          <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
+                          <div id="collapseOne" class="ibox-content bottomBorder float-e-margins" role="tabpanel" aria-labelledby="headingOne">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
                                     <label class="font-noraml">{{zona.etiqueta}}</label>
@@ -50,7 +51,7 @@
                                 </div>
                             </div>
                             <div class="row espacioInferior">
-                              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
+                              <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="divfechaMes">
                                   <label class="font-noraml">Mes</label>
                                   <div class="input-group date">
                                       <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
@@ -73,10 +74,19 @@
                                     </div>
                                 </div>
                                 <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                  <br>
+                                    <label class="font-noraml">Buscar</label>
+                                    <br>
                                     <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                                        class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
+                                        class="btn btn-primary" ng-click="consultaCotizacionesFiltros()">
                                         <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </div>
+                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                                    <label class="font-noraml">Limpiar</label>
+                                    <br>
+                                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Limpiar criterios de búsqueda"
+                                        class="btn btn-primary" ng-click="consultaCotizacionesSinFiltrosBusqueda()">
+                                        <i class="mdi mdi-broom mdi-16px"></i>
                                     </button>
                                 </div>
                             </div>
@@ -86,101 +96,32 @@
                 </div>
             </div>
         </div>
-          <!--div class="row">
-            <div class="contenedorFiltros">
-                <div class="col-xs-12">
-                    <div id="accordion" role="tablist" aria-multiselectable="true">
-                        <div class="ibox">
-                            <div class="ibox-title " role="tab" id="headingOne">
-                                <h5>Filtros de búsqueda</h5>
-                                <div class="ibox-tools">
-                                    <a class="collapse-link" role="button" data-toggle="collapse" data-parent="#accordion" ng-click="model.$save()" href="#collapseOne"
-                                        aria-expanded="true" aria-controls="collapseOne">
-                                                            <i class="fa fa-chevron-down"></i>
-                                                        </a>
-                                </div>
-                            </div>
-                            <div id="collapseOne" class="ibox-content bottomBorder collapse" role="tabpanel" aria-labelledby="headingOne">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-2 col-md-2 col-lg-2" ng-repeat="zona in Zonas | orderBy:'orden'">
-                                    <label class="font-noraml">{{zona.etiqueta}}</label>
-                                    <select class="form-control m-b" id="{{zona.orden}}" ng-model="ZonasSeleccionadas[zona.orden]" ng-change="cambioZona(ZonasSeleccionadas[zona.orden], zona.orden)">
-                                        <option value="0">Seleccione</option>
-                                        <option ng-repeat="z in zona.data" ng-if="z.idPadre == ZonasSeleccionadas[z.orden - 1]" value="{{z.idZona}}">
-                                          {{z.nombre}}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" ng-show="userData.idRol == 2">
-                                    <label class="font-noraml">Ejecutivo</label>
-                                    <select class="form-control m-b" id="ejecutivo" ng-model="ejecutivoSelected"
-                                    ng-options="ejecutivo.idUsuario as ejecutivo.nombreUsuario for ejecutivo in listaEjecutivos">
-                                        <option value="">Seleccione un Ejecutivo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior">
-                              <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4" id="divfechaMes">
-                                  <label class="font-noraml">Mes</label>
-                                  <div class="input-group date">
-                                      <input type="text" id="txtMes" readonly="readonly" placeholder="Elija Mes" class="form-control fondoBlanco" value="" ng-change="MesChange()" ng-model="fechaMes" mes>
-                                      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                  </div>
-                              </div>
-                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                    <label class="font-noraml">Fecha Inicio a Fecha Fin</label>
-                                    <div class="input-daterange input-group col-xs-12 col-sm-12 col-md-12 col-lg-12" id="datepicker" ng-disabled="">
-                                        <input type="text" readonly="readonly" placeholder="Fecha Inicio" class="input-sm form-control fondoBlanco" name="start" ng-model="fechaInicio" ng-change="RangoChange()" calendar/>
-                                        <span class="input-group-addon"> a </span>
-                                        <input type="text" readonly="readonly" placeholder="Fecha Fin" class="input-sm form-control fondoBlanco" name="end" ng-model="fechaFin" ng-change="RangoChange()" calendar/>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" id="calendar">
-                                    <label class="font-noraml">Fecha</label>
-                                    <div class="input-group date">
-                                        <input type="text" readonly="readonly" placeholder="Elija Fecha" class="form-control fondoBlanco" ng-model="fecha" ng-change="FechaChange()" calendar>
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                  <br>
-                                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                                        class="btn btn-primary" ng-click="consultaCotizacionesFiltros(0,1)">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior espacioSuperior" ng-show="false">
-                                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                                    <label class="font-noraml">Número de Orden</label>
-                                    <input type="text" placeholder="Buscar Orden" class="form-control" id="numeroTrabajo" ng-model="numeroTrabajo" ng-enter="">
-                                </div>
-                                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
-                                  <br>
-                                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
-                                        class="btn btn-primary" ng-click="consultaCotizacionesFiltros(1,1)">
-                                        <span class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </div>
-
-                            </div>
-                          </div>
-                      </div>
-                    </div>
+            <!-- <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12 espacioInferior espacioSuperior" ng-show="false">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <label class="font-noraml">Número de Orden</label>
+                    <input type="text" placeholder="Buscar Orden" class="form-control" id="numeroTrabajo" ng-model="numeroTrabajo" ng-enter="">
                 </div>
-            </div>
-          </div-->
+                <div class="col-xs-12 col-sm-1 col-md-1 col-lg-1">
+                  <br>
+                    <button id="btnBuscar" busy="Buscando.." type="button" data-toggle="tooltip" title="Buscar"
+                        class="btn btn-primary" ng-click="consultaCotizacionesFiltros(1,1)">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+               </div>
+
+            </div> -->
+
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" >
             </div>
             <div class=" row col-xs-12 col-sm-6 col-md-6 col-lg-6 radio radio-info" >
-                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus"><label for="rdTodas"> Todos </label></div>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="1" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus"><label for="rdPendientes"> Pendientes </label></div>
-                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="2" id="rdEnProceso" name="opcionEstatus" ng-model="filtroEstatus"><label for="rdEnProceso"> En Proceso </label></div>
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3"><input type="radio" value="" id="rdTodas" name="opcionEstatus" ng-model="filtroEstatus" ng-change = "changeFilters()"><label for="rdTodas"> Todos </label></div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="1" id="rdPendientes" name="opcionEstatus" ng-model="filtroEstatus" ng-change = "changeFilters()"><label for="rdPendientes"> Pendientes </label></div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4"><input type="radio" value="2" id="rdEnProceso" name="opcionEstatus" ng-model="filtroEstatus" ng-change = "changeFilters()"><label for="rdEnProceso"> En Proceso </label></div>
             </div>
 
-            <div class=" row col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="userData.presupuesto == 0">
+            <div class=" row col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="userData.presupuesto == 0 && show_grids">
               <div class="table-responsive">
-                <table class="table table-bordered table-hover ordenesPresupuesto1" cg-busy="{promise:promise,message:message}">
+                <table class="table table-bordered table-hover ordenesPresupuesto1">
                     <thead>
                         <tr>
                             <th>Cliente</th>
@@ -205,7 +146,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="cotizacion in cotizaciones  | filter: {'idEstatusCotizacion' : filtroEstatus} | filtrarZona : ZonaFilter | dateRange : rInicioFilter : rFinFilter | filtrarEjecutivo : idEjecutivo" >
+                        <tr ng-repeat="cotizacion in cotizaciones" >
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
                             <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
@@ -237,7 +178,7 @@
                 </table>
               </div>
             </div>
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="userData.presupuesto == 1">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="userData.presupuesto == 1 && show_grids">
               <br/>
               <tabset>
                   <tab heading="Con Presupuesto" index="0">
@@ -257,7 +198,7 @@
 
                       <br>
                       <div class="table-responsive">
-                        <table class="table table-bordered table-hover ordenesPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                        <table class="table table-bordered table-hover ordenesPresupuesto">
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
@@ -282,7 +223,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 1} | filtrarZona : ZonaFilter | dateRange : rInicioFilter : rFinFilter | filtrarEjecutivo : idEjecutivo" >
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'tienePresupuesto' : 1}" >
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
                                     <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
@@ -332,7 +273,7 @@
                       <br>
 
                       <div class="table-responsive">
-                        <table class="table table-bordered table-hover ordenesSinPresupuesto" cg-busy="{promise:promise,message:message, minDuration: minDuration, delay:delay}">
+                        <table class="table table-bordered table-hover ordenesSinPresupuesto" >
                             <thead>
                                 <tr>
                                     <th>Cliente</th>
@@ -357,7 +298,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'idEstatusCotizacion' : filtroEstatus, 'tienePresupuesto' : 2}  | filtrarZona : ZonaFilter | dateRange : rInicioFilter : rFinFilter | filtrarEjecutivo : idEjecutivo" >
+                                <tr ng-repeat="cotizacion in cotizaciones | filter: {'tienePresupuesto' : 2}" >
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.nombreCliente}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.consecutivoOrden}}</td>
                                   <td ng-click="AutorizacionDetalle(cotizacion.numeroOrden)" title="Ver detalles">{{cotizacion.numeroOrden}}</td>
@@ -394,4 +335,17 @@
             </div>
 
         </div>
+</div>
+
+<!-- Modal cargando-->
+<div id="loadModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="spiner-example" style="margin-top: 35%">
+            <div class="sk-spinner sk-spinner-wandering-cubes">
+                <div class="sk-cube1"></div>
+                <div class="sk-cube2"></div>
+            </div>
+            <div style="color:white;margin-left: 46%; margin-top:20px">Cargando...</div>
+        </div>
+    </div>
 </div>
