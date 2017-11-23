@@ -12,7 +12,7 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
         $scope.ZonasSeleccionadas = {};
         $scope.NivelesZona = [];
         $scope.Zonas = [];
-        
+
         $scope.txtTaller = "";
         $scope.rptParams = [];
         $scope.sumatoriaCosto = 0;
@@ -25,11 +25,12 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
             $scope.ZonasSeleccionadas[0] = "0";
             $scope.obtieneNivelZona();
 
-            $scope.rptParams = $scope.getEmptyFilterParams();
-            $scope.rptParams.idOperacion = $scope.userData.idOperacion;
+            // $scope.rptParams = $scope.getEmptyFilterParams();
+            // $scope.rptParams.idOperacion = $scope.userData.idOperacion;
+            // $scope.rptParams.idUsuario = $scope.userData.idUsuario;
+            //
+            // $scope.getReporteCertificadoConformidad($scope.rptParams);
 
-            $scope.getReporteCertificadoConformidad($scope.rptParams);
-            
         }
 
         $scope.fechaRango = function() {
@@ -41,28 +42,53 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
         }
 
         $scope.getReporteCertificadoConformidad = function(params) {
+            $('#loadModal').modal('show');
             reporteCertificadoConformidadRepository.reporteCertificadoConformidad(params).then(function(result) {
-                $scope.ordenes = result.data;
-                globalFactory.filtrosTabla("tblCertificadoConformidad", "CertificadoConformidad", 100);
-                setTimeout(function() {
-                    $('[data-toggle="popover"]').popover({
-                        html: true
-                    });
-                }, 100);
+              $scope.sumatoriaCosto = 0;
+              $scope.sumatoriaVenta = 0;
+                if (angular.isArray(result.data)){
 
-                $scope.sumatoriaCosto = 0;
-                $scope.sumatoriaVenta = 0;
+                      $scope.ordenes = result.data;
+                      globalFactory.filtrosTabla("tblCertificadoConformidad", "CertificadoConformidad", 100);
+                      setTimeout(function() {
+                          $('[data-toggle="popover"]').popover({
+                              html: true
+                          });
+                      }, 100);
 
-                $scope.ordenes.forEach(function(item) {
-                    $scope.sumatoriaCosto += item.costo;
-                    $scope.sumatoriaVenta += item.venta;
-                });
+                    if (result.data.length > 0){
+                        $scope.sumatoriaCosto = $scope.ordenes[0].sumaCosto;
+                        $scope.sumatoriaVenta = $scope.ordenes[0].sumaVenta;
+                      }else{
+                        $scope.sumatoriaCosto = 0;
+                        $scope.sumatoriaVenta = 0;
+                      }
+
+                    $('#loadModal').modal('hide');
+
+                }else {
+                    $scope.ordenes = [];
+
+                    globalFactory.filtrosTabla("tblCertificadoConformidad", "CertificadoConformidad", 100);
+                    setTimeout(function() {
+                        $('[data-toggle="popover"]').popover({
+                            html: true
+                        });
+                    }, 100);
+
+                    $scope.sumatoriaCosto = 0;
+                    $scope.sumatoriaVenta = 0;
+
+                    $('#loadModal').modal('hide');
+                }
+
+
 
 
             });
         };
 
-        
+
 
         $scope.obtieneNivelZona = function() {
             $scope.promise = cotizacionConsultaRepository.getNivelZona($scope.userData.contratoOperacionSeleccionada).then(function(result) {
@@ -105,15 +131,43 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
             }
         }
 
+        $scope.searchWithoutFilters = function() {
+          //se limpia el filtro de zonas
+          for ($scope.x = 0; $scope.x <= $scope.totalNiveles; $scope.x++) {
+              $scope.ZonasSeleccionadas[$scope.x] = "0";
+          }
+
+          $scope.fechaInicio = '';
+          $scope.fechaFin = '';
+          $('#txtFIni').datepicker('setDate', null);
+          $('#txtFFin').datepicker('setDate', null);
+
+          $scope.searchByFilters();
+        }
+
 
         $scope.searchByFilters = function() {
             $scope.rptParams = $scope.getEmptyFilterParams();
-            $scope.rptParams.idOperacion = $scope.userData.idOperacion;;
+            $scope.rptParams.idOperacion = $scope.userData.idOperacion;
+            $scope.rptParams.idUsuario = $scope.userData.idUsuario;
             $scope.rptParams.fechaInicial = $scope.fechaInicio == "" ? null : $scope.fechaInicio === undefined ? null : $scope.fechaInicio;
-            $scope.rptParams.fechaFinal = $scope.fechaFin == "" ? null : $scope.fechaFin === undefined ? null : $scope.fechaFin;            
+            $scope.rptParams.fechaFinal = $scope.fechaFin == "" ? null : $scope.fechaFin === undefined ? null : $scope.fechaFin;
             $scope.rptParams.idZona = $scope.ZonasSeleccionadas[$scope.totalNiveles] == 0 ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles] === undefined ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles];
-            $scope.getReporteCertificadoConformidad($scope.rptParams);
 
+            if ($scope.rptParams.fechaInicial == null && $scope.rptParams.fechaFinal == null && $scope.rptParams.idZona == null) {
+              swal({
+                    title: '¿Desea realizar la búsqueda sin criterios de selección?',
+                    text: "Al realizar la búsqueda sin criterios, se traerán todos los resultados.",
+                    type: 'warning', showCancelButton: true, confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33', confirmButtonText: 'Si', cancelButtonText: 'Cancelar'
+                  }, function (isConfirm) {
+                    if (isConfirm) {
+                      $scope.getReporteCertificadoConformidad($scope.rptParams);
+                   }
+                 });
+            }else{
+              $scope.getReporteCertificadoConformidad($scope.rptParams);
+            }
         }
 
         $scope.getEmptyFilterParams = function() {
@@ -121,13 +175,13 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
 
             filterParams.idOperacion = null;
             filterParams.fechaInicial = null;
-            filterParams.fechaFinal = null;            
+            filterParams.fechaFinal = null;
             filterParams.idZona = null;
-            
+
             return filterParams;
         }
 
-        $scope.redirectTo = function(numeroOrden) {            
+        $scope.redirectTo = function(numeroOrden) {
             location.href ='/detalle?orden='+numeroOrden
         }
 
