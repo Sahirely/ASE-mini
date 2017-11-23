@@ -852,7 +852,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.setRowColor = function (obj) {
-    if ($scope.userData.contratoOperacionSeleccionada == 3){
+    if ($scope.userData.contratoOperacionSeleccionada == 3 || $scope.userData.contratoOperacionSeleccionada == 8){
         switch (Number(obj.nivel)) {
           case 1:
             obj.rowColor = 'rowVerde1'
@@ -980,7 +980,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             'firma': rptReporteConformidadData.firma,
             'zona': rptReporteConformidadData.zona
           }
-          if($scope.userData.contratoOperacionSeleccionada == 3){
+          if($scope.userData.contratoOperacionSeleccionada == 3 || $scope.userData.contratoOperacionSeleccionada == 8){
             var jsonData = {
               'template': {
                 'name': 'hojaConformidad_rpt'
