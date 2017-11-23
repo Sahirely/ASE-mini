@@ -27,7 +27,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.userData = {}
   $scope.centroTrabajo = ''
   $scope.editaComentario = 0
-
+  $scope.comentarioNuevo = {};
+  $scope.comentarioNuevo.texto = '';
   $scope.facturas_empty = true
   $scope.facturas_empty = true
   $scope.Facturas = []
@@ -2973,20 +2974,77 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             closeOnConfirm: true,
             closeOnCancel: true
         }, function(isConfirm) {
-            if (isConfirm) {
-                swal("Comentario activo.");
+          if (isConfirm) 
+            {
+              var tempComentario = Enumerable.From($scope.notaComentario).Where("$.idComentarioCotizacion == " + idComentarioCotizacion).FirstOrDefault();
+              if(tempComentario != undefined)
+              {
+                tempComentario.estatus = 2;
+                detalleRepository.updComentario(tempComentario).then(function (resp) {
+                  if (resp.data[0].idComentarioCotizacion > 0) {
+                    var tempComentarios = [];
+                    for(var i = 0; i < $scope.notaComentario.length; i++)
+                      if($scope.notaComentario[i].idComentarioCotizacion != idComentarioCotizacion)
+                        tempComentarios.push($scope.notaComentario[i]);
+                    $scope.notaComentario = [];
+                    angular.copy(tempComentarios, $scope.notaComentario);
+                    tempComentarios = [];
+                    alertFactory.success('El comentario se modificó exitosamente.')
+                  }
+                }, function (error) {
+                  alertFactory.error('Ocurrio un error al modificar comentario.')
+                });
+              }else
+              {
+                swal("No se encontró el comentario.");
+              }
             } else {
-                swal("Comentario cancelado.");
-            }
+            swal("Comentario cancelado.");
+          }
         });
       }else if(tipo == 2){
         $scope.editaComentario = 1;
-        
+        angular.copy(Enumerable.From($scope.notaComentario).Where("$.idComentarioCotizacion == " + idComentarioCotizacion).FirstOrDefault(),$scope.comentarioNuevo);
+        //$('#cometarioEdit').focus();
+        //$('#cometarioEdit').select();    
       }
     }
 
     $scope.cancelaProceso = function () {
         $scope.editaComentario = 0;
+        $scope.comentarioNuevo = {};
     }
 
+    $scope.actualizaComentario = function()
+    {
+      swal({
+            title: "¿Esta seguro de modificar el comentario?",
+            text: "Modifica Comentario",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                if($scope.comentarioNuevo.idComentarioCotizacion != undefined && $scope.comentarioNuevo.idComentarioCotizacion > 0)
+                {
+                  detalleRepository.updComentario($scope.comentarioNuevo).then(function (resp) {
+                    if (resp.data[0].idComentarioCotizacion > 0) {
+                      Enumerable.From($scope.notaComentario).Where("$.idComentarioCotizacion == " + resp.data[0].idComentarioCotizacion).FirstOrDefault().texto = $scope.comentarioNuevo.texto;
+                      $scope.comentarioNuevo = {};
+                      alertFactory.success('El comentario se modificó exitosamente.');
+                      $scope.editaComentario = 0;
+                    }
+                  }, function (error) {
+                    alertFactory.error('Ocurrio un error al modificar comentario.');
+                  });
+                }
+            } else {
+                swal("Texto modificado.");
+            }
+        });
+    }
 })

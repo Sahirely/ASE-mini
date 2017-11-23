@@ -561,6 +561,15 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        updComentario: function(comentario)
+        {
+            return $http({
+                url: detalleUrl + 'updComentario/',
+                method:'POST',
+                params:comentario,
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });

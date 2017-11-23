@@ -1206,4 +1206,31 @@ Detalle.prototype.get_infoUser = function (req, res, next) {
     });
 }
 
+Detalle.prototype.post_updComentario = function(req, res, next) {
+    var object = {};
+    var params = {};
+    var self = this;
+
+    var params = [{
+        name: 'idComentarioCotizacion',
+        value: req.query.idComentarioCotizacion,
+        type: self.model.types.INT
+    }, {
+        name: 'comentario',
+        value: req.query.texto,
+        type: self.model.types.STRING
+    }, {
+        name: 'estatus',
+        value: req.query.estatus,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('UPD_COMETARIO_COTIZACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;
