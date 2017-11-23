@@ -545,6 +545,22 @@ registrationModule.factory('detalleRepository', function($http) {
                     'Content-Type': 'application/json'
                 }
             });
+        },
+        insComentario: function(notaComenta, idOrden, idUsuario, idEstatusOrden, idCotizacion) {
+            return $http({
+                url: detalleUrl + 'insertaComentario/',
+                method: "GET",
+                params: {
+                    notaComenta: notaComenta,
+                    idOrden: idOrden,
+                    idUsuario: idUsuario,
+                    idEstatusOrden: idEstatusOrden,
+                    idCotizacion: idCotizacion
+                },
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         }
     };
 });

@@ -567,6 +567,38 @@ Detalle.prototype.get_insertaNota = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_insertaComentario = function(req, res, next) {
+    var self = this;
+    var params = [{
+        name: 'notaComenta',
+        value: req.query.notaComenta,
+        type: self.model.types.STRING
+    }, {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'idUsuario',
+        value: req.query.idUsuario,
+        type: self.model.types.INT
+    }, {
+        name: 'idEstatusOrden',
+        value: req.query.idEstatusOrden,
+        type: self.model.types.INT
+    }, {
+        name: 'idCotizacion',
+        value: req.query.idCotizacion,
+        type: self.model.types.INT
+    }];
+
+    this.model.query('INS_COMENTARIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_obtenerHistoricoOrden = function(req, res, next) {
     var self = this;
     var params = [{

@@ -133,6 +133,10 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         name: 'verificacion',
         value: req.body.verificacion,
         type: self.model.types.INT
+    }, {
+        name: 'comentarioCotizacion',
+        value: req.body.comentarioCotizacion,
+        type: self.model.types.INT
     }];
 
 

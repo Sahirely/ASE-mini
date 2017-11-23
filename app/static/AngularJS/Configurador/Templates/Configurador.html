@@ -291,6 +291,21 @@
                                                                     </div>
                                                                 </div>
                                                             </form>
+                                                            <form class="form-horizontal">
+                                                                <div class="form-group">
+                                                                    <label class="col-xs-2 col-sm-2 col-md-2 col-lg-2 control-label">*Comentarios por cotización</label>
+                                                                    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                                                                         <div class="radio radio-info radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                                                            <input type="radio" id="comentario1" value="1" name="comentario1" checked="" ng-model="comentarios" ng-disabled="!operacioActiva">
+                                                                            <label for="comentario1"> Si </label>
+                                                                        </div>
+                                                                        <div class="radio radio-inline col-xs-1 col-sm-1 col-md-1 col-lg-1">
+                                                                            <input type="radio" id="comentario2" value="0" name="comentario2" ng-model="comentarios" ng-disabled="!operacioActiva"> <!--  -->
+                                                                            <label for="comentario2"> No </label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
                                                             <div class="space"></div>
                                                             <div class="footer_btn">
                                                                 <button type="button" class="btn btn-primary pull-right m-t-n-xs" ng-click="guardarOperacion()" ng-disabled="disabledOperacion()==false">

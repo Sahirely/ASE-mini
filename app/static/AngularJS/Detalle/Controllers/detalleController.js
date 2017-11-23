@@ -14,7 +14,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.idEstatusOrden = 0
   $scope.estatus = 0
   $scope.textoNota = null
+  $scope.textoComentario = null
   $scope.notaTrabajo = []
+  $scope.notaComentario = []
   $scope.HistoricoOrden = []
   $scope.x = 0
   $scope.numCotz = 0
@@ -24,6 +26,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.btnSwitch = {}
   $scope.userData = {}
   $scope.centroTrabajo = ''
+  $scope.editaComentario = 0
 
   $scope.facturas_empty = true
   $scope.facturas_empty = true
@@ -83,6 +86,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.idUsuario = $scope.userData.idUsuario
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
         $scope.versionSystem = $scope.userData.versionSystem;
+        $scope.comentarioCotizacion = $scope.userData.comentarioCotizacion;
         $scope.btnSwitch.classCosto = 'btn btn-success'
         $scope.btnSwitch.classVenta = 'btn btn-default'
 
@@ -485,6 +489,13 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.centroTrabajo = $scope.cotizaciones[0].centroTrabajo;
         $scope.getShowFacturas();
         $scope.getHasApprovedParts();
+        if($scope.comentarioCotizacion == 1){
+          //$scope.cotizaciones.forEach(function(coti){
+              //if (coti.detalle != null || coti.detalle != undefined) {
+                $scope.enviaComentario(1);
+              //}
+          //});
+        }
         $('#loadModal').modal('hide');
       } else {
         $('#loadModal').modal('hide');
@@ -2934,4 +2945,48 @@ registrationModule.controller('detalleController', function ($scope, $location, 
    $scope.openCatEvidencia = function(urlEvidencia){
       window.open(urlEvidencia)
     }
+
+    $scope.enviaComentario = function (idCotizacion) {
+      $scope.notaComentario = []
+      var notaComenta = $scope.textoComentario == '' ? null : $scope.textoComentario
+      detalleRepository.insComentario(notaComenta, $scope.idOrdenURL, $scope.userData.idUsuario, $scope.idEstatusOrden, idCotizacion).then(function (result) {
+        if (result.data.length > 0) {
+          $scope.notaComentario = result.data
+        }
+      }, function (error) {
+        alertFactory.error('No se pudieron obtener los comentarios')
+        $('#loadModal').modal('hide')
+      })
+      $scope.textoComentario = null
+    }
+
+    $scope.accionComentario = function (idComentarioCotizacion, tipo) {
+      if(tipo == 1){
+        swal({
+            title: "¿Esta seguro de cancelar el comentario?",
+            text: "Cancela Comentario",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                swal("Comentario activo.");
+            } else {
+                swal("Comentario cancelado.");
+            }
+        });
+      }else if(tipo == 2){
+        $scope.editaComentario = 1;
+        
+      }
+    }
+
+    $scope.cancelaProceso = function () {
+        $scope.editaComentario = 0;
+    }
+
 })

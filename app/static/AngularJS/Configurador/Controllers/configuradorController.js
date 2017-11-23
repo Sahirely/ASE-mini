@@ -27,6 +27,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 		$scope.gsp = '';
         $scope.asignado = '';
 		$scope.estatus = '';
+        $scope.comentarios = '';
 		$scope.formaDePago = '';
 		$scope.presupuesto = '';
 		$scope.centros = '';
@@ -83,6 +84,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
             	$scope.gsp = result.data[0].geolocalizacion;
                 $scope.asignado = result.data[0].tiempoAsignado;
             	$scope.estatus = result.data[0].idEstatusOperacion;
+                $scope.comentarios = result.data[0].comentarioCotizacion;
                 $scope.formaDePago = result.data[0].formaPago;
                 $scope.btn_operacion = 'Siguiente';
             	if ($scope.estatus == 1) {
@@ -171,7 +173,7 @@ registrationModule.controller('configuradorController', function ($scope, $route
 
 	$scope.guardarOperacion = function () {
         localStorageService.set('timeAsigna', $scope.asignado);
-		$scope.promise = configuradorRepository.postOperaciones($scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion, $scope.idCentroTrabajo, $scope.verificacion).then(function (result) {
+		$scope.promise = configuradorRepository.postOperaciones($scope.tipoOperacion, $scope.utilidad, $scope.porcentajeUtilidad, $scope.gsp, $scope.asignado, $scope.estatus, $scope.formaDePago, $scope.presupuesto, $scope.centros, $scope.idOperacion, $scope.idCentroTrabajo, $scope.verificacion, $scope.comentarios).then(function (result) {
 
             if (result.data[0].idOperacion != undefined) {
 
