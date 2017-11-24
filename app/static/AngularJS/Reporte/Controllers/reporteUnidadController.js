@@ -11,6 +11,7 @@ registrationModule.controller('reporteUnidadController', function($scope, alertF
         $scope.idUsuario = $scope.userData.idUsuario;
         $scope.idRol = $scope.userData.idRol;
         $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
+        $scope.idOperacion = $scope.userData.idOperacion;
     };
 
     $scope.detalleOrden = function(orden) {
@@ -22,7 +23,7 @@ registrationModule.controller('reporteUnidadController', function($scope, alertF
         if (numeroEconomico != '') {
              //carga de órdenes
             $('.dataTableOrden').DataTable().destroy();
-            reporteUnidadRepository.getHistorialUnidad(numeroEconomico, 1, $scope.idContratoOperacion).then(function(result) {
+            reporteUnidadRepository.getHistorialUnidad(numeroEconomico, 1, $scope.idOperacion).then(function(result) {
                 if (result.data.length > 0) {
                     $scope.ordenesUnidad = result.data;
                     alertFactory.success("Órdenes cargadas");
@@ -35,7 +36,7 @@ registrationModule.controller('reporteUnidadController', function($scope, alertF
             });
             //carga de cotizaciones
             $('.dataTableCotizacion').DataTable().destroy();
-            reporteUnidadRepository.getHistorialUnidad(numeroEconomico, 2, $scope.idContratoOperacion).then(function(result) {
+            reporteUnidadRepository.getHistorialUnidad(numeroEconomico, 2, $scope.idOperacion).then(function(result) {
                 if (result.data.length > 0) {
                     $scope.cotizacionesUnidad = result.data;
                     alertFactory.success("Cotizaciones cargadas");
