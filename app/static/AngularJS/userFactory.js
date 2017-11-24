@@ -49,6 +49,7 @@ registrationModule.factory('userFactory', function($window, localStorageService,
       userData.razonSocial = ObjetoOperacionSelected.razonSocial;
       userData.fechaInicio = ObjetoOperacionSelected.fechaInicio;
       userData.fechafin = ObjetoOperacionSelected.fechafin;
+      userData.validacionPorToken = ObjetoOperacionSelected.validacionPorToken;
 
       localStorageService.clearAll();
       $window.sessionStorage.setItem(userData,JSON.stringify(userData));

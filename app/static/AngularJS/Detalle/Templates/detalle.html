@@ -1022,8 +1022,8 @@
                         Procesar compra
                     </button>
                     <div ng-hide="userData.idRol ==  4" class="token-group pull-right" role="group" aria-label="...">
-                    <input type="text" ng-model="token_termino" placeholder="Token de Administrador" ng-show="idContratoOperacion!=3">
-                    <input type="text" ng-model="token_termino" placeholder="Token de ASE" ng-show="idContratoOperacion == 3">
+                    <input type="text" ng-model="token_termino" placeholder="Token de Administrador" ng-show="validacionPorToken != 2">
+                    <input type="text" ng-model="token_termino" placeholder="Token de ASE" ng-show="validacionPorToken == 2">
                     <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(0);">Aceptar</button>
                     </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
@@ -1043,7 +1043,7 @@
                         Procesar compra
                     </button>
                     <div>
-                    <div ng-show="idContratoOperacion==3" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
+                    <div ng-show="validacionPorToken == 2" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
                         <div ng-show="estatusToken == 2">
                                 <span style="font-size:34px; color:#006600; margin-right:5px;" class="fa fa-unlock-alt"></span>
                                 <span style="font-size:34px; color:#006600;" class="fa fa-unlock-alt"></span>
@@ -1057,14 +1057,14 @@
                                 <span style="color: #e60000; font-size:34px;" class="text-danger fa fa-lock" ng-click="apptoken()"></span>
                         </div>
                     </div>
-                    <div ng-show="idContratoOperacion==3">
+                    <div ng-show="validacionPorToken == 2">
                             <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                             <input type="text" ng-model="token_termino" placeholder="Token de PEMEX">
                                     <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
                                 </div>
                     </div>
                     </div>
-                    <div ng-show="idContratoOperacion!=3">
+                    <div ng-show="validacionPorToken != 2">
                     <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                             <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                             <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
@@ -1089,20 +1089,20 @@
                         Procesar compra
                     </button>
                     <div data-toggle="tooltip" title="{{estatusTokenMensaje}}">
-                    <div ng-show="idContratoOperacion==3 && estatusToken == 0 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
+                    <div ng-show="validacionPorToken == 2 && estatusToken == 0 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
                             <div>
                                     <span style="font-size:34px; color:#006600; margin-right:5px;" class=" fa fa-unlock-alt"></span>
                                     <span style="font-size:34px; color:#006600;" class=" fa fa-unlock-altfa fa-lock" ng-click="apptoken()"></span>
                             </div>
                         </div>
-                    <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
+                    <div ng-show="validacionPorToken == 2 && estatusToken == 1 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)" class="btn-group pull-right" data-toggle="tooltip" title="{{estatusTokenMensaje}}">
                             <div>
                                     <span style="font-size:34px; color:#006600; margin-right:5px;" class=" fa fa-unlock-alt"></span>
                                     <span style="color: #e60000; font-size:34px;" class="fa fa-lock" ng-click="apptoken()"></span>
                             </div>
                         </div>
                         </div>
-                        <div ng-show="idContratoOperacion==3 && estatusToken == 1 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)">
+                        <div ng-show="validacionPorToken == 2 && estatusToken == 1 && (userData.idRol ==  1 || userData.idRol ==  2 || userData.idRol ==  3)">
                             <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                                 <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                                 <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(8);">Aceptar</button>

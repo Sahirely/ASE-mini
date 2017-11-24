@@ -42,6 +42,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.sinTiempoDisponible = 1
   $scope.tiempoTranscurridoDisplay = '00:00 / 00:00'
   $scope.cotizacionDetalle = {};
+  $scope.validacionPorToken = 0;
   // Preconfiguración MAPA y Marcadores
   var markerUrl = 'https://js.devexpress.com/Demos/RealtorApp/images/map-marker.png'
 
@@ -77,7 +78,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.init = function () 
   {
       $scope.obtieneDatoUrl();
-      $scope.userData = userFactory.getUserData()
+      $scope.userData = userFactory.getUserData();
+
+      $scope.validacionPorToken = $scope.userData.validacionPorToken[0];
+
       if ($scope.userData != undefined) {
         $scope.Precancelacion = false
         //userFactory.ValidaSesion()
