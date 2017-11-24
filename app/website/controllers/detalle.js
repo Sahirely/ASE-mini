@@ -628,8 +628,8 @@ Detalle.prototype.get_obtenerIdCotzPorOrden = function(req, res, next) {
             type: self.model.types.INT
         },
         {
-            name: 'idOperacion',
-            value: req.query.idOperacion,
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
             type: self.model.types.INT
         }
     ];
