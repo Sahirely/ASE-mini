@@ -1537,7 +1537,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             } else {
               detalleRepository.validaToken($scope.detalleOrden.idOrden, $scope.token_termino).then(function (r_token) {
                 if (r_token.data[0].Success) {
-                  if($scope.idContratoOperacion==3){
+                  if($scope.idContratoOperacion == 3 || $scope.idContratoOperacion == 8){
                     if($scope.estatusToken == '1'){
                   detalleRepository.CambiaStatusOrden($scope.detalleOrden.idOrden, $scope.idUsuario).then(function (c_token) {
                     alertFactory.success('Se ha pasado a estatus Cobranza')
