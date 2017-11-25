@@ -76,12 +76,18 @@ registrationModule.controller('loginController', function ($scope, alertFactory,
 
   }
 
-  $scope.ingresar = function (data) {
-    if (data == 0 || data == undefined || data == '') {//contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
-      alertFactory.info('Seleccione una operación para ingresar.');
+  $scope.ingresar = function (data) 
+  {
+    if (data == 8) 
+    {
+      window.open("http://189.204.141.193:5110/dashboardgeneral?user="+$scope.userData.idUsuario);
     } else {
-      $scope.userData = userFactory.updateSelectedOperation(data);
-      $scope.Home();
+      if (data == 0 || data == undefined || data == '') {//contOpe == null || contOpe == 0 || Rol == null || Rol == 0 || nombreRol == null || nombreRol == ''){
+        alertFactory.info('Seleccione una operación para ingresar.');
+      } else {
+        $scope.userData = userFactory.updateSelectedOperation(data);
+        $scope.Home();
+      }
     }
   }
 
