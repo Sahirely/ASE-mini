@@ -165,13 +165,13 @@ registrationModule.controller('dashBoardController', function ($scope, alertFact
     loginRepository.iniciaSesionHistorial($scope.userData.idUsuario).then(function (result) {
       var sesion = result.data[0].idSesion;
       $scope.userData = userFactory.setActiveSesion(sesion);
-      if ($scope.userData.idRol == 1 || $scope.userData.idRol == 2 || $scope.userData.idRol == 3 || $scope.userData.idRol == 4 ||$scope.userData.idRol == 5) {
-        //alertFactory.info('Bienvenido: ' + $scope.usernombre);
-        //localStorageService.set('ord', $scope.orden);
-        //location.href = '/detalle?';
-          location.href = '/dashboardgeneral';
-        //$scope.getOrdenesURL($scope.orden, $scope.user);
-      }
+          if ($scope.userData.idRol == 3) {
+            location.href = '/dashboardCallCenter';
+          } else if ($scope.userData.idRol == 5) {
+            location.href = '/configurador';
+          } else {
+            location.href = '/dashboardgeneral';
+          }
     });
   }
 
