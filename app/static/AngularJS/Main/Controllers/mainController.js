@@ -88,14 +88,18 @@
         }
     }
 
-    $scope.CambiarOperacion = function(idCont) {
-        $scope.userData = userFactory.updateSelectedOperation(idCont)
-        if ($scope.userData.idRol == 3) {
-            location.href = '/dashboardCallCenter'
-        } else if ($scope.userData.idRol == 5) {
-            location.href = '/configurador'
+    $scope.CambiarOperacion = function (idCont) {
+        if (idCont == 8) {
+            window.open("http://189.204.141.193:5110/dashboardgeneral?user=" + $scope.userData.idUsuario);
         } else {
-            location.href = '/dashboardgeneral'
+            $scope.userData = userFactory.updateSelectedOperation(idCont)
+            if ($scope.userData.idRol == 3) {
+                location.href = '/dashboardCallCenter'
+            } else if ($scope.userData.idRol == 5) {
+                location.href = '/configurador'
+            } else {
+                location.href = '/dashboardgeneral'
+            }
         }
     }
 
