@@ -15,6 +15,7 @@ registrationModule.controller('reporteParqueVehicularController', function ($sco
   $scope.NivelesZona = [];
   $scope.Zonas = [];
   $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
+  $scope.idOperacion = $scope.userData.idOperacion;
   $scope.idUsuario = $scope.userData.idUsuario;
 
   $scope.init = function () {
@@ -69,7 +70,7 @@ registrationModule.controller('reporteParqueVehicularController', function ($sco
   }
 
   $scope.ObtenerTiposUnidad = function () {
-    reporteRepository.getTipoUnidades($scope.idContratoOperacion).then(function(result){
+    reporteRepository.getTipoUnidades($scope.idOperacion).then(function(result){
       if(result.data.length > 0){
         $scope.tiposUnidad = result.data;
       }else{
