@@ -135,7 +135,7 @@ registrationModule.controller('dashboardCallCenterController', function($scope, 
     $scope.zonasCallCenter = function(tipo){
         $scope.zonas=[];
 
-        $scope.promise = dashboardCallCenterRepository.getZonasCallCenter($scope.idUsuario, $scope.userData.contratoOperacionSeleccionada,).then(function (result) {
+        $scope.promise = dashboardCallCenterRepository.getZonasCallCenter($scope.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (result) {
 
             if (result.data.length > 0) {
                 $scope.zonas = result.data;
