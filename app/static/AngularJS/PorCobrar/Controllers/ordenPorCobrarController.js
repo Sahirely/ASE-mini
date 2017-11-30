@@ -337,7 +337,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
           $scope.cobranza = result.data;
           var sumatoria = 0;
           for(var i=0;i<result.data.length;i++){
-            sumatoria += parseFloat(result.data[i].subTotal);
+            sumatoria += parseFloat(result.data[i].total);
           };
           $scope.sumatoriaCOPADE = sumatoria;
           globalFactory.filtrosTabla('dataTableCopades', 'Documento Cobranza', 50);
