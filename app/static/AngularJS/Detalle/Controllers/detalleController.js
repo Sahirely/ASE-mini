@@ -73,8 +73,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 //Variables para versionSystem light
   //$scope.versionSystem = 1;
  // $scope.userData = userFactory.getUserData();
-  
-  $scope.init = function () 
+
+  $scope.init = function ()
   {
       $scope.obtieneDatoUrl();
       $scope.userData = userFactory.getUserData();
@@ -144,7 +144,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 var idUsuario = parseInt($scope.user);
                 $scope.obtieneUsuario(idUsuario);
             }
-        } 
+        }
     }
 
     $scope.obtieneUsuario = function(idUsuario) {
@@ -238,7 +238,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         }else{
           location.href = '/detalle?orden=' + $scope.numordenURl;
         }
-        
+
         //$scope.getOrdenesURL($scope.orden, $scope.user);
       }
     });
@@ -500,59 +500,57 @@ registrationModule.controller('detalleController', function ($scope, $location, 
               //}
           //});
           }
-    $scope.lists = [
-        {
-            label: "Men",
-            allowedTypes: ['man'],
-            //max: 4,
-            people: [
-                {name: "Bob", type: "man"},
-                {name: "Charlie", type: "man"},
-                {name: "Dave", type: "man"}
-            ]
-        },
-        {
-            label: "Women",
-            allowedTypes: ['woman'],
-            //max: 4,
-            people: [
-                {name: "Alice", type: "woman"},
-                {name: "Eve", type: "woman"},
-                {name: "Peggy", type: "woman"}
-            ]
-        },
-        {
-            label: "People",
-            allowedTypes: ['man', 'woman'],
-            //max: 6,
-            people: [
-                {name: "Frank", type: "man"},
-                {name: "Mallory", type: "woman"},
-                {name: "Alex", type: "woman"},
-                {name: "Oscar", type: "man"},
-                {name: "Wendy", type: "woman"}
-            ]
-        }
-    ];
 
-    $scope.nuevoElemento = {};
+          $scope.lists = [];
+          $scope.listTalleres = [];
+          $scope.cotizaciones.forEach(function(taller){
+              $scope.existsT = false;
+              $scope.listTalleres.forEach(function(t2){
+                  if (t2.nombre == taller.nombreTaller){
+                      $scope.existsT = true;
+                  }
+              });
+              if ($scope.existsT == false){
+                var t = {
+                    num: $scope.listTalleres.length + 1,
+                    nombre: taller.nombreTaller
+                }
+                $scope.listTalleres.push(t);
+              }
+          });
+
           $scope.cotizaciones.forEach(function(coti){
               if (coti.detalle != null || coti.detalle != undefined) {
 
-               $scope.lists = [
-                   {
-                      'label': coti.numeroCotizacion,
-                      'allowedTypes': coti.nombreTaller,
-                      //'max' : 19,  
-                      'people' : 
-                         // coti.detalle.forEach(function(part){
-                            [{  
-                              'name': coti.numeroCotizacion, 
-                              'type': coti.nombreTaller 
-                            }] 
-                          //})     
+                var label = coti.numeroCotizacion;
+                $scope.allowedTypes = coti.nombreTaller;
+                $scope.listTalleres.forEach(function(t){
+                    if(t.nombre == $scope.allowedTypes){
+                        $scope.style = t.num;
                     }
-              ];
+                });
+
+                var detalle = [];
+
+                coti.detalle.forEach(function(part){
+                    var name = part.partida + '|' + part.noParte + '|' + part.descripcion;
+
+                    var partObj = {
+                        name: name,
+                        type: $scope.allowedTypes,
+                        style: $scope.style
+                    }
+
+                    detalle.push(partObj);
+                });
+
+                var cotiObj = {
+                    label:  label,
+                    allowedTypes: [$scope.allowedTypes],
+                    people: detalle
+                }
+
+                $scope.lists.push(cotiObj);
               }
           });
 
@@ -2920,7 +2918,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         alertFactory.error('Ocurrio un error al avanzar la Orden.')
       });
     };
-    
+
     $scope.apptoken = function () {
       window.open('http://189.204.141.193:5300')
     }
@@ -2934,7 +2932,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
          if($scope.detalleOrden.foto != '')
            imageCar = $scope.urldocs + '/partidas/' + $scope.detalleOrden.foto;
 
-      var cuerpoModal = 
+      var cuerpoModal =
         "<div class='form-group'>" +
           "<div class='ibox float-e-margins'>"+
             "<div class='ibox-title'>"+
@@ -2986,7 +2984,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         //console.log(mass);
         //location.href = '/detalle?orden=' + $routeParams.orden;
         $scope.HomeBasic();
-    }); 
+    });
 
     $scope.HomeBasic = function () {
     loginRepository.iniciaSesionHistorial($scope.userData.idUsuario).then(function (result) {
@@ -3033,7 +3031,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             closeOnConfirm: true,
             closeOnCancel: true
         }, function(isConfirm) {
-          if (isConfirm) 
+          if (isConfirm)
             {
               var tempComentario = Enumerable.From($scope.notaComentario).Where("$.idComentarioCotizacion == " + idComentarioCotizacion).FirstOrDefault();
               if(tempComentario != undefined)
@@ -3067,7 +3065,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $('#pc'+numeroCotizacion).hide();
         $('#comment'+numeroCotizacion).show();
         $('#comment'+numeroCotizacion).focus();
-        $('#comment'+numeroCotizacion).select();    
+        $('#comment'+numeroCotizacion).select();
       }
     }
 

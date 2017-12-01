@@ -83,7 +83,7 @@
                         <div class="row">
                             <div class="hr-line-dashed"></div>
                         </div>
-                        
+
                         <div class="row" ng-if="versionSystem == 1">
                             <div class="row animated fadeInRight">
                                 <div class="col-md-3">
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-sm-12 col-md-12 col-lg-12">
                             <div class="hr-line-dashed"></div>
                         </div>
@@ -914,7 +914,7 @@
                                             <div class="row">
                                                 <div class="col-xs-6">
                                                     <button class="btn btn-info" style="width: 100%" ng-click="integrarCotizaciones()">Integar Cotizaciones &nbsp;&nbsp;<span class="fa fa-puzzle-piece"></span></button>
-                                                </div>   
+                                                </div>
                                                 <div class="col-xs-6">
                                                     <button class="btn btn-info" disabled style="width: 100%" ng-click="reenviarHojaUtilidad()">Actualiza Taller/Costos &nbsp;&nbsp;<span class="fa fa-pencil-square-o"></span></button>
                                                 </div>
@@ -1555,7 +1555,7 @@
                                                         <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Usuario Aprobador</th>
                                                         <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
 <!--                                                         <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
-                                                        <th class="slimCol" ng-show="estatus == 4">Rechazar</th> 
+                                                        <th class="slimCol" ng-show="estatus == 4">Rechazar</th>
                                                          <th class="slimCol" ng-show="false">&nbsp;</th> -->
                                                     </tr>
                                                 </thead>
@@ -1594,7 +1594,7 @@
                                                             <div class="col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4">
                                                                 <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="3" ng-click=agregarComentario(1,partida)>
                                                             </div>
-                                                        </td> 
+                                                        </td>
                                                         <td class="slimCol" ng-show="false" center>
                                                             <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1">
                                                         </td> -->
@@ -1646,7 +1646,7 @@
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
             <div class="consulta" style="padding: 15px;text-align: right;">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
@@ -1667,7 +1667,7 @@
                 <div class="row col-md-12">
                     <div class="col-md-6">
                         <label class="font-noraml">Cotización</label>
-                            <select class="form-control m-b" id="cotizaSoporte" ng-model="cotizaSoporte" 
+                            <select class="form-control m-b" id="cotizaSoporte" ng-model="cotizaSoporte"
                             ng-options="cotizaSoporte.idCotizacion as cotizaSoporte.numeroCotizacion for cotizaSoporte in cotizacionSoporte">
                                 <option value="">Seleccione una Cotización</option>
                             </select>
@@ -1805,7 +1805,7 @@
             <div class="modal-body">
                 <br><br>
                 <form id="idPadreMuestraTipoUnidadVS2">
-                </form> 
+                </form>
                 <div class="form-group">
                         <div class="consulta" style="padding: 15px;text-align: right;">
                             <button type="submit" class="btn btn-primary" ng-click="destruirMuestraTipoUnidadVS2()">Cerrar</button></div>
@@ -1839,8 +1839,8 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-8" view-source="types"></div>                  
+                <!-- <div class="row">
+                    <div class="col-md-8" view-source="types"></div>
                     <div class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -1851,7 +1851,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="consulta" style="padding: 15px;text-align: right;">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
                 </div>

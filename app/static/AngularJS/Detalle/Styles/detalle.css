@@ -975,23 +975,32 @@ a.documentos:hover{
 /**
  * Gender-specifc background
  */
-.typesDemo ul[dnd-list] li.background-man {
+.typesDemo ul[dnd-list] li.background-1 {
   background-color: #CAE0FC;
 }
 
-.typesDemo ul[dnd-list] li.background-woman {
-  background-color: #FFE2F5;
-}
-
-.typesDemo ul[dnd-list] input.background-man {
+.typesDemo ul[dnd-list] input.background-1 {
   background-color: #D8E9FF;
   color: #2F4D99;
 }
 
-.typesDemo ul[dnd-list] input.background-woman {
+.typesDemo ul[dnd-list] li.background-2 {
+  background-color: #FFE2F5;
+}
+
+.typesDemo ul[dnd-list] input.background-2 {
   background-color: #FFF0FA;
   color: #D84FA7;
 }
+/*
+.typesDemo ul[dnd-list] li.background-3 {
+  background-color: #FFE2F5;
+}
+
+.typesDemo ul[dnd-list] input.background-3 {
+  background-color: #FFF0FA;
+  color: #D84FA7;
+}*/
 
 /**
  * Handle positioning

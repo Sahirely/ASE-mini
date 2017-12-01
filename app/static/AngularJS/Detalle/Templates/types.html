@@ -7,12 +7,12 @@
         dnd-type="person.type"
         dnd-disable-if="person.type == 'unknown'"
         dnd-moved="list.people.splice($index, 1)"
-        class="background-{{person.type}}"
+        class="background-{{person.style}}"
         >
         <dnd-nodrag>
           <div dnd-handle class="handle">:::</div>
           <div class="name">
-              <input type="text" ng-model="person.name" class="background-{{person.type}} form-control input-sm">
+              <input type="text" ng-model="person.name" class="background-{{person.style}} form-control input-sm">
           </div>
         </dnd-nodrag>
     </li>
