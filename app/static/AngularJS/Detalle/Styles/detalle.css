@@ -992,16 +992,60 @@ a.documentos:hover{
   background-color: #FFF0FA;
   color: #D84FA7;
 }
-/*
+
 .typesDemo ul[dnd-list] li.background-3 {
-  background-color: #FFE2F5;
+  background-color: #98FB98;
 }
 
 .typesDemo ul[dnd-list] input.background-3 {
-  background-color: #FFF0FA;
-  color: #D84FA7;
-}*/
+  background-color: #98FB98;
+  color: #98FB98;
+}
 
+.typesDemo ul[dnd-list] li.background-4 {
+  background-color: #BC8F8F;
+}
+
+.typesDemo ul[dnd-list] input.background-4 {
+  background-color: #BC8F8F;
+  color: #BC8F8F;
+}
+
+.typesDemo ul[dnd-list] li.background-5 {
+  background-color: #E6E6FA;
+}
+
+.typesDemo ul[dnd-list] input.background-5 {
+  background-color: #E6E6FA;
+  color: #E6E6FA;
+}
+
+.typesDemo ul[dnd-list] li.background-6 {
+  background-color: #F0E68C;
+}
+
+.typesDemo ul[dnd-list] input.background-6 {
+  background-color: #F0E68C;
+  color: #F0E68C;
+}
+
+.typesDemo ul[dnd-list] li.background-7 {
+  background-color: #7FFFD4;
+}
+
+.typesDemo ul[dnd-list] input.background-7 {
+  background-color: #7FFFD4;
+  color: #7FFFD4;
+}
+
+.typesDemo ul[dnd-list] li.background-8 {
+  background-color: #FFDEAD;
+}
+
+.typesDemo ul[dnd-list] input.background-8 {
+  background-color: #FFDEAD;
+  color: #FFDEAD;
+}
 /**
  * Handle positioning
  */
