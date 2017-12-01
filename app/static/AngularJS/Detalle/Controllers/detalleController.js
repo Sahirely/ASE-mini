@@ -4,7 +4,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // *****************************************************************************************************************************//
   // $rootScope.modulo = 'reporteHistorial'
   // Inicializa la pagina
-
   $('[data-toggle="tooltip"]').tooltip();
   $scope.IdsCotizacionesPorOrden = []
   $scope.btn_editarCotizacion = false
@@ -500,7 +499,63 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 $scope.enviaComentario(1);
               //}
           //});
+          }
+    $scope.lists = [
+        {
+            label: "Men",
+            allowedTypes: ['man'],
+            //max: 4,
+            people: [
+                {name: "Bob", type: "man"},
+                {name: "Charlie", type: "man"},
+                {name: "Dave", type: "man"}
+            ]
+        },
+        {
+            label: "Women",
+            allowedTypes: ['woman'],
+            //max: 4,
+            people: [
+                {name: "Alice", type: "woman"},
+                {name: "Eve", type: "woman"},
+                {name: "Peggy", type: "woman"}
+            ]
+        },
+        {
+            label: "People",
+            allowedTypes: ['man', 'woman'],
+            //max: 6,
+            people: [
+                {name: "Frank", type: "man"},
+                {name: "Mallory", type: "woman"},
+                {name: "Alex", type: "woman"},
+                {name: "Oscar", type: "man"},
+                {name: "Wendy", type: "woman"}
+            ]
         }
+    ];
+
+    $scope.nuevoElemento = {};
+          $scope.cotizaciones.forEach(function(coti){
+              if (coti.detalle != null || coti.detalle != undefined) {
+
+               $scope.lists = [
+                   {
+                      'label': coti.numeroCotizacion,
+                      'allowedTypes': coti.nombreTaller,
+                      //'max' : 19,  
+                      'people' : 
+                         // coti.detalle.forEach(function(part){
+                            [{  
+                              'name': coti.numeroCotizacion, 
+                              'type': coti.nombreTaller 
+                            }] 
+                          //})     
+                    }
+              ];
+              }
+          });
+
         $('#loadModal').modal('hide');
       } else {
         $('#loadModal').modal('hide');
@@ -3022,6 +3077,14 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $('#comment'+numeroCotizacion).hide();
         $('#pc'+numeroCotizacion).show();
     }
+
+    $scope.integrarCotizaciones = function() {
+        $('#integraCotizacion').modal();
+    }
+    // Model to JSON for demo purpose
+    $scope.$watch('lists', function(lists) {
+        $scope.modelAsJson = angular.toJson(lists, true);
+    }, true);
 
     $scope.actualizaComentario = function(numeroCotizacion)
     {
