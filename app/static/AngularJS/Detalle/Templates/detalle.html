@@ -1825,14 +1825,15 @@
             <div class="modal-body">
                 <div class="alert alert-success">
                     <strong>Instrucciones:</strong>
-                    Corta &amp; pega  la cotizaciones necesarias por partidas.
+                    Corta y pega  la cotizaciones necesarias por partidas.
                 </div>
 
                 <div class="typesDemo row">
-                    <div ng-repeat="list in lists" class="col-md-4">
+                    <div ng-repeat="list in lists" class="col-md-6">
                         <div class="panel panel-info">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Lista de: {{list.label}} </h3>
+                                <h3 class="panel-title">{{list.label}}</h3>
+                                <h3 class="panel-title">Taller: {{list.allowedTypes[0]}}</h3>
                             </div>
                             <div class="panel-body" ng-include="'AngularJS/Detalle/Templates/types.html'"></div>
                         </div>

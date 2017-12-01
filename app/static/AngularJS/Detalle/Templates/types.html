@@ -12,13 +12,14 @@
         <dnd-nodrag>
           <div dnd-handle class="handle">:::</div>
           <div class="name">
-              <input type="text" ng-model="person.name" class="background-{{person.style}} form-control input-sm">
+              <!-- <input type="text" ng-model="person.name" class="background-{{person.style}} form-control input-sm"> -->
+              <strong>{{person.partida}}</strong> | Parte <strong>{{person.noParte}}</strong>
           </div>
         </dnd-nodrag>
     </li>
 
     <li class="dndPlaceholder">
-        Drop any <strong>{{list.allowedTypes.join(' or ')}}</strong> here
+        Arrastre cualquier partida de cotizaciones del taller: <strong>{{list.allowedTypes.join(' or ')}}</strong> aquí
     </li>
 
 </ul>

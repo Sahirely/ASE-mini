@@ -533,10 +533,10 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 var detalle = [];
 
                 coti.detalle.forEach(function(part){
-                    var name = part.partida + '|' + part.noParte + '|' + part.descripcion;
-
+                  
                     var partObj = {
-                        name: name,
+                        partida: part.partida,
+                        noParte: part.noParte,
                         type: $scope.allowedTypes,
                         style: $scope.style
                     }
