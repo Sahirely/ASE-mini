@@ -315,6 +315,7 @@
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
                                                 <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta sin IVA</th>
+                                                <th ng-hide=" idGrouper == 3">Taller</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta con IVA</th>
                                                 <th ng-hide="!esPemex">Fecha COPADE</th>
                                                 <th ng-hide="esPemex">Fecha de Entrega</th>
@@ -329,6 +330,7 @@
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroEstimaicon}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.subTotal | currency: "$"}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.taller}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.Total | currency}}</td>
                                                 <td ng-show="esPemex">{{ value.fechaCopade | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
                                                 <td ng-hide="esPemex">{{ value.fechaCopade | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
@@ -358,6 +360,7 @@
                                                 <th ng-hide=" idGrouper == 3">No. Estimación</th>
                                                 <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta sin IVA</th>
+                                                <th ng-hide=" idGrouper == 3">Taller</th>
                                                 <th ng-hide=" idGrouper == 3">Folio Factura</th>
                                                 <th ng-hide=" idGrouper == 3">Precio venta con IVA</th>
                                                 <th ng-hide="!esPemex">Fecha COPADE</th>
@@ -374,6 +377,7 @@
                                                 <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.subtotal  | currency: "$"}}</td>
+                                                <td ng-hide=" idGrouper == 3">{{value.taller}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
                                                 <td ng-hide=" idGrouper == 3">{{value.total | currency}}</td>
                                                 <td ng-show="esPemex">{{ value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
@@ -585,6 +589,7 @@
                                                       <th ng-hide=" idGrouper == 3">No. Estimacion</th>
                                                       <th ng-hide=" idGrouper == 3">Descripción de la Orden</th>
                                                       <th ng-hide=" idGrouper == 3">Precio Venta sin IVA</th>
+                                                      <th ng-hide=" idGrouper == 3">Taller</th>
                                                       <th ng-hide=" idGrouper == 3">Folio Factura</th>
                                                       <th ng-hide=" idGrouper == 3">Precio Venta con IVA</th>
                                                       <th ng-hide=" idGrouper == 3">Abono</th>
@@ -604,6 +609,7 @@
                                                       <td ng-hide=" idGrouper == 3">{{value.numeroEstimacion}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.descripcion}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.subTotal}}</td>
+                                                      <td ng-hide=" idGrouper == 3">{{value.taller}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.COP_IDDOCTO}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.total | currency}}</td>
                                                       <td ng-hide=" idGrouper == 3">{{value.abono | currency}}</td>
@@ -839,6 +845,7 @@
                                                     <th>No. Estimación</th>
                                                     <th>Descripción de la Orden</th>
                                                     <th>Precio Venta sin IVA</th>
+                                                    <th>Taller</th>
                                                     <th>Folio Factura</th>
                                                     <th>Precio Venta con IVA</th>
                                                     <th ng-show="esPemex">Fecha Copade</th>
@@ -856,6 +863,7 @@
                                                     <td>{{value.numeroEstimacion}}</td>
                                                     <td>{{value.descripcion}}</td>
                                                     <td>{{value.subTotal | currency: "$"}}</td>
+                                                    <td>{{value.taller}}</td>
                                                     <td>{{value.COP_IDDOCTO}}</td>
                                                     <td>{{value.total | currency: "$"}}</td>
                                                     <td ng-show="esPemex">{{value.fechaRecepcionCopade | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</td>
