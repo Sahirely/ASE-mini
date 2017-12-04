@@ -1037,12 +1037,12 @@ Detalle.prototype.post_updateDetalleCotizacion = function(req, res, next)
     {
         name:'costo',
         value:req.query.costo,
-        type:self.model.types.DECIMAL
+        type:self.model.types.STRING
     },
     {
         name:'venta',
         value:req.query.venta,
-        type:self.model.types.DECIMAL
+        type:self.model.types.STRING
     },
     {
         name:'idUsuarioUpdate',
