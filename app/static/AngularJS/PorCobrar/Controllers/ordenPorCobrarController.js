@@ -458,10 +458,18 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
                 $scope.getSeleccionDeAbonos();
                 break;
             case 6:
-                $scope.getFacturasAbonadas();
+                if ($scope.showCopade == 1){
+                    $scope.getFacturasAbonadas();
+                } else {
+                    $scope.getAbonadas();
+                }
                 break;
             case 7:
-                $scope.getFacturasPagadas();
+                if ($scope.showCopadeFacturas == 1){
+                    $scope.getFacturasPagadas();
+                } else {
+                    $scope.getPagadas();
+                }
                 break;
 
             default:
@@ -1159,13 +1167,13 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
          }
        }
 
-  function getAbonadas(){
+  $scope.getAbonadas = function (){
       //Obtengo la lista de tablas (ABONOS)
       $('.dataTableAbona').DataTable().destroy()
       $scope.checkedFacturasTotala = [];
       $scope.selectAbonada = '';
       $scope.promise = ordenPorCobrarRepository.get('obtenerabonada', { 'idUsuario': $scope.userData.idUsuario,
-      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction }).then(function (result) {
+      'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
       $scope.selectAbonada = result.data
       var sumatoriaMontoAbon = 0;
       var sumatoriaAbonoAbon = 0;
@@ -1212,13 +1220,13 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   }
 
-  function getPagadas(){
+  $scope.getPagadas = function (){
       //Obtengo la lista de tablas (ABONOS)
       $('.dataTablePago').DataTable().destroy()
       $scope.checkedFacturasTotalp = [];
       $scope.selectPgds='';
       $scope.promise = ordenPorCobrarRepository.get('obtenerPagada', { 'idUsuario': $scope.userData.idUsuario,
-    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction': $scope.userData.isProduction }).then(function (result) {
+    'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction': $scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter}).then(function (result) {
       $scope.selectPgds = result.data
       var sumatoriaMontoPago = 0;
       var sumatoriaAbonoPago = 0;

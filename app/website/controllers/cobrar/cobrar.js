@@ -319,7 +319,11 @@ Cobrar.prototype.get_obtenerabonada = function (req, res, next) {
   var params = [
     { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
     { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT },
+    { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+    { name: 'idEjecutivoFiltro', value: req.query.idEjecutivoFiltro, type: self.model.types.INT },
+    { name: 'fechaIni', value: req.query.fechaIni, type: self.model.types.STRING },
+    { name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING }
   ]
   // Llamada a SP
   this.query.execute('SEL_COTIZACION_FACTURAS_ABONADAS_SELECT_SP', params, res)
@@ -333,7 +337,11 @@ Cobrar.prototype.get_obtenerPagada = function (req, res, next) {
   var params = [
     { name: 'idUsuario', value: req.query.idUsuario, type: self.model.types.INT },
     { name: 'idContratoOperacion', value: req.query.idContratoOperacion, type: self.model.types.INT },
-    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT }
+    { name: 'isProduction', value: req.query.isProduction, type: self.model.types.INT },
+    { name: 'idZona', value: req.query.idZona, type: self.model.types.INT },
+    { name: 'idEjecutivoFiltro', value: req.query.idEjecutivoFiltro, type: self.model.types.INT },
+    { name: 'fechaIni', value: req.query.fechaIni, type: self.model.types.STRING },
+    { name: 'fechaFin', value: req.query.fechaFin, type: self.model.types.STRING }
   ]
   // Llamada a SP
   this.query.execute('SEL_COTIZACION_FACTURAS_PAGADAS_SELECT_SP', params, res)
