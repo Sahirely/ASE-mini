@@ -473,7 +473,7 @@ registrationModule.factory('detalleRepository', function($http) {
                 headers: { 'Content-Type': 'application/json' }
             });
         },
-        updateDetalleCotizacion: function(idCotizacionDetalle, costo, venta, idUsuario)
+        updateDetalleCotizacion: function(idCotizacionDetalle, costo, venta, idUsuario, cantidad)
         {
             return $http({
                 url: detalleUrl + 'updateDetalleCotizacion/',
@@ -483,7 +483,8 @@ registrationModule.factory('detalleRepository', function($http) {
                     idCotizacionDetalle : idCotizacionDetalle,
                     costo: costo,
                     venta: venta,
-                    idUsuario:idUsuario
+                    idUsuario:idUsuario,
+                    cantidad:cantidad
                 },
                 headers:{'Content-Type':'application/json' }
             });
