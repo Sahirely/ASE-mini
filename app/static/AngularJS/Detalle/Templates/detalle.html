@@ -676,7 +676,7 @@
                                                                 <th class="slimCol" ng-show="btnSwitch.showCostoVenta">Costo</th>
                                                                 <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                                                                 <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta</th>
-                                                                <th class="slimCol" ng-show="(userData.idUsuario == 155 || userData.idUsuario == 156 || userData.idUsuario == 166 || userData.idUsuario == 538) && estadoCompra == false">
+                                                                <th class="slimCol" ng-show="(userData.idUsuario == 155 || userData.idUsuario == 156 || userData.idUsuario == 166 || userData.idUsuario == 538 || userData.idUsuario == 509 || userData.idUsuario == 510 ) && estadoCompra == false">
                                                                     Modificar</th>
                                                                 <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Usuario Aprobador</th>
                                                                 <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
@@ -700,7 +700,7 @@
                                                                 <td class="slimCol" ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
                                                                 <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                                 <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
-                                                                <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 155 || userData.idUsuario == 156  || userData.idUsuario == 166 || userData.idUsuario == 538) && estadoCompra == false">
+                                                                <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 155 || userData.idUsuario == 156  || userData.idUsuario == 166 || userData.idUsuario == 538 || userData.idUsuario == 509 || userData.idUsuario == 510) && estadoCompra == false">
                                                                     <a href="">
                                                                         <span class="glyphicon glyphicon-edit fa-2x center" ng-click="prb1(partida)"></span>
                                                                     </a>
@@ -1550,8 +1550,8 @@
                                                         <th class="slimCol" ng-show="btnSwitch.showCostoVenta">Costo</th>
                                                         <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta Unitario</th>
                                                         <th class="slimCol" ng-hide="btnSwitch.showCostoVenta">Venta</th>
-                                                        <th class="slimCol" ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538 || userData.idUsuario == 166) && estadoCompra == false">
-                                                            Modificar</th>
+                                                        <!-- <th class="slimCol" ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538 || userData.idUsuario == 166) && estadoCompra == false">
+                                                            Modificar</th> -->
                                                         <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Usuario Aprobador</th>
                                                         <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
 <!--                                                         <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
@@ -1565,21 +1565,18 @@
                                                             <div><strong>{{partida.partida}}</strong> / Parte <strong> {{partida.noParte}} </strong> / <span class="lblEsp label label-default">{{partida.especialidad}}</span>
                                                             </div>
                                                             <small>{{partida.descripcion}}</small>
-                                                            <a class="fotoPartida client-avatar" data-lightbox="image-1" data-title="Foto" href="{{ partida.foto != '' ? urldocs + '/partidas/' + partida.foto : '' }}"> <img src="{{ partida.foto != '' ? urldocs + '/partidas/' + partida.foto : '' }}" alt="foto"> </a>
-                                                            <a class="instPartida client-avatar" ng-click="openPDF( partida.instructivo != '' ? urldocs + '/partidas/' + partida.instructivo : '' );"> <img src="../image/resources/file.png" alt="foto"> </a>
-
                                                         </td>
                                                         <td class="slimCol">{{partida.cantidad}}</td>
                                                         <td class="slimCol" ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costo | currency}}</td>
                                                         <td class="slimCol" ng-show="btnSwitch.showCostoVenta" class="text-right">{{partida.costoTotal | currency}}</td>
                                                         <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.venta | currency}}</td>
                                                         <td class="slimCol" ng-hide="btnSwitch.showCostoVenta" class="text-right">{{partida.ventaTotal | currency}}</td>
-                                                        <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538 || userData.idUsuario == 166) && estadoCompra == false">
+                                                        <!-- <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538 || userData.idUsuario == 166) && estadoCompra == false">
                                                             <a href="">
                                                                 <span class="glyphicon glyphicon-edit fa-2x center" ng-click="prb1(partida)"></span>
                                                             </a>
 
-                                                        </td>
+                                                        </td> -->
                                                         <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.usuario}}</td>
                                                         <td class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">{{partida.fechaAprobacion | date:'dd-MM-yyyy HH:mm' : 'UTC' }}
                                                         </td>
