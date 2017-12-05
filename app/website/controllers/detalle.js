@@ -1211,6 +1211,34 @@ Detalle.prototype.get_infoUser = function (req, res, next) {
     });
 }
 
+Detalle.prototype.get_soporteIntegrarCotizaciones = function(req, res, next){
+    var self = this;
+    var params = [{
+            name: 'idCotizacion',
+            value: req.query.idCotizacion,
+            type: self.model.types.INT
+      },{
+            name: 'idCotizacionDetalle',
+            value: req.query.idCotizacionDetalle,
+            type: self.model.types.STRING
+      },{
+            name: 'idUsuario',
+            value: req.query.idUsuario,
+            type: self.model.types.INT
+      },{
+            name: 'idContratoOperacion',
+            value: req.query.idContratoOperacion,
+            type: self.model.types.INT
+      }];
+
+    this.model.query('EXT_INTEGRA_COTIZACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.post_updComentario = function(req, res, next) {
     var object = {};
     var params = {};

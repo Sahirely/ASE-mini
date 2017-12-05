@@ -523,6 +523,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
               if (coti.detalle != null || coti.detalle != undefined) {
 
                 var label = coti.numeroCotizacion;
+                var idCoti = coti.idCotizacion;
                 $scope.allowedTypes = coti.nombreTaller;
                 $scope.listTalleres.forEach(function(t){
                     if(t.nombre == $scope.allowedTypes){
@@ -533,13 +534,14 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 var detalle = [];
 
                 coti.detalle.forEach(function(part){
-                  
-                    var partObj = {
-                        partida: part.partida,
-                        noParte: part.noParte,
-                        type: $scope.allowedTypes,
-                        style: $scope.style
-                    }
+
+                  var partObj = {
+                      partida: part.partida,
+                      noParte: part.noParte,
+                      idCotizacionDetalle: part.idCotizacionDetalle,
+                      type: $scope.allowedTypes,
+                      style: $scope.style
+                  }
 
                     detalle.push(partObj);
                 });
@@ -547,6 +549,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                 var cotiObj = {
                     label:  label,
                     allowedTypes: [$scope.allowedTypes],
+                    idCotizacion: idCoti,
                     people: detalle
                 }
 
@@ -563,6 +566,38 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $('#loadModal').modal('hide');
       alertFactory.error('Ocurrio un error');
     })
+  }
+
+  $scope.integraCotizaciones = function (){
+        $('#integraCotizacion').modal('hide');
+        $('#loadModal').modal('show');
+          $scope.lists.forEach(function (coti){
+              var idCoti = coti.idCotizacion;
+              var idCotiDet = '';
+              if (coti.people.length == 0){
+                    idCotiDet = '0';
+              } else {
+                    coti.people.forEach(function (det, index, array){
+                        idCotiDet = idCotiDet + det.idCotizacionDetalle;
+                        if (index !== array.length - 1){
+                            idCotiDet = idCotiDet + ', '
+                        }
+                    });
+              }
+
+              detalleRepository.updSoporteIntegrarCotizaciones(idCoti, idCotiDet, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function (result){
+                  if (result.data[0].Success == 1){
+                      alertFactory.info(result.data[0].Msg);
+                  } else {
+                      alertFactory.error(result.data[0].Msg);
+                  }
+              });
+
+              location.href = '/detalle?orden=' + $routeParams.orden;
+              // $('#loadModal').modal('hide');
+              // $scope.init();
+
+          });
   }
 
   $scope.getHasApprovedParts = function (){
@@ -1089,6 +1124,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     $scope.numeroCotizacion = nc
     $scope.cotizacionTotal = ct
     $scope.alert_respuesta = false
+    $scope.validateUUID = 1
 
     $('.alert-warning').hide()
     $('#myModal').modal()
@@ -1253,6 +1289,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     // Esta sección se debera quitar para producción
                     // Esta sección se debera quitar para producción
 
+                    if($scope.validateUUID == 0){
+                        var UUID = 'A1234567-D123-O123-L123-F1V3I5V7E900';
+                    }
                     debugger
                     if (RFC_Receptor != rfc.RFCCliente) {
                       $scope.FacturaLista()
@@ -2669,6 +2708,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $scope.numeroCotizacion = nc
       $scope.cotizacionTotal = ct
       $scope.alert_respuesta = false
+      $scope.validateUUID = 0
 
       $('.alert-warning').hide()
       $('#myModal').modal()
@@ -3136,7 +3176,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             $('#loadModal').modal('show');
             detalleRepository.updateCancelaPartida(partida.idCotizacionDetalle, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada)
             .then(function (resp) {
-                if (resp.data.length > 0) 
+                if (resp.data.length > 0)
                 {
                   $('#loadModal').modal('hide');
                   setTimeout(function() {
@@ -3147,7 +3187,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             }, function (error) {
               alertFactory.error('Ocurrio un error al enviar el correo.')
             });
-          } else 
+          } else
           {
               swal("Operacion cancelada.");
           }

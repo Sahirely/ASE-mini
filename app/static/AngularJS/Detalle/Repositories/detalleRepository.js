@@ -585,6 +585,20 @@ registrationModule.factory('detalleRepository', function($http) {
                 },
                 headers:{'Content-Type':'application/json' }
             });
+        },
+        updSoporteIntegrarCotizaciones: function(idCotizacion, idCotizacionDetalle, idUsuario, idContratoOperacion)
+        {
+            return $http({
+                url: detalleUrl + 'soporteIntegrarCotizaciones/',
+                method:'GET',
+                params:{
+                    idCotizacion: idCotizacion,
+                    idCotizacionDetalle: idCotizacionDetalle,
+                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });
