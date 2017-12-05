@@ -571,6 +571,20 @@ registrationModule.factory('detalleRepository', function($http) {
                 params:comentario,
                 headers:{'Content-Type':'application/json' }
             });
+        },
+        updateCancelaPartida: function(idCotizacionDetalle, idUsuario, idContratoOperacion)
+        {
+            return $http({
+                url: detalleUrl + 'updateCancelaPartida/',
+                method:'POST',
+                params:
+                {
+                    idCotizacionDetalle : idCotizacionDetalle,
+                    idUsuario:idUsuario,
+                    idContratoOperacion:idContratoOperacion
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });

@@ -1238,4 +1238,32 @@ Detalle.prototype.post_updComentario = function(req, res, next) {
     });
 }
 
+Detalle.prototype.post_updateCancelaPartida = function(req, res, next)
+{
+    var self = this;
+    var params = [{
+        name:'idCotizacionDetalle',
+        value: req.query.idCotizacionDetalle,
+        type:self.model.types.INT
+    },
+    {
+        name:'idUsuario',
+        value:req.query.idUsuario,
+        type:self.model.types.INT
+    },
+    {
+        name:'idContratoOperacion',
+        value:req.query.idContratoOperacion,
+        type:self.model.types.INT
+    }
+]
+
+this.model.query('UPD_CANCELA_DETALLE_COTIZACION_SP', params, function(error, result) {
+    self.view.expositor(res, {
+        error: error,
+        result: result
+    });
+});
+}
+
 module.exports = Detalle;
