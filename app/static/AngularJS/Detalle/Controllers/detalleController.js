@@ -3184,19 +3184,22 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           closeOnConfirm: true,
           closeOnCancel: true
       }, function(isConfirm) {
-          if (isConfirm) {
-            $('#loadModal').modal('show');
-            detalleRepository.updateCancelaPartida(partida.idCotizacionDetalle, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada)
-            .then(function (resp) {
-              setTimeout(function() {
-                $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
-                $('#loadModal').modal('hide');
-              }, 500)
-              swal('Partida cancelada!', 'Operación realizada corractamente');
-            }, function (error) {
-              alertFactory.error('Ocurrio un error al cancelar la partida.')
-            });
-          } else
+        if (isConfirm) {
+          $('#loadModal').modal('show');
+          detalleRepository.updateCancelaPartida(partida.idCotizacionDetalle, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada)
+          .then(function (resp) {
+              if (resp.data[0].idCotizacionDetalle > 0)
+              {
+                setTimeout(function() {
+                  $('#loadModal').modal('show');
+                  $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+                  swal('Partida cancelada!', 'Operación realizada corractamente');
+                }, 500)
+              }
+          }, function (error) {
+            alertFactory.error('Ocurrio un error al cancelar la partida.')
+          });
+        } else
           {
               swal("Operacion cancelada.");
           }
