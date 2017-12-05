@@ -3116,8 +3116,21 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $('#pc'+numeroCotizacion).show();
     }
 
-    $scope.integrarCotizaciones = function() {
-        $('#integraCotizacion').modal();
+    $scope.integrarCotizaciones = function () {
+      detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
+          if (resp.data.length > 0) {
+            if(resp.data.length == 1){
+               swal('Para integrar una cotización al menos debes tener 2 cotizaciones del mismo taller.')
+            }else{
+               //$scope.cotizacionSoporte = resp.data;
+               $('#integraCotizacion').modal();
+            }
+          }else{
+            swal('No se encontro ninguna Cotización.')
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al buscar las cotizaciones.')
+      });
     }
     // Model to JSON for demo purpose
     $scope.$watch('lists', function(lists) {
