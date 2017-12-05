@@ -134,7 +134,7 @@
                         <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
                     </ul>
                 </li>
-                <li ng-show="userData.idRol == 2 && userData.contratoOperacionSeleccionada == 1" ng-class="{'active': (modulo=='asignacionSustituto' || modulo=='reporteSustituto')}">
+                <li ng-show="userData.idRol == 2 && userData.sustituto == 1" ng-class="{'active': (modulo=='asignacionSustituto' || modulo=='reporteSustituto')}">
                     <a href="#" ng-click="showChat = 0"><i class="glyphicon glyphicon-alert"></i> <span class="nav-label">Unidades Sutituto</span><span class="label label-warning pull-right"></span></a>
                     <ul class="nav nav-second-level">
                         <li ng-class="{'active': modulo=='asignacionSustituto'}"><a href="/asignacionSustituto">Unidad Fuera de Operación</a></li>
