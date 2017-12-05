@@ -682,7 +682,7 @@
                                                                 <th class="slimCol" ng-show="estatus == 5 || estatus == 6 || estatus == 7 || estatus == 8">Fecha Aprobación</th>
                                                                 <th class="slimCol" ng-show="estatus == 4">Aprobar</th>
                                                                 <th class="slimCol" ng-show="estatus == 4">Rechazar</th>
-                                                                <th class="slimCol" ng-show="(userData.idUsuario == 166 || userData.idUsuario == 538 || userData.idUsuario == 509 || userData.idUsuario == 510) && estadoCompra == false">
+                                                                <th class="slimCol" ng-show="(userData.idUsuario == 166 || userData.idUsuario == 538 || userData.idUsuario == 509 || userData.idUsuario == 510) && estadoCompra == false && !cotizacion.showFacturaCargada && cotizacion.detalle.length > 1">
                                                                     Eliminar</th>
                                                                 <th class="slimCol" ng-show="false">&nbsp;</th>
                                                             </tr>
@@ -726,7 +726,7 @@
                                                                 <td class="slimCol" ng-show="false" center>
                                                                     <input type="radio" ng-model="partida.selOption" ng-disabled="partida.btnDisabled" value="1">
                                                                 </td>
-                                                                <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 166 || userData.idUsuario == 538 || userData.idUsuario == 509 || userData.idUsuario == 510) && estadoCompra == false">
+                                                                <td class="slimCol" style="text-align: center" ng-show="(userData.idUsuario == 166 || userData.idUsuario == 538 || userData.idUsuario == 509 || userData.idUsuario == 510) && estadoCompra == false && !cotizacion.showFacturaCargada && cotizacion.detalle.length > 1">
                                                                     <a href="">
                                                                         <span class="glyphicon glyphicon-trash fa-2x center" ng-click="eliminarPartida(partida)"></span>
                                                                     </a>

@@ -3160,10 +3160,9 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     }
 
     $scope.eliminarPartida = function(partida) {
-      console.log(partida);
       swal({
-          title: "¿Esta seguro de eliminar la partida?",
-          text: "Eliminar partida",
+          title: "¿Esta seguro de cancelar la partida?",
+          text: "Cancelar partida",
           type: "warning",
           showCancelButton: true,
           confirmButtonColor: "#65BD10",
@@ -3176,16 +3175,13 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             $('#loadModal').modal('show');
             detalleRepository.updateCancelaPartida(partida.idCotizacionDetalle, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada)
             .then(function (resp) {
-                if (resp.data.length > 0)
-                {
-                  $('#loadModal').modal('hide');
-                  setTimeout(function() {
-                  $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
-                }, 500)
-                swal('Partida cancelada!', 'Operación realizada corractamente');
-                }
+              setTimeout(function() {
+                $scope.getOrdenDetalle($scope.userData.idUsuario, $scope.numeroOrden)
+                $('#loadModal').modal('hide');
+              }, 500)
+              swal('Partida cancelada!', 'Operación realizada corractamente');
             }, function (error) {
-              alertFactory.error('Ocurrio un error al enviar el correo.')
+              alertFactory.error('Ocurrio un error al cancelar la partida.')
             });
           } else
           {
