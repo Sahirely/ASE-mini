@@ -1286,7 +1286,7 @@ Detalle.prototype.post_updateCancelaPartida = function(req, res, next)
     }
 ]
 
-this.model.query('UPD_CANCELA_DETALLE_COTIZACION_SP', params, function(error, result) {
+this.model.query('EXT_UPD_CANCELA_DETALLE_COTIZACION_SP', params, function(error, result) {
     self.view.expositor(res, {
         error: error,
         result: result
