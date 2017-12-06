@@ -275,7 +275,7 @@
                                                     <th>Fecha Carga de ASE</th>
                                                     <th>Fecha Llegada Copade</th>
                                                     <th>Acción</th>
-                                                    <th ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538)">Eliminar</th>
+                                                    <th ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538 || userData.idUsuario == 166)">Eliminar</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -290,7 +290,7 @@
                                                     <td class="center">
                                                         <button class="btn btn-primary" type="button" ng-click="buscaCoincidencia(copade.idDatosCopade)" data-toggle="tooltip" tooltip="Buscar coincidencias" tooltip-placement="left"><span class="glyphicon glyphicon-search"></span></button>
                                                     </td>
-                                                    <td class="center" ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538)">
+                                                    <td class="center" ng-show="(userData.idUsuario == 509 || userData.idUsuario == 510 || userData.idUsuario == 538 || userData.idUsuario == 166)">
                                                         <button class="btn btn-primary" type="button" ng-click="eliminarCopade(copade)" data-toggle="tooltip" tooltip="Eliminar copade" tooltip-placement="left"><span class="fa fa-times"></span></button>
                                                     </td>
                                                 </tr>
