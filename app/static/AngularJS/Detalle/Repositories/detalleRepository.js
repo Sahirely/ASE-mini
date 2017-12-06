@@ -599,6 +599,20 @@ registrationModule.factory('detalleRepository', function($http) {
                 },
                 headers:{'Content-Type':'application/json' }
             });
+        },
+        updSoporteActualizaTaller: function(idCotizacion, idTaller, idUsuario, idContratoOperacion)
+        {
+            return $http({
+                url: detalleUrl + 'soporteActualizaTaller/',
+                method:'GET',
+                params:{
+                    idCotizacion: idCotizacion,
+                    idTaller: idTaller,
+                    idUsuario: idUsuario,
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });

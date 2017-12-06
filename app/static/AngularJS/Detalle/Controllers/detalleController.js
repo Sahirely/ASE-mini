@@ -2605,6 +2605,34 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     }
 
+    $scope.updateTallerSoporte = function(){
+      detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
+          if (resp.data.length > 0) {
+            $scope.cotizaTallerSoporte = 0;
+            $scope.cotizacionSeleccionada = [];
+            $scope.cotizacionTalleresSoporte = resp.data;
+            $('#modalActualizaTaller').modal('show');
+          }else{
+            swal('No se encontro ninguna Cotización.');
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al buscar las cotizaciones.')
+      });
+
+    }
+
+    $scope.selectCotizacionTaller = function(){
+
+      $scope.cotizacionSeleccionada = [];
+
+      $scope.cotizaciones.forEach(function (item){
+          if (item.idCotizacion == $scope.cotizaTallerSoporte){
+            $scope.cotizacionSeleccionada.push(item);
+          }
+      });
+
+    }
+
     $scope.updateDetalleCotizacion = function(){
         $('#editorDetalleCotizacion').modal('hide');
         detalleRepository.updateDetalleCotizacion($scope.cotizacionDetalle.idCotizacionDetalle, $scope.cotizacionDetalle.costo, $scope.cotizacionDetalle.venta, $scope.userData.idUsuario, $scope.cotizacionDetalle.cantidad)

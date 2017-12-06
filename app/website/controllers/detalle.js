@@ -165,6 +165,35 @@ Detalle.prototype.get_getRFCFactura = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_soporteActualizaTaller = function(req, res, next) {
+    var self = this;
+    var params = [{
+              name: 'idCotizacion',
+              value: req.query.idCotizacion,
+              type: self.model.types.INT
+        },{
+              name: 'idTaller',
+              value: req.query.idTaller,
+              type: self.model.types.INT
+        },{
+              name: 'idUsuario',
+              value: req.query.idUsuario,
+              type: self.model.types.INT
+        },{
+              name: 'idContratoOperacion',
+              value: req.query.idContratoOperacion,
+              type: self.model.types.INT
+            }
+    ];
+
+    this.model.query('EXT_COTIZACION_TALLER_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 Detalle.prototype.get_ordenDescontada = function(req, res, next){
 
     var self = this;
