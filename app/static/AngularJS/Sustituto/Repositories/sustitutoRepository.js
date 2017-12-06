@@ -1,4 +1,5 @@
 var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
+var ordenServicioUrl = global_settings.urlCORS + '/api/ordenServicio/';
 
     registrationModule.factory('sustitutoRepository', function ($http, $q) {
         var deferred = $q.defer();
@@ -114,9 +115,32 @@ var sustitutoUrl = global_settings.urlCORS + '/api/sustituto/';
                         'Content-Type': 'application/json'
                     }
                 });
+            },
+            getEvidenciasBySustituto: function(idUnidadSustituto){
+                return $http({
+                    url: ordenServicioUrl + 'evidenciasBySustituto/',
+                    method:'GET',
+                    params:{
+                        idUnidadSustituto: idUnidadSustituto
+                    },
+                    headers:{'Content-Type':'application/json' }
+                });
+            },
+            getDzOptions: function (acceptedFiles, maxFiles) {
+            var dzOptions = {
+                url: ordenServicioUrl + 'uploadfiles/',
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                addRemoveLinks: true,
+                parallelUploads: 20,
+                acceptedFiles: acceptedFiles,/*"image/*,application/pdf,.mp4,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/xml,.docX,.DOCX,.ppt,.PPT",*/
+                createImageThumbnails: true,
+                maxFiles: maxFiles,
+                dictDefaultMessage: ''
+            };
+
+            return dzOptions;
             }
-
-
         };
     });
 

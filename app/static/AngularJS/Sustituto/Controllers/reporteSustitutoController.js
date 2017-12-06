@@ -1,4 +1,4 @@
-registrationModule.controller('reporteSustitutoController', function (MarkerCreatorService, userFactory, $scope, $modal, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, sustitutoRepository, uploadRepository, commonService) {
+registrationModule.controller('reporteSustitutoController', function (MarkerCreatorService, userFactory, $scope, $modal, $routeParams, $route, $rootScope, $location, localStorageService, alertFactory, globalFactory, sustitutoRepository, uploadRepository, commonService) {
   $rootScope.modulo = 'reporteSustituto';
         	
     $scope.init = function (){
@@ -117,8 +117,8 @@ registrationModule.controller('reporteSustitutoController', function (MarkerCrea
         location.href = '/detalle?orden=' + numeroOrden;
     }
 
-    $scope.revisionEvidencia = function (idUnidadSustituto) {
-        location.href = '/evidenciaSustituto?idUnidadSustituto=' + idUnidadSustituto;
+    $scope.revisionEvidencia = function (sustituto) {
+        location.href = '/evidenciaSustituto?sustituto=' + sustituto;
     }
   
   });

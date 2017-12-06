@@ -3,6 +3,7 @@ var OrdenServicioView = require('../views/ejemploVista'),
 
 var dirname = 'E:/ASEv2Documentos/public/orden/';
 var direclamacion = 'E:/ASEv2Documentos/public/reclamacion/';
+var dirsustituto = 'E:/ASEv2Documentos/public/sustituto/';
 var fs = require('fs');
 //var JSZip = require("jszip");
 //var zip = new JSZip();
@@ -926,6 +927,17 @@ OrdenServicio.prototype.post_uploadfiles = function(req, res, next) {
                     nameFile = 'Evidencia-' + filename;
                     cb(null, direclamacion + idTrabajo);
                 }
+            } else if (idCategoria == 2) {
+                var filename = guid();
+                if (!fs.existsSync(dirsustituto + idTrabajo)) {
+                    fs.mkdirSync(dirsustituto + idTrabajo);
+                }
+                if (idNombreEspecial == 0) {
+                    //nameFile = 'Evidencia-' + filename;
+                    consecutivoArchivo = 0;
+                    nameFile = '';
+                    cb(null, dirsustituto + idTrabajo);
+                }
             } else {
                 nameFile = '';
                 cb(null, dirCopades);
@@ -972,5 +984,52 @@ function guid() {
     }
     return s4();
 };
+
+
+OrdenServicio.prototype.get_evidenciasBySustituto = function (req, res, next) {
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+
+    var params = [
+        {
+            name: 'idUnidadSustituto',
+            value: req.query.idUnidadSustituto,
+            type: self.model.types.INT
+        }
+    ];
+
+    var evidenciasBySustituto = [];
+
+    cargaEvidencias(req.query.idUnidadSustituto);
+
+    this.model.listaEvidencia(evidenciasBySustituto, function (error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+
+    function cargaEvidencias(idUnidadSustituto) {
+        var rutaPrincipal = dirsustituto + idUnidadSustituto;
+        var carpetas = fs.readdirSync(rutaPrincipal);
+        carpetas.forEach(function (documento) {
+            var ext = obtenerExtArchivo(documento);
+            var idTipoArchivo = obtenerTipoArchivo(ext);
+            var fecha = fs.statSync(rutaPrincipal + '/' + documento).mtime.getTime();
+            evidenciasBySustituto.push({
+                idTipoEvidencia: 1,
+                idTipoArchivo: idTipoArchivo,
+                nombreArchivo: documento,
+                fecha: fecha,
+                carpeta: 'sustituto'
+            });
+        });
+    }
+}
 
 module.exports = OrdenServicio;
