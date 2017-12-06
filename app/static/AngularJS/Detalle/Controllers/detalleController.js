@@ -2699,7 +2699,6 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       }, function(error){
           $('#modalActualizaTaller').modal('hide');
           $scope.init();
-          // location.href = '/detalle?orden=' + $routeParams.orden;
       });
     }
 
