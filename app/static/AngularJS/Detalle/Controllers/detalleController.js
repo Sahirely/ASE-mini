@@ -1,4 +1,4 @@
-registrationModule.controller('detalleController', function ($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository, nuevoMemorandumRepository, loginRepository, tokenPendienteRepository) {
+registrationModule.controller('detalleController', function ($scope, $location, $modal, $timeout, userFactory, cotizacionRepository, cotizacionConsultaRepository, consultaCitasRepository, $rootScope, $routeParams, alertFactory, globalFactory, commonService, localStorageService, detalleRepository, aprobacionRepository, commonFunctionRepository, utilidadesRepository, filterFilter, preCancelacionesRepository, nuevoMemorandumRepository, loginRepository, tokenPendienteRepository, preordenCotizacionRepository) {
   // *****************************************************************************************************************************//
   // $rootScope.modulo <<-- Para activar en que opción del menú se encuentra
   // *****************************************************************************************************************************//
@@ -2605,13 +2605,38 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     }
 
-    $scope.updateTallerSoporte = function(){
+    $scope.updateTallerSoporte = function (){
+      if ($scope.estadoCompra === true){
+          swal('Advertencia!', 'La orden se encuentra provisionada.');
+      }else{
+          $scope.updateTallerSoporteModal();
+      }
+    }
+
+    $scope.updateTallerSoporteModal = function(){
+
       detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
-          if (resp.data.length > 0) {
-            $scope.cotizaTallerSoporte = 0;
+          if (angular.isArray(resp.data)) {
+            $scope.cotizaTallerSoporte = null;
             $scope.cotizacionSeleccionada = [];
             $scope.cotizacionTalleresSoporte = resp.data;
-            $('#modalActualizaTaller').modal('show');
+
+            preordenCotizacionRepository.getTalleres($scope.userData.idUsuario, $scope.idContratoOperacion, $scope.detalleOrden.idTipoUnidad).then(function(result) {
+                if (angular.isArray(result.data)) {
+                    $scope.tallerSeleccionado = {};
+                    $scope.talleres = result.data;
+                    globalFactory.filtrosTabla("proveedoresTable", "Talleres", 5);
+                    $('#modalActualizaTaller').modal('show');
+                } else {
+                    $scope.tallerSeleccionado = {};
+                    $scope.talleres = [];
+                    globalFactory.filtrosTabla("proveedoresTable", "Talleres", 5);
+                    alertFactory.info('El usuario no tiene talleres asignados');
+                }
+            }, function(error) {
+                alertFactory.error('Ocurrio un error al buscar los talleres.');
+            });
+
           }else{
             swal('No se encontro ninguna Cotización.');
           }
@@ -2621,16 +2646,63 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     }
 
+    $scope.selectTaller = function(tallerSel) {
+        $scope.tallerSeleccionado = tallerSel;
+    }
+
     $scope.selectCotizacionTaller = function(){
 
       $scope.cotizacionSeleccionada = [];
+      $scope.tallerSeleccionado = {};
 
       $scope.cotizaciones.forEach(function (item){
-          if (item.idCotizacion == $scope.cotizaTallerSoporte){
-            $scope.cotizacionSeleccionada.push(item);
+          if (item.idCotizacion == $scope.cotizaTallerSoporte ){
+            if (item.showFacturaCargada === true){
+                swal('Advertencia!', 'La cotización se encuentra facturada.');
+            }else{
+                $scope.cotizacionSeleccionada.push(item);
+            }
           }
       });
 
+    }
+
+    $scope.updateTallerCotizacion = function(){
+        swal({
+            title: "¿Está seguro de cambiar el taller de la cotización?",
+            text: "Se cambiará el taller de la cotización "+$scope.cotizacionSeleccionada[0].numeroCotizacion+" por "+$scope.tallerSeleccionado.nombreComercial+".",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#65BD10",
+            confirmButtonText: "Si",
+            cancelButtonText: "No",
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, function(isConfirm) {
+            if (isConfirm) {
+                $scope.actionUpdTaller();
+            } else {
+                $('#modalActualizaTaller').modal('hide');
+                alertFactory.info('No se actualizó el taller de la cotización.');
+            }
+        });
+
+    }
+
+    $scope.actionUpdTaller = function (){
+      detalleRepository.updSoporteActualizaTaller($scope.cotizacionSeleccionada[0].idCotizacion, $scope.tallerSeleccionado.idTaller, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result){
+        if (result.data[0].Success == 1){
+            alertFactory.info(result.data[0].Msg);
+        } else {
+            alertFactory.error(result.data[0].Msg);
+        }
+        $('#modalActualizaTaller').modal('hide');
+
+      }, function(error){
+          $('#modalActualizaTaller').modal('hide');
+          $scope.init();
+          location.href = '/detalle?orden=' + $routeParams.orden;
+      });
     }
 
     $scope.updateDetalleCotizacion = function(){
