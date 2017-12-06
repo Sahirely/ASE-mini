@@ -117,5 +117,8 @@ registrationModule.controller('reporteSustitutoController', function (MarkerCrea
         location.href = '/detalle?orden=' + numeroOrden;
     }
 
-
-        });
+    $scope.revisionEvidencia = function (idUnidadSustituto) {
+        location.href = '/evidenciaSustituto?idUnidadSustituto=' + idUnidadSustituto;
+    }
+  
+  });

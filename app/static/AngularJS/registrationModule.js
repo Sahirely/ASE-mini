@@ -307,7 +307,10 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/TokenPendiente/Templates/tokenPendiente.html',
             controller: 'tokenPendienteController'
         })
-
+        $routeProvider.when('/evidenciaSustituto', {
+            templateUrl: 'AngularJS/Sustituto/Templates/evidenciaSustituto.html',
+            controller: 'evidenciaSustitutoController'
+        })
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
