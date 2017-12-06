@@ -277,4 +277,26 @@ Reporte.prototype.get_ObtenerOrdenesToken = function(req, res, next) {
     });
 }
 
+Reporte.prototype.get_consultapromedio = function(req, res, next) {
+    var obj = {};
+    var self = this;
+    var params = [
+        { name: 'tipoOperacion', value: req.query.tipoOperacion, type: self.model.types.INT },
+        { name: 'fechaCOPADEInicial', value: req.query.fechaCOPADEInicial, type: self.model.types.STRING },
+        { name: 'fechaCOPADEFinal', value: req.query.fechaCOPADEFinal, type: self.model.types.STRING },
+        { name: 'fechaCreacionInicial', value: req.query.fechaCreacionInicial, type: self.model.types.STRING },
+        { name: 'fechaCreacionFinal', value: req.query.fechaCreacionFinal, type: self.model.types.STRING },
+        { name: 'montoInicial', value: req.query.montoInicial, type: self.model.types.DECIMAL },
+        { name: 'montoFinal', value: req.query.montoFinal, type: self.model.types.DECIMAL },
+        { name: 'montoMayorQue', value: req.query.montoMayorQue, type: self.model.types.DECIMAL }
+    ];
+
+    self.model.query('SEL_REPORTE_PROMEDIO_ESTATUS_ORDEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Reporte;
