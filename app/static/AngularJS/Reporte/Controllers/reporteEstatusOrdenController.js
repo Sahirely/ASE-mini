@@ -80,7 +80,7 @@ registrationModule.controller('reporteEstatusOrdenController', function($scope, 
            if (month.length < 2) month = '0' + month;
             if (day.length < 2) day = '0' + day;
           
-           return `${year}${day}${month}`;
+           return `${year}${month}${day}`;
           }
 
         $scope.gridEstatusOrden = {
@@ -101,7 +101,7 @@ registrationModule.controller('reporteEstatusOrdenController', function($scope, 
             columnAutoWidth: true,
             columns: [
                 { dataField: "idEstatusOrden", caption: "ID", dataType: "number", filterOperations: ['contains']},
-                { dataField: "estatusOrden", caption:"Estatus Orden", dataType: "string"},
+                { dataField: "nombreEstatusOrden", caption:"Estatus Orden", dataType: "string"},
                 { dataField: "ordenes", dataType: "number", caption:"Órdenes" },
                 { dataField: "dias", dataType: "number", caption:"Días" },
                 { dataField: "promedio", dataType: "number"}

@@ -132,7 +132,7 @@
                         <li ng-class="{'active': modulo=='certificado'}"><a href="/reporteHojaTrabajo">Hoja de Trabajo</a></li>
                         <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteParqueVehicular'}"><a href="/reporteparquevehicular">Reporte Parque Vehicular</a></li>
                         <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteHistorial'}"><a href="/reporteunidad">Historial de la unidad</a></li>
-                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteEstatusOrden'}"><a href="/reporteestatusorden">Reporte Estatus Órdenes</a></li>
+                        <li ng-show="userData.idRol == 2" ng-class="{'active': modulo=='reporteEstatusOrden'}"><a href="/reporteestatusorden">Reporte Timeline Órdenes</a></li>
                     </ul>
                 </li>
                 <li ng-show="userData.idRol == 2 && userData.sustituto == 1" ng-class="{'active': (modulo=='asignacionSustituto' || modulo=='reporteSustituto')}">
