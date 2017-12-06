@@ -33,8 +33,8 @@ registrationModule.controller('reporteEstatusOrdenController', function($scope, 
             $scope.rptParams = $scope.getEmptyFilterParams();
 
             $scope.rptParams.tipoOperacion = 2
-            $scope.rptParams.fechaCreacionInicial = $scope.fechaCreacionInicial == "" ? null : $scope.fechaCreacionInicial == undefined ? null : $scope.fechaCreacionInicial
-            $scope.rptParams.fechaCreacionFinal = $scope.fechaCreacionFinal == "" ? null : $scope.fechaCreacionFinal == undefined ? null : $scope.fechaCreacionFinal
+            $scope.rptParams.fechaCreacionInicial = $scope.fechaCreacionInicial == "" ? null : $scope.fechaCreacionInicial == undefined ? null : $scope.formattedDate($scope.fechaCreacionInicial)
+            $scope.rptParams.fechaCreacionFinal = $scope.fechaCreacionFinal == "" ? null : $scope.fechaCreacionFinal == undefined ? null : $scope.formattedDate($scope.fechaCreacionFinal)
 
             $scope.getAverage($scope.rptParams);
         }

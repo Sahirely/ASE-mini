@@ -11,7 +11,7 @@ registrationModule.factory('reporteEstatusOrdenRepository', function($http) {
                     fechaCOPADEInicial : params.fechaPagoInicial,
                     fechaCOPADEFinal: params.fechaPagoFinal,
                     fechaCreacionInicial: params.fechaCreacionInicial,
-                    fehcaCreacionFinal: params.fechaCreacionFinal,
+                    fechaCreacionFinal: params.fechaCreacionFinal,
                     montoInicial: params.montoInicial,
                     montoFinal: params.montoFinal,
                     montoMayorQue: params.montoMayorQue
