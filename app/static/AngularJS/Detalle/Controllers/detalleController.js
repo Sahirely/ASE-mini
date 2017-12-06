@@ -2691,17 +2691,15 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     $scope.actionUpdTaller = function (){
       detalleRepository.updSoporteActualizaTaller($scope.cotizacionSeleccionada[0].idCotizacion, $scope.tallerSeleccionado.idTaller, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada).then(function(result){
-        if (result.data[0].Success == 1){
-            alertFactory.info(result.data[0].Msg);
-        } else {
-            alertFactory.error(result.data[0].Msg);
-        }
+        alertFactory.info(result.data[0].Msg);
         $('#modalActualizaTaller').modal('hide');
+        $scope.init();
+        // location.href = '/detalle?orden=' + $routeParams.orden;
 
       }, function(error){
           $('#modalActualizaTaller').modal('hide');
           $scope.init();
-          location.href = '/detalle?orden=' + $routeParams.orden;
+          // location.href = '/detalle?orden=' + $routeParams.orden;
       });
     }
 
