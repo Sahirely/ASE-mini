@@ -733,4 +733,38 @@ Cobrar.prototype.post_cambiaNombreCopade = function (req, res, next) {
 
 }
 
+Cobrar.prototype.post_delCopade = function (req, res, next) { 
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    //var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+    var params = [
+        {
+            name: 'idDatosCopade',
+            value: req.body.idDatosCopade,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idUsuario',
+            value: req.body.idUsuario,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idContratoOperacion',
+            value: req.body.idContratoOperacion,
+            type: self.model.types.INT
+        }
+    ] 
+
+    this.model.post('EXT_DEL_DATOS_COPADE_SP', params, function (error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 module.exports = Cobrar

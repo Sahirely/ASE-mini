@@ -1295,4 +1295,40 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
         };
       }
 
-    })
+    $scope.eliminarCopade = function(datosCopade)
+    {
+      swal({
+        title: "¿Esta seguro de eliminar copade?",
+        text: "Eliminar copade",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#65BD10",
+        confirmButtonText: "Si",
+        cancelButtonText: "No",
+        closeOnConfirm: true,
+        closeOnCancel: true
+    }, function(isConfirm) 
+    {
+      if (isConfirm) 
+      {
+        $('#loadModal').modal('show');
+        ordenPorCobrarRepository.delCopade(datosCopade.idDatosCopade, $scope.idUsuario, $scope.userData.contratoOperacionSeleccionada)
+        .then(function (resp) {
+            if (resp.data[0].idContratoOperacion > 0)
+            {
+              setTimeout(function() {
+                $('#loadModal').modal('show');
+                $scope.changeSelectedTab(2);
+                swal('Copade eliminada!', 'Operación realizada corractamente');
+              }, 500)
+            }
+        }, function (error) {
+          alertFactory.error('Ocurrio un error al eliminar copade.')
+        });
+      }else
+      {
+          swal("Operacion cancelada.");
+      }
+    });
+  }
+})

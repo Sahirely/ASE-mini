@@ -141,6 +141,23 @@ postSubirCopade: function() {
                     'Content-Type': 'application/json'        
                 }      
             }); 
+        },
+        delCopade: function (idDatosCopade, idUsuario, idContratoOperacion) 
+        {
+            var obj = {
+                idDatosCopade: idDatosCopade,
+                idUsuario: idUsuario,
+                idContratoOperacion: idContratoOperacion
+            };
+
+            return $http({        
+                url: cobrarUrl + 'delCopade',
+                        method: "POST",
+                        data: obj,
+                        headers: {          
+                    'Content-Type': 'application/json'        
+                }      
+            }); 
         }
-  }
+    }
 })
