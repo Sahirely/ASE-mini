@@ -137,6 +137,10 @@ Configurador.prototype.post_nuevaOperacion = function(req, res, next) {
         name: 'comentarioCotizacion',
         value: req.body.comentarioCotizacion,
         type: self.model.types.INT
+    }, {
+        name: 'sustituto',
+        value: req.body.sustituto,
+        type: self.model.types.INT
     }];
 
 

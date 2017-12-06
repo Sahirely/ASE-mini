@@ -37,6 +37,7 @@ registrationModule.factory('userFactory', function($window, localStorageService,
       userData.tiempoAsignado = ObjetoOperacionSelected.tiempoAsignado;
       userData.verificacionVehicular = ObjetoOperacionSelected.verificacionVehicular;
       userData.comentarioCotizacion = ObjetoOperacionSelected.comentarioCotizacion;
+      userData.sustituto = ObjetoOperacionSelected.sustituto;
       userData.Modulos = ObjetoOperacionSelected.modulos;
       userData.idRol = ObjetoOperacionSelected.idRol;
       userData.Rol = ObjetoOperacionSelected.nombreRol;

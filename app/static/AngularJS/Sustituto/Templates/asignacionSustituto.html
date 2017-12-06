@@ -84,22 +84,24 @@
                                     <tr>
                                         <th>Número Económico</th>
                                         <th>Vin</th>
-                                        <th>Factura</th>
+                                        <th>Placas</th>
                                         <th>Marca</th>
                                         <th>Submarca</th>
                                         <th>Modelo</th>
+                                        <th>Combustible</th>
                                         <th>Seleccionar</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="sustituto in sustitutos ">
-                                        <td>{{sustituto.numEconomico}}</td>
+                                        <td>{{sustituto.numeroEconomico}}</td>
                                         <td>{{sustituto.vin}}</td>
-                                        <td>{{sustituto.factura}}</td>
+                                        <td>{{sustituto.placas}}</td>
                                         <td>{{sustituto.marca}}</td>
-                                        <td>{{sustituto.modeloMarca}}</td>
+                                        <td>{{sustituto.submarca}}</td>
                                         <td>{{sustituto.modelo}}</td>
+                                        <td>{{sustituto.combustible}}</td>
                                         <td>    
                                             <input type="radio" name="optUnidad"  ng-click="selsustituto(sustituto)" />
                                         </td>
