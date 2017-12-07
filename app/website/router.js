@@ -27,5 +27,6 @@ module.exports = {
   meeting: require('./controllers/meeting'),
   quejas: require('./controllers/quejas'),
   sustituto: require('./controllers/sustituto'),
-  proveedor: require('./controllers/proveedor')
+  proveedor: require('./controllers/proveedor'),
+  gps: require('./controllers/gps')
 }
