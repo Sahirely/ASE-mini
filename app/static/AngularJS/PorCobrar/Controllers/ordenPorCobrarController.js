@@ -42,6 +42,119 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
   $scope.option = null
   $scope.selectedTab = 1;
 
+
+  $scope.gridPorCobrar = {
+    bindingOptions: {
+        dataSource: 'porCobrar'
+    },
+    "export": {
+        enabled: true,
+        fileName: "DispersionProveedor",
+        allowExportSelectedData: false
+      },
+    allowSorting: true,
+    showRowLines: true,
+    rowAlternationEnabled: true,
+    showColumnLines: true,
+    showBorders: true,
+    allowColumnResizing: true,
+    columnAutoWidth: true,
+    columns: [
+        { dataField: "nombreCliente", caption:"Cliente", dataType: "string"},
+        { dataField: "consecutivoOrden", caption: "Consecutivo", dataType: "number", filterOperations: ['contains']},
+        { dataField: "numeroOrden", caption:"Número de órden", dataType: "string"},
+        // { dataField: "numeroCotizacion", dataType: "number" },
+        { dataField: "numeroEconomico", caption:"Número Económico", dataType: "number" },
+        { dataField: "nombreZona", caption:"Zona",  dataType: "string" },
+        { dataField: "fechaCreacionOden", caption:"Fecha Creación Órden", dataType: "date" },
+        // { dataField: "proveedor", dataType: "string" },
+        { dataField: "comentarioOrden", caption:"Comentarios adicionales", dataType: "string" },
+        { dataField: "nombreEstatusOrden", caption:"Estatus", dataType: "string" },
+        { dataField: "venta", dataType: "number" },
+        { dataField: "nombreCompleto", caption:"Agendo", dataType: "string" },
+        { dataField: "tiempoEsperaTranscurrido", caption:"Tiempo Transcurrido Tiempo Asignado", dataType: "string" },
+        // { dataField: "nombreTipoOrdenServicio", dataType: "number" },
+        
+        // { dataField: "facturaProveedor", dataType: "number" },
+        // { dataField: "montoFacturaProveedor", dataType: "number" },
+        // { dataField: "saldoFacturaProveedor", dataType: "number" }
+    ],
+    // summary:{
+    //     totalItems:[{
+    //         column: "TRABAJADO",
+    //         summaryType: "sum",
+    //         valueFormat: "currency",
+    //         displayFormat: "Total: {0}"
+    //     },{
+    //         column: "POR FACTURAR",
+    //         summaryType: "sum",
+    //         valueFormat: "currency",
+    //         displayFormat: "Total: {0}"
+    //     },{
+    //         column: "FACTURADO",
+    //         summaryType: "sum",
+    //         valueFormat: "currency",
+    //         displayFormat: "Total: {0}"
+    //     },{
+    //         column: "PAGADO",
+    //         summaryType: "sum",
+    //         valueFormat: "currency",
+    //         displayFormat: "Total: {0}"
+    //     },{
+    //         column: "SELECCION ABONOS",
+    //         summaryType: "sum",
+    //         valueFormat: "currency",
+    //         displayFormat: "Total: {0}"
+    //     },{
+    //         column: "FACTURAS ABONADAS",
+    //         summaryType: "sum",
+    //         valueFormat: "currency",
+    //         displayFormat: "Total: {0}"
+    //     }]
+    // },
+    columnChooser: {
+      enabled: true
+    },
+    loadPanel: {
+      enabled: false
+    },
+    scrolling: {
+      mode: "infinite"
+    },
+    filterRow: {
+        visible: true,
+        applyFilter: "auto"
+    },
+    grouping: {
+        contextMenuEnabled: true,
+        autoExpandAll: false
+    },
+    groupPanel: {
+        visible: true,
+        emptyPanelText: "Arrastra aqui la columna que deseas agrupar"
+    },
+    paging: {
+        // enabled: true,
+        pageSize: 10
+    },
+    pager: {
+        // visible: true,
+         showInfo: true,
+        // showPageSizeSelector: true,
+        infoText: "Página {0} de {1}: ({2} Registros encontrados)",
+        //allowedPageSizes: [5, 10, 25, 50, 100],
+    },
+    searchPanel: {
+        visible: true,
+        width: '400'
+    },
+    onCellClick: function(e) {
+      if (e.rowType == "data"){
+        $scope.AbrirOrden(e.data.numeroOrden, 8)
+      }   
+  },
+}
+
   $scope.total = 0
       var sumatoriaMontoPago = 0;
       var sumatoriaAbonoPago = 0;
