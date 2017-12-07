@@ -2302,7 +2302,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   }
 
   $scope.validaFacturaCotizacionBoton = function () {
-    detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function (result) {
+    detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, 1).then(function (result) {
+    // detalleRepository.getfacturaCotizacion($scope.idOrden, $scope.userData.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction).then(function (result) {
 
       if (result.data[0].success == 1) {
         $scope.botonProcesarCompra = true
@@ -3214,20 +3215,88 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     }
 
     $scope.integrarCotizaciones = function () {
-      detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
-          if (resp.data.length > 0) {
-            if(resp.data.length == 1){
-               swal('Para integrar una cotización al menos debes tener 2 cotizaciones del mismo taller.')
+      if ($scope.estadoCompra === false) {
+        detalleRepository.getcotizacionbyOrden($scope.idOrdenURL).then(function (resp) {
+            if (resp.data.length > 0) {
+              if(resp.data.length == 1){
+                 swal('Para integrar una cotización al menos debes tener 2 cotizaciones del mismo taller.');
+              }else{
+                 //$scope.cotizacionSoporte = resp.data;
+
+                   $scope.lists = [];
+                   $scope.listTalleres = [];
+                   $scope.cotizaciones.forEach(function(taller){
+                       $scope.existsT = false;
+                       $scope.listTalleres.forEach(function(t2){
+                           if (t2.nombre == taller.nombreTaller){
+                               $scope.existsT = true;
+                           }
+                       });
+                       if ($scope.existsT == false){
+                         var t = {
+                             num: $scope.listTalleres.length + 1,
+                             nombre: taller.nombreTaller
+                         }
+                         $scope.listTalleres.push(t);
+                       }
+                   });
+
+                   $scope.cotizaciones.forEach(function(coti){
+                     if(coti.showFacturaCargada === false){
+                       if (coti.detalle != null || coti.detalle != undefined) {
+
+                         var label = coti.numeroCotizacion;
+                         var idCoti = coti.idCotizacion;
+                         $scope.allowedTypes = coti.nombreTaller;
+                         $scope.listTalleres.forEach(function(t){
+                             if(t.nombre == $scope.allowedTypes){
+                                 $scope.style = t.num;
+                             }
+                         });
+
+                         var detalle = [];
+
+                         coti.detalle.forEach(function(part){
+
+                           var partObj = {
+                               partida: part.partida,
+                               noParte: part.noParte,
+                               idCotizacionDetalle: part.idCotizacionDetalle,
+                               type: $scope.allowedTypes,
+                               style: $scope.style
+                           }
+
+                             detalle.push(partObj);
+                         });
+
+                         var cotiObj = {
+                             label:  label,
+                             allowedTypes: [$scope.allowedTypes],
+                             idCotizacion: idCoti,
+                             people: detalle
+                         }
+
+                         $scope.lists.push(cotiObj);
+                       }
+                     }
+                   });
+
+                if ($scope.lists.length > 0){
+                 $('#integraCotizacion').modal();
+               }else{
+                 swal('Para integrar una cotización al menos debes tener 2 cotizaciones del mismo taller sin facturas cargadas.');
+               }
+              }
             }else{
-               //$scope.cotizacionSoporte = resp.data;
-               $('#integraCotizacion').modal();
+              swal('No se encontro ninguna Cotización.')
             }
-          }else{
-            swal('No se encontro ninguna Cotización.')
-          }
-      }, function (error) {
-        alertFactory.error('Ocurrio un error al buscar las cotizaciones.')
-      });
+        }, function (error) {
+          alertFactory.error('Ocurrio un error al buscar las cotizaciones.')
+        });
+      }else{
+          swal('Advertencia!', 'La orden se encuentra provisionada.');
+      }
+
     }
     // Model to JSON for demo purpose
     $scope.$watch('lists', function(lists) {
