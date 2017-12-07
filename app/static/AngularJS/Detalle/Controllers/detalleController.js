@@ -1289,8 +1289,8 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                     // Esta sección se debera quitar para producción
                     // Esta sección se debera quitar para producción
 
-                    if($scope.validateUUID == 0){
-                        var UUID = 'A1234567-D123-O123-L123-F1V3I5V7E900';
+                    if($scope.validateUUID === 0){
+                         UUID = 'A1234567-D123-O123-L123-F1V3I5V7E900';
                     }
                     debugger
                     if (RFC_Receptor != rfc.RFCCliente) {
