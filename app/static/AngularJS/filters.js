@@ -50,7 +50,7 @@ registrationModule.filter('EstatusTrabajo', function(){
     }
 });
 
-registrationModule.filter('filtrarZona', function(){
+registrationModule.filter('Zona', function(){
     return function (items, idZona){
         var filtered = [];
 
@@ -68,7 +68,7 @@ registrationModule.filter('filtrarZona', function(){
     }
 });
 
-registrationModule.filter('filtrarEjecutivo', function(){
+registrationModule.filter('Ejecutivo', function(){
     return function (items, idEjecutivo){
         var filtered = [];
 

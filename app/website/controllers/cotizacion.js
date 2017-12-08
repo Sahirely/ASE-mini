@@ -322,9 +322,21 @@ Cotizacion.prototype.get_ObtenerOrdenesConTaller = function(req, res, next) {
         value: req.query.numeroOrden,
         type: self.model.types.STRING
     }, {
-        name: 'idEjecutivo',
-        value: req.query.idEjecutivo,
+        name: 'idZona',
+        value: req.query.idZona,
         type: self.model.types.INT
+    }, {
+        name: 'idEjecutivoFiltro',
+        value: req.query.idEjecutivoFiltro,
+        type: self.model.types.INT
+    }, {
+        name: 'fechaIni',
+        value: req.query.fechaIni,
+        type: self.model.types.STRING
+    }, {
+        name: 'fechaFin',
+        value: req.query.fechaFin,
+        type: self.model.types.STRING
     }];
     this.model.query('SEL_OPE_CITAS_CON_TALLER_SP', params, function(error, result) {
         self.view.expositor(res, {
@@ -419,9 +431,21 @@ Cotizacion.prototype.get_ObtenerOrdenesSinTaller = function(req, res, next) {
         value: req.query.numeroOrden,
         type: self.model.types.STRING
     }, {
-        name: 'idEjecutivo',
-        value: req.query.idEjecutivo,
+        name: 'idZona',
+        value: req.query.idZona,
         type: self.model.types.INT
+    }, {
+        name: 'idEjecutivoFiltro',
+        value: req.query.idEjecutivoFiltro,
+        type: self.model.types.INT
+    }, {
+        name: 'fechaIni',
+        value: req.query.fechaIni,
+        type: self.model.types.STRING
+    }, {
+        name: 'fechaFin',
+        value: req.query.fechaFin,
+        type: self.model.types.STRING
     }];
     this.model.query('SEL_OPE_CITAS_SIN_TALLER_SP', params, function(error, result) {
         self.view.expositor(res, {
@@ -447,10 +471,23 @@ Cotizacion.prototype.get_ObtenerOrdenesEnTaller = function(req, res, next) {
         value: req.query.numeroOrden,
         type: self.model.types.STRING
     }, {
-        name: 'idEjecutivo',
-        value: req.query.idEjecutivo,
+        name: 'idZona',
+        value: req.query.idZona,
         type: self.model.types.INT
+    }, {
+        name: 'idEjecutivoFiltro',
+        value: req.query.idEjecutivoFiltro,
+        type: self.model.types.INT
+    }, {
+        name: 'fechaIni',
+        value: req.query.fechaIni,
+        type: self.model.types.STRING
+    }, {
+        name: 'fechaFin',
+        value: req.query.fechaFin,
+        type: self.model.types.STRING
     }];
+
     this.model.query('SEL_OPE_CITAS_EN_TALLER_SP', params, function(error, result) {
         self.view.expositor(res, {
             error: error,
@@ -475,8 +512,24 @@ Cotizacion.prototype.get_ObtenerOrdenesDeServicioEnProceso = function(req, res, 
         value: req.query.numeroOrden,
         type: self.model.types.STRING
     }, {
-        name: 'idEjecutivo',
-        value: req.query.idEjecutivo,
+        name: 'idZona',
+        value: req.query.idZona,
+        type: self.model.types.INT
+    }, {
+        name: 'idEjecutivoFiltro',
+        value: req.query.idEjecutivoFiltro,
+        type: self.model.types.INT
+    }, {
+        name: 'fechaIni',
+        value: req.query.fechaIni,
+        type: self.model.types.STRING
+    }, {
+        name: 'fechaFin',
+        value: req.query.fechaFin,
+        type: self.model.types.STRING
+    }, {
+        name: 'estatus',
+        value: req.query.estatus,
         type: self.model.types.INT
     }];
     this.model.query('SEL_OPE_ORDEN_EN_PROCESO_SP', params, function(error, result) {
@@ -501,8 +554,24 @@ Cotizacion.prototype.get_ObtenerOrdenesDeServicioEnEntrega = function(req, res, 
         value: req.query.numeroOrden,
         type: self.model.types.STRING
     }, {
-        name: 'idEjecutivo',
-        value: req.query.idEjecutivo,
+        name: 'idZona',
+        value: req.query.idZona,
+        type: self.model.types.INT
+    }, {
+        name: 'idEjecutivoFiltro',
+        value: req.query.idEjecutivoFiltro,
+        type: self.model.types.INT
+    }, {
+        name: 'fechaIni',
+        value: req.query.fechaIni,
+        type: self.model.types.STRING
+    }, {
+        name: 'fechaFin',
+        value: req.query.fechaFin,
+        type: self.model.types.STRING
+    }, {
+        name: 'estatus',
+        value: req.query.estatus,
         type: self.model.types.INT
     }];
     this.model.query('SEL_OPE_ORDEN_EN_ENTREGA_SP', params, function(error, result) {

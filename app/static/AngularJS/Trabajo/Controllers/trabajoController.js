@@ -1,9 +1,7 @@
 registrationModule.controller('trabajoController', function($scope, $modal, userFactory, $rootScope, $routeParams, $location, localStorageService, alertFactory, globalFactory, trabajoRepository, ordenServicioRepository, cotizacionConsultaRepository, nuevoMemorandumRepository) {
     $rootScope.modulo = 'ordenServicio'; // <<-- Para activar en que opción del menú se encuentra
 
-    // $scope.idOperacion           = 2;
-    // $scope.idUsuario             = 2;
-    // $scope.idContratoOperacion   = 2;
+
     $scope.idOperacion = $scope.userData.idOperacion;
     $scope.idUsuario = $scope.userData.idUsuario;
     $scope.idContratoOperacion = $scope.userData.contratoOperacionSeleccionada;
@@ -19,15 +17,21 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.Zonas = [];
     $scope.idZona = 0;
     $scope.btnSwitch = {};
-
+    $scope.DatesFlag = 0;
+    $scope.filtroEstatusProc = '55';
+    $scope.filtroEstatusEntrega = '67';
     $scope.fechaMes = '';
     $scope.fechaInicio = '';
     $scope.fechaFin = '';
     $scope.fecha = '';
     $scope.numeroTrabajo = '';
+    $scope.filtroEstatus = '';
+    $scope.DatesFlag = 0;
 
     $scope.idOrden_Temp = 0;
-    $scope.filtroEstatus = '';
+
+    //para ocultar la tabla hasta que se realize la primera búsqueda
+    $scope.show_grids = false;
 
     $scope.sumatoria_entrega = 0;
     $scope.sumatoria_proceso = 0;
@@ -37,8 +41,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
     $scope.Init = function() {
         $scope.userData = userFactory.getUserData();
         userFactory.ValidaSesion();
-        $scope.show_proceso = true;
-        $scope.show_entrega = false;
         $scope.muestraTabla = false;
         $scope.show_sumatorias = false;
 
@@ -53,35 +55,27 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
         $scope.btnSwitch.classVenta = 'btn btn-default';
         $scope.showButtonSwitch($scope.userData.idRol);
 
-        // globalFactory.filtrosTabla("ordenesPresupuesto", "Ordenes Con Presupuesto", 10);
-        // globalFactory.filtrosTabla("ordenesSinPresupuesto", "Ordenes Sin Presupuesto", 10);
-
-        //------------------------------------------------------------------//
-        //--$scope.getOrdenesServicio(3); En el SP se utiliza
-        //                                  1 pantalla consulta de citas
-        //                                  2 pantalla Aprobación
-        //                                  3 pantalla Órdenes de Servicio
-        //-----------------------------------------------------------------//
-        //$scope.getOrdenesServicio(3);
-
-        // $scope.estatusValidador = 5;
         $scope.estatusDashboard = $routeParams.e;
         if ($scope.estatusDashboard != null || $scope.estatusDashboard != undefined) {
             $scope.filtroEstatus = $scope.estatusDashboard;
             if ($scope.filtroEstatus == 0 || $scope.filtroEstatus == 5) {
-                $scope.show_proceso = true;
-                $scope.show_entrega = false;
-            } else {
-                $scope.show_proceso = false;
-                $scope.show_entrega = true;
+                $scope.procesoActive = true;
+                $scope.entregaActive = false;
+                $scope.filtroEstatusProc = $scope.filtroEstatus;
+                $scope.filtroEstatusEntrega = '67';
+            } else if ($scope.filtroEstatus == 6 || $scope.filtroEstatus == 7){
+                $scope.procesoActive = false;
+                $scope.entregaActive = true;
+                $scope.filtroEstatusProc = '55';
+                $scope.filtroEstatusEntrega = $scope.filtroEstatus;
             }
-            getOrdenes();
-
+            $scope.changeFilters();
+            $scope.getOrdenes();
         } else {
-            $scope.filtroEstatus = 55
-            $scope.show_proceso = true;
-            $scope.show_entrega = false;
-            getOrdenes();
+            $scope.procesoActive = true;
+            $scope.entregaActive = false;
+            $scope.filtroEstatusProc = '55';
+            $scope.filtroEstatusEntrega = '67';
         }
 
         if ($scope.userData.idRol == 2) {
@@ -93,143 +87,16 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
     };
 
-    $scope.cambioFiltro = function() {
-        globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
-        globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
-        if ($scope.filtroEstatus == 55) {
-            $scope.procesoActive = true;
-            $scope.entregaActive = false;
-            $scope.estatusValidador = 5;
-            $scope.estadoGarantia = '';
-            $scope.sumatoria_proceso = 0;
-            $scope.sumatoria_costo_proceso = 0;
-            $scope.ordenesEnProceso.forEach(function(item) {
-                if (item.idEstatusOrden == 5) {
-                    $scope.sumatoria_proceso += item.venta;
-                    $scope.sumatoria_costo_proceso += item.costo;
-                }
-            });
-        }
-        if ($scope.filtroEstatus == 0) {
-            $scope.procesoActive = true;
-            $scope.entregaActive = false;
-            $scope.estatusValidador = 5;
-            $scope.estadoGarantia = 1;
-            $scope.sumatoria_proceso = 0;
-            $scope.sumatoria_costo_proceso = 0;
-            $scope.ordenesEnProceso.forEach(function(item) {
-                if (item.idEstatusOrden == 5 && item.idGarantia == 1) {
-                    $scope.sumatoria_proceso += item.venta;
-                    $scope.sumatoria_costo_proceso += item.costo;
-                }
-            });
-        }
-        if ($scope.filtroEstatus == 5) {
-            $scope.procesoActive = true;
-            $scope.entregaActive = false;
-            $scope.estatusValidador = $scope.filtroEstatus;
-            $scope.estadoGarantia = 0;
-            $scope.sumatoria_proceso = 0;
-            $scope.sumatoria_costo_proceso = 0;
-            $scope.ordenesEnProceso.forEach(function(item) {
-                if (item.idEstatusOrden == 5 && item.idGarantia == 0) {
-                    $scope.sumatoria_proceso += item.venta;
-                    $scope.sumatoria_costo_proceso += item.costo;
-                }
-
-            });
-        }
-        if ($scope.filtroEstatus == 67) {
-            $scope.procesoActive = false;
-            $scope.entregaActive = true;
-            $scope.estatusValidador = '';
-            $scope.estadoEstatus = 1;
-            $scope.sumatoria_entrega = 0;
-            $scope.sumatoria_costo_entrega = 0;
-            $scope.ordenesEnEntrega.forEach(function(item) {
-                if (item.conjuntoEstatus == 1) {
-                    $scope.sumatoria_entrega += item.venta;
-                    $scope.sumatoria_costo_entrega += item.costo;
-                }
-            });
-        }
-        if ($scope.filtroEstatus == 6) {
-            $scope.procesoActive = false;
-            $scope.entregaActive = true;
-            $scope.estatusValidador = $scope.filtroEstatus;
-            $scope.sumatoria_entrega = 0;
-            $scope.sumatoria_costo_entrega = 0;
-            $scope.ordenesEnEntrega.forEach(function(item) {
-                if (item.idEstatusOrden == 6) {
-                    $scope.sumatoria_entrega += item.venta;
-                    $scope.sumatoria_costo_entrega += item.costo;
-                }
-
-            });
-
-        }
-        if ($scope.filtroEstatus == 7) {
-            $scope.procesoActive = false;
-            $scope.entregaActive = true;
-            $scope.estatusValidador = $scope.filtroEstatus;
-            $scope.sumatoria_entrega = 0;
-            $scope.sumatoria_costo_entrega = 0;
-            $scope.ordenesEnEntrega.forEach(function(item) {
-                if (item.idEstatusOrden == 7) {
-                    $scope.sumatoria_entrega += item.venta;
-                    $scope.sumatoria_costo_entrega += item.costo;
-                }
-            });
-        }
-    }
-
-
-    /*  $scope.userFilter = function(filter) {
-        return function(user) {
-          return user.idEstatusOrden == filter.idEstatusOrden || user.idEstatusOrden2 == filter.idEstatusOrden2;
-        };
-      };*/
-
-    $scope.menu = function(data) {
-        // console.log('click de tabla');
-        // console.log(data);
-        $scope.show_proceso = false;
-        $scope.show_entrega = false;
-        // codigo de sobra
-        //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
-        //globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
-        switch (data) {
-            case 0:
-                $scope.show_proceso = true;
-                $scope.estatusValidador = 5;
-                $scope.estadoGarantia = '';
-                $scope.filtroEstatus = 55;
-                $scope.sumatoria_proceso = 0;
-                $scope.sumatoria_costo_proceso = 0;
-                $scope.ordenesEnProceso.forEach(function(item) {
-                    if (item.idEstatusOrden == 5) {
-                        $scope.sumatoria_proceso += item.venta;
-                        $scope.sumatoria_costo_proceso += item.costo;
-                    }
-                });
-                break;
-
-            case 1:
-                $scope.show_entrega = true;
-                $scope.estatusValidador = '';
-                $scope.estadoEstatus = 1;
-                $scope.filtroEstatus = 67;
-                $scope.sumatoria_entrega = 0;
-                $scope.sumatoria_costo_entrega = 0;
-                $scope.ordenesEnEntrega.forEach(function(item) {
-                    if (item.conjuntoEstatus == 1) {
-                        $scope.sumatoria_entrega += item.venta;
-                        $scope.sumatoria_costo_entrega += item.costo;
-                    }
-                });
-                break;
-        }
-    }
+    //obtiene los usuarios ejecutivos
+    $scope.devuelveEjecutivos = function() {
+        cotizacionConsultaRepository.obtieneEjecutivos($scope.idContratoOperacion).then(function(ejecutivos) {
+            if (ejecutivos.data.length > 0) {
+                $scope.listaEjecutivos = ejecutivos.data;
+            }
+        }, function(error) {
+            alertFactory.error('No se pudo recuperar información de los ejecutivos');
+        });
+    };
 
     $scope.indiceOrdenes = -1;
     $scope.OpenModal = function(index, Id) {
@@ -278,87 +145,236 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
 
     }
 
-    $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
+    $scope.consultaCotizacionesFiltros = function () {
+        $scope.changeFilters();
+
+        if ($scope.ZonaFilter === null && $scope.idEjecutivo === null && $scope.rInicioFilter === null && $scope.rFinFilter === null && $scope.estatusEntregaFilter === null && $scope.estatusProcesoFilter  === null ){
+            $scope.consultaCotizacionesSinFiltrosBusqueda();
+        }else{
+            $scope.getOrdenes();
+        }
+
+    }
+
+    $scope.consultaCotizacionesSinFiltrosBusqueda = function () {
+      swal({
+            title: '¿Desea realizar la búsqueda sin criterios de selección?',
+            text: "Al realizar la búsqueda sin criterios, se traerán todos los resultados.",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si',
+            cancelButtonText: 'Cancelar'
+          }, function (isConfirm) {
+            if (isConfirm) {
+              $scope.cleanSearch();
+              $scope.getOrdenes();
+           }
+         });
+    }
+
+    $scope.cleanSearch = function(){
+        //se limpia el filtro de zonas
+        for ($scope.x = 0; $scope.x <= $scope.totalNiveles; $scope.x++) {
+            $scope.ZonasSeleccionadas[$scope.x] = "0";
+        }
+
+        //se limpia el filtro de ejecutivo
+        $scope.ejecutivoSelected = 0;
+
+        //limpiar filtro de estatus
+        $scope.filtroEstatusProc = '55';
+        $scope.filtroEstatusEntrega = '67';
+
+        //bandera temporal para evitar filtro en fechas y poder limpiar
+        $scope.DatesFlag = 4;
+
+        //limpiar filtros de fechas
+        $scope.fechaMes = '';
+        $scope.fecha = '';
+        $scope.fechaInicio = '';
+        $scope.fechaFin = '';
+        $('#txtMes').datepicker('setDate', null);
+        $('#txtfechaEspecifica').datepicker('setDate', null);
+        $('#txtFIni').datepicker('setDate', null);
+        $('#txtFFin').datepicker('setDate', null);
+
+        //aplicar el cambio con filtros limpios
+        $scope.changeFilters();
+
+    }
+
+    $scope.cambioZona = function (id, orden) {
         //al cambiar de zona se establece como zona seleccionada.
         $scope.zonaSelected = id;
-
-        // $scope.LoadData();
         //se limpian los combos siguientes.
         for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
             $scope.ZonasSeleccionadas[$scope.x] = "0";
         }
+
+        $scope.changeFilters();
     };
 
-    //obtiene los usuarios ejecutivos
-    $scope.devuelveEjecutivos = function() {
-        cotizacionConsultaRepository.obtieneEjecutivos($scope.idContratoOperacion).then(function(ejecutivos) {
-            if (ejecutivos.data.length > 0) {
-                $scope.listaEjecutivos = ejecutivos.data;
-            }
-        }, function(error) {
-            alertFactory.error('No se pudo recuperar información de los ejecutivos');
-        });
+    $scope.selectEstatusEntrega = function (dato){
+      $scope.filtroEstatusEntrega = dato;
+    }
+
+    $scope.selectEstatusProceso = function (dato){
+      $scope.filtroEstatusProc= dato;
+    }
+
+    $scope.changeFilters = function(){
+      $scope.ZonaFilter = $scope.ZonasSeleccionadas[$scope.totalNiveles] == '' || $scope.ZonasSeleccionadas[$scope.totalNiveles] == undefined || $scope.ZonasSeleccionadas[$scope.totalNiveles] == '0' ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles];
+
+      $scope.idEjecutivo = $scope.ejecutivoSelected === '' || $scope.ejecutivoSelected === undefined || $scope.ejecutivoSelected === null || $scope.ejecutivoSelected === '0' || $scope.ejecutivoSelected === 0 ? null : $scope.ejecutivoSelected;
+
+      $scope.estatusEntregaFilter = $scope.filtroEstatusEntrega === '' || $scope.filtroEstatusEntrega === undefined || $scope.filtroEstatusEntrega === '67' || $scope.filtroEstatusEntrega === 67 || $scope.filtroEstatusEntrega === 0 || $scope.filtroEstatusEntrega === '0' ? null : $scope.filtroEstatusEntrega;
+
+      if ($scope.filtroEstatusProc === undefined || $scope.filtroEstatusProc === null || $scope.filtroEstatusProc === '55'){
+        $scope.estatusProcesoFilter = null;
+      } else if ($scope.filtroEstatusProc === '5'){
+        $scope.estatusProcesoFilter = 0;
+      } else if ($scope.filtroEstatusProc === '0'){
+        $scope.estatusProcesoFilter = 1;
+      }
+
+      if (($scope.fechaInicio != '' && $scope.fechaInicio !== undefined && $scope.fechaInicio !== null) && ($scope.fechaFin != '' && $scope.fechaFin !== undefined && $scope.fechaFin !== null)){
+          $scope.rInicioFilter = $scope.fechaInicio + ' 00:00:00';
+          $scope.rFinFilter = $scope.fechaFin + ' 23:59:59';
+      } else if ($scope.fecha != '' && $scope.fecha !== undefined && $scope.fecha !==  null){
+          $scope.rInicioFilter = $scope.fecha + ' 00:00:00';
+          $scope.rFinFilter = $scope.fecha + ' 23:59:59';
+      } else if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined){
+          $scope.rInicioFilter = $scope.obtienePrimerFechaMes();
+          $scope.rFinFilter = $scope.obtieneUltimaFechaMes();
+      } else {
+          $scope.rInicioFilter = null;
+          $scope.rFinFilter = null;
+      }
+
+      $scope.DatesFlag = 0;
     };
 
-    $scope.MesChange = function() {
-        var array = $scope.fechaMes.split('-');
-        var mes = '';
-        switch (array[0]) {
-            case 'Enero':
-                mes = '01';
-                break;
-            case 'Febrero':
-                mes = '02';
-                break;
-            case 'Marzo':
-                mes = '03';
-                break;
-            case 'Abril':
-                mes = '04';
-                break;
-            case 'Mayo':
-                mes = '05';
-                break;
-            case 'Junio':
-                mes = '06';
-                break;
-            case 'Julio':
-                mes = '07';
-                break;
-            case 'Agosto':
-                mes = '08';
-                break;
-            case 'Septiembre':
-                mes = '09';
-                break;
-            case 'Octubre':
-                mes = '10';
-                break;
-            case 'Noviembre':
-                mes = '11';
-                break;
-            case 'Diciembre':
-                mes = '12';
-                break;
+    $scope.MesChange = function () {
+        if ($scope.DatesFlag == 1 || $scope.DatesFlag == 0){
+            $scope.fechaInicio = '';
+            $scope.fechaFin = '';
+            $scope.fecha = '';
+            $scope.DatesFlag = 1;
+            $('#txtFIni').datepicker('setDate', null);
+            $('#txtFFin').datepicker('setDate', null);
+            $('#txtfechaEspecifica').datepicker('setDate', null);
+
+            $scope.changeFilters();
         }
-
-        $scope.fechaMes = array[1] + '/' + mes + '/01';
-
-        $scope.fechaInicio = '';
-        $scope.fechaFin = '';
-        $scope.fecha = '';
     };
 
-    $scope.RangoChange = function() {
-        $scope.fechaMes = '';
-        $scope.fecha = '';
-        this.ValidaRangoFechas();
+    $scope.obtieneUltimaFechaMes = function(){
+        var result = '';
+        if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+            var fechaPartida = $scope.fechaMes.split('-');
+
+            if (fechaPartida[0] == 'Enero') {
+                var date = new Date(fechaPartida[1], 1, 0);
+                result = fechaPartida[1] + '/01/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Febrero') {
+                var date = new Date(fechaPartida[1], 2, 0);
+                result = fechaPartida[1] + '/02/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Marzo') {
+                var date = new Date(fechaPartida[1], 3, 0);
+                result = fechaPartida[1] + '/03/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Abril') {
+                var date = new Date(fechaPartida[1], 4, 0);
+                result = fechaPartida[1] + '/04/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Mayo') {
+                var date = new Date(fechaPartida[1], 5, 0);
+                result = fechaPartida[1] + '/05/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Junio') {
+                var date = new Date(fechaPartida[1], 6, 0);
+                result = fechaPartida[1] + '/06/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Julio') {
+                var date = new Date(fechaPartida[1], 7, 0);
+                result = fechaPartida[1] + '/07/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Agosto') {
+                var date = new Date(fechaPartida[1], 8, 0);
+                result = fechaPartida[1] + '/08/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Septiembre') {
+                var date = new Date(fechaPartida[1], 9, 0);
+                result = fechaPartida[1] + '/09/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Octubre') {
+                var date = new Date(fechaPartida[1], 10, 0);
+                result = fechaPartida[1] + '/10/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Noviembre') {
+                var date = new Date(fechaPartida[1], 11, 0);
+                result = fechaPartida[1] + '/11/' + date.getDate().toString() + ' 23:59:59' ;
+            } else if (fechaPartida[0] == 'Diciembre') {
+                var date = new Date(fechaPartida[1], 12, 0);
+                result = fechaPartida[1] + '/12/' + date.getDate().toString() + ' 23:59:59' ;
+            }
+        }
+        return result;
+    }
+
+    //obtiene el mes en formato de fecha
+    $scope.obtienePrimerFechaMes = function () {
+        var result = '';
+        if ($scope.fechaMes != '' && $scope.fechaMes != null && $scope.fechaMes != undefined) {
+            var fechaPartida = $scope.fechaMes.split('-');
+            if (fechaPartida[0] == 'Enero') {
+                result = fechaPartida[1] + '/01/01 00:00:00';
+            } else if (fechaPartida[0] == 'Febrero') {
+                result = fechaPartida[1] + '/02/01 00:00:00';
+            } else if (fechaPartida[0] == 'Marzo') {
+                result = fechaPartida[1] + '/03/01 00:00:00';
+            } else if (fechaPartida[0] == 'Abril') {
+                result = fechaPartida[1] + '/04/01 00:00:00';
+            } else if (fechaPartida[0] == 'Mayo') {
+                result = fechaPartida[1] + '/05/01 00:00:00';
+            } else if (fechaPartida[0] == 'Junio') {
+                result = fechaPartida[1] + '/06/01 00:00:00';
+            } else if (fechaPartida[0] == 'Julio') {
+                result = fechaPartida[1] + '/07/01 00:00:00';
+            } else if (fechaPartida[0] == 'Agosto') {
+                result = fechaPartida[1] + '/08/01 00:00:00';
+            } else if (fechaPartida[0] == 'Septiembre') {
+                result = fechaPartida[1] + '/09/01 00:00:00';
+            } else if (fechaPartida[0] == 'Octubre') {
+                result = fechaPartida[1] + '/10/01 00:00:00';
+            } else if (fechaPartida[0] == 'Noviembre') {
+                result = fechaPartida[1] + '/11/01 00:00:00';
+            } else if (fechaPartida[0] == 'Diciembre') {
+                result = fechaPartida[1] + '/12/01 00:00:00';
+            }
+        }
+        return result;
+    }
+
+    $scope.RangoChange = function () {
+        if ($scope.DatesFlag == 2 || $scope.DatesFlag == 0){
+            $scope.fechaMes = '';
+            $scope.fecha = '';
+            $scope.DatesFlag = 2;
+            $('#txtMes').datepicker('setDate', null);
+            $('#txtfechaEspecifica').datepicker('setDate', null);
+            this.ValidaRangoFechas();
+
+            $scope.changeFilters();
+        }
     };
 
-    $scope.FechaChange = function() {
-        $scope.fechaMes = '';
-        $scope.fechaInicio = '';
-        $scope.fechaFin = '';
+    $scope.FechaChange = function () {
+        if ($scope.DatesFlag == 3 || $scope.DatesFlag == 0){
+            $scope.fechaMes = '';
+            $scope.fechaInicio = '';
+            $scope.fechaFin = '';
+            $scope.DatesFlag = 3;
+            $('#txtMes').datepicker('setDate', null);
+            $('#txtFIni').datepicker('setDate', null);
+            $('#txtFFin').datepicker('setDate', null);
+
+            $scope.changeFilters();
+        }
     };
 
     $scope.getOrdenesServicio = function(tipoConsulta) {
@@ -383,32 +399,58 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 $scope.ordenes = result.data;
                 $scope.muestraTabla = true;
                 //if ($scope.estatusDashboard == null || $scope.estatusDashboard == undefined) {
-                $scope.menu(0);
+                // $scope.menu(0);
                 $scope.procesoActive = true;
                 //}
                 //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 5);
             });
     };
-    getOrdenes = function() {
+
+    $scope.getOrdenes = function() {
+        $('#loadModal').modal('show');
+        $scope.show_grids = true;
+
         $scope.estatusValidador = '!7';
         $('.clockpicker').clockpicker();
-        var ejecutivo = ($scope.ejecutivoSelected === null || $scope.ejecutivoSelected === undefined ? 0 : $scope.ejecutivoSelected);
 
-        cotizacionConsultaRepository.ObtenerOrdenesDeServicioEnProceso($scope.idContratoOperacion, $scope.numeroTrabajo, ejecutivo, $scope.userData.idUsuario).then(function(result) {
-            if (result.data.length > 0) {
+        $scope.sumatoria_proceso = 0;
+        $scope.sumatoria_costo_proceso = 0;
+
+        $scope.sumatoria_entrega = 0;
+        $scope.sumatoria_costo_entrega = 0;
+
+        cotizacionConsultaRepository.ObtenerOrdenesDeServicioEnProceso($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, '', $scope.ZonaFilter, $scope.idEjecutivo, $scope.rInicioFilter, $scope.rFinFilter, $scope.estatusProcesoFilter).then(function(result) {
+            if (angular.isArray(result.data)) {
                 $scope.ordenesEnProceso = result.data;
-                //$scope.cambioFiltro();
                 globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
 
+                $scope.ordenesEnProceso.forEach(function(item){
+                     $scope.sumatoria_proceso += item.venta;
+                     $scope.sumatoria_costo_proceso += item.costo;
+                 });
+            }else {
+              $scope.ordenesEnProceso = [];
+              globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
             }
         });
-        cotizacionConsultaRepository.ObtenerOrdenesDeServicioEnEntrega($scope.idContratoOperacion, $scope.numeroTrabajo, ejecutivo, $scope.userData.idUsuario).then(function(result) {
-            if (result.data.length > 0) {
+        cotizacionConsultaRepository.ObtenerOrdenesDeServicioEnEntrega($scope.userData.contratoOperacionSeleccionada, $scope.userData.idUsuario, '', $scope.ZonaFilter, $scope.idEjecutivo, $scope.rInicioFilter, $scope.rFinFilter, $scope.estatusEntregaFilter).then(function(result) {
+            if (angular.isArray(result.data)) {
                 $scope.ordenesEnEntrega = result.data;
                 globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
+
+                $scope.ordenesEnEntrega.forEach(function(item){
+                    $scope.sumatoria_entrega += item.venta;
+                    $scope.sumatoria_costo_entrega += item.costo;
+                });
+            }else{
+                $scope.ordenesEnEntrega = [];
+                globalFactory.filtrosTabla("ordenservicio2", "Ordenes de Servicio", 100);
             }
-        })
-    }
+        }).finally(function(){
+            $('#loadModal').modal('hide');
+        });
+        // $scope.changeFilters();
+    };
 
     $scope.getOrdenesServicioInit = function(tipoConsulta) {
 
@@ -436,42 +478,13 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                     //rInicio, rFin, fecha, fechaMes, numeroOrden, Zona, idEjecutivo, $scope.userData.idUsuario, $scope.userData.contratoOperacionSeleccionada, 2
 
                     $scope.ordenes = result.data;
-                    $scope.cambioFiltro();
+                    // $scope.cambioFiltro();
                     $scope.muestraTabla = true;
                 }
                 //globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
             });
     };
 
-    /*    $scope.getOrdenesByNumero = function(tipoConsulta) {
-            debugger;
-            $('.clockpicker').clockpicker();
-
-            if( $scope.numeroTrabajo == '' ){
-                $("#numeroTrabajo").focus();
-                // alert('Numero de Orden vacío');
-            }
-            else{
-                $('.ordenservicio').DataTable().destroy();
-                cotizacionConsultaRepository.consultarOrdenes(
-                    tipoConsulta,
-                    $scope.idContratoOperacion,
-                    0,
-                    '',
-                    '',
-                    '',
-                    '',
-                    $scope.numeroTrabajo,
-                    0, // Nivel Zona
-                    0) // $scope.idUsuario
-                .then(function(result) {
-                    $scope.ordenes = result.data;
-
-                    $scope.muestraTabla = true;
-                    globalFactory.filtrosTabla("ordenservicio", "Ordenes de Servicio", 100);
-                });
-            }
-        };*/
 
     $scope.detalleOrden = function(orden) {
         location.href = '/detalle?orden=' + orden.numeroOrden + '&estatus=' + orden.idEstatusOrden;
@@ -536,17 +549,6 @@ registrationModule.controller('trabajoController', function($scope, $modal, user
                 $scope.hideSwitchBtn = true;
         }
     };
-
-    // $scope.cambioZona = function(id, orden, zona, zonaseleccionada) {
-    //     //al cambiar de zona se establece como zona seleccionada.
-    //     $scope.zonaSelected = id;
-
-    //     $scope.LoadData();
-    //     //se limpian los combos siguientes.
-    //     for ($scope.x = orden + 1; $scope.x <= $scope.totalNiveles; $scope.x++) {
-    //         $scope.ZonasSeleccionadas[$scope.x] = "0";
-    //     }
-    // };
 
     $scope.getMemorandums = function() {
         nuevoMemorandumRepository.getMemoUsuario($scope.userData.idUsuario)

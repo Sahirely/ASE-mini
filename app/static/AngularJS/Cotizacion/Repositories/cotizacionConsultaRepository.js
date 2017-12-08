@@ -138,12 +138,15 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                 }
             });
         },
-        ObtenerOrdenesConTaller: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+        ObtenerOrdenesConTaller: function(idContratoOperacion, idUsuario, numeroOrden, idZona, idEjecutivoFiltro, fechaIni, fechaFin) {
             var data = {
                 idContratoOperacion: idContratoOperacion,
+                idUsuario: idUsuario,
                 numeroOrden: numeroOrden,
-                idEjecutivo: idEjecutivo,
-                idUsuario: idUsuario
+                idZona: idZona,
+                idEjecutivoFiltro: idEjecutivoFiltro,
+                fechaIni: fechaIni,
+                fechaFin: fechaFin
             };
             return $http({
                 url: searchUrl + 'ObtenerOrdenesConTaller',
@@ -155,12 +158,15 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
             });
 
         },
-        ObtenerOrdenesSinTaller: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+        ObtenerOrdenesSinTaller: function(idContratoOperacion, idUsuario, numeroOrden, idZona, idEjecutivoFiltro, fechaIni, fechaFin) {
             var data = {
                 idContratoOperacion: idContratoOperacion,
+                idUsuario: idUsuario,
                 numeroOrden: numeroOrden,
-                idEjecutivo: idEjecutivo,
-                idUsuario: idUsuario
+                idZona: idZona,
+                idEjecutivoFiltro: idEjecutivoFiltro,
+                fechaIni: fechaIni,
+                fechaFin: fechaFin
             };
             return $http({
                 url: searchUrl + 'ObtenerOrdenesSinTaller',
@@ -171,12 +177,15 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                 }
             });
         },
-        ObtenerOrdenesEnTaller: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+        ObtenerOrdenesEnTaller: function(idContratoOperacion, idUsuario, numeroOrden, idZona, idEjecutivoFiltro, fechaIni, fechaFin) {
             var data = {
                 idContratoOperacion: idContratoOperacion,
+                idUsuario: idUsuario,
                 numeroOrden: numeroOrden,
-                idEjecutivo: idEjecutivo,
-                idUsuario: idUsuario
+                idZona: idZona,
+                idEjecutivoFiltro: idEjecutivoFiltro,
+                fechaIni: fechaIni,
+                fechaFin: fechaFin
             };
             return $http({
                 url: searchUrl + 'ObtenerOrdenesEnTaller',
@@ -187,12 +196,16 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
                 }
             });
         },
-        ObtenerOrdenesDeServicioEnProceso: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+        ObtenerOrdenesDeServicioEnProceso: function(idContratoOperacion, idUsuario, numeroOrden, idZona, idEjecutivoFiltro, fechaIni, fechaFin, estatus) {
             var data = {
                 idContratoOperacion: idContratoOperacion,
+                idUsuario: idUsuario,
                 numeroOrden: numeroOrden,
-                idEjecutivo: idEjecutivo,
-                idUsuario: idUsuario
+                idZona: idZona,
+                idEjecutivoFiltro: idEjecutivoFiltro,
+                fechaIni: fechaIni,
+                fechaFin: fechaFin,
+                estatus: estatus
             };
             return $http({
                 url: searchUrl + 'ObtenerOrdenesDeServicioEnProceso',
@@ -247,12 +260,16 @@ registrationModule.factory('cotizacionConsultaRepository', function($http) {
               }
           });
         },
-        ObtenerOrdenesDeServicioEnEntrega: function(idContratoOperacion, numeroOrden, idEjecutivo, idUsuario) {
+        ObtenerOrdenesDeServicioEnEntrega: function(idContratoOperacion, idUsuario, numeroOrden, idZona, idEjecutivoFiltro, fechaIni, fechaFin, estatus) {
             var data = {
                 idContratoOperacion: idContratoOperacion,
+                idUsuario: idUsuario,
                 numeroOrden: numeroOrden,
-                idEjecutivo: idEjecutivo,
-                idUsuario: idUsuario
+                idZona: idZona,
+                idEjecutivoFiltro: idEjecutivoFiltro,
+                fechaIni: fechaIni,
+                fechaFin: fechaFin,
+                estatus: estatus
             };
             return $http({
                 url: searchUrl + 'ObtenerOrdenesDeServicioEnEntrega',
