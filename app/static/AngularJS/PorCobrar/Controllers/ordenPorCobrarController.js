@@ -51,38 +51,40 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
         enabled: true,
         fileName: "DispersionProveedor",
         allowExportSelectedData: false
-      },
+    },
     allowSorting: true,
     showRowLines: true,
     rowAlternationEnabled: true,
     showColumnLines: true,
     showBorders: true,
     allowColumnResizing: true,
+    allowColumnReordering: true,
     columnAutoWidth: true,
     columns: [
-        { dataField: "nombreCliente", caption:"Cliente", dataType: "string"},
-        { dataField: "consecutivoOrden", caption: "Consecutivo", dataType: "number", filterOperations: ['contains'] },
-        { dataField: "numeroOrden", caption:"Número de órden", dataType: "string"},
-        // { dataField: "numeroCotizacion", dataType: "number" },
-        { dataField: "numeroEconomico", caption:"Número Económico", dataType: "number", filterOperations: ['contains'] },
-        { dataField: "nombreZona", caption:"Zona",  dataType: "string" },
-        { dataField: "fechaCreacionOden", caption:"Fecha Creación Órden", dataType: "date", format:"dd/MM/yyyy" },
-        // { dataField: "proveedor", dataType: "string" },
-        { dataField: "comentarioOrden", caption:"Comentarios adicionales", dataType: "string" },
-        { dataField: "nombreEstatusOrden", caption:"Estatus", dataType: "string" },
-        { dataField: "venta", dataType: "number", format:{
-            type:"currency",
-            precision: 2
-          } 
-        },
-        { dataField: "nombreCompleto", caption:"Agendo", dataType: "string" },
-        { dataField: "tiempoEsperaTranscurrido", caption:"Tiempo Transcurrido Tiempo Asignado", dataType: "string" },
-        { dataField: "nombreTipoOrdenServicio", caption:"Tipo Servicio", dataType: "string" },
-        { dataField: "costo", dataType: "number", format:{
-            type: "currency",
-            precision: 2
-          } 
-        },
+      { dataField: "nombreCliente", caption:"Cliente", dataType: "string"},
+      { dataField: "consecutivoOrden", caption: "Consecutivo", dataType: "number", filterOperations: ['contains'] },
+      { dataField: "numeroOrden", caption:"Número de órden", dataType: "string"},
+      // { dataField: "numeroCotizacion", dataType: "number" },
+      { dataField: "numeroEconomico", caption:"Número Económico", dataType: "number", filterOperations: ['contains'] },
+      { dataField: "nombreZona", caption:"Zona",  dataType: "string" },
+      { dataField: "fechaCreacionOden", caption:"Fecha Creación Órden", dataType: "date", format:"dd/MM/yyyy" },
+      // { dataField: "proveedor", dataType: "string" },
+      { dataField: "comentarioOrden", caption:"Comentarios adicionales", dataType: "string" },
+      { dataField: "nombreEstatusOrden", caption:"Estatus", dataType: "string" },
+      { dataField: "venta", dataType: "number", format:{
+          type:"currency",
+          precision: 2
+        } 
+      },
+      { dataField: "costo", dataType: "number", format:{
+        type: "currency",
+        precision: 2
+        } 
+      },
+      { dataField: "nombreCompleto", caption:"Agendo", dataType: "string" },
+      { dataField: "tiempoEsperaTranscurrido", caption:"Tiempo Transcurrido Tiempo Asignado", dataType: "string" },
+      { dataField: "nombreTipoOrdenServicio", caption:"Tipo Servicio", dataType: "string" },
+      
         // { dataField: "nombreTipoOrdenServicio", dataType: "number" },
         
         // { dataField: "facturaProveedor", dataType: "number" },
@@ -162,8 +164,18 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       if (e.rowType == "data"){
         $scope.AbrirOrden(e.data.numeroOrden, 8)
       }   
-  },
-}
+    },
+    onEditorPreparing: function(e){
+      if($scope.userData.idRol == 1){
+        e.component.columnOption("Costo", "visible", false)
+        e.component.columnOption("Costo", "showInColumnChooser", false)
+      }
+      if($scope.userData.idRol == 4){
+        e.component.columnOption("Venta", "visible", false)
+        e.component.columnOption("Venta", "showInColumnChooser", false)
+      }
+    }
+  }
 
   $scope.total = 0
       var sumatoriaMontoPago = 0;
