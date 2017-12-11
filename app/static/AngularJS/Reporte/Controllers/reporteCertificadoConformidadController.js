@@ -152,7 +152,20 @@ registrationModule.controller('reporteCertificadoConformidadController', functio
             $scope.rptParams.idUsuario = $scope.userData.idUsuario;
             $scope.rptParams.fechaInicial = $scope.fechaInicio == "" ? null : $scope.fechaInicio === undefined ? null : $scope.fechaInicio;
             $scope.rptParams.fechaFinal = $scope.fechaFin == "" ? null : $scope.fechaFin === undefined ? null : $scope.fechaFin;
-            $scope.rptParams.idZona = $scope.ZonasSeleccionadas[$scope.totalNiveles] == 0 ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles] === undefined ? null : $scope.ZonasSeleccionadas[$scope.totalNiveles];
+
+            var foundValue = false;
+            for(var i=$scope.totalNiveles;i>=0;i--) {
+                if (!foundValue){
+                    if ($scope.ZonasSeleccionadas[i] !== 0 && $scope.ZonasSeleccionadas[i] !== '0' && $scope.ZonasSeleccionadas[i] !== undefined && $scope.ZonasSeleccionadas[i] !== null){
+                        $scope.rptParams.idZona = $scope.ZonasSeleccionadas[i];
+                        foundValue = true;
+                    }
+                }
+            }
+
+            if (!foundValue){
+                $scope.rptParams.idZona = null;
+            }
 
             if ($scope.rptParams.fechaInicial == null && $scope.rptParams.fechaFinal == null && $scope.rptParams.idZona == null) {
               swal({
