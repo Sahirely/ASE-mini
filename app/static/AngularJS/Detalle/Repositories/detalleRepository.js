@@ -613,6 +613,19 @@ registrationModule.factory('detalleRepository', function($http) {
                 },
                 headers:{'Content-Type':'application/json' }
             });
+        },
+        getPrecioUltimaVenta: function(idOrden, idPartida, idContratoOperacion)
+        {
+            return $http({
+                url: detalleUrl + 'precioUltimaVenta/',
+                method:'GET',
+                params:{
+                    idOrden: idOrden,
+                    idPartida: idPartida,
+                    idContratoOperacion: idContratoOperacion
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });

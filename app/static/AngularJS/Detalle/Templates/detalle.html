@@ -1483,6 +1483,25 @@
                         <input type="text" class="form-control" id="ventaCotizacionDetalle" name="ventaCotizacionDetalle" placeholder="Venta" ng-model="cotizacionDetalle.venta">
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-sm-3 center" >
+                        <b>Ultima venta: </b>
+                        <label id="idUltimaVenta" class="control-label" >{{ultimaOrdenDet.Venta}}</label>
+                    </div>
+                    <div class="col-sm-3 center" >
+                        <b>Fecha: </b>
+                        <label id="idUltimaFecha" class="control-label">{{ultimaOrdenDet.Fecha | date:'dd-MM-yyyy HH:mm' : 'UTC'}}</label>
+                    </div>
+                    <div class="col-sm-3 center" >
+                        <b>Orden asociada: </b>
+                        <label id="idUltimaOrdenAsociada" class="control-label">{{ultimaOrdenDet.numOrden}}</label>
+                    </div>
+                    <div class="col-sm-3 center">
+                        <button type="button" class="btn btn-default center" ng-click="copiarAlPortapapeles('idUltimaVenta', 'ventaCotizacionDetalle')">
+                            <span class="fa fa-files-o fa-1x"></span></a>&nbsp;&nbsp;<b>copy</b>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary" ng-click="updateDetalleCotizacion()">Guardar cambios</button>

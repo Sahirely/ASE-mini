@@ -1323,4 +1323,29 @@ this.model.query('EXT_UPD_CANCELA_DETALLE_COTIZACION_SP', params, function(error
 });
 }
 
+Detalle.prototype.get_precioUltimaVenta = function(req, res, next) {
+    var self = this;
+    var params = [{
+              name: 'idOrden',
+              value: req.query.idOrden,
+              type: self.model.types.INT
+        },{
+              name: 'idPartida',
+              value: req.query.idPartida,
+              type: self.model.types.INT
+        },{
+              name: 'idContratoOperacion',
+              value: req.query.idContratoOperacion,
+              type: self.model.types.INT
+            }
+    ];
+
+    this.model.query('SEL_PRECIO_ULTIMA_VENTA_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 module.exports = Detalle;

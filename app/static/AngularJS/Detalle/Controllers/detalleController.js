@@ -70,6 +70,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   // Agrega para comentarios
   $scope.comentarios = []
 
+  $scope.ultimaOrdenDet = {};
 //Variables para versionSystem light
   //$scope.versionSystem = 1;
  // $scope.userData = userFactory.getUserData();
@@ -2600,10 +2601,19 @@ registrationModule.controller('detalleController', function ($scope, $location, 
             });
     }
 
-    $scope.prb1 = function(CotizacionDetalle) {
-        angular.copy(CotizacionDetalle, $scope.cotizacionDetalle);
-        $('#editorDetalleCotizacion').modal();
-
+    $scope.prb1 = function(CotizacionDetalle) 
+    {
+      detalleRepository.getPrecioUltimaVenta($scope.idOrdenURL, CotizacionDetalle.idPartida, $scope.userData.contratoOperacionSeleccionada)
+        .then(function (response) 
+        {
+          $scope.ultimaOrdenDet.Venta = response.data[0].venta != undefined ? response.data[0].venta : 0;
+          $scope.ultimaOrdenDet.Fecha = response.data[0].fechaCotizacion;
+          $scope.ultimaOrdenDet.numOrden = response.data[0].numeroOrden;
+          angular.copy(CotizacionDetalle, $scope.cotizacionDetalle);
+          $('#editorDetalleCotizacion').modal();
+        }, function (error) {
+          alertFactory.error("Error al actualizar la información para el detalle")
+        })
     }
 
     $scope.updateTallerSoporte = function (){
@@ -3370,5 +3380,24 @@ registrationModule.controller('detalleController', function ($scope, $location, 
               swal("Operacion cancelada.");
           }
       });
+    }
+
+    $scope.copiarAlPortapapeles = function(id_elemento, id_itemAPasar)
+    {
+      $('#' + id_elemento).select();
+      var content = document.getElementById(id_elemento);
+      var range = document.createRange();
+      var selection = window.getSelection();
+  
+      // Clear selection from any previous data.
+      selection.removeAllRanges();
+  
+      range.selectNodeContents(content);
+      selection.addRange(range);
+  
+      // Copy to clipboard.
+      document.execCommand('copy');
+
+      $('#' + id_itemAPasar).select();
     }
 })
