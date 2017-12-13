@@ -311,6 +311,10 @@ var registrationModule = angular.module("registrationModule", ["ngRoute", "Local
             templateUrl: 'AngularJS/Sustituto/Templates/evidenciaSustituto.html',
             controller: 'evidenciaSustitutoController'
         })
+        $routeProvider.when('/nuevoUsuario', {
+            templateUrl: 'AngularJS/NuevoUsuario/Templates/nuevoUsuario.html',
+            controller: 'nuevoUsuarioController'
+        })
         $locationProvider.html5Mode({
             enabled: true,
             requireBase: false
