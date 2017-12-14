@@ -1,10 +1,7 @@
-registrationModule.controller('nuevoUsuarioController', function($scope, $rootScope, localStorageService, userFactory, alertFactory, commonService, $location) 
-{
+registrationModule.controller('nuevoUsuarioController', function($scope, $rootScope, localStorageService, userFactory, alertFactory, commonService, $location, nuevoUsuarioRepository) {
     $rootScope.modulo = 'nuevoUsuario';
-    $scope.prueba = '';
-    
-    $scope.init = function()
-    {
+
+    $scope.init = function(){
         $scope.prueba = 'HOLA';
     }
 

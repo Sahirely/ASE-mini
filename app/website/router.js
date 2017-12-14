@@ -28,5 +28,6 @@ module.exports = {
   quejas: require('./controllers/quejas'),
   sustituto: require('./controllers/sustituto'),
   proveedor: require('./controllers/proveedor'),
+  nuevoUsuario: require('./controllers/nuevoUsuario'),
   gps: require('./controllers/gps')
 }

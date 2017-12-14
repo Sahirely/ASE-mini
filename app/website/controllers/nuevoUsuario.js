@@ -1,11 +1,13 @@
-var NuevoUsuarioView = require('../views/ejemploVista'),
-NuevoUsuarioModel = require('../models/dataAccess2');
+var nuevoUsuarioView = require('../views/ejemploVista'),
+    nuevoUsuarioModel = require('../models/dataAccess2'),
+    moment = require('moment');
 
-var NuevoUsuario = function (conf) {
+//configuración para el objeto meeting
+var nuevoUsuario = function (conf) {
     this.conf = conf || {};
 
-    this.view = new NuevoUsuarioView();
-    this.model = new NuevoUsuarioModel({
+    this.view = new nuevoUsuarioView();
+    this.model = new nuevoUsuarioModel({
         parameters: this.conf.parameters
     });
 
@@ -13,4 +15,6 @@ var NuevoUsuario = function (conf) {
         this[this.conf.funcionalidad](this.conf.req, this.conf.res, this.conf.next);
     }
 }
-}
+
+
+module.exports = nuevoUsuario;
