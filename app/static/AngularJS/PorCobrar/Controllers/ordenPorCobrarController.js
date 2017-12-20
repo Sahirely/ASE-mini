@@ -228,10 +228,11 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
 
   $scope.getEnviadasCliente = function(){
     // Obtengo la lista de tablas
-    $('.dataTableEnviada').DataTable().destroy()
+    $('.dataTableEnviada').DataTable().destroy();
     $scope.promise = ordenPorCobrarRepository.get('obtenerenviadas', { 'idUsuario': $scope.userData.idUsuario,
       'idContratoOperacion':$scope.userData.contratoOperacionSeleccionada,'isProduction':$scope.userData.isProduction, 'idZona': $scope.ZonaFilter, 'idEjecutivoFiltro': $scope.idEjecutivo, 'fechaIni': $scope.rInicioFilter, 'fechaFin': $scope.rFinFilter }).then(function (result) {
         $scope.enviada = result.data
+        $scope.totalEnviada = 0;
         angular.forEach($scope.enviada, function (value, key) {
           $scope.totalEnviada = $scope.totalEnviada + value.total
         })
