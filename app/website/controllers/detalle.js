@@ -1348,4 +1348,111 @@ Detalle.prototype.get_precioUltimaVenta = function(req, res, next) {
     });
 }
 
+Detalle.prototype.get_detalleProvision = function(req, res, next) {
+    var self = this;
+    var params = [{
+              name: 'idOrden',
+              value: req.query.idOrden,
+              type: self.model.types.INT
+        },{
+              name: 'idUsuario',
+              value: req.query.idUsuario,
+              type: self.model.types.INT
+        },{
+              name: 'idOperacion',
+              value: req.query.idOperacion,
+              type: self.model.types.INT
+        },{
+            name: 'isProduction',
+            value: req.query.isProduction,
+            type: self.model.types.INT
+        }
+    ];
+
+    this.model.query('SEL_PROVISION_POR_ORDEN_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Detalle.prototype.post_updateProvision = function(req, res, next)
+{
+    var self = this;
+    var params = [{
+        name:'ident',
+        value: req.query.ident,
+        type:self.model.types.INT
+    },
+    {
+        name:'consecutivo',
+        value:req.query.consecutivo,
+        type:self.model.types.INT
+    },
+    {
+        name:'manoObra',
+        value:req.query.manoObra,
+        type:self.model.types.STRING
+    },
+    {
+        name:'refaccion',
+        value:req.query.refaccion,
+        type:self.model.types.STRING
+    },
+    {
+        name:'lubricante',
+        value:req.query.lubricante,
+        type:self.model.types.STRING
+    },
+    {
+        name:'idOperacion',
+        value:req.query.idOperacion,
+        type:self.model.types.INT
+    },
+    {
+        name:'isProduction',
+        value:req.query.isProduction,
+        type:self.model.types.INT
+    },
+    {
+        name:'idUsuario',
+        value:req.query.idUsuario,
+        type:self.model.types.INT
+    },
+    {
+        name: 'idOrden',
+        value: req.query.idOrden,
+        type: self.model.types.INT
+    },
+    {
+        name:'subTotalMO',
+        value:req.query.subTotalMO,
+        type:self.model.types.STRING
+    },
+    {
+        name:'subTotalREF',
+        value:req.query.subTotalREF,
+        type:self.model.types.STRING
+    },
+    {
+        name:'subTotalLUB',
+        value:req.query.subTotalLUB,
+        type:self.model.types.STRING
+    },
+    {
+        name:'precioVenta',
+        value:req.query.precioVenta,
+        type:self.model.types.STRING
+    }
+]
+
+this.model.query('UPD_PROVISION_POR_ORDEN_SP', params, function(error, result) {
+    self.view.expositor(res, {
+        error: error,
+        result: result
+    });
+});
+}
+
 module.exports = Detalle;

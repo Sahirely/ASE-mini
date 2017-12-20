@@ -71,6 +71,11 @@ registrationModule.controller('detalleController', function ($scope, $location, 
   $scope.comentarios = []
 
   $scope.ultimaOrdenDet = {};
+  $scope.detallesProvision = [];
+  $scope.subTotalMO = 0.00;
+  $scope.subTotalREF = 0.00;
+  $scope.subTotalLUB = 0.00;
+  $scope.detalleProvisionTemp = {};
 //Variables para versionSystem light
   //$scope.versionSystem = 1;
  // $scope.userData = userFactory.getUserData();
@@ -3382,6 +3387,117 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       });
     }
 
+    $scope.consultaDetalleProvision = function() 
+    {
+      detalleRepository.getDetalleProvision($scope.idOrdenURL, $scope.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction)
+      .then(function (resp) {
+          if (resp.data.length > 0)
+          {
+            $('#accordionFormDDF').collapse('show');
+            $('#accordionFormDetallePP').collapse('hide');
+            $scope.detalleProvisionTemp = {};
+            $scope.subTotalMO = 0.00;
+            $scope.subTotalREF = 0.00;
+            $scope.subTotalLUB = 0.00;
+            angular.copy(Enumerable.From(resp.data).TakeExceptLast().ToArray(), $scope.detallesProvision);
+            $scope.obtenerSubtotalesFacturaBpro();
+            setTimeout(function() {
+              $('#modalDetalleProvision').modal('show');
+            }, 500)
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al cancelar la partida.')
+      });
+    }
+
+    $scope.actualizaProvisionPartida = function() 
+    {
+      if($scope.validaDetalleProvision() == true)
+      {
+        swal({
+          title: "¿Esta seguro de modificar la provisión?",
+          text: "Modificar provisión",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#65BD10",
+          confirmButtonText: "Si",
+          cancelButtonText: "No",
+          closeOnConfirm: true,
+          closeOnCancel: true
+      }, function(isConfirm) {
+        if (isConfirm) {
+           $scope.cambioPartidaProvision();
+           detalleRepository.updateDetalleProvision($scope.detalleProvisionTemp.OTD_IDENT, $scope.detalleProvisionTemp.OTD_CONSECUTIVO, $scope.detalleProvisionTemp.OTD_MO, $scope.detalleProvisionTemp.OTD_REF, $scope.detalleProvisionTemp.OTD_LUB, $scope.userData.idOperacion, $scope.userData.isProduction, $scope.idUsuario, $scope.idOrdenURL, $scope.subTotalMO, $scope.subTotalREF, $scope.subTotalLUB, $scope.detalleProvisionTemp.OTD_PRECIOUNITARIOVENTA)
+           .then(function (resp) 
+           {
+               if (resp.data[0].idActualizado > 0)
+               {
+                 setTimeout(function() {
+                   $scope.detalleProvisionTemp = {};
+                   swal('Provision modificada!', 'Operación realizada corractamente');
+                 }, 500)
+               }
+           }, function (error) {
+             alertFactory.error('Ocurrio un error al cancelar la partida.')
+           });
+        } else
+          {
+              swal("Operacion cancelada.");
+          }
+      });
+      }
+    }
+
+    $scope.validaDetalleProvision = function()
+    {
+      if($scope.detalleProvisionTemp == undefined || $scope.detalleProvisionTemp.OTD_CONSECUTIVO < 0 || $scope.detalleProvisionTemp.OTD_IDENT < 0)
+        swal("Elige una partida para modificar.");
+      else if($scope.detalleProvisionTemp.OTD_MO == undefined || parseFloat($scope.detalleProvisionTemp.OTD_MO) < 0)
+        swal("Ingresa cantidad de mano de obra.");
+      else if($scope.detalleProvisionTemp.OTD_REF == undefined || parseFloat($scope.detalleProvisionTemp.OTD_REF) < 0)
+        swal("Ingresa cantidad refacción.");
+      else if($scope.detalleProvisionTemp.OTD_LUB == undefined || parseFloat($scope.detalleProvisionTemp.OTD_LUB) < 0)
+        swal("Ingresa cantidad lubrincantes.");
+      else return true;
+    }
+
+    $scope.updateDetalleProvision = function(detalleProvision)
+    {
+      angular.copy(detalleProvision, $scope.detalleProvisionTemp);
+      $('#accordionFormDDF').collapse('hide');
+      $('#accordionFormDetallePP').collapse('show');
+    }
+
+    $scope.sumaTotalVentaPP = function()
+    {
+      $scope.detalleProvisionTemp.OTD_PRECIOUNITARIOVENTA = parseFloat($scope.detalleProvisionTemp.OTD_MO) + parseFloat($scope.detalleProvisionTemp.OTD_REF) + parseFloat($scope.detalleProvisionTemp.OTD_LUB);
+    }
+
+    $scope.obtenerSubtotalesFacturaBpro = function()
+    {
+      $scope.subTotalMO = 0.00;
+      $scope.subTotalREF = 0.00;
+      $scope.subTotalLUB = 0.00;
+      for(var i = 0; i < $scope.detallesProvision.length; i++)
+      {
+        $scope.subTotalMO += parseFloat($scope.detallesProvision[i].OTD_MO) * $scope.detallesProvision[i].OTD_CANTIDAD;
+        $scope.subTotalREF += parseFloat($scope.detallesProvision[i].OTD_REF) * $scope.detallesProvision[i].OTD_CANTIDAD;
+        $scope.subTotalLUB += parseFloat($scope.detallesProvision[i].OTD_LUB) * $scope.detallesProvision[i].OTD_CANTIDAD;
+      }
+      $scope.subTotalMO = ($scope.subTotalMO * 1).toFixed(2);
+      $scope.subTotalREF = ($scope.subTotalREF * 1).toFixed(2);
+      $scope.subTotalLUB = ($scope.subTotalLUB * 1).toFixed(2);
+    }
+
+    $scope.cambioPartidaProvision = function()
+    {
+      angular.copy($scope.detalleProvisionTemp,Enumerable.From($scope.detallesProvision).Where("$.OTD_CONSECUTIVO == " + $scope.detalleProvisionTemp.OTD_CONSECUTIVO + "&& $.OTD_IDPARTIDA == " + $scope.detalleProvisionTemp.OTD_IDPARTIDA).FirstOrDefault());
+      $scope.obtenerSubtotalesFacturaBpro();
+      $('#accordionFormDetallePP').collapse('hide');
+      $('#accordionFormDDF').collapse('show');
+      $scope.$apply();
+    }
+
     $scope.copiarAlPortapapeles = function(id_elemento, id_itemAPasar)
     {
       $('#' + id_elemento).select();
@@ -3399,5 +3515,30 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       document.execCommand('copy');
 
       $('#' + id_itemAPasar).select();
+    }
+
+    $('#accordionddf').click(function() {
+      $('#accordionFormDetallePP').collapse('hide');
+      $('#accordionFormDDF').collapse('toggle');
+    });
+
+    $('#accordiondpp').click(function() {
+      $('#accordionFormDDF').collapse('hide');
+      $('#accordionFormDetallePP').collapse('toggle');
+    });
+
+    $scope.isValidDecimals = function(name, strToEvaluate)
+    {
+        var numerosDecimales = /^[0-9]+([.])?([0-9]+)?$/;
+        if(numerosDecimales.test(strToEvaluate) == false)
+        {
+          if(name == 'ManoObra')
+            $scope.detalleProvisionTemp.OTD_MO = 0.00;
+          if(name == 'Refacciones')
+            $scope.detalleProvisionTemp.OTD_REF = 0.00;
+          if(name == 'Lubricantes')
+            $scope.detalleProvisionTemp.OTD_LUB = 0.00;
+          swal("Solo se permiten números.");
+        }
     }
 })

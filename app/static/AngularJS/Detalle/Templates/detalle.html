@@ -926,6 +926,13 @@
                                                     <button class="btn btn-info" style="width: 100%" ng-click="updateTallerSoporte()">Actualiza Taller/Costos &nbsp;&nbsp;<span class="fa fa-pencil-square-o"></span></button>
                                                 </div>
                                             </div>
+                                            <div class="row">
+                                                <div>
+                                                    <div class="col-xs-6">
+                                                        <button class="btn btn-info" style="width: 100%" ng-click="consultaDetalleProvision()">Modificar provision &nbsp;&nbsp;<span class="fa fa-pencil-square-o"></span></button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2116,6 +2123,146 @@
     </div>
 </div> -->
 
+<div class="modal fade" id="modalDetalleProvision" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Detalle de provisión</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title center">
+                                    <a data-toggle="collapse" data-parent="#accordion" id="accordionddf" href="#">
+                                        <b class="text-orden">DESGLOSE DE LA FACTURA (BPRO)</b>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="accordionFormDDF" class="panel-collapse collapse in">
+                                <div class="panel-body">
+                                    <address>
+                                        <div class="col-sm-4">
+                                            <br>SUBTOTAL MANO DE OBRA:
+                                            <strong>{{subTotalMO}}</strong>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <br>SUBTOTAL REFACCIONES:
+                                            <strong>{{subTotalREF}}</strong>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <br>SUBTOTAL LUBRICANTES:
+                                            <strong>{{subTotalLUB}}</strong>
+                                        </div>
+                                    </address>
+                                    <br>
+                                    <br>
+                                    <div class="row col-md-12">
+                                        <table class="table table-striped table-bordered table-hover presupuestoOrdActiv" cg-busy="{promise:promise,message:message}">
+                                            <thead>
+                                                <th>Descripción</th>
+                                                <th>Cantidad</th>
+                                                <th>Mano de obra</th>
+                                                <th>Refacciones</th>
+                                                <th>Lubricantes</th>
+                                                <th>Total venta</th>
+                                                <th>Modificar</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="DProvision in detallesProvision">
+                                                    <td>{{DProvision.OTD_DESCRIPCION}}</td>
+                                                    <td>{{DProvision.OTD_CANTIDAD}}</td>
+                                                    <td>{{DProvision.OTD_MO}}</td>
+                                                    <td>{{DProvision.OTD_REF}}</td>
+                                                    <td>{{DProvision.OTD_LUB}}</td>
+                                                    <td>{{DProvision.OTD_PRECIOUNITARIOVENTA}}</td>
+                                                    <td class="center">
+                                                        <a href="">
+                                                            <span class="fa fa-pencil-square-o" ng-click="updateDetalleProvision(DProvision)"></span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- <div class="consulta" style="padding: 15px;text-align: right;">
+                                        <button type="button" class="btn btn-primary" ng-click="">Guardar</button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title center">
+                                    <a data-toggle="collapse" data-parent="#accordion" id="accordiondpp" href="#">
+                                        <b class="text-orden">DETALLE DE LA PARTIDA PROVISIONADA</b>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="accordionFormDetallePP" class="panel-collapse collapse">
+                                <div class="panel-body" ng-show="detalleProvisionTemp.OTD_CONSECUTIVO > 0 && detalleProvisionTemp.OTD_IDPARTIDA > 0">
+                                    <div class="col-sm-6 form-group" style="text-align: left">
+                                        <div class="col-sm-5">
+                                            <label for="manoObraPartidaP" class="control-label">Mano de obra :</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="manoObraPP" name="manoObraPP" placeholder="Mano de obra" ng-change="isValidDecimals('ManoObra',detalleProvisionTemp.OTD_MO);sumaTotalVentaPP();" ng-model="detalleProvisionTemp.OTD_MO" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group" style="text-align: left">
+                                        <div class="col-sm-5">
+                                            <label for="refaccionPartidaP" class="control-label">Refacciones :</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="refaccionPP" name="refaccionPP" placeholder="Refacción" ng-change="isValidDecimals('Refacciones',detalleProvisionTemp.OTD_REF);sumaTotalVentaPP()" ng-model="detalleProvisionTemp.OTD_REF" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group" style="text-align: left">
+                                        <div class="col-sm-5">
+                                            <label for="LubicantesPartidaP" class="control-label">Lubricantes :</label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control" id="lubricantesPP" name="lubricantesPP" placeholder="Lubricantes" ng-change="isValidDecimals('Lubricantes',detalleProvisionTemp.OTD_LUB);sumaTotalVentaPP()" ng-model="detalleProvisionTemp.OTD_LUB" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 form-group" style="text-align: left">
+                                            <div class="col-sm-5">
+                                                <label for="TotalVentaPartidaP" class="control-label">Total de la venta :</label>
+                                            </div>
+                                            <div class="col-sm-7">
+                                                <span>{{detalleProvisionTemp.OTD_PRECIOUNITARIOVENTA}}</span>
+                                            </div>
+                                        </div>
+                                    <div class="col-sm-9 form-group" style="text-align: left">
+                                        <div class="col-sm-3">
+                                            <label for="descripcionPartidaP" class="control-label">Descripción :</label>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p align="justify">{{detalleProvisionTemp.OTD_DESCRIPCION}}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3" style="text-align: center">
+                                        <button type="button" class="col-sm-12 btn btn-primary" ng-click="actualizaProvisionPartida()">Aceptar</button>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <br>
+            </div>
+            <div class="consulta" style="padding: 15px;text-align: right;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Salir</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready(function() {

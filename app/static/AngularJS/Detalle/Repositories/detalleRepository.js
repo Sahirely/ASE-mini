@@ -626,6 +626,44 @@ registrationModule.factory('detalleRepository', function($http) {
                 },
                 headers:{'Content-Type':'application/json' }
             });
+        },
+        getDetalleProvision: function(idOrden, idUsuario, idOperacion, isProduction)
+        {
+            return $http({
+                url: detalleUrl + 'detalleProvision/',
+                method:'GET',
+                params:{
+                    idOrden: idOrden,
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion,
+                    isProduction:isProduction
+                },
+                headers:{'Content-Type':'application/json' }
+            });
+        },
+        updateDetalleProvision: function(ident, consecutivo, manoObra, refaccion, lubricante, idOperacion, isProduction, idUsuario, idOrden, subTotalMO, subTotalREF, subTotalLUB, precioVenta)
+        {
+            return $http({
+                url: detalleUrl + 'updateProvision/',
+                method:'POST',
+                params:
+                {
+                    ident : ident,
+                    consecutivo: consecutivo,
+                    manoObra: manoObra,
+                    refaccion: refaccion,
+                    lubricante: lubricante,
+                    idOperacion: idOperacion,
+                    isProduction: isProduction,
+                    idUsuario: idUsuario,
+                    idOrden: idOrden,
+                    subTotalMO: subTotalMO,
+                    subTotalREF: subTotalREF,
+                    subTotalLUB: subTotalLUB,
+                    precioVenta: precioVenta
+                },
+                headers:{'Content-Type':'application/json' }
+            });
         }
     };
 });
