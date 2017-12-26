@@ -1,0 +1,79 @@
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Nombre Completo</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="nombre" ng-model="usuario.nombre"/>
+              </div>
+          </div>
+        </form>
+
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Correo Electronico</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="email" ng-model="usuario.email"/>
+              </div>
+          </div>
+        </form>
+
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Teléfono</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="telefono" ng-model="usuario.telefono"/>
+              </div>
+          </div>
+        </form>
+
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Extensión</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="extension" ng-model="usuario.extension"/>
+              </div>
+          </div>
+        </form>
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Usuario</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="username" ng-model="usuario.username"/>
+              </div>
+          </div>
+        </form>
+
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Contraseña</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="password" ng-model="usuario.password"/>
+              </div>
+          </div>
+        </form>
+
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Empresa</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <input type="text" class="form-control" name="empresa" ng-model="usuario.empresa"/>
+              </div>
+          </div>
+        </form>
+
+        <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Rol de Usuario</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                  <select class="form-control" ng-options="rol.nombreRol for rol in RolesUsuario track by rol.idRol" ng-model="usuario.rol">
+                    <option value="" label="Seleccione un Rol de usuario"></option>
+                  </select>
+              </div>
+          </div>
+        </form>
+    </div>
+  </div>

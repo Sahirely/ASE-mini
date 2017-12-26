@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <form class="form-horizontal">
+      <div class="form-group">
+          <label class="col-xs-12 col-sm-12 col-md-3 col-lg-3 control-label text-derecha">Buscar</label>
+          <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+            <input type="text" class="form-control" name="busquedaProveedor" ng-model="$parent.$parent.buscaProveedor" placeholder="ingresar texto para buscar coincidencias"/>
+          </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div>
+    <div ui-tree id="tree-root">
+      <ol ui-tree-nodes ng-model="dataDos" class="notList">
+        <li ng-repeat="node in dataDos" ui-tree-node ng-include="'render_proveedores.html'"></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/ng-template" id="render_proveedores.html">
+  <div ui-tree-handle class="tree-node tree-node-content" ng-show="proveedorVisible(node.title)">
+    <a ng-click="node.isCollapsed = !node.isCollapsed;" class="btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag><span
+    class="glyphicon"
+    ng-class="{
+      'glyphicon-chevron-right': node.isCollapsed,
+      'glyphicon-chevron-down': !node.isCollapsed
+    }"></span></a>
+    <label class="paddingTreeItem"><input type="checkbox" ng-model="node.isChecked">  {{node.title}}</label>
+  </div>
+  <ol id="collapse{{node.id}}" ui-tree-nodes="" ng-model="node.nodes" class="notList" ng-class="{'collapse in' : !node.isCollapsed, 'collapse' : node.isCollapsed}">
+    <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'render_proveedores.html'">
+    </li>
+  </ol>
+</script>

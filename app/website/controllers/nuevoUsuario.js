@@ -16,5 +16,30 @@ var nuevoUsuario = function (conf) {
     }
 }
 
+nuevoUsuario.prototype.get_Usuarios = function(req, res, next) {
+    var self = this;
+    var params = [
+            {name: 'username', value: req.query.username, type: self.model.types.STRING }
+        ];
+
+    this.model.query('EXT_SEL_USUARIOS_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+nuevoUsuario.prototype.get_CatalogoRolesUsuario = function(req, res, next) {
+    var self = this;
+    var params = [];
+
+    this.model.query('EXT_SEL_CAT_ROL_USUARIOS_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
 
 module.exports = nuevoUsuario;

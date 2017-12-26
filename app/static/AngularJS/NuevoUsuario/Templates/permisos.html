@@ -1,0 +1,78 @@
+<div class="row" ini="initPermisos()">
+  <div class="container">
+    <div class="panel-group" id="accordion">
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title" ng-click="activate(1);">
+            <a>Zonas</a>
+          </h4>
+        </div>
+        <div id="collapseZonas" class="panel-collapse" ng-class="{'collapse in' : activeZona, 'collapse' : !activeZona}">
+          <div class="panel-body">
+            <ng-include src="'AngularJS/NuevoUsuario/Templates/zonas.html'"></ng-include>
+          </div>
+          <div class="panel-footer panel-overflow">
+              <button role="button" class="btn btn-xs btn-primary pull-right" ng-click="guardarZonas()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title" ng-click="activate(2);">
+            <a>Proveedores</a>
+          </h4>
+        </div>
+        <div id="collapseProveedores" class="panel-collapse" ng-class="{'collapse in' : activeProveedores, 'collapse' : !activeProveedores}">
+          <div class="panel-body">
+            <ng-include src="'AngularJS/NuevoUsuario/Templates/proveedores.html'"></ng-include>
+          </div>
+          <div class="panel-footer panel-overflow">
+              <button role="button" class="btn btn-xs btn-primary pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title" ng-click="activate(3);">
+            <a>Niveles</a>
+          </h4>
+        </div>
+        <div id="collapseNiveles" class="panel-collapse" ng-class="{'collapse in' : activeNiveles, 'collapse' : !activeNiveles}">
+          <div class="panel-body">
+            <ng-include src="'AngularJS/NuevoUsuario/Templates/niveles.html'"></ng-include>
+          </div>
+          <div class="panel-footer panel-overflow">
+              <button role="button" class="btn btn-xs btn-primary pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title" ng-click="activate(4);">
+            <a>Versión</a>
+          </h4>
+        </div>
+        <div id="collapseVersion" class="panel-collapse" ng-class="{'collapse in' : activeVersion, 'collapse' : !activeVersion}">
+          <div class="panel-body">
+            <form class="form-horizontal">
+              <div class="form-group">
+                  <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Versión</label>
+                  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                    <select ng-options="item as item.label for item in items track by item.id" ng-model="selected"></select>
+                  </div>
+              </div>
+            </form>
+          </div>
+          <div class="panel-footer panel-overflow">
+              <button role="button" class="btn btn-xs btn-primary pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
