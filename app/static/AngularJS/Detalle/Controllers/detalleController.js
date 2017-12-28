@@ -141,7 +141,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
           {
             if(resp.data[0].estatus == 0 || resp.data[0].estatus == 1)
               $scope.estadoBpro = 'SOLICITADA';
-            else if(resp.data[0].estatus > 2)
+            else if(resp.data[0].estatus >= 2)
               $scope.estadoBpro = 'INGRESADA';
             else
               $scope.estadoBpro = '';
