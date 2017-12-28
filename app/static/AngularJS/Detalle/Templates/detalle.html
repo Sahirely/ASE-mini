@@ -22,6 +22,7 @@
                                 <span class="label label-default mayusculas" ng-show="Precancelacion==false">{{detalleOrden.nombreEstatusOrden}}</span>
                                 <span class="label label-default mayusculas" ng-show="Precancelacion">Pre-Cancelacion</span>
                                 <span class="label label-success mayusculas" ng-show="estadoCompra == true">{{procesarCompra}} </span>
+                                <span class="label label-success mayusculas" ng-show="estadoCompra == true && estadoBpro != ''">{{estadoBpro}}</span>
                             </div>
                             <div class="progressPrincipal">
                                 <table id="padreTimeLine">
@@ -926,7 +927,7 @@
                                                     <button class="btn btn-info" style="width: 100%" ng-click="updateTallerSoporte()">Actualiza Taller/Costos &nbsp;&nbsp;<span class="fa fa-pencil-square-o"></span></button>
                                                 </div>
                                             </div>
-                                            <div class="row" ng-show="userData.contratoOperacionSeleccionada == 1">
+                                            <div class="row" ng-show="userData.contratoOperacionSeleccionada == 1 && estadoCompra == true">
                                                 <div>
                                                     <div class="col-xs-6">
                                                         <button class="btn btn-info" style="width: 100%" ng-click="consultaDetalleProvision()">Modificar provision &nbsp;&nbsp;<span class="fa fa-pencil-square-o"></span></button>
@@ -2144,6 +2145,22 @@
                             </div>
                             <div id="accordionFormDDF" class="panel-collapse collapse in">
                                 <div class="panel-body">
+                                    <div class="col-sm-12 form-group">
+                                        <div class="col-sm-8 selectCl">
+                                            <label class="font-normal">Cotización</label>
+                                            <select class="form-control m-b" id="cotizacionProvision" name="cotizacionProvision" ng-model="cotizacionProvision"
+                                                ng-options="cotizacionProvision.OTE_IDENT as cotizacionProvision.OTE_ORDENPEMEX for cotizacionProvision in numerosCotizacionProvision"
+                                                ng-change="obtenerDetalleProvision(cotizacionProvision)">
+                                                <option value="">Seleccione una Cotización</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4 center">
+                                            <label class="font-normal">Subtotal por cotización</label>
+                                            <br>
+                                            <label class="font-normal">{{subtotalPorCotizacion}}</label>
+                                            <hr>
+                                        </div>
+                                    </div>
                                     <address>
                                         <div class="col-sm-4">
                                             <br>SUBTOTAL MANO DE OBRA:

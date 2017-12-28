@@ -69,13 +69,15 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
   // Agrega para comentarios
   $scope.comentarios = []
-
+  $scope.numerosCotizacionProvision = [];
   $scope.ultimaOrdenDet = {};
   $scope.detallesProvision = [];
   $scope.subTotalMO = 0.00;
   $scope.subTotalREF = 0.00;
   $scope.subTotalLUB = 0.00;
   $scope.detalleProvisionTemp = {};
+  $scope.subtotalPorCotizacion = 0.00;
+  $scope.estadoBpro = '';
 //Variables para versionSystem light
   //$scope.versionSystem = 1;
  // $scope.userData = userFactory.getUserData();
@@ -129,6 +131,25 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.getMemorandums()
     }
   }
+
+    $scope.obtenEstatusAprovacionProvision = function()
+    {
+      detalleRepository.getEstatusAprovacionProvision($scope.idOrdenURL)
+      .then(function (resp) 
+      {
+          if (resp.data[0].estatus >= 0)
+          {
+            if(resp.data[0].estatus == 0 || resp.data[0].estatus == 1)
+              $scope.estadoBpro = 'SOLICITADA';
+            else if(resp.data[0].estatus > 2)
+              $scope.estadoBpro = 'INGRESADA';
+            else
+              $scope.estadoBpro = '';
+          }
+      }, function (error) {
+        alertFactory.error('Ocurrio un error al cancelar la partida.')
+      });      
+    }
 
     $scope.obtieneDatoUrl = function () {
         var url = location.search.replace("?", "");
@@ -2321,6 +2342,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
         $scope.botonProcesarCompra = false
         $scope.estadoCompra = true
         $scope.procesarCompra = 'PROVISIONADO'
+        $scope.obtenEstatusAprovacionProvision();
       } else {
         $scope.botonProcesarCompra = false
       }
@@ -3389,25 +3411,61 @@ registrationModule.controller('detalleController', function ($scope, $location, 
 
     $scope.consultaDetalleProvision = function() 
     {
-      detalleRepository.getDetalleProvision($scope.idOrdenURL, $scope.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction)
+      detalleRepository.getprovisionCotizacionbyOrden($scope.idOrdenURL, $scope.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction)
       .then(function (resp) {
-          if (resp.data.length > 0)
-          {
-            $('#accordionFormDDF').collapse('show');
-            $('#accordionFormDetallePP').collapse('hide');
-            $scope.detalleProvisionTemp = {};
-            $scope.subTotalMO = 0.00;
-            $scope.subTotalREF = 0.00;
-            $scope.subTotalLUB = 0.00;
-            angular.copy(Enumerable.From(resp.data).TakeExceptLast().ToArray(), $scope.detallesProvision);
-            $scope.obtenerSubtotalesFacturaBpro();
-            setTimeout(function() {
-              $('#modalDetalleProvision').modal('show');
-            }, 500)
-          }
-      }, function (error) {
-        alertFactory.error('Ocurrio un error al cancelar la partida.')
-      });
+        if (resp.data.length > 0)
+        {
+          $('#accordionFormDDF').collapse('show');
+          $('#accordionFormDetallePP').collapse('hide');
+          $scope.numerosCotizacionProvision = [];
+          $scope.detalleProvisionTemp = {};
+          $scope.subTotalMO = 0.00;
+          $scope.subTotalREF = 0.00;
+          $scope.subTotalLUB = 0.00;
+          angular.copy(resp.data, $scope.numerosCotizacionProvision);
+           setTimeout(function() {
+             $('#modalDetalleProvision').modal('show');
+           }, 500)
+        }
+    }, function (error) {
+      alertFactory.error('Ocurrio un error al cancelar la partida.')
+    });
+    }
+
+    $scope.obtenerDetalleProvision = function(cotizacionProvision)
+    {
+      if(cotizacionProvision != undefined && cotizacionProvision > 0)
+      {
+       detalleRepository.getDetalleProvision(cotizacionProvision, $scope.idOrdenURL, $scope.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction)
+       .then(function (resp) {
+           if (resp.data.length > 0)
+           {
+             $('#accordionFormDDF').collapse('show');
+             $('#accordionFormDetallePP').collapse('hide');
+             $scope.detalleProvisionTemp = {};
+             $scope.subTotalMO = 0.00;
+             $scope.subTotalREF = 0.00;
+             $scope.subTotalLUB = 0.00;
+             $scope.subtotalPorCotizacion = 0.00;
+             angular.copy(Enumerable.From(resp.data).TakeExceptLast().ToArray(), $scope.detallesProvision);
+             $scope.obtenerSubtotalesFacturaBpro();
+             setTimeout(function() {
+               $('#modalDetalleProvision').modal('show');
+             }, 500)
+           }
+       }, function (error) {
+         alertFactory.error('Ocurrio un error al cancelar la partida.')
+       });
+      }else
+      {
+        $scope.detallesProvision = [];
+        $scope.detalleProvisionTemp = {};
+        $scope.subTotalMO = 0.00;
+        $scope.subTotalREF = 0.00;
+        $scope.subTotalLUB = 0.00;
+        $scope.subtotalPorCotizacion = 0.00;
+        $scope.obtenerSubtotalesFacturaBpro();
+      }
     }
 
     $scope.actualizaProvisionPartida = function() 
@@ -3487,6 +3545,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       $scope.subTotalMO = ($scope.subTotalMO * 1).toFixed(2);
       $scope.subTotalREF = ($scope.subTotalREF * 1).toFixed(2);
       $scope.subTotalLUB = ($scope.subTotalLUB * 1).toFixed(2);
+      $scope.subtotalPorCotizacion = parseFloat($scope.subTotalMO) + parseFloat($scope.subTotalREF) + parseFloat($scope.subTotalLUB);
     }
 
     $scope.cambioPartidaProvision = function()

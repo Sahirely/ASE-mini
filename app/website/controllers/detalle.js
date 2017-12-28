@@ -1350,18 +1350,24 @@ Detalle.prototype.get_precioUltimaVenta = function(req, res, next) {
 
 Detalle.prototype.get_detalleProvision = function(req, res, next) {
     var self = this;
-    var params = [{
-              name: 'idOrden',
-              value: req.query.idOrden,
-              type: self.model.types.INT
+    var params = [
+        {
+            name: 'oteIdent',
+            value: req.query.oteIdent,
+            type: self.model.types.INT
+        },
+        {
+            name: 'idOrden',
+            value: req.query.idOrden,
+            type: self.model.types.INT
         },{
-              name: 'idUsuario',
-              value: req.query.idUsuario,
-              type: self.model.types.INT
+            name: 'idUsuario',
+            value: req.query.idUsuario,
+            type: self.model.types.INT
         },{
-              name: 'idOperacion',
-              value: req.query.idOperacion,
-              type: self.model.types.INT
+            name: 'idOperacion',
+            value: req.query.idOperacion,
+            type: self.model.types.INT
         },{
             name: 'isProduction',
             value: req.query.isProduction,
@@ -1453,6 +1459,52 @@ this.model.query('UPD_PROVISION_POR_ORDEN_SP', params, function(error, result) {
         result: result
     });
 });
+}
+
+Detalle.prototype.get_provisionCotizacionbyOrden = function(req, res, next) {
+    var self = this;
+    var params = [{
+              name: 'idOrden',
+              value: req.query.idOrden,
+              type: self.model.types.INT
+        },{
+              name: 'idUsuario',
+              value: req.query.idUsuario,
+              type: self.model.types.INT
+        },{
+              name: 'idOperacion',
+              value: req.query.idOperacion,
+              type: self.model.types.INT
+        },{
+            name: 'isProduction',
+            value: req.query.isProduction,
+            type: self.model.types.INT
+        }
+    ];
+
+    this.model.query('SEL_PROVISION_POR_COTIZACION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
+Detalle.prototype.get_estatusAprovacionProvision = function(req, res, next) {
+    var self = this;
+    var params = [{
+              name: 'idOrden',
+              value: req.query.idOrden,
+              type: self.model.types.INT
+        }
+    ];
+
+    this.model.query('SEL_ESTATUS_PROVISION_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
 }
 
 module.exports = Detalle;

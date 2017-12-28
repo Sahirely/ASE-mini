@@ -627,12 +627,13 @@ registrationModule.factory('detalleRepository', function($http) {
                 headers:{'Content-Type':'application/json' }
             });
         },
-        getDetalleProvision: function(idOrden, idUsuario, idOperacion, isProduction)
+        getDetalleProvision: function(oteIdent, idOrden, idUsuario, idOperacion, isProduction)
         {
             return $http({
                 url: detalleUrl + 'detalleProvision/',
                 method:'GET',
                 params:{
+                    oteIdent:oteIdent,
                     idOrden: idOrden,
                     idUsuario: idUsuario,
                     idOperacion: idOperacion,
@@ -661,6 +662,31 @@ registrationModule.factory('detalleRepository', function($http) {
                     subTotalREF: subTotalREF,
                     subTotalLUB: subTotalLUB,
                     precioVenta: precioVenta
+                },
+                headers:{'Content-Type':'application/json' }
+            });
+        },
+        getprovisionCotizacionbyOrden: function(idOrden, idUsuario, idOperacion, isProduction)
+        {
+            return $http({
+                url: detalleUrl + 'provisionCotizacionbyOrden/',
+                method:'GET',
+                params:{
+                    idOrden: idOrden,
+                    idUsuario: idUsuario,
+                    idOperacion: idOperacion,
+                    isProduction:isProduction
+                },
+                headers:{'Content-Type':'application/json' }
+            });
+        },
+        getEstatusAprovacionProvision: function(idOrden)
+        {
+            return $http({
+                url: detalleUrl + 'estatusAprovacionProvision/',
+                method:'GET',
+                params:{
+                    idOrden: idOrden
                 },
                 headers:{'Content-Type':'application/json' }
             });
