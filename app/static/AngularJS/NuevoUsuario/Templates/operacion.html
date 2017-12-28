@@ -1,0 +1,10 @@
+<div class="row">
+  <form class="form-horizontal">
+    <div class="form-group">
+        <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Operación</label>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          <select ng-options="item as item.label for item in items track by item.id" ng-model="selected"></select>
+        </div>
+    </div>
+  </form>
+</div>

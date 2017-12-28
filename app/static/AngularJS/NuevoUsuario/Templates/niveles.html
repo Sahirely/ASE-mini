@@ -1,0 +1,25 @@
+<div class="row">
+  <div>
+    <div ui-tree id="tree-root">
+      <ol ui-tree-nodes ng-model="dataTres" class="notList">
+        <li ng-repeat="node in dataTres" ui-tree-node ng-include="'render_niveles.html'"></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<script type="text/ng-template" id="render_niveles.html">
+  <div ui-tree-handle class="tree-node tree-node-content">
+    <a ng-click="node.isCollapsed = !node.isCollapsed;" class="btn-xs" ng-if="node.nodes && node.nodes.length > 0" data-nodrag><span
+    class="glyphicon"
+    ng-class="{
+      'glyphicon-chevron-right': node.isCollapsed,
+      'glyphicon-chevron-down': !node.isCollapsed
+    }"></span></a>
+    <label class="paddingTreeItem"><input type="checkbox" ng-model="node.isChecked">  {{node.title}}</label>
+  </div>
+  <ol id="collapse{{node.id}}" ui-tree-nodes="" ng-model="node.nodes" class="notList" ng-class="{'collapse in' : !node.isCollapsed, 'collapse' : node.isCollapsed}">
+    <li ng-repeat="node in node.nodes" ui-tree-node ng-include="'render_niveles.html'">
+    </li>
+  </ol>
+</script>

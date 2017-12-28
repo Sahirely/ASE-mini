@@ -2,8 +2,8 @@
 // -- Author:      Vladimir Juárez
 // -- Create date: 18/03/2016
 // -- Description: toastr alerts
-// -- Modificó: 
-// -- Fecha: 
+// -- Modificó:
+// -- Fecha:
 // -- =============================================
 registrationModule.factory('alertFactory', function () {
     return {
@@ -25,15 +25,11 @@ registrationModule.factory('alertFactory', function () {
         },
         infoTopFull: function (text) {
             toastr.options = { "positionClass": "toast-top-full-width", "closeButton": true}
-            toastr.info(text, 'Información'),
-            warning = function (text) {}
-
-            toastr.options = { "positionClass": "toast-top-right", "closeButton": true}
-            toastr.warning(text, 'Atención');
+            toastr.info(text, 'Información');
         },
         warning: function (text) {
             toastr.options = { "positionClass": "toast-top-right", "closeButton": true}
-            toastr.success(text, 'Precaución!');
+            toastr.warning(text, 'Atención');
         }
     };
 });

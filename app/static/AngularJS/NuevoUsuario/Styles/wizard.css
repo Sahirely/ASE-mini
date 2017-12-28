@@ -1,0 +1,36 @@
+#wizard-step-container {
+  margin: 20px 0;
+}
+
+#wizard-step-container > ul > li {
+  padding-top: 20px;
+  height: 70px;
+  text-align: center;
+  background: #eee;
+  color: #aaa;
+  border-radius: 10px;
+  border: 3px solid white;
+}
+
+#wizard-step-container > ul > li.active {
+  background-color: #5597DA;
+  color: white;
+}
+
+#wizard-step-container > ul > li > span {
+  display: block;
+  padding-top:5px;
+}
+
+#wizard-content-container {
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 30px;
+  background-color: #eee;
+}
+
+#wizard-navigation-container {
+  margin: 20px 0;
+  padding-top: 20px;
+}

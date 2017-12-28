@@ -90,7 +90,7 @@
                                 <th>Número Órden</th>
                                 <th>Número Económico</th>
                                 <th>Zona</th>
-                                <!-- <th>Taller</th> -->
+                                <th>Taller</th> 
                                 <th ng-hide="userData.idRol == 1">Costo de la Orden</th>
                                 <th>Precio de la Orden</th>
                                 <th>Folio de Certificado</th>
@@ -108,7 +108,7 @@
                                 <td>{{orden.numeroOrden}}</td>
                                 <td>{{orden.numeroEconomico}}</td>
                                 <td>{{orden.nombreZona}}</td>
-                                <!-- <td>{{orden.talleres}}</td> -->
+                                <td>{{orden.taller}}</td>
                                 <td ng-hide="userData.idRol == 1">{{orden.costo| currency: "$"}}</td>
                                 <td>{{orden.venta| currency: "$"}}</td>
                                 <td>{{orden.folioCertificado}}</td>

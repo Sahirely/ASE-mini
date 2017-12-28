@@ -1079,10 +1079,14 @@
                                 </div>
                     </div>
                     </div>
+                    <div ng-show="validacionPorToken != 2" class="btn-group pull-right" data-toggle="tooltip">
+                        <span style="color: #e60000; font-size:34px;" class="fa fa-lock" ng-click="apptoken()"></span>
+                    </div>
                     <div ng-show="validacionPorToken != 2">
                     <div style="margin-right: 5px; " class="token-group pull-right" role="group" aria-label="...">
                             <input type="text" ng-model="token_termino" placeholder="Token de Cliente">
                             <button class="btn btn-primary pull-right btn-movil" type="button" ng-click="ValidaEntrega(1);">Aceptar</button>
+
                         </div>
                         </div>
                     <div class="btn-group pull-right" role="group" style="margin-right: 10px; ">
