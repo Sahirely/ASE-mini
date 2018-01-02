@@ -53,7 +53,9 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
       var sumatoriaSaldoAbon = 0;
       var sumatoriaMontoAbonax = 0;
       var sumatoriaSaldoAbonax = 0;
-
+  
+  $scope.horaAnterior = '';
+  $scope.horaSiguiente = '';    
   $scope.change_switch = function () {
     if ($scope.showCopade == 2) {
       $scope.showCopade = 1;
@@ -119,6 +121,7 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
     $scope.obtieneNivelZona()
     // termina el cargado de las Zonas del usuario.
     $scope.devuelveEjecutivos()
+    $scope.getActualizacionProveedores();
 
     // //obtener la pestaña Ordenes Por Cobrar
     // $scope.getPorCobrar();
@@ -1331,5 +1334,19 @@ registrationModule.controller('ordenPorCobrarController', function ($scope, $roo
           swal("Operacion cancelada.");
       }
     });
+  }
+
+  $scope.getActualizacionProveedores = function()
+  {
+    ordenPorCobrarRepository.getProcesoProveedores($scope.userData.contratoOperacionSeleccionada, $scope.userData.isProduction)
+    .then(function (resp) {
+        if (resp.data.length > 0)
+        {
+          $scope.horaAnterior = resp.data[0].HoraFinal == undefined ? '00:00:00' : resp.data[0].HoraFinal;
+          $scope.horaSiguiente = resp.data[0].HoraInicial != undefined ? resp.data[0].HoraInicial.replace(parseInt(resp.data[0].HoraInicial.split(":", 1)), parseInt(resp.data[0].HoraInicial.split(":", 1)) + 1) : '00:00:00';
+        }
+    }, function (error) {
+      alertFactory.error('Ocurrio un error al eliminar copade.')
+    });    
   }
 })

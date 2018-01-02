@@ -158,6 +158,22 @@ postSubirCopade: function() {
                     'Content-Type': 'application/json'        
                 }      
             }); 
+        },
+        getProcesoProveedores: function (idContratoOperacion, isProduction) 
+        {
+            var obj = {
+                idContratoOperacion: idContratoOperacion,
+                isProduction:isProduction
+            };
+
+            return $http({        
+                url: cobrarUrl + 'procesoProveedores',
+                        method: "POST",
+                        data: obj,
+                        headers: {          
+                    'Content-Type': 'application/json'        
+                }      
+            }); 
         }
     }
 })

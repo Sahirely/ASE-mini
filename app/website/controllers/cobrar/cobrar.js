@@ -767,4 +767,33 @@ Cobrar.prototype.post_delCopade = function (req, res, next) { 
     });
 }
 
+Cobrar.prototype.post_procesoProveedores = function (req, res, next) { 
+    //Objeto que almacena la respuesta
+    var object = {};
+    //Objeto que envía los parámetros
+    //var params = {};
+    //Referencia a la clase para callback
+    var self = this;
+    var params = [
+        {
+            name: 'idContratoOperacion',
+            value: req.body.idContratoOperacion,
+            type: self.model.types.INT
+        },
+        {
+            name: 'isProduction',
+            value: req.body.isProduction,
+            type: self.model.types.INT
+        }
+    ] 
+
+    this.model.post('SEL_PROCESO_PROVEEDORES_SP', params, function (error, result) {
+        //Callback
+        object.error = error;
+        object.result = result;
+
+        self.view.expositor(res, object);
+    });
+}
+
 module.exports = Cobrar
