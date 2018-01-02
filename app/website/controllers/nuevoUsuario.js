@@ -103,6 +103,22 @@ nuevoUsuario.prototype.get_OperacionesUsuario = function(req, res, next){
     });
 }
 
+nuevoUsuario.prototype.get_OperacionesUsuarioConfiguradas = function(req, res, next){
+    var self = this;
+    var params = [{
+                      name: 'idUsuario',
+                      value: req.query.idUsuario,
+                      type: self.model.types.INT
+                  }];
+
+    this.model.query('EXT_SEL_OPERACIONES_USUARIO_SP', params, function(error, result) {
+        self.view.expositor(res, {
+            error: error,
+            result: result
+        });
+    });
+}
+
 nuevoUsuario.prototype.post_InsContratoOperacionUsuario = function(req, res, next){
     var self = this;
     var params = [{

@@ -1,12 +1,30 @@
 <div class="row">
-  <form class="form-horizontal">
-    <div class="form-group">
-        <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Operación</label>
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-          <select class="form-control" ng-options="CO as CO.descripcion for CO in Operaciones track by CO.idContratoOperacion" ng-model="$parent.ContOpeSelected">
-              <option value="" label="Seleccione una operación para configurar al usuario"></option>
-          </select>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <!-- <div class="form-group"> -->
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                Operaciones Configuradas
+            </div>
+            <div class="panel-body">
+              <ul class="list-group clear-list m-t">
+                  <li class="list-group-item fist-item" ng-repeat="op in operacionesConfiguradas">
+                      <span>{{op.descripcion}}</span>
+                  </li>
+              </ul>
+            </div>
         </div>
+      <!-- </div> -->
     </div>
-  </form>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+      <form class="form-horizontal">
+          <div class="form-group">
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Operación</label>
+              <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                <select class="form-control" ng-options="CO as CO.descripcion for CO in Operaciones track by CO.idContratoOperacion" ng-model="$parent.ContOpeSelected">
+                    <option value="" label="Seleccione una operación para configurar al usuario"></option>
+                </select>
+              </div>
+          </div>
+      </form>
+    </div>
 </div>

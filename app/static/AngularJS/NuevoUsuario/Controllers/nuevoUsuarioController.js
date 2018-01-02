@@ -183,7 +183,8 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
                           }
 
                           if($scope.usuario.rol.idRol !== 5){
-                            $scope.goToStepOperaciones();
+                            $scope.getOperacionesUsuarioConfiguradas($scope.usuario.idUsuario);
+                            // $scope.goToStepOperaciones();
                           }else{
                             alertFactory.success('Se guardó su usuario configurador exitosamente.');
                             $scope.init();
@@ -199,12 +200,35 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
             }
         }
 
-        $scope.goToStepOperaciones = function(){
+        $scope.getOperacionesUsuarioConfiguradas = function(idUsuario, resta){
+          debugger;
+            if(idUsuario !== undefined && idUsuario !== null && idUsuario != 0 )
+            {
+                $scope.operacionesConfiguradas = [];
+                nuevoUsuarioRepository.getOperacionesUsuarioConfiguradas(idUsuario).then(function(result){
+                    if(angular.isArray(result.data)){
+                        $scope.operacionesConfiguradas = result.data;
+                        $scope.goToStepOperaciones(resta);
+                    } else {
+                        alertFactory.error('Ocurrio un error al intentar obtener las operaciones configuradas del usuario.');
+                    }
+                });
+            } else {
+                alertFactory.error('Ocurrio un error al intentar recuperar el id del usuario.');
+            }
+        }
+
+        $scope.goToStepOperaciones = function(resta){
             nuevoUsuarioRepository.getOperacionesUsuario().then(function (result){
                 if(angular.isArray(result.data)){
                   if(result.data.length > 0){
                     $scope.Operaciones = result.data;
-                    $scope.gotoStep($scope.currentStep + 1);
+                    if(resta){
+                      $scope.gotoStep($scope.currentStep - 1);
+                    }else{
+                      $scope.gotoStep($scope.currentStep + 1);
+                    }
+
                   } else {
                     alertFactory.info('No se obtuvieron operaciones.');
                   }

@@ -34,6 +34,16 @@ registrationModule.factory('nuevoUsuarioRepository', function ($http) {
                }
            });
          },
+         getOperacionesUsuarioConfiguradas: function(idUsuario){
+           return $http({
+               url: nuevoUserUrl + 'OperacionesUsuarioConfiguradas/',
+               method: "GET",
+               params: { idUsuario: idUsuario },
+               headers: {
+                   'Content-Type': 'application/json'
+               }
+           });
+         },
          postUpdInsUsuario: function(idUsuario, nombreUsuario, contrasenia, idCatalogoTipoUsuario, nombreCompleto, correoElectronico, telefonoUsuario, extensionUsuario, empresa){
            return $http({
                url: nuevoUserUrl + 'UpdInsUsuario/',
