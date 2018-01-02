@@ -137,7 +137,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
       detalleRepository.getEstatusAprovacionProvision($scope.idOrdenURL)
       .then(function (resp) 
       {
-          if (resp.data[0].estatus >= 0)
+          if (resp.data.length > 0 && resp.data[0].estatus >= 0)
           {
             if(resp.data[0].estatus == 0 || resp.data[0].estatus == 1)
               $scope.estadoBpro = 'SOLICITADA';
@@ -3413,7 +3413,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
     {
       detalleRepository.getprovisionCotizacionbyOrden($scope.idOrdenURL, $scope.idUsuario, $scope.userData.idOperacion, $scope.userData.isProduction)
       .then(function (resp) {
-        if (resp.data.length > 0)
+        if (resp.data.length > 0 && resp.data[0].OTE_IDENT != undefined && resp.data[0].OTE_IDENT > 0)
         {
           $('#accordionFormDDF').collapse('show');
           $('#accordionFormDetallePP').collapse('hide');
@@ -3426,9 +3426,12 @@ registrationModule.controller('detalleController', function ($scope, $location, 
            setTimeout(function() {
              $('#modalDetalleProvision').modal('show');
            }, 500)
+        }else{
+          if(resp.data.length > 0 && resp.data[0].Success == 0)
+            alertFactory.info(resp.data[0].Msg);
         }
     }, function (error) {
-      alertFactory.error('Ocurrio un error al cancelar la partida.')
+      alertFactory.error('No se puede mostrar la provisión.');
     });
     }
 
@@ -3496,7 +3499,7 @@ registrationModule.controller('detalleController', function ($scope, $location, 
                  }, 500)
                }
            }, function (error) {
-             alertFactory.error('Ocurrio un error al cancelar la partida.')
+             alertFactory.error('Ocurrio un error al modificar la provisión.')
            });
         } else
           {

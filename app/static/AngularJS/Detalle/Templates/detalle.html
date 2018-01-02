@@ -2193,7 +2193,7 @@
                                                 <th>Modificar</th>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="DProvision in detallesProvision">
+                                                <tr ng-repeat="DProvision in detallesProvision track by $index">
                                                     <td>{{DProvision.OTD_DESCRIPCION}}</td>
                                                     <td>{{DProvision.OTD_CANTIDAD}}</td>
                                                     <td>{{DProvision.OTD_MO}}</td>
