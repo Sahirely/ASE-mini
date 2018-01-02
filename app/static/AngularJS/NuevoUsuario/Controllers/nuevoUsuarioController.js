@@ -1,4 +1,4 @@
-registrationModule.controller('nuevoUsuarioController', function($scope, $rootScope, localStorageService, userFactory, alertFactory, commonService, $location, nuevoUsuarioRepository, globalFactory) {
+registrationModule.controller('nuevoUsuarioController', function($scope, $rootScope, $modal, localStorageService, userFactory, alertFactory, commonService, $location, nuevoUsuarioRepository, globalFactory){
 
     $rootScope.modulo = 'nuevoUsuario';
 
@@ -10,8 +10,8 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
         $scope.show_results = false;
         $scope.textoBusqueda = '';
         $scope.users = [];
+        $('.tableUsuarios').DataTable().destroy();
 
-        //este se llamará al hacer dar click al crear o editar usuario
         $scope.initModelSteps();
     }
 
@@ -77,6 +77,7 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
                              'empresa': userToEdit.empresa,
                              'rol': { 'idRol': userToEdit.idCatalogoTipoUsuarios, 'nombreRol': userToEdit.nombreTipoUsuario }
                         };
+
         $scope.show_searchField = false;
         $scope.show_results = false;
     }
@@ -119,10 +120,13 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
             icon: 'fa fa-id-card'
           },
         ];
-      $scope.user = {};
-      // se llamará cuando despues de validar el paso 2 se envíe al paso 3
-      $scope.initPermisos();
 
+      //variables para paso uno
+      $scope.user = {};
+      //variables para paso dos
+      $scope.Operaciones = [];
+      $scope.ContOpeSelected = null;
+      // se llamará cuando despues de validar el paso 2 se envíe al paso 3
     }
 
     $scope.gotoStep = function(newStep) {
@@ -149,25 +153,268 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
 
     // funciones Paso 1.- datos generales
 
+        $scope.changePassword = function(){
+            modal_password($scope, $modal, $scope.usuario.password, $scope.getPassword);
+        }
+
+        $scope.getPassword = function(newPass){
+            $scope.usuario.password = newPass;
+        }
+
         $scope.guardarDatosGenerales = function(){
-          $scope.gotoStep($scope.currentStep + 1);
+
+            if ($scope.datosCompletos()){
+                var idUser = $scope.usuario.idUsuario;
+                var nombre = $scope.usuario.nombre === undefined || $scope.usuario.nombre === null ? '' : $scope.usuario.nombre;
+                var email = $scope.usuario.email === undefined || $scope.usuario.email === null ? '' : $scope.usuario.email;
+                var telefono = $scope.usuario.telefono === undefined || $scope.usuario.telefono === null ? '' : $scope.usuario.telefono;
+                var extension = $scope.usuario.extension === undefined || $scope.usuario.extension === null ? '' : $scope.usuario.extension;
+                var username = $scope.usuario.username === undefined || $scope.usuario.username === null ? '' : $scope.usuario.username;
+                var password = $scope.usuario.password === undefined || $scope.usuario.password === null ? '' : $scope.usuario.password;
+                var empresa = $scope.usuario.empresa === undefined || $scope.usuario.empresa === null ? '' : $scope.usuario.empresa;
+                var idRol = $scope.usuario.rol.idRol === undefined || $scope.usuario.rol.idRol === null ? 0 : $scope.usuario.rol.idRol;
+
+                nuevoUsuarioRepository.postUpdInsUsuario(idUser, username, password, idRol, nombre, email, telefono, extension, empresa).then(function (result){
+                    if (angular.isArray(result.data) && result.data.length > 0){
+                        if (result.data[0].respuesta == 1){
+                          alertFactory.success(result.data[0].mensaje);
+                          if ($scope.usuario.idUsuario == 0 && result.data[0].idUsuarioNuevo !== undefined){
+                              $scope.usuario.idUsuario = result.data[0].idUsuarioNuevo;
+                          }
+
+                          if($scope.usuario.rol.idRol !== 5){
+                            $scope.goToStepOperaciones();
+                          }else{
+                            alertFactory.success('Se guardó su usuario configurador exitosamente.');
+                            $scope.init();
+                          }
+                        } else if (result.data[0].respuesta == 0){
+                          alertFactory.warning(result.data[0].mensaje);
+                        }
+                    } else {
+                        alertFactory.error('Ocurrio un error al guardar sus datos.');
+                    }
+                });
+
+            }
+        }
+
+        $scope.goToStepOperaciones = function(){
+            nuevoUsuarioRepository.getOperacionesUsuario().then(function (result){
+                if(angular.isArray(result.data)){
+                  if(result.data.length > 0){
+                    $scope.Operaciones = result.data;
+                    $scope.gotoStep($scope.currentStep + 1);
+                  } else {
+                    alertFactory.info('No se obtuvieron operaciones.');
+                  }
+                } else {
+                  alertFactory.error('Ocurrio un error al obtener las operaciones.');
+                }
+            });
+        }
+
+        $scope.datosCompletos = function(){
+          var isValid = true;
+
+          if ($scope.usuario.nombre === undefined || $scope.usuario.nombre === null || $scope.usuario.nombre === '' ){
+              isValid = false;
+              alertFactory.error('El campo Nombre Completo es obligatorio.');
+          }
+          if ($scope.usuario.email === undefined || $scope.usuario.email === null || $scope.usuario.email === ''){
+              isValid = false;
+              alertFactory.error('El campo Correo Electrónico es obligatorio.');
+          } else if (!isValidEmail($scope.usuario.email)){
+              isValid = false;
+              alertFactory.error('El campo Correo Electrónico no tiene el formato correcto.');
+          }
+          if ($scope.usuario.username === undefined || $scope.usuario.username === null || $scope.usuario.username === ''){
+              isValid = false;
+              alertFactory.error('El campo Usuario es obligatorio.');
+          }
+          if($scope.usuario.password === undefined || $scope.usuario.password === null || $scope.usuario.password === ''){
+              isValid = false;
+              alertFactory.error('El campo Contraseña es obligatorio.');
+          }
+          if($scope.usuario.rol === undefined || $scope.usuario.rol === null || $.isEmptyObject($scope.usuario.rol)){
+              isValid = false;
+              alertFactory.error('El campo Rol de Usuario es obligatorio.');
+          }
+
+          return isValid;
+        }
+
+        function isValidEmail(strToEvaluate){
+            var email = /^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/;
+            return email.test(strToEvaluate);
         }
 
     // fin funciones Paso 1
 
     // funciones Paso 2
 
+        $scope.guardaContratoOperacion = function(){
+          if ($scope.usuario.idUsuario !== 0 && $scope.usuario.idUsuario !== undefined && $scope.usuario.idUsuario !== null){
+            if ($scope.ContOpeSelected !== null){
+                nuevoUsuarioRepository.postInsContratoOperacionUsuario($scope.ContOpeSelected.idContratoOperacion, $scope.usuario.idUsuario).then(function (result){
+                  if (angular.isArray(result.data) && result.data.length > 0){
+                      if (result.data[0].respuesta == 0){
+                        alertFactory.warning(result.data[0].mensaje);
+                      } else if (result.data[0].respuesta == 1){
+                        $scope.idContratoOperacionUsuario = result.data[0].idContratoOperacionUsuario;
+                        alertFactory.info(result.data[0].mensaje);
+                        $scope.goToStepPermisos();
+                      } else if (result.data[0].respuesta == 2){
+                        $scope.idContratoOperacionUsuario = result.data[0].idContratoOperacionUsuario;
+                        alertFactory.success(result.data[0].mensaje);
+                        $scope.goToStepPermisos();
+                      }
+                  }else{
+                      alertFactory.error('Ocurrio un problema al intentar asignar la operación.');
+                  }
+                });
+
+            } else {
+                alertFactory.info('Debe seleccionar una operación para poder avanzar.');
+            }
+          } else {
+              alertFactory.error('Ocurrio un problema al intentar recuperar el id del Usuario.');
+          }
+        }
+
+        $scope.goToStepPermisos = function(){
+            $('#loadModal').modal('show');
+            $scope.getPermisos();
+        }
+
     // fin funciones Paso 2
 
     // funciones Paso 3
 
+        $scope.getPermisos = function(){
+          $scope.count = 0;
+          $scope.totalPermisos = 4;
+
+          // obtiene los permisos de zona
+          nuevoUsuarioRepository.getPermisos($scope.idContratoOperacionUsuario,1).then(function(result){
+            if(angular.isArray(result.data) && result.data.length > 0){
+                $scope.dataZonas = [];
+
+                angular.forEach(result.data,function(zona){
+                  if(zona.idPadre !== 0){
+                    $scope.insertSonInArrayParents($scope.dataZonas, zona, zona.idPadre);
+                  } else {
+                    var obj = {
+                                'id': zona.idZona,
+                                'title': zona.nombre,
+                                'isCollapsed': false,
+                                'isChecked': zona.checked == 1 ? true : false,
+                                'parent': zona.idPadre,
+                                'nodes': []
+                              }
+                    $scope.dataZonas.push(obj);
+                  }
+                });
+
+
+                $scope.count ++;
+                if ($scope.count == $scope.totalPermisos){
+                    $scope.initPermisos();
+                }
+            }
+          });
+
+          // obtiene los permisos de proveedores
+          nuevoUsuarioRepository.getPermisos($scope.idContratoOperacionUsuario,2).then(function(result){
+            if(angular.isArray(result.data) && result.data.length > 0){
+                $scope.dataProveedores = [];
+                angular.forEach(result.data,function(proveedor){
+                  var obj = {
+                              'id': proveedor.idProveedor,
+                              'title': proveedor.nombreComercial,
+                              'isCollapsed': false,
+                              'isChecked': proveedor.checked == 1 ? true : false,
+                              'nodes': []
+                            }
+
+                  $scope.dataProveedores.push(obj);
+
+                });
+                $scope.count ++;
+                if ($scope.count == $scope.totalPermisos){
+                    $scope.initPermisos();
+                }
+            }
+          });
+
+          // obtiene los permisos de niveles
+          nuevoUsuarioRepository.getPermisos($scope.idContratoOperacionUsuario,3).then(function(result){
+            if(angular.isArray(result.data) && result.data.length > 0){
+                $scope.dataNiveles = [];
+                angular.forEach(result.data,function(nivel){
+                  var obj = {
+                              'id': nivel.nivel,
+                              'title': nivel.descripcion,
+                              'isCollapsed': false,
+                              'isChecked': nivel.checked == 1 ? true : false,
+                              'nodes': []
+                            }
+
+                  $scope.dataNiveles.push(obj);
+
+                });
+                $scope.count ++;
+                if ($scope.count == $scope.totalPermisos){
+                    $scope.initPermisos();
+                }
+            }
+          });
+
+          // obtiene los permisos de versión
+          nuevoUsuarioRepository.getPermisos($scope.idContratoOperacionUsuario,4).then(function(result){
+            if(angular.isArray(result.data) && result.data.length > 0){
+                $scope.Versiones = result.data;
+                angular.forEach(result.data,function(ver){
+                  if (ver.checked == 1){
+                    $scope.VersionSelected = ver;
+                  }
+                });
+                $scope.count ++;
+                if ($scope.count == $scope.totalPermisos){
+                    $scope.initPermisos();
+                }
+            }
+          });
+
+
+        }
+
         $scope.initPermisos = function(){
-          $scope.activeZona = true;
+          $scope.activeZona = false;
           $scope.activeProveedores = false;
           $scope.activeNiveles = false;
           $scope.activeVersion = false;
           $scope.buscaZona = '';
           $scope.buscaProveedor = '';
+
+              switch ($scope.usuario.rol.idRol) {
+                case 1:
+                    $scope.activeZona = true;
+                    break;
+                case 2:
+                    $scope.activeNiveles = true;
+                    break;
+                case 3:
+                    $scope.activeZona = true;
+                    break;
+                case 4:
+                    $scope.activeProveedores = true;
+                    break;
+            }
+
+            $scope.gotoStep($scope.currentStep + 1);
+            $('#loadModal').modal('hide');
+
         }
 
         $scope.activate = function(tabToActivate){
@@ -194,236 +441,226 @@ registrationModule.controller('nuevoUsuarioController', function($scope, $rootSc
         }
 
         // zonas
-
-        $scope.zonaVisible = function(title){
-          return !($scope.buscaZona && $scope.buscaZona.length > 0
-            && title.indexOf($scope.buscaZona) == -1);
-        }
-
-        $scope.selectZonaChange = function(id, checked){
-          if (checked == true){
-            $scope.searchInArrayParents($scope.data, id, checked);
-          } else {
-            $scope.searchInArraySons($scope.data, id, checked);
+          $scope.zonaVisible = function(title){
+            return !($scope.buscaZona && $scope.buscaZona.length > 0
+              && title.toUpperCase().indexOf($scope.buscaZona.toUpperCase()) == -1);
           }
-        }
 
-        $scope.searchInArraySons = function(paramArray, idToSearch, checked){
+          $scope.selectZonaChange = function(id, checked){
+            if (checked == true){
+              $scope.searchInArrayParents($scope.dataZonas, id, checked);
+            } else {
+              $scope.searchInArraySons($scope.dataZonas, id, checked);
+            }
+          }
+
+          $scope.insertSonInArrayParents = function(paramArray, nodeToInsert, idToSearch){
+                angular.forEach(paramArray,function(node){
+                        if (node.id == idToSearch){
+                              var obj = {
+                                          'id': nodeToInsert.idZona,
+                                          'title': nodeToInsert.nombre,
+                                          'isCollapsed': false,
+                                          'isChecked': nodeToInsert.checked == 1 ? true : false,
+                                          'parent': nodeToInsert.idPadre,
+                                          'nodes': []
+                                        }
+                              node.nodes.push(obj);
+                        } else if (node.nodes.length > 0){
+                            $scope.insertSonInArrayParents(node.nodes, nodeToInsert, idToSearch);
+                        }
+                });
+          }
+
+          $scope.searchInArraySons = function(paramArray, idToSearch, checked){
+              angular.forEach(paramArray,function(node){
+                  if (node.parent == idToSearch){
+                    var id = 'check' + node.id;
+                    node.isChecked = checked;
+                    document.getElementById(id).checked = checked;
+                    if (node.nodes.length > 0){
+                      $scope.searchInArraySons($scope.dataZonas, node.id, checked);
+                    }
+                  } else if (node.nodes.length > 0){
+                      $scope.searchInArraySons(node.nodes, idToSearch, checked);
+                  }
+              });
+          }
+
+          $scope.searchInArrayParents = function(paramArray, idToSearch, checked){
             angular.forEach(paramArray,function(node){
-                if (node.parent == idToSearch){
+                if (node.id == idToSearch){
                   var id = 'check' + node.id;
                   node.isChecked = checked;
                   document.getElementById(id).checked = checked;
-                  if (node.nodes.length > 0){
-                    $scope.searchInArraySons($scope.data, node.id, checked);
+                  if (node.parent != 0){
+                    $scope.searchInArrayParents($scope.dataZonas, node.parent, checked);
                   }
                 } else if (node.nodes.length > 0){
-                    $scope.searchInArraySons(node.nodes, idToSearch, checked);
+                    $scope.searchInArrayParents(node.nodes, idToSearch, checked);
                 }
             });
-        }
-
-        $scope.searchInArrayParents = function(paramArray, idToSearch, checked){
-          angular.forEach(paramArray,function(node){
-              if (node.id == idToSearch){
-                var id = 'check' + node.id;
-                node.isChecked = checked;
-                document.getElementById(id).checked = checked;
-                if (node.parent != 0){
-                  $scope.searchInArrayParents($scope.data, node.parent, checked);
-                }
-              } else if (node.nodes.length > 0){
-                  $scope.searchInArrayParents(node.nodes, idToSearch, checked);
-              }
-          });
-        }
-
-        $scope.guardarZonas = function(){
-          var resultado = $scope.validSonsChecked($scope.data);
-          if (resultado){
-            alertFactory.success('Se guardaran sus zonas.');
-          }else{
-            alertFactory.warning('Para guardar sus zonas debe seleccionar al menos una zona de un nivel inferior, si su zona padre se encuentra seleccionada.');
           }
-        }
 
-        $scope.validSonsChecked = function(paramArray){
-          var validChilds = true;
-            angular.forEach(paramArray,function(node){
-              var checkedChilds = 0;
-                if(node.isChecked == true){
-                  if (node.nodes.length > 0){
-                    checkedChilds = $scope.countSonsChecked(node.nodes);
+          $scope.saveCheckedZones = function(paramArray){
+                angular.forEach(paramArray,function(node){
+                        if (node.isChecked){
+                            nuevoUsuarioRepository.postInsContratoOperacionUsuarioZona($scope.idContratoOperacionUsuario, node.id).then(function (result){
+                                if (angular.isArray(result.data) && result.data.length > 0){
+                                    if (result.data[0].respuesta == 0){
+                                        alertFactory.error(result.data[0].mensaje);
+                                    } else {
+                                        alertFactory.success(result.data[0].mensaje);
+                                    }
+                                } else {
+                                    alertFactory.error('Ocurrio un error al intentar guardar las zonas.');
+                                }
+                            });
+                            if (node.nodes.length > 0){
+                                $scope.saveCheckedZones(node.nodes);
+                            }
+                        }
+                });
+          }
 
-                    if (checkedChilds == 0){
-                      validChilds = false;
-                    } else{
-                        validChilds = $scope.validSonsChecked(node.nodes);
-                    }
+          $scope.guardarZonas = function(){
+              var resultado = $scope.validSonsChecked($scope.dataZonas);
+              if (resultado){
+                  if ($scope.idContratoOperacionUsuario !== 0 && $scope.idContratoOperacionUsuario !== undefined && $scope.idContratoOperacionUsuario !== null){
+                      alertFactory.success('se guardarán sus cambios.');
+                      nuevoUsuarioRepository.delPermisos($scope.idContratoOperacionUsuario, 1).finally(function(){
+                          $scope.saveCheckedZones($scope.dataZonas);
+                      });
+                  } else {
+                      alertFactory.error('Ocurrio un problema al intentar recuperar la Operación del Usuario.');
                   }
-                }
+              } else {
+                  alertFactory.warning('Para guardar sus zonas debe seleccionar al menos una zona de un nivel inferior, si su zona padre se encuentra seleccionada.');
+              }
+          }
+
+          $scope.validSonsChecked = function(paramArray){
+            var validChilds = true;
+              angular.forEach(paramArray,function(node){
+                if (validChilds){
+                    var checkedChilds = 0;
+                        if(node.isChecked == true){
+                            if (node.nodes.length > 0){
+                                checkedChilds = $scope.countSonsChecked(node.nodes);
+                                if (checkedChilds == 0){
+                                    validChilds = false;
+                                } else {
+                                    validChilds = $scope.validSonsChecked(node.nodes);
+                                }
+                            }
+                        }
+                  }
+              });
+
+              return validChilds;
+          }
+
+          $scope.countSonsChecked = function(paramArray){
+            var countChilds = 0;
+            angular.forEach(paramArray,function(node){
+              if (node.isChecked){
+                  countChilds = countChilds + 1;
+              }
             });
 
-            return validChilds;
-        }
+            return countChilds;
 
-        $scope.countSonsChecked = function(paramArray){
-          var countChilds = 0;
-          angular.forEach(paramArray,function(node){
-            if (node.isChecked){
-                countChilds = countChilds + 1;
-            }
-          });
+          }
+      //
 
-          return countChilds;
-
-        }
-
-
-        //
-
-        // proveedores
-
+      // proveedores
         $scope.proveedorVisible = function(title){
           return !($scope.buscaProveedor && $scope.buscaProveedor.length > 0
-            && title.indexOf($scope.buscaProveedor) == -1);
+            && title.toUpperCase().indexOf($scope.buscaProveedor.toUpperCase()) == -1);
         }
 
-        //
+        $scope.guardarProveedor = function(){
+          var countProv = 0;
+          if ($scope.idContratoOperacionUsuario !== 0 && $scope.idContratoOperacionUsuario !== undefined && $scope.idContratoOperacionUsuario !== null){
+              nuevoUsuarioRepository.delPermisos($scope.idContratoOperacionUsuario, 2).finally(function(){
+                  angular.forEach($scope.dataProveedores, function(proveedor){
+                      if (proveedor.isChecked){
+                        nuevoUsuarioRepository.postInsContratoOperacionUsuarioProveedor($scope.idContratoOperacionUsuario, proveedor.id).then(function (result){
+                            if (angular.isArray(result.data) && result.data.length > 0){
+                                if (result.data[0].respuesta == 0){
+                                    alertFactory.error(result.data[0].mensaje);
+                                } else {
+                                    countProv ++;
+                                    alertFactory.success(result.data[0].mensaje);
+                                }
+                            } else {
+                                alertFactory.error('Ocurrio un error al intentar guardar los proveedores.');
+                            }
+                        });
+                      }
+                  });
 
-        // niveles
-        //
+                  if(countProv == 0){
+                    alertFactory.info('Se guardaron sus cambios.');
+                  }
+              });
+          } else {
+              alertFactory.error('Ocurrio un problema al intentar recuperar la Operación del Usuario.');
+          }
+        }
+      //
 
-        // versión
-        //
+      // niveles
+        $scope.guardarNiveles = function(){
+          if ($scope.idContratoOperacionUsuario !== 0 && $scope.idContratoOperacionUsuario !== undefined && $scope.idContratoOperacionUsuario !== null){
+              nuevoUsuarioRepository.delPermisos($scope.idContratoOperacionUsuario, 3).finally(function(){
+                  angular.forEach($scope.dataNiveles, function(nivel){
+                      if (nivel.isChecked){
+                        nuevoUsuarioRepository.postInsContratoOperacionUsuarioNivel($scope.idContratoOperacionUsuario, nivel.id).then(function (result){
+                            if (angular.isArray(result.data) && result.data.length > 0){
+                                if (result.data[0].respuesta == 0){
+                                    alertFactory.error(result.data[0].mensaje);
+                                } else {
+                                    alertFactory.success(result.data[0].mensaje);
+                                }
+                            } else {
+                                alertFactory.error('Ocurrio un error al intentar guardar los niveles.');
+                            }
+                        });
+                      }
+                  });
+              });
+          } else {
+              alertFactory.error('Ocurrio un problema al intentar recuperar la Operación del Usuario.');
+          }
+        }
+      //
+
+      // versión
+        $scope.guardarVersion = function(){
+          if ($scope.idContratoOperacionUsuario !== 0 && $scope.idContratoOperacionUsuario !== undefined && $scope.idContratoOperacionUsuario !== null){
+              if ($scope.VersionSelected !== null && $scope.VersionSelected !== undefined && !$.isEmptyObject($scope.VersionSelected)) {
+                  nuevoUsuarioRepository.postInsContratoOperacionUsuarioVersion($scope.idContratoOperacionUsuario, $scope.VersionSelected.idCatalogoVersion).then(function(result){
+                    if (angular.isArray(result.data) && result.data.length > 0){
+                        if (result.data[0].respuesta == 0){
+                          alertFactory.warning(result.data[0].mensaje);
+                        } else if (result.data[0].respuesta == 1){
+                          alertFactory.info(result.data[0].mensaje);
+                        } else if (result.data[0].respuesta == 2){
+                          alertFactory.success(result.data[0].mensaje);
+                        }
+                    } else {
+                        alertFactory.error('Ocurrio un problema al intentar asignar la versión.');
+                    }
+                  });
+              } else {
+                  alertFactory.info('Debe seleccionar una versión para poder asignarla.');
+              }
+          } else {
+              alertFactory.error('Ocurrio un problema al intentar recuperar la Operación del Usuario.');
+          }
+        }
+      //
 
     // fin funciones Paso 3
-
-
-    // inicia tree zonasTemp
-
-
-
-    $scope.data = [{
-      'id': 1,
-      'title': 'node1',
-      'isCollapsed': false,
-      'isChecked':false,
-      'parent': 0,
-      'nodes': [{
-        'id': 11,
-        'title': 'node1.1',
-        'isCollapsed': false,
-        'isChecked':false,
-        'parent': 1,
-        'nodes': [{
-          'id': 111,
-          'title': 'node1.1.1',
-          'isCollapsed': false,
-          'isChecked': false,
-          'parent': 11,
-          'nodes': []
-        }]
-      }, {
-        'id': 12,
-        'title': 'node1.2',
-        'isCollapsed': false,
-        'isChecked':false,
-        'parent': 1,
-        'nodes': []
-      }]
-    }, {
-      'id': 2,
-      'title': 'node2',
-      'isCollapsed': false,
-      'isChecked':false,
-      'parent': 0,
-      'nodes': [{
-        'id': 21,
-        'title': 'node2.1',
-        'isCollapsed': false,
-        'isChecked':false,
-        'parent': 2,
-        'nodes': []
-      }, {
-        'id': 22,
-        'title': 'node2.2',
-        'isCollapsed': false,
-        'isChecked':false,
-        'parent': 2,
-        'nodes': []
-      }]
-    }, {
-      'id': 3,
-      'title': 'node3',
-      'isCollapsed': false,
-      'isChecked':false,
-      'parent': 0,
-      'nodes': [{
-        'id': 31,
-        'title': 'node3.1',
-        'isCollapsed': false,
-        'isChecked':false,
-        'parent': 3,
-        'nodes': []
-      }]
-    }];
-    // termina tree zonasTemp
-
-    // inicia tree proveedoresTemp
-
-    $scope.dataDos = [{
-      'id': 1,
-      'title': 'node1',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }, {
-      'id': 2,
-      'title': 'node2',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }, {
-      'id': 3,
-      'title': 'node3',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }];
-
-    // termina tree proveedoresTemp
-
-    // inicia tree nivelesTemp
-
-    $scope.dataTres = [{
-      'id': 1,
-      'title': 'node1',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }, {
-      'id': 2,
-      'title': 'node2',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }, {
-      'id': 3,
-      'title': 'node3',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }, {
-      'id': 4,
-      'title': 'node4',
-      'isCollapsed': false,
-      'isChecked':false,
-      'nodes': []
-    }];
-
-    // termina tree nivelesTemp
-
-
-
 });

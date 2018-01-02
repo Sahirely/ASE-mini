@@ -2,7 +2,7 @@
   <div class="container">
     <div class="panel-group" id="accordion">
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" ng-show="usuario.rol.idRol == 1 || usuario.rol.idRol == 3">
         <div class="panel-heading">
           <h4 class="panel-title" ng-click="activate(1);">
             <a>Zonas</a>
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" ng-show="usuario.rol.idRol == 4">
         <div class="panel-heading">
           <h4 class="panel-title" ng-click="activate(2);">
             <a>Proveedores</a>
@@ -29,12 +29,12 @@
             <ng-include src="'AngularJS/NuevoUsuario/Templates/proveedores.html'"></ng-include>
           </div>
           <div class="panel-footer panel-overflow">
-              <button role="button" class="btn btn-xs btn-primary pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+              <button role="button" class="btn btn-xs btn-primary pull-right" ng-click="guardarProveedor()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
           </div>
         </div>
       </div>
 
-      <div class="panel panel-default">
+      <div class="panel panel-default" ng-show="usuario.rol.idRol == 1 || usuario.rol.idRol == 2">
         <div class="panel-heading">
           <h4 class="panel-title" ng-click="activate(3);">
             <a>Niveles</a>
@@ -45,7 +45,7 @@
             <ng-include src="'AngularJS/NuevoUsuario/Templates/niveles.html'"></ng-include>
           </div>
           <div class="panel-footer panel-overflow">
-              <button role="button" class="btn btn-xs btn-primary pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+              <button role="button" class="btn btn-xs btn-primary pull-right" ng-click="guardarNiveles()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
           </div>
         </div>
       </div>
@@ -61,14 +61,16 @@
             <form class="form-horizontal">
               <div class="form-group">
                   <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Versión</label>
-                  <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                    <select ng-options="item as item.label for item in items track by item.id" ng-model="selected"></select>
+                  <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <select class="form-control" ng-options="V as V.descripcion for V in Versiones track by V.idCatalogoVersion" ng-model="$parent.VersionSelected">
+                      <option value="" label="Seleccione una versión para configurar al usuario"></option>
+                    </select>
                   </div>
               </div>
             </form>
           </div>
           <div class="panel-footer panel-overflow">
-              <button role="button" class="btn btn-xs btn-primary pull-right"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
+              <button role="button" class="btn btn-xs btn-primary pull-right" ng-click="guardarVersion()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Guardar</button>
           </div>
         </div>
       </div>

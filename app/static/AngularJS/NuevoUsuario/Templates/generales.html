@@ -4,7 +4,7 @@
           <div class="form-group">
               <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Nombre Completo</label>
               <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <input type="text" class="form-control" name="nombre" ng-model="usuario.nombre"/>
+                <input type="text" class="form-control" name="nombre" ng-model="usuario.nombre" onlyletters/>
               </div>
           </div>
         </form>
@@ -22,7 +22,7 @@
           <div class="form-group">
               <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Teléfono</label>
               <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <input type="text" class="form-control" name="telefono" ng-model="usuario.telefono"/>
+                <input type="text" class="form-control" name="telefono" ng-model="usuario.telefono" numberguion/>
               </div>
           </div>
         </form>
@@ -31,7 +31,7 @@
           <div class="form-group">
               <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Extensión</label>
               <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <input type="text" class="form-control" name="extension" ng-model="usuario.extension"/>
+                <input type="text" class="form-control" name="extension" ng-model="usuario.extension" onlynumber/>
               </div>
           </div>
         </form>
@@ -51,16 +51,21 @@
           <div class="form-group">
               <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Contraseña</label>
               <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <input type="text" class="form-control" name="password" ng-model="usuario.password"/>
+                <div class="input-group">
+                  <input type="password" class="form-control fondoBlanco" name="password" ng-model="usuario.password" disabled/>
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary" ng-click="changePassword()"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                  </span>
+                </div>
               </div>
           </div>
         </form>
 
         <form class="form-horizontal">
           <div class="form-group">
-              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha">Empresa</label>
+              <label class="col-xs-12 col-sm-12 col-md-4 col-lg-4 control-label text-derecha" >Empresa</label>
               <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-                <input type="text" class="form-control" name="empresa" ng-model="usuario.empresa"/>
+                <input type="text" class="form-control" name="empresa" ng-model="usuario.empresa" onlyletters/>
               </div>
           </div>
         </form>

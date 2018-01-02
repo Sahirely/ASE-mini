@@ -4,7 +4,7 @@
 
 <div ng-init="init()" >
     <div class="headTitleTallerCita">
-        <span class="title title-xs">{{show_searchField == true ? 'Configurador de Usuarios' : usuario.idUsuario == 0 ? 'Nuevo Usuario' : 'Editar Usuario' }}</span>
+        <span class="title title-xs">{{show_searchField == true ? 'Configurador de Usuarios' : usuario.idUsuario == 0 ? 'Nuevo Usuario' : 'Editar Usuario: ' + usuario.nombre }}</span>
     </div><br>
     <hr>
     <div class="wrapper wrapper-content">
@@ -44,7 +44,7 @@
                       <tbody>
                           <tr ng-repeat="user in users" ng-clicK="editarUsuario(user)">
                               <td>{{user.nombreUsuario}}</td>
-                              <td>{{user.contrasenia}}</td>
+                              <td>{{user.contrasenia | password}}</td>
                               <td>{{user.nombreCompleto}}</td>
                               <td>{{user.correoElectronico}}</td>
                               <td>{{user.telefonoUsuario}}</td>
@@ -62,7 +62,7 @@
 
                 <div id="wizard-step-container">
                   <ul class="nav nav-pills nav-justified">
-                    <li ng-repeat="step in steps" ng-class="{'active':step.step == currentStep}"><i class="{{step.icon}}" aria-hidden="true"></i> {{step.name}}</li>
+                    <li ng-repeat="step in steps" ng-class="{'active':step.step == currentStep}" ng-hide="usuario.rol.idRol == 5 && step.step > 1"><i class="{{step.icon}}" aria-hidden="true"></i> {{step.name}}</li>
                   </ul>
                 </div>
 

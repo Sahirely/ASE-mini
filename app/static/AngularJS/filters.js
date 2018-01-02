@@ -1,3 +1,15 @@
+registrationModule.filter('password', function(){
+    return function (input){
+          var filteredInput = '';
+
+          for(var i = 0; i < input.length; i++){
+              filteredInput += '*';
+          }
+
+          return filteredInput;
+    }
+});
+
 registrationModule.filter('Estatus', function(){
     return function (items, idEstatus){
         var filtered = [];

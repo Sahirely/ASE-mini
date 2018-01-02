@@ -1,5 +1,5 @@
 <div class="pull-right">
   <span class="btn-group">
-    <button ng-disabled="currentStep >= steps.length" class="btn btn-primary" name="next" type="button" ng-click="guardarDatosGenerales()">Siguiente</button>
+    <button ng-disabled="currentStep >= steps.length" class="btn btn-primary" name="next" type="button" ng-click="guardarDatosGenerales()">{{usuario.rol.idRol != 5 ? 'Siguiente' : 'Finalizar'}}</button>
   </span>
 </div>

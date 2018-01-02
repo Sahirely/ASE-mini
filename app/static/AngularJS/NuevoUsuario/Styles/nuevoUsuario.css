@@ -1,3 +1,7 @@
 .panel-overflow {
   overflow: auto;
 }
+
+.fondoBlanco{
+    background: white !important;
+}
